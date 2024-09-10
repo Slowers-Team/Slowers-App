@@ -1,34 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [flowers, setFlowers] = useState([])
+
+  useEffect(() => {
+    axios
+      .get('/api/flowers')
+      .then(response => setFlowers(response.data))
+  }, [])
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {flowers && <FlowerList flowers={flowers} />}
     </>
+  )
+}
+
+const FlowerList = ({ flowers }) => {
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Latin name</th>
+          <th>Added time</th>
+        </tr>
+      </thead>
+      <tbody>
+        {flowers.map(flower => (
+          <tr key={flower.id}>
+            <td>{ flower.name }</td>
+            <td><em>{ flower.latin_name }</em></td>
+            <td>{ new Date(flower.added_time).toDateString() }</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   )
 }
 
