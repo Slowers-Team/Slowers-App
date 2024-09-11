@@ -17,7 +17,7 @@ import (
 type Flower struct {
 	ID        primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
 	Name      string             `json:"name"`
-	LatinName string             `json:"latin_name"`
+	LatinName string             `json:"latin_name" bson:"latin_name"`
 	AddedTime time.Time          `json:"added_time" bson:"added_time"`
 }
 
