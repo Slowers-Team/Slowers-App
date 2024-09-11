@@ -26,7 +26,11 @@ const App = () => {
       .post('/api/flowers', flowerObject)
       .then(response => {
         console.log(response)
-        setFlowers(flowers.concat(response.data))
+        if (!flowers) {
+          setFlowers([response.data])
+        } else {
+          setFlowers(flowers.concat(response.data))
+        }
         setNewFlowerName('')
         setNewFlowerLatinName('')
       })
