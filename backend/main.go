@@ -8,6 +8,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -55,6 +56,8 @@ func main() {
 
 	app := fiber.New()
 
+	app.Get("/api/flowers", getFlowers)
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "5001"
@@ -63,4 +66,18 @@ func main() {
 	app.Static("/", "./client/dist")
 
 	log.Fatal(app.Listen("0.0.0.0:" + port))
+}
+
+func getFlowers(c *fiber.Ctx) error {
+	cursor, err := collection.Find(c.Context(), bson.M{})
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	var flowers []Flower
+	if err := cursor.All(c.Context(), &flowers); err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	return c.JSON(flowers)
 }
