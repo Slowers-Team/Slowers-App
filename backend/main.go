@@ -15,10 +15,10 @@ import (
 )
 
 type Flower struct {
-	ID         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name       string             `json:"name"`
-	LatinName  string             `json:"latin_name" bson:"latin_name"`
-	AddedTime  time.Time          `json:"added_time" bson:"added_time"`
+	ID        primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name      string             `json:"name"`
+	LatinName string             `json:"latin_name" bson:"latin_name"`
+	AddedTime time.Time          `json:"added_time" bson:"added_time"`
 }
 
 var collection *mongo.Collection
@@ -56,6 +56,7 @@ func main() {
 
 	app := fiber.New()
 
+	app.Post("/api/flowers", addFlower)
 	app.Get("/api/flowers", getFlowers)
 
 	port := os.Getenv("PORT")
@@ -80,4 +81,31 @@ func getFlowers(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(flowers)
+}
+
+func addFlower(c *fiber.Ctx) error {
+	flower := new(Flower)
+
+	if err := c.BodyParser(flower); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	if flower.Name == "" {
+		return c.Status(400).SendString("Flower name cannot be empty")
+	}
+
+	newFlower := Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now()}
+
+	insertResult, err := collection.InsertOne(c.Context(), newFlower)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	filter := bson.M{"_id": insertResult.InsertedID}
+	createdRecord := collection.FindOne(c.Context(), filter)
+
+	createdFlower := &Flower{}
+	createdRecord.Decode(createdFlower)
+
+	return c.Status(201).JSON(createdFlower)
 }
