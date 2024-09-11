@@ -1,11 +1,19 @@
 /* eslint-disable react/prop-types */
 import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import './App.css'
 
 const App = () => {
+  const [flowers, setFlowers] = useState([])
   const [newFlowerName, setNewFlowerName] = useState('')
   const [newFlowerLatinName, setNewFlowerLatinName] = useState('')
   const [showAddNewFlower, setShowAddNewFlower] = useState(false)
+
+  useEffect(() => {
+    axios
+      .get('/api/flowers')
+      .then(response => setFlowers(response.data))
+  }, [])
 
   const addFlower = event => {
     event.preventDefault()
@@ -18,6 +26,7 @@ const App = () => {
       .post('/api/flowers', flowerObject)
       .then(response => {
         console.log(response)
+        setFlowers(flowers.concat(response.data))
         setNewFlowerName('')
         setNewFlowerLatinName('')
       })
@@ -34,18 +43,6 @@ const App = () => {
   const handleFlowerLatinNameChange = (event) => {
     setNewFlowerLatinName(event.target.value)
   }
-import axios from 'axios'
-import { useEffect, useState } from 'react'
-import './App.css'
-
-const App = () => {
-  const [flowers, setFlowers] = useState([])
-
-  useEffect(() => {
-    axios
-      .get('/api/flowers')
-      .then(response => setFlowers(response.data))
-  }, [])
 
   return (
     <>
