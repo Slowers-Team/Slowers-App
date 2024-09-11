@@ -1,34 +1,63 @@
+/* eslint-disable react/prop-types */
+import axios from 'axios'
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [newFlowerName, setNewFlowerName] = useState('')
+  const [newFlowerLatinName, setNewFlowerLatinName] = useState('')
+  const [showAddNewFlower, setShowAddNewFlower] = useState(false)
+
+  const addFlower = event => {
+    event.preventDefault()
+    const flowerObject = {
+      name: newFlowerName,
+      latin_name: newFlowerLatinName
+    }
+
+    axios
+      .post('/api/flowers', flowerObject)
+      .then(response => {
+        console.log(response)
+        setNewFlowerName('')
+        setNewFlowerLatinName('')
+      })
+      .catch(error => {
+        console.log(error)
+        alert(`Adding failed`)
+      })
+  }
+
+  const handleFlowerNameChange = (event) => {
+    setNewFlowerName(event.target.value)
+  }
+
+  const handleFlowerLatinNameChange = (event) => {
+    setNewFlowerLatinName(event.target.value)
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <button onClick={() => setShowAddNewFlower(!showAddNewFlower)}>Add a new flower</button>
+      {showAddNewFlower && <FlowerForm event={addFlower} name={newFlowerName} handleFlowerNameChange={handleFlowerNameChange} latin_name={newFlowerLatinName} handleFlowerLatinNameChange={handleFlowerLatinNameChange}/>}
     </>
+  )
+}
+
+const FlowerForm = ({ event, name, handleFlowerNameChange, latin_name, handleFlowerLatinNameChange }) => {
+  return (
+    <div>
+      <form onSubmit={event}>
+        <div>
+          name: <input value={name} onChange={handleFlowerNameChange} />
+        </div>
+        <div>
+          latin name: <input value={latin_name} onChange={handleFlowerLatinNameChange}/>
+        </div>
+        <div>
+          <button type='submit'>save</button>
+        </div>
+      </form>
+    </div>
   )
 }
 
