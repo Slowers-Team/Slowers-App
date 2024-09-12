@@ -19,8 +19,6 @@ services:
         - 'mongo'
       ports:
         - '5001:5001'
-      volumes:
-        - './backend:/backend/'
       environment:
         MONGODB_URI: mongodb://admin:admin@mongo:27017/admin
 
@@ -31,7 +29,4 @@ services:
         - backend
       ports:
         - '5173:5173'
-      volumes:
-        - './frontend/:/frontend/'
-        - '/frontend/node_modules'
       command: npm run dev
