@@ -1,0 +1,33 @@
+services:
+    backend:
+        build: ./backend
+        container_name: backend
+        depends_on:
+            - 'mongo'
+        ports:
+            - '5001:5001'
+        volumes:
+            - './backdata:/data:cached'
+        environment:
+            MONGODB_URI: mongodb://admin:admin@mongo:27017/admin
+
+    mongo:
+        image: 'mongo'
+        container_name: mongo
+        ports:
+            - '27017:27017'
+        volumes:
+            - ./mongodata:/data/db/
+        restart: always
+        environment:
+          MONGO_INITDB_ROOT_USERNAME: admin
+          MONGO_INITDB_ROOT_PASSWORD: admin
+
+    # mongo_express:
+    #     image: 'mongo-express'
+    #     container_name: mongo_express
+    #     depends_on:
+    #         - 'mongo'
+    #     ports:
+    #         - '8081:8081'
+    #     restart: always
