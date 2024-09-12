@@ -13,7 +13,7 @@ WORKDIR /opt/app-root/src/frontend
 COPY frontend/ ./
 RUN npm clean-install && npm run build
 
-FROM scratch
+FROM docker.io/library/alpine
 
 WORKDIR /app
 COPY --from=backend-build /start-server ./
