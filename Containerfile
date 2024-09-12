@@ -17,7 +17,7 @@ FROM docker.io/library/alpine
 
 WORKDIR /app
 COPY --from=backend-build /start-server ./
-COPY --from=frontend-build /opt/app-root/src/frontend/dist client/
+COPY --from=frontend-build /opt/app-root/src/frontend/dist/ client/dist/
 
 EXPOSE 5001
 
