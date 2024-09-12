@@ -40,6 +40,17 @@ const App = () => {
       })
   }
 
+  const handleDelete = (flower) => {
+    if (window.confirm(`Are you sure you want to delete ${flower.name}?`)) {
+      axios
+      .delete(`/api/flowers/${flower._id}`)
+      .then(response => {
+        console.log(response)
+        setFlowers(l => l.filter(item => item.name !== flower.name));
+      })
+    }
+  }
+
   const handleFlowerNameChange = (event) => {
     setNewFlowerName(event.target.value)
   }
@@ -52,7 +63,7 @@ const App = () => {
     <>
       <button onClick={() => setShowAddNewFlower(!showAddNewFlower)}>Add a new flower</button>
       {showAddNewFlower && <FlowerForm event={addFlower} name={newFlowerName} handleFlowerNameChange={handleFlowerNameChange} latin_name={newFlowerLatinName} handleFlowerLatinNameChange={handleFlowerLatinNameChange}/>}
-      {flowers && <FlowerList flowers={flowers} />}
+      {flowers && <FlowerList flowers={flowers} handleDelete={handleDelete} />}
     </>
   )
 }
@@ -75,7 +86,7 @@ const FlowerForm = ({ event, name, handleFlowerNameChange, latin_name, handleFlo
   )
 }
 
-const FlowerList = ({ flowers }) => {
+const FlowerList = ({ flowers, handleDelete }) => {
   return (
     <table>
       <thead>
@@ -91,6 +102,7 @@ const FlowerList = ({ flowers }) => {
             <td>{ flower.name }</td>
             <td><em>{ flower.latin_name }</em></td>
             <td>{ new Date(flower.added_time).toDateString() }</td>
+            <button onClick={() => handleDelete(flower)}>delete</button>
           </tr>
         ))}
       </tbody>

@@ -58,6 +58,7 @@ func main() {
 
 	app.Post("/api/flowers", addFlower)
 	app.Get("/api/flowers", getFlowers)
+	app.Delete("/api/flowers/:id", deleteFlower)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -108,4 +109,22 @@ func addFlower(c *fiber.Ctx) error {
 	createdRecord.Decode(createdFlower)
 
 	return c.Status(201).JSON(createdFlower)
+}
+
+func deleteFlower(c *fiber.Ctx) error {
+	id := c.Params("id")
+	objectID, err := primitive.ObjectIDFromHex(id)
+
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{"error": "Invalid flower ID"})
+	}
+
+	filter := bson.M{"_id": objectID}
+	_, err = collection.DeleteOne(context.Background(), filter)
+
+	if err != nil {
+		return err
+	}
+
+	return c.Status(200).JSON(fiber.Map{"success": true})
 }
