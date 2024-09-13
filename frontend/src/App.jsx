@@ -41,7 +41,7 @@ const App = () => {
   }
 
   const handleDelete = (flower) => {
-    if (window.confirm(`Are you sure you want to delete ${flower.name}?`)) {
+    if (window.confirm(`Are you sure you want to delete flower ${flower.name}?`)) {
       axios
       .delete(`/api/flowers/${flower._id}`)
       .then(response => {
@@ -102,7 +102,9 @@ const FlowerList = ({ flowers, handleDelete }) => {
             <td>{ flower.name }</td>
             <td><em>{ flower.latin_name }</em></td>
             <td>{ new Date(flower.added_time).toDateString() }</td>
-            <button onClick={() => handleDelete(flower)}>delete</button>
+            <td>
+              <button onClick={() => handleDelete(flower)}>delete</button>
+            </td>
           </tr>
         ))}
       </tbody>

@@ -116,15 +116,19 @@ func deleteFlower(c *fiber.Ctx) error {
 	objectID, err := primitive.ObjectIDFromHex(id)
 
 	if err != nil {
-		return c.Status(400).JSON(fiber.Map{"error": "Invalid flower ID"})
+		return c.SendStatus(400)
 	}
 
 	filter := bson.M{"_id": objectID}
-	_, err = collection.DeleteOne(context.Background(), filter)
+	result, err := collection.DeleteOne(c.Context(), filter)
 
 	if err != nil {
-		return err
+		return c.SendStatus(500)
 	}
 
-	return c.Status(200).JSON(fiber.Map{"success": true})
+	if result.DeletedCount < 1 {
+		return c.SendStatus(404)
+	}
+
+	return c.SendStatus(204)
 }
