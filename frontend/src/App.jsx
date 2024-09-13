@@ -73,13 +73,13 @@ const FlowerForm = ({ event, name, handleFlowerNameChange, latin_name, handleFlo
     <div>
       <form onSubmit={event}>
         <div>
-          name: <input value={name} onChange={handleFlowerNameChange} />
+          Name: <input value={name} onChange={handleFlowerNameChange} />
         </div>
         <div>
-          latin name: <input value={latin_name} onChange={handleFlowerLatinNameChange}/>
+          Latin name: <input value={latin_name} onChange={handleFlowerLatinNameChange}/>
         </div>
         <div>
-          <button type='submit'>save</button>
+          <button type='submit'>Save</button>
         </div>
       </form>
     </div>
@@ -103,7 +103,7 @@ const FlowerList = ({ flowers, handleDelete }) => {
             <td><em>{ flower.latin_name }</em></td>
             <td>{ new Date(flower.added_time).toDateString() }</td>
             <td>
-              <button onClick={() => handleDelete(flower)}>delete</button>
+              <button onClick={() => handleDelete(flower)}>Delete</button>
             </td>
           </tr>
         ))}
