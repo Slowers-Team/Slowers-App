@@ -88,7 +88,7 @@ const FlowerForm = ({ event, name, handleFlowerNameChange, latin_name, handleFlo
 
 const FlowerList = ({ flowers, handleDelete }) => {
   return (
-    <table>
+    <table id="flowerList">
       <thead>
         <tr>
           <th>Name</th>
