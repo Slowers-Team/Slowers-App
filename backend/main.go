@@ -58,6 +58,7 @@ func main() {
 
 	app.Post("/api/flowers", addFlower)
 	app.Get("/api/flowers", getFlowers)
+	app.Delete("/api/flowers/:id", deleteFlower)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -108,4 +109,26 @@ func addFlower(c *fiber.Ctx) error {
 	createdRecord.Decode(createdFlower)
 
 	return c.Status(201).JSON(createdFlower)
+}
+
+func deleteFlower(c *fiber.Ctx) error {
+	id := c.Params("id")
+	objectID, err := primitive.ObjectIDFromHex(id)
+
+	if err != nil {
+		return c.SendStatus(400)
+	}
+
+	filter := bson.M{"_id": objectID}
+	result, err := collection.DeleteOne(c.Context(), filter)
+
+	if err != nil {
+		return c.SendStatus(500)
+	}
+
+	if result.DeletedCount < 1 {
+		return c.SendStatus(404)
+	}
+
+	return c.SendStatus(204)
 }
