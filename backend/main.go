@@ -29,6 +29,7 @@ type User struct {
 }
 
 var collection *mongo.Collection
+var userCollection *mongo.Collection
 
 func main() {
 	if err := godotenv.Load(); err != nil {
@@ -60,12 +61,14 @@ func main() {
 	log.Println("Connected to MongoDB")
 
 	collection = client.Database("Slowers").Collection("flowers")
+	userCollection = client.Database("Slowers").Collection("users")
 
 	app := fiber.New()
 
 	app.Post("/api/flowers", addFlower)
 	app.Get("/api/flowers", getFlowers)
 	app.Delete("/api/flowers/:id", deleteFlower)
+	app.Post("/api/register", createUser)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -138,4 +141,27 @@ func deleteFlower(c *fiber.Ctx) error {
 	}
 
 	return c.SendStatus(204)
+}
+
+func createUser(c *fiber.Ctx) error {
+	user := new(User)
+
+	if err := c.BodyParser(user); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	newUser := User{Username: user.Username, Password: user.Password, Email: user.Email}
+
+	insertResult, err := userCollection.InsertOne(c.Context(), newUser)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	filter := bson.M{"_id": insertResult.InsertedID}
+	createdRecord := userCollection.FindOne(c.Context(), filter)
+
+	createdUser := &User{}
+	createdRecord.Decode(createdUser)
+
+	return c.Status(201).JSON(createdUser)
 }
