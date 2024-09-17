@@ -21,6 +21,13 @@ type Flower struct {
 	AddedTime time.Time          `json:"added_time" bson:"added_time"`
 }
 
+type User struct {
+	ID       primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Username string             `json:"username"`
+	Password string             `json:"password"`
+	Email    string             `json:"email"`
+}
+
 var collection *mongo.Collection
 
 func main() {
