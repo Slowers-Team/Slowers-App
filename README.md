@@ -10,16 +10,14 @@ Project done for the Software Lab course (TKT20007) at the University of Helsink
 
 ## Starting the application locally
 
-1. Install and start MongoDB ([See MongoDB documentation for details](https://www.mongodb.com/docs/manual/administration/install-community))
-2. Inside the `frontend` directory, install the dependencies and build the frontend using the commands
-```
-npm install
-npm run build
-```
-3. Move the `frontend/dist` directory to `backend/client` (If the directory `backend/client` does not exist yet create it now)
-4. Inside the `backend` directory, create `.env` file with the `MONGODB_URI` environment variable set as below (though the exact MongoDB URI might vary depending on your configuration)
-```
-MONGODB_URI=mongodb://localhost:27017
-```
-5. Inside the `backend` directory, start the app with the command `go run main.go`
-6. Now the application is running at http://localhost:5001. It can be stopped by pressing Ctrl+C in the terminal where it was started.
+1. Run MongoDB either online in MongoDB Atlas ([Instructions in Finnish](https://fullstackopen.com/osa3/tietojen_tallettaminen_mongo_db_tietokantaan#mongo-db)/[English](https://fullstackopen.com/en/part3/saving_data_to_mongo_db#mongo-db)) or locally on your computer ([Instructions in English](https://www.mongodb.com/docs/manual/administration/install-community))
+2. Inside the `frontend` directory, install the dependencies using the command `npm install`
+3. Pick one:
+    - Run the frontend in the development mode:
+        1. Inside the `frontend` directory, run the development server for the frontend using the command `npm run dev` (By default the development server stays running in the foreground, so you have to either use another terminal for the rest of the commands or use the suitable command/syntax in your system to run the development server in the background. The development server can be stopped by using the command `q`)
+    - Run the frontend in the production mode:
+        1. Inside the `frontend` directory, build the frontend using the command `npm run build`
+        2. Move the `frontend/dist` directory to `backend/client` (If the directory `backend/client` does not exist yet create it now)
+4. Inside the `backend` directory, create a `.env` file and set the `MONGODB_URI` environment variable to the MongoDB URI of your MongoDB server there (If you are using MongoDB Atlas, see the instructions in step 1 to find your MongoDB URI. If you are running MongoDB locally, the MongoDB URI is by default `mongodb://localhost:27017`)
+5. Inside the `backend` directory, start the app with the command `go run main.go` (the app can be stopped by pressing Ctrl+C in the terminal where it was started)
+6. If you chose to run the frontend in the development mode, the application is now running at http://localhost:5173. If you chose to run it in the production mode, the application is running at http://localhost:5001.
