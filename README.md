@@ -2,6 +2,12 @@
 
 Repository for Software Engineering Project Autumn 2024 course.
 
+- [Staging server](https://slowers.ext.ocp-test-0.k8s.it.helsinki.fi)
+- [Product backlog](https://github.com/orgs/Slowers-Team/projects/3)
+- [Sprint backlogs](https://github.com/orgs/Slowers-Team/projects?query=is%3Aopen+Sprint)
+- [Coding conduct](https://github.com/Slowers-Team/Slowers-App/blob/main/documentation/coding_conduct.md)
+- [Definition of done](https://github.com/Slowers-Team/Slowers-App/blob/main/documentation/definition_of_done.md)
+
 ## Starting the application locally
 
 1. Install and start MongoDB ([See MongoDB documentation for details](https://www.mongodb.com/docs/manual/administration/install-community))
