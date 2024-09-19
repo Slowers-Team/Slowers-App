@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import FlowerForm from './components/FlowerForm'
+import FlowerList from './components/FlowerList'
 import './App.css'
 
 const App = () => {
@@ -65,59 +67,6 @@ const App = () => {
       {showAddNewFlower && <FlowerForm event={addFlower} name={newFlowerName} handleFlowerNameChange={handleFlowerNameChange} latin_name={newFlowerLatinName} handleFlowerLatinNameChange={handleFlowerLatinNameChange}/>}
       {flowers && <FlowerList flowers={flowers} handleDelete={handleDelete} />}
     </>
-  )
-}
-
-const FlowerForm = ({ event, name, handleFlowerNameChange, latin_name, handleFlowerLatinNameChange }) => {
-  return (
-    <div>
-      <form onSubmit={event}>
-        <div>
-          Name: <input value={name} onChange={handleFlowerNameChange} />
-        </div>
-        <div>
-          Latin name: <input value={latin_name} onChange={handleFlowerLatinNameChange}/>
-        </div>
-        <div>
-          <button type='submit'>Save</button>
-        </div>
-      </form>
-    </div>
-  )
-}
-
-const FlowerList = ({ flowers, handleDelete }) => {
-  return (
-    <table id="flowerList">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Latin name</th>
-          <th>Added time</th>
-        </tr>
-      </thead>
-      <tbody>
-        {flowers.map(flower => {
-          let addedTime = new Date(flower.added_time)
-
-          let date = addedTime.toLocaleDateString('fi')
-          let hour = addedTime.toLocaleString('fi', {hour: 'numeric'})
-          let minute = addedTime.toLocaleString('fi', {minute: '2-digit'})
-          let addedTimeStr = `${date} ${hour}:${minute}`
-
-          return (
-            <tr key={flower.id}>
-              <td>{ flower.name }</td>
-              <td><em>{ flower.latin_name }</em></td>
-              <td>{ addedTimeStr }</td>
-              <td>
-                <button onClick={() => handleDelete(flower)}>Delete</button>
-              </td>
-            </tr>
-          )
-        })}
-      </tbody>
-    </table>
   )
 }
 
