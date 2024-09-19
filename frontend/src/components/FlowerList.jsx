@@ -18,7 +18,7 @@ const FlowerList = ({ flowers, deleteFlower }) => {
           let addedTimeStr = `${date} ${hour}:${minute}`
 
           return (
-            <tr key={flower.id}>
+            <tr key={flower._id}>
               <td>{ flower.name }</td>
               <td><em>{ flower.latin_name }</em></td>
               <td>{ addedTimeStr }</td>
