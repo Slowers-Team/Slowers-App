@@ -1,12 +1,28 @@
-const FlowerForm = ({ event, name, handleFlowerNameChange, latin_name, handleFlowerLatinNameChange }) => {
+import { useState } from 'react'
+
+const FlowerForm = ({ createFlower }) => {
+  const [newFlowerName, setNewFlowerName] = useState('')
+  const [newFlowerLatinName, setNewFlowerLatinName] = useState('')
+
+  const addFlower = event => {
+    event.preventDefault()
+    createFlower({
+      name: newFlowerName,
+      latin_name: newFlowerLatinName,
+    })
+
+    setNewFlowerName('')
+    setNewFlowerLatinName('')
+  }
+
   return (
     <div>
-      <form onSubmit={event}>
+      <form onSubmit={addFlower}>
         <div>
-          Name: <input value={name} onChange={handleFlowerNameChange} />
+          Name: <input value={newFlowerName} onChange={event => setNewFlowerName(event.target.value)} />
         </div>
         <div>
-          Latin name: <input value={latin_name} onChange={handleFlowerLatinNameChange}/>
+          Latin name: <input value={newFlowerLatinName} onChange={event => setNewFlowerLatinName(event.target.value)}/>
         </div>
         <div>
           <button type='submit'>Save</button>

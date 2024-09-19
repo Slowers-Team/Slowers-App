@@ -1,4 +1,4 @@
-const FlowerList = ({ flowers, handleDelete }) => {
+const FlowerList = ({ flowers, deleteFlower }) => {
   return (
     <table id="flowerList">
       <thead>
@@ -23,7 +23,7 @@ const FlowerList = ({ flowers, handleDelete }) => {
               <td><em>{ flower.latin_name }</em></td>
               <td>{ addedTimeStr }</td>
               <td>
-                <button onClick={() => handleDelete(flower)}>Delete</button>
+                <button onClick={() => deleteFlower(flower)}>Delete</button>
               </td>
             </tr>
           )
