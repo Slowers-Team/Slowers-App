@@ -23,7 +23,7 @@ const FlowerList = ({ flowers, deleteFlower }) => {
               <td><em>{ flower.latin_name }</em></td>
               <td>{ addedTimeStr }</td>
               <td>
-                <button onClick={() => deleteFlower(flower)}>Delete</button>
+                <button id="deleteFlowerButton" onClick={() => deleteFlower(flower)}>Delete</button>
               </td>
             </tr>
           )

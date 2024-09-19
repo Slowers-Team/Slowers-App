@@ -38,7 +38,7 @@ const App = () => {
 
   return (
     <>
-      <button onClick={() => setShowAddNewFlower(!showAddNewFlower)}>Add a new flower</button>
+      <button id="showFlowerAddingFormButton" onClick={() => setShowAddNewFlower(!showAddNewFlower)}>Add a new flower</button>
       {showAddNewFlower && <FlowerForm createFlower={addFlower}/>}
       {flowers && <FlowerList flowers={flowers} deleteFlower={deleteFlower} />}
     </>
