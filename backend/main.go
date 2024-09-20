@@ -69,6 +69,7 @@ func main() {
 	app.Get("/api/flowers", getFlowers)
 	app.Delete("/api/flowers/:id", deleteFlower)
 	app.Post("/api/register", createUser)
+	app.Get("/api/users", getUsers)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -164,4 +165,18 @@ func createUser(c *fiber.Ctx) error {
 	createdRecord.Decode(createdUser)
 
 	return c.Status(201).JSON(createdUser)
+}
+
+func getUsers(c *fiber.Ctx) error {
+	cursor, err := userCollection.Find(c.Context(), bson.M{})
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	var users []User
+	if err := cursor.All(c.Context(), &users); err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	return c.JSON(users)
 }
