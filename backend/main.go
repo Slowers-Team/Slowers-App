@@ -89,7 +89,7 @@ func getFlowers(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	var flowers []Flower
+	flowers := make([]Flower, 0)
 	if err := cursor.All(c.Context(), &flowers); err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
