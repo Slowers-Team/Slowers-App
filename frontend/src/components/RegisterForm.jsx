@@ -25,7 +25,7 @@ const RegisterForm = ({ createNewUser }) => {
                     Username: <input id="newUsernameInput" value={newUsername} onChange={event => setNewUsername(event.target.value)} />
                 </div>
                 <div>
-                    Password: <input id="newPasswordInput" value={newPassword} onChange={event => setNewPassword(event.target.value)} />
+                    Password: <input type="password" id="newPasswordInput" value={newPassword} onChange={event => setNewPassword(event.target.value)} />
                 </div>
                 <div>
                     Email: <input id="newEmailInput" value={newEmail} onChange={event => setNewEmail(event.target.value)} />
