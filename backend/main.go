@@ -12,6 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type Flower struct {
@@ -151,7 +152,12 @@ func createUser(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	newUser := User{Username: user.Username, Password: user.Password, Email: user.Email}
+	hashedPassword, err := HashPassword(user.Password)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	newUser := User{Username: user.Username, Password: hashedPassword, Email: user.Email}
 
 	insertResult, err := userCollection.InsertOne(c.Context(), newUser)
 	if err != nil {
@@ -179,4 +185,12 @@ func getUsers(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(users)
+}
+
+func HashPassword(password string) (string, error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(hashedPassword), nil
 }
