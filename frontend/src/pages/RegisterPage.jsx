@@ -7,8 +7,7 @@ const RegisterPage = () => {
           userService
             .create(userObject)
             .catch(error => {
-                console.log(error)
-                alert('Registering failed')
+                alert('Error: ' + error.response.data)
             })  
     }
 
