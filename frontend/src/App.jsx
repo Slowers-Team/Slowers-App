@@ -1,47 +1,29 @@
-/* eslint-disable react/prop-types */
-import { useEffect, useState } from 'react'
-import FlowerForm from './components/FlowerForm'
-import FlowerList from './components/FlowerList'
-import flowerService from './services/flowers'
 import './App.css'
+import RegisterPage from './pages/RegisterPage'
+import HomePage from './pages/HomePage'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 const App = () => {
-  const [flowers, setFlowers] = useState([])
-  const [showAddNewFlower, setShowAddNewFlower] = useState(false)
 
-  useEffect(() => {
-    flowerService
-      .getAll()
-      .then(initialFlowers => setFlowers(initialFlowers))
-  }, [])
-
-  const addFlower = flowerObject => {
-    flowerService
-      .create(flowerObject)
-      .then(returnedFlower => setFlowers(flowers.concat(returnedFlower)))
-      .catch(error => {
-        console.log(error)
-        alert(`Adding failed`)
-      })
-  }
-
-  const deleteFlower = flowerObject => {
-    if (window.confirm(`Are you sure you want to delete flower ${flowerObject.name}?`)) {
-      flowerService
-        .remove(flowerObject._id)
-        .then(response => {
-          console.log(response)
-          setFlowers(l => l.filter(item => item.name !== flowerObject.name));
-        })
-    }
+  const padding = {
+    padding: 5
   }
 
   return (
-    <>
-      <button id="showFlowerAddingFormButton" onClick={() => setShowAddNewFlower(!showAddNewFlower)}>Add a new flower</button>
-      {showAddNewFlower && <FlowerForm createFlower={addFlower}/>}
-      {flowers && <FlowerList flowers={flowers} deleteFlower={deleteFlower} />}
-    </>
+    <div>
+      <Router>
+        <div>
+          <nav>
+            <Link style={padding} to="/">Home</Link>
+            <Link style={padding} to="/register">Register</Link>
+          </nav>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/register" element={<RegisterPage />} />
+          </Routes>
+        </div>
+      </Router>
+    </div>
   )
 }
 

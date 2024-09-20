@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"os"
+	"regexp"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -12,6 +13,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type Flower struct {
@@ -21,7 +23,15 @@ type Flower struct {
 	AddedTime time.Time          `json:"added_time" bson:"added_time"`
 }
 
+type User struct {
+	ID       primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Username string             `json:"username"`
+	Password string             `json:"password"`
+	Email    string             `json:"email"`
+}
+
 var collection *mongo.Collection
+var userCollection *mongo.Collection
 
 func main() {
 	if err := godotenv.Load(); err != nil {
@@ -53,12 +63,14 @@ func main() {
 	log.Println("Connected to MongoDB")
 
 	collection = client.Database("Slowers").Collection("flowers")
+	userCollection = client.Database("Slowers").Collection("users")
 
 	app := fiber.New()
 
 	app.Post("/api/flowers", addFlower)
 	app.Get("/api/flowers", getFlowers)
 	app.Delete("/api/flowers/:id", deleteFlower)
+	app.Post("/api/register", createUser)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -76,7 +88,7 @@ func getFlowers(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	var flowers []Flower
+	flowers := make([]Flower, 0)
 	if err := cursor.All(c.Context(), &flowers); err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
@@ -131,4 +143,62 @@ func deleteFlower(c *fiber.Ctx) error {
 	}
 
 	return c.SendStatus(204)
+}
+
+func createUser(c *fiber.Ctx) error {
+	user := new(User)
+
+	if err := c.BodyParser(user); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	if user.Username == "" || user.Password == "" || user.Email == "" {
+		return c.Status(400).SendString("All fields are required")
+	}
+
+	count, err := userCollection.CountDocuments(c.Context(), bson.M{"email": user.Email})
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	if count > 0 {
+		return c.Status(400).SendString("email already exists")
+	}
+
+	if !isEmailValid(user.Email) {
+		return c.Status(400).SendString("invalid email")
+	}
+
+	hashedPassword, err := HashPassword(user.Password)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	newUser := User{Username: user.Username, Password: hashedPassword, Email: user.Email}
+
+	insertResult, err := userCollection.InsertOne(c.Context(), newUser)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	filter := bson.M{"_id": insertResult.InsertedID}
+	createdRecord := userCollection.FindOne(c.Context(), filter)
+
+	createdUser := &User{}
+	createdRecord.Decode(createdUser)
+
+	return c.SendStatus(201)
+}
+
+func HashPassword(password string) (string, error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(hashedPassword), nil
+}
+
+func isEmailValid(e string) bool {
+	emailRegex := regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)
+	return emailRegex.MatchString(e)
 }
