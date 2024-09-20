@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"os"
+	"regexp"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -152,6 +153,23 @@ func createUser(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
+	if user.Username == "" || user.Password == "" || user.Email == "" {
+		return c.Status(400).SendString("All fields are required")
+	}
+
+	count, err := userCollection.CountDocuments(c.Context(), bson.M{"email": user.Email})
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	if count > 0 {
+		return c.Status(400).SendString("email already exists")
+	}
+
+	if !isEmailValid(user.Email) {
+		return c.Status(400).SendString("invalid email")
+	}
+
 	hashedPassword, err := HashPassword(user.Password)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
@@ -193,4 +211,9 @@ func HashPassword(password string) (string, error) {
 		return "", err
 	}
 	return string(hashedPassword), nil
+}
+
+func isEmailValid(e string) bool {
+	emailRegex := regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)
+	return emailRegex.MatchString(e)
 }
