@@ -187,7 +187,7 @@ func createUser(c *fiber.Ctx) error {
 	createdUser := &User{}
 	createdRecord.Decode(createdUser)
 
-	return c.Status(201).JSON(createdUser)
+	return c.SendStatus(201)
 }
 
 func HashPassword(password string) (string, error) {
