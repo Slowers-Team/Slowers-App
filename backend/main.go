@@ -21,7 +21,7 @@ type Flower struct {
 	AddedTime time.Time          `json:"added_time" bson:"added_time"`
 }
 
-var collection *mongo.Collection
+var collection, sites *mongo.Collection
 
 func main() {
 	if err := godotenv.Load(); err != nil {
@@ -53,12 +53,15 @@ func main() {
 	log.Println("Connected to MongoDB")
 
 	collection = client.Database("Slowers").Collection("flowers")
+	sites = client.Database("Slowers").Collection("sites")
 
 	app := fiber.New()
 
 	app.Post("/api/flowers", addFlower)
 	app.Get("/api/flowers", getFlowers)
 	app.Delete("/api/flowers/:id", deleteFlower)
+
+	app.Post("/api/sites", addSite)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -143,4 +146,37 @@ type Site struct {
 	Parent    primitive.ObjectID `json:"parent"`
 	Flowers   []Flower           `json:"flowers"`
 	Owner     primitive.ObjectID `json:"owner"`
+}
+
+func addSite(c *fiber.Ctx) error {
+	site := new(Site)
+
+	if err := c.BodyParser(site); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	log.Println("received:", site)
+
+	if site.Name == "" {
+		return c.Status(400).SendString("Site name cannot be empty")
+	}
+
+	newSite := Site{Name: site.Name, Note: site.Note, AddedTime: time.Now(),
+		Parent: site.Parent, Flowers: make([]Flower, 0), Owner: site.Owner}
+
+	insertResult, err := sites.InsertOne(c.Context(), newSite)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	} else {
+		log.Println("created site", insertResult.InsertedID)
+
+	}
+
+	filter := bson.M{"_id": insertResult.InsertedID}
+	createdRecord := sites.FindOne(c.Context(), filter)
+
+	createdSite := &Site{}
+	createdRecord.Decode(createdSite)
+
+	return c.Status(201).JSON(createdSite)
 }
