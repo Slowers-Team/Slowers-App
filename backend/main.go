@@ -132,3 +132,15 @@ func deleteFlower(c *fiber.Ctx) error {
 
 	return c.SendStatus(204)
 }
+
+//? Expand Note to Notes (or a map)
+//? SubSites as []ID or []*Site
+type Site struct {
+	ID        primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name      string             `json:"name"`
+	AddedTime time.Time          `json:"added_time" bson:"added_time"`
+	Note      string             `json:"note"`
+	Parent    primitive.ObjectID `json:"parent"`
+	Flowers   []Flower           `json:"flowers"`
+	Owner     primitive.ObjectID `json:"owner"`
+}
