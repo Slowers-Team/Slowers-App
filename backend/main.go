@@ -15,6 +15,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
+	"github.com/dgrijalva/jwt-go"
+
 )
 
 type Flower struct {
@@ -31,7 +33,6 @@ type User struct {
 	Email    string             `json:"email"`
 }
 
-<<<<<<< HEAD
 type LogIn struct {
 	Email string `json:"email"`
 	Password string `json:"password"`
@@ -42,10 +43,6 @@ var collection *mongo.Collection
 var userCollection *mongo.Collection
 
 var SecretKey = []byte ("Secretkey")
-=======
-var collection *mongo.Collection
-var userCollection *mongo.Collection
->>>>>>> development
 
 func main() {
 	if err := godotenv.Load(); err != nil {
@@ -85,6 +82,11 @@ func main() {
 	app.Get("/api/flowers", getFlowers)
 	app.Delete("/api/flowers/:id", deleteFlower)
 	app.Post("/api/register", createUser)
+
+	app.Post("/api/loginReq", handleLogin) //Kirjautumisreitti
+
+	app.Use(AuthMiddleware)
+
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -224,6 +226,7 @@ func handleLogin(c *fiber.Ctx) error {
 
 	loginReq := new(LogIn)
 
+
 	if err := c.BodyParser(loginReq); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
@@ -231,7 +234,7 @@ func handleLogin(c *fiber.Ctx) error {
 	user := new(User)
 
 	//Etitään käyttäjän tiedot
-	err := userCollection.FindOne(c.Context(), bson.D{{"email", loginReq.Email}}).Decode(&user) 
+	err := userCollection.FindOne(c.Context(), bson.D{{"email", loginReq.Email}}).Decode(&user)
 	if err != nil {
 	 return c.Status(401).SendString("Invalid email or password")
 	}
@@ -281,5 +284,4 @@ func AuthMiddleware ( c * fiber.Ctx) error {
 	c.Locals("userID", claims.Subject)
     return c.Next()
 }
-
 
