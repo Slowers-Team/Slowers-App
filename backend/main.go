@@ -4,18 +4,18 @@ import (
 	"context"
 	"log"
 	"os"
+	"regexp"
 	"time"
-	"errors"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
-	"github.com/dgrijalva/jwt-go"
-
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	
+	"golang.org/x/crypto/bcrypt"
+	"github.com/golang-jwt/jwt/v4"
+
 )
 
 type Flower struct {
@@ -25,8 +25,23 @@ type Flower struct {
 	AddedTime time.Time          `json:"added_time" bson:"added_time"`
 }
 
+type User struct {
+	ID       primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Username string             `json:"username"`
+	Password string             `json:"password"`
+	Email    string             `json:"email"`
+}
+
+type LogIn struct {
+	Email string `json:"email"`
+	Password string `json:"password"`
+}
+
 
 var collection *mongo.Collection
+var userCollection *mongo.Collection
+
+var SecretKey = []byte ("Secretkey")
 
 func main() {
 	if err := godotenv.Load(); err != nil {
@@ -66,7 +81,12 @@ func main() {
 	app.Get("/api/flowers", getFlowers)
 	app.Delete("/api/flowers/:id", deleteFlower)
 	app.Post("/api/register", createUser)
-	app.Get("/api/users", getUsers)
+
+	app.Post("/api/loginReq", handleLogin) //Kirjautumisreitti
+
+	app.Get("/api/flowers", AuthMiddleware, getFlowers)
+	app.Post("/api/flowers", AuthMiddleware, addFlower)
+	app.Delete("/api/flowers/:id", AuthMiddleware, deleteFlower)
 
 
 	port := os.Getenv("PORT")
@@ -85,7 +105,7 @@ func getFlowers(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	var flowers []Flower
+	flowers := make([]Flower, 0)
 	if err := cursor.All(c.Context(), &flowers); err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
@@ -142,8 +162,6 @@ func deleteFlower(c *fiber.Ctx) error {
 	return c.SendStatus(204)
 }
 
-//Creating user
-
 func createUser(c *fiber.Ctx) error {
 	user := new(User)
 
@@ -186,21 +204,7 @@ func createUser(c *fiber.Ctx) error {
 	createdUser := &User{}
 	createdRecord.Decode(createdUser)
 
-	return c.Status(201).JSON(createdUser)
-}
-
-func getUsers(c *fiber.Ctx) error {
-	cursor, err := userCollection.Find(c.Context(), bson.M{})
-	if err != nil {
-		return c.Status(500).SendString(err.Error())
-	}
-
-	var users []User
-	if err := cursor.All(c.Context(), &users); err != nil {
-		return c.Status(500).SendString(err.Error())
-	}
-
-	return c.JSON(users)
+	return c.SendStatus(201)
 }
 
 func HashPassword(password string) (string, error) {
@@ -214,6 +218,71 @@ func HashPassword(password string) (string, error) {
 func isEmailValid(e string) bool {
 	emailRegex := regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)
 	return emailRegex.MatchString(e)
+}
+
+
+//User login function
+
+func handleLogin(c *fiber.Ctx) error {
+
+	loginReq := new(logIn)
+
+	if err := c.BodyParser(loginReq); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	user := new(User)
+
+	//Etitään käyttäjän tiedot
+	err :=  userCollection.FindOne(c.Context, bson.D{{"email", loginReq.email}}).Decode(&user)
+	if err != nil {
+	 return c.Status(401).SendString("Invalid email or password")
+	}
+
+	//Tarkistetaan onko salasana oikein??
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(loginReq.Password))
+	if err != nil {
+		return c.Status(401).SendString("Invalid email or password")
+	}
+
+	//Luodaan tokeni
+	claims := &jwt.StandardClaims{
+		Subject:   user.ID.Hex(),
+		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString(SecretKey)
+	if err != nil {
+		return c.Status(500).SendString("Could not create token")
+	}
+
+	return c.JSON(fiber.Map{"token": tokenString}) // Palautetaan token
+}
+
+func AutMiddleware ( c * fiber.Ctx) error {
+
+	tokenString := c.Get("Authorization")
+
+	if tokenString == "" {
+		return c.Status(fiber.StatusUnauthorized).SendString("Unauthorized")
+	}
+
+	tokenString = strings.TrimPrefix(tokenString, "Bearer ")
+
+	claims := &jwt.StandardClaims{}
+	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+        return SecretKey, nil
+    })
+
+    if err != nil || !token.Valid {
+        return c.Status(fiber.StatusUnauthorized).SendString("Unauthorized")
+    }
+
+
+	c.Locals("userID", claims.Subject)
+    return c.Next()
 }
 
 
