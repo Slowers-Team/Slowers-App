@@ -6,6 +6,7 @@ import (
 	"os"
 	"regexp"
 	"time"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
@@ -14,7 +15,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/dgrijalva/jwt-go" 
 
 )
 
@@ -84,9 +85,7 @@ func main() {
 
 	app.Post("/api/loginReq", handleLogin) //Kirjautumisreitti
 
-	app.Get("/api/flowers", AuthMiddleware, getFlowers)
-	app.Post("/api/flowers", AuthMiddleware, addFlower)
-	app.Delete("/api/flowers/:id", AuthMiddleware, deleteFlower)
+	app.Use(AuthMiddleware)
 
 
 	port := os.Getenv("PORT")
@@ -225,7 +224,7 @@ func isEmailValid(e string) bool {
 
 func handleLogin(c *fiber.Ctx) error {
 
-	loginReq := new(logIn)
+	loginReq := new(LogIn)
 
 	if err := c.BodyParser(loginReq); err != nil {
 		return c.Status(400).SendString(err.Error())
@@ -234,7 +233,7 @@ func handleLogin(c *fiber.Ctx) error {
 	user := new(User)
 
 	//Etitään käyttäjän tiedot
-	err :=  userCollection.FindOne(c.Context, bson.D{{"email", loginReq.email}}).Decode(&user)
+	err := userCollection.FindOne(c.Context(), bson.D{{"email", loginReq.Email}}).Decode(&user) 
 	if err != nil {
 	 return c.Status(401).SendString("Invalid email or password")
 	}
@@ -261,7 +260,7 @@ func handleLogin(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"token": tokenString}) // Palautetaan token
 }
 
-func AutMiddleware ( c * fiber.Ctx) error {
+func AuthMiddleware ( c * fiber.Ctx) error {
 
 	tokenString := c.Get("Authorization")
 
