@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import LogIn from '../components/LogIn' // Oletus että LogIn.jsx on components-kansiossa
+import LogIn from '../components/LogIn'
 
 const LogInPage = () => {
   const [error, setError] = useState(null);
