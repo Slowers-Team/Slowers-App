@@ -1,11 +1,11 @@
-name: CI
+name: Staging
 
 on:
   push:
-    branches: [15-setting-up-automatic-deployment-to-the-staging-server]
+    branches: [development]
 
 jobs:
-  ci_pipeline:
+  push_to_registry:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
