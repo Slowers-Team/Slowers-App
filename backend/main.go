@@ -15,11 +15,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
-<<<<<<< HEAD
-	"github.com/dgrijalva/jwt-go" 
-
-=======
->>>>>>> development
 )
 
 type Flower struct {
@@ -90,14 +85,6 @@ func main() {
 	app.Get("/api/flowers", getFlowers)
 	app.Delete("/api/flowers/:id", deleteFlower)
 	app.Post("/api/register", createUser)
-<<<<<<< HEAD
-
-	app.Post("/api/loginReq", handleLogin) //Kirjautumisreitti
-
-	app.Use(AuthMiddleware)
-
-=======
->>>>>>> development
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -229,7 +216,6 @@ func isEmailValid(e string) bool {
 	emailRegex := regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)
 	return emailRegex.MatchString(e)
 }
-<<<<<<< HEAD
 
 
 //User login function
@@ -297,5 +283,3 @@ func AuthMiddleware ( c * fiber.Ctx) error {
 }
 
 
-=======
->>>>>>> development
