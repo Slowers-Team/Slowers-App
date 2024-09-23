@@ -19,10 +19,12 @@ const FlowerForm = ({ createFlower }) => {
     <div>
       <form onSubmit={addFlower}>
         <div>
-          Name: <input id="newFlowerNameInput" value={newFlowerName} onChange={event => setNewFlowerName(event.target.value)} />
+          <label htmlFor="newFlowerNameInput">Name:</label>
+          <input id="newFlowerNameInput" value={newFlowerName} onChange={event => setNewFlowerName(event.target.value)} />
         </div>
         <div>
-          Latin name: <input id="newFlowerLatinNameInput" value={newFlowerLatinName} onChange={event => setNewFlowerLatinName(event.target.value)}/>
+          <label htmlFor="newFlowerLatinNameInput">Latin name:</label>
+          <input id="newFlowerLatinNameInput" value={newFlowerLatinName} onChange={event => setNewFlowerLatinName(event.target.value)} />
         </div>
         <div>
           <button id="saveNewFlowerButton" type="submit">Save</button>

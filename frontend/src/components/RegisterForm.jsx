@@ -22,13 +22,16 @@ const RegisterForm = ({ createNewUser }) => {
         <div>
             <form onSubmit={addUser}>
                 <div>
-                    Username: <input id="newUsernameInput" value={newUsername} onChange={event => setNewUsername(event.target.value)} />
+                    <label htmlFor="newUsernameInput">Username:</label>
+                    <input id="newUsernameInput" value={newUsername} onChange={event => setNewUsername(event.target.value)} />
                 </div>
                 <div>
-                    Password: <input type="password" id="newPasswordInput" value={newPassword} onChange={event => setNewPassword(event.target.value)} />
+                    <label htmlFor="newPasswordInput">Password:</label>
+                    <input type="password" id="newPasswordInput" value={newPassword} onChange={event => setNewPassword(event.target.value)} />
                 </div>
                 <div>
-                    Email: <input type="email" id="newEmailInput" value={newEmail} onChange={event => setNewEmail(event.target.value)} />
+                    <label htmlFor="newEmailInput">Email:</label>
+                    <input type="email" id="newEmailInput" value={newEmail} onChange={event => setNewEmail(event.target.value)} />
                 </div>
                 <div>
                     <button id="createNewUserButton" type="submit">Register</button>
