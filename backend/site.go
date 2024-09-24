@@ -67,3 +67,26 @@ func getRootSites(c *fiber.Ctx) error {
 
 	return c.JSON(foundSites)
 }
+
+func getSite(c *fiber.Ctx) error {
+	id := c.Params("id")
+	objectID, err := primitive.ObjectIDFromHex(id)
+
+	if err != nil {
+		return c.SendStatus(400)
+	}
+
+	filter := bson.M{"_id": objectID}
+	cursor, err := sites.Find(c.Context(), filter)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	var site []Site
+	if err := cursor.All(c.Context(), &site); err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	log.Println(site)
+
+	return c.JSON(site)
+}

@@ -76,6 +76,7 @@ func main() {
 
 	app.Post("/api/sites", addSite)
 	app.Get("/api/sites", getRootSites)
+	app.Get("/api/sites/:id", getSite)
 
 	port := os.Getenv("PORT")
 	if port == "" {
