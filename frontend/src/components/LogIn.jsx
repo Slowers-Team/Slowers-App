@@ -1,22 +1,44 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+
+
+const LogIn = ({ onLogin, setIsLoggedIn }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const loginData = {
-      email: email,
-      password: password
-    };
+    try {
+      const response = await fetch("/api/loginReq", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
+      const data = await response.json();
 
-    onSubmit(userData); 
-  }
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        setIsLoggedIn(true); 
+        onLogin();
+      } else {
+        setError("Invalid email or password");
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again.");
+    }
+  };
 
   return (
     <div>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}
+      <h2>Log In</h2>
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
           <label>Email:</label>
@@ -40,6 +62,6 @@ import React, { useState } from 'react';
       </form>
     </div>
   );
-};
+}
 
 export default LogIn;
