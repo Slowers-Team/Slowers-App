@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import LogIn from '../components/LogIn'
 
 const LogInPage = () => {
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleLogin = async (email, password) => {
@@ -30,8 +29,6 @@ const LogInPage = () => {
 
   return (
     <div>
-      <h1>Login</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
       <LogIn onLogin={handleLogin} />
     </div>
   );
