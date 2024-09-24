@@ -1,16 +1,17 @@
 package main
 
 import (
+	"errors"
 	"log"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 //? Expand Note to Notes (or a map)
-//? SubSites as []ID or []*Site
 type Site struct {
 	ID        primitive.ObjectID  `json:"_id,omitempty" bson:"_id,omitempty"`
 	Name      string              `json:"name"`
@@ -76,17 +77,19 @@ func getSite(c *fiber.Ctx) error {
 		return c.SendStatus(400)
 	}
 
+	var result bson.M
+
 	filter := bson.M{"_id": objectID}
-	cursor, err := sites.Find(c.Context(), filter)
-	if err != nil {
-		return c.Status(500).SendString(err.Error())
+	idErr := sites.FindOne(c.Context(), filter).Decode(&result)
+
+	if idErr != nil {
+		if errors.Is(idErr, mongo.ErrNoDocuments) {
+			log.Println("tried to find site", id, "but it doesn't exist")
+		}
+		return c.Status(500).SendString(idErr.Error())
 	}
 
-	var site []Site
-	if err := cursor.All(c.Context(), &site); err != nil {
-		return c.Status(500).SendString(err.Error())
-	}
-	log.Println(site)
+	log.Println("found site:", result)
 
-	return c.JSON(site)
+	return c.JSON(result)
 }
