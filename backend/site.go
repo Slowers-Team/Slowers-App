@@ -52,3 +52,18 @@ func addSite(c *fiber.Ctx) error {
 
 	return c.Status(201).JSON(createdSite)
 }
+
+func getRootSites(c *fiber.Ctx) error {
+	cursor, err := sites.Find(c.Context(), bson.D{{"parent", nil}})
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	var foundSites []Site
+	if err := cursor.All(c.Context(), &foundSites); err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	log.Println(foundSites)
+
+	return c.JSON(foundSites)
+}
