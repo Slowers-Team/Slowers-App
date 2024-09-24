@@ -65,12 +65,7 @@ func main() {
 	collection = client.Database("Slowers").Collection("flowers")
 	userCollection = client.Database("Slowers").Collection("users")
 
-	app := fiber.New()
-
-	app.Post("/api/flowers", addFlower)
-	app.Get("/api/flowers", getFlowers)
-	app.Delete("/api/flowers/:id", deleteFlower)
-	app.Post("/api/register", createUser)
+	app := Setup()
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -80,6 +75,17 @@ func main() {
 	app.Static("/", "./client/dist")
 
 	log.Fatal(app.Listen("0.0.0.0:" + port))
+}
+
+func Setup() *fiber.App {
+	app := fiber.New()
+
+	app.Post("/api/flowers", addFlower)
+	app.Get("/api/flowers", getFlowers)
+	app.Delete("/api/flowers/:id", deleteFlower)
+	app.Post("/api/register", createUser)
+
+	return app
 }
 
 func getFlowers(c *fiber.Ctx) error {
