@@ -12,11 +12,11 @@ const SiteFlexbox = () => {
 }
 
 const boxStyle = {
-    width: '50px',
-    height: '100px',
-    colour: 'black',
-    padding: '10px',
-    border: '5px solid green'
+  width: '50px',
+  height: '100px',
+  colour: 'black',
+  padding: '10px',
+  border: '5px solid green'
 }
 
 return (
