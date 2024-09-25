@@ -10,7 +10,10 @@ const getAll = () => {
 }
 
 const create = newFlower => {
-  const request = axios.post(baseUrl, newFlower)
+  const config = {
+    headers: { Authorization: localStorage.getItem("token") },
+  }
+  const request = axios.post(baseUrl, newFlower, config)
   return request.then(response => response.data)
 }
 
