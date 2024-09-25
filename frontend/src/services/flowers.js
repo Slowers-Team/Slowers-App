@@ -18,7 +18,10 @@ const create = newFlower => {
 }
 
 const remove = id => {
-  return axios.delete(`${baseUrl}/${id}`)
+  const config = {
+    headers: { Authorization: localStorage.getItem("token") },
+  }
+  return axios.delete(`${baseUrl}/${id}`, config)
 }
 
 export default {
