@@ -110,6 +110,12 @@ func getFlowers(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
+	user, ok := c.Locals("userID").(string)
+	if ok {
+		log.Println(user)
+	} else {
+		log.Println("no token")
+	}
 	return c.JSON(flowers)
 }
 
