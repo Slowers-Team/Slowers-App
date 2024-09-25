@@ -2,7 +2,10 @@ import axios from 'axios'
 const baseUrl = '/api/flowers'
 
 const getAll = () => {
-  const request = axios.get(baseUrl)
+  const config = {
+    headers: { Authorization: localStorage.getItem("token") },
+  }
+  const request = axios.get(baseUrl, config)
   return request.then(response => response.data)
 }
 
