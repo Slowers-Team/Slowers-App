@@ -71,25 +71,57 @@ func getRootSites(c *fiber.Ctx) error {
 
 func getSite(c *fiber.Ctx) error {
 	id := c.Params("id")
-	objectID, err := primitive.ObjectIDFromHex(id)
+	siteID, err := primitive.ObjectIDFromHex(id)
 
 	if err != nil {
 		return c.SendStatus(400)
 	}
 
-	var result bson.M
+	var resultSite bson.M
 
-	filter := bson.M{"_id": objectID}
-	idErr := sites.FindOne(c.Context(), filter).Decode(&result)
+	filter := bson.M{"_id": siteID}
+	idErr := sites.FindOne(c.Context(), filter).Decode(&resultSite)
 
 	if idErr != nil {
 		if errors.Is(idErr, mongo.ErrNoDocuments) {
-			log.Println("tried to find site", id, "but it doesn't exist")
+			log.Println("tried to find site", siteID, "but it doesn't exist")
 		}
 		return c.Status(500).SendString(idErr.Error())
 	}
 
-	log.Println("found site:", result)
+	log.Println("found site:", resultSite)
+
+	matchStage := bson.D{{"$match", bson.D{{"parent", siteID}}}}
+	sortStage := bson.D{{"$sort", bson.D{{"name", 1}}}}
+	unsetStage := bson.D{{"$unset", bson.A{"parent", "addedTime", "owner", "flowers", "added_time"}}}
+
+	cursor, err := sites.Aggregate(c.Context(), mongo.Pipeline{matchStage, sortStage, unsetStage})
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	var subSites []bson.M
+
+	if err = cursor.All(c.Context(), &subSites); err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	log.Println("subsites:", subSites)
+
+	result := bson.M{"site": resultSite, "subsites": subSites}
+	log.Println("result:", result)
 
 	return c.JSON(result)
 }
+
+/*
+func getSubSites(parentID primitive. ObjectID) ([]Site, error) {
+	matchStage := bson.D{{"$match", bson.D{{"parent", parentID}}}}
+	// unsetStage := bson.D{{"$unset", bson.A{{"parent", "addedTime"}}}}
+	sortStage := bson.D{{"$sort", bson.D{{"addedTime", 1}}}}
+
+	cursor, err := sites.Aggregate()
+
+	return subSites, err
+}
+*/
