@@ -84,7 +84,7 @@ func main() {
 	app.Delete("/api/flowers/:id", deleteFlower)
 	app.Post("/api/register", createUser)
 
-	app.Post("/api/loginReq", handleLogin) //Kirjautumisreitti
+	app.Post("/api/login", handleLogin) //Kirjautumisreitti
 
 	app.Use(AuthMiddleware)
 
@@ -225,24 +225,24 @@ func isEmailValid(e string) bool {
 
 func handleLogin(c *fiber.Ctx) error {
 
-	loginReq := new(LogIn)
+	login := new(LogIn)
 
 
-	if err := c.BodyParser(loginReq); err != nil {
+	if err := c.BodyParser(login); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
 
 	user := new(User)
 
 	//Etitään käyttäjän tiedot
-	err := userCollection.FindOne(c.Context(), bson.D{{"email", loginReq.Email}}).Decode(&user)
+	err := userCollection.FindOne(c.Context(), bson.D{{"email", login.Email}}).Decode(&user)
 	if err != nil {
 	 return c.Status(401).SendString("Invalid email or password")
 	}
 
 	//Tarkistetaan onko salasana oikein??
 
-	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(loginReq.Password))
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(login.Password))
 	if err != nil {
 		return c.Status(401).SendString("Invalid email or password")
 	}

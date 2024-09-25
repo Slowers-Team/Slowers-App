@@ -10,10 +10,10 @@ const LogIn = ({ onLogin, setIsLoggedIn }) => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+       e.preventDefault();
 
     try {
-      const response = await fetch("/api/loginReq", {
+      const response = await fetch("/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

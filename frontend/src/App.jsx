@@ -29,12 +29,12 @@ const App = () => {
           <nav>
             <Link style={padding} to="/">Home</Link>
             {!isLoggedIn && <Link style={padding} to="/register">Register</Link>}
-            {!isLoggedIn && <Link style={padding} to="/loginReq">Login</Link>}
+            {!isLoggedIn && <Link style={padding} to="/login">Login</Link>}
             {isLoggedIn && <Link onClick={handleLogout}>Logout</Link>}
           </nav>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/loginReq" element={<LogInPage setIsLoggedIn={setIsLoggedIn} />} />
+            <Route path="/login" element={<LogInPage setIsLoggedIn={setIsLoggedIn} />} />
             <Route path="/register" element={<RegisterPage />} />
           </Routes>
         </div>
