@@ -79,15 +79,14 @@ func main() {
 
 	app := fiber.New()
 
-	app.Post("/api/flowers", addFlower)
-	app.Get("/api/flowers", getFlowers)
-	app.Delete("/api/flowers/:id", deleteFlower)
 	app.Post("/api/register", createUser)
-
 	app.Post("/api/login", handleLogin) //Kirjautumisreitti
 
 	app.Use(AuthMiddleware)
 
+	app.Post("/api/flowers", addFlower)
+	app.Get("/api/flowers", getFlowers)
+	app.Delete("/api/flowers/:id", deleteFlower)
 
 	port := os.Getenv("PORT")
 	if port == "" {
