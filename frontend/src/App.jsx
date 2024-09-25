@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);  
+  console.log(isLoggedIn)
 
   useEffect(() => {
     const token = localStorage.getItem('token');

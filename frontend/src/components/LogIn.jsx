@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import userService from '../services/users';
+
 
 
 
@@ -7,19 +9,12 @@ const LogIn = ({ onLogin, setIsLoggedIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
        e.preventDefault();
 
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await userService.login(email, password)
 
       const data = await response.json();
 
@@ -32,6 +27,7 @@ const LogIn = ({ onLogin, setIsLoggedIn }) => {
       }
     } catch (err) {
       setError("An error occurred. Please try again.");
+      console.log(err)
     }
   };
 
@@ -41,8 +37,9 @@ const LogIn = ({ onLogin, setIsLoggedIn }) => {
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Email:</label>
+          <label htmlFor="emailInput">Email:</label>
           <input
+            id="emailInput"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -50,15 +47,16 @@ const LogIn = ({ onLogin, setIsLoggedIn }) => {
           />
         </div>
         <div>
-          <label>Password:</label>
+          <label htmlFor="passwordInput">Password:</label>
           <input
+            id="passwordInput"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        <button type="submit">Log In</button>
+        <button id="loginButton" type="submit">Log In</button>
       </form>
     </div>
   );
