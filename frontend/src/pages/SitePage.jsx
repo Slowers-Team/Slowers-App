@@ -1,5 +1,6 @@
 import SiteService from '../services/sites'
 import NewSiteForm from '../components/NewSiteForm'
+import SiteFlexbox from '../components/SiteFlexbox'
 
 const SitePage = () => {
 
@@ -14,6 +15,7 @@ const SitePage = () => {
   return (
     <div>
       <NewSiteForm createNewSite={createNewSite} />
+      <SiteFlexbox />
     </div>
   )
 }
