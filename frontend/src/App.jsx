@@ -2,12 +2,11 @@ import './App.css';
 import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
 import LogInPage from './pages/LogInPage';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);  
-  console.log(isLoggedIn)
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -34,8 +33,9 @@ const App = () => {
             {isLoggedIn && <Link onClick={handleLogout}>Logout</Link>}
           </nav>
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LogInPage setIsLoggedIn={setIsLoggedIn} />} />
+            <Route path="/" element={isLoggedIn ? <HomePage /> : <Navigate replace to="/login" />} />
+            {/* <Route path="/login" element={<LogInPage setIsLoggedIn={setIsLoggedIn} />} /> */}
+            <Route path="/login" element={!isLoggedIn ? <LogInPage onLogin={handleLogout} setIsLoggedIn={setIsLoggedIn} /> : <Navigate replace to="/" />} />
             <Route path="/register" element={<RegisterPage />} />
           </Routes>
         </div>
