@@ -30,8 +30,19 @@ type User struct {
 	Email    string             `json:"email"`
 }
 
+type Site struct {
+	ID        primitive.ObjectID   `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name      string               `json:"name"`
+	AddedTime time.Time            `json:"added_time" bson:"added_time"`
+	Note      string               `json:"note"`
+	Parent    primitive.ObjectID   `json:"parent"`
+	Flowers   []primitive.ObjectID `json:"flowers"`
+	Owner     primitive.ObjectID   `json:"owner"`
+}
+
 var collection *mongo.Collection
 var userCollection *mongo.Collection
+var siteCollection *mongo.Collection
 
 func main() {
 	if err := godotenv.Load(); err != nil {
@@ -64,6 +75,7 @@ func main() {
 
 	collection = client.Database("Slowers").Collection("flowers")
 	userCollection = client.Database("Slowers").Collection("users")
+	siteCollection = client.Database("Slowers").Collection("sites")
 
 	app := fiber.New()
 
@@ -202,15 +214,3 @@ func isEmailValid(e string) bool {
 	emailRegex := regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)
 	return emailRegex.MatchString(e)
 }
-
-
-//? Expand Note to Notes (or a map)
-//? SubSites as []ID or []*Site
-type Site struct {
-	ID        primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name      string             `json:"name"`
-	AddedTime time.Time          `json:"added_time" bson:"added_time"`
-	Note      string             `json:"note"`
-	Parent    primitive.ObjectID `json:"parent"`
-	Flowers   []Flower           `json:"flowers"`
-	Owner     primitive.ObjectID `json:"owner"`
