@@ -30,9 +30,19 @@ type User struct {
 	Email    string             `json:"email"`
 }
 
+type Site struct {
+	ID        primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name      string             `json:"name"`
+	AddedTime time.Time          `json:"added_time" bson:"added_time"`
+	Note      string             `json:"note"`
+	Parent    primitive.ObjectID `json:"parent"`
+	Flowers   []Flower           `json:"flowers"`
+	Owner     primitive.ObjectID `json:"owner"`
+}
+
 var collection *mongo.Collection
 var userCollection *mongo.Collection
-var sites *mongo.Collection
+var siteCollection *mongo.Collection
 
 func main() {
 	if err := godotenv.Load(); err != nil {
@@ -65,7 +75,7 @@ func main() {
 
 	collection = client.Database("Slowers").Collection("flowers")
 	userCollection = client.Database("Slowers").Collection("users")
-  sites = client.Database("Slowers").Collection("sites")
+	siteCollection = client.Database("Slowers").Collection("sites")
 
 	app := fiber.New()
 
@@ -207,18 +217,6 @@ func isEmailValid(e string) bool {
 	return emailRegex.MatchString(e)
 }
 
-//? Expand Note to Notes (or a map)
-//? SubSites as []ID or []*Site
-type Site struct {
-	ID        primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name      string             `json:"name"`
-	AddedTime time.Time          `json:"added_time" bson:"added_time"`
-	Note      string             `json:"note"`
-	Parent    primitive.ObjectID `json:"parent"`
-	Flowers   []Flower           `json:"flowers"`
-	Owner     primitive.ObjectID `json:"owner"`
-}
-
 func addSite(c *fiber.Ctx) error {
 	site := new(Site)
 
@@ -226,25 +224,23 @@ func addSite(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	log.Println("received:", site)
+	log.Println("addSite received:", site)
 
 	if site.Name == "" {
 		return c.Status(400).SendString("Site name cannot be empty")
 	}
-
 	newSite := Site{Name: site.Name, Note: site.Note, AddedTime: time.Now(),
 		Parent: site.Parent, Flowers: make([]Flower, 0), Owner: site.Owner}
 
-	insertResult, err := sites.InsertOne(c.Context(), newSite)
+	insertResult, err := siteCollection.InsertOne(c.Context(), newSite)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	} else {
 		log.Println("created site", insertResult.InsertedID)
-
 	}
 
 	filter := bson.M{"_id": insertResult.InsertedID}
-	createdRecord := sites.FindOne(c.Context(), filter)
+	createdRecord := siteCollection.FindOne(c.Context(), filter)
 
 	createdSite := &Site{}
 	createdRecord.Decode(createdSite)
