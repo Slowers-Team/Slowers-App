@@ -34,7 +34,6 @@ const App = () => {
           </nav>
           <Routes>
             <Route path="/" element={isLoggedIn ? <HomePage /> : <Navigate replace to="/login" />} />
-            {/* <Route path="/login" element={<LogInPage setIsLoggedIn={setIsLoggedIn} />} /> */}
             <Route path="/login" element={!isLoggedIn ? <LogInPage onLogin={handleLogout} setIsLoggedIn={setIsLoggedIn} /> : <Navigate replace to="/" />} />
             <Route path="/register" element={<RegisterPage />} />
           </Routes>
