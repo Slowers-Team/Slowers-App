@@ -40,11 +40,17 @@ type LogIn struct {
 var collection *mongo.Collection
 var userCollection *mongo.Collection
 
-var SecretKey = []byte(os.Getenv("SECRET_KEY"))
+var SecretKey []byte
 
 func main() {
+
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found")
+	}
+
+	SecretKey := []byte(os.Getenv("SECRET_KEY"))
+	if len(SecretKey) == 0 {
+		log.Fatal("Set your SECRET_KEY as an environment variable.")
 	}
 
 	mongoURI := os.Getenv("MONGODB_URI")
