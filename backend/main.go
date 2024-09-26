@@ -226,7 +226,7 @@ func handleLogin(c *fiber.Ctx) error {
 
 	user := new(User)
 
-	err := userCollection.FindOne(c.Context(), bson.D{{"email", login.Email}}).Decode(&user)
+	err := userCollection.FindOne(c.Context(), bson.D{{Key: "email", Value: login.Email}}).Decode(&user)
 	if err != nil {
 		return c.Status(401).SendString("Invalid email or password")
 	}
