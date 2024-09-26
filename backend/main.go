@@ -1,14 +1,14 @@
 package main
 
-
 import (
 	"context"
 	"log"
 	"os"
 	"regexp"
-	"time"
 	"strings"
+	"time"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
@@ -16,8 +16,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
-	"github.com/dgrijalva/jwt-go"
-
 )
 
 type Flower struct {
@@ -35,15 +33,14 @@ type User struct {
 }
 
 type LogIn struct {
-	Email string `json:"email"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
-
 
 var collection *mongo.Collection
 var userCollection *mongo.Collection
 
-var SecretKey = []byte ("Secretkey")
+var SecretKey = []byte(os.Getenv("SECRET_KEY"))
 
 func main() {
 	if err := godotenv.Load(); err != nil {
@@ -80,7 +77,7 @@ func main() {
 	app := fiber.New()
 
 	app.Post("/api/register", createUser)
-	app.Post("/api/login", handleLogin) //Kirjautumisreitti
+	app.Post("/api/login", handleLogin)
 
 	app.Use(AuthMiddleware)
 
@@ -109,12 +106,6 @@ func getFlowers(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	user, ok := c.Locals("userID").(string)
-	if ok {
-		log.Println(user)
-	} else {
-		log.Println("no token")
-	}
 	return c.JSON(flowers)
 }
 
@@ -225,13 +216,9 @@ func isEmailValid(e string) bool {
 	return emailRegex.MatchString(e)
 }
 
-
-//User login function
-
 func handleLogin(c *fiber.Ctx) error {
 
 	login := new(LogIn)
-
 
 	if err := c.BodyParser(login); err != nil {
 		return c.Status(400).SendString(err.Error())
@@ -239,20 +226,16 @@ func handleLogin(c *fiber.Ctx) error {
 
 	user := new(User)
 
-	//Etitään käyttäjän tiedot
 	err := userCollection.FindOne(c.Context(), bson.D{{"email", login.Email}}).Decode(&user)
 	if err != nil {
-	 return c.Status(401).SendString("Invalid email or password")
+		return c.Status(401).SendString("Invalid email or password")
 	}
-
-	//Tarkistetaan onko salasana oikein??
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(login.Password))
 	if err != nil {
 		return c.Status(401).SendString("Invalid email or password")
 	}
 
-	//Luodaan tokeni
 	claims := &jwt.StandardClaims{
 		Subject:   user.ID.Hex(),
 		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
@@ -264,10 +247,10 @@ func handleLogin(c *fiber.Ctx) error {
 		return c.Status(500).SendString("Could not create token")
 	}
 
-	return c.JSON(fiber.Map{"token": tokenString}) // Palautetaan token
+	return c.JSON(fiber.Map{"token": tokenString})
 }
 
-func AuthMiddleware ( c * fiber.Ctx) error {
+func AuthMiddleware(c *fiber.Ctx) error {
 
 	tokenString := c.Get("Authorization")
 
@@ -279,15 +262,13 @@ func AuthMiddleware ( c * fiber.Ctx) error {
 
 	claims := &jwt.StandardClaims{}
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
-        return SecretKey, nil
-    })
+		return SecretKey, nil
+	})
 
-    if err != nil || !token.Valid {
-        return c.Status(fiber.StatusUnauthorized).SendString("Unauthorized")
-    }
-
+	if err != nil || !token.Valid {
+		return c.Status(fiber.StatusUnauthorized).SendString("Unauthorized")
+	}
 
 	c.Locals("userID", claims.Subject)
-    return c.Next()
+	return c.Next()
 }
-
