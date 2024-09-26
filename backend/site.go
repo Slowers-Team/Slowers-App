@@ -13,13 +13,13 @@ import (
 
 //? Expand Note to Notes (or a map)
 type Site struct {
-	ID        primitive.ObjectID  `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name      string              `json:"name"`
-	AddedTime time.Time           `json:"added_time" bson:"added_time"`
-	Note      string              `json:"note"`
-	Parent    *primitive.ObjectID `json:"parent"`
-	Flowers   []Flower            `json:"flowers"`
-	Owner     *primitive.ObjectID `json:"owner"`
+	ID        primitive.ObjectID    `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name      string                `json:"name"`
+	AddedTime time.Time             `json:"added_time" bson:"added_time"`
+	Note      string                `json:"note"`
+	Parent    *primitive.ObjectID   `json:"parent"`
+	Flowers   []*primitive.ObjectID `json:"flowers"`
+	Owner     *primitive.ObjectID   `json:"owner"`
 }
 
 func addSite(c *fiber.Ctx) error {
@@ -36,7 +36,7 @@ func addSite(c *fiber.Ctx) error {
 	}
 
 	newSite := Site{Name: site.Name, Note: site.Note, AddedTime: time.Now(),
-		Parent: site.Parent, Flowers: make([]Flower, 0), Owner: site.Owner}
+		Parent: site.Parent, Flowers: make([]*primitive.ObjectID, 0), Owner: site.Owner}
 
 	insertResult, err := sites.InsertOne(c.Context(), newSite)
 	if err != nil {

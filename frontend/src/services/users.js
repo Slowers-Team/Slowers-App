@@ -6,6 +6,17 @@ const create = newUser =>  {
     return request.then(response => response.data)
   }
 
-  export default {
-    create
-  }
+const login = (email, password)  => {
+  return fetch("/api/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  });
+}
+
+export default {
+  create, 
+  login,
+}
