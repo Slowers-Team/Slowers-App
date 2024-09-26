@@ -38,19 +38,9 @@ type LogIn struct {
 	Password string `json:"password"`
 }
 
-type Site struct {
-	ID        primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name      string             `json:"name"`
-	AddedTime time.Time          `json:"added_time" bson:"added_time"`
-	Note      string             `json:"note"`
-	Parent    primitive.ObjectID `json:"parent"`
-	Flowers   []Flower           `json:"flowers"`
-	Owner     primitive.ObjectID `json:"owner"`
-}
-
 var collection *mongo.Collection
 var userCollection *mongo.Collection
-var siteCollection *mongo.Collection
+var sites *mongo.Collection
 
 var SecretKey []byte
 
@@ -91,20 +81,22 @@ func main() {
 
 	collection = client.Database("Slowers").Collection("flowers")
 	userCollection = client.Database("Slowers").Collection("users")
-	siteCollection = client.Database("Slowers").Collection("sites")
+	sites = client.Database("Slowers").Collection("sites")
 
 	app := fiber.New()
 
 	app.Post("/api/register", createUser)
 	app.Post("/api/login", handleLogin)
 
+	app.Post("/api/sites", addSite)
+	app.Get("/api/sites", getRootSites)
+	app.Get("/api/sites/:id", getSite)
+
 	app.Use(AuthMiddleware)
 
 	app.Post("/api/flowers", addFlower)
 	app.Get("/api/flowers", getFlowers)
 	app.Delete("/api/flowers/:id", deleteFlower)
-
-	app.Post("/api/sites", addSite)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -292,35 +284,4 @@ func AuthMiddleware(c *fiber.Ctx) error {
 
 	c.Locals("userID", claims.Subject)
 	return c.Next()
-}
-
-func addSite(c *fiber.Ctx) error {
-	site := new(Site)
-
-	if err := c.BodyParser(site); err != nil {
-		return c.Status(400).SendString(err.Error())
-	}
-
-	log.Println("addSite received:", site)
-
-	if site.Name == "" {
-		return c.Status(400).SendString("Site name cannot be empty")
-	}
-	newSite := Site{Name: site.Name, Note: site.Note, AddedTime: time.Now(),
-		Parent: site.Parent, Flowers: make([]Flower, 0), Owner: site.Owner}
-
-	insertResult, err := siteCollection.InsertOne(c.Context(), newSite)
-	if err != nil {
-		return c.Status(500).SendString(err.Error())
-	} else {
-		log.Println("created site", insertResult.InsertedID)
-	}
-
-	filter := bson.M{"_id": insertResult.InsertedID}
-	createdRecord := siteCollection.FindOne(c.Context(), filter)
-
-	createdSite := &Site{}
-	createdRecord.Decode(createdSite)
-
-	return c.Status(201).JSON(createdSite)
 }
