@@ -114,14 +114,73 @@ func getSite(c *fiber.Ctx) error {
 	return c.JSON(result)
 }
 
-/*
-func getSubSites(parentID primitive. ObjectID) ([]Site, error) {
-	matchStage := bson.D{{"$match", bson.D{{"parent", parentID}}}}
-	// unsetStage := bson.D{{"$unset", bson.A{{"parent", "addedTime"}}}}
-	sortStage := bson.D{{"$sort", bson.D{{"addedTime", 1}}}}
+func deleteSite(c *fiber.Ctx) error {
+	id := c.Params("id")
+	siteID, err := primitive.ObjectIDFromHex(id)
 
-	cursor, err := sites.Aggregate()
+	if err != nil {
+		return c.SendStatus(400)
+	}
 
-	return subSites, err
+	// Start pipeline with top level parent Site
+	matchStage := bson.D{
+		{"$match", bson.D{
+			{"_id", siteID},
+		}},
+	}
+	// Search for all children and their children
+	graphLookupStage := bson.D{
+		{"$graphLookup", bson.D{
+			{"from", "sites"},
+			{"startWith", "$_id"},
+			{"connectFromField", "_id"},
+			{"connectToField", "parent"},
+			{"as", "related"},
+		}},
+	}
+	// Open up array of documents to a stream of documents
+	unwindStage := bson.D{
+		{"$unwind", bson.D{
+			{"path", "$id"},
+		},
+		}}
+	// Strip down everything except _id for each child Site
+	projectStage := bson.D{
+		{"$project", bson.D{
+			{"_id", 0},
+			{"id", "$related._id"},
+		}},
+	}
+
+	cursor, err := sites.Aggregate(c.Context(), mongo.Pipeline{matchStage, graphLookupStage, projectStage, unwindStage})
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	var result []bson.M
+	if err := cursor.All(c.Context(), &result); err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	ids := make([]primitive.ObjectID, 0)
+	ids = append(ids, siteID)
+
+	for _, res := range result {
+		sub_id, err := res["id"].(primitive.ObjectID)
+		if !err {
+			return c.Status(500).SendString("Fetched sub site ID was of wrong type")
+		}
+		ids = append(ids, sub_id)
+	}
+
+	log.Println("DELETE sites", ids)
+
+	deleteFilter := bson.M{"_id": bson.M{"$in": ids}}
+	deleteResult, err := sites.DeleteMany(c.Context(), deleteFilter)
+	if err != nil {
+		log.Println("DELETE FAILED: ", err)
+		return c.Status(500).SendString(err.Error())
+	}
+
+	return c.JSON(deleteResult)
 }
-*/

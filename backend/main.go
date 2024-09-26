@@ -77,6 +77,7 @@ func main() {
 	app.Post("/api/sites", addSite)
 	app.Get("/api/sites", getRootSites)
 	app.Get("/api/sites/:id", getSite)
+	app.Delete("/api/sites/:id", deleteSite)
 
 	port := os.Getenv("PORT")
 	if port == "" {
