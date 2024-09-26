@@ -4,6 +4,10 @@ import axios from "axios";
 
 vi.mock('axios')
 
+const config = {
+    headers: { Authorization: null },
+}
+
 test('getAll returns correct flowers', async() => {
     const mockFlowers = [
         {
@@ -26,7 +30,7 @@ test('getAll returns correct flowers', async() => {
 
     expect(result).toEqual(mockFlowers)
     expect(result).length(2)
-    expect(axios.get).toHaveBeenCalledWith('/api/flowers')
+    expect(axios.get).toHaveBeenCalledWith('/api/flowers', config)
 })
 
 test('getAll returns an empty array when database has no flowers', async() => {
@@ -37,7 +41,7 @@ test('getAll returns an empty array when database has no flowers', async() => {
 
     expect(result).toEqual(mockFlowers)
     expect(result).length(0)
-    expect(axios.get).toHaveBeenCalledWith('/api/flowers')
+    expect(axios.get).toHaveBeenCalledWith('/api/flowers', config)
 })
 
 test('a flower with correct data is created and post request uses the correct url', async() => {
@@ -51,7 +55,7 @@ test('a flower with correct data is created and post request uses the correct ur
     const result = await flowers.create(newFlower)
 
     expect(result).toEqual(newFlower)
-    expect(axios.post).toHaveBeenCalledWith('/api/flowers', newFlower)
+    expect(axios.post).toHaveBeenCalledWith('/api/flowers', newFlower, config)
 })
 
 test('a delete request deletes a correct flower and uses the correct url', async() => {
@@ -78,5 +82,5 @@ test('a delete request deletes a correct flower and uses the correct url', async
 
     await flowers.remove(sunflowerId)
 
-    expect(axios.delete).toHaveBeenCalledWith('/api/flowers/' + sunflowerId)
+    expect(axios.delete).toHaveBeenCalledWith('/api/flowers/' + sunflowerId, config)
 })
