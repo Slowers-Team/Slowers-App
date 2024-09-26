@@ -32,6 +32,7 @@ type User struct {
 	Email    string             `json:"email"`
 }
 
+
 type LogIn struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -39,6 +40,7 @@ type LogIn struct {
 
 var collection *mongo.Collection
 var userCollection *mongo.Collection
+var sites *mongo.Collection
 
 var SecretKey []byte
 
@@ -79,11 +81,17 @@ func main() {
 
 	collection = client.Database("Slowers").Collection("flowers")
 	userCollection = client.Database("Slowers").Collection("users")
+	sites = client.Database("Slowers").Collection("sites")
 
 	app := fiber.New()
 
 	app.Post("/api/register", createUser)
 	app.Post("/api/login", handleLogin)
+
+	app.Post("/api/sites", addSite)
+	app.Get("/api/sites", getRootSites)
+	app.Get("/api/sites/:id", getSite)
+	app.Delete("/api/sites/:id", deleteSite)
 
 	app.Use(AuthMiddleware)
 

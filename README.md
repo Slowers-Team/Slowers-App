@@ -20,5 +20,5 @@ Project done for the Software Lab course (TKT20007) at the University of Helsink
         2. Move the `frontend/dist` directory to `backend/client` (If the directory `backend/client` does not exist yet create it now)
 4. Inside the `backend` directory, create a `.env` file and set the `MONGODB_URI` environment variable to the MongoDB URI of your MongoDB server there (If you are using MongoDB Atlas, see the instructions in step 1 to find your MongoDB URI. If you are running MongoDB locally, the MongoDB URI is by default `mongodb://localhost:27017`).
 5. Add `SECRET_KEY=<your-secret-key>` into `.env` file. Replace `<your-secret-key>` with a secret key of your choice. This is needed for JWT authentication to work.
-6. Inside the `backend` directory, start the app with the command `go run main.go` (the app can be stopped by pressing Ctrl+C in the terminal where it was started)
+6. Inside the `backend` directory, start the app with the command `go run .` (the app can be stopped by pressing Ctrl+C in the terminal where it was started)
 7. If you chose to run the frontend in the development mode, the application is now running at http://localhost:5173. If you chose to run it in the production mode, the application is running at http://localhost:5001.
