@@ -5,8 +5,10 @@ import (
 	"log"
 	"os"
 	"regexp"
+	"strings"
 	"time"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
@@ -30,12 +32,25 @@ type User struct {
 	Email    string             `json:"email"`
 }
 
+type LogIn struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 var collection *mongo.Collection
 var userCollection *mongo.Collection
 
+var SecretKey []byte
+
 func main() {
+
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found")
+	}
+
+	SecretKey := []byte(os.Getenv("SECRET_KEY"))
+	if len(SecretKey) == 0 {
+		log.Fatal("Set your SECRET_KEY as an environment variable.")
 	}
 
 	mongoURI := os.Getenv("MONGODB_URI")
@@ -67,10 +82,14 @@ func main() {
 
 	app := fiber.New()
 
+	app.Post("/api/register", createUser)
+	app.Post("/api/login", handleLogin)
+
+	app.Use(AuthMiddleware)
+
 	app.Post("/api/flowers", addFlower)
 	app.Get("/api/flowers", getFlowers)
 	app.Delete("/api/flowers/:id", deleteFlower)
-	app.Post("/api/register", createUser)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -201,4 +220,61 @@ func HashPassword(password string) (string, error) {
 func isEmailValid(e string) bool {
 	emailRegex := regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)
 	return emailRegex.MatchString(e)
+}
+
+func handleLogin(c *fiber.Ctx) error {
+
+	login := new(LogIn)
+
+	if err := c.BodyParser(login); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	user := new(User)
+
+	err := userCollection.FindOne(c.Context(), bson.D{{Key: "email", Value: login.Email}}).Decode(&user)
+	if err != nil {
+		return c.Status(401).SendString("Invalid email or password")
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(login.Password))
+	if err != nil {
+		return c.Status(401).SendString("Invalid email or password")
+	}
+
+	claims := &jwt.StandardClaims{
+		Subject:   user.ID.Hex(),
+		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString(SecretKey)
+	if err != nil {
+		return c.Status(500).SendString("Could not create token")
+	}
+
+	return c.JSON(fiber.Map{"token": tokenString})
+}
+
+func AuthMiddleware(c *fiber.Ctx) error {
+
+	tokenString := c.Get("Authorization")
+
+	if tokenString == "" {
+		return c.Status(fiber.StatusUnauthorized).SendString("Unauthorized")
+	}
+
+	tokenString = strings.TrimPrefix(tokenString, "Bearer ")
+
+	claims := &jwt.StandardClaims{}
+	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+		return SecretKey, nil
+	})
+
+	if err != nil || !token.Valid {
+		return c.Status(fiber.StatusUnauthorized).SendString("Unauthorized")
+	}
+
+	c.Locals("userID", claims.Subject)
+	return c.Next()
 }
