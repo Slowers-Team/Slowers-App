@@ -3,6 +3,7 @@ import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
 import LogInPage from './pages/LogInPage';
 import SitePage from './pages/SitePage';
+import SingleSitePage from './pages/SingleSitePage';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
@@ -38,6 +39,7 @@ const App = () => {
             <Route path="/login" element={!isLoggedIn ? <LogInPage onLogin={handleLogout} setIsLoggedIn={setIsLoggedIn} /> : <Navigate replace to="/" />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/site" element={<SitePage />} />
+            <Route path="/site/:id" element={<SingleSitePage />} />
           </Routes>
         </div>
       </Router>
