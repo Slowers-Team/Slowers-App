@@ -24,7 +24,10 @@ const baseUrl = '/api/sites'
     }
 */
 const create = newSite =>  {
-  const request = axios.post(baseUrl, newSite)
+  const config = {
+    headers: { Authorization: fetchToken() },
+  }
+  const request = axios.post(baseUrl, newSite, config)
   return request.then(response => response.data)
 }
 
@@ -53,7 +56,10 @@ const create = newSite =>  {
     }
 */
 const get = id =>  {
-  const request = axios.get(`${baseUrl}/${id}`)
+  const config = {
+    headers: { Authorization: fetchToken() },
+  }
+  const request = axios.get(`${baseUrl}/${id}`, config)
   return request.then(response => response.data)
 }
 
@@ -74,7 +80,10 @@ const get = id =>  {
   
 */
 const getRoot = () => {
-  const request = axios.get(baseUrl)
+  const config = {
+    headers: { Authorization: fetchToken() },
+  }
+  const request = axios.get(baseUrl, config)
   return request.then(response => response.data)
 }
 
@@ -89,7 +98,14 @@ const getRoot = () => {
     }
 */
 const remove = id => {
-  return axios.delete(`${baseUrl}/${id}`)
+  const config = {
+    headers: { Authorization: fetchToken() },
+  }
+  return axios.delete(`${baseUrl}/${id}`, config)
+}
+
+const fetchToken = () => {
+  return localStorage.getItem("token")
 }
 
 export default {
