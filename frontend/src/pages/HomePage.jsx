@@ -29,7 +29,7 @@ const HomePage = () => {
           .remove(flowerObject._id)
           .then(response => {
             console.log(response)
-            setFlowers(l => l.filter(item => item.name !== flowerObject.name));
+            setFlowers(l => l.filter(item => item._id !== flowerObject._id));
           })
       }
     }
