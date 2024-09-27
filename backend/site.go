@@ -23,6 +23,14 @@ type Site struct {
 }
 
 func addSite(c *fiber.Ctx) error {
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	userID, err := primitive.ObjectIDFromHex(user)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
 	site := new(Site)
 
 	if err := c.BodyParser(site); err != nil {
@@ -36,7 +44,7 @@ func addSite(c *fiber.Ctx) error {
 	}
 
 	newSite := Site{Name: site.Name, Note: site.Note, AddedTime: time.Now(),
-		Parent: site.Parent, Flowers: make([]*primitive.ObjectID, 0), Owner: site.Owner}
+		Parent: site.Parent, Flowers: make([]*primitive.ObjectID, 0), Owner: &userID}
 
 	insertResult, err := sites.InsertOne(c.Context(), newSite)
 	if err != nil {
@@ -55,7 +63,16 @@ func addSite(c *fiber.Ctx) error {
 }
 
 func getRootSites(c *fiber.Ctx) error {
-	cursor, err := sites.Find(c.Context(), bson.D{{"parent", nil}})
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	userID, err := primitive.ObjectIDFromHex(user)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	cursor, err := sites.Find(c.Context(), bson.D{{"parent", nil}, {"owner", userID}})
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
@@ -70,6 +87,15 @@ func getRootSites(c *fiber.Ctx) error {
 }
 
 func getSite(c *fiber.Ctx) error {
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	userID, err := primitive.ObjectIDFromHex(user)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
 	id := c.Params("id")
 	siteID, err := primitive.ObjectIDFromHex(id)
 
@@ -79,7 +105,7 @@ func getSite(c *fiber.Ctx) error {
 
 	var resultSite bson.M
 
-	filter := bson.M{"_id": siteID}
+	filter := bson.M{"_id": siteID, "owner": userID}
 	idErr := sites.FindOne(c.Context(), filter).Decode(&resultSite)
 
 	if idErr != nil {
@@ -115,6 +141,15 @@ func getSite(c *fiber.Ctx) error {
 }
 
 func deleteSite(c *fiber.Ctx) error {
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	userID, err := primitive.ObjectIDFromHex(user)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
 	id := c.Params("id")
 	siteID, err := primitive.ObjectIDFromHex(id)
 
@@ -126,6 +161,7 @@ func deleteSite(c *fiber.Ctx) error {
 	matchStage := bson.D{
 		{"$match", bson.D{
 			{"_id", siteID},
+			{"parent", userID},
 		}},
 	}
 	// Search for all children and their children
