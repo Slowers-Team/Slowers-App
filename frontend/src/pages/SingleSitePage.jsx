@@ -41,8 +41,7 @@ const SingleSitePage = () => {
 
   return (
     <div>
-      <NewSiteForm createSite={createSite} />
-      <SiteFlexbox />
+      <SiteFlexbox createSite={createSite}/>
     </div>
   )
 }
