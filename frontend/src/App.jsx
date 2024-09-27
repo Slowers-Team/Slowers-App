@@ -2,6 +2,7 @@ import './App.css';
 import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
 import LogInPage from './pages/LogInPage';
+import SitePage from './pages/SitePage';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
