@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import NewSiteForm from './NewSiteForm'
 import '../Misc.css'
@@ -15,7 +16,7 @@ const SiteFlexbox = ({ createSite, sites }) => {
           {sites && (
             sites.map(site => (
               <div className="box" key={site._id}>
-                Name: {site.name}
+                Name: <Link to={`/site/${site._id}`}>{site.name}</Link>
                 <p>Note: {site.note}</p>
                 <p>ID: {site._id}</p>
               </div>
