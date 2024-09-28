@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
-import { fireEvent, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import FlowerForm from '../../src/components/FlowerForm'
 import { expect, vi } from 'vitest'
+import userEvent from '@testing-library/user-event'
 
-test('renders FlowerForm', () => {
+test('renders FlowerForm with name and latin name inputs', () => {
     const createFlower = vi.fn()
 
     render(<FlowerForm createFlower={createFlower} />)
@@ -13,7 +14,8 @@ test('renders FlowerForm', () => {
     const save = screen.getByText('Save')
 })
 
-test('updates input values when typing', () => {
+test('updates input values when typing', async() => {
+    const user = userEvent.setup()
     const createFlower = vi.fn()
 
     render(<FlowerForm createFlower={createFlower} />)
@@ -21,15 +23,16 @@ test('updates input values when typing', () => {
     const flowerNameInput = screen.getByLabelText('Name:')
     const flowerLatinNameInput = screen.getByLabelText('Latin name:')
 
-    fireEvent.change(flowerNameInput, { target: { value: 'Sunflower' } })
-    expect(flowerNameInput.value).toBe('Sunflower')
+    await user.type(flowerNameInput, 'Sunflower')
+    await user.type(flowerLatinNameInput, 'Helianthus annuus')
 
-    fireEvent.change(flowerLatinNameInput, { target: { value: 'Helianthus annuus' } })
+    expect(flowerNameInput.value).toBe('Sunflower')
     expect(flowerLatinNameInput.value).toBe('Helianthus annuus')
 })
 
-test('clears input values after submit', () => {
+test('clears input values after submit', async () => {
     const createFlower = vi.fn()
+    const user = userEvent.setup()
 
     render(<FlowerForm createFlower={createFlower} />)
 
@@ -37,16 +40,17 @@ test('clears input values after submit', () => {
     const flowerLatinNameInput = screen.getByLabelText('Latin name:')
     const saveButton = screen.getByText('Save')
 
-    fireEvent.change(flowerNameInput, { target: { value: 'Lily' } })
-    fireEvent.change(flowerLatinNameInput, { target: { value: 'Lilium' } })
-    fireEvent.click(saveButton)
+    await user.type(flowerNameInput, 'Lily')
+    await user.type(flowerLatinNameInput, 'Lilium')
+    await user.click(saveButton)
 
     expect(flowerNameInput.value).toBe('')
     expect(flowerLatinNameInput.value).toBe('')
 })
 
-test('calls createFlower with correct values on submit', () => {
+test('calls createFlower with correct values on submit', async () => {
     const createFlower = vi.fn()
+    const user = userEvent.setup()
 
     render(<FlowerForm createFlower={createFlower} />)
 
@@ -54,9 +58,9 @@ test('calls createFlower with correct values on submit', () => {
     const flowerLatinNameInput = screen.getByLabelText('Latin name:')
     const saveButton = screen.getByText('Save')
 
-    fireEvent.change(flowerNameInput, { target: { value: 'Rose' } })
-    fireEvent.change(flowerLatinNameInput, { target: { value: 'Rosa' } })
-    fireEvent.click(saveButton)
+    await user.type(flowerNameInput, 'Rose')
+    await user.type(flowerLatinNameInput, 'Rosa')
+    await user.click(saveButton)
 
     expect(createFlower.mock.calls).toHaveLength(1)
     expect(createFlower.mock.calls[0][0]).toEqual({ name: 'Rose', latin_name: 'Rosa' })
