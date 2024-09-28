@@ -1,8 +1,9 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import RegisterForm from '../../src/components/RegisterForm'
 import { expect, vi } from 'vitest'
+import userEvent from '@testing-library/user-event'
 
-test('renders RegisterForm', () => {
+test('renders RegisterForm with username, password, and email inputs', () => {
     const createNewUser = vi.fn()
 
     render(<RegisterForm createNewUser={createNewUser} />)
@@ -12,8 +13,9 @@ test('renders RegisterForm', () => {
     const email = screen.getByLabelText('Email:')
 })
 
-test('updates input values when typing', () => {
+test('updates input values when typing', async () => {
     const createNewUser = vi.fn()
+    const user = userEvent.setup()
 
     render(<RegisterForm createNewUser={createNewUser} />)
 
@@ -21,18 +23,18 @@ test('updates input values when typing', () => {
     const passwordInput = screen.getByLabelText('Password:')
     const emailInput = screen.getByLabelText('Email:')
 
-    fireEvent.change(usernameInput, { target: { value: 'testuser' } })
+    await user.type(usernameInput, 'testuser')
+    await user.type(passwordInput, 'testpassword')
+    await user.type(emailInput, 'testemail')
+
     expect(usernameInput.value).toBe('testuser')
-
-    fireEvent.change(passwordInput, { target: { value: 'testpassword' } })
     expect(passwordInput.value).toBe('testpassword')
-
-    fireEvent.change(emailInput, { target: { value: 'testemail' } })
     expect(emailInput.value).toBe('testemail')
 })
 
-test('clears input values after successful submit', () => {
+test('clears input values after successful submit', async () => {
     const createNewUser = vi.fn()
+    const user = userEvent.setup()
 
     render(<RegisterForm createNewUser={createNewUser} />)
 
@@ -41,18 +43,19 @@ test('clears input values after successful submit', () => {
     const emailInput = screen.getByLabelText('Email:')
     const submitButton = screen.getByText('Register')
 
-    fireEvent.change(usernameInput, { target: { value: 'testuser' } })
-    fireEvent.change(passwordInput, { target: { value: 'testpassword' } })
-    fireEvent.change(emailInput, { target: { value: 'testemail@email.com' } })
-    fireEvent.click(submitButton)
+    await user.type(usernameInput, 'testuser')
+    await user.type(passwordInput, 'testpassword')
+    await user.type(emailInput, 'testemail@email.com')
+    await user.click(submitButton)
 
     expect(usernameInput.value).toBe('')
     expect(passwordInput.value).toBe('')
     expect(emailInput.value).toBe('')
 })
 
-test('does not clear input values after submit if email does not match standard format', () => {
+test('does not clear input values after submit if email does not match standard format', async () => {
     const createNewUser = vi.fn()
+    const user = userEvent.setup()
 
     render(<RegisterForm createNewUser={createNewUser} />)
 
@@ -61,18 +64,19 @@ test('does not clear input values after submit if email does not match standard 
     const emailInput = screen.getByLabelText('Email:')
     const submitButton = screen.getByText('Register')
 
-    fireEvent.change(usernameInput, { target: { value: 'testuser' } })
-    fireEvent.change(passwordInput, { target: { value: 'testpassword' } })
-    fireEvent.change(emailInput, { target: { value: 'invalidtestemail' } })
-    fireEvent.click(submitButton)
+    await user.type(usernameInput, 'testuser')
+    await user.type(passwordInput, 'testpassword')
+    await user.type(emailInput, 'invalidtestemail')
+    await user.click(submitButton)
 
     expect(usernameInput.value).toBe('testuser')
     expect(passwordInput.value).toBe('testpassword')
     expect(emailInput.value).toBe('invalidtestemail')
 })
 
-test('calls createNewUser with correct values on submit', () => {
+test('calls createNewUser with correct values on submit', async () => {
     const createNewUser = vi.fn()
+    const user = userEvent.setup()
 
     render(<RegisterForm createNewUser={createNewUser} />)
 
@@ -81,10 +85,10 @@ test('calls createNewUser with correct values on submit', () => {
     const emailInput = screen.getByLabelText('Email:')
     const submitButton = screen.getByText('Register')
 
-    fireEvent.change(usernameInput, { target: { value: 'testuser' } })
-    fireEvent.change(passwordInput, { target: { value: 'testpassword' } })
-    fireEvent.change(emailInput, { target: { value: 'testemail@email.com' } })
-    fireEvent.click(submitButton)
+    await user.type(usernameInput, 'testuser')
+    await user.type(passwordInput, 'testpassword')
+    await user.type(emailInput, 'testemail@email.com')
+    await user.click(submitButton)
 
     expect(createNewUser.mock.calls).toHaveLength(1)
     expect(createNewUser.mock.calls[0][0]).toEqual({
@@ -94,8 +98,9 @@ test('calls createNewUser with correct values on submit', () => {
     })
 })
 
-test('does not call createNewUser on submit if email does not match standard format', () => {
+test('does not call createNewUser on submit if email does not match standard format', async () => {
     const createNewUser = vi.fn()
+    const user = userEvent.setup()
 
     render(<RegisterForm createNewUser={createNewUser} />)
 
@@ -104,10 +109,10 @@ test('does not call createNewUser on submit if email does not match standard for
     const emailInput = screen.getByLabelText('Email:')
     const submitButton = screen.getByText('Register')
 
-    fireEvent.change(usernameInput, { target: { value: 'testuser' } })
-    fireEvent.change(passwordInput, { target: { value: 'testpassword' } })
-    fireEvent.change(emailInput, { target: { value: 'invalidtestemail' } })
-    fireEvent.click(submitButton)
+    await user.type(usernameInput, 'testuser')
+    await user.type(passwordInput, 'testpassword')
+    await user.type(emailInput, 'invalidtestemail')
+    await user.click(submitButton)
 
     expect(createNewUser.mock.calls).toHaveLength(0)
 })
