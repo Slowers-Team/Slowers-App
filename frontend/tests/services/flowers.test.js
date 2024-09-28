@@ -1,11 +1,14 @@
 import flowers from "../../src/services/flowers";
+import tokenService from '../../src/services/token'
 import { expect, vi } from 'vitest'
 import axios from "axios";
 
 vi.mock('axios')
 
+tokenService.fetchToken = vi.fn().mockReturnValue("faketoken")
+
 const config = {
-    headers: { Authorization: null },
+    headers: { Authorization: tokenService.fetchToken() },
 }
 
 test('getAll returns correct flowers', async() => {
@@ -75,11 +78,9 @@ test('a delete request deletes a correct flower and uses the correct url', async
     ]
 
     const sunflowerId = mockFlowers[0]._id
-
+    
     axios.get.mockResolvedValue({ data: mockFlowers })
-
     axios.delete.mockResolvedValue({ data: mockFlowers[0] })
-
     await flowers.remove(sunflowerId)
 
     expect(axios.delete).toHaveBeenCalledWith('/api/flowers/' + sunflowerId, config)
