@@ -19,7 +19,7 @@ const HomePage = () => {
         .then(returnedFlower => setFlowers(flowers.concat(returnedFlower)))
         .catch(error => {
           console.log(error)
-          alert(`Adding failed`)
+          alert('Adding failed')
         })
     }
   

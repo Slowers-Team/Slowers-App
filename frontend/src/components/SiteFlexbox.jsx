@@ -11,12 +11,12 @@ const SiteFlexbox = ({ createSite, sites }) => {
     <div className={'flexbox'}>
       <div className={'flexGap'}>
         <div className={'box'}>
-        <Link to={`/flowers`}>Flowers</Link>
+        <Link to={'/flowers'}>Flowers</Link>
         </div>
           {sites && (
             sites.map(site => (
               <div className="box" key={site._id}>
-                Name: <Link to={`/site/${site._id}`}>{site.name}</Link>
+                Name: <Link to={'/site/' + site._id}>{site.name}</Link>
                 <p>Note: {site.note}</p>
               </div>
             ))

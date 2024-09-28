@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import SiteService from '../services/sites'
 import SiteFlexbox from '../components/SiteFlexbox'
 
 const SingleSitePage = () => {
   let params = useParams()
-  
+  const navigate = useNavigate()
   const [site, setSite] = useState({})
   const [subsites, setSubsites] = useState([])
 
@@ -18,15 +18,16 @@ const SingleSitePage = () => {
         .then(initialSite => {
           setSite(initialSite.site)
           setSubsites(initialSite.subsites)
-        }) 
+        })
       } catch (error) {
         console.error('Error fetching site:', error)
+        navigate('/')
       }
-    };
+    }
 
     fetchSiteData()
 
-  }, [params.id])
+  }, [params.id, navigate])
 
   const createSite = SiteObject => {
       SiteService
@@ -39,21 +40,24 @@ const SingleSitePage = () => {
           })
   }
 
-  const deleteSite = SiteObject => {
+  const deleteSite = async (SiteObject) => {
     if (window.confirm(`Are you sure you want to delete site ${SiteObject.name} and its subsites?`)) {
-      SiteService
-        .remove(SiteObject._id)
-        .then(response => {
-          console.log(response)
-          setSite(l => l.filter(item => item._id !== SiteObject._id));
-        })
+      try {
+        const parentId = SiteObject.parent ? SiteObject.parent : ''
+        await SiteService.remove(SiteObject._id)
+        navigate('/site/' + parentId)
+        
+      } catch (error) {
+        console.error('Error deleting site:', error)
+      }
     }
   }
 
   return (
     <div>
       <h2>{site.name}</h2>
-      <p>{site.note ? site.note : <br />}</p>
+      <button id="deleteSiteButton" onClick={() => deleteSite(site)}>Delete this site</button>
+      <p> {site.note} </p>
       <SiteFlexbox createSite={createSite} sites={subsites}/>
     </div>
   )
