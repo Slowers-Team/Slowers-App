@@ -1,6 +1,7 @@
-import { fireEvent, queryByText, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import FlowerList from '../../src/components/FlowerList'
 import { expect, vi } from 'vitest'
+import userEvent from '@testing-library/user-event'
 
 test('renders FlowerList without flowers', () => {
     const deleteFlower = vi.fn()
@@ -45,8 +46,9 @@ test('renders FlowerList with correct flowers and has the correct number of dele
     expect(deleteButtons.length).toBe(2)
 })
 
-test('calls deleteFlower when delete button is clicked', () => {
+test('calls deleteFlower when delete button is clicked', async () => {
     const deleteFlower = vi.fn()
+    const user = userEvent.setup()
 
     const flowers = [
         {
@@ -67,7 +69,7 @@ test('calls deleteFlower when delete button is clicked', () => {
 
     const deleteButton = screen.getAllByText('Delete')[0]
     
-    fireEvent.click(deleteButton)
+    await user.click(deleteButton)
 
     expect(deleteFlower).toHaveBeenCalledWith(flowers[0])
 })
