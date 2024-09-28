@@ -12,7 +12,7 @@ const SiteForm = ({ createSite }) => {
     })
 
     setNewSiteName('')
-    setNewSiteLocation('')
+    setNewSiteNote('')
   }
 
   return (

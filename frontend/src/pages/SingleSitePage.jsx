@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import SiteService from '../services/sites'
-import NewSiteForm from '../components/NewSiteForm'
 import SiteFlexbox from '../components/SiteFlexbox'
 
 const SingleSitePage = () => {
@@ -37,7 +36,6 @@ const SingleSitePage = () => {
         })
     }
   }
-
 
   return (
     <div>
