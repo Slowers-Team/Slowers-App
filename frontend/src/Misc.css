@@ -15,6 +15,7 @@
 
 .box {
   text-align: center;
+  word-break: break-word;
   border: 2px solid rgb(148, 216, 148);
   border-radius: 5px;
   padding: 30px;

@@ -18,7 +18,6 @@ const SiteFlexbox = ({ createSite, sites }) => {
               <div className="box" key={site._id}>
                 Name: <Link to={`/site/${site._id}`}>{site.name}</Link>
                 <p>Note: {site.note}</p>
-                <p>ID: {site._id}</p>
               </div>
             ))
           )}

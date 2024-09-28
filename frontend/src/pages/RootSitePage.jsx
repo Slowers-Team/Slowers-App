@@ -11,14 +11,12 @@ const RootSitePage = () => {
       .getRoot()
       .then(initialSites => setRootSites(initialSites))
   }, [])
-
-  console.log(rootSites)
-
+  
   const createSite = SiteObject => {
       SiteService
         .create(SiteObject)
         .then(newSite => {
-          setRootSites(prevSites => [...prevSites, newSite])
+          setRootSites(prevSites => prevSites ? [...prevSites, newSite] : [newSite])
         })
         .catch(error => {
           alert('Error: ' + error.response.data)

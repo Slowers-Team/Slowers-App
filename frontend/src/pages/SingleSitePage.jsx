@@ -8,19 +8,32 @@ const SingleSitePage = () => {
   let params = useParams()
   
   const [site, setSite] = useState({})
-  const [showAddNewSite, setShowAddNewSite] = useState(false)
+  const [subsites, setSubsites] = useState([])
 
   useEffect(() => {
-    SiteService
-      .get(params.id)
-      .then(initialSite => setSite(initialSite))
-  }, [])
+    const fetchSiteData = async () => {
+      try {
+        const initialSite = await SiteService
+        .get(params.id)
+        .then(initialSite => {
+          setSite(initialSite.site)
+          setSubsites(initialSite.subsites)
+        }) 
+      } catch (error) {
+        console.error('Error fetching site:', error)
+      }
+    };
 
-  console.log(site)
+    fetchSiteData()
+
+  }, [params.id])
 
   const createSite = SiteObject => {
       SiteService
           .create(SiteObject)
+          .then(newSite => {
+              setSubsites(prevSites => prevSites ? [...prevSites, newSite] : [newSite])
+          })
           .catch(error => {
               alert('Error: ' + error.response.data)
           })
@@ -39,7 +52,8 @@ const SingleSitePage = () => {
 
   return (
     <div>
-      <SiteFlexbox createSite={createSite}/>
+      <h2>{site.name}</h2>
+      <SiteFlexbox createSite={createSite} sites={subsites}/>
     </div>
   )
 }

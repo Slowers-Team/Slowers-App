@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 const SiteForm = ({ createSite }) => {
+  const { id: parentId } = useParams()
   const [newSiteName, setNewSiteName] = useState('')
   const [newSiteNote, setNewSiteNote] = useState('')
 
@@ -8,9 +10,11 @@ const SiteForm = ({ createSite }) => {
     event.preventDefault()
     createSite({
       name: newSiteName,
-      note: newSiteNote
+      note: newSiteNote,
+      ...(parentId && { parent: parentId }),
     })
 
+    
     setNewSiteName('')
     setNewSiteNote('')
   }
