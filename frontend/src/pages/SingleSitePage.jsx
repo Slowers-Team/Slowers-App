@@ -53,6 +53,7 @@ const SingleSitePage = () => {
   return (
     <div>
       <h2>{site.name}</h2>
+      <p>{site.note ? site.note : <br />}</p>
       <SiteFlexbox createSite={createSite} sites={subsites}/>
     </div>
   )

@@ -35,11 +35,12 @@ const App = () => {
             {isLoggedIn && <Link onClick={handleLogout}>Logout</Link>}
           </nav>
           <Routes>
-            <Route path="/" element={isLoggedIn ? <HomePage /> : <Navigate replace to="/login" />} />
+            <Route path="/" element={isLoggedIn ? <RootSitePage /> : <Navigate replace to="/login" />} />
             <Route path="/login" element={!isLoggedIn ? <LogInPage onLogin={handleLogout} setIsLoggedIn={setIsLoggedIn} /> : <Navigate replace to="/" />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/site" element={<RootSitePage />} />
             <Route path="/site/:id" element={<SingleSitePage />} />
+            <Route path="/flowers" element={<HomePage />} />
           </Routes>
         </div>
       </Router>

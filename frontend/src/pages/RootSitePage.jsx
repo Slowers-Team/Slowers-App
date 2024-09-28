@@ -11,7 +11,7 @@ const RootSitePage = () => {
       .getRoot()
       .then(initialSites => setRootSites(initialSites))
   }, [])
-  
+
   const createSite = SiteObject => {
       SiteService
         .create(SiteObject)
@@ -26,6 +26,7 @@ const RootSitePage = () => {
   return (
     <div>
       <h2>Root Sites</h2>
+      <p><br /> </p>
       <SiteFlexbox createSite={createSite} sites={rootSites}/>
     </div>
   )
