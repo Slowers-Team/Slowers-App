@@ -1,43 +1,40 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import LogIn from "../../src/components/LogIn";
-import { expect, vi } from "vitest";
+import { beforeEach, describe, expect, vi } from "vitest";
 
-test('renders LogIn form', () => {
-    const login = vi.fn()
-    render(<LogIn login={login} />)
+describe('Login form', () => {
 
-    const email = screen.getByLabelText('Email:')
-    const password = screen.getByLabelText('Password:')
-    const submitButton = screen.getByRole('button', { name: 'Log In'})
-})
+    beforeEach(() => {
+        const login = vi.fn()
+        render(<LogIn login={login} />)
+    })
 
-test('updates input values when typing', () => {
-    const login = vi.fn()
+    test('renders LogIn form with email and password inputs', () => {
+        const email = screen.getByLabelText('Email:')
+        const password = screen.getByLabelText('Password:')
+        const submitButton = screen.getByRole('button', { name: 'Log In'})
+    })
 
-    render(<LogIn login={login} />)
+    test('updates input values when typing', () => {
+        const emailInput = screen.getByLabelText('Email:')
+        const passwordInput = screen.getByLabelText('Password:')
 
-    const emailInput = screen.getByLabelText('Email:')
-    const passwordInput = screen.getByLabelText('Password:')
+        fireEvent.change(emailInput, { target: { value: 'testemail' } })
+        fireEvent.change(passwordInput, { target: { value: 'testpassword' } })
 
-    fireEvent.change(emailInput, { target: { value: 'testemail' } })
-    expect(emailInput.value).toBe('testemail')
+        expect(emailInput.value).toBe('testemail')
+        expect(passwordInput.value).toBe('testpassword')
+    })
 
-    fireEvent.change(passwordInput, { target: { value: 'testpassword' } })
-    expect(passwordInput.value).toBe('testpassword')
-})
+    test('does not clear input values after submit if email does not match standard format', () => {
+        const emailInput = screen.getByLabelText('Email:')
+        const passwordInput = screen.getByLabelText('Password:')
 
-test('does not clear input values after submit if email does not match standard format', () => {
-    const login = vi.fn()
-
-    render(<LogIn login={login} />)
-
-    const emailInput = screen.getByLabelText('Email:')
-    const passwordInput = screen.getByLabelText('Password:')
-
-    fireEvent.change(emailInput, { target: { value: 'invalidtestemail' } })
-    fireEvent.change(passwordInput, { target: { value: 'testpassword' } })
-    fireEvent.click(screen.getByRole('button', { name: 'Log In'}))
-
-    expect(emailInput.value).toBe('invalidtestemail')
-    expect(passwordInput.value).toBe('testpassword')
+        fireEvent.change(emailInput, { target: { value: 'invalidtestemail' } })
+        fireEvent.change(passwordInput, { target: { value: 'testpassword' } })
+        fireEvent.click(screen.getByRole('button', { name: 'Log In'}))
+    
+        expect(emailInput.value).toBe('invalidtestemail')
+        expect(passwordInput.value).toBe('testpassword')
+    })
 })
