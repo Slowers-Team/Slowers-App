@@ -11,7 +11,19 @@ const config = {
     headers: { Authorization: tokenService.fetchToken() },
 }
 
-test('getAll returns correct flowers', async() => {
+test('returns no flowers when database has no flowers', async() => {
+    const mockFlowers = []
+
+    axios.get.mockResolvedValue({ data: mockFlowers })
+    
+    const result = await flowers.getAll()
+
+    expect(result).toEqual(mockFlowers)
+    expect(result).length(0)
+    expect(axios.get).toHaveBeenCalledWith('/api/flowers', config)
+})
+
+test('returns correct flowers when database has flowers', async() => {
     const mockFlowers = [
         {
             _id: '123',
@@ -36,18 +48,7 @@ test('getAll returns correct flowers', async() => {
     expect(axios.get).toHaveBeenCalledWith('/api/flowers', config)
 })
 
-test('getAll returns an empty array when database has no flowers', async() => {
-    const mockFlowers = []
-
-    axios.get.mockResolvedValue({ data: mockFlowers })
-    const result = await flowers.getAll()
-
-    expect(result).toEqual(mockFlowers)
-    expect(result).length(0)
-    expect(axios.get).toHaveBeenCalledWith('/api/flowers', config)
-})
-
-test('a flower with correct data is created and post request uses the correct url', async() => {
+test('creates a flower correctly and uses the correct url', async() => {
     const newFlower = {
         name: 'Lily',
         latin_name: 'Lilium',
@@ -55,13 +56,14 @@ test('a flower with correct data is created and post request uses the correct ur
     }
 
     axios.post.mockResolvedValue({ data: newFlower })
+
     const result = await flowers.create(newFlower)
 
     expect(result).toEqual(newFlower)
     expect(axios.post).toHaveBeenCalledWith('/api/flowers', newFlower, config)
 })
 
-test('a delete request deletes a correct flower and uses the correct url', async() => {
+test('deletes a flower correctly and uses the correct url', async() => {
     const mockFlowers = [
         {
             _id: '123',
@@ -81,6 +83,7 @@ test('a delete request deletes a correct flower and uses the correct url', async
     
     axios.get.mockResolvedValue({ data: mockFlowers })
     axios.delete.mockResolvedValue({ data: mockFlowers[0] })
+
     await flowers.remove(sunflowerId)
 
     expect(axios.delete).toHaveBeenCalledWith('/api/flowers/' + sunflowerId, config)

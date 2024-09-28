@@ -4,7 +4,7 @@ import axios from "axios";
 
 vi.mock('axios')
 
-test('create creates a new user', async() => {
+test('creates a new user correctly', async() => {
     const newUser = {
         username: 'testuser',
         password: 'testpassword',
