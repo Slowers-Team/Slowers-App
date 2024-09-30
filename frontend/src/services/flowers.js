@@ -2,17 +2,26 @@ import axios from 'axios'
 const baseUrl = '/api/flowers'
 
 const getAll = () => {
-  const request = axios.get(baseUrl)
+  const config = {
+    headers: { Authorization: localStorage.getItem("token") },
+  }
+  const request = axios.get(baseUrl, config)
   return request.then(response => response.data)
 }
 
 const create = newFlower => {
-  const request = axios.post(baseUrl, newFlower)
+  const config = {
+    headers: { Authorization: localStorage.getItem("token") },
+  }
+  const request = axios.post(baseUrl, newFlower, config)
   return request.then(response => response.data)
 }
 
 const remove = id => {
-  return axios.delete(`${baseUrl}/${id}`)
+  const config = {
+    headers: { Authorization: localStorage.getItem("token") },
+  }
+  return axios.delete(`${baseUrl}/${id}`, config)
 }
 
 export default {
