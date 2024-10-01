@@ -37,8 +37,6 @@ func addSite(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	log.Println("received:", site)
-
 	if site.Name == "" {
 		return c.Status(400).SendString("Site name cannot be empty")
 	}
@@ -81,7 +79,6 @@ func getRootSites(c *fiber.Ctx) error {
 	if err := cursor.All(c.Context(), &foundSites); err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
-	log.Println(foundSites)
 
 	return c.JSON(foundSites)
 }
@@ -115,8 +112,6 @@ func getSite(c *fiber.Ctx) error {
 		return c.Status(500).SendString(idErr.Error())
 	}
 
-	log.Println("found site:", resultSite)
-
 	matchStage := bson.D{{"$match", bson.D{{"parent", siteID}}}}
 	sortStage := bson.D{{"$sort", bson.D{{"name", 1}}}}
 	unsetStage := bson.D{{"$unset", bson.A{"parent", "addedTime", "owner", "flowers", "added_time"}}}
@@ -132,10 +127,7 @@ func getSite(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	log.Println("subsites:", subSites)
-
 	result := bson.M{"site": resultSite, "subsites": subSites}
-	log.Println("result:", result)
 
 	return c.JSON(result)
 }
@@ -161,7 +153,7 @@ func deleteSite(c *fiber.Ctx) error {
 	matchStage := bson.D{
 		{"$match", bson.D{
 			{"_id", siteID},
-			{"parent", userID},
+			{"owner", userID},
 		}},
 	}
 	// Search for all children and their children
