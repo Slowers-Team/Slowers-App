@@ -1,14 +1,37 @@
-package db
+package database
 
 import (
 	"context"
 	"log"
 	"time"
 
+	"github.com/stretchr/testify/mock"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
+
+type Database interface {
+	CountUsersWithEmail(ctx context.Context, email string) (int64, error)
+	CreateUser(ctx context.Context, newUser User) error
+	GetUserByEmail(ctx context.Context, email string) (*User, error)
+
+	GetFlowers(ctx context.Context) ([]Flower, error)
+    AddFlower(ctx context.Context, newFlower Flower) (*Flower, error)
+    DeleteFlower(ctx context.Context, id string) (bool, error)
+
+	AddSite(ctx context.Context, newSite Site) (*Site, error)
+	GetRootSites(ctx context.Context) ([]Site, error)
+	GetSite(ctx context.Context, id string) (bson.M, error)
+	DeleteSite(ctx context.Context, id string) (*mongo.DeleteResult, error)
+}
+
+type ActualDatabase struct {}
+
+type MockDatabase struct {
+	mock.Mock
+}
 
 type DatabaseClient = mongo.Client
 type ObjectID primitive.ObjectID

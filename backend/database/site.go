@@ -1,4 +1,4 @@
-package db
+package database
 
 import (
 	"context"
@@ -21,7 +21,7 @@ type Site struct {
 	Owner     *ObjectID   `json:"owner"`
 }
 
-func AddSite(ctx context.Context, newSite Site) (*Site, error) {
+func (aDb ActualDatabase) AddSite(ctx context.Context, newSite Site) (*Site, error) {
 	insertResult, err := db.Collection("sites").InsertOne(ctx, newSite)
 	if err != nil {
 		return nil, err
@@ -36,7 +36,7 @@ func AddSite(ctx context.Context, newSite Site) (*Site, error) {
 	return createdSite, nil
 }
 
-func GetRootSites(ctx context.Context) ([]Site, error) {
+func (aDb ActualDatabase) GetRootSites(ctx context.Context) ([]Site, error) {
 	cursor, err := db.Collection("sites").Find(ctx, bson.M{"parent": nil})
 	if err != nil {
 		return nil, err
@@ -50,7 +50,7 @@ func GetRootSites(ctx context.Context) ([]Site, error) {
 	return foundSites, nil
 }
 
-func GetSite(ctx context.Context, id string) (bson.M, error) {
+func (aDb ActualDatabase) GetSite(ctx context.Context, id string) (bson.M, error) {
 	siteID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err
@@ -90,7 +90,7 @@ func GetSite(ctx context.Context, id string) (bson.M, error) {
 	return bson.M{"site": resultSite, "subsites": subSites}, nil
 }
 
-func DeleteSite(ctx context.Context, id string) (*mongo.DeleteResult, error) {
+func (aDb ActualDatabase) DeleteSite(ctx context.Context, id string) (*mongo.DeleteResult, error) {
 	siteID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err

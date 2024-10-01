@@ -1,4 +1,4 @@
-package db
+package database
 
 import (
 	"context"
@@ -14,7 +14,7 @@ type User struct {
 	Email    string             `json:"email"`
 }
 
-func CountUsersWithEmail(ctx context.Context, email string) (int64, error) {
+func (aDb ActualDatabase) CountUsersWithEmail(ctx context.Context, email string) (int64, error) {
 	filter := bson.M{"email": email}
 	count, err := db.Collection("users").CountDocuments(ctx, filter)
 	if err != nil {
@@ -23,12 +23,12 @@ func CountUsersWithEmail(ctx context.Context, email string) (int64, error) {
 	return count, nil
 }
 
-func CreateUser(ctx context.Context, newUser User) error {
+func (aDb ActualDatabase) CreateUser(ctx context.Context, newUser User) error {
 	_, err := db.Collection("users").InsertOne(ctx, newUser)
 	return err
 }
 
-func GetUserByEmail(ctx context.Context, email string) (*User, error) {
+func (aDb ActualDatabase) GetUserByEmail(ctx context.Context, email string) (*User, error) {
 	user := new(User)
 	filter := bson.M{"email": email}
 	err := db.Collection("users").FindOne(ctx, filter).Decode(&user)

@@ -5,7 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 
-	"github.com/Slowers-team/Slowers-App/db"
+	"github.com/Slowers-team/Slowers-App/database"
 )
 
 func GetFlowers(c *fiber.Ctx) error {
@@ -18,7 +18,7 @@ func GetFlowers(c *fiber.Ctx) error {
 }
 
 func AddFlower(c *fiber.Ctx) error {
-	flower := new(db.Flower)
+	flower := new(database.Flower)
 
 	if err := c.BodyParser(flower); err != nil {
 		return c.Status(400).SendString(err.Error())
@@ -28,7 +28,7 @@ func AddFlower(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Flower name cannot be empty")
 	}
 
-	newFlower := db.Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now()}
+	newFlower := database.Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now()}
 
 	createdFlower, err := db.AddFlower(c.Context(), newFlower)
 	if err != nil {
@@ -40,7 +40,7 @@ func AddFlower(c *fiber.Ctx) error {
 
 func DeleteFlower(c *fiber.Ctx) error {
 	id := c.Params("id")
-	if !db.IsValidID(id) {
+	if !database.IsValidID(id) {
 		return c.SendStatus(400)
 	}
 

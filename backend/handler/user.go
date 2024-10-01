@@ -7,7 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/Slowers-team/Slowers-App/db"
+	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/Slowers-team/Slowers-App/util"
 )
 
@@ -23,7 +23,7 @@ func SetSecretKey(newSecretKey []byte) {
 }
 
 func CreateUser(c *fiber.Ctx) error {
-	user := new(db.User)
+	user := new(database.User)
 
 	if err := c.BodyParser(user); err != nil {
 		return c.Status(400).SendString(err.Error())
@@ -51,7 +51,7 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	newUser := db.User{Username: user.Username, Password: hashedPassword, Email: user.Email}
+	newUser := database.User{Username: user.Username, Password: hashedPassword, Email: user.Email}
 
 	err = db.CreateUser(c.Context(), newUser)
 	if err != nil {

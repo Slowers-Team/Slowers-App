@@ -7,7 +7,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 
-	"github.com/Slowers-team/Slowers-App/db"
+	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/Slowers-team/Slowers-App/handler"
 )
 
@@ -17,19 +17,20 @@ func main() {
 	var databaseURI, port string
 	SecretKey, databaseURI, port = GetEnvironmentVariables()
 
-	handler.SetSecretKey(SecretKey)
-
-	databaseClient, err := db.Connect(databaseURI, "Slowers")
+	databaseClient, err := database.Connect(databaseURI, "Slowers")
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	handler.SetSecretKey(SecretKey)
+	handler.SetDatabase(new(database.ActualDatabase))
 
 	app := Setup()
 	app.Static("/", "./client/dist")
 
 	appErr := app.Listen("0.0.0.0:" + port)
 
-	dbErr := db.Disconnect(databaseClient)
+	dbErr := database.Disconnect(databaseClient)
 
 	if appErr != nil {
 		log.Fatal(appErr)
@@ -50,7 +51,7 @@ func Setup() *fiber.App {
 	app.Get("/api/sites/:id", handler.GetSite)
 	app.Delete("/api/sites/:id", handler.DeleteSite)
 
-	app.Use(AuthMiddleware)
+	//app.Use(AuthMiddleware)
 
 	app.Post("/api/flowers", handler.AddFlower)
 	app.Get("/api/flowers", handler.GetFlowers)

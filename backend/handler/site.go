@@ -6,11 +6,11 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 
-	"github.com/Slowers-team/Slowers-App/db"
+	"github.com/Slowers-team/Slowers-App/database"
 )
 
 func AddSite(c *fiber.Ctx) error {
-	site := new(db.Site)
+	site := new(database.Site)
 
 	if err := c.BodyParser(site); err != nil {
 		return c.Status(400).SendString(err.Error())
@@ -22,8 +22,8 @@ func AddSite(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Site name cannot be empty")
 	}
 
-	newSite := db.Site{Name: site.Name, Note: site.Note, AddedTime: time.Now(),
-		Parent: site.Parent, Flowers: make([]*db.ObjectID, 0), Owner: site.Owner}
+	newSite := database.Site{Name: site.Name, Note: site.Note, AddedTime: time.Now(),
+		Parent: site.Parent, Flowers: make([]*database.ObjectID, 0), Owner: site.Owner}
 
 	createdSite, err := db.AddSite(c.Context(), newSite)
 	if err != nil {
@@ -49,7 +49,7 @@ func GetRootSites(c *fiber.Ctx) error {
 func GetSite(c *fiber.Ctx) error {
 	id := c.Params("id")
 
-	if !db.IsValidID(id) {
+	if !database.IsValidID(id) {
 		return c.SendStatus(400)
 	}
 
@@ -65,7 +65,7 @@ func GetSite(c *fiber.Ctx) error {
 
 func DeleteSite(c *fiber.Ctx) error {
 	id := c.Params("id")
-	if !db.IsValidID(id) {
+	if !database.IsValidID(id) {
 		return c.SendStatus(400)
 	}
 
