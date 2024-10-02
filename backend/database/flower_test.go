@@ -7,6 +7,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -16,6 +17,10 @@ type DbFlowerTestSuite struct {
 }
 
 func (suite *DbFlowerTestSuite) SetupTest() {
+	if err := godotenv.Load("../.env"); err != nil {
+		log.Println("No .env file found")
+	}
+
 	databaseURI := os.Getenv("MONGODB_URI")
 	if databaseURI == "" {
 		log.Fatal("Set your 'MONGODB_URI' environment variable.")
