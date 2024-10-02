@@ -110,7 +110,7 @@ func runTests(t *testing.T, tests []testCase) {
 	db := new(database.MockDatabase)
 	handlers.SetDatabase(db)
 
-	app := Setup()
+	app := SetupAppAndSetAuthTo(false)
 
 	for _, test := range tests {
 		test.setupMocks(db)

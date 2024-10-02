@@ -25,7 +25,7 @@ func main() {
 	handlers.SetSecretKey(SecretKey)
 	handlers.SetDatabase(db)
 
-	app := Setup()
+	app := SetupAppAndSetAuthTo(true)
 	app.Static("/", "./client/dist")
 
 	appErr := app.Listen("0.0.0.0:" + port)
@@ -40,7 +40,7 @@ func main() {
 	}
 }
 
-func Setup() *fiber.App {
+func SetupAppAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app := fiber.New()
 
 	app.Post("/api/register", handlers.CreateUser)
@@ -51,7 +51,9 @@ func Setup() *fiber.App {
 	app.Get("/api/sites/:id", handlers.GetSite)
 	app.Delete("/api/sites/:id", handlers.DeleteSite)
 
-	//app.Use(AuthMiddleware)
+	if (isAuthOn) {
+		app.Use(AuthMiddleware)
+	}
 
 	app.Post("/api/flowers", handlers.AddFlower)
 	app.Get("/api/flowers", handlers.GetFlowers)
