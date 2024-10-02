@@ -40,7 +40,7 @@ type MockDatabase struct {
 	mock.Mock
 }
 
-type ObjectID primitive.ObjectID
+type ObjectID = primitive.ObjectID
 
 var db *mongo.Database
 

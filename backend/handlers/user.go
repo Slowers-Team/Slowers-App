@@ -5,6 +5,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/Slowers-team/Slowers-App/database"
@@ -79,7 +80,7 @@ func HandleLogin(c *fiber.Ctx) error {
 	}
 
 	claims := &jwt.StandardClaims{
-		Subject:   user.ID.Hex(),
+		Subject:   primitive.ObjectID(user.ID).Hex(),
 		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
 	}
 

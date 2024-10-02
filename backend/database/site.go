@@ -13,9 +13,9 @@ import (
 
 type Site struct {
 	ID        ObjectID    `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name      string                `json:"name"`
-	AddedTime time.Time             `json:"added_time" bson:"added_time"`
-	Note      string                `json:"note"`
+	Name      string      `json:"name"`
+	AddedTime time.Time   `json:"added_time" bson:"added_time"`
+	Note      string      `json:"note"`
 	Parent    *ObjectID   `json:"parent"`
 	Flowers   []*ObjectID `json:"flowers"`
 	Owner     *ObjectID   `json:"owner"`
