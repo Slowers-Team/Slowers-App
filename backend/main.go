@@ -17,20 +17,20 @@ func main() {
 	var databaseURI, port string
 	SecretKey, databaseURI, port = GetEnvironmentVariables()
 
-	databaseClient, err := database.Connect(databaseURI, "Slowers")
-	if err != nil {
+	db := database.NewMongoDatabase(databaseURI)
+	if err := db.Connect("Slowers"); err != nil {
 		log.Fatal(err)
 	}
 
 	handlers.SetSecretKey(SecretKey)
-	handlers.SetDatabase(new(database.MongoDatabase))
+	handlers.SetDatabase(db)
 
 	app := Setup()
 	app.Static("/", "./client/dist")
 
 	appErr := app.Listen("0.0.0.0:" + port)
 
-	dbErr := database.Disconnect(databaseClient)
+	dbErr := db.Disconnect()
 
 	if appErr != nil {
 		log.Fatal(appErr)

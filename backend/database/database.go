@@ -13,6 +13,10 @@ import (
 )
 
 type Database interface {
+	Connect(databaseName string) error
+	Disconnect() error
+	Clear() error
+
 	CountUsersWithEmail(ctx context.Context, email string) (int64, error)
 	CreateUser(ctx context.Context, newUser User) error
 	GetUserByEmail(ctx context.Context, email string) (*User, error)
@@ -27,42 +31,61 @@ type Database interface {
 	DeleteSite(ctx context.Context, id string) (*mongo.DeleteResult, error)
 }
 
-type MongoDatabase struct {}
+type MongoDatabase struct {
+	databaseURI string
+	client *mongo.Client
+}
 
 type MockDatabase struct {
 	mock.Mock
 }
 
-type DatabaseClient = mongo.Client
 type ObjectID primitive.ObjectID
 
 var db *mongo.Database
 
-func Connect(mongoURI string, databaseName string) (*DatabaseClient, error) {
+func NewMongoDatabase(databaseURI string) *MongoDatabase {
+	return &MongoDatabase{databaseURI, nil}
+}
+
+func (mDb *MongoDatabase) Connect(databaseName string) error {
 	timeout := 10 * time.Second
-	clientOptions := options.Client().ApplyURI(mongoURI).SetTimeout(timeout)
-	client, err := mongo.Connect(context.Background(), clientOptions)
+	clientOptions := options.Client().ApplyURI(mDb.databaseURI).SetTimeout(timeout)
+	var err error
+	mDb.client, err = mongo.Connect(context.Background(), clientOptions)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	if err := client.Ping(context.Background(), nil); err != nil {
-		return nil, err
+	if err := mDb.client.Ping(context.Background(), nil); err != nil {
+		return err
 	}
 
 	log.Println("Connected to MongoDB")
 
-	db = client.Database(databaseName)
+	db = mDb.client.Database(databaseName)
 
-	return client, nil
+	return nil
 }
 
-func Disconnect(client *DatabaseClient) error {
-	return client.Disconnect(context.Background())
+func (mDb *MockDatabase) Connect(databaseName string) error {
+	return nil
 }
 
-func Clear() error {
+func (mDb *MongoDatabase) Disconnect() error {
+	return mDb.client.Disconnect(context.Background())
+}
+
+func (mDb *MockDatabase) Disconnect() error {
+	return nil
+}
+
+func (mDb *MongoDatabase) Clear() error {
 	return db.Drop(context.Background())
+}
+
+func (mDb *MockDatabase) Clear() error {
+	return nil
 }
 
 func IsValidID(id string) bool {

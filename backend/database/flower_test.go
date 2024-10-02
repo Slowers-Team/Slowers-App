@@ -12,7 +12,7 @@ import (
 
 type DbFlowerTestSuite struct {
 	suite.Suite
-	DbClient *DatabaseClient
+	Db Database
 }
 
 func (suite *DbFlowerTestSuite) SetupTest() {
@@ -21,15 +21,14 @@ func (suite *DbFlowerTestSuite) SetupTest() {
 		log.Fatal("Set your 'MONGODB_URI' environment variable.")
 	}
 
-	var err error
-	suite.DbClient, err = Connect(databaseURI, "SlowersTest")
-	if err != nil {
+	suite.Db = NewMongoDatabase(databaseURI)
+	if err := suite.Db.Connect("SlowersTest"); err != nil {
 		log.Fatal(err)
 	}
 }
 
 func (suite *DbFlowerTestSuite) TestAddFlower() {
-	db := new(MongoDatabase)
+	db := suite.Db
 
 	flower := Flower{
 		Name: "sunflower",
@@ -49,8 +48,8 @@ func (suite *DbFlowerTestSuite) TestAddFlower() {
 }
 
 func (suite *DbFlowerTestSuite) TearDownTest() {
-	Clear()
-	err := Disconnect(suite.DbClient)
+	suite.Db.Clear()
+	err := suite.Db.Disconnect()
 	if err != nil {
 		log.Fatal(err)
 	}
