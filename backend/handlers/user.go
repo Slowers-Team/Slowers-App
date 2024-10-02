@@ -1,4 +1,4 @@
-package handler
+package handlers
 
 import (
 	"time"
@@ -8,7 +8,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/Slowers-team/Slowers-App/database"
-	"github.com/Slowers-team/Slowers-App/util"
+	"github.com/Slowers-team/Slowers-App/utils"
 )
 
 type LogIn struct {
@@ -42,11 +42,11 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(400).SendString("email already exists")
 	}
 
-	if !util.IsEmailValid(user.Email) {
+	if !utils.IsEmailValid(user.Email) {
 		return c.Status(400).SendString("invalid email")
 	}
 
-	hashedPassword, err := util.HashPassword(user.Password)
+	hashedPassword, err := utils.HashPassword(user.Password)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}

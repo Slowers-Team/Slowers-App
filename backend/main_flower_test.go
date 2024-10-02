@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/mock"
 
 	"github.com/Slowers-team/Slowers-App/database"
-	"github.com/Slowers-team/Slowers-App/handler"
+	"github.com/Slowers-team/Slowers-App/handlers"
 )
 
 func flowersToJSON(flowers []database.Flower) string {
@@ -108,7 +108,7 @@ func TestFlowersRoute(t *testing.T) {
 
 func runTests(t *testing.T, tests []testCase) {
 	db := new(database.MockDatabase)
-	handler.SetDatabase(db)
+	handlers.SetDatabase(db)
 
 	app := Setup()
 

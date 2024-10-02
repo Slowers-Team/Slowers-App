@@ -8,7 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 
 	"github.com/Slowers-team/Slowers-App/database"
-	"github.com/Slowers-team/Slowers-App/handler"
+	"github.com/Slowers-team/Slowers-App/handlers"
 )
 
 var SecretKey []byte
@@ -22,8 +22,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	handler.SetSecretKey(SecretKey)
-	handler.SetDatabase(new(database.ActualDatabase))
+	handlers.SetSecretKey(SecretKey)
+	handlers.SetDatabase(new(database.ActualDatabase))
 
 	app := Setup()
 	app.Static("/", "./client/dist")
@@ -43,19 +43,19 @@ func main() {
 func Setup() *fiber.App {
 	app := fiber.New()
 
-	app.Post("/api/register", handler.CreateUser)
-	app.Post("/api/login", handler.HandleLogin)
+	app.Post("/api/register", handlers.CreateUser)
+	app.Post("/api/login", handlers.HandleLogin)
 
-	app.Post("/api/sites", handler.AddSite)
-	app.Get("/api/sites", handler.GetRootSites)
-	app.Get("/api/sites/:id", handler.GetSite)
-	app.Delete("/api/sites/:id", handler.DeleteSite)
+	app.Post("/api/sites", handlers.AddSite)
+	app.Get("/api/sites", handlers.GetRootSites)
+	app.Get("/api/sites/:id", handlers.GetSite)
+	app.Delete("/api/sites/:id", handlers.DeleteSite)
 
 	//app.Use(AuthMiddleware)
 
-	app.Post("/api/flowers", handler.AddFlower)
-	app.Get("/api/flowers", handler.GetFlowers)
-	app.Delete("/api/flowers/:id", handler.DeleteFlower)
+	app.Post("/api/flowers", handlers.AddFlower)
+	app.Get("/api/flowers", handlers.GetFlowers)
+	app.Delete("/api/flowers/:id", handlers.DeleteFlower)
 
 	return app
 }

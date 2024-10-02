@@ -29,6 +29,8 @@ func (suite *DbFlowerTestSuite) SetupTest() {
 }
 
 func (suite *DbFlowerTestSuite) TestAddFlower() {
+	db := new(ActualDatabase)
+
 	flower := Flower{
 		Name: "sunflower",
 		LatinName: "Helianthus annuus",
@@ -37,7 +39,7 @@ func (suite *DbFlowerTestSuite) TestAddFlower() {
 
 	var createdFlower *Flower
 	var err error
-	createdFlower, err = AddFlower(context.Background(), flower)
+	createdFlower, err = db.AddFlower(context.Background(), flower)
 
 	suite.NoError(err, "AddFlower() should not return an error")
 	suite.Equal(createdFlower.Name, flower.Name, "wrong name for the flower returned from AddFlower()")
