@@ -107,20 +107,19 @@ func TestFlowersRoute(t *testing.T) {
 }
 
 func runTests(t *testing.T, tests []testCase) {
-	db := new(database.MockDatabase)
-	handlers.SetDatabase(db)
+	for i, test := range tests {
+		app := SetupAppAndSetAuthTo(false)
 
-	app := SetupAppAndSetAuthTo(false)
+		db := new(database.MockDatabase)
+		handlers.SetDatabase(db)
 
-	for _, test := range tests {
 		test.setupMocks(db)
 
 		req, _ := http.NewRequest(test.method, test.route, strings.NewReader(test.body))
 
 		res, err := app.Test(req, -1)
 
-		// No idea how to get this to work
-		//db.AssertExpectations(t)
+		db.AssertExpectations(t)
 
 		assert.Equalf(t, test.expectedError, err != nil, test.description)
 
