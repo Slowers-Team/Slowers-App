@@ -55,7 +55,11 @@ func addSite(c *fiber.Ctx) error {
 	createdRecord := sites.FindOne(c.Context(), filter)
 
 	createdSite := &Site{}
-	createdRecord.Decode(createdSite)
+	err = createdRecord.Decode(createdSite)
+
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
 
 	return c.Status(201).JSON(createdSite)
 }
@@ -70,7 +74,7 @@ func getRootSites(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	cursor, err := sites.Find(c.Context(), bson.D{{"parent", nil}, {"owner", userID}})
+	cursor, err := sites.Find(c.Context(), bson.M{"parent": nil, "owner": userID})
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
@@ -112,9 +116,9 @@ func getSite(c *fiber.Ctx) error {
 		return c.Status(500).SendString(idErr.Error())
 	}
 
-	matchStage := bson.D{{"$match", bson.D{{"parent", siteID}}}}
-	sortStage := bson.D{{"$sort", bson.D{{"name", 1}}}}
-	unsetStage := bson.D{{"$unset", bson.A{"parent", "addedTime", "owner", "flowers", "added_time"}}}
+	matchStage := bson.D{{Key: "$match", Value: bson.D{{Key: "parent", Value: siteID}}}}
+	sortStage := bson.D{{Key: "$sort", Value: bson.D{{Key: "name", Value: 1}}}}
+	unsetStage := bson.D{{Key: "$unset", Value: bson.A{"parent", "addedTime", "owner", "flowers", "added_time"}}}
 
 	cursor, err := sites.Aggregate(c.Context(), mongo.Pipeline{matchStage, sortStage, unsetStage})
 	if err != nil {
@@ -151,32 +155,32 @@ func deleteSite(c *fiber.Ctx) error {
 
 	// Start pipeline with top level parent Site
 	matchStage := bson.D{
-		{"$match", bson.D{
-			{"_id", siteID},
-			{"owner", userID},
+		{Key: "$match", Value: bson.D{
+			{Key: "_id", Value: siteID},
+			{Key: "owner", Value: userID},
 		}},
 	}
 	// Search for all children and their children
 	graphLookupStage := bson.D{
-		{"$graphLookup", bson.D{
-			{"from", "sites"},
-			{"startWith", "$_id"},
-			{"connectFromField", "_id"},
-			{"connectToField", "parent"},
-			{"as", "related"},
+		{Key: "$graphLookup", Value: bson.D{
+			{Key: "from", Value: "sites"},
+			{Key: "startWith", Value: "$_id"},
+			{Key: "connectFromField", Value: "_id"},
+			{Key: "connectToField", Value: "parent"},
+			{Key: "as", Value: "related"},
 		}},
 	}
 	// Open up array of documents to a stream of documents
 	unwindStage := bson.D{
-		{"$unwind", bson.D{
-			{"path", "$id"},
+		{Key: "$unwind", Value: bson.D{
+			{Key: "path", Value: "$id"},
 		},
 		}}
 	// Strip down everything except _id for each child Site
 	projectStage := bson.D{
-		{"$project", bson.D{
-			{"_id", 0},
-			{"id", "$related._id"},
+		{Key: "$project", Value: bson.D{
+			{Key: "_id", Value: 0},
+			{Key: "id", Value: "$related._id"},
 		}},
 	}
 

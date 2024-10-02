@@ -144,7 +144,11 @@ func addFlower(c *fiber.Ctx) error {
 	createdRecord := collection.FindOne(c.Context(), filter)
 
 	createdFlower := &Flower{}
-	createdRecord.Decode(createdFlower)
+	err = createdRecord.Decode(createdFlower)
+
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
 
 	return c.Status(201).JSON(createdFlower)
 }
@@ -211,7 +215,10 @@ func createUser(c *fiber.Ctx) error {
 	createdRecord := userCollection.FindOne(c.Context(), filter)
 
 	createdUser := &User{}
-	createdRecord.Decode(createdUser)
+	err = createdRecord.Decode(createdUser)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
 
 	return c.SendStatus(201)
 }
