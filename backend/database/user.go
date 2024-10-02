@@ -14,7 +14,7 @@ type User struct {
 	Email    string             `json:"email"`
 }
 
-func (aDb ActualDatabase) CountUsersWithEmail(ctx context.Context, email string) (int64, error) {
+func (mDb MongoDatabase) CountUsersWithEmail(ctx context.Context, email string) (int64, error) {
 	filter := bson.M{"email": email}
 	count, err := db.Collection("users").CountDocuments(ctx, filter)
 	if err != nil {
@@ -23,12 +23,12 @@ func (aDb ActualDatabase) CountUsersWithEmail(ctx context.Context, email string)
 	return count, nil
 }
 
-func (aDb ActualDatabase) CreateUser(ctx context.Context, newUser User) error {
+func (mDb MongoDatabase) CreateUser(ctx context.Context, newUser User) error {
 	_, err := db.Collection("users").InsertOne(ctx, newUser)
 	return err
 }
 
-func (aDb ActualDatabase) GetUserByEmail(ctx context.Context, email string) (*User, error) {
+func (mDb MongoDatabase) GetUserByEmail(ctx context.Context, email string) (*User, error) {
 	user := new(User)
 	filter := bson.M{"email": email}
 	err := db.Collection("users").FindOne(ctx, filter).Decode(&user)

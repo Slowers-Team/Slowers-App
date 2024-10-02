@@ -29,7 +29,7 @@ func (suite *DbFlowerTestSuite) SetupTest() {
 }
 
 func (suite *DbFlowerTestSuite) TestAddFlower() {
-	db := new(ActualDatabase)
+	db := new(MongoDatabase)
 
 	flower := Flower{
 		Name: "sunflower",

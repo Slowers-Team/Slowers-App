@@ -23,7 +23,7 @@ func main() {
 	}
 
 	handlers.SetSecretKey(SecretKey)
-	handlers.SetDatabase(new(database.ActualDatabase))
+	handlers.SetDatabase(new(database.MongoDatabase))
 
 	app := Setup()
 	app.Static("/", "./client/dist")

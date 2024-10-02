@@ -27,7 +27,7 @@ type Database interface {
 	DeleteSite(ctx context.Context, id string) (*mongo.DeleteResult, error)
 }
 
-type ActualDatabase struct {}
+type MongoDatabase struct {}
 
 type MockDatabase struct {
 	mock.Mock

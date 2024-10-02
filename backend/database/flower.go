@@ -15,7 +15,7 @@ type Flower struct {
 	AddedTime time.Time          `json:"added_time" bson:"added_time"`
 }
 
-func (aDb ActualDatabase) GetFlowers(ctx context.Context) ([]Flower, error) {
+func (mDb MongoDatabase) GetFlowers(ctx context.Context) ([]Flower, error) {
 	cursor, err := db.Collection("flowers").Find(ctx, bson.M{})
 	if err != nil {
 		return nil, err
@@ -29,7 +29,7 @@ func (aDb ActualDatabase) GetFlowers(ctx context.Context) ([]Flower, error) {
 	return flowers, nil
 }
 
-func (aDb ActualDatabase) AddFlower(ctx context.Context, newFlower Flower) (*Flower, error) {
+func (mDb MongoDatabase) AddFlower(ctx context.Context, newFlower Flower) (*Flower, error) {
 	insertResult, err := db.Collection("flowers").InsertOne(ctx, newFlower)
 	if err != nil {
 		return nil, err
@@ -44,7 +44,7 @@ func (aDb ActualDatabase) AddFlower(ctx context.Context, newFlower Flower) (*Flo
 	return createdFlower, nil
 }
 
-func (aDb ActualDatabase) DeleteFlower(ctx context.Context, id string) (bool, error) {
+func (mDb MongoDatabase) DeleteFlower(ctx context.Context, id string) (bool, error) {
 	objectID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return false, err
