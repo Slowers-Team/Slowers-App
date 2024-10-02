@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -134,5 +135,11 @@ func runTests(t *testing.T, tests []testCase) {
 		assert.Nilf(t, err, test.description)
 
 		assert.Equalf(t, test.expectedBody, string(body), test.description)
+
+		if t.Failed() {
+			fmt.Println("Test", i, ":", test.description, ": FAIL")
+		} else {
+			fmt.Println("Test", i, ":", test.description, ": PASS")
+		}
 	}
 }
