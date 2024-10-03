@@ -71,6 +71,15 @@ const SitePage = () => {
             Delete this site
           </button>
           <p>{site?.note}</p>
+          <div>
+            <button
+              id="showFlowerAddingFormButton"
+              onClick={() => setShowAddNewFlower(!showAddNewFlower)}
+            >
+              Add a new flower
+            </button>
+            {showAddNewFlower && <FlowerForm createFlower={addFlower} />}
+          </div>
         </>
       ) : (
         <>
@@ -80,7 +89,7 @@ const SitePage = () => {
           </p>
         </>
       )}
-      <div>
+      {/* <div>
         <button
           id="showFlowerAddingFormButton"
           onClick={() => setShowAddNewFlower(!showAddNewFlower)}
@@ -88,7 +97,7 @@ const SitePage = () => {
           Add a new flower
         </button>
         {showAddNewFlower && <FlowerForm createFlower={addFlower} />}
-      </div>
+      </div> */}
       <SiteFlexbox createSite={createSite} sites={sites} />
     </div>
   )
