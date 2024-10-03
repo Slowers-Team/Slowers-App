@@ -30,13 +30,10 @@ const SitePage = () => {
   }, [params.id, navigate])
 
   const addFlower = flowerObject => {
-    flowerService
-      .create(flowerObject)
-      .then(returnedFlower => setFlowers(flowers.concat(returnedFlower)))
-      .catch(error => {
-        console.log(error)
-        alert("Adding failed")
-      })
+    flowerService.create(flowerObject).catch(error => {
+      console.log(error)
+      alert("Adding failed")
+    })
   }
 
   const createSite = siteObject => {
