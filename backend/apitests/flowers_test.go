@@ -8,12 +8,12 @@ import (
 
 	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/Slowers-team/Slowers-App/testdata"
-	sltest "github.com/Slowers-team/Slowers-App/testing"
+	"github.com/Slowers-team/Slowers-App/testutils"
 	"github.com/Slowers-team/Slowers-App/utils"
 )
 
 func TestListingFlowersWithoutError(t *testing.T) {
-	sltest.RunTest(t, sltest.TestCase{
+	testutils.RunTest(t, testutils.TestCase{
 		Description:   "\"GET /api/flowers\" without error",
 		Route:         "/api/flowers",
 		Method:        "GET",
@@ -32,7 +32,7 @@ func TestListingFlowersWithoutError(t *testing.T) {
 }
 
 func TestListingFlowersWithError(t *testing.T) {
-	sltest.RunTest(t, sltest.TestCase{
+	testutils.RunTest(t, testutils.TestCase{
 		Description:   "\"GET /api/flowers\" with error",
 		Route:         "/api/flowers",
 		Method:        "GET",
@@ -51,7 +51,7 @@ func TestListingFlowersWithError(t *testing.T) {
 }
 
 func TestDeletingFlower(t *testing.T) {
-	sltest.RunTest(t, sltest.TestCase{
+	testutils.RunTest(t, testutils.TestCase{
 		Description:   "DELETE /api/flowers/<id>",
 		Route:         "/api/flowers/" + testdata.GetTestID(),
 		Method:        "DELETE",
