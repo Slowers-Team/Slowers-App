@@ -54,15 +54,15 @@ func TestListingFlowersWithError(t *testing.T) {
 func TestDeletingFlower(t *testing.T) {
 	testutils.RunTest(t, testutils.TestCase{
 		Description:   "DELETE /api/flowers/<id>",
-		Route:         "/api/flowers/" + testdata.GetTestID(),
+		Route:         "/api/flowers/" + testdata.GetTestFlowers()[0].ID.String(),
 		Method:        "DELETE",
-		Body:          utils.IDToJSON(testdata.GetTestID()),
+		Body:          "",
 		ExpectedError: false,
 		ExpectedCode:  204,
 		ExpectedBody:  "",
 		SetupMocks:    func(db *mocks.Database) {
 			db.On(
-				"DeleteFlower", mock.Anything, testdata.GetTestID(),
+				"DeleteFlower", mock.Anything, testdata.GetTestFlowers()[0].ID.String(),
 			).Return(
 				true, nil,
 			).Once()
