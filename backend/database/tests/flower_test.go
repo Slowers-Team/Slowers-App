@@ -5,12 +5,12 @@ import (
 	"log"
 	"os"
 	"testing"
-	"time"
 
 	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/suite"
 
 	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/testdata"
 )
 
 type DbFlowerTestSuite struct {
@@ -37,11 +37,7 @@ func (suite *DbFlowerTestSuite) SetupTest() {
 func (suite *DbFlowerTestSuite) TestAddFlower() {
 	db := suite.Db
 
-	flower := database.Flower{
-		Name: "sunflower",
-		LatinName: "Helianthus annuus",
-		AddedTime: time.Date(2024, 9, 30, 21, 11, 54, 0, time.UTC),
-	}
+	flower := testdata.GetTestFlowers()[0]
 
 	var createdFlower *database.Flower
 	var err error
