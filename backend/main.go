@@ -159,6 +159,14 @@ func addFlower(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
+	flowerID := insertResult.InsertedID.(primitive.ObjectID)
+
+	update := bson.M{"$push": bson.M{"flowers": flowerID}}
+	_, err = sites.UpdateOne(c.Context(), bson.M{"_id": siteID}, update)
+	if err != nil {
+		return c.Status(500).SendString("Failed to update site with flower ID: " + err.Error())
+	}
+
 	filter := bson.M{"_id": insertResult.InsertedID}
 	createdRecord := collection.FindOne(c.Context(), filter)
 
