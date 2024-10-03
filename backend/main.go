@@ -19,10 +19,12 @@ import (
 )
 
 type Flower struct {
-	ID        primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name      string             `json:"name"`
-	LatinName string             `json:"latin_name" bson:"latin_name"`
-	AddedTime time.Time          `json:"added_time" bson:"added_time"`
+	ID        primitive.ObjectID  `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name      string              `json:"name"`
+	LatinName string              `json:"latin_name" bson:"latin_name"`
+	AddedTime time.Time           `json:"added_time" bson:"added_time"`
+	Grower    *primitive.ObjectID `json:"grower"`
+	Site      *primitive.ObjectID `json:"site"`
 }
 
 type User struct {
@@ -123,8 +125,16 @@ func getFlowers(c *fiber.Ctx) error {
 }
 
 func addFlower(c *fiber.Ctx) error {
-	flower := new(Flower)
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	userID, err := primitive.ObjectIDFromHex(user)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
 
+	flower := new(Flower)
 	if err := c.BodyParser(flower); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
@@ -133,7 +143,16 @@ func addFlower(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Flower name cannot be empty")
 	}
 
-	newFlower := Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now()}
+	if flower.Site == nil {
+		return c.Status(400).SendString("SiteID is required")
+	}
+
+	siteID, err := primitive.ObjectIDFromHex(flower.Site.Hex())
+	if err != nil {
+		return c.Status(400).SendString("Invalid siteID")
+	}
+
+	newFlower := Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(), Grower: &userID, Site: &siteID}
 
 	insertResult, err := collection.InsertOne(c.Context(), newFlower)
 	if err != nil {

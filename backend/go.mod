@@ -3,6 +3,7 @@ module github.com/Slowers-team/Slowers-App
 go 1.23.0
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/joho/godotenv v1.5.1
 	go.mongodb.org/mongo-driver v1.16.1
@@ -11,8 +12,6 @@ require (
 
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
-	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/uuid v1.5.0 // indirect
 	github.com/klauspost/compress v1.17.0 // indirect
