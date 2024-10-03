@@ -5,28 +5,21 @@ import SiteService from '../services/sites'
 import SiteFlexbox from '../components/SiteFlexbox'
 
 const SingleSitePage = () => {
-  let params = useParams()
+  const params = useParams()
   const navigate = useNavigate()
   const [site, setSite] = useState({})
   const [subsites, setSubsites] = useState([])
 
   useEffect(() => {
-    const fetchSiteData = async () => {
-      try {
-        const initialSite = await SiteService
-        .get(params.id)
-        .then(initialSite => {
-          setSite(initialSite.site)
-          setSubsites(initialSite.subsites)
-        })
-      } catch (error) {
-        console.error('Error fetching site:', error)
-        navigate('/')
-      }
-    }
-
-    fetchSiteData()
-
+    SiteService.get(params.id)
+      .then(initialSite => {
+        setSite(initialSite.site)
+        setSubsites(initialSite.subsites)
+      })
+      .catch(error => {
+        console.error("Error fetching site:", error)
+        navigate("/")
+      })
   }, [params.id, navigate])
 
   const createSite = SiteObject => {
@@ -40,16 +33,16 @@ const SingleSitePage = () => {
           })
   }
 
-  const deleteSite = async (SiteObject) => {
-    if (window.confirm(`Are you sure you want to delete site ${SiteObject.name} and its subsites?`)) {
-      try {
-        const parentId = SiteObject.parent ? SiteObject.parent : ''
-        await SiteService.remove(SiteObject._id)
-        navigate('/site/' + parentId)
-        
-      } catch (error) {
-        console.error('Error deleting site:', error)
-      }
+  const deleteSite = siteObject => {
+    if (
+      window.confirm(`Are you sure you want to delete site ${siteObject.name}?`)
+    ) {
+      const parentId = siteObject.parent ? siteObject.parent : ""
+      SiteService.remove(siteObject._id)
+        .then(() => navigate("/site/" + parentId))
+        .catch(error => {
+          console.error("Error deleting site:", error)
+        })
     }
   }
 

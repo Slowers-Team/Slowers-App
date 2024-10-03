@@ -55,36 +55,12 @@ const create = newSite =>  {
     	  } ]
     }
 */
-const get = id =>  {
+const get = (id = null) => {
   const config = {
     headers: { Authorization: fetchToken() },
   }
-  const request = axios.get(`${baseUrl}/${id}`, config)
-  return request.then(response => response.data)
-}
-
-/*
-  Get all root sites (sites that have no parents)
-  output
-  [
-    {
-      _id: ID,
-    	name: string,
-    	added_time: Date,
-    	note: string,
-    	parent: ID
-    	flowers: [flower],
-    	owner: ID
-    }
-  ]
-  
-*/
-const getRoot = () => {
-  const config = {
-    headers: { Authorization: fetchToken() },
-  }
-  const request = axios.get(baseUrl, config)
-  return request.then(response => response.data)
+  const url = id ? `${baseUrl}/${id}` : baseUrl
+  return axios.get(url, config).then(response => response.data)
 }
 
 /*

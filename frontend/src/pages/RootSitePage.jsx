@@ -8,7 +8,7 @@ const RootSitePage = () => {
 
   useEffect(() => {
     SiteService
-      .getRoot()
+      .get()
       .then(initialSites => setRootSites(initialSites))
   }, [])
 
