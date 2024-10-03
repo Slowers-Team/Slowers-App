@@ -1,11 +1,9 @@
 package main
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"strings"
 	"testing"
@@ -16,19 +14,8 @@ import (
 
 	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/Slowers-team/Slowers-App/handlers"
+	"github.com/Slowers-team/Slowers-App/utils"
 )
-
-func flowersToJSON(flowers []database.Flower) string {
-	flowersJSON, err := json.Marshal(flowers)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return string(flowersJSON)
-}
-
-func idToJSON(id string) string {
-	return "{\"id\": \"" + id + "\"}"
-}
 
 type testCase struct {
 	description   string
@@ -60,7 +47,7 @@ func TestFlowersRoute(t *testing.T) {
 			body:          "",
 			expectedError: false,
 			expectedCode:  200,
-			expectedBody:  flowersToJSON(testFlowers),
+			expectedBody:  utils.FlowersToJSON(testFlowers),
 			setupMocks:    func(db *database.MockDatabase) {
 				db.On(
 					"GetFlowers", mock.Anything,
@@ -89,7 +76,7 @@ func TestFlowersRoute(t *testing.T) {
 			description:   "DELETE /api/flowers/<id>",
 			route:         "/api/flowers/" + testID,
 			method:        "DELETE",
-			body:          idToJSON(testID),
+			body:          utils.IDToJSON(testID),
 			expectedError: false,
 			expectedCode:  204,
 			expectedBody:  "",
