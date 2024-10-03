@@ -2,8 +2,7 @@ import './App.css';
 import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
 import LogInPage from './pages/LogInPage';
-import RootSitePage from './pages/RootSitePage';
-import SingleSitePage from './pages/SingleSitePage';
+import SitePage from './pages/SitePage';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
@@ -35,25 +34,30 @@ const App = () => {
             {isLoggedIn && <Link onClick={handleLogout}>Logout</Link>}
           </nav>
           <Routes>
-            <Route path="/" element={isLoggedIn ? <RootSitePage /> : <Navigate replace to="/login" />} />
-            <Route path="/login" element={!isLoggedIn ? <LogInPage onLogin={handleLogout} setIsLoggedIn={setIsLoggedIn} /> : <Navigate replace to="/" />} />
-            <Route path="/register" element={<RegisterPage />} />
             <Route
+              path="/"
+              element={
+                isLoggedIn ? <SitePage /> : <Navigate replace to="/login" />
+              }
+              />
+            <Route path="/login" element={
+              !isLoggedIn ? <LogInPage onLogin={handleLogout} setIsLoggedIn={setIsLoggedIn} /> 
+                          : <Navigate replace to="/" />} 
+            />
+            <Route path="/register" element={<RegisterPage />} />
+
+      	    <Route
               path="/site"
               element={
-                isLoggedIn ? <RootSitePage /> : <Navigate replace to="/login" />
+                isLoggedIn ? <SitePage /> : <Navigate replace to="/login" />
               }
             />
             <Route
               path="/site/:id"
               element={
-                isLoggedIn ? (
-                  <SingleSitePage />
-                ) : (
-                  <Navigate replace to="/login" />
-                )
+                isLoggedIn ? <SitePage /> : <Navigate replace to="/login" />
               }
-            />
+            />  
             <Route path="/flowers" element={<HomePage />} />
           </Routes>
         </div>

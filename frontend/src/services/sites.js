@@ -85,5 +85,5 @@ const fetchToken = () => {
 }
 
 export default {
-  create, getRoot, get, remove
+  create, get, remove
 }
