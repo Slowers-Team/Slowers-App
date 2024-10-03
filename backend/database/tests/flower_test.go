@@ -1,4 +1,4 @@
-package database
+package tests
 
 import (
 	"context"
@@ -9,15 +9,17 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/suite"
+
+	"github.com/Slowers-team/Slowers-App/database"
 )
 
 type DbFlowerTestSuite struct {
 	suite.Suite
-	Db Database
+	Db database.Database
 }
 
 func (suite *DbFlowerTestSuite) SetupTest() {
-	if err := godotenv.Load("../.env"); err != nil {
+	if err := godotenv.Load("../../.env"); err != nil {
 		log.Println("No .env file found")
 	}
 
@@ -26,7 +28,7 @@ func (suite *DbFlowerTestSuite) SetupTest() {
 		log.Fatal("Set your 'MONGODB_URI' environment variable.")
 	}
 
-	suite.Db = NewMongoDatabase(databaseURI)
+	suite.Db = database.NewMongoDatabase(databaseURI)
 	if err := suite.Db.Connect("SlowersTest"); err != nil {
 		log.Fatal(err)
 	}
@@ -35,13 +37,13 @@ func (suite *DbFlowerTestSuite) SetupTest() {
 func (suite *DbFlowerTestSuite) TestAddFlower() {
 	db := suite.Db
 
-	flower := Flower{
+	flower := database.Flower{
 		Name: "sunflower",
 		LatinName: "Helianthus annuus",
 		AddedTime: time.Date(2024, 9, 30, 21, 11, 54, 0, time.UTC),
 	}
 
-	var createdFlower *Flower
+	var createdFlower *database.Flower
 	var err error
 	createdFlower, err = db.AddFlower(context.Background(), flower)
 
