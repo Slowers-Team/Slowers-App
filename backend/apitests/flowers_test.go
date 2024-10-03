@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/mock"
 
 	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/testdata"
 	sltest "github.com/Slowers-team/Slowers-App/testing"
 	"github.com/Slowers-team/Slowers-App/utils"
 )
@@ -19,12 +20,12 @@ func TestListingFlowersWithoutError(t *testing.T) {
 		Body:          "",
 		ExpectedError: false,
 		ExpectedCode:  200,
-		ExpectedBody:  utils.FlowersToJSON(sltest.GetTestFlowers()),
+		ExpectedBody:  utils.FlowersToJSON(testdata.GetTestFlowers()),
 		SetupMocks:    func(db *database.MockDatabase) {
 			db.On(
 				"GetFlowers", mock.Anything,
 			).Return(
-				sltest.GetTestFlowers(), nil,
+				testdata.GetTestFlowers(), nil,
 			).Once()
 		},
 	})
@@ -52,15 +53,15 @@ func TestListingFlowersWithError(t *testing.T) {
 func TestDeletingFlower(t *testing.T) {
 	sltest.RunTest(t, sltest.TestCase{
 		Description:   "DELETE /api/flowers/<id>",
-		Route:         "/api/flowers/" + sltest.GetTestID(),
+		Route:         "/api/flowers/" + testdata.GetTestID(),
 		Method:        "DELETE",
-		Body:          utils.IDToJSON(sltest.GetTestID()),
+		Body:          utils.IDToJSON(testdata.GetTestID()),
 		ExpectedError: false,
 		ExpectedCode:  204,
 		ExpectedBody:  "",
 		SetupMocks:    func(db *database.MockDatabase) {
 			db.On(
-				"DeleteFlower", mock.Anything, sltest.GetTestID(),
+				"DeleteFlower", mock.Anything, testdata.GetTestID(),
 			).Return(
 				true, nil,
 			).Once()
