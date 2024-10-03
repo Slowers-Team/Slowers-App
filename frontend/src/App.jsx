@@ -38,8 +38,22 @@ const App = () => {
             <Route path="/" element={isLoggedIn ? <RootSitePage /> : <Navigate replace to="/login" />} />
             <Route path="/login" element={!isLoggedIn ? <LogInPage onLogin={handleLogout} setIsLoggedIn={setIsLoggedIn} /> : <Navigate replace to="/" />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/site" element={<RootSitePage />} />
-            <Route path="/site/:id" element={<SingleSitePage />} />
+            <Route
+              path="/site"
+              element={
+                isLoggedIn ? <RootSitePage /> : <Navigate replace to="/login" />
+              }
+            />
+            <Route
+              path="/site/:id"
+              element={
+                isLoggedIn ? (
+                  <SingleSitePage />
+                ) : (
+                  <Navigate replace to="/login" />
+                )
+              }
+            />
             <Route path="/flowers" element={<HomePage />} />
           </Routes>
         </div>
