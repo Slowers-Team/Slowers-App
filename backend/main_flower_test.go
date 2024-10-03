@@ -12,6 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
+	"github.com/Slowers-team/Slowers-App/application"
 	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/Slowers-team/Slowers-App/handlers"
 	"github.com/Slowers-team/Slowers-App/utils"
@@ -96,7 +97,7 @@ func TestFlowersRoute(t *testing.T) {
 
 func runTests(t *testing.T, tests []testCase) {
 	for i, test := range tests {
-		app := SetupAppAndSetAuthTo(false)
+		app := application.SetupAndSetAuthTo(false)
 
 		db := new(database.MockDatabase)
 		handlers.SetDatabase(db)
