@@ -13,6 +13,16 @@ func GetTestFlowers() []database.Flower {
 			LatinName: "Helianthus annuus",
 			AddedTime: time.Date(2024, 9, 30, 21, 11, 54, 0, time.UTC),
 		},
+		{
+			Name: "daisy",
+			LatinName: "Bellis perennis",
+			AddedTime: time.Date(2024, 8, 27, 7, 4, 32, 0, time.UTC),
+		},
+		{
+			Name: "spring crocus",
+			LatinName: "Crocus vernus",
+			AddedTime: time.Date(2024, 9, 29, 19, 58, 1, 0, time.UTC),
+		},
 	}
 }
 
