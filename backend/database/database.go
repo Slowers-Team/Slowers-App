@@ -22,8 +22,8 @@ type Database interface {
 	GetUserByEmail(ctx context.Context, email string) (*User, error)
 
 	GetFlowers(ctx context.Context) ([]Flower, error)
-    AddFlower(ctx context.Context, newFlower Flower) (*Flower, error)
-    DeleteFlower(ctx context.Context, id string) (bool, error)
+	AddFlower(ctx context.Context, newFlower Flower) (*Flower, error)
+	DeleteFlower(ctx context.Context, id string) (bool, error)
 
 	AddSite(ctx context.Context, newSite Site) (*Site, error)
 	GetRootSites(ctx context.Context) ([]Site, error)
