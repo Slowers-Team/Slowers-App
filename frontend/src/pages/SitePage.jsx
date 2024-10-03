@@ -59,37 +59,52 @@ const SitePage = () => {
     }
   }
 
+  const handleBack = () => {
+    navigate(-1)
+  }
+
   return (
-    <div>
+    <>
       {params.id ? (
-        <>
-          <h2>{site?.name}</h2>
-          <button id="deleteSiteButton" onClick={() => deleteSite(site)}>
-            Delete this site
-          </button>
-          <p>{site?.note}</p>
-          <div>
-            <button
-              id="showFlowerAddingFormButton"
-              onClick={() => setShowAddNewFlower(!showAddNewFlower)}
-            >
-              Add a new flower
-            </button>
-            {showAddNewFlower && (
-              <FlowerForm createFlower={addFlower} siteID={params.id} />
-            )}
+        <div className="layout-container">
+          <header className="header">
+            <h1>{site?.name}</h1>
+            <p>{site?.note}</p>
+          </header>
+          <div className="content">
+            <aside className="side-container">
+              <button
+                id="showFlowerAddingFormButton"
+                onClick={() => setShowAddNewFlower(!showAddNewFlower)}
+              >
+                Add a new flower
+              </button>
+              {showAddNewFlower && (
+                <FlowerForm createFlower={addFlower} siteID={params.id} />
+              )}
+            </aside>
+            <main className="main-container">
+              <button onClick={handleBack}>Go back</button>
+              <button id="deleteSiteButton" onClick={() => deleteSite(site)}>
+                Delete this site
+              </button>
+              <SiteFlexbox createSite={createSite} sites={sites} />
+            </main>
           </div>
-        </>
+        </div>
       ) : (
         <>
-          <h2>Root Sites</h2>
-          <p>
-            <br />
-          </p>
+          <header className="header">
+            <h1>Root Sites</h1>
+          </header>
+          <div className="content">
+            <main className="main-container">
+              <SiteFlexbox createSite={createSite} sites={sites} />
+            </main>
+          </div>
         </>
       )}
-      <SiteFlexbox createSite={createSite} sites={sites} />
-    </div>
+    </>
   )
 }
 
