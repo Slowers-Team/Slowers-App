@@ -3,7 +3,6 @@ package main
 import (
 	"errors"
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/mock"
 
@@ -13,15 +12,8 @@ import (
 )
 
 func TestFlowersRoute(t *testing.T) {
-	testFlowers := []database.Flower{
-		{
-			Name: "sunflower",
-			LatinName: "Helianthus annuus",
-			AddedTime: time.Date(2024, 9, 30, 21, 11, 54, 0, time.UTC),
-		},
-	}
-
-	testID := "842af389e234e768923475bc"
+	testFlowers := sltest.GetTestFlowers()
+	testID := sltest.GetTestID()
 
 	tests := []sltest.TestCase{
 		{
