@@ -89,15 +89,6 @@ const SitePage = () => {
           </p>
         </>
       )}
-      {/* <div>
-        <button
-          id="showFlowerAddingFormButton"
-          onClick={() => setShowAddNewFlower(!showAddNewFlower)}
-        >
-          Add a new flower
-        </button>
-        {showAddNewFlower && <FlowerForm createFlower={addFlower} />}
-      </div> */}
       <SiteFlexbox createSite={createSite} sites={sites} />
     </div>
   )
