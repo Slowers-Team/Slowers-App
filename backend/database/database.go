@@ -5,7 +5,6 @@ import (
 	"log"
 	"time"
 
-	"github.com/stretchr/testify/mock"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -36,10 +35,6 @@ type MongoDatabase struct {
 	client *mongo.Client
 }
 
-type MockDatabase struct {
-	mock.Mock
-}
-
 type ObjectID = primitive.ObjectID
 
 var db *mongo.Database
@@ -68,24 +63,12 @@ func (mDb *MongoDatabase) Connect(databaseName string) error {
 	return nil
 }
 
-func (mDb *MockDatabase) Connect(databaseName string) error {
-	return nil
-}
-
 func (mDb *MongoDatabase) Disconnect() error {
 	return mDb.client.Disconnect(context.Background())
 }
 
-func (mDb *MockDatabase) Disconnect() error {
-	return nil
-}
-
 func (mDb *MongoDatabase) Clear() error {
 	return db.Drop(context.Background())
-}
-
-func (mDb *MockDatabase) Clear() error {
-	return nil
 }
 
 func IsValidID(id string) bool {

@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/mock"
 
 	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/mocks"
 	"github.com/Slowers-team/Slowers-App/testdata"
 	"github.com/Slowers-team/Slowers-App/testutils"
 	"github.com/Slowers-team/Slowers-App/utils"
@@ -21,7 +22,7 @@ func TestListingFlowersWithoutError(t *testing.T) {
 		ExpectedError: false,
 		ExpectedCode:  200,
 		ExpectedBody:  utils.FlowersToJSON(testdata.GetTestFlowers()),
-		SetupMocks:    func(db *database.MockDatabase) {
+		SetupMocks:    func(db *mocks.Database) {
 			db.On(
 				"GetFlowers", mock.Anything,
 			).Return(
@@ -40,7 +41,7 @@ func TestListingFlowersWithError(t *testing.T) {
 		ExpectedError: false,
 		ExpectedCode:  500,
 		ExpectedBody:  "Database error",
-		SetupMocks:    func(db *database.MockDatabase) {
+		SetupMocks:    func(db *mocks.Database) {
 			db.On(
 				"GetFlowers", mock.Anything,
 			).Return(
@@ -59,7 +60,7 @@ func TestDeletingFlower(t *testing.T) {
 		ExpectedError: false,
 		ExpectedCode:  204,
 		ExpectedBody:  "",
-		SetupMocks:    func(db *database.MockDatabase) {
+		SetupMocks:    func(db *mocks.Database) {
 			db.On(
 				"DeleteFlower", mock.Anything, testdata.GetTestID(),
 			).Return(

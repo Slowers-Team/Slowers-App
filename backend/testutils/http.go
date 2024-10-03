@@ -9,8 +9,8 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/Slowers-team/Slowers-App/application"
-	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/Slowers-team/Slowers-App/handlers"
+	"github.com/Slowers-team/Slowers-App/mocks"
 )
 
 type TestCase struct {
@@ -21,12 +21,12 @@ type TestCase struct {
 	ExpectedError bool
 	ExpectedCode  int
 	ExpectedBody  string
-	SetupMocks    func(db *database.MockDatabase)
+	SetupMocks    func(db *mocks.Database)
 }
 
 func RunTest(t *testing.T, test TestCase) {
 	app := application.SetupAndSetAuthTo(false)
-	db := new(database.MockDatabase)
+	db := mocks.NewDatabase(t)
 	handlers.SetDatabase(db)
 
 	test.SetupMocks(db)
