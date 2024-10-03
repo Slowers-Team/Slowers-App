@@ -32,7 +32,6 @@ type User struct {
 	Email    string             `json:"email"`
 }
 
-
 type LogIn struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
@@ -88,16 +87,16 @@ func main() {
 	app.Post("/api/register", createUser)
 	app.Post("/api/login", handleLogin)
 
-	app.Post("/api/sites", addSite)
-	app.Get("/api/sites", getRootSites)
-	app.Get("/api/sites/:id", getSite)
-	app.Delete("/api/sites/:id", deleteSite)
-
 	app.Use(AuthMiddleware)
 
 	app.Post("/api/flowers", addFlower)
 	app.Get("/api/flowers", getFlowers)
 	app.Delete("/api/flowers/:id", deleteFlower)
+
+	app.Post("/api/sites", addSite)
+	app.Get("/api/sites", getRootSites)
+	app.Get("/api/sites/:id", getSite)
+	app.Delete("/api/sites/:id", deleteSite)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -145,7 +144,11 @@ func addFlower(c *fiber.Ctx) error {
 	createdRecord := collection.FindOne(c.Context(), filter)
 
 	createdFlower := &Flower{}
-	createdRecord.Decode(createdFlower)
+	err = createdRecord.Decode(createdFlower)
+
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
 
 	return c.Status(201).JSON(createdFlower)
 }
@@ -212,7 +215,10 @@ func createUser(c *fiber.Ctx) error {
 	createdRecord := userCollection.FindOne(c.Context(), filter)
 
 	createdUser := &User{}
-	createdRecord.Decode(createdUser)
+	err = createdRecord.Decode(createdUser)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
 
 	return c.SendStatus(201)
 }

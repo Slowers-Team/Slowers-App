@@ -23,20 +23,26 @@ type Site struct {
 }
 
 func addSite(c *fiber.Ctx) error {
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	userID, err := primitive.ObjectIDFromHex(user)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
 	site := new(Site)
 
 	if err := c.BodyParser(site); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	log.Println("received:", site)
-
 	if site.Name == "" {
 		return c.Status(400).SendString("Site name cannot be empty")
 	}
 
 	newSite := Site{Name: site.Name, Note: site.Note, AddedTime: time.Now(),
-		Parent: site.Parent, Flowers: make([]*primitive.ObjectID, 0), Owner: site.Owner}
+		Parent: site.Parent, Flowers: make([]*primitive.ObjectID, 0), Owner: &userID}
 
 	insertResult, err := sites.InsertOne(c.Context(), newSite)
 	if err != nil {
@@ -49,13 +55,26 @@ func addSite(c *fiber.Ctx) error {
 	createdRecord := sites.FindOne(c.Context(), filter)
 
 	createdSite := &Site{}
-	createdRecord.Decode(createdSite)
+	err = createdRecord.Decode(createdSite)
+
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
 
 	return c.Status(201).JSON(createdSite)
 }
 
 func getRootSites(c *fiber.Ctx) error {
-	cursor, err := sites.Find(c.Context(), bson.D{{"parent", nil}})
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	userID, err := primitive.ObjectIDFromHex(user)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	cursor, err := sites.Find(c.Context(), bson.M{"parent": nil, "owner": userID})
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
@@ -64,12 +83,20 @@ func getRootSites(c *fiber.Ctx) error {
 	if err := cursor.All(c.Context(), &foundSites); err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
-	log.Println(foundSites)
 
 	return c.JSON(foundSites)
 }
 
 func getSite(c *fiber.Ctx) error {
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	userID, err := primitive.ObjectIDFromHex(user)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
 	id := c.Params("id")
 	siteID, err := primitive.ObjectIDFromHex(id)
 
@@ -79,7 +106,7 @@ func getSite(c *fiber.Ctx) error {
 
 	var resultSite bson.M
 
-	filter := bson.M{"_id": siteID}
+	filter := bson.M{"_id": siteID, "owner": userID}
 	idErr := sites.FindOne(c.Context(), filter).Decode(&resultSite)
 
 	if idErr != nil {
@@ -89,11 +116,9 @@ func getSite(c *fiber.Ctx) error {
 		return c.Status(500).SendString(idErr.Error())
 	}
 
-	log.Println("found site:", resultSite)
-
-	matchStage := bson.D{{"$match", bson.D{{"parent", siteID}}}}
-	sortStage := bson.D{{"$sort", bson.D{{"name", 1}}}}
-	unsetStage := bson.D{{"$unset", bson.A{"parent", "addedTime", "owner", "flowers", "added_time"}}}
+	matchStage := bson.D{{Key: "$match", Value: bson.D{{Key: "parent", Value: siteID}}}}
+	sortStage := bson.D{{Key: "$sort", Value: bson.D{{Key: "name", Value: 1}}}}
+	unsetStage := bson.D{{Key: "$unset", Value: bson.A{"parent", "addedTime", "owner", "flowers", "added_time"}}}
 
 	cursor, err := sites.Aggregate(c.Context(), mongo.Pipeline{matchStage, sortStage, unsetStage})
 	if err != nil {
@@ -106,15 +131,21 @@ func getSite(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	log.Println("subsites:", subSites)
-
 	result := bson.M{"site": resultSite, "subsites": subSites}
-	log.Println("result:", result)
 
 	return c.JSON(result)
 }
 
 func deleteSite(c *fiber.Ctx) error {
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	userID, err := primitive.ObjectIDFromHex(user)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
 	id := c.Params("id")
 	siteID, err := primitive.ObjectIDFromHex(id)
 
@@ -124,31 +155,32 @@ func deleteSite(c *fiber.Ctx) error {
 
 	// Start pipeline with top level parent Site
 	matchStage := bson.D{
-		{"$match", bson.D{
-			{"_id", siteID},
+		{Key: "$match", Value: bson.D{
+			{Key: "_id", Value: siteID},
+			{Key: "owner", Value: userID},
 		}},
 	}
 	// Search for all children and their children
 	graphLookupStage := bson.D{
-		{"$graphLookup", bson.D{
-			{"from", "sites"},
-			{"startWith", "$_id"},
-			{"connectFromField", "_id"},
-			{"connectToField", "parent"},
-			{"as", "related"},
+		{Key: "$graphLookup", Value: bson.D{
+			{Key: "from", Value: "sites"},
+			{Key: "startWith", Value: "$_id"},
+			{Key: "connectFromField", Value: "_id"},
+			{Key: "connectToField", Value: "parent"},
+			{Key: "as", Value: "related"},
 		}},
 	}
 	// Open up array of documents to a stream of documents
 	unwindStage := bson.D{
-		{"$unwind", bson.D{
-			{"path", "$id"},
+		{Key: "$unwind", Value: bson.D{
+			{Key: "path", Value: "$id"},
 		},
 		}}
 	// Strip down everything except _id for each child Site
 	projectStage := bson.D{
-		{"$project", bson.D{
-			{"_id", 0},
-			{"id", "$related._id"},
+		{Key: "$project", Value: bson.D{
+			{Key: "_id", Value: 0},
+			{Key: "id", Value: "$related._id"},
 		}},
 	}
 

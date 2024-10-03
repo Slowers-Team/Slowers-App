@@ -19,7 +19,7 @@ const HomePage = () => {
         .then(returnedFlower => setFlowers(flowers.concat(returnedFlower)))
         .catch(error => {
           console.log(error)
-          alert(`Adding failed`)
+          alert('Adding failed')
         })
     }
   
@@ -36,6 +36,7 @@ const HomePage = () => {
 
   return (
     <div>
+      <h2>Flowers</h2>
       <button id="showFlowerAddingFormButton" onClick={() => setShowAddNewFlower(!showAddNewFlower)}>Add a new flower</button>
       {showAddNewFlower && <FlowerForm createFlower={addFlower}/>}
       {flowers && <FlowerList flowers={flowers} deleteFlower={deleteFlower} />}
