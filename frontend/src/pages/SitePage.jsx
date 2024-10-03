@@ -1,8 +1,9 @@
-
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 
 import SiteService from "../services/sites"
+import flowerService from "../services/flowers"
+import FlowerForm from "../components/FlowerForm"
 import SiteFlexbox from "../components/SiteFlexbox"
 
 const SitePage = () => {
@@ -10,6 +11,7 @@ const SitePage = () => {
   const navigate = useNavigate()
   const [site, setSite] = useState({})
   const [sites, setSites] = useState([])
+  const [showAddNewFlower, setShowAddNewFlower] = useState(false)
 
   useEffect(() => {
     SiteService.get(params.id)
@@ -26,6 +28,16 @@ const SitePage = () => {
         navigate("/")
       })
   }, [params.id, navigate])
+
+  const addFlower = flowerObject => {
+    flowerService
+      .create(flowerObject)
+      .then(returnedFlower => setFlowers(flowers.concat(returnedFlower)))
+      .catch(error => {
+        console.log(error)
+        alert("Adding failed")
+      })
+  }
 
   const createSite = siteObject => {
     SiteService.create(siteObject)
@@ -68,6 +80,15 @@ const SitePage = () => {
           </p>
         </>
       )}
+      <div>
+        <button
+          id="showFlowerAddingFormButton"
+          onClick={() => setShowAddNewFlower(!showAddNewFlower)}
+        >
+          Add a new flower
+        </button>
+        {showAddNewFlower && <FlowerForm createFlower={addFlower} />}
+      </div>
       <SiteFlexbox createSite={createSite} sites={sites} />
     </div>
   )
