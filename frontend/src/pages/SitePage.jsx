@@ -75,7 +75,9 @@ const SitePage = () => {
             >
               Add a new flower
             </button>
-            {showAddNewFlower && <FlowerForm createFlower={addFlower} />}
+            {showAddNewFlower && (
+              <FlowerForm createFlower={addFlower} siteID={params.id} />
+            )}
           </div>
         </>
       ) : (
