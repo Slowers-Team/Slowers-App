@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/suite"
 
 	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/Slowers-team/Slowers-App/mocks"
@@ -13,7 +14,18 @@ import (
 	"github.com/Slowers-team/Slowers-App/utils"
 )
 
-func TestListingFlowersWithoutError(t *testing.T) {
+type FlowersAPITestSuite struct {
+	suite.Suite
+	TestFlowers []database.Flower
+	TestFlowersConcise []database.Flower
+}
+
+func (s *FlowersAPITestSuite) SetupSuite() {
+	s.TestFlowers = testdata.GetTestFlowers()
+	s.TestFlowersConcise = testdata.GetTestFlowersConcise()
+}
+
+func (s *FlowersAPITestSuite) TestListingFlowersWithoutError(t *testing.T) {
 	testutils.RunTest(t, testutils.TestCase{
 		Description:   "\"GET /api/flowers\" without error",
 		Route:         "/api/flowers",
@@ -21,18 +33,18 @@ func TestListingFlowersWithoutError(t *testing.T) {
 		Body:          "",
 		ExpectedError: false,
 		ExpectedCode:  200,
-		ExpectedBody:  utils.FlowersToJSON(testdata.GetTestFlowers()),
+		ExpectedBody:  utils.FlowersToJSON(s.TestFlowers),
 		SetupMocks:    func(db *mocks.Database) {
 			db.On(
 				"GetFlowers", mock.Anything,
 			).Return(
-				testdata.GetTestFlowers(), nil,
+				s.TestFlowers, nil,
 			).Once()
 		},
 	})
 }
 
-func TestListingFlowersWithError(t *testing.T) {
+func (s *FlowersAPITestSuite) TestListingFlowersWithError(t *testing.T) {
 	testutils.RunTest(t, testutils.TestCase{
 		Description:   "\"GET /api/flowers\" with error",
 		Route:         "/api/flowers",
@@ -51,10 +63,10 @@ func TestListingFlowersWithError(t *testing.T) {
 	})
 }
 
-func TestDeletingFlower(t *testing.T) {
+func (s *FlowersAPITestSuite) TestDeletingFlower(t *testing.T) {
 	testutils.RunTest(t, testutils.TestCase{
 		Description:   "DELETE /api/flowers/<id>",
-		Route:         "/api/flowers/" + testdata.GetTestFlowers()[0].ID.String(),
+		Route:         "/api/flowers/" + s.TestFlowers[0].ID.String(),
 		Method:        "DELETE",
 		Body:          "",
 		ExpectedError: false,
@@ -62,7 +74,7 @@ func TestDeletingFlower(t *testing.T) {
 		ExpectedBody:  "",
 		SetupMocks:    func(db *mocks.Database) {
 			db.On(
-				"DeleteFlower", mock.Anything, testdata.GetTestFlowers()[0].ID.String(),
+				"DeleteFlower", mock.Anything, s.TestFlowers[0].ID.String(),
 			).Return(
 				true, nil,
 			).Once()
