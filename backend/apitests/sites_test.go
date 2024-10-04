@@ -1,0 +1,165 @@
+package apitests
+
+import (
+	"context"
+	"encoding/json"
+	"log"
+	"testing"
+	"time"
+
+	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/suite"
+	"go.mongodb.org/mongo-driver/mongo"
+
+	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/mocks"
+	"github.com/Slowers-team/Slowers-App/testdata"
+	"github.com/Slowers-team/Slowers-App/testutils"
+	"github.com/Slowers-team/Slowers-App/utils"
+)
+
+type SitesAPITestSuite struct {
+	suite.Suite
+	TestFlowers []database.Flower
+	TestFlowersConcise []database.Flower
+	RootSites []database.Site
+}
+
+func (s *SitesAPITestSuite) SetupSuite() {
+	s.TestFlowers = testdata.GetTestFlowers()
+	s.TestFlowersConcise = testdata.GetTestFlowersConcise()
+	s.RootSites = testdata.GetRootSites()
+}
+
+func (s *SitesAPITestSuite) TestListingRootSites() {
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:   "GET /api/sites",
+		Route:         "/api/sites",
+		Method:        "GET",
+		Body:          "",
+		ExpectedError: false,
+		ExpectedCode:  200,
+		ExpectedBody:  utils.SitesToJSON(s.RootSites),
+		SetupMocks:    func(db *mocks.Database) {
+			db.EXPECT().GetRootSites(
+				mock.Anything,
+			).Return(
+				s.RootSites, nil,
+			).Once()
+		},
+	})
+}
+
+func (s *SitesAPITestSuite) TestFetchingSite() {
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:   "GET /api/sites/<id>",
+		Route:         "/api/sites/" + s.RootSites[0].ID.Hex(),
+		Method:        "GET",
+		Body:          "",
+		ExpectedError: false,
+		ExpectedCode:  200,
+		ExpectedBody:  utils.SiteDataToJSON(testdata.GetSite()),
+		SetupMocks:    func(db *mocks.Database) {
+			db.EXPECT().GetSite(
+				mock.Anything, s.RootSites[0].ID.Hex(),
+			).Return(
+				testdata.GetSite(), nil,
+			).Once()
+		},
+	})
+}
+
+func (s *SitesAPITestSuite) TestAddingSite() {
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:      "POST /api/sites",
+		Route:            "/api/sites",
+		Method:           "POST",
+		Body:             utils.SiteToJSON(database.Site{
+			Flowers: s.RootSites[0].Flowers,
+			Name: s.RootSites[0].Name,
+			Note: s.RootSites[0].Note,
+			Owner: s.RootSites[0].Owner,
+			Parent: s.RootSites[0].Parent,
+		}),
+		ExpectedError:    false,
+		ExpectedCode:     201,
+		ExpectedBodyFunc: func(body string) bool {
+			site := database.Site{}
+			json.Unmarshal([]byte(body), &site)
+			log.Println("unmarshalled site:", site)
+			s.Equal(
+				site.ID.Hex(),
+				s.RootSites[0].ID.Hex(),
+				"added site has wrong ID",
+			)
+			s.Less(
+				time.Since(site.AddedTime).Seconds(),
+				10.0,
+				"added site has invalid AddedTime",
+			)
+			s.True(
+				utils.AreIDPtrSlicesEql(site.Flowers, s.RootSites[0].Flowers),
+				"added site has wrong flowers",
+			)
+			s.Equal(
+				site.Name,
+				s.RootSites[0].Name,
+				"added site has wrong name",
+			)
+			s.Equal(
+				site.Note,
+				s.RootSites[0].Note,
+				"added site has wrong note",
+			)
+			s.Equal(
+				site.Owner,
+				s.RootSites[0].Owner,
+				"added site has wrong owner",
+			)
+			s.Equal(
+				site.Parent,
+				s.RootSites[0].Parent,
+				"added site has wrong parent",
+			)
+			return true
+		},
+		SetupMocks:       func(db *mocks.Database) {
+			db.EXPECT().AddSite(
+				mock.Anything, mock.Anything,
+			).RunAndReturn(func(ctx context.Context, newSite database.Site) (*database.Site, error) {
+				return &database.Site{
+					ID: s.RootSites[0].ID,
+					AddedTime: newSite.AddedTime,
+					Flowers: newSite.Flowers,
+					Name: newSite.Name,
+					Note: newSite.Note,
+					Owner: newSite.Owner,
+					Parent: newSite.Parent,
+				}, nil
+			}).Once()
+		},
+	})
+}
+
+func (s *SitesAPITestSuite) TestDeletingSite() {
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:   "DELETE /api/sites/<id>",
+		Route:         "/api/sites/" + s.RootSites[0].ID.Hex(),
+		Method:        "DELETE",
+		Body:          "",
+		ExpectedError: false,
+		ExpectedCode:  200,
+		ExpectedBody:  "{\"DeletedCount\":1}",
+		SetupMocks:    func(db *mocks.Database) {
+			db.EXPECT().DeleteSite(
+				mock.Anything, s.RootSites[0].ID.Hex(),
+			).Return(
+				&mongo.DeleteResult{DeletedCount: 1}, nil,
+			).Once()
+		},
+	})
+}
+
+func TestSitesAPITestSuite(t *testing.T) {
+	suite.Run(t, new(SitesAPITestSuite))
+}
