@@ -25,8 +25,8 @@ func (s *FlowersAPITestSuite) SetupSuite() {
 	s.TestFlowersConcise = testdata.GetTestFlowersConcise()
 }
 
-func (s *FlowersAPITestSuite) TestListingFlowersWithoutError(t *testing.T) {
-	testutils.RunTest(t, testutils.TestCase{
+func (s *FlowersAPITestSuite) TestListingFlowersWithoutError() {
+	testutils.RunTest(s.T(), testutils.TestCase{
 		Description:   "\"GET /api/flowers\" without error",
 		Route:         "/api/flowers",
 		Method:        "GET",
@@ -44,8 +44,8 @@ func (s *FlowersAPITestSuite) TestListingFlowersWithoutError(t *testing.T) {
 	})
 }
 
-func (s *FlowersAPITestSuite) TestListingFlowersWithError(t *testing.T) {
-	testutils.RunTest(t, testutils.TestCase{
+func (s *FlowersAPITestSuite) TestListingFlowersWithError() {
+	testutils.RunTest(s.T(), testutils.TestCase{
 		Description:   "\"GET /api/flowers\" with error",
 		Route:         "/api/flowers",
 		Method:        "GET",
@@ -63,10 +63,10 @@ func (s *FlowersAPITestSuite) TestListingFlowersWithError(t *testing.T) {
 	})
 }
 
-func (s *FlowersAPITestSuite) TestDeletingFlower(t *testing.T) {
-	testutils.RunTest(t, testutils.TestCase{
+func (s *FlowersAPITestSuite) TestDeletingFlower() {
+	testutils.RunTest(s.T(), testutils.TestCase{
 		Description:   "DELETE /api/flowers/<id>",
-		Route:         "/api/flowers/" + s.TestFlowers[0].ID.String(),
+		Route:         "/api/flowers/" + s.TestFlowers[0].ID.Hex(),
 		Method:        "DELETE",
 		Body:          "",
 		ExpectedError: false,
@@ -74,10 +74,14 @@ func (s *FlowersAPITestSuite) TestDeletingFlower(t *testing.T) {
 		ExpectedBody:  "",
 		SetupMocks:    func(db *mocks.Database) {
 			db.EXPECT().DeleteFlower(
-				mock.Anything, s.TestFlowers[0].ID.String(),
+				mock.Anything, s.TestFlowers[0].ID.Hex(),
 			).Return(
 				true, nil,
 			).Once()
 		},
 	})
+}
+
+func TestFlowersAPITestSuite(t *testing.T) {
+	suite.Run(t, new(FlowersAPITestSuite))
 }
