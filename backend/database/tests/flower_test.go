@@ -44,11 +44,68 @@ func (s *DbFlowerTestSuite) TestAddFlower() {
 		flower.AddedTime,
 		"wrong AddedTime for the flower returned from AddFlower()",
 	)
-	s.NotEmpty(
+	s.NotZero(
 		createdFlower.ID,
-		"ID for the created flower should not be empty",
+		"ID for the created flower should be non-zero",
 	)
 }
+
+func (s *DbFlowerTestSuite) TestAddAndGetFlower() {
+	flower := testdata.GetTestFlowersConcise()[0]
+	s.Db.AddFlower(context.Background(), flower)
+	fetchedFlowers, err := s.Db.GetFlowers(context.Background())
+
+	s.NoError(
+		err,
+		"GetFlowers() should not return an error",
+	)
+	s.Len(
+		fetchedFlowers,
+		1,
+		"GetFlowers() should return a slice of length 1",
+	)
+	s.NotZero(
+		fetchedFlowers[0].ID,
+		"fetched flower should have non-zero ID",
+	)
+	s.Equal(
+		fetchedFlowers[0].Name,
+		flower.Name,
+		"wrong Name for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		fetchedFlowers[0].LatinName,
+		flower.LatinName,
+		"wrong LatinName for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		fetchedFlowers[0].AddedTime,
+		flower.AddedTime,
+		"wrong AddedTime for the flower returned from GetFlowers()",
+	)
+}
+
+func (s *DbFlowerTestSuite) TestAddAndDeleteFlower() {
+	flower, _ := s.Db.AddFlower(context.Background(), testdata.GetTestFlowersConcise()[0])
+	anyDeleted, err := s.Db.DeleteFlower(context.Background(), flower.ID.Hex())
+
+	s.True(
+		anyDeleted,
+		"DeleteFlowers() should return true",
+	)
+	s.NoError(
+		err,
+		"DeleteFlowers() should not return an error",
+	)
+
+	fetchedFlowers, _ := s.Db.GetFlowers(context.Background())
+
+	s.Empty(
+		fetchedFlowers,
+		"deleted flower should not be returned by GetFlowers()",
+	)
+}
+
 
 func (s *DbFlowerTestSuite) TearDownTest() {
 	s.Db.Clear()
