@@ -19,10 +19,12 @@ import (
 )
 
 type Flower struct {
-	ID        primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name      string             `json:"name"`
-	LatinName string             `json:"latin_name" bson:"latin_name"`
-	AddedTime time.Time          `json:"added_time" bson:"added_time"`
+	ID        primitive.ObjectID  `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name      string              `json:"name"`
+	LatinName string              `json:"latin_name" bson:"latin_name"`
+	AddedTime time.Time           `json:"added_time" bson:"added_time"`
+	Grower    *primitive.ObjectID `json:"grower"`
+	Site      *primitive.ObjectID `json:"site"`
 }
 
 type User struct {
@@ -31,7 +33,6 @@ type User struct {
 	Password string             `json:"password"`
 	Email    string             `json:"email"`
 }
-
 
 type LogIn struct {
 	Email    string `json:"email"`
@@ -88,16 +89,16 @@ func main() {
 	app.Post("/api/register", createUser)
 	app.Post("/api/login", handleLogin)
 
-	app.Post("/api/sites", addSite)
-	app.Get("/api/sites", getRootSites)
-	app.Get("/api/sites/:id", getSite)
-	app.Delete("/api/sites/:id", deleteSite)
-
 	app.Use(AuthMiddleware)
 
 	app.Post("/api/flowers", addFlower)
 	app.Get("/api/flowers", getFlowers)
 	app.Delete("/api/flowers/:id", deleteFlower)
+
+	app.Post("/api/sites", addSite)
+	app.Get("/api/sites", getRootSites)
+	app.Get("/api/sites/:id", getSite)
+	app.Delete("/api/sites/:id", deleteSite)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -124,8 +125,16 @@ func getFlowers(c *fiber.Ctx) error {
 }
 
 func addFlower(c *fiber.Ctx) error {
-	flower := new(Flower)
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	userID, err := primitive.ObjectIDFromHex(user)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
 
+	flower := new(Flower)
 	if err := c.BodyParser(flower); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
@@ -134,18 +143,39 @@ func addFlower(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Flower name cannot be empty")
 	}
 
-	newFlower := Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now()}
+	if flower.Site == nil {
+		return c.Status(400).SendString("SiteID is required")
+	}
+
+	siteID, err := primitive.ObjectIDFromHex(flower.Site.Hex())
+	if err != nil {
+		return c.Status(400).SendString("Invalid siteID")
+	}
+
+	newFlower := Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(), Grower: &userID, Site: &siteID}
 
 	insertResult, err := collection.InsertOne(c.Context(), newFlower)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
 
+	flowerID := insertResult.InsertedID.(primitive.ObjectID)
+
+	update := bson.M{"$push": bson.M{"flowers": flowerID}}
+	_, err = sites.UpdateOne(c.Context(), bson.M{"_id": siteID}, update)
+	if err != nil {
+		return c.Status(500).SendString("Failed to update site with flower ID: " + err.Error())
+	}
+
 	filter := bson.M{"_id": insertResult.InsertedID}
 	createdRecord := collection.FindOne(c.Context(), filter)
 
 	createdFlower := &Flower{}
-	createdRecord.Decode(createdFlower)
+	err = createdRecord.Decode(createdFlower)
+
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
 
 	return c.Status(201).JSON(createdFlower)
 }
@@ -212,7 +242,10 @@ func createUser(c *fiber.Ctx) error {
 	createdRecord := userCollection.FindOne(c.Context(), filter)
 
 	createdUser := &User{}
-	createdRecord.Decode(createdUser)
+	err = createdRecord.Decode(createdUser)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
 
 	return c.SendStatus(201)
 }

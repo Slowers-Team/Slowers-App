@@ -14,6 +14,7 @@ const create = newFlower => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
   }
+  console.log(newFlower)
   const request = axios.post(baseUrl, newFlower, config)
   return request.then(response => response.data)
 }
@@ -26,5 +27,7 @@ const remove = id => {
 }
 
 export default {
-  getAll, create, remove
+  getAll,
+  create,
+  remove,
 }

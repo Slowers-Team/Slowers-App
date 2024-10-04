@@ -1,0 +1,53 @@
+.flexbox {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+  border: 5px solid white ;
+}
+
+.flexGap {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.box {
+  text-align: center;
+  word-break: break-word;
+  border: 2px solid rgb(148, 216, 148);
+  border-radius: 5px;
+  padding: 30px;
+  width: 160px;
+  height: 150px;
+  box-shadow: 2px 2px rgb(160, 210, 160);
+}
+
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid black;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+}
+
+.side-container {
+  width: 250px;
+  padding: 1rem;
+  border-right: 1px solid black;
+}
+
+.main-container {
+  flex: 1;
+  padding: 1rem;
+}
