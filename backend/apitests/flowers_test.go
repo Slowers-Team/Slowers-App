@@ -35,8 +35,8 @@ func (s *FlowersAPITestSuite) TestListingFlowersWithoutError(t *testing.T) {
 		ExpectedCode:  200,
 		ExpectedBody:  utils.FlowersToJSON(s.TestFlowers),
 		SetupMocks:    func(db *mocks.Database) {
-			db.On(
-				"GetFlowers", mock.Anything,
+			db.EXPECT().GetFlowers(
+				mock.Anything,
 			).Return(
 				s.TestFlowers, nil,
 			).Once()
@@ -54,8 +54,8 @@ func (s *FlowersAPITestSuite) TestListingFlowersWithError(t *testing.T) {
 		ExpectedCode:  500,
 		ExpectedBody:  "Database error",
 		SetupMocks:    func(db *mocks.Database) {
-			db.On(
-				"GetFlowers", mock.Anything,
+			db.EXPECT().GetFlowers(
+				mock.Anything,
 			).Return(
 				[]database.Flower{}, errors.New("Database error"),
 			).Once()
@@ -73,8 +73,8 @@ func (s *FlowersAPITestSuite) TestDeletingFlower(t *testing.T) {
 		ExpectedCode:  204,
 		ExpectedBody:  "",
 		SetupMocks:    func(db *mocks.Database) {
-			db.On(
-				"DeleteFlower", mock.Anything, s.TestFlowers[0].ID.String(),
+			db.EXPECT().DeleteFlower(
+				mock.Anything, s.TestFlowers[0].ID.String(),
 			).Return(
 				true, nil,
 			).Once()
