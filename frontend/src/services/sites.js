@@ -1,5 +1,6 @@
 import axios from 'axios'
 const baseUrl = '/api/sites'
+import tokenService from './token'
 
 /*
   Create a new site
@@ -25,7 +26,7 @@ const baseUrl = '/api/sites'
 */
 const create = newSite =>  {
   const config = {
-    headers: { Authorization: fetchToken() },
+    headers: { Authorization: tokenService.fetchToken() },
   }
   const request = axios.post(baseUrl, newSite, config)
   return request.then(response => response.data)
@@ -57,7 +58,7 @@ const create = newSite =>  {
 */
 const get = (id = null) => {
   const config = {
-    headers: { Authorization: fetchToken() },
+    headers: { Authorization: tokenService.fetchToken() },
   }
   const url = id ? `${baseUrl}/${id}` : baseUrl
   return axios.get(url, config).then(response => response.data)
@@ -75,13 +76,9 @@ const get = (id = null) => {
 */
 const remove = id => {
   const config = {
-    headers: { Authorization: fetchToken() },
+    headers: { Authorization: tokenService.fetchToken() },
   }
   return axios.delete(`${baseUrl}/${id}`, config)
-}
-
-const fetchToken = () => {
-  return localStorage.getItem("token")
 }
 
 export default {
