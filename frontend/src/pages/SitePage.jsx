@@ -1,8 +1,9 @@
-
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 
 import SiteService from "../services/sites"
+import flowerService from "../services/flowers"
+import FlowerForm from "../components/FlowerForm"
 import SiteFlexbox from "../components/SiteFlexbox"
 
 const SitePage = () => {
@@ -10,6 +11,7 @@ const SitePage = () => {
   const navigate = useNavigate()
   const [site, setSite] = useState({})
   const [sites, setSites] = useState([])
+  const [showAddNewFlower, setShowAddNewFlower] = useState(false)
 
   useEffect(() => {
     SiteService.get(params.id)
@@ -26,6 +28,13 @@ const SitePage = () => {
         navigate("/")
       })
   }, [params.id, navigate])
+
+  const addFlower = flowerObject => {
+    flowerService.create(flowerObject).catch(error => {
+      console.log(error)
+      alert("Adding failed")
+    })
+  }
 
   const createSite = siteObject => {
     SiteService.create(siteObject)
@@ -50,26 +59,52 @@ const SitePage = () => {
     }
   }
 
+  const handleBack = () => {
+    navigate(-1)
+  }
+
   return (
-    <div>
+    <>
       {params.id ? (
-        <>
-          <h2>{site?.name}</h2>
-          <button id="deleteSiteButton" onClick={() => deleteSite(site)}>
-            Delete this site
-          </button>
-          <p>{site?.note}</p>
-        </>
+        <div className="layout-container">
+          <header className="header">
+            <h1>{site?.name}</h1>
+            <p>{site?.note}</p>
+          </header>
+          <div className="content">
+            <aside className="side-container">
+              <button
+                id="showFlowerAddingFormButton"
+                onClick={() => setShowAddNewFlower(!showAddNewFlower)}
+              >
+                Add a new flower
+              </button>
+              {showAddNewFlower && (
+                <FlowerForm createFlower={addFlower} siteID={params.id} />
+              )}
+            </aside>
+            <main className="main-container">
+              <button onClick={handleBack}>Go back</button>
+              <button id="deleteSiteButton" onClick={() => deleteSite(site)}>
+                Delete this site
+              </button>
+              <SiteFlexbox createSite={createSite} sites={sites} />
+            </main>
+          </div>
+        </div>
       ) : (
         <>
-          <h2>Root Sites</h2>
-          <p>
-            <br />
-          </p>
+          <header className="header">
+            <h1>Root Sites</h1>
+          </header>
+          <div className="content">
+            <main className="main-container">
+              <SiteFlexbox createSite={createSite} sites={sites} />
+            </main>
+          </div>
         </>
       )}
-      <SiteFlexbox createSite={createSite} sites={sites} />
-    </div>
+    </>
   )
 }
 

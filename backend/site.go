@@ -11,7 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-//? Expand Note to Notes (or a map)
+// ? Expand Note to Notes (or a map)
 type Site struct {
 	ID        primitive.ObjectID    `json:"_id,omitempty" bson:"_id,omitempty"`
 	Name      string                `json:"name"`
@@ -206,6 +206,13 @@ func deleteSite(c *fiber.Ctx) error {
 	}
 
 	log.Println("DELETE sites", ids)
+
+	flowerDeleteFilter := bson.M{"site": bson.M{"$in": ids}}
+	deleteFlowerResult, err := collection.DeleteMany(c.Context(), flowerDeleteFilter)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	log.Println("Deleted flowers count:", deleteFlowerResult.DeletedCount)
 
 	deleteFilter := bson.M{"_id": bson.M{"$in": ids}}
 	deleteResult, err := sites.DeleteMany(c.Context(), deleteFilter)
