@@ -36,6 +36,7 @@ func RunTest(t *testing.T, test TestCase) {
 		test.Route,
 		strings.NewReader(test.Body),
 	)
+	req.Header.Add("Content-Type", "application/json")
 	res, err := app.Test(req, -1)
 
 	db.AssertExpectations(t)
