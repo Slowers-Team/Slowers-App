@@ -1,8 +1,11 @@
 package apitests
 
 import (
+	"context"
+	"encoding/json"
 	"errors"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
@@ -59,6 +62,37 @@ func (s *FlowersAPITestSuite) TestListingFlowersWithError() {
 			).Return(
 				[]database.Flower{}, errors.New("Database error"),
 			).Once()
+		},
+	})
+}
+
+func (s *FlowersAPITestSuite) TestAddingFlower() {
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:      "POST /api/flowers",
+		Route:            "/api/flowers",
+		Method:           "POST",
+		Body:             utils.FlowerToJSON(s.TestFlowersConcise[0]),
+		ExpectedError:    false,
+		ExpectedCode:     201,
+		ExpectedBodyFunc: func(body string) bool {
+			flower := database.Flower{}
+			json.Unmarshal([]byte(body), &flower)
+			return flower.ID == s.TestFlowers[0].ID &&
+				flower.Name == s.TestFlowers[0].Name &&
+				flower.LatinName == s.TestFlowers[0].LatinName &&
+				time.Since(flower.AddedTime).Seconds() < 10.0
+		},
+		SetupMocks:       func(db *mocks.Database) {
+			db.EXPECT().AddFlower(
+				mock.Anything, mock.Anything,
+			).RunAndReturn(func(ctx context.Context, newFlower database.Flower) (*database.Flower, error) {
+				return &database.Flower{
+					ID: s.TestFlowers[0].ID,
+					Name: newFlower.Name,
+					LatinName: newFlower.LatinName,
+					AddedTime: newFlower.AddedTime,
+				}, nil
+			}).Once()
 		},
 	})
 }
