@@ -3,6 +3,7 @@ import RegisterPage from "./pages/RegisterPage"
 import HomePage from "./pages/HomePage"
 import LogInPage from "./pages/LogInPage"
 import SitePage from "./pages/SitePage"
+import RetailerPage from "./pages/RetailerPage"
 import {
   BrowserRouter as Router,
   Routes,
@@ -88,6 +89,14 @@ const App = () => {
               element={
                 isLoggedIn ? <HomePage /> : <Navigate replace to="/login" />
               }
+            />
+
+            <Route
+              path="/retailer"
+              // element={
+              //   isLoggedIn ? <RetailerPage /> : <Navigate replace to="/login" />
+              // }
+              element={<RetailerPage />}
             />
           </Routes>
         </div>
