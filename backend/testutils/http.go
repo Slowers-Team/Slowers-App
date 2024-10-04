@@ -14,14 +14,15 @@ import (
 )
 
 type TestCase struct {
-	Description   string
-	Route         string
-	Method        string
-	Body          string
-	ExpectedError bool
-	ExpectedCode  int
-	ExpectedBody  string
-	SetupMocks    func(db *mocks.Database)
+	Description      string
+	Route            string
+	Method           string
+	Body             string
+	ExpectedError    bool
+	ExpectedCode     int
+	ExpectedBody     string
+	ExpectedBodyFunc func(body string) bool
+	SetupMocks       func(db *mocks.Database)
 }
 
 func RunTest(t *testing.T, test TestCase) {
@@ -50,5 +51,9 @@ func RunTest(t *testing.T, test TestCase) {
 
 	body, err := io.ReadAll(res.Body)
 	assert.Nilf(t, err, test.Description)
-	assert.Equalf(t, test.ExpectedBody, string(body), test.Description)
+	if test.ExpectedBodyFunc == nil {
+		assert.Equalf(t, test.ExpectedBody, string(body), test.Description)
+	} else {
+		assert.Truef(t, test.ExpectedBodyFunc(string(body)), test.Description)
+	}
 }
