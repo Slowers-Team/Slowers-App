@@ -12,11 +12,6 @@ import (
 	"github.com/Slowers-team/Slowers-App/utils"
 )
 
-type LogIn struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
 var SecretKey []byte
 
 func SetSecretKey(newSecretKey []byte) {
@@ -63,7 +58,7 @@ func CreateUser(c *fiber.Ctx) error {
 }
 
 func HandleLogin(c *fiber.Ctx) error {
-	login := new(LogIn)
+	login := new(database.LogIn)
 
 	if err := c.BodyParser(login); err != nil {
 		return c.Status(400).SendString(err.Error())
