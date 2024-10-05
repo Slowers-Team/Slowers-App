@@ -1,28 +1,24 @@
-import "./App.css"
-import RegisterPage from "./pages/RegisterPage"
-import HomePage from "./pages/HomePage"
-import LogInPage from "./pages/LogInPage"
-import SitePage from "./pages/SitePage"
-import RetailerPage from "./pages/RetailerPage"
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  Navigate,
-} from "react-router-dom"
-import { useState, useEffect } from "react"
+import './App.css'
+import RegisterPage from './pages/RegisterPage'
+import HomePage from './pages/HomePage'
+import LogInPage from './pages/LogInPage'
+import SitePage from './pages/SitePage'
+import RetailerHomePage from './pages/RetailerHomePage'
+import RetailerFlowerPage from './pages/RetailerFlowerPage'
+import RetailerLayout from './layouts/RetailerLayout'
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem('token')
     setIsLoggedIn(!!token)
   }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem("token")
+    localStorage.removeItem('token')
     setIsLoggedIn(false)
   }
 
@@ -37,6 +33,9 @@ const App = () => {
           <nav>
             <Link style={padding} to="/">
               Home
+            </Link>
+            <Link style={padding} to="/retailer">
+              Retailer Page
             </Link>
             {!isLoggedIn && (
               <Link style={padding} to="/register">
@@ -53,18 +52,13 @@ const App = () => {
           <Routes>
             <Route
               path="/"
-              element={
-                isLoggedIn ? <SitePage /> : <Navigate replace to="/login" />
-              }
+              element={isLoggedIn ? <SitePage /> : <Navigate replace to="/login" />}
             />
             <Route
               path="/login"
               element={
                 !isLoggedIn ? (
-                  <LogInPage
-                    onLogin={handleLogout}
-                    setIsLoggedIn={setIsLoggedIn}
-                  />
+                  <LogInPage onLogin={handleLogout} setIsLoggedIn={setIsLoggedIn} />
                 ) : (
                   <Navigate replace to="/" />
                 )
@@ -74,30 +68,23 @@ const App = () => {
 
             <Route
               path="/site"
-              element={
-                isLoggedIn ? <SitePage /> : <Navigate replace to="/login" />
-              }
+              element={isLoggedIn ? <SitePage /> : <Navigate replace to="/login" />}
             />
             <Route
               path="/site/:id"
-              element={
-                isLoggedIn ? <SitePage /> : <Navigate replace to="/login" />
-              }
+              element={isLoggedIn ? <SitePage /> : <Navigate replace to="/login" />}
             />
             <Route
               path="/flowers"
-              element={
-                isLoggedIn ? <HomePage /> : <Navigate replace to="/login" />
-              }
+              element={isLoggedIn ? <HomePage /> : <Navigate replace to="/login" />}
             />
-
             <Route
               path="/retailer"
-              // element={
-              //   isLoggedIn ? <RetailerPage /> : <Navigate replace to="/login" />
-              // }
-              element={<RetailerPage />}
-            />
+              element={isLoggedIn ? <RetailerLayout /> : <Navigate replace to="/login" />}
+            >
+              <Route index element={<RetailerHomePage />} />
+              <Route path="flowers" element={<RetailerFlowerPage />} />
+            </Route>
           </Routes>
         </div>
       </Router>

@@ -1,0 +1,29 @@
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .header {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid black;
+  }
+  
+  .content {
+    display: flex;
+    flex: 1;
+  }
+  
+  .side-container {
+    width: 250px;
+    padding: 1rem;
+    border-right: 1px solid black;
+    text-align: left;
+  }
+  
+  .main-container {
+    flex: 1;
+    padding: 1rem;
+  }
+  
