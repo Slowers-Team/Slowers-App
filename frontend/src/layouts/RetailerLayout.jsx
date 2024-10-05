@@ -3,16 +3,20 @@ import './Retailer.css'
 
 const navigationBar = () => {
   return (
-    <nav>
-      <ul>
-        <li>
-          <NavLink to="/retailer">Home</NavLink>
-        </li>
-        <li>
-          <NavLink to="/retailer/flowers">Flowers</NavLink>
-        </li>
-      </ul>
-    </nav>
+    <div className="nav-container">
+      <nav>
+        <ul>
+          <li>
+            <NavLink to="/retailer" end>
+              Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/retailer/flowers">Flowers</NavLink>
+          </li>
+        </ul>
+      </nav>
+    </div>
   )
 }
 
