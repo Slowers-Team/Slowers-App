@@ -19,12 +19,13 @@ import (
 )
 
 type Flower struct {
-	ID        primitive.ObjectID  `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name      string              `json:"name"`
-	LatinName string              `json:"latin_name" bson:"latin_name"`
-	AddedTime time.Time           `json:"added_time" bson:"added_time"`
-	Grower    *primitive.ObjectID `json:"grower"`
-	Site      *primitive.ObjectID `json:"site"`
+	ID          primitive.ObjectID  `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name        string              `json:"name"`
+	LatinName   string              `json:"latin_name" bson:"latin_name"`
+	AddedTime   time.Time           `json:"added_time" bson:"added_time"`
+	Grower      *primitive.ObjectID `json:"grower"`
+	GrowerEmail string              `json:"grower_email"`
+	Site        *primitive.ObjectID `json:"site"`
 }
 
 type User struct {
@@ -134,6 +135,17 @@ func addFlower(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
+	var userRecord bson.M
+	err = userCollection.FindOne(c.Context(), bson.M{"_id": userID}).Decode(&userRecord)
+	if err != nil {
+		return c.Status(500).SendString("Error retrieving user record: " + err.Error())
+	}
+
+	userEmail, ok := userRecord["email"].(string)
+	if !ok {
+		return c.Status(500).SendString("User email not found")
+	}
+
 	flower := new(Flower)
 	if err := c.BodyParser(flower); err != nil {
 		return c.Status(400).SendString(err.Error())
@@ -152,7 +164,7 @@ func addFlower(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Invalid siteID")
 	}
 
-	newFlower := Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(), Grower: &userID, Site: &siteID}
+	newFlower := Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(), Grower: &userID, GrowerEmail: userEmail, Site: &siteID}
 
 	insertResult, err := collection.InsertOne(c.Context(), newFlower)
 	if err != nil {
