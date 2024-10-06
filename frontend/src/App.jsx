@@ -49,6 +49,9 @@ const App = () => {
               </Link>
             )}
             {isLoggedIn && <Link onClick={handleLogout}>Logout</Link>}
+            <Link style={padding} to="/terms">
+              Terms
+            </Link>
           </nav>
           <Routes>
             <Route
