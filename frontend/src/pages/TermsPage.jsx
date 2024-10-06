@@ -12,6 +12,7 @@ const TermsPage = () => {
     <div>
       <h1>Terms and Conditions</h1>
       <TermsWindow />
+      <br />
       <button onClick={handleBack}>Back</button>
     </div>
   )
