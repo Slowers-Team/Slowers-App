@@ -24,7 +24,7 @@ type Flower struct {
 	LatinName   string              `json:"latin_name" bson:"latin_name"`
 	AddedTime   time.Time           `json:"added_time" bson:"added_time"`
 	Grower      *primitive.ObjectID `json:"grower"`
-	GrowerEmail string              `json:"grower_email"`
+	GrowerEmail string              `json:"grower_email" bson:"grower_email"`
 	Site        *primitive.ObjectID `json:"site"`
 }
 
