@@ -111,18 +111,28 @@ func main() {
 }
 
 func getFlowers(c *fiber.Ctx) error {
-	cursor, err := collection.Find(c.Context(), bson.M{})
-	if err != nil {
-		return c.Status(500).SendString(err.Error())
-	}
+    userID := c.Locals("userID").(string) 
 
-	flowers := make([]Flower, 0)
-	if err := cursor.All(c.Context(), &flowers); err != nil {
-		return c.Status(500).SendString(err.Error())
-	}
+    
+    objectID, err := primitive.ObjectIDFromHex(userID)
+    if err != nil {
+        return c.Status(500).SendString(err.Error())
+    }
 
-	return c.JSON(flowers)
+    
+    cursor, err := collection.Find(c.Context(), bson.M{"grower": objectID})
+    if err != nil {
+        return c.Status(500).SendString(err.Error())
+    }
+
+    flowers := make([]Flower, 0)
+    if err := cursor.All(c.Context(), &flowers); err != nil {
+        return c.Status(500).SendString(err.Error())
+    }
+
+    return c.JSON(flowers)
 }
+
 
 func addFlower(c *fiber.Ctx) error {
 	user, ok := c.Locals("userID").(string)
