@@ -1,5 +1,6 @@
 import "./App.css"
 import RegisterPage from "./pages/RegisterPage"
+import TermsPage from "./pages/TermsPage"
 import HomePage from "./pages/HomePage"
 import LogInPage from "./pages/LogInPage"
 import SitePage from "./pages/SitePage"
@@ -70,6 +71,7 @@ const App = () => {
               }
             />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/terms" element={<TermsPage />} />
 
             <Route
               path="/site"
