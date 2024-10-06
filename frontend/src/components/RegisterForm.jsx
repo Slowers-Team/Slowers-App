@@ -4,9 +4,14 @@ const RegisterForm = ({ createNewUser }) => {
     const [newUsername, setNewUsername] = useState('')
     const [newPassword, setNewPassword] = useState('')
     const [newEmail, setNewEmail] = useState('')
+    const [termsAccepted, setTermsAccepted] = useState(false)
 
     const addUser = event => {
         event.preventDefault()
+        if (!termsAccepted) {
+            alert('You must accept the terms')
+            return
+        }
         createNewUser({ 
             username: newUsername,
             password: newPassword,
@@ -16,6 +21,7 @@ const RegisterForm = ({ createNewUser }) => {
         setNewUsername('')
         setNewPassword('')
         setNewEmail('')
+        setTermsAccepted(false)
     }
 
     return (
@@ -34,7 +40,7 @@ const RegisterForm = ({ createNewUser }) => {
                   <input type="email" id="newEmailInput" value={newEmail} onChange={event => setNewEmail(event.target.value)} />
                 </div>
                 <div>
-                  <input type='checkbox' id='termsCheckbox' />
+                  <input type='checkbox' id='termsCheckbox' checked={termsAccepted} onChange={() => setTermsAccepted(!termsAccepted)}/>
                   <label htmlFor="termsCheckbox">I agree to the <a href='/terms' target="_blank" rel="noopener noreferrer">terms and conditions</a></label>
                 </div>
                 <div>
