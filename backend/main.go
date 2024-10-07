@@ -25,6 +25,7 @@ type Flower struct {
 	AddedTime time.Time           `json:"added_time" bson:"added_time"`
 	Grower    *primitive.ObjectID `json:"grower"`
 	Site      *primitive.ObjectID `json:"site"`
+	SiteName  string              `json:"site_name" bson:"site_name"`
 }
 
 type User struct {
@@ -175,7 +176,15 @@ func addFlower(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Invalid siteID")
 	}
 
-	newFlower := Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(), Grower: &userID, Site: &siteID}
+	site := bson.M{}
+	err = sites.FindOne(c.Context(), bson.M{"_id": siteID}).Decode(&site)
+	if err != nil {
+		return c.Status(500).SendString("Failed to find the site: " + err.Error())
+	}
+
+	site_name := site["name"].(string)
+
+	newFlower := Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(), Grower: &userID, Site: &siteID, SiteName: site_name}
 
 	insertResult, err := collection.InsertOne(c.Context(), newFlower)
 	if err != nil {
