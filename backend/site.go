@@ -41,8 +41,15 @@ func addSite(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Site name cannot be empty")
 	}
 
+	var flowers []*primitive.ObjectID
+	if site.Flowers != nil {
+		flowers = site.Flowers
+	} else {
+		flowers = make([]*primitive.ObjectID, 0)
+	}
+
 	newSite := Site{Name: site.Name, Note: site.Note, AddedTime: time.Now(),
-		Parent: site.Parent, Flowers: make([]*primitive.ObjectID, 0), Owner: &userID}
+		Parent: site.Parent, Flowers: flowers, Owner: &userID}
 
 	insertResult, err := sites.InsertOne(c.Context(), newSite)
 	if err != nil {
