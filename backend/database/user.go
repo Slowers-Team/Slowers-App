@@ -11,6 +11,7 @@ type User struct {
 	Username string   `json:"username"`
 	Password string   `json:"password"`
 	Email    string   `json:"email"`
+	Role     string   `json:"role"`
 }
 
 func (mDb MongoDatabase) CountUsersWithEmail(ctx context.Context, email string) (int64, error) {

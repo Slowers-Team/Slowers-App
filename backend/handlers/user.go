@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"log"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -29,8 +30,9 @@ func CreateUser(c *fiber.Ctx) error {
 	if err := c.BodyParser(user); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
+	log.Println(user)
 
-	if user.Username == "" || user.Password == "" || user.Email == "" {
+	if user.Username == "" || user.Password == "" || user.Email == "" || user.Role == "" {
 		return c.Status(400).SendString("All fields are required")
 	}
 
@@ -52,7 +54,7 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	newUser := database.User{Username: user.Username, Password: hashedPassword, Email: user.Email}
+	newUser := database.User{Username: user.Username, Password: hashedPassword, Email: user.Email, Role: user.Role}
 
 	err = db.CreateUser(c.Context(), newUser)
 	if err != nil {
