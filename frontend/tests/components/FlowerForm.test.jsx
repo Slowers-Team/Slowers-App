@@ -15,8 +15,8 @@ test('renders FlowerForm with name and latin name inputs', () => {
 })
 
 test('updates input values when typing', async() => {
-    const user = userEvent.setup()
     const createFlower = vi.fn()
+    const user = userEvent.setup()
 
     render(<FlowerForm createFlower={createFlower} />)
 
