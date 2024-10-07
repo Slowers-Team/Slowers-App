@@ -1,6 +1,6 @@
-import { render, screen } from "@testing-library/react";
-import LogIn from "../../src/components/LogIn";
-import { expect, vi } from "vitest";
+import { render, screen } from '@testing-library/react'
+import LogIn from '../../src/components/LogIn'
+import { expect, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 
 test('renders LogIn form with email and password inputs', () => {
