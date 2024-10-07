@@ -6,7 +6,6 @@ const FlowerList = ({ flowers, deleteFlower }) => {
           <th>Name</th>
           <th>Latin name</th>
           <th>Added time</th>
-          <th>Site</th>
         </tr>
       </thead>
       <tbody>
@@ -25,7 +24,6 @@ const FlowerList = ({ flowers, deleteFlower }) => {
                 <em>{flower.latin_name}</em>
               </td>
               <td>{addedTimeStr}</td>
-              <td>{flower.site_name}</td>
               <td>
                 <button id="deleteFlowerButton" onClick={() => deleteFlower(flower)}>
                   Delete

@@ -1,0 +1,89 @@
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+    
+  .header {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid black;
+    font-size: 24px;
+  }
+    
+  .content {
+    display: flex;
+    flex: 1;
+  }
+    
+  .side-container {
+    width: 250px;
+    padding: 1rem;
+    border-right: 1px solid black;
+  }
+    
+  .main-container {
+    flex: 1;
+    padding: 1rem;
+  }
+  
+  .nav-container ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .nav-container li {
+    margin-bottom: 1rem;
+  }
+  
+  .nav-container a {
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    padding: 10px;
+    display: block;
+    transition: background-color 0.1s ease;
+  }
+  
+  .nav-container a:hover,
+  .nav-container a.active {
+    background-color: #c1dadf;
+    color: black;
+    border-radius: 4px;
+  }
+    
+  .growerFlowerList {
+    width: 100%;
+    overflow-x: auto;
+    margin: 20px 0;
+  }
+    
+  #growerFlowerList {
+    width: 100%;
+    border-collapse: collapse;
+  }
+    
+  #growerFlowerList th {
+    padding: 15px 15px;
+    text-align: left;
+  }
+  
+  #growerFlowerList td {
+    padding: 15px 15px;
+    text-align: left;
+  }
+    
+  #growerFlowerList thead {
+    background-color: #c1dadf;
+    color: black;
+    font-weight: bold;
+    font-size: 18px;
+  }
+    
+  #growerFlowerList tbody tr {
+    border-bottom: 1px solid #ddd;
+  }
+    
+  #growerFlowerList tbody tr:hover {
+    background-color: #f6f6f6eb;
+  }
