@@ -1,6 +1,6 @@
 import users from '../../src/services/users'
 import { expect, vi } from 'vitest'
-import axios from "axios";
+import axios from 'axios'
 
 vi.mock('axios')
 
