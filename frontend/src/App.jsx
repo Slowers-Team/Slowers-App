@@ -3,7 +3,6 @@ import RegisterPage from './pages/RegisterPage'
 import HomePage from './pages/HomePage'
 import LogInPage from './pages/LogInPage'
 import SitePage from './pages/SitePage'
-import GrowerHomePage from './pages/GrowerHomePage'
 import GrowerLayout from './layouts/GrowerLayout'
 import GrowerFlowerPage from './pages/GrowerFlowerPage'
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
@@ -82,9 +81,8 @@ const App = () => {
               path="/grower"
               element={isLoggedIn ? <GrowerLayout /> : <Navigate replace to="/login" />}
             >
-              <Route index element={<GrowerHomePage />} />
+              <Route index element={<SitePage />} />
               <Route path="flowers" element={<GrowerFlowerPage />} />
-              <Route path="site" element={<SitePage />} />
             </Route>
           </Routes>
         </div>

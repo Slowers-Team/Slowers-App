@@ -14,9 +14,6 @@ const navigationBar = () => {
           <li>
             <NavLink to="/grower/flowers">Flowers</NavLink>
           </li>
-          <li>
-            <NavLink to="/grower/site">Sites</NavLink>
-          </li>
         </ul>
       </nav>
     </div>
