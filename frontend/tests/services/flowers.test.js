@@ -5,7 +5,7 @@ import axios from 'axios'
 
 vi.mock('axios')
 
-tokenService.fetchToken = vi.fn().mockReturnValue("faketoken")
+tokenService.fetchToken = vi.fn().mockReturnValue('faketoken')
 
 const config = {
     headers: { Authorization: tokenService.fetchToken() },
