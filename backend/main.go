@@ -93,6 +93,7 @@ func main() {
 
 	app.Post("/api/flowers", addFlower)
 	app.Get("/api/flowers", getFlowers)
+	app.Get("/api/flowers/user", getUserFlowers)
 	app.Delete("/api/flowers/:id", deleteFlower)
 
 	app.Post("/api/sites", addSite)
@@ -112,6 +113,28 @@ func main() {
 
 func getFlowers(c *fiber.Ctx) error {
 	cursor, err := collection.Find(c.Context(), bson.M{})
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	flowers := make([]Flower, 0)
+	if err := cursor.All(c.Context(), &flowers); err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	return c.JSON(flowers)
+}
+
+func getUserFlowers(c *fiber.Ctx) error {
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	userID, err := primitive.ObjectIDFromHex(user)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	cursor, err := collection.Find(c.Context(), bson.M{"grower": userID})
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
