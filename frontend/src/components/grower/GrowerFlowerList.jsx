@@ -1,6 +1,6 @@
 import '../../layouts/Grower.css'
 
-const GrowerFlowerList = ({ flowers }) => {
+const GrowerFlowerList = ({ flowers, deleteFlower }) => {
   return (
     <div className="growerFlowerList">
       <table id="growerFlowerList">
@@ -10,6 +10,7 @@ const GrowerFlowerList = ({ flowers }) => {
             <th>Latin name</th>
             <th>Added time</th>
             <th>Site</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -29,6 +30,11 @@ const GrowerFlowerList = ({ flowers }) => {
                 </td>
                 <td>{addedTimeStr}</td>
                 <td>{flower.site_name}</td>
+                <td>
+                  <button id="deleteFlowerButton" onClick={() => deleteFlower(flower)}>
+                    Delete
+                  </button>
+                </td>
               </tr>
             )
           })}
