@@ -1,7 +1,7 @@
-import flowers from "../../src/services/flowers";
+import flowers from '../../src/services/flowers'
 import tokenService from '../../src/services/token'
 import { expect, vi } from 'vitest'
-import axios from "axios";
+import axios from 'axios'
 
 vi.mock('axios')
 
