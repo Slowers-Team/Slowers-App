@@ -72,6 +72,14 @@ func (mDb *MongoDatabase) Clear() error {
 	return db.Drop(context.Background())
 }
 
+func NewID(id string) ObjectID {
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		panic(err)
+	}
+	return objectID
+}
+
 func IsValidID(id string) bool {
 	_, err := primitive.ObjectIDFromHex(id)
 	return err == nil
