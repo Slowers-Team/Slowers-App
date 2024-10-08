@@ -20,15 +20,13 @@ import (
 
 type SitesAPITestSuite struct {
 	suite.Suite
-	TestFlowers        []database.Flower
-	TestFlowersConcise []database.Flower
-	RootSites          []database.Site
-	TestUser           database.User
+	TestFlowers []database.Flower
+	RootSites   []database.Site
+	TestUser    database.User
 }
 
 func (s *SitesAPITestSuite) SetupSuite() {
 	s.TestFlowers = testdata.GetTestFlowers()
-	s.TestFlowersConcise = testdata.GetTestFlowersConcise()
 	s.RootSites = testdata.GetRootSites()
 	s.TestUser = testdata.GetUser()
 }

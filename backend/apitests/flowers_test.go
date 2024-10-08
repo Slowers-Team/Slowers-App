@@ -19,13 +19,11 @@ import (
 
 type FlowersAPITestSuite struct {
 	suite.Suite
-	TestFlowers        []database.Flower
-	TestFlowersConcise []database.Flower
+	TestFlowers []database.Flower
 }
 
 func (s *FlowersAPITestSuite) SetupSuite() {
 	s.TestFlowers = testdata.GetTestFlowers()
-	s.TestFlowersConcise = testdata.GetTestFlowersConcise()
 }
 
 func (s *FlowersAPITestSuite) TestListingFlowersWithoutError() {
@@ -68,10 +66,15 @@ func (s *FlowersAPITestSuite) TestListingFlowersWithError() {
 
 func (s *FlowersAPITestSuite) TestAddingFlower() {
 	testutils.RunTest(s.T(), testutils.TestCase{
-		Description:   "POST /api/flowers",
-		Route:         "/api/flowers",
-		Method:        "POST",
-		Body:          utils.FlowerToJSON(s.TestFlowersConcise[0]),
+		Description: "POST /api/flowers",
+		Route:       "/api/flowers",
+		Method:      "POST",
+		Body: utils.FlowerToJSON(database.Flower{
+			Name:      s.TestFlowers[0].Name,
+			LatinName: s.TestFlowers[0].LatinName,
+			Grower:    s.TestFlowers[0].Grower,
+			Site:      s.TestFlowers[0].Site,
+		}),
 		ExpectedError: false,
 		ExpectedCode:  201,
 		ExpectedBodyFunc: func(body string) bool {

@@ -13,16 +13,18 @@ import (
 
 type DbFlowerTestSuite struct {
 	suite.Suite
-	Db database.Database
+	Db          database.Database
+	TestFlowers []database.Flower
 }
 
 func (s *DbFlowerTestSuite) SetupSuite() {
 	s.Db = testutils.ConnectDB()
 	s.Db.Clear()
+	s.TestFlowers = testdata.GetTestFlowers()
 }
 
 func (s *DbFlowerTestSuite) TestAddFlower() {
-	flower := testdata.GetTestFlowers()[0]
+	flower := s.TestFlowers[0]
 	createdFlower, err := s.Db.AddFlower(context.Background(), flower)
 
 	s.NoError(
@@ -51,7 +53,12 @@ func (s *DbFlowerTestSuite) TestAddFlower() {
 }
 
 func (s *DbFlowerTestSuite) TestAddAndGetFlower() {
-	flower := testdata.GetTestFlowersConcise()[0]
+	flower := database.Flower{
+		Name:      s.TestFlowers[0].Name,
+		LatinName: s.TestFlowers[0].LatinName,
+		Grower:    s.TestFlowers[0].Grower,
+		Site:      s.TestFlowers[0].Site,
+	}
 	s.Db.AddFlower(context.Background(), flower)
 	fetchedFlowers, err := s.Db.GetFlowers(context.Background())
 
@@ -86,7 +93,13 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlower() {
 }
 
 func (s *DbFlowerTestSuite) TestAddAndDeleteFlower() {
-	flower, _ := s.Db.AddFlower(context.Background(), testdata.GetTestFlowersConcise()[0])
+	testFlower := database.Flower{
+		Name:      s.TestFlowers[0].Name,
+		LatinName: s.TestFlowers[0].LatinName,
+		Grower:    s.TestFlowers[0].Grower,
+		Site:      s.TestFlowers[0].Site,
+	}
+	flower, _ := s.Db.AddFlower(context.Background(), testFlower)
 	anyDeleted, err := s.Db.DeleteFlower(context.Background(), flower.ID.Hex())
 
 	s.True(
@@ -105,7 +118,6 @@ func (s *DbFlowerTestSuite) TestAddAndDeleteFlower() {
 		"deleted flower should not be returned by GetFlowers()",
 	)
 }
-
 
 func (s *DbFlowerTestSuite) TearDownTest() {
 	s.Db.Clear()

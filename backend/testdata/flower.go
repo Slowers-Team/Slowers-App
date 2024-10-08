@@ -36,16 +36,3 @@ func GetTestFlowers() []database.Flower {
 		},
 	}
 }
-
-func GetTestFlowersConcise() []database.Flower {
-	flowers := []database.Flower{}
-	for _, flower := range GetTestFlowers() {
-		flowers = append(flowers, database.Flower{
-			Name:      flower.Name,
-			LatinName: flower.LatinName,
-			Grower:    flower.Grower,
-			Site:      flower.Site,
-		})
-	}
-	return flowers
-}
