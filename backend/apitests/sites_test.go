@@ -3,7 +3,6 @@ package apitests
 import (
 	"context"
 	"encoding/json"
-	"log"
 	"testing"
 	"time"
 
@@ -83,7 +82,6 @@ func (s *SitesAPITestSuite) TestAddingSite() {
 		ExpectedBodyFunc: func(body string) {
 			site := database.Site{}
 			json.Unmarshal([]byte(body), &site)
-			log.Println("unmarshalled site:", site)
 			s.Equal(
 				site.ID.Hex(),
 				s.RootSites[0].ID.Hex(),
