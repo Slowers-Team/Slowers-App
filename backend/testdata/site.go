@@ -9,17 +9,17 @@ import (
 )
 
 func GetRootSites() []database.Site {
-	flowerID := database.NewID("842af389e234e768923475bc")
-	ownerID := database.NewID("66fd465c0011335cd891aea7")
+	flowerID := GetTestFlowers()[0].ID
+	ownerID := GetUser().ID
 	return []database.Site{
 		{
-			ID: database.NewID("66f5027d6430d371f8636c3c"),
-			Name: "Greenhouse A",
+			ID:        database.NewID("66f5027d6430d371f8636c3c"),
+			Name:      "Greenhouse A",
 			AddedTime: time.Date(2024, 9, 26, 6, 43, 9, 0, time.UTC),
-			Note: "Just a note",
-			Parent: nil,
-			Flowers: []*database.ObjectID{&flowerID},
-			Owner: &ownerID,
+			Note:      "Just a note",
+			Parent:    nil,
+			Flowers:   []*database.ObjectID{&flowerID},
+			Owner:     &ownerID,
 		},
 	}
 }
@@ -29,7 +29,7 @@ func GetSite() bson.M {
 		"site": GetRootSites()[0],
 		"subsites": []bson.M{
 			{
-				"_id": "66ffd761a00aa71bdad57262",
+				"_id":  "66ffd761a00aa71bdad57262",
 				"name": "Pot 1",
 				"note": "This is another note",
 			},

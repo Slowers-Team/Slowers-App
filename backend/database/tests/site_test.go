@@ -14,24 +14,26 @@ import (
 
 type DbSiteTestSuite struct {
 	suite.Suite
-	Db database.Database
+	Db       database.Database
 	TestSite database.Site
+	TestUser database.User
 }
 
 func (s *DbSiteTestSuite) SetupSuite() {
 	s.Db = testutils.ConnectDB()
 	s.Db.Clear()
 	s.TestSite = testdata.GetRootSites()[0]
+	s.TestUser = testdata.GetUser()
 }
 
 func (s *DbSiteTestSuite) TestAddSite() {
 	site := database.Site{
-		Name: s.TestSite.Name,
+		Name:      s.TestSite.Name,
 		AddedTime: s.TestSite.AddedTime,
-		Note: s.TestSite.Note,
-		Parent: s.TestSite.Parent,
-		Flowers: s.TestSite.Flowers,
-		Owner: s.TestSite.Owner,
+		Note:      s.TestSite.Note,
+		Parent:    s.TestSite.Parent,
+		Flowers:   s.TestSite.Flowers,
+		Owner:     s.TestSite.Owner,
 	}
 	createdSite, err := s.Db.AddSite(context.Background(), site)
 
@@ -76,15 +78,15 @@ func (s *DbSiteTestSuite) TestAddSite() {
 
 func (s *DbSiteTestSuite) TestAddAndGetRootSites() {
 	site := database.Site{
-		Name: s.TestSite.Name,
+		Name:      s.TestSite.Name,
 		AddedTime: s.TestSite.AddedTime,
-		Note: s.TestSite.Note,
-		Parent: s.TestSite.Parent,
-		Flowers: s.TestSite.Flowers,
-		Owner: s.TestSite.Owner,
+		Note:      s.TestSite.Note,
+		Parent:    s.TestSite.Parent,
+		Flowers:   s.TestSite.Flowers,
+		Owner:     s.TestSite.Owner,
 	}
 	createdSite, _ := s.Db.AddSite(context.Background(), site)
-	rootSites, err := s.Db.GetRootSites(context.Background())
+	rootSites, err := s.Db.GetRootSites(context.Background(), s.TestUser.ID)
 
 	s.NoError(
 		err,

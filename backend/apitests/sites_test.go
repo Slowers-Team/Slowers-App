@@ -20,15 +20,17 @@ import (
 
 type SitesAPITestSuite struct {
 	suite.Suite
-	TestFlowers []database.Flower
+	TestFlowers        []database.Flower
 	TestFlowersConcise []database.Flower
-	RootSites []database.Site
+	RootSites          []database.Site
+	TestUser           database.User
 }
 
 func (s *SitesAPITestSuite) SetupSuite() {
 	s.TestFlowers = testdata.GetTestFlowers()
 	s.TestFlowersConcise = testdata.GetTestFlowersConcise()
 	s.RootSites = testdata.GetRootSites()
+	s.TestUser = testdata.GetUser()
 }
 
 func (s *SitesAPITestSuite) TestListingRootSites() {
@@ -40,9 +42,9 @@ func (s *SitesAPITestSuite) TestListingRootSites() {
 		ExpectedError: false,
 		ExpectedCode:  200,
 		ExpectedBody:  utils.SitesToJSON(s.RootSites),
-		SetupMocks:    func(db *mocks.Database) {
+		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetRootSites(
-				mock.Anything,
+				mock.Anything, s.TestUser.ID,
 			).Return(
 				s.RootSites, nil,
 			).Once()
@@ -59,9 +61,9 @@ func (s *SitesAPITestSuite) TestFetchingSite() {
 		ExpectedError: false,
 		ExpectedCode:  200,
 		ExpectedBody:  utils.SiteDataToJSON(testdata.GetSite()),
-		SetupMocks:    func(db *mocks.Database) {
+		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetSite(
-				mock.Anything, s.RootSites[0].ID.Hex(),
+				mock.Anything, s.RootSites[0].ID.Hex(), s.TestUser.ID,
 			).Return(
 				testdata.GetSite(), nil,
 			).Once()
@@ -71,18 +73,18 @@ func (s *SitesAPITestSuite) TestFetchingSite() {
 
 func (s *SitesAPITestSuite) TestAddingSite() {
 	testutils.RunTest(s.T(), testutils.TestCase{
-		Description:      "POST /api/sites",
-		Route:            "/api/sites",
-		Method:           "POST",
-		Body:             utils.SiteToJSON(database.Site{
+		Description: "POST /api/sites",
+		Route:       "/api/sites",
+		Method:      "POST",
+		Body: utils.SiteToJSON(database.Site{
 			Flowers: s.RootSites[0].Flowers,
-			Name: s.RootSites[0].Name,
-			Note: s.RootSites[0].Note,
-			Owner: s.RootSites[0].Owner,
-			Parent: s.RootSites[0].Parent,
+			Name:    s.RootSites[0].Name,
+			Note:    s.RootSites[0].Note,
+			Owner:   s.RootSites[0].Owner,
+			Parent:  s.RootSites[0].Parent,
 		}),
-		ExpectedError:    false,
-		ExpectedCode:     201,
+		ExpectedError: false,
+		ExpectedCode:  201,
 		ExpectedBodyFunc: func(body string) bool {
 			site := database.Site{}
 			json.Unmarshal([]byte(body), &site)
@@ -123,18 +125,18 @@ func (s *SitesAPITestSuite) TestAddingSite() {
 			)
 			return true
 		},
-		SetupMocks:       func(db *mocks.Database) {
+		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().AddSite(
 				mock.Anything, mock.Anything,
 			).RunAndReturn(func(ctx context.Context, newSite database.Site) (*database.Site, error) {
 				return &database.Site{
-					ID: s.RootSites[0].ID,
+					ID:        s.RootSites[0].ID,
 					AddedTime: newSite.AddedTime,
-					Flowers: newSite.Flowers,
-					Name: newSite.Name,
-					Note: newSite.Note,
-					Owner: newSite.Owner,
-					Parent: newSite.Parent,
+					Flowers:   newSite.Flowers,
+					Name:      newSite.Name,
+					Note:      newSite.Note,
+					Owner:     newSite.Owner,
+					Parent:    newSite.Parent,
 				}, nil
 			}).Once()
 		},
@@ -150,9 +152,9 @@ func (s *SitesAPITestSuite) TestDeletingSite() {
 		ExpectedError: false,
 		ExpectedCode:  200,
 		ExpectedBody:  "{\"DeletedCount\":1}",
-		SetupMocks:    func(db *mocks.Database) {
+		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().DeleteSite(
-				mock.Anything, s.RootSites[0].ID.Hex(),
+				mock.Anything, s.RootSites[0].ID.Hex(), s.TestUser.ID,
 			).Return(
 				&mongo.DeleteResult{DeletedCount: 1}, nil,
 			).Once()

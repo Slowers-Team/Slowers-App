@@ -19,7 +19,7 @@ import (
 
 type FlowersAPITestSuite struct {
 	suite.Suite
-	TestFlowers []database.Flower
+	TestFlowers        []database.Flower
 	TestFlowersConcise []database.Flower
 }
 
@@ -37,7 +37,7 @@ func (s *FlowersAPITestSuite) TestListingFlowersWithoutError() {
 		ExpectedError: false,
 		ExpectedCode:  200,
 		ExpectedBody:  utils.FlowersToJSON(s.TestFlowers),
-		SetupMocks:    func(db *mocks.Database) {
+		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetFlowers(
 				mock.Anything,
 			).Return(
@@ -56,7 +56,7 @@ func (s *FlowersAPITestSuite) TestListingFlowersWithError() {
 		ExpectedError: false,
 		ExpectedCode:  500,
 		ExpectedBody:  "Database error",
-		SetupMocks:    func(db *mocks.Database) {
+		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetFlowers(
 				mock.Anything,
 			).Return(
@@ -68,31 +68,37 @@ func (s *FlowersAPITestSuite) TestListingFlowersWithError() {
 
 func (s *FlowersAPITestSuite) TestAddingFlower() {
 	testutils.RunTest(s.T(), testutils.TestCase{
-		Description:      "POST /api/flowers",
-		Route:            "/api/flowers",
-		Method:           "POST",
-		Body:             utils.FlowerToJSON(s.TestFlowersConcise[0]),
-		ExpectedError:    false,
-		ExpectedCode:     201,
+		Description:   "POST /api/flowers",
+		Route:         "/api/flowers",
+		Method:        "POST",
+		Body:          utils.FlowerToJSON(s.TestFlowersConcise[0]),
+		ExpectedError: false,
+		ExpectedCode:  201,
 		ExpectedBodyFunc: func(body string) bool {
 			flower := database.Flower{}
-			json.Unmarshal([]byte(body), &flower)
+			err := json.Unmarshal([]byte(body), &flower)
+			s.NoError(err, "response body should include flower data: \""+body+"\"")
 			return flower.ID == s.TestFlowers[0].ID &&
 				flower.Name == s.TestFlowers[0].Name &&
 				flower.LatinName == s.TestFlowers[0].LatinName &&
 				time.Since(flower.AddedTime).Seconds() < 10.0
 		},
-		SetupMocks:       func(db *mocks.Database) {
+		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().AddFlower(
 				mock.Anything, mock.Anything,
 			).RunAndReturn(func(ctx context.Context, newFlower database.Flower) (*database.Flower, error) {
 				return &database.Flower{
-					ID: s.TestFlowers[0].ID,
-					Name: newFlower.Name,
+					ID:        s.TestFlowers[0].ID,
+					Name:      newFlower.Name,
 					LatinName: newFlower.LatinName,
 					AddedTime: newFlower.AddedTime,
 				}, nil
 			}).Once()
+			db.EXPECT().AddFlowerToSite(
+				mock.Anything, mock.Anything, mock.Anything,
+			).Return(
+				nil,
+			).Once()
 		},
 	})
 }
@@ -106,7 +112,7 @@ func (s *FlowersAPITestSuite) TestDeletingFlower() {
 		ExpectedError: false,
 		ExpectedCode:  204,
 		ExpectedBody:  "",
-		SetupMocks:    func(db *mocks.Database) {
+		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().DeleteFlower(
 				mock.Anything, s.TestFlowers[0].ID.Hex(),
 			).Return(
