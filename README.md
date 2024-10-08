@@ -23,9 +23,10 @@ Project done for the Software Lab course (TKT20007) at the University of Helsink
 6. Inside the `backend` directory, start the app with the command `go run .` (the app can be stopped by pressing Ctrl+C in the terminal where it was started)
 7. If you chose to run the frontend in the development mode, the application is now running at http://localhost:5173. If you chose to run it in the production mode, the application is running at http://localhost:5001.
 
-## Running the unit tests
+## Running unit tests for the backend
 
-1. Make sure you have a `.env` file as above
-2. Install Mockery if you haven't already ([instructions here](https://vektra.github.io/mockery/latest/installation)). (Do not use the version in the Ubuntu package manager, because it's not up-to-date.)
-3. Generate the mocks using the command `mockery`. (You might need to use the full path (e.g. `/home/user/go/bin/mockery`) depending on how you installed Mockery.)
-4. Run the unit tests for the backend using the command `go test ./...`
+1. Go to the `backend` directory
+2. Make sure you have a `.env` file as above
+3. Install Mockery if you haven't already ([instructions here](https://vektra.github.io/mockery/latest/installation)). (Do not use the version in the Ubuntu package manager, because it's not up-to-date.)
+4. Generate the mocks using the command `mockery`. (You might need to use the full path (e.g. `/home/user/go/bin/mockery`) depending on how you installed Mockery.)
+5. Run unit tests using the command `go test ./...`
