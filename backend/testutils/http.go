@@ -20,7 +20,7 @@ type TestCase struct {
 	Body             string
 	ExpectedCode     int
 	ExpectedBody     string
-	ExpectedBodyFunc func(body string) bool
+	ExpectedBodyFunc func(body string)
 	SetupMocks       func(db *mocks.Database)
 }
 
@@ -48,6 +48,6 @@ func RunTest(t *testing.T, test TestCase) {
 	if test.ExpectedBodyFunc == nil {
 		assert.Equalf(t, test.ExpectedBody, string(body), test.Description)
 	} else {
-		assert.Truef(t, test.ExpectedBodyFunc(string(body)), test.Description)
+		test.ExpectedBodyFunc(string(body))
 	}
 }

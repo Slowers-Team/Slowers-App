@@ -80,7 +80,7 @@ func (s *SitesAPITestSuite) TestAddingSite() {
 			Parent:  s.RootSites[0].Parent,
 		}),
 		ExpectedCode: 201,
-		ExpectedBodyFunc: func(body string) bool {
+		ExpectedBodyFunc: func(body string) {
 			site := database.Site{}
 			json.Unmarshal([]byte(body), &site)
 			log.Println("unmarshalled site:", site)
@@ -118,7 +118,6 @@ func (s *SitesAPITestSuite) TestAddingSite() {
 				s.RootSites[0].Parent,
 				"added site has wrong parent",
 			)
-			return true
 		},
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().AddSite(

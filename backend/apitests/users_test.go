@@ -81,9 +81,8 @@ func (s *UsersAPITestSuite) TestLoggingIn() {
 			},
 		),
 		ExpectedCode: 200,
-		ExpectedBodyFunc: func(body string) bool {
-			// TODO: Check that the token is valid
-			return true
+		ExpectedBodyFunc: func(body string) {
+			// TODO: Check here that the token is valid
 		},
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetUserByEmail(

@@ -74,14 +74,14 @@ func (s *FlowersAPITestSuite) TestAddingFlower() {
 			Site:      s.TestFlowers[0].Site,
 		}),
 		ExpectedCode: 201,
-		ExpectedBodyFunc: func(body string) bool {
+		ExpectedBodyFunc: func(body string) {
 			flower := database.Flower{}
 			err := json.Unmarshal([]byte(body), &flower)
 			s.NoError(err, "response body should include flower data: \""+body+"\"")
-			return flower.ID == s.TestFlowers[0].ID &&
-				flower.Name == s.TestFlowers[0].Name &&
-				flower.LatinName == s.TestFlowers[0].LatinName &&
-				time.Since(flower.AddedTime).Seconds() < 10.0
+			s.Equal(flower.ID, s.TestFlowers[0].ID, "wrong ID in the added flower")
+			s.Equal(flower.Name, s.TestFlowers[0].Name, "wrong Name in the added flower")
+			s.Equal(flower.LatinName, s.TestFlowers[0].LatinName, "wrong LatinName in the added flower")
+			s.Less(time.Since(flower.AddedTime).Seconds(), 10.0, "invalid AddedTime in the added flower")
 		},
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().AddFlower(
