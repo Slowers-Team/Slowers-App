@@ -11,10 +11,12 @@ import { useState, useEffect } from 'react'
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const token = localStorage.getItem('token')
     setIsLoggedIn(!!token)
+    setIsLoading(false)
   }, [])
 
   const handleLogout = () => {
@@ -24,6 +26,10 @@ const App = () => {
 
   const padding = {
     padding: 5,
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>
   }
 
   return (
