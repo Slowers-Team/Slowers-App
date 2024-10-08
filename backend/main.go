@@ -5,6 +5,7 @@ import (
 
 	"github.com/Slowers-team/Slowers-App/application"
 	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/handlers"
 )
 
 func main() {
@@ -14,6 +15,10 @@ func main() {
 	if err := db.Connect("Slowers"); err != nil {
 		log.Fatal(err)
 	}
+
+	application.SetSecretKey(secretKey)
+	handlers.SetSecretKey(secretKey)
+	handlers.SetDatabase(db)
 
 	app := application.SetupAndSetAuthTo(true)
 	app.Static("/", "./client/dist")
