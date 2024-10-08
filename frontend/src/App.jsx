@@ -3,6 +3,7 @@ import RegisterPage from "./pages/RegisterPage"
 import HomePage from "./pages/HomePage"
 import LogInPage from "./pages/LogInPage"
 import SitePage from "./pages/SitePage"
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -11,6 +12,7 @@ import {
   Navigate,
 } from "react-router-dom"
 import { useState, useEffect } from "react"
+import { Navbar, Nav } from "react-bootstrap"
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -33,22 +35,29 @@ const App = () => {
     <div>
       <Router>
         <div>
-          <nav>
-            <Link style={padding} to="/">
-              Home
-            </Link>
-            {!isLoggedIn && (
-              <Link style={padding} to="/register">
-                Register
-              </Link>
-            )}
-            {!isLoggedIn && (
-              <Link style={padding} to="/login">
-                Login
-              </Link>
-            )}
-            {isLoggedIn && <Link onClick={handleLogout}>Logout</Link>}
-          </nav>
+          <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="mr.auto">
+                <Nav.Link href="#" as="span">
+                  <Link style={padding} to="/">Home</Link>
+                </Nav.Link>
+                <Nav.Link href="#" as="span">
+                  {!isLoggedIn && (
+                    <Link style={padding} to="/register">Register</Link>
+                  )}
+                </Nav.Link>
+                <Nav.Link href="#" as="span">
+                  {!isLoggedIn && (
+                    <Link style={padding} to="/login">Login</Link>
+                  )}
+                </Nav.Link>
+                <Nav.Link href="#" as="span">
+                  {isLoggedIn && <Link onClick={handleLogout}>Logout</Link>}
+                </Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
           <Routes>
             <Route
               path="/"
