@@ -25,14 +25,15 @@ type Database interface {
 	DeleteFlower(ctx context.Context, id string) (bool, error)
 
 	AddSite(ctx context.Context, newSite Site) (*Site, error)
-	GetRootSites(ctx context.Context) ([]Site, error)
-	GetSite(ctx context.Context, id string) (bson.M, error)
-	DeleteSite(ctx context.Context, id string) (*mongo.DeleteResult, error)
+	GetRootSites(ctx context.Context, userID ObjectID) ([]Site, error)
+	GetSite(ctx context.Context, id string, userID ObjectID) (bson.M, error)
+	DeleteSite(ctx context.Context, id string, userID ObjectID) (*mongo.DeleteResult, error)
+	AddFlowerToSite(ctx context.Context, siteID ObjectID, flowerID ObjectID) error
 }
 
 type MongoDatabase struct {
 	databaseURI string
-	client *mongo.Client
+	client      *mongo.Client
 }
 
 type ObjectID = primitive.ObjectID

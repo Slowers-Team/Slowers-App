@@ -10,13 +10,20 @@ import (
 )
 
 func AddSite(c *fiber.Ctx) error {
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	if !database.IsValidID(user) {
+		return c.Status(500).SendString("Malformed userID in header")
+	}
+	userID := database.NewID(user)
+
 	site := new(database.Site)
 
 	if err := c.BodyParser(site); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
-
-	log.Println("received:", site)
 
 	if site.Name == "" {
 		return c.Status(400).SendString("Site name cannot be empty")
@@ -30,7 +37,7 @@ func AddSite(c *fiber.Ctx) error {
 	}
 
 	newSite := database.Site{Name: site.Name, Note: site.Note, AddedTime: time.Now(),
-		Parent: site.Parent, Flowers: flowers, Owner: site.Owner}
+		Parent: site.Parent, Flowers: flowers, Owner: &userID}
 
 	createdSite, err := db.AddSite(c.Context(), newSite)
 	if err != nil {
@@ -43,40 +50,63 @@ func AddSite(c *fiber.Ctx) error {
 }
 
 func GetRootSites(c *fiber.Ctx) error {
-	foundSites, err := db.GetRootSites(c.Context())
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	if !database.IsValidID(user) {
+		return c.Status(500).SendString("Malformed userID in header")
+	}
+	userID := database.NewID(user)
+
+	foundSites, err := db.GetRootSites(c.Context(), userID)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
-
-	log.Println(foundSites)
 
 	return c.JSON(foundSites)
 }
 
 func GetSite(c *fiber.Ctx) error {
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	if !database.IsValidID(user) {
+		return c.Status(500).SendString("Malformed userID in header")
+	}
+	userID := database.NewID(user)
+
 	id := c.Params("id")
 
 	if !database.IsValidID(id) {
 		return c.SendStatus(400)
 	}
 
-	result, err := db.GetSite(c.Context(), id)
+	result, err := db.GetSite(c.Context(), id, userID)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
-
-	log.Println("result:", result)
 
 	return c.JSON(result)
 }
 
 func DeleteSite(c *fiber.Ctx) error {
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	if !database.IsValidID(user) {
+		return c.Status(500).SendString("Malformed userID in header")
+	}
+	userID := database.NewID(user)
+
 	id := c.Params("id")
 	if !database.IsValidID(id) {
 		return c.SendStatus(400)
 	}
 
-	deleteResult, err := db.DeleteSite(c.Context(), id)
+	deleteResult, err := db.DeleteSite(c.Context(), id, userID)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
