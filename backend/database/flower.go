@@ -55,6 +55,20 @@ func (mDb MongoDatabase) DeleteFlower(ctx context.Context, id string) (bool, err
 		return false, err
 	}
 
+	var flower Flower
+	err = db.Collection("flowers").FindOne(ctx, bson.M{"_id": objectID}).Decode(&flower)
+	if err != nil {
+		return false, nil
+	}
+
+	if flower.Site != nil {
+		update := bson.M{"$pull": bson.M{"flowers": objectID}}
+		_, err = db.Collection("sites").UpdateOne(ctx, bson.M{"_id": flower.Site}, update)
+		if err != nil {
+			return true, err
+		}
+	}
+
 	filter := bson.M{"_id": objectID}
 	result, err := db.Collection("flowers").DeleteOne(ctx, filter)
 	if err != nil {
