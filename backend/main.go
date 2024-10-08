@@ -188,6 +188,20 @@ func deleteFlower(c *fiber.Ctx) error {
 		return c.SendStatus(400)
 	}
 
+	var flower Flower
+	err = collection.FindOne(c.Context(), bson.M{"_id": objectID}).Decode(&flower)
+	if err != nil {
+		return c.SendStatus(404)
+	}
+
+	if flower.Site != nil {
+		update := bson.M{"$pull": bson.M{"flowers": objectID}}
+		_, err = sites.UpdateOne(c.Context(), bson.M{"_id": flower.Site}, update)
+		if err != nil {
+			return c.Status(500).SendString("Failed to delete the flower from site: " + err.Error())
+		}
+	}
+
 	filter := bson.M{"_id": objectID}
 	result, err := collection.DeleteOne(c.Context(), filter)
 
