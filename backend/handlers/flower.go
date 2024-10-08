@@ -39,7 +39,6 @@ func AddFlower(c *fiber.Ctx) error {
 	if flower.Site == nil {
 		return c.Status(400).SendString("SiteID is required")
 	}
-
 	if !database.IsValidID(flower.Site.Hex()) {
 		return c.Status(400).SendString("Invalid siteID")
 	}
@@ -53,7 +52,6 @@ func AddFlower(c *fiber.Ctx) error {
 	}
 
 	flowerID := createdFlower.ID
-
 	err = db.AddFlowerToSite(c.Context(), siteID, flowerID)
 	if err != nil {
 		return c.Status(500).SendString("Failed to update site with flower ID: " + err.Error())

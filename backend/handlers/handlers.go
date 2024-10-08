@@ -1,8 +1,6 @@
 package handlers
 
-import (
-	"github.com/Slowers-team/Slowers-App/database"
-)
+import "github.com/Slowers-team/Slowers-App/database"
 
 var db database.Database
 
