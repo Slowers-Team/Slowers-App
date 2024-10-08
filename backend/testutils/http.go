@@ -18,7 +18,6 @@ type TestCase struct {
 	Route            string
 	Method           string
 	Body             string
-	ExpectedError    bool
 	ExpectedCode     int
 	ExpectedBody     string
 	ExpectedBodyFunc func(body string) bool
@@ -41,11 +40,6 @@ func RunTest(t *testing.T, test TestCase) {
 	res, err := app.Test(req, -1)
 
 	db.AssertExpectations(t)
-
-	assert.Equalf(t, test.ExpectedError, err != nil, test.Description)
-	if test.ExpectedError {
-		return
-	}
 
 	assert.Equalf(t, test.ExpectedCode, res.StatusCode, test.Description)
 

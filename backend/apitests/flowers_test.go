@@ -28,13 +28,12 @@ func (s *FlowersAPITestSuite) SetupSuite() {
 
 func (s *FlowersAPITestSuite) TestListingFlowersWithoutError() {
 	testutils.RunTest(s.T(), testutils.TestCase{
-		Description:   "\"GET /api/flowers\" without error",
-		Route:         "/api/flowers",
-		Method:        "GET",
-		Body:          "",
-		ExpectedError: false,
-		ExpectedCode:  200,
-		ExpectedBody:  utils.FlowersToJSON(s.TestFlowers),
+		Description:  "\"GET /api/flowers\" without error",
+		Route:        "/api/flowers",
+		Method:       "GET",
+		Body:         "",
+		ExpectedCode: 200,
+		ExpectedBody: utils.FlowersToJSON(s.TestFlowers),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetFlowers(
 				mock.Anything,
@@ -47,13 +46,12 @@ func (s *FlowersAPITestSuite) TestListingFlowersWithoutError() {
 
 func (s *FlowersAPITestSuite) TestListingFlowersWithError() {
 	testutils.RunTest(s.T(), testutils.TestCase{
-		Description:   "\"GET /api/flowers\" with error",
-		Route:         "/api/flowers",
-		Method:        "GET",
-		Body:          "",
-		ExpectedError: false,
-		ExpectedCode:  500,
-		ExpectedBody:  "Database error",
+		Description:  "\"GET /api/flowers\" with error",
+		Route:        "/api/flowers",
+		Method:       "GET",
+		Body:         "",
+		ExpectedCode: 500,
+		ExpectedBody: "Database error",
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetFlowers(
 				mock.Anything,
@@ -75,8 +73,7 @@ func (s *FlowersAPITestSuite) TestAddingFlower() {
 			Grower:    s.TestFlowers[0].Grower,
 			Site:      s.TestFlowers[0].Site,
 		}),
-		ExpectedError: false,
-		ExpectedCode:  201,
+		ExpectedCode: 201,
 		ExpectedBodyFunc: func(body string) bool {
 			flower := database.Flower{}
 			err := json.Unmarshal([]byte(body), &flower)
@@ -108,13 +105,12 @@ func (s *FlowersAPITestSuite) TestAddingFlower() {
 
 func (s *FlowersAPITestSuite) TestDeletingFlower() {
 	testutils.RunTest(s.T(), testutils.TestCase{
-		Description:   "DELETE /api/flowers/<id>",
-		Route:         "/api/flowers/" + s.TestFlowers[0].ID.Hex(),
-		Method:        "DELETE",
-		Body:          "",
-		ExpectedError: false,
-		ExpectedCode:  204,
-		ExpectedBody:  "",
+		Description:  "DELETE /api/flowers/<id>",
+		Route:        "/api/flowers/" + s.TestFlowers[0].ID.Hex(),
+		Method:       "DELETE",
+		Body:         "",
+		ExpectedCode: 204,
+		ExpectedBody: "",
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().DeleteFlower(
 				mock.Anything, s.TestFlowers[0].ID.Hex(),

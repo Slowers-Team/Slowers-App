@@ -26,20 +26,19 @@ func (s *UsersAPITestSuite) SetupSuite() {
 
 func (s *UsersAPITestSuite) TestCreatingUser() {
 	testutils.RunTest(s.T(), testutils.TestCase{
-		Description:   "POST /api/register",
-		Route:         "/api/register",
-		Method:        "POST",
-		Body:          utils.UserToJSON(
+		Description: "POST /api/register",
+		Route:       "/api/register",
+		Method:      "POST",
+		Body: utils.UserToJSON(
 			database.User{
 				Username: s.TestUser.Username,
-				Email: s.TestUser.Email,
+				Email:    s.TestUser.Email,
 				Password: s.TestUser.Password,
 			},
 		),
-		ExpectedError: false,
-		ExpectedCode:  201,
-		ExpectedBody:  "Created",
-		SetupMocks:    func(db *mocks.Database) {
+		ExpectedCode: 201,
+		ExpectedBody: "Created",
+		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().CountUsersWithEmail(
 				mock.Anything, s.TestUser.Email,
 			).Return(
@@ -59,7 +58,7 @@ func (s *UsersAPITestSuite) TestCreatingUser() {
 					"tried to add wrong email to database",
 				)
 				s.NoError(
-				     bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(s.TestUser.Password)),
+					bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(s.TestUser.Password)),
 					"tried to add wrong Username to database",
 				)
 				return nil
@@ -72,29 +71,28 @@ func (s *UsersAPITestSuite) TestLoggingIn() {
 	hashedPassword, _ := utils.HashPassword(s.TestUser.Password)
 
 	testutils.RunTest(s.T(), testutils.TestCase{
-		Description:      "POST /api/login",
-		Route:            "/api/login",
-		Method:           "POST",
-		Body:             utils.LogInToJSON(
+		Description: "POST /api/login",
+		Route:       "/api/login",
+		Method:      "POST",
+		Body: utils.LogInToJSON(
 			database.LogIn{
-				Email: s.TestUser.Email,
+				Email:    s.TestUser.Email,
 				Password: s.TestUser.Password,
 			},
 		),
-		ExpectedError:    false,
-		ExpectedCode:     200,
+		ExpectedCode: 200,
 		ExpectedBodyFunc: func(body string) bool {
 			// TODO: Check that the token is valid
 			return true
 		},
-		SetupMocks:       func(db *mocks.Database) {
+		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetUserByEmail(
 				mock.Anything, s.TestUser.Email,
 			).Return(
 				&database.User{
-					ID: s.TestUser.ID,
+					ID:       s.TestUser.ID,
 					Username: s.TestUser.Username,
-					Email: s.TestUser.Email,
+					Email:    s.TestUser.Email,
 					Password: hashedPassword,
 				},
 				nil,

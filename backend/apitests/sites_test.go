@@ -33,13 +33,12 @@ func (s *SitesAPITestSuite) SetupSuite() {
 
 func (s *SitesAPITestSuite) TestListingRootSites() {
 	testutils.RunTest(s.T(), testutils.TestCase{
-		Description:   "GET /api/sites",
-		Route:         "/api/sites",
-		Method:        "GET",
-		Body:          "",
-		ExpectedError: false,
-		ExpectedCode:  200,
-		ExpectedBody:  utils.SitesToJSON(s.RootSites),
+		Description:  "GET /api/sites",
+		Route:        "/api/sites",
+		Method:       "GET",
+		Body:         "",
+		ExpectedCode: 200,
+		ExpectedBody: utils.SitesToJSON(s.RootSites),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetRootSites(
 				mock.Anything, s.TestUser.ID,
@@ -52,13 +51,12 @@ func (s *SitesAPITestSuite) TestListingRootSites() {
 
 func (s *SitesAPITestSuite) TestFetchingSite() {
 	testutils.RunTest(s.T(), testutils.TestCase{
-		Description:   "GET /api/sites/<id>",
-		Route:         "/api/sites/" + s.RootSites[0].ID.Hex(),
-		Method:        "GET",
-		Body:          "",
-		ExpectedError: false,
-		ExpectedCode:  200,
-		ExpectedBody:  utils.SiteDataToJSON(testdata.GetSite()),
+		Description:  "GET /api/sites/<id>",
+		Route:        "/api/sites/" + s.RootSites[0].ID.Hex(),
+		Method:       "GET",
+		Body:         "",
+		ExpectedCode: 200,
+		ExpectedBody: utils.SiteDataToJSON(testdata.GetSite()),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetSite(
 				mock.Anything, s.RootSites[0].ID.Hex(), s.TestUser.ID,
@@ -81,8 +79,7 @@ func (s *SitesAPITestSuite) TestAddingSite() {
 			Owner:   s.RootSites[0].Owner,
 			Parent:  s.RootSites[0].Parent,
 		}),
-		ExpectedError: false,
-		ExpectedCode:  201,
+		ExpectedCode: 201,
 		ExpectedBodyFunc: func(body string) bool {
 			site := database.Site{}
 			json.Unmarshal([]byte(body), &site)
@@ -143,13 +140,12 @@ func (s *SitesAPITestSuite) TestAddingSite() {
 
 func (s *SitesAPITestSuite) TestDeletingSite() {
 	testutils.RunTest(s.T(), testutils.TestCase{
-		Description:   "DELETE /api/sites/<id>",
-		Route:         "/api/sites/" + s.RootSites[0].ID.Hex(),
-		Method:        "DELETE",
-		Body:          "",
-		ExpectedError: false,
-		ExpectedCode:  200,
-		ExpectedBody:  "{\"DeletedCount\":1}",
+		Description:  "DELETE /api/sites/<id>",
+		Route:        "/api/sites/" + s.RootSites[0].ID.Hex(),
+		Method:       "DELETE",
+		Body:         "",
+		ExpectedCode: 200,
+		ExpectedBody: "{\"DeletedCount\":1}",
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().DeleteSite(
 				mock.Anything, s.RootSites[0].ID.Hex(), s.TestUser.ID,
