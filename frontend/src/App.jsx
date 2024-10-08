@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);  
+  const [defaultRole, setDefaultRole] = useState('')
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -16,6 +17,7 @@ const App = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
+    setDefaultRole('')
   };
 
   const padding = {
@@ -32,9 +34,13 @@ const App = () => {
             {!isLoggedIn && <Link style={padding} to="/login">Login</Link>}
             {isLoggedIn && <Link onClick={handleLogout}>Logout</Link>}
           </nav>
+        <p>rooli: { defaultRole }</p>
           <Routes>
             <Route path="/" element={isLoggedIn ? <HomePage /> : <Navigate replace to="/login" />} />
-            <Route path="/login" element={!isLoggedIn ? <LogInPage onLogin={handleLogout} setIsLoggedIn={setIsLoggedIn} /> : <Navigate replace to="/" />} />
+            <Route path="/login" element={
+              !isLoggedIn 
+              ? <LogInPage onLogin={handleLogout} setIsLoggedIn={setIsLoggedIn} setDefaultRole={setDefaultRole} />
+              : <Navigate replace to="/" />} />
             <Route path="/register" element={<RegisterPage />} />
           </Routes>
         </div>

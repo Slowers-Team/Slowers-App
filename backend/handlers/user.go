@@ -92,5 +92,5 @@ func HandleLogin(c *fiber.Ctx) error {
 		return c.Status(500).SendString("Could not create token")
 	}
 
-	return c.JSON(fiber.Map{"token": tokenString})
+	return c.JSON(fiber.Map{"token": tokenString, "role": user.Role})
 }
