@@ -1,67 +1,68 @@
-import { useState, useEffect } from "react"
-import { useParams, useNavigate } from "react-router-dom"
-
-import SiteService from "../services/sites"
-import flowerService from "../services/flowers"
-import FlowerForm from "../components/FlowerForm"
-import SiteFlexbox from "../components/SiteFlexbox"
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import SiteService from "../services/sites";
+import flowerService from "../services/flowers";
+import FlowerForm from "../components/FlowerForm";
+import SiteFlexbox from "../components/SiteFlexbox";
+import SiteFlowers from "../components/SiteFlowers"; // Import the SiteFlowers component
 
 const SitePage = () => {
-  const params = useParams()
-  const navigate = useNavigate()
-  const [site, setSite] = useState({})
-  const [sites, setSites] = useState([])
-  const [showAddNewFlower, setShowAddNewFlower] = useState(false)
+  const params = useParams();
+  const navigate = useNavigate();
+  const [site, setSite] = useState({});
+  const [sites, setSites] = useState([]);
+  const [showAddNewFlower, setShowAddNewFlower] = useState(false);
+  const [userID, setUserID] = useState(localStorage.getItem("userID")); // Assuming userID is stored in localStorage
 
   useEffect(() => {
     SiteService.get(params.id)
       .then(initialSites => {
         if (params.id) {
-          setSite(initialSites.site)
-          setSites(initialSites.subsites)
+          setSite(initialSites.site);
+          setSites(initialSites.subsites);
         } else {
-          setSites(initialSites)
+          setSites(initialSites);
         }
       })
       .catch(error => {
-        console.error("Error:", error)
-        navigate("/")
-      })
-  }, [params.id, navigate])
+        console.error("Error:", error);
+        navigate("/");
+      });
+  }, [params.id, navigate]);
 
   const addFlower = flowerObject => {
     flowerService.create(flowerObject).catch(error => {
-      console.log(error)
-      alert("Adding failed")
-    })
-  }
+      console.log(error);
+      alert("Adding failed");
+    });
+  };
 
   const createSite = siteObject => {
     SiteService.create(siteObject)
       .then(newSite => {
-        setSites(prevSites => (prevSites ? [...prevSites, newSite] : [newSite]))
+        setSites(prevSites => (prevSites ? [...prevSites, newSite] : [newSite]));
       })
       .catch(error => {
-        alert("Error: " + error.response.data)
-      })
-  }
+        alert("Error: " + error.response.data);
+      });
+  };
 
   const deleteSite = siteObject => {
     if (
       window.confirm(`Are you sure you want to delete site ${siteObject.name}?`)
     ) {
-      const parentId = siteObject.parent ? siteObject.parent : ""
+      const parentId = siteObject.parent ? siteObject.parent : "";
       SiteService.remove(siteObject._id)
         .then(() => navigate("/site/" + parentId))
         .catch(error => {
-          console.error("Error deleting site:", error)
-        })
+          console.error("Error deleting site:", error);
+        });
     }
-  }
+  };
 
   const handleBack = () => {
-    navigate(-1)
-  }
+    navigate(-1);
+  };
 
   return (
     <>
@@ -89,6 +90,8 @@ const SitePage = () => {
                 Delete this site
               </button>
               <SiteFlexbox createSite={createSite} sites={sites} />
+              {/* Add SiteFlowers component here */}
+              <SiteFlowers siteID={params.id} userID={userID} />
             </main>
           </div>
         </div>
@@ -105,7 +108,7 @@ const SitePage = () => {
         </>
       )}
     </>
-  )
-}
+  );
+};
 
-export default SitePage
+export default SitePage;
