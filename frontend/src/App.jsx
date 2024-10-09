@@ -1,24 +1,22 @@
-import "./App.css"
-import RegisterPage from "./pages/RegisterPage"
-import TermsPage from "./pages/TermsPage"
-import HomePage from "./pages/HomePage"
-import LogInPage from "./pages/LogInPage"
-import SitePage from "./pages/SitePage"
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  Navigate,
-} from "react-router-dom"
-import { useState, useEffect } from "react"
+import './App.css'
+import RegisterPage from './pages/RegisterPage'
+import TermsPage from './pages/TermsPage'
+import HomePage from './pages/HomePage'
+import LogInPage from './pages/LogInPage'
+import SitePage from './pages/SitePage'
+import GrowerLayout from './layouts/GrowerLayout'
+import GrowerFlowerPage from './pages/GrowerFlowerPage'
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const token = localStorage.getItem('token')
     setIsLoggedIn(!!token)
+    setIsLoading(false)
   }, [])
 
   const handleLogout = () => {
@@ -28,6 +26,10 @@ const App = () => {
 
   const padding = {
     padding: 5,
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>
   }
 
   return (

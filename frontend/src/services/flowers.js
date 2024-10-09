@@ -12,7 +12,7 @@ const getAll = () => {
 
 const getUserFlowers = () => {
   const config = {
-    headers: { Authorization: localStorage.getItem('token') },
+    headers: { Authorization: tokenService.fetchToken() },
   }
   const request = axios.get(`${baseUrl}/user`, config)
   return request.then(response => response.data)

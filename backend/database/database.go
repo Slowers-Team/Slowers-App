@@ -21,6 +21,7 @@ type Database interface {
 	GetUserByEmail(ctx context.Context, email string) (*User, error)
 
 	GetFlowers(ctx context.Context) ([]Flower, error)
+	GetUserFlowers(ctx context.Context, userID ObjectID) ([]Flower, error)
 	AddFlower(ctx context.Context, newFlower Flower) (*Flower, error)
 	DeleteFlower(ctx context.Context, id string) (bool, error)
 
@@ -29,6 +30,7 @@ type Database interface {
 	GetSite(ctx context.Context, id string, userID ObjectID) (bson.M, error)
 	DeleteSite(ctx context.Context, id string, userID ObjectID) (*mongo.DeleteResult, error)
 	AddFlowerToSite(ctx context.Context, siteID ObjectID, flowerID ObjectID) error
+	GetSiteByID(ctx context.Context, siteID ObjectID) (*Site, error)
 }
 
 type MongoDatabase struct {

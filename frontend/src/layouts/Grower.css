@@ -87,3 +87,16 @@
   #growerFlowerList tbody tr:hover {
     background-color: #f6f6f6eb;
   }
+
+  #deleteFlowerButton {
+    background-color: #c1dadf;
+    color: black;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
