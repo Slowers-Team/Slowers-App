@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type User struct {
@@ -17,6 +18,13 @@ type LogIn struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
+
+type Role string
+
+const (
+	Grower   = "grower"
+	Retailer = "retailer"
+)
 
 func (mDb MongoDatabase) CountUsersWithEmail(ctx context.Context, email string) (int64, error) {
 	filter := bson.M{"email": email}
@@ -40,4 +48,11 @@ func (mDb MongoDatabase) GetUserByEmail(ctx context.Context, email string) (*Use
 		return nil, err
 	}
 	return user, nil
+}
+
+func (mDb MongoDatabase) SetUserRole(ctx context.Context, userID primitive.ObjectID, role Role) error {
+	update := bson.M{"$set": bson.M{"role": role}}
+	_, err := db.Collection("users").UpdateByID(ctx, userID, update)
+
+	return err
 }
