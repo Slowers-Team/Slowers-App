@@ -8,8 +8,6 @@ import (
 	"github.com/Slowers-team/Slowers-App/handlers"
 )
 
-=======
->>>>>>> development
 func main() {
 	secretKey, databaseURI, port := GetEnvironmentVariables()
 
