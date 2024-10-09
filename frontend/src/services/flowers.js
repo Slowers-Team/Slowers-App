@@ -1,5 +1,5 @@
-import axios from 'axios'
-const baseUrl = '/api/flowers'
+import axios from "axios"
+const baseUrl = "/api/flowers"
 
 const getAll = () => {
   const config = {
@@ -13,6 +13,7 @@ const create = newFlower => {
   const config = {
     headers: { Authorization: localStorage.getItem("token") },
   }
+  console.log(newFlower)
   const request = axios.post(baseUrl, newFlower, config)
   return request.then(response => response.data)
 }
@@ -25,5 +26,7 @@ const remove = id => {
 }
 
 export default {
-  getAll, create, remove
+  getAll,
+  create,
+  remove,
 }
