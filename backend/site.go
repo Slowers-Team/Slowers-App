@@ -145,7 +145,7 @@ func getSite(c *fiber.Ctx) error {
 
 func deleteSite(c *fiber.Ctx) error {
 	user, ok := c.Locals("userID").(string)
-	if !ok {
+	if !ok {pipeline
 		return c.Status(500).SendString("Invalid userID in header")
 	}
 	userID, err := primitive.ObjectIDFromHex(user)

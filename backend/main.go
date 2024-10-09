@@ -113,26 +113,39 @@ func main() {
 }
 
 func getFlowers(c *fiber.Ctx) error {
-    userID := c.Locals("userID").(string) 
+	cursor, err := collection.Find(c.Context(), bson.M{})
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
 
-    
-    objectID, err := primitive.ObjectIDFromHex(userID)
-    if err != nil {
-        return c.Status(500).SendString(err.Error())
-    }
+	flowers := make([]Flower, 0)
+	if err := cursor.All(c.Context(), &flowers); err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
 
-    
-    cursor, err := collection.Find(c.Context(), bson.M{"grower": objectID})
-    if err != nil {
-        return c.Status(500).SendString(err.Error())
-    }
+	return c.JSON(flowers)
+}
 
-    flowers := make([]Flower, 0)
-    if err := cursor.All(c.Context(), &flowers); err != nil {
-        return c.Status(500).SendString(err.Error())
-    }
+func getUserFlowers(c *fiber.Ctx) error {
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	userID, err := primitive.ObjectIDFromHex(user)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	cursor, err := collection.Find(c.Context(), bson.M{"grower": userID})
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
 
-    return c.JSON(flowers)
+	flowers := make([]Flower, 0)
+	if err := cursor.All(c.Context(), &flowers); err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	return c.JSON(flowers)
 }
 
 func addFlower(c *fiber.Ctx) error {
@@ -338,3 +351,4 @@ func AuthMiddleware(c *fiber.Ctx) error {
 	c.Locals("userID", claims.Subject)
 	return c.Next()
 }
+
