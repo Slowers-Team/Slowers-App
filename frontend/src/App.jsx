@@ -1,12 +1,17 @@
-import './App.css'
-import RegisterPage from './pages/RegisterPage'
-import HomePage from './pages/HomePage'
-import LogInPage from './pages/LogInPage'
-import SitePage from './pages/SitePage'
-import GrowerLayout from './layouts/GrowerLayout'
-import GrowerFlowerPage from './pages/GrowerFlowerPage'
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import "./App.css"
+import RegisterPage from "./pages/RegisterPage"
+import TermsPage from "./pages/TermsPage"
+import HomePage from "./pages/HomePage"
+import LogInPage from "./pages/LogInPage"
+import SitePage from "./pages/SitePage"
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+} from "react-router-dom"
+import { useState, useEffect } from "react"
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -47,6 +52,9 @@ const App = () => {
               </Link>
             )}
             {isLoggedIn && <Link onClick={handleLogout}>Logout</Link>}
+            <Link style={padding} to="/terms">
+              Terms
+            </Link>
           </nav>
           <Routes>
             <Route
@@ -64,6 +72,7 @@ const App = () => {
               }
             />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/terms" element={<TermsPage />} />
 
             <Route
               path="/site"
