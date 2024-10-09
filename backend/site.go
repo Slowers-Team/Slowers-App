@@ -230,3 +230,4 @@ func deleteSite(c *fiber.Ctx) error {
 
 	return c.JSON(deleteResult)
 }
+
