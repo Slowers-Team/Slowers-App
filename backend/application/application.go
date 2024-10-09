@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 
 	"github.com/Slowers-team/Slowers-App/handlers"
+	"github.com/Slowers-team/Slowers-App/testdata"
 )
 
 var SecretKey []byte
@@ -23,6 +24,8 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 
 	if isAuthOn {
 		app.Use(AuthMiddleware)
+	} else {
+		app.Use(TestAuthMiddleware)
 	}
 
 	app.Post("/api/flowers", handlers.AddFlower)
@@ -56,5 +59,10 @@ func AuthMiddleware(c *fiber.Ctx) error {
 	}
 
 	c.Locals("userID", claims.Subject)
+	return c.Next()
+}
+
+func TestAuthMiddleware(c *fiber.Ctx) error {
+	c.Locals("userID", testdata.GetUser().ID.Hex())
 	return c.Next()
 }

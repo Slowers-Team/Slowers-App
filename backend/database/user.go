@@ -13,6 +13,11 @@ type User struct {
 	Email    string   `json:"email"`
 }
 
+type LogIn struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 func (mDb MongoDatabase) CountUsersWithEmail(ctx context.Context, email string) (int64, error) {
 	filter := bson.M{"email": email}
 	count, err := db.Collection("users").CountDocuments(ctx, filter)

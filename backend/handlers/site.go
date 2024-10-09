@@ -58,6 +58,7 @@ func GetRootSites(c *fiber.Ctx) error {
 		return c.Status(500).SendString("Malformed userID in header")
 	}
 	userID := database.NewID(user)
+
 	foundSites, err := db.GetRootSites(c.Context(), userID)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
