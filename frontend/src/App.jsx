@@ -7,6 +7,8 @@ import SitePage from './pages/SitePage'
 import RetailerHomePage from './pages/RetailerHomePage'
 import RetailerFlowerPage from './pages/RetailerFlowerPage'
 import RetailerLayout from './layouts/RetailerLayout'
+import GrowerLayout from './layouts/GrowerLayout'
+import GrowerFlowerPage from './pages/GrowerFlowerPage'
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
@@ -44,6 +46,9 @@ const App = () => {
             <Link style={padding} to="/retailer">
               Retailer Page
             </Link>
+            <Link style={padding} to="/grower">
+              Grower Page
+            </Link>
             {!isLoggedIn && (
               <Link style={padding} to="/register">
                 Register
@@ -76,7 +81,6 @@ const App = () => {
             />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/terms" element={<TermsPage />} />
-
             <Route
               path="/site"
               element={isLoggedIn ? <SitePage /> : <Navigate replace to="/login" />}
@@ -89,12 +93,20 @@ const App = () => {
               path="/flowers"
               element={isLoggedIn ? <HomePage /> : <Navigate replace to="/login" />}
             />
+
             <Route
               path="/retailer"
               element={isLoggedIn ? <RetailerLayout /> : <Navigate replace to="/login" />}
             >
               <Route index element={<RetailerHomePage />} />
               <Route path="flowers" element={<RetailerFlowerPage />} />
+            </Route>
+            <Route
+              path="/grower"
+              element={isLoggedIn ? <GrowerLayout /> : <Navigate replace to="/login" />}
+            >
+              <Route index element={<SitePage />} />
+              <Route path="flowers" element={<GrowerFlowerPage />} />
             </Route>
           </Routes>
         </div>
