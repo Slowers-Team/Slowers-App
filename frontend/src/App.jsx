@@ -12,6 +12,7 @@ import {
   Navigate,
 } from "react-router-dom"
 import { useState, useEffect } from "react"
+import i18n from "./i18n"
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -53,6 +54,10 @@ const App = () => {
               Terms
             </Link>
           </nav>
+          <div style={{position: "absolute", top: "0", right: "0", padding: "8px"}}>
+            <a href="#" onClick={() => i18n.changeLanguage('en')} style={{paddingRight: "0.8rem"}}>en</a>
+            <a href="#" onClick={() => i18n.changeLanguage('fi')} style={{paddingRight: "0.8rem"}}>fi</a>
+          </div>
           <Routes>
             <Route
               path="/"
