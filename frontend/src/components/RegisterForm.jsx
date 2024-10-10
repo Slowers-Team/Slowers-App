@@ -45,14 +45,14 @@ const RegisterForm = ({ createNewUser }) => {
                   <input type="email" id="newEmailInput" value={newEmail} onChange={event => setNewEmail(event.target.value)} />
                 </div>
                 <div>
-                    <label htmlFor="roleSelector">Default role:</label>
+                    <label htmlFor="roleSelector">{t('label.defaultrole')}:</label>
                     <div>
                         <input type="radio" name="roleSelector" id="growerSelector" value="grower" onChange={event => setNewRole(event.target.value)}/>
-                        <label htmlFor="growerSelector">Grower</label>
+                        <label htmlFor="growerSelector">{t('role.grower')}</label>
                     </div>
                     <div>
                         <input type="radio" name="roleSelector" id="retailerSelector" value="retailer" onChange={event => setNewRole(event.target.value)}/>
-                        <label htmlFor="retailerSelector">Retailer</label>
+                        <label htmlFor="retailerSelector">{t('role.retailer')}</label>
                     </div>
                 </div>
                 <div>

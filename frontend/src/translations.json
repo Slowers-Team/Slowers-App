@@ -31,6 +31,7 @@
       "label": {
         "confirmflowerdeletion": "Are you sure you want to delete the flower",
         "confirmsitedeletion": "Are you sure you want to delete the site",
+        "defaultrole": "Default role",
         "iagreeto": "I agree to the",
         "loading": "Loading...",
         "terms": "terms and conditions"
@@ -44,6 +45,10 @@
         "login": "Login",
         "logout": "Logout",
         "terms": "Terms"
+      },
+      "role": {
+        "grower": "Grower",
+        "retailer": "Retailer"
       },
       "site": {
         "data": {
@@ -100,6 +105,7 @@
       "label": {
         "confirmflowerdeletion": "Haluatko varmasti poistaa kukan",
         "confirmsitedeletion": "Haluatko varmasti poistaa alueen",
+        "defaultrole": "Oletusrooli",
         "iagreeto": "Hyväksyn",
         "loading": "Ladataan...",
         "terms": "käyttöehdot"
@@ -113,6 +119,10 @@
         "login": "Kirjaudu sisään",
         "logout": "Kirjaudu ulos",
         "terms": "Käyttöehdot"
+      },
+      "role": {
+        "grower": "Kasvattaja",
+        "retailer": "Jälleenmyyjä"
       },
       "site": {
         "data": {
