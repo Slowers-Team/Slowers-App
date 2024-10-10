@@ -18,6 +18,15 @@ const UserPage = () => {
     }
   } */
 
+  const handleRoleSwitch = () => {
+    const newRole = switchRole();
+    userService.setRole(newRole).then(response => {
+      console.log(response)
+      setUser({...user,
+      role: newRole})
+    })
+  }
+
   const switchRole = () => {
     if (user.role == "grower") {
       return "retailer"
@@ -41,7 +50,7 @@ const UserPage = () => {
         <tr>
           <td>Role</td>
           <td>{user.role}</td>
-          <td><button>Switch to {switchRole()}</button></td>
+          <td><button onClick={handleRoleSwitch}>Switch to {switchRole()}</button></td>
         </tr>
         </tbody>
       </table>

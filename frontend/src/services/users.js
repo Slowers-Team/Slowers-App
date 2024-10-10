@@ -1,4 +1,6 @@
 import axios from 'axios'
+import tokenService from './token'
+
 const baseUrl = '/api/register'
 
 const create = newUser =>  {
@@ -18,14 +20,20 @@ const login = (email, password)  => {
 
 const get = () => {
   const config = {
-    headers: { Authorization: fetchToken() },
+    headers: { Authorization: tokenService.fetchToken() },
   }
   const url = "/api/user"
   return axios.get(url, config).then(response => response.data)
 }
 
-const fetchToken = () => {
-  return localStorage.getItem("token")
+const setRole = (role) => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken(),
+    'Content-Type': 'application/json'},
+  }
+  const url = '/api/user/role'
+  console.log(config)
+  return axios.post(url, role, config).then(response => response.data)
 }
 
 
@@ -33,4 +41,5 @@ export default {
   create, 
   login,
   get,
+  setRole,
 }
