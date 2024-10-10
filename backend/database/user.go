@@ -41,3 +41,13 @@ func (mDb MongoDatabase) GetUserByEmail(ctx context.Context, email string) (*Use
 	}
 	return user, nil
 }
+
+func (mDb MongoDatabase) GetUserByID(ctx context.Context, userID ObjectID) (*User, error) {
+	user := new(User)
+	filter := bson.M{"_id": userID}
+	err := db.Collection("users").FindOne(ctx, filter).Decode(&user)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}
