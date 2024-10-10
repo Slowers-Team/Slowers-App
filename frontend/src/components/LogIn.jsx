@@ -16,6 +16,7 @@ const LogIn = ({ onLogin, setIsLoggedIn, setDefaultRole }) => {
 
       if (response.ok) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("role", data.role);
         setIsLoggedIn(true); 
         setDefaultRole(data.role);
         onLogin();

@@ -17,12 +17,15 @@ const App = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token')
+    const role = localStorage.getItem('role')
     setIsLoggedIn(!!token)
+    setDefaultRole(role)
     setIsLoading(false)
   }, [])
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
     setIsLoggedIn(false);
     setDefaultRole('')
   };
@@ -78,20 +81,6 @@ const App = () => {
                     setIsLoggedIn={setIsLoggedIn}
                     setDefaultRole={setDefaultRole}
                   />
-                ) : (
-                  <Navigate replace to="/" />
-                )
-              }
-            />
-            <Route
-              path="/"
-              element={isLoggedIn ? <SitePage /> : <Navigate replace to="/login" />}
-            />
-            <Route
-              path="/login"
-              element={
-                !isLoggedIn ? (
-                  <LogInPage onLogin={handleLogout} setIsLoggedIn={setIsLoggedIn} />
                 ) : (
                   <Navigate replace to="/" />
                 )
