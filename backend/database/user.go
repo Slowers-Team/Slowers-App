@@ -20,13 +20,6 @@ type LogIn struct {
 	Password string `json:"password"`
 }
 
-type Role string
-
-const (
-	Grower   = "grower"
-	Retailer = "retailer"
-)
-
 func (mDb MongoDatabase) CountUsersWithEmail(ctx context.Context, email string) (int64, error) {
 	filter := bson.M{"email": email}
 	count, err := db.Collection("users").CountDocuments(ctx, filter)
@@ -51,7 +44,7 @@ func (mDb MongoDatabase) GetUserByEmail(ctx context.Context, email string) (*Use
 	return user, nil
 }
 
-func (mDb MongoDatabase) SetUserRole(ctx context.Context, userID primitive.ObjectID, role Role) error {
+func (mDb MongoDatabase) SetUserRole(ctx context.Context, userID primitive.ObjectID, role string) error {
 	update := bson.M{"$set": bson.M{"role": role}}
 	_, err := db.Collection("users").UpdateByID(ctx, userID, update)
 
