@@ -6,21 +6,20 @@ import FlowerForm from '../components/FlowerForm'
 import SiteFlexbox from '../components/SiteFlexbox'
 
 const SitePage = () => {
-  const params = useParams();
-  const navigate = useNavigate();
-  const [site, setSite] = useState({});
-  const [sites, setSites] = useState([]);
-  const [showAddNewFlower, setShowAddNewFlower] = useState(false);
-  const [userID, setUserID] = useState(localStorage.getItem("userID")); // Assuming userID is stored in localStorage
+  const params = useParams()
+  const navigate = useNavigate()
+  const [site, setSite] = useState({})
+  const [sites, setSites] = useState([])
+  const [showAddNewFlower, setShowAddNewFlower] = useState(false)
 
   useEffect(() => {
     SiteService.get(params.id)
       .then(initialSites => {
         if (params.id) {
-          setSite(initialSites.site);
-          setSites(initialSites.subsites);
+          setSite(initialSites.site)
+          setSites(initialSites.subsites)
         } else {
-          setSites(initialSites);
+          setSites(initialSites)
         }
       })
       .catch(error => {
@@ -39,7 +38,7 @@ const SitePage = () => {
   const createSite = siteObject => {
     SiteService.create(siteObject)
       .then(newSite => {
-        setSites(prevSites => (prevSites ? [...prevSites, newSite] : [newSite]));
+        setSites(prevSites => (prevSites ? [...prevSites, newSite] : [newSite]))
       })
       .catch(error => {
         alert('Error: ' + error.response.data)
@@ -55,11 +54,11 @@ const SitePage = () => {
           console.error('Error deleting site:', error)
         })
     }
-  };
+  }
 
   const handleBack = () => {
-    navigate(-1);
-  };
+    navigate(-1)
+  }
 
   return (
     <>
@@ -98,7 +97,7 @@ const SitePage = () => {
         </>
       )}
     </>
-  );
-};
+  )
+}
 
-export default SitePage;
+export default SitePage
