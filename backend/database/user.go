@@ -58,5 +58,6 @@ func (mDb MongoDatabase) GetUserByID(ctx context.Context, userID ObjectID) (*Use
 	if err != nil {
 		return nil, err
 	}
+	user.Password = ""
 	return user, nil
 }
