@@ -69,12 +69,15 @@ const App = () => {
               Terms
             </Link>
           </nav>
-        <p>rooli: { defaultRole }</p>
           <Routes>
             <Route
               path="/"
               element={
-                isLoggedIn ? <SitePage /> : <Navigate replace to="/login" />
+                isLoggedIn 
+                  ? defaultRole == 'retailer' 
+                    ? <Navigate replace to='/retailer'/> 
+                    : <Navigate replace to='/grower'/>
+                  : <Navigate replace to="/login" />
               }
             />
             <Route
