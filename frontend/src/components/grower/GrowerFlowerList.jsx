@@ -1,15 +1,17 @@
 import '../../layouts/Grower.css'
+import { useTranslation } from 'react-i18next'
 
 const GrowerFlowerList = ({ flowers, deleteFlower }) => {
+  const { t, i18n } = useTranslation()
   return (
     <div className="growerFlowerList">
       <table id="growerFlowerList">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Latin name</th>
-            <th>Added time</th>
-            <th>Site</th>
+            <th>{t('flower.data.name')}</th>
+            <th>{t('flower.data.latinname')}</th>
+            <th>{t('flower.data.addedtime')}</th>
+            <th>{t('flower.data.site')}</th>
             <th></th>
           </tr>
         </thead>
@@ -32,7 +34,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
                 <td>{flower.site_name}</td>
                 <td>
                   <button id="deleteFlowerButton" onClick={() => deleteFlower(flower)}>
-                    Delete
+                    {t('button.delete')}
                   </button>
                 </td>
               </tr>

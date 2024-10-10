@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import userService from '../services/users';
+import { useTranslation } from 'react-i18next';
 
 const LogIn = ({ onLogin, setIsLoggedIn, setDefaultRole }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const { t, i18n } = useTranslation();
 
   const handleSubmit = async (e) => {
        e.preventDefault();
@@ -21,21 +23,21 @@ const LogIn = ({ onLogin, setIsLoggedIn, setDefaultRole }) => {
         setDefaultRole(data.role);
         onLogin();
       } else {
-        setError("Invalid email or password");
+        setError(t("error.invalidlogininfo"));
       }
     } catch (err) {
-      setError("An error occurred. Please try again.");
+      setError(t("error.erroroccured"));
       console.log(err)
     }
   };
 
   return (
     <div>
-      <h2>Log In</h2>
+      <h2>{t("title.login")}</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="emailInput">Email:</label>
+          <label htmlFor="emailInput">{t("user.data.email")}:</label>
           <input
             id="emailInput"
             type="email"
@@ -45,7 +47,7 @@ const LogIn = ({ onLogin, setIsLoggedIn, setDefaultRole }) => {
           />
         </div>
         <div>
-          <label htmlFor="passwordInput">Password:</label>
+          <label htmlFor="passwordInput">{t("user.data.password")}:</label>
           <input
             id="passwordInput"
             type="password"
@@ -54,7 +56,7 @@ const LogIn = ({ onLogin, setIsLoggedIn, setDefaultRole }) => {
             required
           />
         </div>
-        <button id="loginButton" type="submit">Log In</button>
+        <button id="loginButton" type="submit">{t("button.login")}</button>
       </form>
     </div>
   );

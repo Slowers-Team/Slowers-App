@@ -1,15 +1,17 @@
 import '../../layouts/Retailer.css'
+import { useTranslation } from 'react-i18next'
 
 const RetailerFlowerList = ({ flowers }) => {
+  const { t, i18n } = useTranslation()
   return (
     <div className="retailerFlowerList">
       <table id="retailerFlowerList">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Latin name</th>
-            <th>Added time</th>
-            <th>Grower</th>
+            <th>{t('flower.data.name')}</th>
+            <th>{t('flower.data.latinname')}</th>
+            <th>{t('flower.data.addedtime')}</th>
+            <th>{t('flower.data.grower')}</th>
           </tr>
         </thead>
         <tbody>

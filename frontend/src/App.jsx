@@ -11,11 +11,14 @@ import GrowerLayout from './layouts/GrowerLayout'
 import GrowerFlowerPage from './pages/GrowerFlowerPage'
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import i18n from "./i18n"
+import { useTranslation } from 'react-i18next'
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);  
   const [defaultRole, setDefaultRole] = useState('')
   const [isLoading, setIsLoading] = useState(true)
+  const { t, i18n } = useTranslation()
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -23,6 +26,10 @@ const App = () => {
     setIsLoggedIn(!!token)
     setDefaultRole(role)
     setIsLoading(false)
+
+    const langCookie = document.cookie.split("; ").find(row => row.startsWith("lang="))
+    const language = langCookie ? langCookie.split("=")[1] : "en"
+    i18n.changeLanguage(language)
   }, [])
 
   const handleLogout = () => {
@@ -37,8 +44,13 @@ const App = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div>{t("label.loading")}</div>
   }
+
+  const changeLanguage = lang => {
+    document.cookie = `lang=${lang}; expires=${new Date(Date.now().valueOf() + 2592000000).toUTCString()}; path=/`;
+    i18n.changeLanguage(lang);
+  };
 
   return (
     <div>
@@ -46,29 +58,33 @@ const App = () => {
         <div>
           <nav>
             <Link style={padding} to="/">
-              Home
+              {t("menu.home")}
             </Link>
             <Link style={padding} to="/retailer">
-              Retailer Page
+              {t("menu.retailer")}
             </Link>
             <Link style={padding} to="/grower">
-              Grower Page
+              {t("menu.grower")}
             </Link>
             {!isLoggedIn && (
               <Link style={padding} to="/register">
-                Register
+                {t("menu.register")}
               </Link>
             )}
             {!isLoggedIn && (
               <Link style={padding} to="/login">
-                Login
+                {t("menu.login")}
               </Link>
             )}
-            {isLoggedIn && <Link onClick={handleLogout}>Logout</Link>}
+            {isLoggedIn && <Link onClick={handleLogout}>{t("menu.logout")}</Link>}
             <Link style={padding} to="/terms">
-              Terms
+              {t("menu.terms")}
             </Link>
           </nav>
+          <div style={{position: "absolute", top: "0", right: "0", padding: "8px"}}>
+            <a href="#" onClick={() => changeLanguage('en')} style={{paddingRight: "0.8rem"}}>en</a>
+            <a href="#" onClick={() => changeLanguage('fi')} style={{paddingRight: "0.8rem"}}>fi</a>
+          </div>
           <Routes>
             <Route
               path="/"
