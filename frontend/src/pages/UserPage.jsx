@@ -2,30 +2,20 @@ import { useState, useEffect } from 'react'
 import userService from '../services/users'
 import '../Misc.css'
 
-const UserPage = () => {
+const UserPage = ({setDefaultRole}) => {
   const [user, setUser] = useState({})
 
   useEffect(() => {
     userService.get().then(user => setUser(user))
   }, [])
 
-  /* const deleteFlower = flowerObject => {
-    if (window.confirm(`Are you sure you want to delete flower ${flowerObject.name}?`)) {
-      flowerService.remove(flowerObject._id).then(response => {
-        console.log(response)
-        setFlowers(l => l.filter(item => item._id !== flowerObject._id))
-      })
-    }
-  } */
-
   const handleRoleSwitch = () => {
     const newRole = switchRole();
-    userService.setRole(newRole).then(response => {
-      console.log(response)
-      setUser({...user,
-      role: newRole})
-    })
-  }
+    userService.setRole(newRole).then(_ => {
+      setUser({...user, role: newRole})
+      localStorage.setItem('role', newRole);
+      setDefaultRole(newRole)
+    })  }
 
   const switchRole = () => {
     if (user.role == "grower") {

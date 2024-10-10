@@ -127,7 +127,7 @@ const App = () => {
             </Route>
             <Route
               path="/user"
-              element={isLoggedIn ? <UserPage /> : <Navigate replace to="/login" />}
+              element={isLoggedIn ? <UserPage setDefaultRole={setDefaultRole}/> : <Navigate replace to="/login" />}
             />
           </Routes>
         </div>
