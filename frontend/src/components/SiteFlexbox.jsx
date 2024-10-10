@@ -13,24 +13,22 @@ const SiteFlexbox = ({ createSite, sites }) => {
   return (
     <div className={'flexbox'}>
       <div className={'flexGap'}>
+        {sites &&
+          sites.map(site => (
+            <div className="box" key={site._id}>
+              {t('site.data.name')}: <Link to={'/site/' + site._id}>{site.name}</Link>
+              <p>{t('site.data.note')}: {site.note}</p>
+            </div>
+          ))}
         <div className={'box'}>
-        <Link to={'/flowers'}>{t('title.flowers')}</Link>
-        </div>
-          {sites && (
-            sites.map(site => (
-              <div className="box" key={site._id}>
-                {t('site.data.name')}: <Link to={'/site/' + site._id}>{site.name}</Link>
-                <p>{t('site.data.note')}: {site.note}</p>
-              </div>
-            ))
-          )}
-        <div className={'box'}>
-          <button id="addNewSiteButton" onClick={() => setShowAddNewSite(!showAddNewSite)}>{t('button.addsite')}</button>
+          <button id="addNewSiteButton" onClick={() => setShowAddNewSite(!showAddNewSite)}>
+            {t('button.addsite')}
+          </button>
           {showAddNewSite && <NewSiteForm createSite={createSite} />}
         </div>
       </div>
     </div>
-    )
+  )
 }
 
 export default SiteFlexbox

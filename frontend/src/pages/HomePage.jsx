@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react"
-import flowerService from "../services/flowers"
-import FlowerList from "../components/FlowerList"
+import { useState, useEffect } from 'react'
+import flowerService from '../services/flowers'
+import FlowerList from '../components/FlowerList'
 import { useTranslation } from 'react-i18next'
 
 const HomePage = () => {
@@ -8,7 +8,7 @@ const HomePage = () => {
   const { t, i18n } = useTranslation()
 
   useEffect(() => {
-    flowerService.getAll().then(initialFlowers => setFlowers(initialFlowers))
+    flowerService.getUserFlowers().then(initialFlowers => setFlowers(initialFlowers))
   }, [])
 
   const deleteFlower = flowerObject => {

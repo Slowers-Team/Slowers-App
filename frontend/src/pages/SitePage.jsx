@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react"
-import { useParams, useNavigate } from "react-router-dom"
-
-import SiteService from "../services/sites"
-import flowerService from "../services/flowers"
-import FlowerForm from "../components/FlowerForm"
-import SiteFlexbox from "../components/SiteFlexbox"
+import { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import SiteService from '../services/sites'
+import flowerService from '../services/flowers'
+import FlowerForm from '../components/FlowerForm'
+import SiteFlexbox from '../components/SiteFlexbox'
 
 import { useTranslation } from "react-i18next"
 
@@ -27,8 +26,8 @@ const SitePage = () => {
         }
       })
       .catch(error => {
-        console.error("Error:", error)
-        navigate("/")
+        console.error('Error:', error)
+        navigate('/')
       })
   }, [params.id, navigate])
 
@@ -55,9 +54,9 @@ const SitePage = () => {
     ) {
       const parentId = siteObject.parent ? siteObject.parent : ""
       SiteService.remove(siteObject._id)
-        .then(() => navigate("/site/" + parentId))
+        .then(() => navigate('/site/' + parentId))
         .catch(error => {
-          console.error("Error deleting site:", error)
+          console.error('Error deleting site:', error)
         })
     }
   }
@@ -82,9 +81,7 @@ const SitePage = () => {
               >
                 {t("button.addflower")}
               </button>
-              {showAddNewFlower && (
-                <FlowerForm createFlower={addFlower} siteID={params.id} />
-              )}
+              {showAddNewFlower && <FlowerForm createFlower={addFlower} siteID={params.id} />}
             </aside>
             <main className="main-container">
               <button onClick={handleBack}>{t("button.goback")}</button>
@@ -97,9 +94,6 @@ const SitePage = () => {
         </div>
       ) : (
         <>
-          <header className="header">
-            <h1>{t('title.rootsites')}</h1>
-          </header>
           <div className="content">
             <main className="main-container">
               <SiteFlexbox createSite={createSite} sites={sites} />
