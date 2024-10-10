@@ -32,7 +32,6 @@ const setRole = (role) => {
     'Content-Type': 'application/json'},
   }
   const url = '/api/user/role'
-  console.log(config)
   return axios.post(url, role, config).then(response => response.data)
 }
 

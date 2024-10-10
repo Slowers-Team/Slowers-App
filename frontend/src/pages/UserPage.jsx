@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import userService from '../services/users'
-import '../Misc.css'
 
 const UserPage = ({setDefaultRole}) => {
   const [user, setUser] = useState({})
