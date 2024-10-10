@@ -16,7 +16,21 @@ const login = (email, password)  => {
   });
 }
 
+const get = () => {
+  const config = {
+    headers: { Authorization: fetchToken() },
+  }
+  const url = "/api/user"
+  return axios.get(url, config).then(response => response.data)
+}
+
+const fetchToken = () => {
+  return localStorage.getItem("token")
+}
+
+
 export default {
   create, 
   login,
+  get,
 }
