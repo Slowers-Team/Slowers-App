@@ -15,9 +15,13 @@
       "error": {
         "acceptterms": "You must accept the terms",
         "addingfailed": "Adding failed",
+        "allfieldsarerequired": "All fields are required",
+        "emailalreadyexists": "Email already exists",
         "error": "Error",
         "erroroccured": "An error occurred. Please try again.",
-        "invalidlogininfo": "Invalid email or password"
+        "invalidemail": "Invalid email",
+        "invalidlogininfo": "Invalid email or password",
+        "sitenamecannotbeempty": "Site name cannot be empty"
       },
       "flower": {
         "data": {
@@ -89,9 +93,13 @@
       "error": {
         "acceptterms": "Käyttöehdot on hyväksyttävä",
         "addingfailed": "Lisääminen epäonnistui",
+        "allfieldsarerequired": "Täytä kaikki kentät",
+        "emailalreadyexists": "Antamallasi sähköpostiosoitteella on jo rekisteröity tili",
         "error": "Virhe",
         "erroroccured": "Tapahtui virhe. Yritä uudelleen myöhemmin.",
-        "invalidlogininfo": "Virheellinen sähköposti tai salasana"
+        "invalidemail": "Virheellinen sähköpostiosoite",
+        "invalidlogininfo": "Virheellinen sähköposti tai salasana",
+        "sitenamecannotbeempty": "Alueen nimi ei voi olla tyhjä"
       },
       "flower": {
         "data": {

@@ -9,7 +9,8 @@ const RegisterPage = () => {
           userService
             .create(userObject)
             .catch(error => {
-                alert(t('error.error') + ': ' + error.response.data)
+                const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, '')
+                alert(t('error.error') + ': ' + (i18n.exists(key) ? t(key) : error.response.data))
             })  
     }
 
