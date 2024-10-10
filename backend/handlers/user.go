@@ -25,7 +25,6 @@ func CreateUser(c *fiber.Ctx) error {
 	if err := c.BodyParser(user); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
-	log.Println(user)
 
 	if user.Username == "" || user.Password == "" || user.Email == "" || user.Role == "" {
 		return c.Status(400).SendString("All fields are required")
