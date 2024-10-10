@@ -172,3 +172,9 @@ func (mDb MongoDatabase) AddFlowerToSite(ctx context.Context, siteID ObjectID, f
 	_, err := db.Collection("sites").UpdateOne(ctx, bson.M{"_id": siteID}, update)
 	return err
 }
+
+func (mDb MongoDatabase) GetSiteByID(ctx context.Context, siteID ObjectID) (*Site, error) {
+	var site Site
+	err := db.Collection("sites").FindOne(ctx, bson.M{"_id": siteID}).Decode(&site)
+	return &site, err
+}
