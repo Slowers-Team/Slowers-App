@@ -2,6 +2,7 @@
 
 .env
 client/
+mocks/
 
 node_modules
 

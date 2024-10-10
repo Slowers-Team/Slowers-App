@@ -9,10 +9,13 @@ import (
 )
 
 type Flower struct {
-	ID        ObjectID  `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name      string    `json:"name"`
-	LatinName string    `json:"latin_name" bson:"latin_name"`
-	AddedTime time.Time `json:"added_time" bson:"added_time"`
+	ID          ObjectID  `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name        string    `json:"name"`
+	LatinName   string    `json:"latin_name" bson:"latin_name"`
+	AddedTime   time.Time `json:"added_time" bson:"added_time"`
+	Grower      *ObjectID `json:"grower"`
+	GrowerEmail string    `json:"grower_email" bson:"grower_email"`
+	Site        *ObjectID `json:"site"`
 }
 
 func (mDb MongoDatabase) GetFlowers(ctx context.Context) ([]Flower, error) {
@@ -39,7 +42,10 @@ func (mDb MongoDatabase) AddFlower(ctx context.Context, newFlower Flower) (*Flow
 	createdRecord := db.Collection("flowers").FindOne(ctx, filter)
 
 	createdFlower := &Flower{}
-	createdRecord.Decode(createdFlower)
+	err = createdRecord.Decode(createdFlower)
+	if err != nil {
+		return nil, err
+	}
 
 	return createdFlower, nil
 }
@@ -48,6 +54,20 @@ func (mDb MongoDatabase) DeleteFlower(ctx context.Context, id string) (bool, err
 	objectID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return false, err
+	}
+
+	var flower Flower
+	err = db.Collection("flowers").FindOne(ctx, bson.M{"_id": objectID}).Decode(&flower)
+	if err != nil {
+		return false, nil
+	}
+
+	if flower.Site != nil {
+		update := bson.M{"$pull": bson.M{"flowers": objectID}}
+		_, err = db.Collection("sites").UpdateOne(ctx, bson.M{"_id": flower.Site}, update)
+		if err != nil {
+			return true, err
+		}
 	}
 
 	filter := bson.M{"_id": objectID}

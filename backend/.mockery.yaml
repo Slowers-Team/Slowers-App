@@ -1,0 +1,9 @@
+with-expecter: true
+packages:
+    github.com/Slowers-team/Slowers-App/database:
+        config:
+            dir: "mocks"
+            mockname: "{{.InterfaceName}}"
+            outpkg: "mocks"
+        interfaces:
+            Database:

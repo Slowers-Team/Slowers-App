@@ -31,13 +31,17 @@ func (mDb MongoDatabase) AddSite(ctx context.Context, newSite Site) (*Site, erro
 	createdRecord := db.Collection("sites").FindOne(ctx, filter)
 
 	createdSite := &Site{}
-	createdRecord.Decode(createdSite)
+	err = createdRecord.Decode(createdSite)
+
+	if err != nil {
+		return nil, err
+	}
 
 	return createdSite, nil
 }
 
-func (mDb MongoDatabase) GetRootSites(ctx context.Context) ([]Site, error) {
-	cursor, err := db.Collection("sites").Find(ctx, bson.M{"parent": nil})
+func (mDb MongoDatabase) GetRootSites(ctx context.Context, userID ObjectID) ([]Site, error) {
+	cursor, err := db.Collection("sites").Find(ctx, bson.M{"parent": nil, "owner": userID})
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +54,7 @@ func (mDb MongoDatabase) GetRootSites(ctx context.Context) ([]Site, error) {
 	return foundSites, nil
 }
 
-func (mDb MongoDatabase) GetSite(ctx context.Context, id string) (bson.M, error) {
+func (mDb MongoDatabase) GetSite(ctx context.Context, id string, userID ObjectID) (bson.M, error) {
 	siteID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err
@@ -58,7 +62,7 @@ func (mDb MongoDatabase) GetSite(ctx context.Context, id string) (bson.M, error)
 
 	var resultSite bson.M
 
-	filter := bson.M{"_id": siteID}
+	filter := bson.M{"_id": siteID, "owner": userID}
 	idErr := db.Collection("sites").FindOne(ctx, filter).Decode(&resultSite)
 
 	if idErr != nil {
@@ -68,11 +72,9 @@ func (mDb MongoDatabase) GetSite(ctx context.Context, id string) (bson.M, error)
 		return nil, idErr
 	}
 
-	log.Println("found site:", resultSite)
-
-	matchStage := bson.D{{"$match", bson.D{{"parent", siteID}}}}
-	sortStage := bson.D{{"$sort", bson.D{{"name", 1}}}}
-	unsetStage := bson.D{{"$unset", bson.A{"parent", "addedTime", "owner", "flowers", "added_time"}}}
+	matchStage := bson.D{{Key: "$match", Value: bson.D{{Key: "parent", Value: siteID}}}}
+	sortStage := bson.D{{Key: "$sort", Value: bson.D{{Key: "name", Value: 1}}}}
+	unsetStage := bson.D{{Key: "$unset", Value: bson.A{"parent", "addedTime", "owner", "flowers", "added_time"}}}
 
 	cursor, err := db.Collection("sites").Aggregate(ctx, mongo.Pipeline{matchStage, sortStage, unsetStage})
 	if err != nil {
@@ -85,12 +87,10 @@ func (mDb MongoDatabase) GetSite(ctx context.Context, id string) (bson.M, error)
 		return nil, err
 	}
 
-	log.Println("subsites:", subSites)
-
 	return bson.M{"site": resultSite, "subsites": subSites}, nil
 }
 
-func (mDb MongoDatabase) DeleteSite(ctx context.Context, id string) (*mongo.DeleteResult, error) {
+func (mDb MongoDatabase) DeleteSite(ctx context.Context, id string, userID ObjectID) (*mongo.DeleteResult, error) {
 	siteID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err
@@ -98,31 +98,32 @@ func (mDb MongoDatabase) DeleteSite(ctx context.Context, id string) (*mongo.Dele
 
 	// Start pipeline with top level parent Site
 	matchStage := bson.D{
-		{"$match", bson.D{
-			{"_id", siteID},
+		{Key: "$match", Value: bson.D{
+			{Key: "_id", Value: siteID},
+			{Key: "owner", Value: userID},
 		}},
 	}
 	// Search for all children and their children
 	graphLookupStage := bson.D{
-		{"$graphLookup", bson.D{
-			{"from", "sites"},
-			{"startWith", "$_id"},
-			{"connectFromField", "_id"},
-			{"connectToField", "parent"},
-			{"as", "related"},
+		{Key: "$graphLookup", Value: bson.D{
+			{Key: "from", Value: "sites"},
+			{Key: "startWith", Value: "$_id"},
+			{Key: "connectFromField", Value: "_id"},
+			{Key: "connectToField", Value: "parent"},
+			{Key: "as", Value: "related"},
 		}},
 	}
 	// Open up array of documents to a stream of documents
 	unwindStage := bson.D{
-		{"$unwind", bson.D{
-			{"path", "$id"},
+		{Key: "$unwind", Value: bson.D{
+			{Key: "path", Value: "$id"},
 		},
 		}}
 	// Strip down everything except _id for each child Site
 	projectStage := bson.D{
-		{"$project", bson.D{
-			{"_id", 0},
-			{"id", "$related._id"},
+		{Key: "$project", Value: bson.D{
+			{Key: "_id", Value: 0},
+			{Key: "id", Value: "$related._id"},
 		}},
 	}
 
@@ -149,6 +150,13 @@ func (mDb MongoDatabase) DeleteSite(ctx context.Context, id string) (*mongo.Dele
 
 	log.Println("DELETE sites", ids)
 
+	flowerDeleteFilter := bson.M{"site": bson.M{"$in": ids}}
+	deleteFlowerResult, err := db.Collection("flowers").DeleteMany(ctx, flowerDeleteFilter)
+	if err != nil {
+		return nil, err
+	}
+	log.Println("Deleted flowers count:", deleteFlowerResult.DeletedCount)
+
 	deleteFilter := bson.M{"_id": bson.M{"$in": ids}}
 	deleteResult, err := db.Collection("sites").DeleteMany(ctx, deleteFilter)
 	if err != nil {
@@ -157,4 +165,10 @@ func (mDb MongoDatabase) DeleteSite(ctx context.Context, id string) (*mongo.Dele
 	}
 
 	return deleteResult, nil
+}
+
+func (mDb MongoDatabase) AddFlowerToSite(ctx context.Context, siteID ObjectID, flowerID ObjectID) error {
+	update := bson.M{"$push": bson.M{"flowers": flowerID}}
+	_, err := db.Collection("sites").UpdateOne(ctx, bson.M{"_id": siteID}, update)
+	return err
 }

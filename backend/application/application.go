@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 
 	"github.com/Slowers-team/Slowers-App/handlers"
+	"github.com/Slowers-team/Slowers-App/testdata"
 )
 
 var SecretKey []byte
@@ -21,18 +22,20 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app.Post("/api/register", handlers.CreateUser)
 	app.Post("/api/login", handlers.HandleLogin)
 
-	app.Post("/api/sites", handlers.AddSite)
-	app.Get("/api/sites", handlers.GetRootSites)
-	app.Get("/api/sites/:id", handlers.GetSite)
-	app.Delete("/api/sites/:id", handlers.DeleteSite)
-
-	if (isAuthOn) {
+	if isAuthOn {
 		app.Use(AuthMiddleware)
+	} else {
+		app.Use(TestAuthMiddleware)
 	}
 
 	app.Post("/api/flowers", handlers.AddFlower)
 	app.Get("/api/flowers", handlers.GetFlowers)
 	app.Delete("/api/flowers/:id", handlers.DeleteFlower)
+
+	app.Post("/api/sites", handlers.AddSite)
+	app.Get("/api/sites", handlers.GetRootSites)
+	app.Get("/api/sites/:id", handlers.GetSite)
+	app.Delete("/api/sites/:id", handlers.DeleteSite)
 
 	return app
 }
@@ -56,5 +59,10 @@ func AuthMiddleware(c *fiber.Ctx) error {
 	}
 
 	c.Locals("userID", claims.Subject)
+	return c.Next()
+}
+
+func TestAuthMiddleware(c *fiber.Ctx) error {
+	c.Locals("userID", testdata.GetUser().ID.Hex())
 	return c.Next()
 }
