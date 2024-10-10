@@ -22,7 +22,7 @@ type Database interface {
 
 	GetFlowers(ctx context.Context) ([]Flower, error)
 	GetUserFlowers(ctx context.Context, userID ObjectID) ([]Flower, error)
-	GetAllFlowersFromSite(ctx context.Context, userID ObjectID, siteID ObjectID) ([]Flower, error)
+	GetAllFlowersFromSite(ctx context.Context, userID ObjectID, siteID ObjectID) ([]primitive.M, error)
 	AddFlower(ctx context.Context, newFlower Flower) (*Flower, error)
 	DeleteFlower(ctx context.Context, id string) (bool, error)
 

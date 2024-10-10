@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"time"
+	"log"
 
 	"github.com/gofiber/fiber/v2"
 
@@ -58,6 +59,8 @@ func GetFlowersBySite(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString("Failed to get flowers")
 	}
+
+	log.Printf("Flowers fetched: %v\n", flowers)
 
 	return c.Status(fiber.StatusOK).JSON(flowers)
 }
