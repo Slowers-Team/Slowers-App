@@ -1,8 +1,10 @@
 import RetailerFlowerList from '../components/retailer/RetailerFlowerList'
 import flowerService from '../services/flowers'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 const RetailerFlowerPage = () => {
   const [flowers, setFlowers] = useState([])
+  const { t, i18n } = useTranslation()
 
   useEffect(() => {
     flowerService.getAll().then(initialFlowers => setFlowers(initialFlowers))
@@ -10,7 +12,7 @@ const RetailerFlowerPage = () => {
 
   return (
     <>
-      <h2>Flowers</h2>
+      <h2>{t('title.flowers')}</h2>
       {flowers && <RetailerFlowerList flowers={flowers} />}
     </>
   )

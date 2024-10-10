@@ -23,18 +23,22 @@
         "data": {
           "name": "Name",
           "latinname": "Latin name",
-          "addedtime": "Added time"
+          "addedtime": "Added time",
+          "grower": "Grower"
         }
       },
       "label": {
         "confirmflowerdeletion": "Are you sure you want to delete the flower",
         "confirmsitedeletion": "Are you sure you want to delete the site",
         "iagreeto": "I agree to the",
+        "loading": "Loading...",
         "terms": "terms and conditions"
       },
       "menu": {
+        "flowers": "Flowers",
         "home": "Home",
         "register": "Register",
+        "retailer": "Retailer page",
         "login": "Login",
         "logout": "Logout",
         "terms": "Terms"
@@ -47,7 +51,9 @@
       },
       "title": {
         "flowers": "Flowers",
+        "home": "Home",
         "login": "Log In",
+        "navigation": "Navigation",
         "rootsites": "Root Sites",
         "terms": "Terms and Conditions"
       },
@@ -84,18 +90,22 @@
         "data": {
           "name": "Nimi",
           "latinname": "Tieteellinen nimi",
-          "addedtime": "Lisäysaika"
+          "addedtime": "Lisäysaika",
+          "grower": "Kasvattaja"
         }
       },
       "label": {
         "confirmflowerdeletion": "Haluatko varmasti poistaa kukan",
         "confirmsitedeletion": "Haluatko varmasti poistaa alueen",
         "iagreeto": "Hyväksyn",
+        "loading": "Ladataan...",
         "terms": "käyttöehdot"
       },
       "menu": {
+        "flowers": "Kukat",
         "home": "Kotisivu",
         "register": "Rekisteröidy",
+        "retailer": "Jälleenmyyjän sivu",
         "login": "Kirjaudu sisään",
         "logout": "Kirjaudu ulos",
         "terms": "Käyttöehdot"
@@ -108,7 +118,9 @@
       },
       "title": {
         "flowers": "Kukat",
+        "home": "Kotisivu",
         "login": "Kirjaudu",
+        "navigation": "Navigointi",
         "rootsites": "Juurisivut",
         "terms": "Käyttöehdot"
       },

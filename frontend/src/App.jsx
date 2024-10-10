@@ -33,7 +33,7 @@ const App = () => {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div>{t("label.loading")}</div>
   }
 
   return (
@@ -45,7 +45,7 @@ const App = () => {
               {t("menu.home")}
             </Link>
             <Link style={padding} to="/retailer">
-              Retailer Page
+              {t("menu.retailer")}
             </Link>
             {!isLoggedIn && (
               <Link style={padding} to="/register">
