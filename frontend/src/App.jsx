@@ -13,23 +13,28 @@ import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-ro
 import { useState, useEffect } from 'react'
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);  
+  const [defaultRole, setDefaultRole] = useState('')
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const token = localStorage.getItem('token')
+    const role = localStorage.getItem('role')
     setIsLoggedIn(!!token)
+    setDefaultRole(role)
     setIsLoading(false)
   }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem('token')
-    setIsLoggedIn(false)
-  }
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    setIsLoggedIn(false);
+    setDefaultRole('')
+  };
 
   const padding = {
     padding: 5,
-  }
+  };
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -67,13 +72,23 @@ const App = () => {
           <Routes>
             <Route
               path="/"
-              element={isLoggedIn ? <SitePage /> : <Navigate replace to="/login" />}
+              element={
+                isLoggedIn 
+                  ? defaultRole == 'retailer' 
+                    ? <Navigate replace to='/retailer'/> 
+                    : <Navigate replace to='/grower'/>
+                  : <Navigate replace to="/login" />
+              }
             />
             <Route
               path="/login"
               element={
                 !isLoggedIn ? (
-                  <LogInPage onLogin={handleLogout} setIsLoggedIn={setIsLoggedIn} />
+                  <LogInPage
+                    onLogin={handleLogout}
+                    setIsLoggedIn={setIsLoggedIn}
+                    setDefaultRole={setDefaultRole}
+                  />
                 ) : (
                   <Navigate replace to="/" />
                 )
@@ -112,7 +127,7 @@ const App = () => {
         </div>
       </Router>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
