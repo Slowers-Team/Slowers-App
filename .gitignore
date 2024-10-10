@@ -33,3 +33,5 @@ vendor/
 *.out
 
 # Dependency directories (remove the comment below if you are using dep)
+
+tmp
