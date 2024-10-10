@@ -24,7 +24,8 @@
           "name": "Name",
           "latinname": "Latin name",
           "addedtime": "Added time",
-          "grower": "Grower"
+          "grower": "Grower",
+          "site": "Site"
         }
       },
       "label": {
@@ -36,6 +37,7 @@
       },
       "menu": {
         "flowers": "Flowers",
+        "grower": "Grower page",
         "home": "Home",
         "register": "Register",
         "retailer": "Retailer page",
@@ -91,7 +93,8 @@
           "name": "Nimi",
           "latinname": "Tieteellinen nimi",
           "addedtime": "Lisäysaika",
-          "grower": "Kasvattaja"
+          "grower": "Kasvattaja",
+          "site": "Alue"
         }
       },
       "label": {
@@ -103,6 +106,7 @@
       },
       "menu": {
         "flowers": "Kukat",
+        "grower": "Kasvattajan sivu",
         "home": "Kotisivu",
         "register": "Rekisteröidy",
         "retailer": "Jälleenmyyjän sivu",

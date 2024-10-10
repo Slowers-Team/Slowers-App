@@ -50,7 +50,7 @@ const App = () => {
               {t("menu.retailer")}
             </Link>
             <Link style={padding} to="/grower">
-              Grower Page
+              {t("menu.grower")}
             </Link>
             {!isLoggedIn && (
               <Link style={padding} to="/register">
