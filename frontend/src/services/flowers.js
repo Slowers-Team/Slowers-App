@@ -10,6 +10,14 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
+const getUserFlowers = () => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken() },
+  }
+  const request = axios.get(`${baseUrl}/user`, config)
+  return request.then(response => response.data)
+}
+
 const create = newFlower => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
@@ -30,4 +38,5 @@ export default {
   getAll,
   create,
   remove,
+  getUserFlowers,
 }

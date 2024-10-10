@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react'
+import GrowerFlowerList from '../components/grower/GrowerFlowerList'
 import flowerService from '../services/flowers'
-import FlowerList from '../components/FlowerList'
-
-const HomePage = () => {
+import { useEffect, useState } from 'react'
+const GrowerFlowerPage = () => {
   const [flowers, setFlowers] = useState([])
 
   useEffect(() => {
@@ -19,11 +18,11 @@ const HomePage = () => {
   }
 
   return (
-    <div>
+    <>
       <h2>Flowers</h2>
-      {flowers && <FlowerList flowers={flowers} deleteFlower={deleteFlower} />}
-    </div>
+      {flowers && <GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} />}
+    </>
   )
 }
 
-export default HomePage
+export default GrowerFlowerPage

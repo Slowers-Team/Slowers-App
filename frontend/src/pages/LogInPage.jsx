@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import LogIn from '../components/LogIn';
 
-const LogInPage = ({ setIsLoggedIn }) => {
+const LogInPage = ({ setIsLoggedIn, setDefaultRole }) => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -10,7 +10,7 @@ const LogInPage = ({ setIsLoggedIn }) => {
 
   return (
     <div>
-      <LogIn onLogin={handleLogin} setIsLoggedIn={setIsLoggedIn} />
+      <LogIn onLogin={handleLogin} setIsLoggedIn={setIsLoggedIn} setDefaultRole={setDefaultRole}/>
     </div>
   );
 };

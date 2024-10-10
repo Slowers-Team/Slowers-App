@@ -17,6 +17,24 @@ func GetFlowers(c *fiber.Ctx) error {
 	return c.JSON(flowers)
 }
 
+func GetUserFlowers(c *fiber.Ctx) error {
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	if !database.IsValidID(user) {
+		return c.Status(500).SendString("Malformed userID in header")
+	}
+	userID := database.NewID(user)
+
+	flowers, err := db.GetUserFlowers(c.Context(), userID)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	return c.JSON(flowers)
+}
+
 func AddFlower(c *fiber.Ctx) error {
 	user, ok := c.Locals("userID").(string)
 	if !ok {
@@ -26,6 +44,11 @@ func AddFlower(c *fiber.Ctx) error {
 		return c.Status(500).SendString("Malformed userID in header")
 	}
 	userID := database.NewID(user)
+
+	grower, err := db.GetUserByID(c.Context(), userID)
+	if err != nil {
+		return c.Status(500).SendString("User not found: " + err.Error())
+	}
 
 	flower := new(database.Flower)
 	if err := c.BodyParser(flower); err != nil {
@@ -44,7 +67,16 @@ func AddFlower(c *fiber.Ctx) error {
 	}
 	siteID := database.NewID(flower.Site.Hex())
 
-	newFlower := database.Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(), Grower: &userID, Site: &siteID}
+	site, err := db.GetSiteByID(c.Context(), siteID)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	if site == nil {
+		return c.Status(404).SendString("Site not found")
+	}
+
+	newFlower := database.Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(), Grower: &userID, GrowerEmail: grower.Email, Site: &siteID, SiteName: site.Name}
 
 	createdFlower, err := db.AddFlower(c.Context(), newFlower)
 	if err != nil {

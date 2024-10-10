@@ -9,16 +9,32 @@ import (
 )
 
 type Flower struct {
-	ID        ObjectID  `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name      string    `json:"name"`
-	LatinName string    `json:"latin_name" bson:"latin_name"`
-	AddedTime time.Time `json:"added_time" bson:"added_time"`
-	Grower    *ObjectID `json:"grower"`
-	Site      *ObjectID `json:"site"`
+	ID          ObjectID  `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name        string    `json:"name"`
+	LatinName   string    `json:"latin_name" bson:"latin_name"`
+	AddedTime   time.Time `json:"added_time" bson:"added_time"`
+	Grower      *ObjectID `json:"grower"`
+	GrowerEmail string    `json:"grower_email" bson:"grower_email"`
+	Site        *ObjectID `json:"site"`
+	SiteName    string    `json:"site_name" bson:"site_name"`
 }
 
 func (mDb MongoDatabase) GetFlowers(ctx context.Context) ([]Flower, error) {
 	cursor, err := db.Collection("flowers").Find(ctx, bson.M{})
+	if err != nil {
+		return nil, err
+	}
+
+	flowers := make([]Flower, 0)
+	if err := cursor.All(ctx, &flowers); err != nil {
+		return nil, err
+	}
+
+	return flowers, nil
+}
+
+func (mDb MongoDatabase) GetUserFlowers(ctx context.Context, userID ObjectID) ([]Flower, error) {
+	cursor, err := db.Collection("flowers").Find(ctx, bson.M{"grower": userID})
 	if err != nil {
 		return nil, err
 	}

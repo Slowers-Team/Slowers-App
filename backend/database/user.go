@@ -12,6 +12,7 @@ type User struct {
 	Username string   `json:"username"`
 	Password string   `json:"password"`
 	Email    string   `json:"email"`
+	Role     string   `json:"role"`
 }
 
 type LogIn struct {
@@ -55,4 +56,14 @@ func (mDb MongoDatabase) SetUserRole(ctx context.Context, userID primitive.Objec
 	_, err := db.Collection("users").UpdateByID(ctx, userID, update)
 
 	return err
+}
+
+func (mDb MongoDatabase) GetUserByID(ctx context.Context, userID ObjectID) (*User, error) {
+	user := new(User)
+	filter := bson.M{"_id": userID}
+	err := db.Collection("users").FindOne(ctx, filter).Decode(&user)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
 }
