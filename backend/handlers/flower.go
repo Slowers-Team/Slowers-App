@@ -27,8 +27,12 @@ func AddFlower(c *fiber.Ctx) error {
 	}
 	userID := database.NewID(user)
 
-	flower := new(database.Flower)
+	grower, err := db.GetUserByID(c.Context(), userID)
+	if err != nil {
+		return c.Status(500).SendString("User not found: " + err.Error())
+	}
 
+	flower := new(database.Flower)
 	if err := c.BodyParser(flower); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
@@ -44,7 +48,8 @@ func AddFlower(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Invalid siteID")
 	}
 	siteID := database.NewID(flower.Site.Hex())
-	newFlower := database.Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(), Grower: &userID, Site: &siteID}
+
+	newFlower := database.Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(), Grower: &userID, GrowerEmail: grower.Email, Site: &siteID}
 
 	createdFlower, err := db.AddFlower(c.Context(), newFlower)
 	if err != nil {
