@@ -20,6 +20,7 @@ type Database interface {
 	CreateUser(ctx context.Context, newUser User) error
 	GetUserByEmail(ctx context.Context, email string) (*User, error)
 	GetUserByID(ctx context.Context, userID ObjectID) (*User, error)
+	SetUserRole(ctx context.Context, userID ObjectID, role string) error
 
 	GetFlowers(ctx context.Context) ([]Flower, error)
 	GetUserFlowers(ctx context.Context, userID ObjectID) ([]Flower, error)
