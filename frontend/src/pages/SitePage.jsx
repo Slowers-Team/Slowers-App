@@ -85,8 +85,6 @@ const SitePage = () => {
                 Delete this site
               </button>
               <SiteFlexbox createSite={createSite} sites={sites} />
-              {/* Add SiteFlowers component here */}
-              <SiteFlowers siteID={params.id} userID={userID} />
             </main>
           </div>
         </div>
