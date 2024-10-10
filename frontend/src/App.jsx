@@ -26,6 +26,10 @@ const App = () => {
     setIsLoggedIn(!!token)
     setDefaultRole(role)
     setIsLoading(false)
+
+    const langCookie = document.cookie.split("; ").find(row => row.startsWith("lang="))
+    const language = langCookie ? langCookie.split("=")[1] : "en"
+    i18n.changeLanguage(language)
   }, [])
 
   const handleLogout = () => {
@@ -42,6 +46,11 @@ const App = () => {
   if (isLoading) {
     return <div>{t("label.loading")}</div>
   }
+
+  const changeLanguage = lang => {
+    document.cookie = `lang=${lang}; expires=${new Date(Date.now().valueOf() + 2592000000).toUTCString()}; path=/`;
+    i18n.changeLanguage(lang);
+  };
 
   return (
     <div>
@@ -73,8 +82,8 @@ const App = () => {
             </Link>
           </nav>
           <div style={{position: "absolute", top: "0", right: "0", padding: "8px"}}>
-            <a href="#" onClick={() => i18n.changeLanguage('en')} style={{paddingRight: "0.8rem"}}>en</a>
-            <a href="#" onClick={() => i18n.changeLanguage('fi')} style={{paddingRight: "0.8rem"}}>fi</a>
+            <a href="#" onClick={() => changeLanguage('en')} style={{paddingRight: "0.8rem"}}>en</a>
+            <a href="#" onClick={() => changeLanguage('fi')} style={{paddingRight: "0.8rem"}}>fi</a>
           </div>
           <Routes>
             <Route
