@@ -13,6 +13,11 @@ type User struct {
 	Email    string   `json:"email"`
 }
 
+type LogIn struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 func (mDb MongoDatabase) CountUsersWithEmail(ctx context.Context, email string) (int64, error) {
 	filter := bson.M{"email": email}
 	count, err := db.Collection("users").CountDocuments(ctx, filter)
@@ -30,6 +35,16 @@ func (mDb MongoDatabase) CreateUser(ctx context.Context, newUser User) error {
 func (mDb MongoDatabase) GetUserByEmail(ctx context.Context, email string) (*User, error) {
 	user := new(User)
 	filter := bson.M{"email": email}
+	err := db.Collection("users").FindOne(ctx, filter).Decode(&user)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
+func (mDb MongoDatabase) GetUserByID(ctx context.Context, userID ObjectID) (*User, error) {
+	user := new(User)
+	filter := bson.M{"_id": userID}
 	err := db.Collection("users").FindOne(ctx, filter).Decode(&user)
 	if err != nil {
 		return nil, err
