@@ -1,11 +1,14 @@
+import { useTranslation } from 'react-i18next'
+
 const FlowerList = ({ flowers, deleteFlower }) => {
+  const { t, i18n } = useTranslation()
   return (
     <table id="flowerList">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Latin name</th>
-          <th>Added time</th>
+          <th>{t('flower.data.name')}</th>
+          <th>{t('flower.data.latinname')}</th>
+          <th>{t('flower.data.addedtime')}</th>
         </tr>
       </thead>
       <tbody>
@@ -23,7 +26,9 @@ const FlowerList = ({ flowers, deleteFlower }) => {
               <td><em>{ flower.latin_name }</em></td>
               <td>{ addedTimeStr }</td>
               <td>
-                <button id="deleteFlowerButton" onClick={() => deleteFlower(flower)}>Delete</button>
+                <button id="deleteFlowerButton" onClick={() => deleteFlower(flower)}>
+                  {t('button.delete')}
+                </button>
               </td>
             </tr>
           )

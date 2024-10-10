@@ -1,0 +1,124 @@
+{
+  "en": {
+    "translation": {
+      "button": {
+        "addflower": "Add a new flower",
+        "addsite": "Add a new site",
+        "back": "Back",
+        "delete": "Delete",
+        "deletethissite": "Delete this site",
+        "goback": "Go back",
+        "login": "Log in",
+        "register": "Register",
+        "save": "Save"
+      },
+      "error": {
+        "acceptterms": "You must accept the terms",
+        "addingfailed": "Adding failed",
+        "error": "Error",
+        "erroroccured": "An error occurred. Please try again.",
+        "invalidlogininfo": "Invalid email or password"
+      },
+      "flower": {
+        "data": {
+          "name": "Name",
+          "latinname": "Latin name",
+          "addedtime": "Added time"
+        }
+      },
+      "label": {
+        "confirmflowerdeletion": "Are you sure you want to delete the flower",
+        "confirmsitedeletion": "Are you sure you want to delete the site",
+        "iagreeto": "I agree to the",
+        "terms": "terms and conditions"
+      },
+      "menu": {
+        "home": "Home",
+        "register": "Register",
+        "login": "Login",
+        "logout": "Logout",
+        "terms": "Terms"
+      },
+      "site": {
+        "data": {
+          "name": "Name",
+          "note": "Note"
+        }
+      },
+      "title": {
+        "flowers": "Flowers",
+        "login": "Log In",
+        "rootsites": "Root Sites",
+        "terms": "Terms and Conditions"
+      },
+      "user": {
+        "data": {
+          "username": "Username",
+          "email": "Email",
+          "password": "Password"
+        }
+      }
+    }
+  },
+  "fi": {
+    "translation": {
+      "button": {
+        "addflower": "Lisää uusi kukka",
+        "addsite": "Lisää uusi alue",
+        "back": "Takaisin",
+        "delete": "Poista",
+        "deletethissite": "Poista tämä alue",
+        "goback": "Takaisin",
+        "login": "Kirjaudu",
+        "register": "Rekisteröidy",
+        "save": "Tallenna"
+      },
+      "error": {
+        "acceptterms": "Käyttöehdot on hyväksyttävä",
+        "addingfailed": "Lisääminen epäonnistui",
+        "error": "Virhe",
+        "erroroccured": "Tapahtui virhe. Yritä uudelleen myöhemmin.",
+        "invalidlogininfo": "Virheellinen sähköposti tai salasana"
+      },
+      "flower": {
+        "data": {
+          "name": "Nimi",
+          "latinname": "Tieteellinen nimi",
+          "addedtime": "Lisäysaika"
+        }
+      },
+      "label": {
+        "confirmflowerdeletion": "Haluatko varmasti poistaa kukan",
+        "confirmsitedeletion": "Haluatko varmasti poistaa alueen",
+        "iagreeto": "Hyväksyn",
+        "terms": "käyttöehdot"
+      },
+      "menu": {
+        "home": "Kotisivu",
+        "register": "Rekisteröidy",
+        "login": "Kirjaudu sisään",
+        "logout": "Kirjaudu ulos",
+        "terms": "Käyttöehdot"
+      },
+      "site": {
+        "data": {
+          "name": "Nimi",
+          "note": "Muistiinpano"
+        }
+      },
+      "title": {
+        "flowers": "Kukat",
+        "login": "Kirjaudu",
+        "rootsites": "Juurisivut",
+        "terms": "Käyttöehdot"
+      },
+      "user": {
+        "data": {
+          "username": "Käyttäjänimi",
+          "email": "Sähköposti",
+          "password": "Salasana"
+        }
+      }
+    }
+  }
+}

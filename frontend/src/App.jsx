@@ -13,9 +13,11 @@ import {
 } from "react-router-dom"
 import { useState, useEffect } from "react"
 import i18n from "./i18n"
+import { useTranslation } from 'react-i18next'
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const { t, i18n } = useTranslation()
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -37,21 +39,21 @@ const App = () => {
         <div>
           <nav>
             <Link style={padding} to="/">
-              Home
+              {t("menu.home")}
             </Link>
             {!isLoggedIn && (
               <Link style={padding} to="/register">
-                Register
+                {t("menu.register")}
               </Link>
             )}
             {!isLoggedIn && (
               <Link style={padding} to="/login">
-                Login
+                {t("menu.login")}
               </Link>
             )}
-            {isLoggedIn && <Link onClick={handleLogout}>Logout</Link>}
+            {isLoggedIn && <Link onClick={handleLogout}>{t("menu.logout")}</Link>}
             <Link style={padding} to="/terms">
-              Terms
+              {t("menu.terms")}
             </Link>
           </nav>
           <div style={{position: "absolute", top: "0", right: "0", padding: "8px"}}>
