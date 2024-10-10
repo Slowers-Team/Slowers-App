@@ -5,6 +5,7 @@ const RegisterForm = ({ createNewUser }) => {
     const [newUsername, setNewUsername] = useState('')
     const [newPassword, setNewPassword] = useState('')
     const [newEmail, setNewEmail] = useState('')
+    const [newRole, setNewRole] = useState('')
     const [termsAccepted, setTermsAccepted] = useState(false)
     const { t, i18n } = useTranslation()
 
@@ -17,12 +18,14 @@ const RegisterForm = ({ createNewUser }) => {
         createNewUser({ 
             username: newUsername,
             password: newPassword,
-            email: newEmail 
+            email: newEmail,
+            role: newRole
         })
 
         setNewUsername('')
         setNewPassword('')
         setNewEmail('')
+        setNewRole('')
         setTermsAccepted(false)
     }
 
@@ -40,6 +43,17 @@ const RegisterForm = ({ createNewUser }) => {
                 <div>
                   <label htmlFor="newEmailInput">{t('user.data.email')}:</label>
                   <input type="email" id="newEmailInput" value={newEmail} onChange={event => setNewEmail(event.target.value)} />
+                </div>
+                <div>
+                    <label htmlFor="roleSelector">Default role:</label>
+                    <div>
+                        <input type="radio" name="roleSelector" id="growerSelector" value="grower" onChange={event => setNewRole(event.target.value)}/>
+                        <label htmlFor="growerSelector">Grower</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="roleSelector" id="retailerSelector" value="retailer" onChange={event => setNewRole(event.target.value)}/>
+                        <label htmlFor="retailerSelector">Retailer</label>
+                    </div>
                 </div>
                 <div>
                   <input type='checkbox' id='termsCheckbox' checked={termsAccepted} onChange={() => setTermsAccepted(!termsAccepted)}/>
