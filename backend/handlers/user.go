@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"log"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -25,7 +24,6 @@ func CreateUser(c *fiber.Ctx) error {
 	if err := c.BodyParser(user); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
-	log.Println(user)
 
 	if user.Username == "" || user.Password == "" || user.Email == "" || user.Role == "" {
 		return c.Status(400).SendString("All fields are required")
@@ -122,7 +120,10 @@ func SetRole(c *fiber.Ctx) error {
 	}
 	userID := database.NewID(user)
 
-	role := c.Params("role")
+	var role string
+	if err := c.BodyParser(&role); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
 	if !(role == "grower" || role == "retailer") {
 		return c.Status(500).SendString("Role must be grower or retailer")
 	}
