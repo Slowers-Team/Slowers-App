@@ -8,7 +8,6 @@ const UserPage = ({setDefaultRole}) => {
   useEffect(() => {
     userService.get().then(user => setUser(user))
   }, [])
-  console.log(user)
 
   const handleRoleSwitch = () => {
     const newRole = switchRole();
