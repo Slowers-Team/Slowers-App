@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import userService from '../services/users'
+import UserInfo from '../components/UserInfo' 
 
 const UserPage = ({setDefaultRole}) => {
   const [user, setUser] = useState({})
@@ -7,6 +8,7 @@ const UserPage = ({setDefaultRole}) => {
   useEffect(() => {
     userService.get().then(user => setUser(user))
   }, [])
+  console.log(user)
 
   const handleRoleSwitch = () => {
     const newRole = switchRole();
@@ -26,23 +28,7 @@ const UserPage = ({setDefaultRole}) => {
 
   return (
     <div>
-      <table>
-        <tbody>
-        <tr>
-          <td>Username</td>
-          <td>{ user.username }</td>
-        </tr>
-        <tr>
-          <td>Email</td>
-          <td>{user.email}</td>
-        </tr>
-        <tr>
-          <td>Role</td>
-          <td>{user.role}</td>
-          <td><button onClick={handleRoleSwitch}>Switch to {switchRole()}</button></td>
-        </tr>
-        </tbody>
-      </table>
+      <UserInfo user={user} handleRoleSwitch={handleRoleSwitch} switchedRole={switchRole(user.role)} />
     </div>
   )
 }
