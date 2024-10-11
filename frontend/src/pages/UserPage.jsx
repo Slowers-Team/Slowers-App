@@ -17,13 +17,7 @@ const UserPage = ({setDefaultRole}) => {
       setDefaultRole(newRole)
     })  }
 
-  const switchRole = () => {
-    if (user.role == "grower") {
-      return "retailer"
-    } else {
-      return "grower"
-    }
-  }
+  const switchRole = () => (user.role === 'grower' ? 'retailer' : 'grower')
 
   return (
     <div>
