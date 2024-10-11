@@ -8,9 +8,9 @@ test('renders RegisterForm with username, password, and email inputs', () => {
 
     render(<RegisterForm createNewUser={createNewUser} />)
 
-    const username = screen.getByLabelText('Username:')
-    const password = screen.getByLabelText('Password:')
-    const email = screen.getByLabelText('Email:')
+    const username = screen.getByLabelText('Username')
+    const password = screen.getByLabelText('Password')
+    const email = screen.getByLabelText('Email address')
 })
 
 test('updates input values when typing', async () => {
@@ -19,9 +19,9 @@ test('updates input values when typing', async () => {
 
     render(<RegisterForm createNewUser={createNewUser} />)
 
-    const usernameInput = screen.getByLabelText('Username:')
-    const passwordInput = screen.getByLabelText('Password:')
-    const emailInput = screen.getByLabelText('Email:')
+    const usernameInput = screen.getByLabelText('Username')
+    const passwordInput = screen.getByLabelText('Password')
+    const emailInput = screen.getByLabelText('Email address')
 
     await user.type(usernameInput, 'testuser')
     await user.type(passwordInput, 'testpassword')
@@ -38,9 +38,9 @@ test('clears input values after successful submit', async () => {
 
     render(<RegisterForm createNewUser={createNewUser} />)
 
-    const usernameInput = screen.getByLabelText('Username:')
-    const passwordInput = screen.getByLabelText('Password:')
-    const emailInput = screen.getByLabelText('Email:')
+    const usernameInput = screen.getByLabelText('Username')
+    const passwordInput = screen.getByLabelText('Password')
+    const emailInput = screen.getByLabelText('Email address')
     const submitButton = screen.getByText('Register')
 
     await user.type(usernameInput, 'testuser')
@@ -59,9 +59,9 @@ test('does not clear input values after submit if email does not match standard 
 
     render(<RegisterForm createNewUser={createNewUser} />)
 
-    const usernameInput = screen.getByLabelText('Username:')
-    const passwordInput = screen.getByLabelText('Password:')
-    const emailInput = screen.getByLabelText('Email:')
+    const usernameInput = screen.getByLabelText('Username')
+    const passwordInput = screen.getByLabelText('Password')
+    const emailInput = screen.getByLabelText('Email address')
     const submitButton = screen.getByText('Register')
 
     await user.type(usernameInput, 'testuser')
@@ -80,9 +80,9 @@ test('calls createNewUser with correct values on submit', async () => {
 
     render(<RegisterForm createNewUser={createNewUser} />)
 
-    const usernameInput = screen.getByLabelText('Username:')
-    const passwordInput = screen.getByLabelText('Password:')
-    const emailInput = screen.getByLabelText('Email:')
+    const usernameInput = screen.getByLabelText('Username')
+    const passwordInput = screen.getByLabelText('Password')
+    const emailInput = screen.getByLabelText('Email address')
     const submitButton = screen.getByText('Register')
 
     await user.type(usernameInput, 'testuser')
@@ -104,9 +104,9 @@ test('does not call createNewUser on submit if email does not match standard for
 
     render(<RegisterForm createNewUser={createNewUser} />)
 
-    const usernameInput = screen.getByLabelText('Username:')
-    const passwordInput = screen.getByLabelText('Password:')
-    const emailInput = screen.getByLabelText('Email:')
+    const usernameInput = screen.getByLabelText('Username')
+    const passwordInput = screen.getByLabelText('Password')
+    const emailInput = screen.getByLabelText('Email address')
     const submitButton = screen.getByText('Register')
 
     await user.type(usernameInput, 'testuser')
