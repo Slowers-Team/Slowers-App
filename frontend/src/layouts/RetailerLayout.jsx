@@ -1,18 +1,20 @@
 import { Outlet, NavLink } from 'react-router-dom'
 import './Retailer.css'
+import { useTranslation } from 'react-i18next'
 
 const navigationBar = () => {
+  const { t, i18n } = useTranslation()
   return (
     <div className="nav-container">
       <nav>
         <ul>
           <li>
             <NavLink to="/retailer" end>
-              Home
+              {t('menu.home')}
             </NavLink>
           </li>
           <li>
-            <NavLink to="/retailer/flowers">Flowers</NavLink>
+            <NavLink to="/retailer/flowers">{t('menu.flowers')}</NavLink>
           </li>
         </ul>
       </nav>
@@ -21,6 +23,7 @@ const navigationBar = () => {
 }
 
 const RetailerLayout = () => {
+  const { t, i18n } = useTranslation()
   return (
     <div className="layout-container">
       <header className="header">
@@ -28,7 +31,7 @@ const RetailerLayout = () => {
       </header>
       <div className="content">
         <aside className="side-container">
-          <h1>Navigation</h1>
+          <h1>{t('title.navigation')}</h1>
           {navigationBar()}
         </aside>
         <main className="main-container">

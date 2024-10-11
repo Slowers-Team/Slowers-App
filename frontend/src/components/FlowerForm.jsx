@@ -1,8 +1,10 @@
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 
 const FlowerForm = ({ createFlower, siteID }) => {
   const [newFlowerName, setNewFlowerName] = useState("")
   const [newFlowerLatinName, setNewFlowerLatinName] = useState("")
+  const { t, i18n } = useTranslation()
 
   const addFlower = event => {
     event.preventDefault()
@@ -20,7 +22,7 @@ const FlowerForm = ({ createFlower, siteID }) => {
     <div>
       <form onSubmit={addFlower}>
         <div>
-          <label htmlFor="newFlowerNameInput">Name:</label>
+          <label htmlFor="newFlowerNameInput">{t("flower.data.name")}:</label>
           <input
             id="newFlowerNameInput"
             value={newFlowerName}
@@ -28,7 +30,7 @@ const FlowerForm = ({ createFlower, siteID }) => {
           />
         </div>
         <div>
-          <label htmlFor="newFlowerLatinNameInput">Latin name:</label>
+          <label htmlFor="newFlowerLatinNameInput">{t("flower.data.latinname")}:</label>
           <input
             id="newFlowerLatinNameInput"
             value={newFlowerLatinName}
@@ -37,7 +39,7 @@ const FlowerForm = ({ createFlower, siteID }) => {
         </div>
         <div>
           <button id="saveNewFlowerButton" type="submit">
-            Save
+            {t("button.save")}
           </button>
         </div>
       </form>

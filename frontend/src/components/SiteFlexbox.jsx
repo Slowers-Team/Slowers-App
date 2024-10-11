@@ -4,8 +4,11 @@ import { Link } from 'react-router-dom'
 import NewSiteForm from './NewSiteForm'
 import '../Misc.css'
 
+import { useTranslation } from 'react-i18next'
+
 const SiteFlexbox = ({ createSite, sites }) => {
   const [showAddNewSite, setShowAddNewSite] = useState(false)
+  const { t, i18n } = useTranslation()
 
   return (
     <div className={'flexbox'}>
@@ -13,13 +16,13 @@ const SiteFlexbox = ({ createSite, sites }) => {
         {sites &&
           sites.map(site => (
             <div className="box" key={site._id}>
-              Name: <Link to={'/site/' + site._id}>{site.name}</Link>
-              <p>Note: {site.note}</p>
+              {t('site.data.name')}: <Link to={'/site/' + site._id}>{site.name}</Link>
+              <p>{t('site.data.note')}: {site.note}</p>
             </div>
           ))}
         <div className={'box'}>
           <button id="addNewSiteButton" onClick={() => setShowAddNewSite(!showAddNewSite)}>
-            Add new site
+            {t('button.addsite')}
           </button>
           {showAddNewSite && <NewSiteForm createSite={createSite} />}
         </div>
