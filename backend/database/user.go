@@ -43,6 +43,13 @@ func (mDb MongoDatabase) GetUserByEmail(ctx context.Context, email string) (*Use
 	return user, nil
 }
 
+func (mDb MongoDatabase) SetUserRole(ctx context.Context, userID ObjectID, role string) error {
+	update := bson.M{"$set": bson.M{"role": role}}
+	_, err := db.Collection("users").UpdateByID(ctx, userID, update)
+
+	return err
+}
+
 func (mDb MongoDatabase) GetUserByID(ctx context.Context, userID ObjectID) (*User, error) {
 	user := new(User)
 	filter := bson.M{"_id": userID}
@@ -50,5 +57,6 @@ func (mDb MongoDatabase) GetUserByID(ctx context.Context, userID ObjectID) (*Use
 	if err != nil {
 		return nil, err
 	}
+	user.Password = ""
 	return user, nil
 }

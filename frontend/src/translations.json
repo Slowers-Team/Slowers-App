@@ -10,7 +10,9 @@
         "goback": "Go back",
         "login": "Log in",
         "register": "Register",
-        "save": "Save"
+        "save": "Save",
+        "switchToRetailer": "Switch to Retailer",
+        "switchToGrower": "Switch to Grower"
       },
       "error": {
         "acceptterms": "You must accept the terms",
@@ -48,7 +50,8 @@
         "retailer": "Retailer page",
         "login": "Login",
         "logout": "Logout",
-        "terms": "Terms"
+        "terms": "Terms",
+        "profile": "Profile"
       },
       "role": {
         "grower": "Grower",
@@ -72,7 +75,8 @@
         "data": {
           "username": "Username",
           "email": "Email",
-          "password": "Password"
+          "password": "Password",
+          "role": "Role"
         }
       }
     }
@@ -88,7 +92,9 @@
         "goback": "Takaisin",
         "login": "Kirjaudu",
         "register": "Rekisteröidy",
-        "save": "Tallenna"
+        "save": "Tallenna",
+        "switchToRetailer": "Vaihda jälleenmyyjäksi",
+        "switchToGrower": "Vaihda kasvattajaksi"
       },
       "error": {
         "acceptterms": "Käyttöehdot on hyväksyttävä",
@@ -126,7 +132,8 @@
         "retailer": "Jälleenmyyjän sivu",
         "login": "Kirjaudu sisään",
         "logout": "Kirjaudu ulos",
-        "terms": "Käyttöehdot"
+        "terms": "Käyttöehdot",
+        "profile": "Käyttäjätiedot"
       },
       "role": {
         "grower": "Kasvattaja",
@@ -150,7 +157,8 @@
         "data": {
           "username": "Käyttäjänimi",
           "email": "Sähköposti",
-          "password": "Salasana"
+          "password": "Salasana",
+          "role": "Rooli"
         }
       }
     }

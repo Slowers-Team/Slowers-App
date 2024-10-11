@@ -4,6 +4,7 @@ import TermsPage from './pages/TermsPage'
 import HomePage from './pages/HomePage'
 import LogInPage from './pages/LogInPage'
 import SitePage from './pages/SitePage'
+import UserPage from './pages/UserPage'
 import RetailerHomePage from './pages/RetailerHomePage'
 import RetailerFlowerPage from './pages/RetailerFlowerPage'
 import RetailerLayout from './layouts/RetailerLayout'
@@ -66,6 +67,7 @@ const App = () => {
             <Link style={padding} to="/grower">
               {t("menu.grower")}
             </Link>
+            {isLoggedIn && <Link style={padding} to="/user">{t("menu.profile")}</Link>}
             {!isLoggedIn && (
               <Link style={padding} to="/register">
                 {t("menu.register")}
@@ -139,6 +141,10 @@ const App = () => {
               <Route index element={<SitePage />} />
               <Route path="flowers" element={<GrowerFlowerPage />} />
             </Route>
+            <Route
+              path="/user"
+              element={isLoggedIn ? <UserPage setDefaultRole={setDefaultRole}/> : <Navigate replace to="/login" />}
+            />
           </Routes>
         </div>
       </Router>
