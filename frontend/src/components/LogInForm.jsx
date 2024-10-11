@@ -55,7 +55,9 @@ const LogIn = ({ onLogin, setIsLoggedIn }) => {
             required
           />
         </div>
-        <button className='btn btn-primary' id="loginButton" type="submit">Log In</button>
+        <div>
+          <button type="submit" id="loginButton" className='btn btn-primary' >Log In</button>
+        </div>
       </form>
     </div>
   )

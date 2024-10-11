@@ -19,22 +19,22 @@ const RegisterForm = ({ createNewUser }) => {
     }
 
     return (
-        <div>
+        <div className='text-left'>
             <form onSubmit={addUser}>
-                <div>
-                    <label htmlFor="newUsernameInput">Username:</label>
-                    <input id="newUsernameInput" value={newUsername} onChange={event => setNewUsername(event.target.value)} />
+                <div className='form-group mb-4'>
+                    <label htmlFor="newUsernameInput">Username</label>
+                    <input id="newUsernameInput" value={newUsername} placeholder='username' onChange={event => setNewUsername(event.target.value)} className='form-control' required/>
+                </div>
+                <div className='form-group mb-4'>
+                    <label htmlFor="newPasswordInput">Password</label>
+                    <input type="password" id="newPasswordInput" value={newPassword} placeholder='password' onChange={event => setNewPassword(event.target.value)} className='form-control' required/>
+                </div>
+                <div className='form-group mb-4'>
+                    <label htmlFor="newEmailInput">Email address</label>
+                    <input type="email" id="newEmailInput" value={newEmail} placeholder='email' onChange={event => setNewEmail(event.target.value)} className='form-control' required/>
                 </div>
                 <div>
-                    <label htmlFor="newPasswordInput">Password:</label>
-                    <input type="password" id="newPasswordInput" value={newPassword} onChange={event => setNewPassword(event.target.value)} />
-                </div>
-                <div>
-                    <label htmlFor="newEmailInput">Email:</label>
-                    <input type="email" id="newEmailInput" value={newEmail} onChange={event => setNewEmail(event.target.value)} />
-                </div>
-                <div>
-                    <button id="createNewUserButton" type="submit">Register</button>
+                    <button type="submit" id="createNewUserButton" className='btn btn-primary' >Register</button>
                 </div>
             </form>
         </div>
