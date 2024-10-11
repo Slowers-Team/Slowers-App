@@ -179,7 +179,7 @@ func (mDb MongoDatabase) GetSiteByID(ctx context.Context, siteID ObjectID) (*Sit
 	return &site, err
 }
 
-func (mDb MongoDatabase) GetAllFlowersBySiteAndSubsites(ctx context.Context, siteID string, userID ObjectID) ([]Flower, error) {
+func (mDb MongoDatabase) GetAllFlowersRelatedToSite(ctx context.Context, siteID string, userID ObjectID) ([]Flower, error) {
 	parentSiteID, err := primitive.ObjectIDFromHex(siteID)
 	if err != nil {
 		return nil, err

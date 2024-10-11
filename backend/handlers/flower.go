@@ -143,7 +143,7 @@ func GetSiteFlowers(c *fiber.Ctx) error {
 
 	siteID := c.Params("id")
 
-	flowers, err := db.GetAllFlowersBySiteAndSubsites(c.Context(), siteID, userID)
+	flowers, err := db.GetAllFlowersRelatedToSite(c.Context(), siteID, userID)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
