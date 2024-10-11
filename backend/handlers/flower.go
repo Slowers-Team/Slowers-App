@@ -2,13 +2,10 @@ package handlers
 
 import (
 	"time"
-	"log"
 
 	"github.com/gofiber/fiber/v2"
 
 	"github.com/Slowers-team/Slowers-App/database"
-
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func GetFlowers(c *fiber.Ctx) error {
@@ -38,32 +35,32 @@ func GetUserFlowers(c *fiber.Ctx) error {
 	return c.JSON(flowers)
 }
 
-func GetFlowersBySite(c *fiber.Ctx) error {
-	user, ok := c.Locals("userID").(string)
-	if !ok {
-		return c.Status(500).SendString("Invalid userID in header")
-	}
-	if !database.IsValidID(user) {
-		return c.Status(500).SendString("Malformed userID in header")
-	}
+// func GetFlowersBySite(c *fiber.Ctx) error {
+// 	user, ok := c.Locals("userID").(string)
+// 	if !ok {
+// 		return c.Status(500).SendString("Invalid userID in header")
+// 	}
+// 	if !database.IsValidID(user) {
+// 		return c.Status(500).SendString("Malformed userID in header")
+// 	}
 
-	siteIDParam := c.Params("siteID")
-	siteID, err := primitive.ObjectIDFromHex(siteIDParam)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).SendString("Invalid site ID")
-	}
+// 	siteIDParam := c.Params("siteID")
+// 	siteID, err := primitive.ObjectIDFromHex(siteIDParam)
+// 	if err != nil {
+// 		return c.Status(fiber.StatusBadRequest).SendString("Invalid site ID")
+// 	}
 
-	userID := c.Locals("userID").(primitive.ObjectID)
+// 	userID := c.Locals("userID").(primitive.ObjectID)
 
-	flowers, err := db.GetAllFlowersFromSite(c.Context(), userID, siteID)
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString("Failed to get flowers")
-	}
+// 	flowers, err := db.GetAllFlowersFromSite(c.Context(), userID, siteID)
+// 	if err != nil {
+// 		return c.Status(fiber.StatusInternalServerError).SendString("Failed to get flowers")
+// 	}
 
-	log.Printf("Flowers fetched: %v\n", flowers)
+// 	log.Printf("Flowers fetched: %v\n", flowers)
 
-	return c.Status(fiber.StatusOK).JSON(flowers)
-}
+// 	return c.Status(fiber.StatusOK).JSON(flowers)
+// }
 
 func AddFlower(c *fiber.Ctx) error {
 	user, ok := c.Locals("userID").(string)
@@ -132,4 +129,24 @@ func DeleteFlower(c *fiber.Ctx) error {
 	}
 
 	return c.SendStatus(204)
+}
+
+func GetSiteFlowers(c *fiber.Ctx) error {
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	if !database.IsValidID(user) {
+		return c.Status(500).SendString("Malformed userID in header")
+	}
+	userID := database.NewID(user)
+
+	siteID := c.Params("id")
+
+	flowers, err := db.GetAllFlowersBySiteAndSubsites(c.Context(), siteID, userID)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	return c.JSON(flowers)
 }

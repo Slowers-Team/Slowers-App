@@ -178,3 +178,75 @@ func (mDb MongoDatabase) GetSiteByID(ctx context.Context, siteID ObjectID) (*Sit
 	err := db.Collection("sites").FindOne(ctx, bson.M{"_id": siteID}).Decode(&site)
 	return &site, err
 }
+
+func (mDb MongoDatabase) GetAllFlowersBySiteAndSubsites(ctx context.Context, siteID string, userID ObjectID) ([]Flower, error) {
+	parentSiteID, err := primitive.ObjectIDFromHex(siteID)
+	if err != nil {
+		return nil, err
+	}
+
+	// Start pipeline with top level parent Site
+	matchStage := bson.D{
+		{Key: "$match", Value: bson.D{
+			{Key: "_id", Value: parentSiteID},
+			{Key: "owner", Value: userID},
+		}},
+	}
+	// Search for all children and their children
+	graphLookupStage := bson.D{
+		{Key: "$graphLookup", Value: bson.D{
+			{Key: "from", Value: "sites"},
+			{Key: "startWith", Value: "$_id"},
+			{Key: "connectFromField", Value: "_id"},
+			{Key: "connectToField", Value: "parent"},
+			{Key: "as", Value: "related"},
+		}},
+	}
+	// Open up array of documents to a stream of documents
+	unwindStage := bson.D{
+		{Key: "$unwind", Value: bson.D{
+			{Key: "path", Value: "$id"},
+		},
+		}}
+	// Strip down everything except _id for each child Site
+	projectStage := bson.D{
+		{Key: "$project", Value: bson.D{
+			{Key: "_id", Value: 0},
+			{Key: "id", Value: "$related._id"},
+		}},
+	}
+
+	cursor, err := db.Collection("sites").Aggregate(ctx, mongo.Pipeline{matchStage, graphLookupStage, projectStage, unwindStage})
+	if err != nil {
+		return nil, err
+	}
+
+	var result []bson.M
+	if err := cursor.All(ctx, &result); err != nil {
+		return nil, err
+	}
+
+	ids := make([]primitive.ObjectID, 0)
+	ids = append(ids, parentSiteID)
+
+	for _, res := range result {
+		sub_id, err := res["id"].(primitive.ObjectID)
+		if !err {
+			return nil, errors.New("Fetched sub site ID was of wrong type")
+		}
+		ids = append(ids, sub_id)
+	}
+
+	flowerFilter := bson.M{"site": bson.M{"$in": ids}}
+	flowerCursor, err := db.Collection("flowers").Find(ctx, flowerFilter)
+	if err != nil {
+		return nil, err
+	}
+
+	var flowers []Flower
+	if err := flowerCursor.All(ctx, &flowers); err != nil {
+		return nil, err
+	}
+
+	return flowers, nil
+}

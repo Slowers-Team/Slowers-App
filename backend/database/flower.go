@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -47,71 +46,71 @@ func (mDb MongoDatabase) GetUserFlowers(ctx context.Context, userID ObjectID) ([
 	return flowers, nil
 }
 
-func (mDb MongoDatabase) GetAllFlowersFromSite(ctx context.Context, userID ObjectID, siteID ObjectID) ([]bson.M, error) {
-	pipeline := mongo.Pipeline{
-		{
-			{"$match", bson.D{
-				{"_id", siteID}, 
-				{"owner", userID}, 
-			}},
-		},
-		{
-			{"$graphLookup", bson.D{
-				{"from", "sites"},                   
-				{"startWith", "$_id"},              
-				{"connectFromField", "_id"},        
-				{"connectToField", "parent"},       
-				{"as", "childSites"},                            
-			}},
-		},
-		
-		{
-			{"$unwind", bson.D{
-				{"path", "$childSites"},
-				{"preserveNullAndEmptyArrays", true},
-			}},
-		},
-		{
-			{"$lookup", bson.D{
-				{"from", "flowers"},                
-				{"localField", "childSites.flowers"}, 
-				{"foreignField", "_id"},             
-				{"as", "flowers"},
-			}},
-		},
-		{
-			{"$project", bson.D{
-				{"_id", 1},
-				{"name", 1},
-				{"flowers", "$flowers"},
-				{"childSites", "$childSites"},
-			}},
-		},
-	}
+// func (mDb MongoDatabase) GetAllFlowersFromSite(ctx context.Context, userID ObjectID, siteID ObjectID) ([]bson.M, error) {
+// 	pipeline := mongo.Pipeline{
+// 		{
+// 			{"$match", bson.D{
+// 				{"_id", siteID},
+// 				{"owner", userID},
+// 			}},
+// 		},
+// 		{
+// 			{"$graphLookup", bson.D{
+// 				{"from", "sites"},
+// 				{"startWith", "$_id"},
+// 				{"connectFromField", "_id"},
+// 				{"connectToField", "parent"},
+// 				{"as", "childSites"},
+// 			}},
+// 		},
 
-	cursor, err := db.Collection("sites").Aggregate(ctx, pipeline)
-	if err != nil {
-		return nil, err
-	}
+// 		{
+// 			{"$unwind", bson.D{
+// 				{"path", "$childSites"},
+// 				{"preserveNullAndEmptyArrays", true},
+// 			}},
+// 		},
+// 		{
+// 			{"$lookup", bson.D{
+// 				{"from", "flowers"},
+// 				{"localField", "childSites.flowers"},
+// 				{"foreignField", "_id"},
+// 				{"as", "flowers"},
+// 			}},
+// 		},
+// 		{
+// 			{"$project", bson.D{
+// 				{"_id", 1},
+// 				{"name", 1},
+// 				{"flowers", "$flowers"},
+// 				{"childSites", "$childSites"},
+// 			}},
+// 		},
+// 	}
 
-	var results []bson.M
-	if err := cursor.All(ctx, &results); err != nil {
-		return nil, err
-	}
+// 	cursor, err := db.Collection("sites").Aggregate(ctx, pipeline)
+// 	if err != nil {
+// 		return nil, err
+// 	}
 
-	var allFlowers []bson.M
-	for _, result := range results {
-		if flowers, ok := result["flowers"].(primitive.A); ok {
-			for _, flower := range flowers {
-				if flowerMap, ok := flower.(bson.M); ok {
-					allFlowers = append(allFlowers, flowerMap)
-				}
-			}
-		}
-	}
+// 	var results []bson.M
+// 	if err := cursor.All(ctx, &results); err != nil {
+// 		return nil, err
+// 	}
 
-	return allFlowers, nil
-}
+// 	var allFlowers []bson.M
+// 	for _, result := range results {
+// 		if flowers, ok := result["flowers"].(primitive.A); ok {
+// 			for _, flower := range flowers {
+// 				if flowerMap, ok := flower.(bson.M); ok {
+// 					allFlowers = append(allFlowers, flowerMap)
+// 				}
+// 			}
+// 		}
+// 	}
+
+// 	return allFlowers, nil
+// }
 
 func (mDb MongoDatabase) AddFlower(ctx context.Context, newFlower Flower) (*Flower, error) {
 	insertResult, err := db.Collection("flowers").InsertOne(ctx, newFlower)

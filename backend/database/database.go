@@ -22,7 +22,7 @@ type Database interface {
 
 	GetFlowers(ctx context.Context) ([]Flower, error)
 	GetUserFlowers(ctx context.Context, userID ObjectID) ([]Flower, error)
-	GetAllFlowersFromSite(ctx context.Context, userID ObjectID, siteID ObjectID) ([]primitive.M, error)
+	//GetAllFlowersFromSite(ctx context.Context, userID ObjectID, siteID ObjectID) ([]primitive.M, error)
 	AddFlower(ctx context.Context, newFlower Flower) (*Flower, error)
 	DeleteFlower(ctx context.Context, id string) (bool, error)
 
@@ -32,6 +32,7 @@ type Database interface {
 	DeleteSite(ctx context.Context, id string, userID ObjectID) (*mongo.DeleteResult, error)
 	AddFlowerToSite(ctx context.Context, siteID ObjectID, flowerID ObjectID) error
 	GetSiteByID(ctx context.Context, siteID ObjectID) (*Site, error)
+	GetAllFlowersBySiteAndSubsites(ctx context.Context, siteID string, userID ObjectID) ([]Flower, error)
 }
 
 type MongoDatabase struct {
