@@ -1,15 +1,15 @@
 import { render, screen } from '@testing-library/react'
-import LogIn from '../../src/components/LogIn'
+import LogInForm from '../../src/components/LogInForm'
 import { expect, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 
 test('renders LogIn form with email and password inputs', () => {
     const login = vi.fn()
 
-    render(<LogIn login={login} />)
+    render(<LogInForm login={login} />)
 
-    const email = screen.getByLabelText('Email:')
-    const password = screen.getByLabelText('Password:')
+    const email = screen.getByLabelText('Email address')
+    const password = screen.getByLabelText('Password')
     const submitButton = screen.getByRole('button', { name: 'Log In'})
 })
 
@@ -17,10 +17,10 @@ test('updates input values when typing', async () => {
     const login = vi.fn()
     const user = userEvent.setup()
 
-    render(<LogIn login={login} />)
+    render(<LogInForm login={login} />)
 
-    const emailInput = screen.getByLabelText('Email:')
-    const passwordInput = screen.getByLabelText('Password:')
+    const emailInput = screen.getByLabelText('Email address')
+    const passwordInput = screen.getByLabelText('Password')
 
     await user.type(emailInput, 'test@email.com') 
     await user.type(passwordInput, 'testpassword')
@@ -33,10 +33,10 @@ test('does not clear input values after submit if email does not match standard 
     const login = vi.fn()
     const user = userEvent.setup()
 
-    render(<LogIn login={login} />)
+    render(<LogInForm login={login} />)
 
-    const emailInput = screen.getByLabelText('Email:')
-    const passwordInput = screen.getByLabelText('Password:')
+    const emailInput = screen.getByLabelText('Email address')
+    const passwordInput = screen.getByLabelText('Password')
 
     await user.type(emailInput, 'invalidtestemail')
     await user.type(passwordInput, 'testpassword')
