@@ -39,6 +39,9 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app.Delete("/api/sites/:id", handlers.DeleteSite)
 	app.Get("/api/sites/:id/flowers", handlers.GetSiteFlowers)
 
+	app.Get("/api/user", handlers.GetUser)
+	app.Post("/api/user/role", handlers.SetRole)
+
 	return app
 }
 

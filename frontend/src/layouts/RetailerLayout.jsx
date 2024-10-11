@@ -1,5 +1,5 @@
 import { Outlet, NavLink } from 'react-router-dom'
-//import './Grower.css'
+import './Retailer.css'
 import { useTranslation } from 'react-i18next'
 
 const navigationBar = () => {
@@ -9,12 +9,12 @@ const navigationBar = () => {
       <nav>
         <ul>
           <li>
-            <NavLink to="/grower" end>
+            <NavLink to="/retailer" end>
               {t('menu.home')}
             </NavLink>
           </li>
           <li>
-            <NavLink to="/grower/flowers">{t('menu.flowers')}</NavLink>
+            <NavLink to="/retailer/flowers">{t('menu.flowers')}</NavLink>
           </li>
         </ul>
       </nav>
@@ -22,7 +22,7 @@ const navigationBar = () => {
   )
 }
 
-const GrowerLayout = () => {
+const RetailerLayout = () => {
   const { t, i18n } = useTranslation()
   return (
     <div className="layout-container">
@@ -42,4 +42,4 @@ const GrowerLayout = () => {
   )
 }
 
-export default GrowerLayout
+export default RetailerLayout

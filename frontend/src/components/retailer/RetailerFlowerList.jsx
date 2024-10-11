@@ -1,18 +1,17 @@
-import '../../layouts/Grower.css'
+import '../../layouts/Retailer.css'
 import { useTranslation } from 'react-i18next'
 
-const GrowerFlowerList = ({ flowers, deleteFlower }) => {
+const RetailerFlowerList = ({ flowers }) => {
   const { t, i18n } = useTranslation()
   return (
-    <div className="growerFlowerList">
-      <table id="growerFlowerList">
+    <div className="retailerFlowerList">
+      <table id="retailerFlowerList">
         <thead>
           <tr>
             <th>{t('flower.data.name')}</th>
             <th>{t('flower.data.latinname')}</th>
             <th>{t('flower.data.addedtime')}</th>
-            <th>{t('flower.data.site')}</th>
-            <th></th>
+            <th>{t('flower.data.grower')}</th>
           </tr>
         </thead>
         <tbody>
@@ -31,12 +30,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
                   <em>{flower.latin_name}</em>
                 </td>
                 <td>{addedTimeStr}</td>
-                <td>{flower.site_name}</td>
-                <td>
-                  <button id="deleteFlowerButton" onClick={() => deleteFlower(flower)}>
-                    {t('button.delete')}
-                  </button>
-                </td>
+                <td>{flower.grower_email}</td>
               </tr>
             )
           })}
@@ -46,4 +40,4 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
   )
 }
 
-export default GrowerFlowerList
+export default RetailerFlowerList

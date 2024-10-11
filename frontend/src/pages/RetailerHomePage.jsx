@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
-const GrowerHomePage = () => {
+const RetailerHomePage = () => {
   const { t, i18n } = useTranslation()
   return (
     <>
@@ -9,4 +9,4 @@ const GrowerHomePage = () => {
   )
 }
 
-export default GrowerHomePage
+export default RetailerHomePage
