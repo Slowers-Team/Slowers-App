@@ -67,7 +67,7 @@ const App = () => {
             <Link style={padding} to="/grower">
               {t("menu.grower")}
             </Link>
-            {isLoggedIn && <Link style={padding} to="/user">Profile</Link>}
+            {isLoggedIn && <Link style={padding} to="/user">{t("menu.profile")}</Link>}
             {!isLoggedIn && (
               <Link style={padding} to="/register">
                 {t("menu.register")}
