@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react"
-import { useParams, useNavigate } from "react-router-dom"
+import { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import SiteService from '../services/sites'
+import flowerService from '../services/flowers'
+import FlowerForm from '../components/FlowerForm'
+import SiteFlexbox from '../components/SiteFlexbox'
 
-import SiteService from "../services/sites"
-import flowerService from "../services/flowers"
-import FlowerForm from "../components/FlowerForm"
-import SiteFlexbox from "../components/SiteFlexbox"
+import { useTranslation } from "react-i18next"
 
 const SitePage = () => {
   const params = useParams()
@@ -12,6 +13,7 @@ const SitePage = () => {
   const [site, setSite] = useState({})
   const [sites, setSites] = useState([])
   const [showAddNewFlower, setShowAddNewFlower] = useState(false)
+  const { t, i18n } = useTranslation()
 
   useEffect(() => {
     SiteService.get(params.id)
@@ -24,15 +26,15 @@ const SitePage = () => {
         }
       })
       .catch(error => {
-        console.error("Error:", error)
-        navigate("/")
+        console.error('Error:', error)
+        navigate('/')
       })
   }, [params.id, navigate])
 
   const addFlower = flowerObject => {
     flowerService.create(flowerObject).catch(error => {
       console.log(error)
-      alert("Adding failed")
+      alert(t("error.addingfailed"))
     })
   }
 
@@ -42,19 +44,20 @@ const SitePage = () => {
         setSites(prevSites => (prevSites ? [...prevSites, newSite] : [newSite]))
       })
       .catch(error => {
-        alert("Error: " + error.response.data)
+        const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, '')
+        alert(t('error.error') + ': ' + (i18n.exists(key) ? t(key) : error.response.data))
       })
   }
 
   const deleteSite = siteObject => {
     if (
-      window.confirm(`Are you sure you want to delete site ${siteObject.name}?`)
+      window.confirm(`${t("label.confirmsitedeletion")} ${siteObject.name}?`)
     ) {
       const parentId = siteObject.parent ? siteObject.parent : ""
       SiteService.remove(siteObject._id)
-        .then(() => navigate("/site/" + parentId))
+        .then(() => navigate('/site/' + parentId))
         .catch(error => {
-          console.error("Error deleting site:", error)
+          console.error('Error deleting site:', error)
         })
     }
   }
@@ -77,16 +80,14 @@ const SitePage = () => {
                 id="showFlowerAddingFormButton"
                 onClick={() => setShowAddNewFlower(!showAddNewFlower)}
               >
-                Add a new flower
+                {t("button.addflower")}
               </button>
-              {showAddNewFlower && (
-                <FlowerForm createFlower={addFlower} siteID={params.id} />
-              )}
+              {showAddNewFlower && <FlowerForm createFlower={addFlower} siteID={params.id} />}
             </aside>
             <main className="main-container">
-              <button onClick={handleBack}>Go back</button>
+              <button onClick={handleBack}>{t("button.goback")}</button>
               <button id="deleteSiteButton" onClick={() => deleteSite(site)}>
-                Delete this site
+                {t("button.deletethissite")}
               </button>
               <SiteFlexbox createSite={createSite} sites={sites} />
             </main>
@@ -94,9 +95,6 @@ const SitePage = () => {
         </div>
       ) : (
         <>
-          <header className="header">
-            <h1>Root Sites</h1>
-          </header>
           <div className="content">
             <main className="main-container">
               <SiteFlexbox createSite={createSite} sites={sites} />

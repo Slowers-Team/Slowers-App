@@ -1,40 +1,66 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const RegisterForm = ({ createNewUser }) => {
     const [newUsername, setNewUsername] = useState('')
     const [newPassword, setNewPassword] = useState('')
     const [newEmail, setNewEmail] = useState('')
+    const [newRole, setNewRole] = useState('')
+    const [termsAccepted, setTermsAccepted] = useState(false)
+    const { t, i18n } = useTranslation()
 
     const addUser = event => {
         event.preventDefault()
+        if (!termsAccepted) {
+            alert(t('error.acceptterms'))
+            return
+        }
         createNewUser({ 
             username: newUsername,
             password: newPassword,
-            email: newEmail 
+            email: newEmail,
+            role: newRole
         })
 
         setNewUsername('')
         setNewPassword('')
         setNewEmail('')
+        setNewRole('')
+        setTermsAccepted(false)
     }
 
     return (
         <div className='text-left'>
             <form onSubmit={addUser}>
                 <div className='form-group mb-4'>
-                    <label htmlFor="newUsernameInput">Username</label>
-                    <input id="newUsernameInput" value={newUsername} placeholder='username' onChange={event => setNewUsername(event.target.value)} className='form-control' required/>
+                  <label htmlFor="newUsernameInput">{t('user.data.username')}</label>
+                  <input id="newUsernameInput" value={newUsername} placeholder={t('user.input.username')} onChange={event => setNewUsername(event.target.value)} className='form-control' required/>
                 </div>
                 <div className='form-group mb-4'>
-                    <label htmlFor="newPasswordInput">Password</label>
-                    <input type="password" id="newPasswordInput" value={newPassword} placeholder='password' onChange={event => setNewPassword(event.target.value)} className='form-control' required/>
+                  <label htmlFor="newPasswordInput">{t('user.data.password')}</label>
+                  <input type="password" id="newPasswordInput" value={newPassword} placeholder={t('user.input.password')} onChange={event => setNewPassword(event.target.value)} className='form-control' required/>
                 </div>
                 <div className='form-group mb-4'>
-                    <label htmlFor="newEmailInput">Email address</label>
-                    <input type="email" id="newEmailInput" value={newEmail} placeholder='email' onChange={event => setNewEmail(event.target.value)} className='form-control' required/>
+                  <label htmlFor="newEmailInput">{t('user.data.email')}</label>
+                  <input type="email" id="newEmailInput" value={newEmail} placeholder={t('user.input.email')} onChange={event => setNewEmail(event.target.value)} className='form-control' required/>
                 </div>
                 <div>
-                    <button type="submit" id="createNewUserButton" className='btn btn-primary' >Register</button>
+                    <label htmlFor="roleSelector">{t('label.defaultrole')}:</label>
+                    <div>
+                      <input type="radio" name="roleSelector" id="growerSelector" value="grower" onChange={event => setNewRole(event.target.value)}/>
+                      <label htmlFor="growerSelector">{t('role.grower')}</label>
+                    </div>
+                    <div>
+                      <input type="radio" name="roleSelector" id="retailerSelector" value="retailer" onChange={event => setNewRole(event.target.value)}/>
+                      <label htmlFor="retailerSelector">{t('role.retailer')}</label>
+                    </div>
+                </div>
+                <div>
+                  <input type='checkbox' id='termsCheckbox' checked={termsAccepted} onChange={() => setTermsAccepted(!termsAccepted)}/>
+                  <label htmlFor="termsCheckbox">{t('label.iagreeto')} <a href='/terms' target="_blank" rel="noopener noreferrer">{t('label.terms')}</a></label>
+                </div>
+                <div>
+                  <button type="submit" id="createNewUserButton" className='btn btn-primary'>{t('button.register')}</button>
                 </div>
             </form>
         </div>

@@ -1,0 +1,178 @@
+{
+  "en": {
+    "translation": {
+      "button": {
+        "addflower": "Add a new flower",
+        "addsite": "Add a new site",
+        "back": "Back",
+        "delete": "Delete",
+        "deletethissite": "Delete this site",
+        "goback": "Go back",
+        "login": "Log in",
+        "register": "Register",
+        "save": "Save",
+        "switchToRetailer": "Switch to Retailer",
+        "switchToGrower": "Switch to Grower"
+      },
+      "error": {
+        "acceptterms": "You must accept the terms",
+        "addingfailed": "Adding failed",
+        "allfieldsarerequired": "All fields are required",
+        "emailalreadyexists": "Email already exists",
+        "error": "Error",
+        "erroroccured": "An error occurred. Please try again.",
+        "invalidemail": "Invalid email",
+        "invalidlogininfo": "Invalid email or password",
+        "sitenamecannotbeempty": "Site name cannot be empty"
+      },
+      "flower": {
+        "data": {
+          "name": "Name",
+          "latinname": "Latin name",
+          "addedtime": "Added time",
+          "grower": "Grower",
+          "site": "Site"
+        }
+      },
+      "label": {
+        "confirmflowerdeletion": "Are you sure you want to delete the flower",
+        "confirmsitedeletion": "Are you sure you want to delete the site",
+        "defaultrole": "Default role",
+        "iagreeto": "I agree to the",
+        "loading": "Loading...",
+        "terms": "terms and conditions"
+      },
+      "menu": {
+        "flowers": "Flowers",
+        "grower": "Grower page",
+        "home": "Home",
+        "register": "Register",
+        "retailer": "Retailer page",
+        "login": "Login",
+        "logout": "Logout",
+        "terms": "Terms",
+        "profile": "Profile"
+      },
+      "role": {
+        "grower": "Grower",
+        "retailer": "Retailer"
+      },
+      "site": {
+        "data": {
+          "name": "Name",
+          "note": "Note"
+        }
+      },
+      "title": {
+        "flowers": "Flowers",
+        "home": "Home",
+        "register": "Slowers registration",
+        "login": "Log into Slowers",
+        "navigation": "Navigation",
+        "rootsites": "Root Sites",
+        "terms": "Terms and Conditions"
+      },
+      "user": {
+        "data": {
+          "username": "Username",
+          "email": "Email",
+          "password": "Password",
+          "role": "Role"
+        },
+        "input": {
+          "email": "Enter email",
+          "password": "Enter password",
+          "username": "Enter username"
+        }
+      }
+    }
+  },
+  "fi": {
+    "translation": {
+      "button": {
+        "addflower": "Lisää uusi kukka",
+        "addsite": "Lisää uusi alue",
+        "back": "Takaisin",
+        "delete": "Poista",
+        "deletethissite": "Poista tämä alue",
+        "goback": "Takaisin",
+        "login": "Kirjaudu",
+        "register": "Rekisteröidy",
+        "save": "Tallenna",
+        "switchToRetailer": "Vaihda jälleenmyyjäksi",
+        "switchToGrower": "Vaihda kasvattajaksi"
+      },
+      "error": {
+        "acceptterms": "Käyttöehdot on hyväksyttävä",
+        "addingfailed": "Lisääminen epäonnistui",
+        "allfieldsarerequired": "Täytä kaikki kentät",
+        "emailalreadyexists": "Antamallasi sähköpostiosoitteella on jo rekisteröity tili",
+        "error": "Virhe",
+        "erroroccured": "Tapahtui virhe. Yritä uudelleen myöhemmin.",
+        "invalidemail": "Virheellinen sähköpostiosoite",
+        "invalidlogininfo": "Virheellinen sähköposti tai salasana",
+        "sitenamecannotbeempty": "Alueen nimi ei voi olla tyhjä"
+      },
+      "flower": {
+        "data": {
+          "name": "Nimi",
+          "latinname": "Tieteellinen nimi",
+          "addedtime": "Lisäysaika",
+          "grower": "Kasvattaja",
+          "site": "Alue"
+        }
+      },
+      "label": {
+        "confirmflowerdeletion": "Haluatko varmasti poistaa kukan",
+        "confirmsitedeletion": "Haluatko varmasti poistaa alueen",
+        "defaultrole": "Oletusrooli",
+        "iagreeto": "Hyväksyn",
+        "loading": "Ladataan...",
+        "terms": "käyttöehdot"
+      },
+      "menu": {
+        "flowers": "Kukat",
+        "grower": "Kasvattajan sivu",
+        "home": "Kotisivu",
+        "register": "Rekisteröidy",
+        "retailer": "Jälleenmyyjän sivu",
+        "login": "Kirjaudu sisään",
+        "logout": "Kirjaudu ulos",
+        "terms": "Käyttöehdot",
+        "profile": "Käyttäjätiedot"
+      },
+      "role": {
+        "grower": "Kasvattaja",
+        "retailer": "Jälleenmyyjä"
+      },
+      "site": {
+        "data": {
+          "name": "Nimi",
+          "note": "Muistiinpano"
+        }
+      },
+      "title": {
+        "flowers": "Kukat",
+        "home": "Kotisivu",
+        "register": "Rekisteröidy Slowersiin",
+        "login": "Kirjaudu Slowersiin",
+        "navigation": "Navigointi",
+        "rootsites": "Juurisivut",
+        "terms": "Käyttöehdot"
+      },
+      "user": {
+        "data": {
+          "username": "Käyttäjänimi",
+          "email": "Sähköposti",
+          "password": "Salasana",
+          "role": "Rooli"
+        },
+      "input": {
+        "email": "Syötä sähköpostiosoite",
+        "password": "Syötä salasana",
+        "username": "Syötä käyttäjänimi"
+        }
+      }
+    }
+  }
+}

@@ -1,18 +1,20 @@
-import { useState, useEffect } from "react"
-import flowerService from "../services/flowers"
-import FlowerList from "../components/FlowerList"
+import { useState, useEffect } from 'react'
+import flowerService from '../services/flowers'
+import FlowerList from '../components/FlowerList'
+import { useTranslation } from 'react-i18next'
 
 const HomePage = () => {
   const [flowers, setFlowers] = useState([])
+  const { t, i18n } = useTranslation()
 
   useEffect(() => {
-    flowerService.getAll().then(initialFlowers => setFlowers(initialFlowers))
+    flowerService.getUserFlowers().then(initialFlowers => setFlowers(initialFlowers))
   }, [])
 
   const deleteFlower = flowerObject => {
     if (
       window.confirm(
-        `Are you sure you want to delete flower ${flowerObject.name}?`
+        `${t('label.confirmflowerdeletion')} ${flowerObject.name}?`
       )
     ) {
       flowerService.remove(flowerObject._id).then(response => {
@@ -24,7 +26,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <h2>Flowers</h2>
+      <h2>{t('title.flowers')}</h2>
       {flowers && <FlowerList flowers={flowers} deleteFlower={deleteFlower} />}
     </div>
   )

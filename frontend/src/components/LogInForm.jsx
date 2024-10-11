@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import userService from '../services/users'
+import { useTranslation } from 'react-i18next'
 
 const LogIn = ({ onLogin, setIsLoggedIn }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const { t, i18n } = useTranslation()
 
   const handleSubmit = async (e) => {
        e.preventDefault()
@@ -16,13 +18,15 @@ const LogIn = ({ onLogin, setIsLoggedIn }) => {
 
       if (response.ok) {
         localStorage.setItem("token", data.token)
+        localStorage.setItem("role", data.role)
         setIsLoggedIn(true)
+        setDefaultRole(data.role)
         onLogin()
       } else {
-        setError("Invalid email or password")
+        setError(t("error.invalidlogininfo"))
       }
     } catch (err) {
-      setError("An error occurred. Please try again.")
+      setError(t("error.erroroccured"))
       console.log(err)
     }
   };
@@ -32,31 +36,31 @@ const LogIn = ({ onLogin, setIsLoggedIn }) => {
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className='form-group mb-4'>
-          <label htmlFor="emailInput">Email address</label>
+          <label htmlFor="emailInput">{t("user.data.email")}</label>
           <input
             type="email"
             id="emailInput"
             value={email}
-            placeholder='Enter email'
+            placeholder={t("user.input.email")}
             onChange={(e) => setEmail(e.target.value)}
             className='form-control'
             required
           />
         </div>
         <div className='form-group mb-4'>
-          <label htmlFor="passwordInput">Password</label>
+          <label htmlFor="passwordInput">{t("user.data.password")}</label>
           <input
             type="password"
             id="passwordInput"
             value={password}
-            placeholder='Enter password'
+            placeholder={t("user.input.password")}
             onChange={(e) => setPassword(e.target.value)}
             className='form-control'
             required
           />
         </div>
         <div>
-          <button type="submit" id="loginButton" className='btn btn-primary' >Log In</button>
+          <button type="submit" id="loginButton" className='btn btn-primary' >{t("button.login")}</button>
         </div>
       </form>
     </div>

@@ -8,9 +8,9 @@ test('renders LogIn form with email and password inputs', () => {
 
     render(<LogInForm login={login} />)
 
-    const email = screen.getByLabelText('Email address')
+    const email = screen.getByLabelText('Email')
     const password = screen.getByLabelText('Password')
-    const submitButton = screen.getByRole('button', { name: 'Log In'})
+    const submitButton = screen.getByRole('button', { name: 'Log in'})
 })
 
 test('updates input values when typing', async () => {
@@ -19,7 +19,7 @@ test('updates input values when typing', async () => {
 
     render(<LogInForm login={login} />)
 
-    const emailInput = screen.getByLabelText('Email address')
+    const emailInput = screen.getByLabelText('Email')
     const passwordInput = screen.getByLabelText('Password')
 
     await user.type(emailInput, 'test@email.com') 
@@ -35,12 +35,12 @@ test('does not clear input values after submit if email does not match standard 
 
     render(<LogInForm login={login} />)
 
-    const emailInput = screen.getByLabelText('Email address')
+    const emailInput = screen.getByLabelText('Email')
     const passwordInput = screen.getByLabelText('Password')
 
     await user.type(emailInput, 'invalidtestemail')
     await user.type(passwordInput, 'testpassword')
-    await user.click(screen.getByRole('button', { name: 'Log In'}))
+    await user.click(screen.getByRole('button', { name: 'Log in'}))
 
     expect(emailInput.value).toBe('invalidtestemail')
     expect(passwordInput.value).toBe('testpassword')
