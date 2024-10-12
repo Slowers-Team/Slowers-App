@@ -5,15 +5,13 @@ import flowerService from '../services/flowers'
 import FlowerForm from '../components/FlowerForm'
 import SiteFlexbox from '../components/SiteFlexbox'
 
-import { useTranslation } from "react-i18next"
-
 const SitePage = () => {
   const params = useParams()
   const navigate = useNavigate()
   const [site, setSite] = useState({})
   const [sites, setSites] = useState([])
+  const [flowers, setFlowers] = useState()
   const [showAddNewFlower, setShowAddNewFlower] = useState(false)
-  const { t, i18n } = useTranslation()
 
   useEffect(() => {
     SiteService.get(params.id)
@@ -31,10 +29,22 @@ const SitePage = () => {
       })
   }, [params.id, navigate])
 
+  useEffect(() => {
+    if (params.id) {
+      flowerService.getFlowersForSite(params.id)
+        .then(fetchedFlowers => {
+          setFlowers(fetchedFlowers);
+        })
+        .catch(error => {
+          console.error('Error fetching flowers:', error);
+        });
+    }
+  }, [params.id])
+
   const addFlower = flowerObject => {
     flowerService.create(flowerObject).catch(error => {
       console.log(error)
-      alert(t("error.addingfailed"))
+      alert('Adding failed')
     })
   }
 
@@ -44,16 +54,13 @@ const SitePage = () => {
         setSites(prevSites => (prevSites ? [...prevSites, newSite] : [newSite]))
       })
       .catch(error => {
-        const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, '')
-        alert(t('error.error') + ': ' + (i18n.exists(key) ? t(key) : error.response.data))
+        alert('Error: ' + error.response.data)
       })
   }
 
   const deleteSite = siteObject => {
-    if (
-      window.confirm(`${t("label.confirmsitedeletion")} ${siteObject.name}?`)
-    ) {
-      const parentId = siteObject.parent ? siteObject.parent : ""
+    if (window.confirm(`Are you sure you want to delete site ${siteObject.name}?`)) {
+      const parentId = siteObject.parent ? siteObject.parent : ''
       SiteService.remove(siteObject._id)
         .then(() => navigate('/site/' + parentId))
         .catch(error => {
@@ -80,16 +87,27 @@ const SitePage = () => {
                 id="showFlowerAddingFormButton"
                 onClick={() => setShowAddNewFlower(!showAddNewFlower)}
               >
-                {t("button.addflower")}
+                Add a new flower
               </button>
               {showAddNewFlower && <FlowerForm createFlower={addFlower} siteID={params.id} />}
             </aside>
             <main className="main-container">
-              <button onClick={handleBack}>{t("button.goback")}</button>
+              <button onClick={handleBack}>Go back</button>
               <button id="deleteSiteButton" onClick={() => deleteSite(site)}>
-                {t("button.deletethissite")}
+                Delete this site
               </button>
               <SiteFlexbox createSite={createSite} sites={sites} />
+              <div>
+                <h2>{t("label.flowers")}</h2>
+                <ul>
+                  {flowers.map(flower => (
+                    <li key={flower._id}>
+                      <h3>{flower.name}</h3>
+                      <p>{flower.latin_name}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </main>
           </div>
         </div>

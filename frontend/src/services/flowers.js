@@ -9,6 +9,10 @@ const getAll = () => {
   const request = axios.get(baseUrl, config)
   return request.then(response => response.data)
 }
+const getFlowersForSite = (siteId) => {
+  return axios.get(`${API_URL}/site/${siteId}`).then(response => response.data);
+};
+
 
 const getUserFlowers = () => {
   const config = {
@@ -39,4 +43,5 @@ export default {
   create,
   remove,
   getUserFlowers,
+  getFlowersForSite
 }
