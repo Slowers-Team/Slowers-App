@@ -14,7 +14,7 @@ import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-ro
 import { useState, useEffect } from 'react'
 import i18n from "./i18n"
 import { useTranslation } from 'react-i18next'
-import { Navbar, Nav } from "react-bootstrap"
+import { Navbar, Nav, NavDropdown } from "react-bootstrap"
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);  
@@ -58,41 +58,62 @@ const App = () => {
     <div>
       <Router>
         <div>
-          <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
-            <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
+          <Navbar collapseOnSelect expand="lg" bg="light">
+            <Navbar.Brand>
+              <h1 className='mx-2 text-center'>Slowers</h1>
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
-              <Nav className="mr.auto">
-                <Nav.Link href="#" as="span">
-                  <Link style={padding} to="/">{t("menu.home")}</Link>
+              <Nav className="me-auto justify-content-start">
+                <Nav.Link as={Link} to="/">
+                  {t("menu.home")}
                 </Nav.Link>
-                <Nav.Link href="#" as="span">
-                  <Link style={padding} to="/retailer">{t("menu.retailer")}</Link>
+                {!isLoggedIn && (
+                  <Nav.Link as={Link} to="/login">
+                    {t("menu.login")}
+                  </Nav.Link>
+                )}
+                {!isLoggedIn && (
+                  <Nav.Link as={Link} to="/register">
+                    {t("menu.register")}
+                  </Nav.Link>
+                )}
+                {isLoggedIn && (
+                <NavDropdown title={t("menu.role")} id="collasible-nav-dropdown">
+                  <Nav.Link as={Link} to="/retailer">
+                    {t("menu.retailer")}
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/grower">
+                    {t("menu.grower")}
+                  </Nav.Link>
+                </NavDropdown>
+                )}
+                {isLoggedIn && (
+                  <Nav.Link as={Link} onClick={handleLogout}>
+                    {t("menu.logout")}
+                  </Nav.Link>
+                )}
+              </Nav>
+              <Nav className="ms-auto">
+                {isLoggedIn && (
+                  <Nav.Link as={Link} to="/user">
+                    {t("menu.profile")}
+                  </Nav.Link>
+                )}
+                <Nav.Link as={Link} to="/terms">
+                  {t("menu.terms")}
                 </Nav.Link>
-                <Nav.Link href="#" as="span">
-                  <Link style={padding} to="/grower">{t("menu.grower")}</Link>
-                </Nav.Link>
-                <Nav.Link href="#" as="span">
-                  {isLoggedIn && <Link style={padding} to="/user">{t("menu.profile")}</Link>}
-                </Nav.Link>
-                <Nav.Link href="#" as="span">
-                  {!isLoggedIn && (<Link style={padding} to="/register">{t("menu.register")}</Link>)}
-                </Nav.Link>
-                <Nav.Link href="#" as="span">
-                  {!isLoggedIn && (<Link style={padding} to="/login">{t("menu.login")}</Link>)}
-                </Nav.Link>
-                <Nav.Link href="#" as="span">
-                  {isLoggedIn && <Link onClick={handleLogout}>{t("menu.logout")}</Link>}
-                </Nav.Link>
-                <Nav.Link href="#" as="span">
-                  <Link style={padding} to="/terms">{t("menu.terms")}</Link>
-                </Nav.Link>
+                <NavDropdown title={t("menu.language")} id="collasible-nav-dropdown">
+                  <Nav.Link href="#" onClick={() => changeLanguage('en')}>
+                    en
+                  </Nav.Link>
+                  <Nav.Link href="#" onClick={() => changeLanguage('fi')}>
+                    fi
+                  </Nav.Link>
+                </NavDropdown>
               </Nav>
             </Navbar.Collapse>
           </Navbar>
-          <div style={{position: "absolute", top: "0", right: "0", padding: "8px"}}>
-            <a href="#" onClick={() => changeLanguage('en')} style={{paddingRight: "0.8rem"}}>en</a>
-            <a href="#" onClick={() => changeLanguage('fi')} style={{paddingRight: "0.8rem"}}>fi</a>
-          </div>
           <Routes>
             <Route
               path="/"

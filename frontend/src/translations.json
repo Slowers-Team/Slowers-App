@@ -51,7 +51,9 @@
         "login": "Login",
         "logout": "Logout",
         "terms": "Terms",
-        "profile": "Profile"
+        "profile": "Profile",
+        "language": "Language",
+        "role": "Role pages"
       },
       "role": {
         "grower": "Grower",
@@ -139,7 +141,9 @@
         "login": "Kirjaudu sisään",
         "logout": "Kirjaudu ulos",
         "terms": "Käyttöehdot",
-        "profile": "Käyttäjätiedot"
+        "profile": "Käyttäjätiedot",
+        "language": "Kieli",
+        "role": "Roolisivut"
       },
       "role": {
         "grower": "Kasvattaja",
