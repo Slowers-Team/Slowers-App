@@ -68,7 +68,7 @@ const SitePage = () => {
   }
 
   const deleteSite = siteObject => {
-    if (window.confirm(`Are you sure you want to delete site ${siteObject.name}?`)) {
+    if (window.confirm(`${t("label.confirmsitedeletion")} ${siteObject.name}?`)) {
       const parentId = siteObject.parent ? siteObject.parent : ''
       SiteService.remove(siteObject._id)
         .then(() => navigate('/site/' + parentId))
