@@ -10,7 +10,7 @@ const SitePage = () => {
   const navigate = useNavigate()
   const [site, setSite] = useState({})
   const [sites, setSites] = useState([])
-  const [flowers, setFlowers] = useState()
+  const [flowers, setFlowers] = useState() // LISÄSIN
   const [showAddNewFlower, setShowAddNewFlower] = useState(false)
 
   useEffect(() => {
@@ -30,16 +30,15 @@ const SitePage = () => {
   }, [params.id, navigate])
 
   useEffect(() => {
-    if (params.id) {
-      flowerService.getFlowersForSite(params.id)
-        .then(fetchedFlowers => {
-          setFlowers(fetchedFlowers);
-        })
-        .catch(error => {
-          console.error('Error fetching flowers:', error);
-        });
-    }
-  }, [params.id])
+    flowerService
+      .getFlowesBySite(params.id)
+      .then(flowers => {
+        setFlowers(flowers);
+      })
+      .catch(error => {
+        console.error("Error fetching flowers:", error);
+      });
+  }, [params.id, navigate]);
 
   const addFlower = flowerObject => {
     flowerService.create(flowerObject).catch(error => {
@@ -97,16 +96,18 @@ const SitePage = () => {
                 Delete this site
               </button>
               <SiteFlexbox createSite={createSite} sites={sites} />
-              <div>
-                <h2>{t("label.flowers")}</h2>
-                <ul>
-                  {flowers.map(flower => (
-                    <li key={flower._id}>
-                      <h3>{flower.name}</h3>
-                      <p>{flower.latin_name}</p>
-                    </li>
-                  ))}
-                </ul>
+              <div className="flower-list">
+                {Array.isArray(flowers) && flowers.length > 0 ? (
+                  flowers.map(flower => (
+                    <div key={flower._id} className="flower-card">
+                      <h2>{flower.name}</h2>
+                      <p>{flower.latinName}</p>
+                      <p>{flower.siteName}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p>No flowers found for this site.</p>
+                )}
               </div>
             </main>
           </div>

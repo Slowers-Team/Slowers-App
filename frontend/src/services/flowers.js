@@ -9,10 +9,6 @@ const getAll = () => {
   const request = axios.get(baseUrl, config)
   return request.then(response => response.data)
 }
-const getFlowersForSite = (siteId) => {
-  return axios.get(`${API_URL}/site/${siteId}`).then(response => response.data);
-};
-
 
 const getUserFlowers = () => {
   const config = {
@@ -38,10 +34,28 @@ const remove = id => {
   return axios.delete(`${baseUrl}/${id}`, config)
 }
 
+const getFlowesBySite = (id) => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken() },
+  };
+  return axios
+    .get(`api/sites/${id}/flowers`, config)
+    .then(response => {
+      console.log("Fetched flowers:", response.data); 
+      return response.data;
+    })
+    .catch(error => {
+      console.error('Error fetching site flowers:', error);
+      throw error;
+    });
+};
+
+
+
 export default {
   getAll,
   create,
   remove,
   getUserFlowers,
-  getFlowersForSite
+  getFlowesBySite,
 }
