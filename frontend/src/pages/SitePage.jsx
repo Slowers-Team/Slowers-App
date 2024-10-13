@@ -86,8 +86,8 @@ const SitePage = () => {
               {showAddNewFlower && <FlowerForm createFlower={addFlower} siteID={params.id} />}
             </aside>
             <main className="main-container">
-              <button onClick={handleBack}>{t("button.goback")}</button>
-              <button id="deleteSiteButton" onClick={() => deleteSite(site)}>
+              <button onClick={handleBack} className="btn btn-light" style={{ marginRight: "0.5rem" }}>{t("button.goback")}</button>
+              <button id="deleteSiteButton" onClick={() => deleteSite(site)} className="btn btn-light">
                 {t("button.deletethissite")}
               </button>
               <SiteFlexbox createSite={createSite} sites={sites} />

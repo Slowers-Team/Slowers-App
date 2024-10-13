@@ -52,7 +52,7 @@ const RegisterForm = ({ createNewUser }) => {
                       <input type="radio" className='btn-check' name="roleSelector" id="growerSelector" autoComplete="off" value="grower" onChange={event => setNewRole(event.target.value)} required />
                       <label className='btn btn-light' htmlFor="growerSelector" style={{ marginRight: "0.5rem" }}>{t('role.grower')}</label>
                       <input type="radio" className='btn-check' name="roleSelector" id="retailerSelector" autoComplete='off' value="retailer" onChange={event => setNewRole(event.target.value)} />
-                      <label className='btn btn-light' htmlFor="retailerSelector"style={{ marginRight: "0.5rem" }}>{t('role.retailer')}</label>
+                      <label className='btn btn-light' htmlFor="retailerSelector">{t('role.retailer')}</label>
                     </div>
                 </div>
                 <div className='form-check form-group mb-4'>

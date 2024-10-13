@@ -40,7 +40,7 @@ const FlowerForm = ({ createFlower, siteID }) => {
           />
         </div>
         <div>
-          <button id="saveNewFlowerButton" type="submit" className="btn btn-success">
+          <button id="saveNewFlowerButton" type="submit" className="btn btn-light">
             {t("button.save")}
           </button>
         </div>
