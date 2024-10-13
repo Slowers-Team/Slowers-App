@@ -92,7 +92,7 @@ const SitePage = () => {
           </header>
           <div className="content">
             <aside className="side-container">
-              <h3>This site's flowers:</h3>
+              <h3>{t("site.siteflowers")}:</h3>
               <div className="flower-list">
                 {Array.isArray(flowers) && flowers.length > 0 ? (
                   flowers.map(flower => (
