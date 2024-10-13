@@ -5,6 +5,8 @@ import flowerService from '../services/flowers'
 import FlowerForm from '../components/FlowerForm'
 import SiteFlexbox from '../components/SiteFlexbox'
 
+import { useTranslation } from "react-i18next"
+
 const SitePage = () => {
   const params = useParams()
   const navigate = useNavigate()
@@ -12,6 +14,7 @@ const SitePage = () => {
   const [sites, setSites] = useState([])
   const [flowers, setFlowers] = useState() 
   const [showAddNewFlower, setShowAddNewFlower] = useState(false)
+  const { t, i18n } = useTranslation()
 
   useEffect(() => {
     SiteService.get(params.id)
@@ -59,7 +62,8 @@ const SitePage = () => {
         setSites(prevSites => (prevSites ? [...prevSites, newSite] : [newSite]))
       })
       .catch(error => {
-        alert('Error: ' + error.response.data)
+        const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, '')
+        alert(t('error.error') + ': ' + (i18n.exists(key) ? t(key) : error.response.data))
       })
   }
 
