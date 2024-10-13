@@ -43,7 +43,10 @@ const SitePage = () => {
   const addFlower = flowerObject => {
     flowerService
       .create(flowerObject)
-      .then(returnedFlower => setFlowers(flowers.concat(returnedFlower)))
+      .then(returnedFlower => 
+        setFlowers(flowers ? flowers.concat(returnedFlower) :
+          [returnedFlower])
+      )
       .catch(error => {
       console.log(error)
       alert('Adding failed')
