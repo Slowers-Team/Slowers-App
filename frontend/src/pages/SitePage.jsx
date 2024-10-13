@@ -117,7 +117,7 @@ const SitePage = () => {
             <main className="main-container">
               <div className="site-actions">
                 <button onClick={handleBack} className="action-button">{t("button.goback")}</button>
-                <button id="deleteSiteButton" onClick={() => deleteSite(site)} className="action-button">Delete this site</button>
+                <button id="deleteSiteButton" onClick={() => deleteSite(site)} className="action-button">{t("button.deletethissite")}</button>
               </div>
               <SiteFlexbox createSite={createSite} sites={sites} />
             </main>
