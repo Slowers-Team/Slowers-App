@@ -34,11 +34,11 @@ const remove = id => {
   return axios.delete(`${baseUrl}/${id}`, config)
 }
 
-const getFlowesBySite = (id=null) => {
+const getFlowersBySite = (id=null) => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
   };
-  const url = id ? `api/sites/${id}/flowers` : baseUrl;
+  const url = id ? `/api/sites/${id}/flowers` : baseUrl;
 
   return axios.get(url, config)
     .then(response => {
@@ -56,5 +56,5 @@ export default {
   create,
   remove,
   getUserFlowers,
-  getFlowesBySite,
+  getFlowersBySite,
 }
