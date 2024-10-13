@@ -27,7 +27,7 @@ const RetailerLayout = () => {
   return (
     <div className="layout-container">
       <header className="header">
-        <h2>Placeholder</h2>
+        <h2>{t('menu.retailer')}</h2>
       </header>
       <div className="content">
         <aside className="side-container">
