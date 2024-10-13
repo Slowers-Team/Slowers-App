@@ -1,6 +1,9 @@
 {
   "en": {
     "translation": {
+      "alert": {
+        "usercreated": "User created successfully"
+      },
       "button": {
         "addflower": "Add a new flower",
         "addsite": "Add a new site",
@@ -37,7 +40,7 @@
       "label": {
         "confirmflowerdeletion": "Are you sure you want to delete the flower",
         "confirmsitedeletion": "Are you sure you want to delete the site",
-        "defaultrole": "Default role",
+        "defaultrole": "Choose your default role",
         "iagreeto": "I agree to the",
         "loading": "Loading...",
         "terms": "terms and conditions"
@@ -91,6 +94,9 @@
   },
   "fi": {
     "translation": {
+      "alert": {
+        "usercreated": "Tili luotu onnistuneesti"
+      },
       "button": {
         "addflower": "Lisää uusi kukka",
         "addsite": "Lisää uusi alue",
@@ -127,7 +133,7 @@
       "label": {
         "confirmflowerdeletion": "Haluatko varmasti poistaa kukan",
         "confirmsitedeletion": "Haluatko varmasti poistaa alueen",
-        "defaultrole": "Oletusrooli",
+        "defaultrole": "Valitse oletusroolisi",
         "iagreeto": "Hyväksyn",
         "loading": "Ladataan...",
         "terms": "käyttöehdot"
