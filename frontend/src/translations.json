@@ -61,7 +61,8 @@
         "data": {
           "name": "Name",
           "note": "Note"
-        }
+        },
+        "siteflowers": "This site's flowers"
       },
       "title": {
         "flowers": "Flowers",
@@ -143,7 +144,8 @@
         "data": {
           "name": "Nimi",
           "note": "Muistiinpano"
-        }
+        },
+        "siteflowers": "Tämän alueen kukat"
       },
       "title": {
         "flowers": "Kukat",
