@@ -110,7 +110,7 @@ const SitePage = () => {
                 onClick={() => setShowAddNewFlower(!showAddNewFlower)}
                 className="add-flower-button"
               >
-                Add a new flower
+                {t("button.addflower")}
               </button>
               {showAddNewFlower && <FlowerForm createFlower={addFlower} siteID={params.id} />}
             </aside>
