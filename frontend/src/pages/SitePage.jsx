@@ -52,7 +52,7 @@ const SitePage = () => {
       )
       .catch(error => {
       console.log(error)
-      alert('Adding failed')
+      alert(t("error.addingfailed"))
     })
   }
 
