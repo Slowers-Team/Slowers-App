@@ -10,6 +10,7 @@ import RetailerFlowerPage from './pages/RetailerFlowerPage'
 import RetailerLayout from './layouts/RetailerLayout'
 import GrowerLayout from './layouts/GrowerLayout'
 import GrowerFlowerPage from './pages/GrowerFlowerPage'
+import LangSelect from './components/LangSelect'
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import i18n from "./i18n"
@@ -48,11 +49,6 @@ const App = () => {
     return <div>{t("label.loading")}</div>
   }
 
-  const changeLanguage = lang => {
-    document.cookie = `lang=${lang}; expires=${new Date(Date.now().valueOf() + 2592000000).toUTCString()}; path=/`;
-    i18n.changeLanguage(lang);
-  };
-
   return (
     <div>
       <Router>
@@ -83,10 +79,7 @@ const App = () => {
               {t("menu.terms")}
             </Link>
           </nav>
-          <div style={{position: "absolute", top: "0", right: "0", padding: "8px"}}>
-            <a href="#" onClick={() => changeLanguage('en')} style={{paddingRight: "0.8rem"}}>en</a>
-            <a href="#" onClick={() => changeLanguage('fi')} style={{paddingRight: "0.8rem"}}>fi</a>
-          </div>
+          <LangSelect/>
           <Routes>
             <Route
               path="/"
