@@ -34,12 +34,13 @@ const remove = id => {
   return axios.delete(`${baseUrl}/${id}`, config)
 }
 
-const getFlowesBySite = (id) => {
+const getFlowesBySite = (id=null) => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
   };
-  return axios
-    .get(`api/sites/${id}/flowers`, config)
+  const url = id ? `api/sites/${id}/flowers` : baseUrl;
+
+  return axios.get(url, config)
     .then(response => {
       console.log("Fetched flowers:", response.data); 
       return response.data;
@@ -49,8 +50,6 @@ const getFlowesBySite = (id) => {
       throw error;
     });
 };
-
-
 
 export default {
   getAll,

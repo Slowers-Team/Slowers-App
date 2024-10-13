@@ -30,15 +30,15 @@ const SitePage = () => {
   }, [params.id, navigate])
 
   useEffect(() => {
-    flowerService
-      .getFlowesBySite(params.id)
-      .then(flowers => {
-        setFlowers(flowers);
-      })
-      .catch(error => {
-        console.error("Error fetching flowers:", error);
-      });
-  }, [params.id, navigate]);
+        flowerService
+          .getFlowesBySite(params.id)
+          .then(flowers => {
+            setFlowers(flowers);
+          })
+          .catch(error => {
+            console.error("Error fetching flowers:", error);
+          });
+      }, [params.id]);
 
   const addFlower = flowerObject => {
     flowerService.create(flowerObject).catch(error => {
@@ -80,6 +80,17 @@ const SitePage = () => {
             <h1>{site?.name}</h1>
             <p>{site?.note}</p>
           </header>
+          <div>{Array.isArray(flowers) && flowers.length > 0 ? (
+                  flowers.map(flower => (
+                    <div key={flower._id} className="flower-card">
+                      <h2>{flower.name}</h2>
+                      <p>{flower.latinName}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p>No flowers found for this site.</p>
+                )}
+              </div>
           <div className="content">
             <aside className="side-container">
               <button
@@ -96,13 +107,11 @@ const SitePage = () => {
                 Delete this site
               </button>
               <SiteFlexbox createSite={createSite} sites={sites} />
-              <div className="flower-list">
-                {Array.isArray(flowers) && flowers.length > 0 ? (
+              <div>{Array.isArray(flowers) && flowers.length > 0 ? (
                   flowers.map(flower => (
                     <div key={flower._id} className="flower-card">
                       <h2>{flower.name}</h2>
                       <p>{flower.latinName}</p>
-                      <p>{flower.siteName}</p>
                     </div>
                   ))
                 ) : (
