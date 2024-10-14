@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -88,4 +89,14 @@ func NewID(id string) ObjectID {
 func IsValidID(id string) bool {
 	_, err := primitive.ObjectIDFromHex(id)
 	return err == nil
+}
+
+func ParseID(id string) (*primitive.ObjectID, error) {
+	parsed, err := primitive.ObjectIDFromHex(id)
+
+	if err != nil {
+		return nil, fmt.Errorf("error parsing id %q: %w", id, err)
+	}
+
+	return &parsed, nil
 }
