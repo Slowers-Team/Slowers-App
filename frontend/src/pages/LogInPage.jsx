@@ -11,9 +11,9 @@ const LogInPage = ({ setIsLoggedIn, setDefaultRole }) => {
   }
 
   return (
-    <section className='vh-100' style = {{ backgroundColor: '#eee' }}>
-      <div className='container py-5 h-100'>
-        <div className='row d-flex justify-content-center align-items-center h-100'>
+    <div style={{ minHeight: 'calc(100vh - 82px)', backgroundColor: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div className='container'>
+        <div className='row justify-content-center'>
           <div className='col-12 col-md-8 col-lg-6 col-xl-5'>
             <div className="card" style={{ borderRadius: '1rem' }}>
               <div className='card-body p-5'>
@@ -24,7 +24,7 @@ const LogInPage = ({ setIsLoggedIn, setDefaultRole }) => {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   )
 }
 
