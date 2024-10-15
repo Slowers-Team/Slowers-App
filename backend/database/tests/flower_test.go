@@ -100,7 +100,7 @@ func (s *DbFlowerTestSuite) TestAddAndDeleteFlower() {
 		Site:      s.TestFlowers[0].Site,
 	}
 	flower, _ := s.Db.AddFlower(context.Background(), testFlower)
-	anyDeleted, err := s.Db.DeleteFlower(context.Background(), flower.ID.Hex())
+	anyDeleted, err := s.Db.DeleteFlower(context.Background(), flower.ID)
 
 	s.True(
 		anyDeleted,

@@ -117,7 +117,7 @@ func (s *FlowersAPITestSuite) TestDeletingFlower() {
 		ExpectedBody: "",
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().DeleteFlower(
-				mock.Anything, s.TestFlowers[0].ID.Hex(),
+				mock.Anything, s.TestFlowers[0].ID,
 			).Return(
 				true, nil,
 			).Once()
