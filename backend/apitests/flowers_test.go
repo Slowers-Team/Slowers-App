@@ -86,6 +86,11 @@ func (s *FlowersAPITestSuite) TestAddingFlower() {
 			s.Equal(flower.Site, s.TestFlowers[0].Site, "wrong Site in the added flower")
 		},
 		SetupMocks: func(db *mocks.Database) {
+			user := testdata.GetUser()
+			db.EXPECT().GetUserByID(mock.Anything, *s.TestFlowers[0].Grower).Return(&user, nil).Once()
+			site := testdata.GetRootSites()
+			db.EXPECT().GetSiteByID(mock.Anything, site[0].ID).Return(&site[0], nil).Once()
+
 			db.EXPECT().AddFlower(
 				mock.Anything, mock.Anything,
 			).RunAndReturn(func(ctx context.Context, newFlower database.Flower) (*database.Flower, error) {
