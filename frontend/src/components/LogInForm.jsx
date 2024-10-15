@@ -2,7 +2,7 @@ import { useState } from 'react'
 import userService from '../services/users'
 import { useTranslation } from 'react-i18next'
 
-const LogIn = ({ onLogin, setIsLoggedIn }) => {
+const LogIn = ({ onLogin, setIsLoggedIn, setDefaultRole }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
