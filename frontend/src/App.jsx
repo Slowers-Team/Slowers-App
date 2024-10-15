@@ -60,7 +60,7 @@ const App = () => {
         <div>
           <Navbar collapseOnSelect expand="lg" bg="light">
             <Navbar.Brand>
-              <h1 className='mx-2 text-center'>Slowers</h1>
+              <h1 className='mx-3 text-center'>Slowers</h1>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
