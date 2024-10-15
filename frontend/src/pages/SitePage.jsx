@@ -108,7 +108,7 @@ const SitePage = () => {
               <button
                 id="showFlowerAddingFormButton"
                 onClick={() => setShowAddNewFlower(!showAddNewFlower)}
-                className="add-flower-button btn btn-light"
+                className="btn btn-light"
               >
                 {t("button.addflower")}
               </button>
@@ -116,8 +116,8 @@ const SitePage = () => {
             </aside>
             <main className="main-container">
               <div className="site-actions">
-                <button onClick={handleBack} className="btn btn-light" style={{ marginRight: "0.5rem" }} >{t("button.goback")}</button>
-                <button id="deleteSiteButton" onClick={() => deleteSite(site)} className="btn btn-light" >{t("button.deletethissite")}</button>
+                <button onClick={handleBack} style={{ marginRight: "0.5rem" }} className="btn btn-light">{t("button.goback")}</button>
+                <button id="deleteSiteButton" onClick={() => deleteSite(site)} className="btn btn-light">{t("button.deletethissite")}</button>
               </div>
               <SiteFlexbox createSite={createSite} sites={sites} />
             </main>
