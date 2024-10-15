@@ -14,14 +14,19 @@ func SetDatabase(newDb database.Database) {
 	db = newDb
 }
 
-func GetCurrentUser(c *fiber.Ctx) (*primitive.ObjectID, error) {
+func GetCurrentUser(c *fiber.Ctx) (primitive.ObjectID, error) {
+	var userID primitive.ObjectID
+
 	id, ok := c.Locals("userID").(string)
 	if !ok {
-		return nil, fmt.Errorf("userID not set in local storage")
+		// userID is not assigned
+		return userID, fmt.Errorf("userID not set in local storage")
 	}
+
 	userID, err := database.ParseID(id)
 	if err != nil {
-		return nil, err
+		// userID is not assigned
+		return userID, err
 	}
 	return userID, nil
 }

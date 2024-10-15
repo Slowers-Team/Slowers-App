@@ -93,14 +93,10 @@ func HandleLogin(c *fiber.Ctx) error {
 }
 
 func GetUser(c *fiber.Ctx) error {
-	user, ok := c.Locals("userID").(string)
-	if !ok {
-		return c.Status(500).SendString("Invalid userID in header")
+	userID, err := GetCurrentUser(c)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
 	}
-	if !database.IsValidID(user) {
-		return c.Status(500).SendString("Malformed userID in header")
-	}
-	userID := database.NewID(user)
 
 	result, err := db.GetUserByID(c.Context(), userID)
 	if err != nil {
@@ -124,7 +120,7 @@ func SetRole(c *fiber.Ctx) error {
 		return c.Status(500).SendString("Role must be grower or retailer")
 	}
 
-	err = db.SetUserRole(c.Context(), *userID, role)
+	err = db.SetUserRole(c.Context(), userID, role)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}

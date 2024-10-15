@@ -25,14 +25,14 @@ type Database interface {
 
 	GetFlowers(ctx context.Context) ([]Flower, error)
 	GetUserFlowers(ctx context.Context, userID ObjectID) ([]Flower, error)
-	GetAllFlowersRelatedToSite(ctx context.Context, siteID string, userID ObjectID) ([]Flower, error)
+	GetAllFlowersRelatedToSite(ctx context.Context, siteID ObjectID, userID ObjectID) ([]Flower, error)
 	AddFlower(ctx context.Context, newFlower Flower) (*Flower, error)
-	DeleteFlower(ctx context.Context, id string) (bool, error)
+	DeleteFlower(ctx context.Context, id ObjectID) (bool, error)
 
 	AddSite(ctx context.Context, newSite Site) (*Site, error)
 	GetRootSites(ctx context.Context, userID ObjectID) ([]Site, error)
-	GetSite(ctx context.Context, id string, userID ObjectID) (bson.M, error)
-	DeleteSite(ctx context.Context, id string, userID ObjectID) (*mongo.DeleteResult, error)
+	GetSite(ctx context.Context, siteID ObjectID, userID ObjectID) (bson.M, error)
+	DeleteSite(ctx context.Context, siteID ObjectID, userID ObjectID) (*mongo.DeleteResult, error)
 	AddFlowerToSite(ctx context.Context, siteID ObjectID, flowerID ObjectID) error
 	GetSiteByID(ctx context.Context, siteID ObjectID) (*Site, error)
 }
@@ -91,12 +91,13 @@ func IsValidID(id string) bool {
 	return err == nil
 }
 
-func ParseID(id string) (*primitive.ObjectID, error) {
+func ParseID(id string) (ObjectID, error) {
 	parsed, err := primitive.ObjectIDFromHex(id)
 
 	if err != nil {
-		return nil, fmt.Errorf("error parsing id %q: %w", id, err)
+		var empty ObjectID
+		return empty, fmt.Errorf("error parsing id %q: %w", id, err)
 	}
 
-	return &parsed, nil
+	return parsed, nil
 }
