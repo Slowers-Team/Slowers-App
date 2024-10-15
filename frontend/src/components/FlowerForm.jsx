@@ -19,26 +19,28 @@ const FlowerForm = ({ createFlower, siteID }) => {
   }
 
   return (
-    <div>
+    <div className="text-left">
       <form onSubmit={addFlower}>
-        <div>
+        <div className="form-group">
           <label htmlFor="newFlowerNameInput">{t("flower.data.name")}:</label>
           <input
             id="newFlowerNameInput"
             value={newFlowerName}
             onChange={event => setNewFlowerName(event.target.value)}
+            className="form-control"
           />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="newFlowerLatinNameInput">{t("flower.data.latinname")}:</label>
           <input
             id="newFlowerLatinNameInput"
             value={newFlowerLatinName}
             onChange={event => setNewFlowerLatinName(event.target.value)}
+            className="form-control"
           />
         </div>
         <div>
-          <button id="saveNewFlowerButton" type="submit">
+          <button id="saveNewFlowerButton" type="submit" className="btn btn-light">
             {t("button.save")}
           </button>
         </div>

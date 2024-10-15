@@ -24,16 +24,16 @@ const SiteForm = ({ createSite }) => {
   return (
     <div>
       <form onSubmit={addSite}>
-        <div>
+        <div className='form-group'>
           <label htmlFor="newSiteNameInput">{t("site.data.name")}:</label>
-          <input id="newSiteNameInput" value={newSiteName} onChange={event => setNewSiteName(event.target.value)} />
+          <input id="newSiteNameInput" value={newSiteName} onChange={event => setNewSiteName(event.target.value)} className='form-control' />
         </div>
-        <div>
+        <div className='form-group'>
           <label htmlFor="newSiteNoteInput">{t("site.data.note")}:</label>
-          <input id="newSiteNoteInput" value={newSiteNote} onChange={event => setNewSiteNote(event.target.value)} />
+          <input id="newSiteNoteInput" value={newSiteNote} onChange={event => setNewSiteNote(event.target.value)} className='form-control'/>
         </div>
-        <div>
-          <button id="saveNewSiteButton" type="submit">{t("button.save")}</button>
+        <div className='form-group'>
+          <button id="saveNewSiteButton" type="submit" className='btn btn-light'>{t("button.save")}</button>
         </div>
       </form>
     </div>

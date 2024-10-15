@@ -27,11 +27,11 @@ const GrowerLayout = () => {
   return (
     <div className="layout-container">
       <header className="header">
-        <h1>Slowers</h1>
+        <h2>{t('menu.grower')}</h2>
       </header>
       <div className="content">
         <aside className="side-container">
-          <h1>{t('title.navigation')}</h1>
+          <h2>{t('title.navigation')}</h2>
           {navigationBar()}
         </aside>
         <main className="main-container">
