@@ -108,3 +108,23 @@ func DeleteFlower(c *fiber.Ctx) error {
 
 	return c.SendStatus(204)
 }
+
+func GetSiteFlowers(c *fiber.Ctx) error {
+	user, ok := c.Locals("userID").(string)
+	if !ok {
+		return c.Status(500).SendString("Invalid userID in header")
+	}
+	if !database.IsValidID(user) {
+		return c.Status(500).SendString("Malformed userID in header")
+	}
+	userID := database.NewID(user)
+
+	siteID := c.Params("id")
+
+	flowers, err := db.GetAllFlowersRelatedToSite(c.Context(), siteID, userID)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	return c.JSON(flowers)
+}

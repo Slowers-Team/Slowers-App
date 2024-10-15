@@ -34,9 +34,27 @@ const remove = id => {
   return axios.delete(`${baseUrl}/${id}`, config)
 }
 
+const getFlowersBySite = (id=null) => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken() },
+  };
+  const url = id ? `/api/sites/${id}/flowers` : baseUrl;
+
+  return axios.get(url, config)
+    .then(response => {
+      console.log("Fetched flowers:", response.data); 
+      return response.data;
+    })
+    .catch(error => {
+      console.error('Error fetching site flowers:', error);
+      throw error;
+    });
+};
+
 export default {
   getAll,
   create,
   remove,
   getUserFlowers,
+  getFlowersBySite,
 }

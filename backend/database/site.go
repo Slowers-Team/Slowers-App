@@ -113,12 +113,6 @@ func (mDb MongoDatabase) DeleteSite(ctx context.Context, id string, userID Objec
 			{Key: "as", Value: "related"},
 		}},
 	}
-	// Open up array of documents to a stream of documents
-	unwindStage := bson.D{
-		{Key: "$unwind", Value: bson.D{
-			{Key: "path", Value: "$id"},
-		},
-		}}
 	// Strip down everything except _id for each child Site
 	projectStage := bson.D{
 		{Key: "$project", Value: bson.D{
@@ -126,6 +120,12 @@ func (mDb MongoDatabase) DeleteSite(ctx context.Context, id string, userID Objec
 			{Key: "id", Value: "$related._id"},
 		}},
 	}
+	// Open up array of documents to a stream of documents
+	unwindStage := bson.D{
+		{Key: "$unwind", Value: bson.D{
+			{Key: "path", Value: "$id"},
+		},
+		}}
 
 	cursor, err := db.Collection("sites").Aggregate(ctx, mongo.Pipeline{matchStage, graphLookupStage, projectStage, unwindStage})
 	if err != nil {
@@ -143,7 +143,7 @@ func (mDb MongoDatabase) DeleteSite(ctx context.Context, id string, userID Objec
 	for _, res := range result {
 		sub_id, err := res["id"].(primitive.ObjectID)
 		if !err {
-			return nil, errors.New("Fetched sub site ID was of wrong type")
+			return nil, errors.New("fetched sub site ID was of wrong type")
 		}
 		ids = append(ids, sub_id)
 	}
