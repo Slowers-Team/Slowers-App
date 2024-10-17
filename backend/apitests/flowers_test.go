@@ -88,8 +88,8 @@ func (s *FlowersAPITestSuite) TestAddingFlower() {
 		SetupMocks: func(db *mocks.Database) {
 			user := testdata.GetUser()
 			db.EXPECT().GetUserByID(mock.Anything, *s.TestFlowers[0].Grower).Return(&user, nil).Once()
-			site := testdata.GetRootSites()
-			db.EXPECT().GetSiteByID(mock.Anything, site[0].ID).Return(&site[0], nil).Once()
+			sites := testdata.GetRootSites()
+			db.EXPECT().GetSiteByID(mock.Anything, sites[0].ID).Return(&sites[0], nil).Once()
 
 			db.EXPECT().AddFlower(
 				mock.Anything, mock.Anything,

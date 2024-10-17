@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -54,10 +55,11 @@ func AddFlower(c *fiber.Ctx) error {
 	if flower.Site == nil {
 		return c.Status(400).SendString("SiteID is required")
 	}
-	if !database.IsValidID(flower.Site.Hex()) {
-		return c.Status(400).SendString("Invalid siteID")
+
+	siteID, err := database.ParseID(flower.Site.Hex())
+	if err != nil {
+		c.Status(400).SendString(fmt.Errorf("Invalid siteID: %w", err).Error())
 	}
-	siteID := database.NewID(flower.Site.Hex())
 
 	site, err := db.GetSiteByID(c.Context(), siteID)
 	if err != nil {

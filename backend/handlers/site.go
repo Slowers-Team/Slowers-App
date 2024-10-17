@@ -10,14 +10,10 @@ import (
 )
 
 func AddSite(c *fiber.Ctx) error {
-	user, ok := c.Locals("userID").(string)
-	if !ok {
-		return c.Status(500).SendString("Invalid userID in header")
+	userID, err := GetCurrentUser(c)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
 	}
-	if !database.IsValidID(user) {
-		return c.Status(500).SendString("Malformed userID in header")
-	}
-	userID := database.NewID(user)
 
 	site := new(database.Site)
 

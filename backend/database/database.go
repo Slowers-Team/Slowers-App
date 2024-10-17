@@ -44,6 +44,8 @@ type MongoDatabase struct {
 
 type ObjectID = primitive.ObjectID
 
+var NilObjectID ObjectID
+
 var db *mongo.Database
 
 func NewMongoDatabase(databaseURI string) *MongoDatabase {
@@ -86,17 +88,11 @@ func NewID(id string) ObjectID {
 	return objectID
 }
 
-func IsValidID(id string) bool {
-	_, err := primitive.ObjectIDFromHex(id)
-	return err == nil
-}
-
 func ParseID(id string) (ObjectID, error) {
 	parsed, err := primitive.ObjectIDFromHex(id)
 
 	if err != nil {
-		var empty ObjectID
-		return empty, fmt.Errorf("error parsing id %q: %w", id, err)
+		return NilObjectID, fmt.Errorf("error parsing id %q: %w", id, err)
 	}
 
 	return parsed, nil
