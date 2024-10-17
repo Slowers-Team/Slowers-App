@@ -58,7 +58,7 @@ func (s *SitesAPITestSuite) TestFetchingSite() {
 		ExpectedBody: utils.SiteDataToJSON(testdata.GetSite()),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetSite(
-				mock.Anything, s.RootSites[0].ID.Hex(), s.TestUser.ID,
+				mock.Anything, s.RootSites[0].ID, s.TestUser.ID,
 			).Return(
 				testdata.GetSite(), nil,
 			).Once()
@@ -145,7 +145,7 @@ func (s *SitesAPITestSuite) TestDeletingSite() {
 		ExpectedBody: "{\"DeletedCount\":1}",
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().DeleteSite(
-				mock.Anything, s.RootSites[0].ID.Hex(), s.TestUser.ID,
+				mock.Anything, s.RootSites[0].ID, s.TestUser.ID,
 			).Return(
 				&mongo.DeleteResult{DeletedCount: 1}, nil,
 			).Once()

@@ -34,6 +34,7 @@ func (s *UsersAPITestSuite) TestCreatingUser() {
 				Username: s.TestUser.Username,
 				Email:    s.TestUser.Email,
 				Password: s.TestUser.Password,
+				Role:     s.TestUser.Role,
 			},
 		),
 		ExpectedCode: 201,
@@ -60,6 +61,11 @@ func (s *UsersAPITestSuite) TestCreatingUser() {
 				s.NoError(
 					bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(s.TestUser.Password)),
 					"tried to add wrong Username to database",
+				)
+				s.Equal(
+					user.Role,
+					s.TestUser.Role,
+					"tried to add wrong role to database",
 				)
 				return nil
 			}).Once()

@@ -54,12 +54,7 @@ func (mDb MongoDatabase) GetRootSites(ctx context.Context, userID ObjectID) ([]S
 	return foundSites, nil
 }
 
-func (mDb MongoDatabase) GetSite(ctx context.Context, id string, userID ObjectID) (bson.M, error) {
-	siteID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return nil, err
-	}
-
+func (mDb MongoDatabase) GetSite(ctx context.Context, siteID ObjectID, userID ObjectID) (bson.M, error) {
 	var resultSite bson.M
 
 	filter := bson.M{"_id": siteID, "owner": userID}
@@ -90,12 +85,7 @@ func (mDb MongoDatabase) GetSite(ctx context.Context, id string, userID ObjectID
 	return bson.M{"site": resultSite, "subsites": subSites}, nil
 }
 
-func (mDb MongoDatabase) DeleteSite(ctx context.Context, id string, userID ObjectID) (*mongo.DeleteResult, error) {
-	siteID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return nil, err
-	}
-
+func (mDb MongoDatabase) DeleteSite(ctx context.Context, siteID ObjectID, userID ObjectID) (*mongo.DeleteResult, error) {
 	// Start pipeline with top level parent Site
 	matchStage := bson.D{
 		{Key: "$match", Value: bson.D{
