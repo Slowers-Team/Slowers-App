@@ -36,3 +36,11 @@ jobs:
       env:
         MONGODB_URI: mongodb://localhost:27017
         SECRET_KEY: secretkey
+
+  dummy:
+    needs: ci
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/95-backend-unit-tests-to-ci-pipeline'
+    steps:
+    - name: Dummy step
+      run: echo "Hello, world!"
