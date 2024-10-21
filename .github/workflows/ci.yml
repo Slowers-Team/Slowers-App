@@ -22,7 +22,7 @@ jobs:
         go-version: '^1.23'
 
     - name: Install Mockery
-      run: go install github.com/vektra/mockery/v2@v2.46.3
+      run: sudo go install github.com/vektra/mockery/v2@v2.46.3
       env:
         GOBIN: /github/workspace/go/bin
 
