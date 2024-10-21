@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { render, screen } from '@testing-library/react'
 import LangSelect from '../../src/components/LangSelect'
-import { expect, vi } from 'vitest'
+import { expect } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import i18n from '../../src/i18n'
 
