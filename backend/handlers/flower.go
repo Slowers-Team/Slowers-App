@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -56,12 +55,7 @@ func AddFlower(c *fiber.Ctx) error {
 		return c.Status(400).SendString("SiteID is required")
 	}
 
-	siteID, err := database.ParseID(flower.Site.Hex())
-	if err != nil {
-		c.Status(400).SendString(fmt.Errorf("Invalid siteID: %w", err).Error())
-	}
-
-	site, err := db.GetSiteByID(c.Context(), siteID)
+	site, err := db.GetSiteByID(c.Context(), *flower.Site)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
@@ -70,7 +64,7 @@ func AddFlower(c *fiber.Ctx) error {
 		return c.Status(404).SendString("Site not found")
 	}
 
-	newFlower := database.Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(), Grower: &userID, GrowerEmail: grower.Email, Site: &siteID, SiteName: site.Name}
+	newFlower := database.Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(), Grower: &userID, GrowerEmail: grower.Email, Site: &site.ID, SiteName: site.Name}
 
 	createdFlower, err := db.AddFlower(c.Context(), newFlower)
 	if err != nil {
@@ -78,7 +72,7 @@ func AddFlower(c *fiber.Ctx) error {
 	}
 
 	flowerID := createdFlower.ID
-	err = db.AddFlowerToSite(c.Context(), siteID, flowerID)
+	err = db.AddFlowerToSite(c.Context(), site.ID, flowerID)
 	if err != nil {
 		return c.Status(500).SendString("Failed to update site with flower ID: " + err.Error())
 	}

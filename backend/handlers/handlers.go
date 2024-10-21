@@ -14,8 +14,6 @@ func SetDatabase(newDb database.Database) {
 }
 
 func GetCurrentUser(c *fiber.Ctx) (database.ObjectID, error) {
-	var userID database.ObjectID
-
 	id, ok := c.Locals("userID").(string)
 	if !ok {
 		return database.NilObjectID, fmt.Errorf("userID not set in local storage")
