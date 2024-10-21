@@ -1,0 +1,11 @@
+name: Dummy
+
+on: [push, pull_request]
+
+jobs:
+  dummy:
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dummy step
+      run: echo "Hello, world!"
