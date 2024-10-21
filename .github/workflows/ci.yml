@@ -24,6 +24,9 @@ jobs:
       with:
         node-version: '18'
 
+    - name: Set time zone
+      run: sudo timedatectl set-timezone Europe/Helsinki
+
     - name: Install Mockery
       run: go install github.com/vektra/mockery/v2@v2.46.3
       env:
