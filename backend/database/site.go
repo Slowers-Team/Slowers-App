@@ -54,12 +54,7 @@ func (mDb MongoDatabase) GetRootSites(ctx context.Context, userID ObjectID) ([]S
 	return foundSites, nil
 }
 
-func (mDb MongoDatabase) GetSite(ctx context.Context, id string, userID ObjectID) (bson.M, error) {
-	siteID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return nil, err
-	}
-
+func (mDb MongoDatabase) GetSite(ctx context.Context, siteID ObjectID, userID ObjectID) (bson.M, error) {
 	var resultSite bson.M
 
 	filter := bson.M{"_id": siteID, "owner": userID}
@@ -90,12 +85,7 @@ func (mDb MongoDatabase) GetSite(ctx context.Context, id string, userID ObjectID
 	return bson.M{"site": resultSite, "subsites": subSites}, nil
 }
 
-func (mDb MongoDatabase) DeleteSite(ctx context.Context, id string, userID ObjectID) (*mongo.DeleteResult, error) {
-	siteID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return nil, err
-	}
-
+func (mDb MongoDatabase) DeleteSite(ctx context.Context, siteID ObjectID, userID ObjectID) (*mongo.DeleteResult, error) {
 	// Start pipeline with top level parent Site
 	matchStage := bson.D{
 		{Key: "$match", Value: bson.D{
@@ -113,12 +103,6 @@ func (mDb MongoDatabase) DeleteSite(ctx context.Context, id string, userID Objec
 			{Key: "as", Value: "related"},
 		}},
 	}
-	// Open up array of documents to a stream of documents
-	unwindStage := bson.D{
-		{Key: "$unwind", Value: bson.D{
-			{Key: "path", Value: "$id"},
-		},
-		}}
 	// Strip down everything except _id for each child Site
 	projectStage := bson.D{
 		{Key: "$project", Value: bson.D{
@@ -126,6 +110,12 @@ func (mDb MongoDatabase) DeleteSite(ctx context.Context, id string, userID Objec
 			{Key: "id", Value: "$related._id"},
 		}},
 	}
+	// Open up array of documents to a stream of documents
+	unwindStage := bson.D{
+		{Key: "$unwind", Value: bson.D{
+			{Key: "path", Value: "$id"},
+		},
+		}}
 
 	cursor, err := db.Collection("sites").Aggregate(ctx, mongo.Pipeline{matchStage, graphLookupStage, projectStage, unwindStage})
 	if err != nil {
@@ -143,7 +133,7 @@ func (mDb MongoDatabase) DeleteSite(ctx context.Context, id string, userID Objec
 	for _, res := range result {
 		sub_id, err := res["id"].(primitive.ObjectID)
 		if !err {
-			return nil, errors.New("Fetched sub site ID was of wrong type")
+			return nil, errors.New("fetched sub site ID was of wrong type")
 		}
 		ids = append(ids, sub_id)
 	}

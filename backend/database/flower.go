@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type Flower struct {
@@ -65,31 +65,103 @@ func (mDb MongoDatabase) AddFlower(ctx context.Context, newFlower Flower) (*Flow
 	return createdFlower, nil
 }
 
-func (mDb MongoDatabase) DeleteFlower(ctx context.Context, id string) (bool, error) {
-	objectID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return false, err
-	}
-
+func (mDb MongoDatabase) DeleteFlower(ctx context.Context, id ObjectID) (bool, error) {
 	var flower Flower
-	err = db.Collection("flowers").FindOne(ctx, bson.M{"_id": objectID}).Decode(&flower)
+	err := db.Collection("flowers").FindOne(ctx, bson.M{"_id": id}).Decode(&flower)
 	if err != nil {
 		return false, nil
 	}
 
 	if flower.Site != nil {
-		update := bson.M{"$pull": bson.M{"flowers": objectID}}
+		update := bson.M{"$pull": bson.M{"flowers": id}}
 		_, err = db.Collection("sites").UpdateOne(ctx, bson.M{"_id": flower.Site}, update)
 		if err != nil {
 			return true, err
 		}
 	}
 
-	filter := bson.M{"_id": objectID}
+	filter := bson.M{"_id": id}
 	result, err := db.Collection("flowers").DeleteOne(ctx, filter)
 	if err != nil {
 		return false, err
 	}
 
 	return result.DeletedCount > 0, err
+}
+
+func (mDb MongoDatabase) GetAllFlowersRelatedToSite(ctx context.Context, siteID ObjectID, userID ObjectID) ([]Flower, error) {
+	// Start pipeline with top level parent Site
+	matchStage := bson.D{
+		{Key: "$match", Value: bson.D{
+			{Key: "_id", Value: siteID},
+			{Key: "owner", Value: userID},
+		}},
+	}
+	// Search for all subsites and their subsites
+	graphLookupStage := bson.D{
+		{Key: "$graphLookup", Value: bson.D{
+			{Key: "from", Value: "sites"},
+			{Key: "startWith", Value: "$_id"},
+			{Key: "connectFromField", Value: "_id"},
+			{Key: "connectToField", Value: "parent"},
+			{Key: "as", Value: "related"},
+		}},
+	}
+	// Strip down everything except _id for each subsite
+	projectStage := bson.D{
+		{Key: "$project", Value: bson.D{
+			{Key: "_id", Value: 0},
+			{Key: "id", Value: "$related._id"},
+		}},
+	}
+	// Add parent site to the ids
+	concatStage := bson.D{
+		{Key: "$addFields", Value: bson.D{
+			{Key: "id", Value: bson.D{
+				{Key: "$concatArrays", Value: bson.A{bson.A{siteID}, "$id"}},
+			}},
+		}},
+	}
+	// Open up array of Sites to a stream of Sites
+	unwindSitesStage := bson.D{
+		{Key: "$unwind", Value: bson.D{
+			{Key: "path", Value: "$id"},
+		},
+		}}
+
+	// connect each site ID to a list of flowers
+	lookupStage := bson.D{
+		{Key: "$lookup", Value: bson.D{
+			{Key: "from", Value: "flowers"},
+			{Key: "localField", Value: "id"},
+			{Key: "foreignField", Value: "site"},
+			{Key: "as", Value: "flowers"},
+		}},
+	}
+	// Open up arrays of Flowers to a single stream of Flowers
+	unwindFlowersStage := bson.D{
+		{Key: "$unwind", Value: bson.D{
+			{Key: "path", Value: "$flowers"},
+		}},
+	}
+	// Raise each Flower document to root level (instead of being behind "flowers" field)
+	replaceRootStage := bson.D{
+		{Key: "$replaceRoot", Value: bson.D{
+			{Key: "newRoot", Value: "$flowers"},
+		}},
+	}
+
+	cursor, err := db.Collection("sites").Aggregate(ctx, mongo.Pipeline{
+		matchStage, graphLookupStage, projectStage, concatStage, unwindSitesStage,
+		lookupStage, unwindFlowersStage, replaceRootStage})
+	if err != nil {
+		return nil, err
+	}
+
+	var flowers []Flower
+	if err := cursor.All(ctx, &flowers); err != nil {
+		return nil, err
+	}
+
+	return flowers, nil
 }

@@ -20,7 +20,7 @@ const UserPage = ({setDefaultRole}) => {
   const switchRole = () => (user.role === 'grower' ? 'retailer' : 'grower')
 
   return (
-    <div>
+    <div className='mx-3'>
       <UserInfo user={user} handleRoleSwitch={handleRoleSwitch} switchedRole={switchRole(user.role)} />
     </div>
   )

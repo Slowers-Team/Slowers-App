@@ -1,3 +1,5 @@
+import { Nav } from "react-bootstrap"
+
 import i18n from "../i18n"
 
 const LangSelect = () => {
@@ -7,14 +9,14 @@ const LangSelect = () => {
   }
 
   return (
-    <div style={{position: "absolute", top: "0", right: "0", padding: "8px"}}>
-      <a href="#" onClick={() => changeLanguage('en')} style={{paddingRight: "0.8rem"}}>
+    <>
+      <Nav.Link href="#" onClick={() => changeLanguage('en')}>
         en
-      </a>
-      <a href="#" onClick={() => changeLanguage('fi')} style={{paddingRight: "0.8rem"}}>
+      </Nav.Link>
+      <Nav.Link href="#" onClick={() => changeLanguage('fi')}>
         fi
-      </a>
-    </div>
+      </Nav.Link>
+    </>
   )
 }
 

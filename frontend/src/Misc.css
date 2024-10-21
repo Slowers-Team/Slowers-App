@@ -16,12 +16,14 @@
 .box {
   text-align: center;
   word-break: break-word;
-  border: 2px solid rgb(148, 216, 148);
+  border: 2px solid #c1dadf;
   border-radius: 5px;
   padding: 30px;
-  width: 160px;
-  height: 150px;
-  box-shadow: 2px 2px rgb(160, 210, 160);
+  max-width: 300px;
+  min-width: 300px;
+  max-height: 300px;
+  min-height: 300px;
+  box-shadow: 2px 2px #c1dadf;
 }
 
 .layout-container {
@@ -55,7 +57,7 @@
 .terms {
   overflow-y: scroll;
   padding: 10px;
-  height: 450px;
-  width: 50%;
+  height: 600px;
+  width: 100%;
   border: 1px solid white;
 }
