@@ -21,6 +21,15 @@ jobs:
       with:
         go-version: '^1.23'
 
+    - name: Install Mockery
+      run: go install github.com/vektra/mockery/v2@v2.46.3
+      env:
+        GOBIN: ~/go/bin
+
+    - name: Generate mocks
+      run: ~/go/bin/mockery
+      working-directory: backend
+
     - name: Backend unit tests
       run: go test ./...
       working-directory: backend
