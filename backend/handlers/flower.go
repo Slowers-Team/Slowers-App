@@ -35,6 +35,20 @@ func GetUserFlowers(c *fiber.Ctx) error {
 	return c.JSON(flowers)
 }
 
+func GetFlowerByID(c *fiber.Ctx) error {
+	id := c.Params("id")
+	if !database.IsValidID(id) {
+		return c.SendStatus(400)
+	}
+
+	flower, err := db.GetFlowerByID(c.Context(), id)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	return c.JSON(flower)
+}
+
 func AddFlower(c *fiber.Ctx) error {
 	user, ok := c.Locals("userID").(string)
 	if !ok {
