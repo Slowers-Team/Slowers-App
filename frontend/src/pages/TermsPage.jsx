@@ -12,10 +12,10 @@ const TermsPage = () => {
 
   return (
     <div>
-      <h1>{t("title.terms")}</h1>
+      <h2 className="mx-3 my-3">{t("title.terms")}</h2>
       <TermsWindow />
       <br />
-      <button onClick={handleBack}>{t("button.back")}</button>
+      <button onClick={handleBack} className="mx-2 btn btn-light">{t("button.back")}</button>
     </div>
   )
 }

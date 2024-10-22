@@ -16,12 +16,12 @@ const SiteFlexbox = ({ createSite, sites }) => {
         {sites &&
           sites.map(site => (
             <div className="box" key={site._id}>
-              {t('site.data.name')}: <Link to={'/site/' + site._id}>{site.name}</Link>
-              <p>{t('site.data.note')}: {site.note}</p>
+              <h3><Link to={'/site/' + site._id} className='link-success'>{site.name}</Link></h3>
+              <p>{t('site.data.note')}:<br />{site.note}</p>
             </div>
           ))}
         <div className={'box'}>
-          <button id="addNewSiteButton" onClick={() => setShowAddNewSite(!showAddNewSite)}>
+          <button id="addNewSiteButton" onClick={() => setShowAddNewSite(!showAddNewSite)} className='btn btn-light'>
             {t('button.addsite')}
           </button>
           {showAddNewSite && <NewSiteForm createSite={createSite} />}

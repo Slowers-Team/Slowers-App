@@ -26,7 +26,7 @@ const UserInfo = ({ user, handleRoleSwitch, switchedRole }) => {
         <tr>
           <td>{t('user.data.role')}</td>
           <td>{t(`role.${user.role}`)}</td>
-          <td><button id="roleSwitchButton" onClick={handleRoleSwitch}>{translateRoleButton(switchedRole)}</button></td>
+          <td><button id="roleSwitchButton" onClick={handleRoleSwitch} className='btn btn-light'>{translateRoleButton(switchedRole)}</button></td>
         </tr>
         </tbody>
       </table>
