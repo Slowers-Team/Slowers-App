@@ -1,8 +1,16 @@
 import '../../layouts/Grower.css'
+import FlowerModal from '../FlowerModal.jsx'
+import { useState } from "react"
+import { Button, Table } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
 const GrowerFlowerList = ({ flowers, deleteFlower }) => {
   const { t, i18n } = useTranslation()
+  const [showModal, setShowModal] = useState("")
+
+  const handleShow = () => setShowModal(true)
+  const handleClose = () => setShowModal(false)
+
   return (
     <div className="growerFlowerList">
       <table id="growerFlowerList">
@@ -12,6 +20,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
             <th>{t('flower.data.latinname')}</th>
             <th>{t('flower.data.addedtime')}</th>
             <th>{t('flower.data.site')}</th>
+            <th></th>
             <th></th>
           </tr>
         </thead>
@@ -33,6 +42,11 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
                 <td>{addedTimeStr}</td>
                 <td>{flower.site_name}</td>
                 <td>
+                  <button type="button" className="btn btn-light" onClick={handleShow}>
+                  Demo modal
+                  </button>
+                </td>
+                <td>
                   <button id="deleteFlowerButton" onClick={() => deleteFlower(flower)}>
                     {t('button.delete')}
                   </button>
@@ -42,6 +56,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
           })}
         </tbody>
       </table>
+      <FlowerModal show={showModal} handleClose={handleClose} />
     </div>
   )
 }
