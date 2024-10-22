@@ -1,4 +1,5 @@
 import './App.css'
+import ProtectedRoute from './ProtectedRoute'
 import RegisterPage from './pages/RegisterPage'
 import TermsPage from './pages/TermsPage'
 import HomePage from './pages/HomePage'
@@ -14,10 +15,10 @@ import LangSelect from './components/LangSelect'
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Navbar, Nav, NavDropdown } from "react-bootstrap"
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);  
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [defaultRole, setDefaultRole] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const { t, i18n } = useTranslation()
@@ -29,24 +30,24 @@ const App = () => {
     setDefaultRole(role)
     setIsLoading(false)
 
-    const langCookie = document.cookie.split("; ").find(row => row.startsWith("lang="))
-    const language = langCookie ? langCookie.split("=")[1] : "en"
+    const langCookie = document.cookie.split('; ').find(row => row.startsWith('lang='))
+    const language = langCookie ? langCookie.split('=')[1] : 'en'
     i18n.changeLanguage(language)
   }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    setIsLoggedIn(false);
+    localStorage.removeItem('token')
+    localStorage.removeItem('role')
+    setIsLoggedIn(false)
     setDefaultRole('')
-  };
+  }
 
   const padding = {
     padding: 5,
-  };
+  }
 
   if (isLoading) {
-    return <div>{t("label.loading")}</div>
+    return <div>{t('label.loading')}</div>
   }
 
   return (
@@ -55,64 +56,110 @@ const App = () => {
         <div>
           <Navbar collapseOnSelect expand="lg" bg="light">
             <Navbar.Brand>
-              <h1 className='mx-3 text-center'>Slowers</h1>
+              <h1 className="mx-3 text-center">Slowers</h1>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto justify-content-start">
                 <Nav.Link as={Link} to="/">
-                  {t("menu.home")}
+                  {t('menu.home')}
                 </Nav.Link>
                 {!isLoggedIn && (
                   <Nav.Link as={Link} to="/login">
-                    {t("menu.login")}
+                    {t('menu.login')}
                   </Nav.Link>
                 )}
                 {!isLoggedIn && (
                   <Nav.Link as={Link} to="/register">
-                    {t("menu.register")}
+                    {t('menu.register')}
                   </Nav.Link>
                 )}
                 {isLoggedIn && (
-                <NavDropdown title={t("menu.role")} id="collasible-nav-dropdown">
-                  <Nav.Link as={Link} to="/retailer">
-                    {t("menu.retailer")}
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="/grower">
-                    {t("menu.grower")}
-                  </Nav.Link>
-                </NavDropdown>
+                  <NavDropdown title={t('menu.role')} id="collasible-nav-dropdown">
+                    <Nav.Link as={Link} to="/retailer">
+                      {t('menu.retailer')}
+                    </Nav.Link>
+                    <Nav.Link as={Link} to="/grower">
+                      {t('menu.grower')}
+                    </Nav.Link>
+                  </NavDropdown>
                 )}
                 {isLoggedIn && (
                   <Nav.Link as={Link} onClick={handleLogout}>
-                    {t("menu.logout")}
+                    {t('menu.logout')}
                   </Nav.Link>
                 )}
               </Nav>
               <Nav className="ms-auto">
                 {isLoggedIn && (
                   <Nav.Link as={Link} to="/user">
-                    {t("menu.profile")}
+                    {t('menu.profile')}
                   </Nav.Link>
                 )}
                 <Nav.Link as={Link} to="/terms">
-                  {t("menu.terms")}
+                  {t('menu.terms')}
                 </Nav.Link>
-                <NavDropdown title={t("menu.language")} id="collasible-nav-dropdown">
-                  <LangSelect/>
+                <NavDropdown title={t('menu.language')} id="collasible-nav-dropdown">
+                  <LangSelect />
                 </NavDropdown>
               </Nav>
             </Navbar.Collapse>
           </Navbar>
+
           <Routes>
+            <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
+              <Route
+                path="/"
+                element={
+                  defaultRole == 'retailer' ? (
+                    <Navigate replace to="/retailer" />
+                  ) : (
+                    <Navigate replace to="/grower" />
+                  )
+                }
+              />
+              <Route path="/grower" element={<GrowerLayout />}>
+                <Route index element={<SitePage />} />
+                <Route path="flowers" element={<GrowerFlowerPage />} />
+              </Route>
+              <Route path="/retailer" element={<RetailerLayout />}>
+                <Route index element={<RetailerHomePage />} />
+                <Route path="flowers" element={<RetailerFlowerPage />} />
+              </Route>
+              <Route path="/user" element={<UserPage />} />
+              <Route path="/site" element={<SitePage />} />
+              <Route path="/site/:siteId" element={<SitePage />} />
+              {/* Lisää kirjautumista vaativat routet tänne */}
+            </Route>
+
+            <Route
+              path="/login"
+              element={
+                <LogInPage
+                  onLogin={handleLogout}
+                  setIsLoggedIn={setIsLoggedIn}
+                  setDefaultRole={setDefaultRole}
+                />
+              }
+            />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/flowers" element={<HomePage />} />
+          </Routes>
+
+          {/* <Routes>
             <Route
               path="/"
               element={
-                isLoggedIn 
-                  ? defaultRole == 'retailer' 
-                    ? <Navigate replace to='/retailer'/> 
-                    : <Navigate replace to='/grower'/>
-                  : <Navigate replace to="/login" />
+                isLoggedIn ? (
+                  defaultRole == 'retailer' ? (
+                    <Navigate replace to="/retailer" />
+                  ) : (
+                    <Navigate replace to="/grower" />
+                  )
+                ) : (
+                  <Navigate replace to="/login" />
+                )
               }
             />
             <Route
@@ -160,13 +207,19 @@ const App = () => {
             </Route>
             <Route
               path="/user"
-              element={isLoggedIn ? <UserPage setDefaultRole={setDefaultRole}/> : <Navigate replace to="/login" />}
+              element={
+                isLoggedIn ? (
+                  <UserPage setDefaultRole={setDefaultRole} />
+                ) : (
+                  <Navigate replace to="/login" />
+                )
+              }
             />
-          </Routes>
+          </Routes> */}
         </div>
       </Router>
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App
