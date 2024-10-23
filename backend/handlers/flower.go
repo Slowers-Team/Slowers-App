@@ -41,7 +41,9 @@ func GetFlowerByID(c *fiber.Ctx) error {
 		return c.SendStatus(400)
 	}
 
-	flower, err := db.GetFlowerByID(c.Context(), id)
+	flowerID := database.NewID(id)
+
+	flower, err := db.GetFlowerByID(c.Context(), flowerID)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}

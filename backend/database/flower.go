@@ -48,20 +48,10 @@ func (mDb MongoDatabase) GetUserFlowers(ctx context.Context, userID ObjectID) ([
 	return flowers, nil
 }
 
-func (mDb MongoDatabase) GetFlowerByID(ctx context.Context, id string) (bson.M, error) {
-	flowerID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return nil, err
-	}
-
-	var resultFlower bson.M
-
-	filter := bson.M{"_id": flowerID}
-	if err := db.Collection("flowers").FindOne(ctx, filter).Decode(&resultFlower); err != nil {
-		reuturn nil, err
-	}
-
-	return resultFlower, nil
+func (mDb MongoDatabase) GetFlowerByID(ctx context.Context, flowerID ObjectID) (*Flower, error) {
+	var flower Flower
+	err := db.Collection("flowers").FindOne(ctx, bson.M{"_id": flowerID}).Decode(&flower)
+	return &flower, err
 }
 
 func (mDb MongoDatabase) AddFlower(ctx context.Context, newFlower Flower) (*Flower, error) {
