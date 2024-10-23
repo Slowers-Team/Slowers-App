@@ -7,8 +7,12 @@ import { useTranslation } from 'react-i18next'
 const GrowerFlowerList = ({ flowers, deleteFlower }) => {
   const { t, i18n } = useTranslation()
   const [showModal, setShowModal] = useState("")
+  const [currentFlower, setCurrentFlower] = useState("")
 
-  const handleShow = () => setShowModal(true)
+  const handleShow = (flower) => {
+    setShowModal(true)
+    setCurrentFlower(flower)
+  }
   const handleClose = () => setShowModal(false)
 
   return (
@@ -42,7 +46,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
                 <td>{addedTimeStr}</td>
                 <td>{flower.site_name}</td>
                 <td>
-                  <button type="button" className="btn btn-light" onClick={handleShow}>
+                  <button type="button" className="btn btn-light" onClick={() => handleShow(flower)}>
                   Demo modal
                   </button>
                 </td>
@@ -56,7 +60,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
           })}
         </tbody>
       </table>
-      <FlowerModal show={showModal} handleClose={handleClose} />
+      <FlowerModal show={showModal} handleClose={handleClose} flower={currentFlower} />
     </div>
   )
 }

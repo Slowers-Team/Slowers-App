@@ -1,15 +1,33 @@
-import { Modal, Button } from 'react-bootstrap'
+import { Modal, Button, Tabs, Tab } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
-const FlowerModal = ({ show, handleClose }) => {
+const FlowerModal = ({ show, handleClose, flower }) => {
   const { t } = useTranslation()
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal size="xl" show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>TITLE</Modal.Title>
+        <Modal.Title>{flower.name}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>TEXT</Modal.Body>
+      <Modal.Body>
+        <Tabs
+          defaultActiveKey="info"
+          id="uncontrolled-tab-example"
+          className="mb-3"
+          >
+          <Tab eventKey="info" title="Info">
+            <div>
+              <p>{t('flower.data.name')}: {flower.name}</p>
+              <p>{t('flower.data.latinname')}: {flower.latin_name}</p>
+              <p>{t('flower.data.addedtime')}: {flower.added_time}</p>
+              <p>{t('flower.data.site')}: {flower.site}</p>
+            </div>
+          </Tab>
+          <Tab eventKey="pictures" title="Pictures">
+            Tab content for Pictures
+          </Tab>
+        </Tabs>
+      </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
           CLOSE
