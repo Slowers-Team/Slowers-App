@@ -1,8 +1,14 @@
 import { Modal, Button, Tabs, Tab } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
-const FlowerModal = ({ show, handleClose, flower }) => {
+const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
   const { t } = useTranslation()
+
+  const handleFlowerDelete = (flower) => {
+    deleteFlower(flower)
+    handleClose()
+  }
+
 
   return (
     <Modal size="xl" show={show} onHide={handleClose}>
@@ -21,6 +27,9 @@ const FlowerModal = ({ show, handleClose, flower }) => {
               <p>{t('flower.data.latinname')}: {flower.latin_name}</p>
               <p>{t('flower.data.addedtime')}: {flower.added_time}</p>
               <p>{t('flower.data.site')}: {flower.site}</p>
+              <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
+                {t('button.delete')}
+              </button>
             </div>
           </Tab>
           <Tab eventKey="pictures" title="Pictures">

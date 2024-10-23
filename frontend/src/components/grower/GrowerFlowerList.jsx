@@ -60,7 +60,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
           })}
         </tbody>
       </table>
-      <FlowerModal show={showModal} handleClose={handleClose} flower={currentFlower} />
+      <FlowerModal show={showModal} handleClose={handleClose} flower={currentFlower} deleteFlower={deleteFlower}/>
     </div>
   )
 }
