@@ -37,7 +37,6 @@ type Database interface {
 	GetSiteByID(ctx context.Context, siteID ObjectID) (*Site, error)
 
 	AddImage(ctx context.Context, newImage Image) (*Image, error)
-	GetImage(ctx context.Context, imageID ObjectID, userID ObjectID) (*Image, error)
 	DeleteImage(ctx context.Context, id ObjectID) (bool, error)
 }
 

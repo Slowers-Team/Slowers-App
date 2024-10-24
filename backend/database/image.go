@@ -2,11 +2,8 @@ package database
 
 import (
 	"context"
-	"errors"
-	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type Image struct {
@@ -33,21 +30,6 @@ func (mDb MongoDatabase) AddImage(ctx context.Context, newImage Image) (*Image, 
 	}
 
 	return createdImage, nil
-}
-
-func (mDb MongoDatabase) GetImage(ctx context.Context, imageID ObjectID, userID ObjectID) (*Image, error) {
-	resultImage := &Image{}
-	filter := bson.M{"_id": imageID, "owner": userID}
-	idErr := db.Collection("images").FindOne(ctx, filter).Decode(resultImage)
-
-	if idErr != nil {
-		if errors.Is(idErr, mongo.ErrNoDocuments) {
-			log.Println("tried to find image", imageID, "but it doesn't exist")
-		}
-		return nil, idErr
-	}
-
-	return resultImage, nil
 }
 
 func (mDb MongoDatabase) DeleteImage(ctx context.Context, id ObjectID) (bool, error) {
