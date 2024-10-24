@@ -45,7 +45,7 @@ func UploadImage(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Image should be in JPEG or PNG format")
 	}
 
-	newImage := database.Image{Note: image.Note, Entity: image.Entity, Owner: userID}
+	newImage := database.Image{FileFormat: fileext, Note: image.Note, Entity: image.Entity, Owner: userID}
 
 	createdImage, err := db.AddImage(c.Context(), newImage)
 	if err != nil {

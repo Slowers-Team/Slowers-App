@@ -10,10 +10,11 @@ import (
 )
 
 type Image struct {
-	ID     ObjectID  `json:"_id,omitempty" bson:"_id,omitempty"`
-	Note   string    `json:"note" form:"note"`
-	Entity *ObjectID `json:"entity" form:"entity"`
-	Owner  ObjectID  `json:"owner"`
+	ID         ObjectID  `json:"_id,omitempty" bson:"_id,omitempty"`
+	FileFormat string    `json:"file_format" bson:"file_format"`
+	Note       string    `json:"note" form:"note"`
+	Entity     *ObjectID `json:"entity" form:"entity"`
+	Owner      ObjectID  `json:"owner"`
 }
 
 func (mDb MongoDatabase) AddImage(ctx context.Context, newImage Image) (*Image, error) {
