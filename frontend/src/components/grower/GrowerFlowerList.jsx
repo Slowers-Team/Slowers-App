@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 const GrowerFlowerList = ({ flowers, deleteFlower }) => {
   const { t, i18n } = useTranslation()
-  const [showModal, setShowModal] = useState("")
+  const [showModal, setShowModal] = useState(false)
   const [currentFlower, setCurrentFlower] = useState("")
 
   const handleShow = (flower) => {

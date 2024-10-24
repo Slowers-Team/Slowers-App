@@ -6,7 +6,7 @@ import { Button, Table } from 'react-bootstrap'
 
 const RetailerFlowerList = ({ flowers }) => {
   const { t, i18n } = useTranslation()
-  const [showModal, setShowModal] = useState("")
+  const [showModal, setShowModal] = useState(false)
   const [currentFlower, setCurrentFlower] = useState("")
 
   const handleShow = (flower) => {
