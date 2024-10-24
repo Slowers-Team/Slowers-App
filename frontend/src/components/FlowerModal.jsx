@@ -5,10 +5,11 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
   const { t } = useTranslation()
 
   const handleFlowerDelete = (flower) => {
-    deleteFlower(flower)
+    if (deleteFlower) {
+      deleteFlower(flower)
+    }
     handleClose()
   }
-
 
   return (
     <Modal size="xl" show={show} onHide={handleClose}>
@@ -28,9 +29,11 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
               <p>{t('flower.data.latinname')}: {flower.latin_name}</p>
               <p>{t('flower.data.addedtime')}: {flower.added_time}</p>
               <p>{t('flower.data.site')}: {flower.site}</p>
-              <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
-                {t('button.delete')}
-              </button>
+              {deleteFlower && (
+                <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
+                  {t('button.delete')}
+                </button>
+              )}
             </div>
           </Tab>
           <Tab eventKey="pictures" title={t('menu.pictures')}>
