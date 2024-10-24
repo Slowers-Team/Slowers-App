@@ -18,6 +18,14 @@ const getUserFlowers = () => {
   return request.then(response => response.data)
 }
 
+const getFlower = (id = null) => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken() },
+  }
+  const url = id ? `${baseUrl}/${id}` : baseUrl
+  return axios.get(url, config).then(response => response.data)
+}
+
 const create = newFlower => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
@@ -57,4 +65,5 @@ export default {
   remove,
   getUserFlowers,
   getFlowersBySite,
+  getFlower
 }

@@ -31,6 +31,7 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app.Post("/api/flowers", handlers.AddFlower)
 	app.Get("/api/flowers", handlers.GetFlowers)
 	app.Get("/api/flowers/user", handlers.GetUserFlowers)
+	app.Get("/api/flower/:id", handlers.GetFlowerByID)
 	app.Delete("/api/flowers/:id", handlers.DeleteFlower)
 
 	app.Post("/api/sites", handlers.AddSite)
