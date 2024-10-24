@@ -35,6 +35,10 @@ type Database interface {
 	DeleteSite(ctx context.Context, siteID ObjectID, userID ObjectID) (*mongo.DeleteResult, error)
 	AddFlowerToSite(ctx context.Context, siteID ObjectID, flowerID ObjectID) error
 	GetSiteByID(ctx context.Context, siteID ObjectID) (*Site, error)
+
+	AddImage(ctx context.Context, newImage Image) (*Image, error)
+	GetImage(ctx context.Context, imageID ObjectID, userID ObjectID) (*Image, error)
+	DeleteImage(ctx context.Context, id ObjectID) (bool, error)
 }
 
 type MongoDatabase struct {
