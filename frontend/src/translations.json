@@ -7,6 +7,7 @@
       "button": {
         "addflower": "Add a new flower",
         "addsite": "Add a new site",
+        "addimage": "Add a new image",
         "back": "Back",
         "delete": "Delete",
         "deletethissite": "Delete this site",
@@ -36,6 +37,10 @@
           "grower": "Grower",
           "site": "Site"
         }
+      },
+      "image": {
+        "note": "Note",
+        "select": "Select image"
       },
       "label": {
         "confirmflowerdeletion": "Are you sure you want to delete the flower",
@@ -131,6 +136,10 @@
           "site": "Alue"
         }
       },
+      "image": {
+        "note": "Muistiinpano",
+        "select": "Valitse kuva"
+      },
       "label": {
         "confirmflowerdeletion": "Haluatko varmasti poistaa kukan",
         "confirmsitedeletion": "Haluatko varmasti poistaa alueen",
@@ -179,10 +188,10 @@
           "password": "Salasana",
           "role": "Rooli"
         },
-      "input": {
-        "email": "Syötä sähköpostiosoite",
-        "password": "Syötä salasana",
-        "username": "Syötä käyttäjänimi"
+        "input": {
+          "email": "Syötä sähköpostiosoite",
+          "password": "Syötä salasana",
+          "username": "Syötä käyttäjänimi"
         }
       }
     }
