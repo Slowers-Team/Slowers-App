@@ -28,7 +28,7 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
               <p>{t('flower.data.name')}: {flower.name}</p>
               <p>{t('flower.data.latinname')}: {flower.latin_name}</p>
               <p>{t('flower.data.addedtime')}: {flower.added_time}</p>
-              <p>{t('flower.data.site')}: {flower.site}</p>
+              <p>{t('flower.data.site')}: {flower.site_name}</p>
               {deleteFlower && (
                 <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
                   {t('button.delete')}
