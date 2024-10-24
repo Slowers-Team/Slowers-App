@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"errors"
 	"fmt"
+	"os"
 
 	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/gofiber/fiber/v2"
@@ -57,4 +59,18 @@ func UploadImage(c *fiber.Ctx) error {
 	}
 
 	return c.Status(201).JSON(createdImage)
+}
+
+func DownloadImage(c *fiber.Ctx) error {
+	filepath := fmt.Sprintf("./images/%v", c.Params("filename"))
+
+	if _, err := os.Stat(filepath); err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			return c.SendStatus(404)
+		} else {
+			return c.Status(500).SendString(err.Error())
+		}
+	}
+
+	return c.SendFile(filepath)
 }
