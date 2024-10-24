@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"errors"
-	"fmt"
 	"os"
 
 	"github.com/Slowers-team/Slowers-App/database"
@@ -52,7 +51,7 @@ func UploadImage(c *fiber.Ctx) error {
 	if fileinfo, err := os.Stat("./images"); errors.Is(err, os.ErrNotExist) || !fileinfo.IsDir() {
 		os.Remove("./images")
 		if err := os.Mkdir("./images", 0775); err != nil {
-			return c.Status(500).SendString(fmt.Sprintf("Could not create directory for images: %v", err.Error()))
+			return c.Status(500).SendString("Could not create directory for images: " + err.Error())
 		}
 	}
 
@@ -63,7 +62,7 @@ func UploadImage(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	savepath := fmt.Sprintf("./images/%v.%v", createdImage.ID.Hex(), fileext)
+	savepath := "./images/" + createdImage.ID.Hex() + "." + fileext
 	if err := c.SaveFile(file, savepath); err != nil {
 		db.DeleteImage(c.Context(), createdImage.ID)
 		return c.Status(500).SendString(err.Error())
@@ -73,7 +72,7 @@ func UploadImage(c *fiber.Ctx) error {
 }
 
 func DownloadImage(c *fiber.Ctx) error {
-	filepath := fmt.Sprintf("./images/%v", c.Params("filename"))
+	filepath := "./images/" + c.Params("filename")
 
 	if _, err := os.Stat(filepath); err != nil {
 		if errors.Is(err, os.ErrNotExist) {
