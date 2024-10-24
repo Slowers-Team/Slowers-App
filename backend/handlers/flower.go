@@ -32,12 +32,10 @@ func GetUserFlowers(c *fiber.Ctx) error {
 }
 
 func GetFlowerByID(c *fiber.Ctx) error {
-	id := c.Params("id")
-	if !database.IsValidID(id) {
-		return c.SendStatus(400)
+	flowerID, err := database.ParseID(c.Params("id"))
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
 	}
-
-	flowerID := database.NewID(id)
 
 	flower, err := db.GetFlowerByID(c.Context(), flowerID)
 	if err != nil {
