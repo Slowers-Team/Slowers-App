@@ -35,7 +35,7 @@ func (s *SitesAPITestSuite) TestListingRootSites() {
 		Description:  "GET /api/sites",
 		Route:        "/api/sites",
 		Method:       "GET",
-		Body:         "",
+		Body:         []byte{},
 		ExpectedCode: 200,
 		ExpectedBody: utils.SitesToJSON(s.RootSites),
 		SetupMocks: func(db *mocks.Database) {
@@ -53,7 +53,7 @@ func (s *SitesAPITestSuite) TestFetchingSite() {
 		Description:  "GET /api/sites/<id>",
 		Route:        "/api/sites/" + s.RootSites[0].ID.Hex(),
 		Method:       "GET",
-		Body:         "",
+		Body:         []byte{},
 		ExpectedCode: 200,
 		ExpectedBody: utils.SiteDataToJSON(testdata.GetSite()),
 		SetupMocks: func(db *mocks.Database) {
@@ -71,6 +71,7 @@ func (s *SitesAPITestSuite) TestAddingSite() {
 		Description: "POST /api/sites",
 		Route:       "/api/sites",
 		Method:      "POST",
+		ContentType: "application/json",
 		Body: utils.SiteToJSON(database.Site{
 			Flowers: s.RootSites[0].Flowers,
 			Name:    s.RootSites[0].Name,
@@ -79,9 +80,9 @@ func (s *SitesAPITestSuite) TestAddingSite() {
 			Parent:  s.RootSites[0].Parent,
 		}),
 		ExpectedCode: 201,
-		ExpectedBodyFunc: func(body string) {
+		ExpectedBodyFunc: func(body []byte) {
 			site := database.Site{}
-			json.Unmarshal([]byte(body), &site)
+			json.Unmarshal(body, &site)
 			s.Equal(
 				site.ID.Hex(),
 				s.RootSites[0].ID.Hex(),
@@ -140,9 +141,9 @@ func (s *SitesAPITestSuite) TestDeletingSite() {
 		Description:  "DELETE /api/sites/<id>",
 		Route:        "/api/sites/" + s.RootSites[0].ID.Hex(),
 		Method:       "DELETE",
-		Body:         "",
+		Body:         []byte{},
 		ExpectedCode: 200,
-		ExpectedBody: "{\"DeletedCount\":1}",
+		ExpectedBody: []byte("{\"DeletedCount\":1}"),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().DeleteSite(
 				mock.Anything, s.RootSites[0].ID, s.TestUser.ID,
