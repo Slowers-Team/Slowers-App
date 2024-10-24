@@ -11,6 +11,17 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
     handleClose()
   }
 
+  const addedTime = (flower) => {
+    let addedTime = new Date(flower.added_time)
+
+    let date = addedTime.toLocaleDateString('fi')
+    let hour = addedTime.toLocaleString('fi', { hour: 'numeric' })
+    let minute = addedTime.toLocaleString('fi', { minute: '2-digit' })
+    let addedTimeStr = `${date} ${hour}:${minute}`
+
+    return addedTimeStr
+  }
+
   return (
     <Modal size="xl" show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -27,7 +38,7 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
               <h3>{t('menu.info')}</h3>
               <p>{t('flower.data.name')}: {flower.name}</p>
               <p>{t('flower.data.latinname')}: {flower.latin_name}</p>
-              <p>{t('flower.data.addedtime')}: {flower.added_time}</p>
+              <p>{t('flower.data.addedtime')}: {addedTime(flower)}</p>
               <p>{t('flower.data.site')}: {flower.site_name}</p>
               {deleteFlower && (
                 <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
