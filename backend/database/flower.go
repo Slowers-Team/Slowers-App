@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -72,27 +71,22 @@ func (mDb MongoDatabase) AddFlower(ctx context.Context, newFlower Flower) (*Flow
 	return createdFlower, nil
 }
 
-func (mDb MongoDatabase) DeleteFlower(ctx context.Context, id string) (bool, error) {
-	objectID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return false, err
-	}
-
+func (mDb MongoDatabase) DeleteFlower(ctx context.Context, id ObjectID) (bool, error) {
 	var flower Flower
-	err = db.Collection("flowers").FindOne(ctx, bson.M{"_id": objectID}).Decode(&flower)
+	err := db.Collection("flowers").FindOne(ctx, bson.M{"_id": id}).Decode(&flower)
 	if err != nil {
 		return false, nil
 	}
 
 	if flower.Site != nil {
-		update := bson.M{"$pull": bson.M{"flowers": objectID}}
+		update := bson.M{"$pull": bson.M{"flowers": id}}
 		_, err = db.Collection("sites").UpdateOne(ctx, bson.M{"_id": flower.Site}, update)
 		if err != nil {
 			return true, err
 		}
 	}
 
-	filter := bson.M{"_id": objectID}
+	filter := bson.M{"_id": id}
 	result, err := db.Collection("flowers").DeleteOne(ctx, filter)
 	if err != nil {
 		return false, err
@@ -101,16 +95,11 @@ func (mDb MongoDatabase) DeleteFlower(ctx context.Context, id string) (bool, err
 	return result.DeletedCount > 0, err
 }
 
-func (mDb MongoDatabase) GetAllFlowersRelatedToSite(ctx context.Context, siteID string, userID ObjectID) ([]Flower, error) {
-	parentSiteID, err := primitive.ObjectIDFromHex(siteID)
-	if err != nil {
-		return nil, err
-	}
-
+func (mDb MongoDatabase) GetAllFlowersRelatedToSite(ctx context.Context, siteID ObjectID, userID ObjectID) ([]Flower, error) {
 	// Start pipeline with top level parent Site
 	matchStage := bson.D{
 		{Key: "$match", Value: bson.D{
-			{Key: "_id", Value: parentSiteID},
+			{Key: "_id", Value: siteID},
 			{Key: "owner", Value: userID},
 		}},
 	}
@@ -135,7 +124,7 @@ func (mDb MongoDatabase) GetAllFlowersRelatedToSite(ctx context.Context, siteID 
 	concatStage := bson.D{
 		{Key: "$addFields", Value: bson.D{
 			{Key: "id", Value: bson.D{
-				{Key: "$concatArrays", Value: bson.A{bson.A{parentSiteID}, "$id"}},
+				{Key: "$concatArrays", Value: bson.A{bson.A{siteID}, "$id"}},
 			}},
 		}},
 	}

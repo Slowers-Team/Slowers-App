@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -24,15 +25,15 @@ type Database interface {
 
 	GetFlowers(ctx context.Context) ([]Flower, error)
 	GetUserFlowers(ctx context.Context, userID ObjectID) ([]Flower, error)
-	GetAllFlowersRelatedToSite(ctx context.Context, siteID string, userID ObjectID) ([]Flower, error)
+	GetAllFlowersRelatedToSite(ctx context.Context, siteID ObjectID, userID ObjectID) ([]Flower, error)
 	AddFlower(ctx context.Context, newFlower Flower) (*Flower, error)
-	DeleteFlower(ctx context.Context, id string) (bool, error)
+	DeleteFlower(ctx context.Context, id ObjectID) (bool, error)
 	GetFlowerByID(ctx context.Context, flowerID ObjectID) (*Flower, error)
 
 	AddSite(ctx context.Context, newSite Site) (*Site, error)
 	GetRootSites(ctx context.Context, userID ObjectID) ([]Site, error)
-	GetSite(ctx context.Context, id string, userID ObjectID) (bson.M, error)
-	DeleteSite(ctx context.Context, id string, userID ObjectID) (*mongo.DeleteResult, error)
+	GetSite(ctx context.Context, siteID ObjectID, userID ObjectID) (bson.M, error)
+	DeleteSite(ctx context.Context, siteID ObjectID, userID ObjectID) (*mongo.DeleteResult, error)
 	AddFlowerToSite(ctx context.Context, siteID ObjectID, flowerID ObjectID) error
 	GetSiteByID(ctx context.Context, siteID ObjectID) (*Site, error)
 }
@@ -43,6 +44,8 @@ type MongoDatabase struct {
 }
 
 type ObjectID = primitive.ObjectID
+
+var NilObjectID ObjectID
 
 var db *mongo.Database
 
@@ -78,15 +81,12 @@ func (mDb *MongoDatabase) Clear() error {
 	return db.Drop(context.Background())
 }
 
-func NewID(id string) ObjectID {
-	objectID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		panic(err)
-	}
-	return objectID
-}
+func ParseID(id string) (ObjectID, error) {
+	parsed, err := primitive.ObjectIDFromHex(id)
 
-func IsValidID(id string) bool {
-	_, err := primitive.ObjectIDFromHex(id)
-	return err == nil
+	if err != nil {
+		return NilObjectID, fmt.Errorf("error parsing id %q: %w", id, err)
+	}
+
+	return parsed, nil
 }
