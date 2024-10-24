@@ -24,7 +24,7 @@ func UploadImage(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Image name cannot be empty")
 	}
 
-	if image.Entity == nil {
+	if image.Entity == nil || *image.Entity == database.NilObjectID {
 		return c.Status(400).SendString("Entity associated to image cannot be null")
 	}
 
@@ -43,6 +43,10 @@ func UploadImage(c *fiber.Ctx) error {
 
 	if fileext == "" {
 		return c.Status(400).SendString("Image should be in JPEG or PNG format")
+	}
+
+	if file.Size > 10485760 {
+		return c.Status(400).SendString("Image cannot be larger than 10 MB")
 	}
 
 	newImage := database.Image{FileFormat: fileext, Note: image.Note, Entity: image.Entity, Owner: userID}
