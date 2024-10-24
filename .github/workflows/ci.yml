@@ -20,6 +20,9 @@ jobs:
     - uses: actions/setup-go@v5
       with:
         go-version: '^1.23'
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
 
     - name: Install Mockery
       run: go install github.com/vektra/mockery/v2@v2.46.3
@@ -36,6 +39,14 @@ jobs:
       env:
         MONGODB_URI: mongodb://localhost:27017
         SECRET_KEY: secretkey
+
+    - name: Install dependencies
+      run: npm clean-install
+      working-directory: frontend
+
+    - name: Frontend unit tests
+      run: npm test
+      working-directory: frontend
 
   push_to_registry:
     needs: ci
