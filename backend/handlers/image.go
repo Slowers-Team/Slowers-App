@@ -49,6 +49,13 @@ func UploadImage(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Image cannot be larger than 10 MB")
 	}
 
+	if fileinfo, err := os.Stat("./images"); errors.Is(err, os.ErrNotExist) || !fileinfo.IsDir() {
+		os.Remove("./images")
+		if err := os.Mkdir("./images", 0775); err != nil {
+			return c.Status(500).SendString(fmt.Sprintf("Could not create directory for images: %v", err.Error()))
+		}
+	}
+
 	newImage := database.Image{FileFormat: fileext, Note: image.Note, Entity: image.Entity, Owner: userID}
 
 	createdImage, err := db.AddImage(c.Context(), newImage)
