@@ -21,8 +21,9 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
           id="uncontrolled-tab-example"
           className="mb-3"
           >
-          <Tab eventKey="info" title="Info">
+          <Tab eventKey="info" title={t('menu.info')}>
             <div>
+              <h3>{t('menu.info')}</h3>
               <p>{t('flower.data.name')}: {flower.name}</p>
               <p>{t('flower.data.latinname')}: {flower.latin_name}</p>
               <p>{t('flower.data.addedtime')}: {flower.added_time}</p>
@@ -32,14 +33,21 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
               </button>
             </div>
           </Tab>
-          <Tab eventKey="pictures" title="Pictures">
-            Tab content for Pictures
+          <Tab eventKey="pictures" title={t('menu.pictures')}>
+            <div>
+              <h3>{t('menu.pictures')}</h3>
+            </div>
+          </Tab>
+          <Tab eventKey="lifecycle" title={t('menu.lifecycle')}>
+            <div>
+              <h3>{t('menu.lifecycle')}</h3>
+            </div>
           </Tab>
         </Tabs>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          CLOSE
+          {t('button.close')}
         </Button>
       </Modal.Footer>
     </Modal>

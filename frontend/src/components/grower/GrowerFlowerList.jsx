@@ -46,8 +46,8 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
                 <td>{addedTimeStr}</td>
                 <td>{flower.site_name}</td>
                 <td>
-                  <button type="button" className="btn btn-light" onClick={() => handleShow(flower)}>
-                  Demo modal
+                  <button id='showFlowerPageButton' onClick={() => handleShow(flower)}>
+                  {t('button.flowerpage')}
                   </button>
                 </td>
                 <td>
