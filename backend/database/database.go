@@ -28,7 +28,6 @@ type Database interface {
 	GetAllFlowersRelatedToSite(ctx context.Context, siteID ObjectID, userID ObjectID) ([]Flower, error)
 	AddFlower(ctx context.Context, newFlower Flower) (*Flower, error)
 	DeleteFlower(ctx context.Context, id ObjectID) (bool, error)
-	GetFlowerByID(ctx context.Context, flowerID ObjectID) (*Flower, error)
 
 	AddSite(ctx context.Context, newSite Site) (*Site, error)
 	GetRootSites(ctx context.Context, userID ObjectID) ([]Site, error)

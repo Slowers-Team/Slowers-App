@@ -47,12 +47,6 @@ func (mDb MongoDatabase) GetUserFlowers(ctx context.Context, userID ObjectID) ([
 	return flowers, nil
 }
 
-func (mDb MongoDatabase) GetFlowerByID(ctx context.Context, flowerID ObjectID) (*Flower, error) {
-	var flower Flower
-	err := db.Collection("flowers").FindOne(ctx, bson.M{"_id": flowerID}).Decode(&flower)
-	return &flower, err
-}
-
 func (mDb MongoDatabase) AddFlower(ctx context.Context, newFlower Flower) (*Flower, error) {
 	insertResult, err := db.Collection("flowers").InsertOne(ctx, newFlower)
 	if err != nil {

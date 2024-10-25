@@ -31,20 +31,6 @@ func GetUserFlowers(c *fiber.Ctx) error {
 	return c.JSON(flowers)
 }
 
-func GetFlowerByID(c *fiber.Ctx) error {
-	flowerID, err := database.ParseID(c.Params("id"))
-	if err != nil {
-		return c.Status(400).SendString(err.Error())
-	}
-
-	flower, err := db.GetFlowerByID(c.Context(), flowerID)
-	if err != nil {
-		return c.Status(500).SendString(err.Error())
-	}
-
-	return c.JSON(flower)
-}
-
 func AddFlower(c *fiber.Ctx) error {
 	userID, err := GetCurrentUser(c)
 	if err != nil {
