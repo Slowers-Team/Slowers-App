@@ -1,8 +1,24 @@
 import '../../layouts/Retailer.css'
 import { useTranslation } from 'react-i18next'
+import FlowerModal from '../FlowerModal.jsx'
+import { useState } from "react"
+import { Button, Table } from 'react-bootstrap'
 
 const RetailerFlowerList = ({ flowers }) => {
   const { t, i18n } = useTranslation()
+  const [showModal, setShowModal] = useState(false)
+  const [currentFlower, setCurrentFlower] = useState("")
+
+  const handleShow = (flower) => {
+    setShowModal(true)
+    setCurrentFlower(flower)
+  }
+  
+  const handleClose = () => {
+    setShowModal(false)
+    setCurrentFlower("")
+  }
+
   return (
     <div className="retailerFlowerList">
       <table id="retailerFlowerList">
@@ -12,6 +28,7 @@ const RetailerFlowerList = ({ flowers }) => {
             <th>{t('flower.data.latinname')}</th>
             <th>{t('flower.data.addedtime')}</th>
             <th>{t('flower.data.grower')}</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -31,11 +48,17 @@ const RetailerFlowerList = ({ flowers }) => {
                 </td>
                 <td>{addedTimeStr}</td>
                 <td>{flower.grower_email}</td>
+                <td>
+                  <button id='showFlowerPageButton' onClick={() => handleShow(flower)}>
+                  {t('button.flowerpage')}
+                  </button>
+                </td>
               </tr>
             )
           })}
         </tbody>
       </table>
+      <FlowerModal show={showModal} handleClose={handleClose} flower={currentFlower}/>
     </div>
   )
 }
