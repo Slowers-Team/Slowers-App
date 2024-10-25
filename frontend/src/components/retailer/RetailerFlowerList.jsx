@@ -14,7 +14,10 @@ const RetailerFlowerList = ({ flowers }) => {
     setCurrentFlower(flower)
   }
   
-  const handleClose = () => setShowModal(false)
+  const handleClose = () => {
+    setShowModal(false)
+    setCurrentFlower("")
+  }
 
   return (
     <div className="retailerFlowerList">

@@ -13,7 +13,11 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
     setShowModal(true)
     setCurrentFlower(flower)
   }
-  const handleClose = () => setShowModal(false)
+  
+  const handleClose = () => {
+    setShowModal(false)
+    setCurrentFlower("")
+  }
 
   return (
     <div className="growerFlowerList">
