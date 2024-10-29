@@ -34,6 +34,13 @@ const App = () => {
     i18n.changeLanguage(language)
   }, [])
 
+  const handleLogin = (token, role) => {
+      localStorage.setItem("token", token)
+      localStorage.setItem("role", role)
+      setIsLoggedIn(true)
+      setDefaultRole(role)
+  }
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
@@ -139,7 +146,7 @@ const App = () => {
                 )
               }
             />
-            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/register" element={<RegisterPage handleLogin={handleLogin} />} />
             <Route path="/terms" element={<TermsPage />} />
             <Route
               path="/site"
