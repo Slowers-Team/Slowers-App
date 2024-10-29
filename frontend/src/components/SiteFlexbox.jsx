@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 import NewSiteForm from './NewSiteForm'
 import '../Misc.css'
+import placeholderImage from '../assets/images/site-placeholder-image.jpg'
 
 import { useTranslation } from 'react-i18next'
 
@@ -16,8 +17,12 @@ const SiteFlexbox = ({ createSite, sites }) => {
         {sites &&
           sites.map(site => (
             <div className="box" key={site._id}>
+              <img 
+                src={site.imageUrl ? `/api/images/${site.imageUrl}` : placeholderImage} 
+                alt={site.name} 
+                className="site-image" 
+              />
               <h3><Link to={'/site/' + site._id} className='link-success'>{site.name}</Link></h3>
-              <p>{t('site.data.note')}:<br />{site.note}</p>
             </div>
           ))}
         <div className={'box'}>
