@@ -61,3 +61,11 @@
   width: 100%;
   border: 1px solid white;
 }
+
+.site-image {
+  width: 100%;         /* Ensures the image takes full width of the container */
+  height: auto;        /* Maintains aspect ratio */
+  object-fit: cover;   /* Scales the image to cover the container fully */
+  border-radius: 8px;  /* Optional: Rounded corners */
+  max-height: 150px;   /* Optional: Set a max height if needed */
+}
