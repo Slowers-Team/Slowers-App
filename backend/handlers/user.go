@@ -58,7 +58,7 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	return c.SendStatus(201)
+	return LogUserIn(c, &newUser)
 }
 
 func HandleLogin(c *fiber.Ctx) error {
@@ -78,6 +78,10 @@ func HandleLogin(c *fiber.Ctx) error {
 		return c.Status(401).SendString("Invalid email or password")
 	}
 
+	return LogUserIn(c, user)
+}
+
+func LogUserIn(c *fiber.Ctx, user *database.User) error {
 	claims := &jwt.StandardClaims{
 		Subject:   primitive.ObjectID(user.ID).Hex(),
 		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
