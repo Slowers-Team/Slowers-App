@@ -10,9 +10,9 @@ import RetailerFlowerPage from './pages/RetailerFlowerPage'
 import RetailerLayout from './layouts/RetailerLayout'
 import GrowerLayout from './layouts/GrowerLayout'
 import GrowerFlowerPage from './pages/GrowerFlowerPage'
+import LangSelect from './components/LangSelect'
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import i18n from "./i18n"
 import { useTranslation } from 'react-i18next'
 import { Navbar, Nav, NavDropdown } from "react-bootstrap"
 
@@ -55,11 +55,6 @@ const App = () => {
   if (isLoading) {
     return <div>{t("label.loading")}</div>
   }
-
-  const changeLanguage = lang => {
-    document.cookie = `lang=${lang}; expires=${new Date(Date.now().valueOf() + 2592000000).toUTCString()}; path=/`;
-    i18n.changeLanguage(lang);
-  };
 
   return (
     <div>
@@ -111,12 +106,7 @@ const App = () => {
                   {t("menu.terms")}
                 </Nav.Link>
                 <NavDropdown title={t("menu.language")} id="collasible-nav-dropdown">
-                  <Nav.Link href="#" onClick={() => changeLanguage('en')}>
-                    en
-                  </Nav.Link>
-                  <Nav.Link href="#" onClick={() => changeLanguage('fi')}>
-                    fi
-                  </Nav.Link>
+                  <LangSelect/>
                 </NavDropdown>
               </Nav>
             </Navbar.Collapse>
