@@ -16,7 +16,9 @@
         "register": "Register",
         "save": "Save",
         "switchToRetailer": "Switch to Retailer",
-        "switchToGrower": "Switch to Grower"
+        "switchToGrower": "Switch to Grower",
+        "flowerpage": "Flower page",
+        "close": "Close"
       },
       "error": {
         "acceptterms": "You must accept the terms",
@@ -61,7 +63,10 @@
         "terms": "Terms",
         "profile": "Profile",
         "language": "Language",
-        "role": "Role pages"
+        "role": "Role pages",
+        "info": "Info",
+        "pictures": "Pictures",
+        "lifecycle": "Life cycle"
       },
       "role": {
         "grower": "Grower",
@@ -114,7 +119,9 @@
         "register": "Rekisteröidy",
         "save": "Tallenna",
         "switchToRetailer": "Vaihda jälleenmyyjäksi",
-        "switchToGrower": "Vaihda kasvattajaksi"
+        "switchToGrower": "Vaihda kasvattajaksi",
+        "flowerpage": "Kukan sivu",
+        "close": "Sulje"
       },
       "error": {
         "acceptterms": "Käyttöehdot on hyväksyttävä",
@@ -159,7 +166,10 @@
         "terms": "Käyttöehdot",
         "profile": "Käyttäjätiedot",
         "language": "Kieli",
-        "role": "Roolisivut"
+        "role": "Roolisivut",
+        "info": "Tietoa",
+        "pictures": "Kuvat",
+        "lifecycle": "Elinkaari"
       },
       "role": {
         "grower": "Kasvattaja",
