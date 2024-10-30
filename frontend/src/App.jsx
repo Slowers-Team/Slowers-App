@@ -54,7 +54,7 @@ const App = () => {
       <Router>
         <div>
           <Navbar collapseOnSelect expand="lg" bg="light">
-            <Navbar.Brand>
+            <Navbar.Brand as={Link} to="/">
               <h1 className='mx-3 text-center'>Slowers</h1>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
