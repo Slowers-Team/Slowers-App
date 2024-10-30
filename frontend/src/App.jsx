@@ -14,12 +14,13 @@ import LangSelect from './components/LangSelect'
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Button, Navbar, Nav, NavDropdown } from "react-bootstrap"
+import { Button, Navbar, Nav, NavDropdown, Offcanvas } from "react-bootstrap"
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);  
   const [defaultRole, setDefaultRole] = useState('')
   const [isLoading, setIsLoading] = useState(true)
+  const [showOffCanvas, setShowOffCanvas] = useState(false)
   const { t, i18n } = useTranslation()
 
   useEffect(() => {
@@ -34,6 +35,8 @@ const App = () => {
     i18n.changeLanguage(language)
   }, [])
 
+  const handleClose = () => setShowOffCanvas(false)
+  const handleShow = () => setShowOffCanvas(!showOffCanvas)
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
@@ -54,13 +57,34 @@ const App = () => {
       <Router>
         <div>
           <Navbar collapseOnSelect expand="lg" bg="light">
-            <Button variant="light" className="mx-2">
+            <Button variant="light" className="mx-2" onClick={handleShow}>
               <span className='navbar-toggler-icon'></span>
             </Button>
             <Navbar.Brand>
-              <h1 className='text-center'>Slowers</h1>
+              <h1>Slowers</h1>
             </Navbar.Brand>
-              <Nav className="me-auto justify-content-start">
+              <Nav className="ms-auto">
+                {isLoggedIn && (
+                  <Nav.Link as={Link} to="/user">
+                    {t("menu.profile")}
+                  </Nav.Link>
+                )}
+                <Nav.Link as={Link} to="/terms">
+                  {t("menu.terms")}
+                </Nav.Link>
+                <NavDropdown title={t("menu.language")} id="collasible-nav-dropdown">
+                  <LangSelect/>
+                </NavDropdown>
+              </Nav>
+          </Navbar>
+          <Offcanvas show={showOffCanvas} onHide={handleClose}>
+            <Offcanvas.Header closeButton>
+              <Offcanvas.Title> 
+                <h2>Slowers</h2>
+              </Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body>
+            <Nav className="justify-content-start flex-grow-1 pe-3">
                 <Nav.Link as={Link} to="/">
                   {t("menu.home")}
                 </Nav.Link>
@@ -90,20 +114,8 @@ const App = () => {
                   </Nav.Link>
                 )}
               </Nav>
-              <Nav className="ms-auto">
-                {isLoggedIn && (
-                  <Nav.Link as={Link} to="/user">
-                    {t("menu.profile")}
-                  </Nav.Link>
-                )}
-                <Nav.Link as={Link} to="/terms">
-                  {t("menu.terms")}
-                </Nav.Link>
-                <NavDropdown title={t("menu.language")} id="collasible-nav-dropdown">
-                  <LangSelect/>
-                </NavDropdown>
-              </Nav>
-          </Navbar>
+            </Offcanvas.Body>
+          </Offcanvas>
           <Routes>
             <Route
               path="/"
