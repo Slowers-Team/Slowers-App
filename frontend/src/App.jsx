@@ -56,14 +56,14 @@ const App = () => {
     <div>
       <Router>
         <div>
-          <Navbar collapseOnSelect expand="lg" bg="light">
+          <Navbar expand="sm" bg="light">
             <Button variant="light" className="mx-2" onClick={handleShow}>
               <span className='navbar-toggler-icon'></span>
             </Button>
             <Navbar.Brand as={Link} to="/">
               <h1>Slowers</h1>
             </Navbar.Brand>
-              <Nav className="ms-auto">
+              <Nav className="ms-auto mx-2">
                 {isLoggedIn && (
                   <Nav.Link as={Link} to="/user">
                     {t("menu.profile")}
