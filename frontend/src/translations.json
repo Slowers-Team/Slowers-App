@@ -2,7 +2,8 @@
   "en": {
     "translation": {
       "alert": {
-        "usercreated": "User created successfully"
+        "usercreated": "User created successfully",
+        "imageuploaded": "Image uploaded succesfully"
       },
       "button": {
         "addflower": "Add a new flower",
@@ -42,7 +43,8 @@
       },
       "image": {
         "note": "Note",
-        "select": "Select image"
+        "select": "Select image",
+        "title": "Add a new image"
       },
       "label": {
         "confirmflowerdeletion": "Are you sure you want to delete the flower",
@@ -106,11 +108,13 @@
   "fi": {
     "translation": {
       "alert": {
-        "usercreated": "Tili luotu onnistuneesti"
+        "usercreated": "Tili luotu onnistuneesti",
+        "imageuploaded": "Kuva lähetetty onnistuneesti"
       },
       "button": {
         "addflower": "Lisää uusi kukka",
         "addsite": "Lisää uusi alue",
+        "addimage": "Lisää uusi kuva",
         "back": "Takaisin",
         "delete": "Poista",
         "deletethissite": "Poista tämä alue",
@@ -145,7 +149,8 @@
       },
       "image": {
         "note": "Muistiinpano",
-        "select": "Valitse kuva"
+        "select": "Valitse kuva",
+        "title": "Lisää uusi kuva"
       },
       "label": {
         "confirmflowerdeletion": "Haluatko varmasti poistaa kukan",

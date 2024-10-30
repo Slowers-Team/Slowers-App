@@ -6,8 +6,9 @@ const ImageForm = ({ createImage }) => {
   const [newImageNote, setNewImageNote] = useState("")
   const { t, i18n } = useTranslation()
 
-  const addImage = event => {
+  const handleSubmit = event => {
     event.preventDefault()
+
     createImage({
       note: newImageNote,
       image: newImage
@@ -25,7 +26,7 @@ const ImageForm = ({ createImage }) => {
 
   return (
     <div className="text-left">
-      <form onSubmit={addImage} id="image-form">
+      <form onSubmit={handleSubmit} id="image-form">
         <div className="form-group">
           <label htmlFor="newImage">{t("image.select")}:</label>
           <input

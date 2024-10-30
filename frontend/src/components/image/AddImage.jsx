@@ -6,11 +6,10 @@ import ImageForm from './ImageForm'
 
 const AddImage = ({ entity }) => {
     const [show, setShow] = useState(false)
-    const [name, setName] = useState("")
     const [id, setID] = useState("")
+    const { t, i18n } = useTranslation()
 
     useEffect(() => {
-      setName(entity.name)
       setID(entity._id)
     }, [entity])
 
@@ -20,7 +19,10 @@ const AddImage = ({ entity }) => {
   
     const createImage = imageObject => {
       ImageService.create({ ...imageObject, entity: id })
-        .then(_ => alert("image uploaded"))
+        .then(_ => {
+          alert(t("alert.imageuploaded"))
+          toggleVisibility()
+        })
         .catch(error => {
           const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, '')
           alert(t('error.error') + ': ' + (i18n.exists(key) ? t(key) : error.response.data))
@@ -29,10 +31,10 @@ const AddImage = ({ entity }) => {
 
     return (
       <>
-        <Button variant="secondary" onClick={toggleVisibility}>add image</Button>
+        <Button variant="secondary" onClick={toggleVisibility}>{t("button.addimage")}</Button>
         <Modal size="l" show={show} onHide={toggleVisibility}>
           <Modal.Header closeButton>
-            <Modal.Title>{name}</Modal.Title>
+            <Modal.Title>{t("image.title")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <ImageForm createImage={createImage}/>
