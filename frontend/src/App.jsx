@@ -69,9 +69,6 @@ const App = () => {
                     {t("menu.profile")}
                   </Nav.Link>
                 )}
-                <Nav.Link as={Link} to="/terms">
-                  {t("menu.terms")}
-                </Nav.Link>
                 <NavDropdown title={t("menu.language")} id="collasible-nav-dropdown">
                   <LangSelect/>
                 </NavDropdown>
@@ -84,35 +81,38 @@ const App = () => {
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
-            <Nav className="justify-content-start flex-grow-1 pe-3">
-                <Nav.Link as={Link} to="/">
+            <Nav className="flex-column pe-3">
+                <Nav.Link className="text-secondary" as={Link} to="/">
                   {t("menu.home")}
                 </Nav.Link>
                 {!isLoggedIn && (
-                  <Nav.Link as={Link} to="/login">
+                  <Nav.Link className="text-secondary" as={Link} to="/login">
                     {t("menu.login")}
                   </Nav.Link>
                 )}
                 {!isLoggedIn && (
-                  <Nav.Link as={Link} to="/register">
+                  <Nav.Link className="text-secondary" as={Link} to="/register">
                     {t("menu.register")}
                   </Nav.Link>
                 )}
                 {isLoggedIn && (
-                <NavDropdown title={t("menu.role")} id="collasible-nav-dropdown">
-                  <Nav.Link as={Link} to="/retailer">
+                  <Nav.Link className="text-secondary" as={Link} to="/retailer">
                     {t("menu.retailer")}
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/grower">
-                    {t("menu.grower")}
-                  </Nav.Link>
-                </NavDropdown>
                 )}
                 {isLoggedIn && (
-                  <Nav.Link as={Link} onClick={handleLogout}>
+                  <Nav.Link className="text-secondary" as={Link} to="/grower">
+                    {t("menu.grower")}
+                  </Nav.Link>
+                )}
+                {isLoggedIn && (
+                  <Nav.Link className="text-secondary" as={Link} onClick={handleLogout}>
                     {t("menu.logout")}
                   </Nav.Link>
                 )}
+                <Nav.Link className="text-secondary" as={Link} to="/terms">
+                  {t("menu.terms")}
+                </Nav.Link>
               </Nav>
             </Offcanvas.Body>
           </Offcanvas>
