@@ -5,7 +5,7 @@ import flowerService from '../services/flowers'
 import ImageService from '../services/images'
 import FlowerForm from '../components/FlowerForm'
 import SiteFlexbox from '../components/SiteFlexbox'
-import ImageForm from '../components/ImageForm' 
+import ImageForm from '../components/image/ImageForm' 
 
 import { useTranslation } from "react-i18next"
 
