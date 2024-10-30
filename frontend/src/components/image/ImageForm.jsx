@@ -15,6 +15,8 @@ const ImageForm = ({ createImage }) => {
 
     setNewImage(null)
     setNewImageNote("")
+
+    document.getElementById("image-form").reset()
   }
 
   const handleFileSelect = (event) => {
@@ -23,7 +25,7 @@ const ImageForm = ({ createImage }) => {
 
   return (
     <div className="text-left">
-      <form onSubmit={addImage}>
+      <form onSubmit={addImage} id="image-form">
         <div className="form-group">
           <label htmlFor="newImage">{t("image.select")}:</label>
           <input
