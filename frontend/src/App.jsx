@@ -60,7 +60,7 @@ const App = () => {
             <Button variant="light" className="mx-2" onClick={handleShow}>
               <span className='navbar-toggler-icon'></span>
             </Button>
-            <Navbar.Brand>
+            <Navbar.Brand as={Link} to="/">
               <h1>Slowers</h1>
             </Navbar.Brand>
               <Nav className="ms-auto">
