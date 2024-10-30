@@ -19,12 +19,14 @@ const AddImage = ({ entity }) => {
   
     const createImage = imageObject => {
       ImageService.create({ ...imageObject, entity: id })
-        .then(_ => {
+        .then(data => {
+          console.info("Image upload succesful:", data)
           alert(t("alert.imageuploaded"))
           toggleVisibility()
         })
         .catch(error => {
           const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, '')
+          console.error("Image upload failed:", error)
           alert(t('error.error') + ': ' + (i18n.exists(key) ? t(key) : error.response.data))
         })
     }

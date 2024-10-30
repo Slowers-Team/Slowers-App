@@ -17,7 +17,6 @@ const create = imageObject => {
       'Content-Type': 'multipart/form-data'
        },
   }
-  console.log(imageObject)
   const request = axios.post(baseUrl, imageObject, config)
   return request.then(response => response.data)
 }
