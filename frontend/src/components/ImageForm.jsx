@@ -7,9 +7,6 @@ const ImageForm = ({ createImage, entityID }) => {
   const { t, i18n } = useTranslation()
 
   const addImage = event => {
-    if (!newImage) {
-      
-    }
     event.preventDefault()
     createImage({
       note: newImageNote,
@@ -32,19 +29,21 @@ const ImageForm = ({ createImage, entityID }) => {
           <label htmlFor="newImage">{t("image.select")}:</label>
           <input
             id="newImageInput"
+            className="form-control"
             type="file"
             accept="image/*"
+            required="true"
             onChange={handleFileSelect}
-            className="form-control"
           />
         </div>
         <div className="form-group">
           <label htmlFor="newImageNoteInput">{t("image.note")}:</label>
           <input
             id="newImageNoteInput"
-            value={newImageNote}
-            onChange={event => setNewImageNote(event.target.value)}
             className="form-control"
+            value={newImageNote}
+            required="true"
+            onChange={event => setNewImageNote(event.target.value)}
           />
         </div>
         <div>
