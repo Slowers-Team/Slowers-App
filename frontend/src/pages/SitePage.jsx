@@ -119,9 +119,9 @@ const SitePage = () => {
               <div className="site-actions">
                 <button onClick={handleBack} style={{ marginRight: "0.5rem" }} className="btn btn-light">{t("button.goback")}</button>
                 <button id="deleteSiteButton" onClick={() => deleteSite(site)} className="btn btn-light">{t("button.deletethissite")}</button>
+                <AddImage entity={site}/>
               </div>
               <SiteFlexbox createSite={createSite} sites={sites} />
-              <AddImage entityID={params.id}/>
             </main>
           </div>
         </div>
