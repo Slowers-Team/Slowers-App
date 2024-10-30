@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 
-const ImageForm = ({ createImage, entityID }) => {
+const ImageForm = ({ createImage }) => {
   const [newImage, setNewImage] = useState(null)
   const [newImageNote, setNewImageNote] = useState("")
   const { t, i18n } = useTranslation()
@@ -10,7 +10,6 @@ const ImageForm = ({ createImage, entityID }) => {
     event.preventDefault()
     createImage({
       note: newImageNote,
-      entity: entityID,
       image: newImage
     })
 
@@ -32,7 +31,7 @@ const ImageForm = ({ createImage, entityID }) => {
             className="form-control"
             type="file"
             accept="image/*"
-            required="true"
+            required={true}
             onChange={handleFileSelect}
           />
         </div>
@@ -42,7 +41,7 @@ const ImageForm = ({ createImage, entityID }) => {
             id="newImageNoteInput"
             className="form-control"
             value={newImageNote}
-            required="true"
+            required={true}
             onChange={event => setNewImageNote(event.target.value)}
           />
         </div>
