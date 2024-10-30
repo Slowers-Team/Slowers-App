@@ -14,7 +14,7 @@ import LangSelect from './components/LangSelect'
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Navbar, Nav, NavDropdown } from "react-bootstrap"
+import { Button, Navbar, Nav, NavDropdown } from "react-bootstrap"
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);  
@@ -54,11 +54,12 @@ const App = () => {
       <Router>
         <div>
           <Navbar collapseOnSelect expand="lg" bg="light">
-            <Navbar.Brand as={Link} to="/">
-              <h1 className='mx-3 text-center'>Slowers</h1>
+            <Button variant="light" className="mx-2">
+              <span className='navbar-toggler-icon'></span>
+            </Button>
+            <Navbar.Brand>
+              <h1 className='text-center'>Slowers</h1>
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto justify-content-start">
                 <Nav.Link as={Link} to="/">
                   {t("menu.home")}
@@ -102,7 +103,6 @@ const App = () => {
                   <LangSelect/>
                 </NavDropdown>
               </Nav>
-            </Navbar.Collapse>
           </Navbar>
           <Routes>
             <Route
