@@ -2,9 +2,12 @@ package tests
 
 import (
 	"context"
+	"log"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/suite"
+	"go.mongodb.org/mongo-driver/bson"
 
 	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/Slowers-team/Slowers-App/testdata"
@@ -131,6 +134,108 @@ func (s *DbSiteTestSuite) TestAddAndGetRootSites() {
 		site.Owner,
 		"wrong owner for the site returned from GetRootSites()",
 	)
+}
+
+func (s *DbSiteTestSuite) TestAddAndGetSite() {
+	siteData := testdata.GetSite()
+
+	site := siteData["site"].(database.Site)
+	site.ID = database.NilObjectID
+	createdSite, _ := s.Db.AddSite(context.Background(), site)
+
+	subSiteBson := siteData["subsites"].([]bson.M)[0]
+	subSite := database.Site{
+		Name:      subSiteBson["name"].(string),
+		AddedTime: time.Date(2024, 9, 19, 12, 11, 4, 0, time.UTC),
+		Note:      subSiteBson["note"].(string),
+		Parent:    &createdSite.ID,
+		Flowers:   []*database.ObjectID{},
+		Owner:     site.Owner,
+	}
+	createdSubSite, _ := s.Db.AddSite(context.Background(), subSite)
+
+	site.ID = createdSite.ID
+	siteData["site"] = site
+	subSiteBson["_id"] = createdSubSite.ID.Hex()
+	siteData["subsites"] = []bson.M{subSiteBson}
+
+	fetchedSiteData, err := s.Db.GetSite(context.Background(), createdSite.ID, *site.Owner)
+
+	s.NoError(
+		err,
+		"GetSite() should not return an error",
+	)
+
+	doc, err := bson.Marshal(fetchedSiteData["site"].(bson.M))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var fetchedSite database.Site
+	err = bson.Unmarshal(doc, &fetchedSite)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fetchedSubSites := fetchedSiteData["subsites"].([]bson.M)
+
+	s.Equal(
+		createdSite.ID,
+		fetchedSite.ID,
+		"wrong ID for the site returned from GetSite()",
+	)
+	s.Equal(
+		site.Name,
+		fetchedSite.Name,
+		"wrong name for the site returned from GetSite()",
+	)
+	s.Equal(
+		site.AddedTime,
+		fetchedSite.AddedTime,
+		"wrong AddedTime for the site returned from GetSite()",
+	)
+	s.Equal(
+		site.Note,
+		fetchedSite.Note,
+		"wrong note for the site returned from GetSite()",
+	)
+	s.Equal(
+		site.Parent,
+		fetchedSite.Parent,
+		"wrong parent for the site returned from GetSite()",
+	)
+	s.Equal(
+		site.Flowers,
+		fetchedSite.Flowers,
+		"wrong flowers for the site returned from GetSite()",
+	)
+	s.Equal(
+		site.Owner,
+		fetchedSite.Owner,
+		"wrong owner for the site returned from GetSite()",
+	)
+
+	s.Len(
+		fetchedSubSites,
+		1,
+		"GetSite() should return exactly one subsite",
+	)
+	s.Equal(
+		createdSubSite.ID,
+		fetchedSubSites[0]["_id"],
+		"wrong ID for the subsite returned from GetSite()",
+	)
+	s.Equal(
+		subSite.Name,
+		fetchedSubSites[0]["name"],
+		"wrong name for the subsite returned from GetSite()",
+	)
+	s.Equal(
+		subSite.Note,
+		fetchedSubSites[0]["note"],
+		"wrong note for the subsite returned from GetSite()",
+	)
+
 }
 
 func (s *DbSiteTestSuite) TearDownTest() {
