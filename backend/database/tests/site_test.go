@@ -8,6 +8,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/Slowers-team/Slowers-App/testdata"
@@ -324,6 +325,79 @@ func (s *DbSiteTestSuite) TestAddFlowerToSite() {
 			"Added flower has wrong ID",
 		)
 	}
+}
+
+func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
+	siteData := testdata.GetSite()
+
+	site := siteData["site"].(database.Site)
+	site.ID = database.NilObjectID
+	site.Flowers = []*database.ObjectID{}
+	createdSite, _ := s.Db.AddSite(context.Background(), site)
+
+	subSiteBson := siteData["subsites"].([]bson.M)[0]
+	subSite := database.Site{
+		Name:      subSiteBson["name"].(string),
+		AddedTime: time.Date(2024, 9, 19, 12, 11, 4, 0, time.UTC),
+		Note:      subSiteBson["note"].(string),
+		Parent:    &createdSite.ID,
+		Flowers:   []*database.ObjectID{},
+		Owner:     site.Owner,
+	}
+	createdSubSite, _ := s.Db.AddSite(context.Background(), subSite)
+
+	site.ID = createdSite.ID
+	siteData["site"] = site
+	subSiteBson["_id"] = createdSubSite.ID.Hex()
+	siteData["subsites"] = []bson.M{subSiteBson}
+
+	fullFlower := testdata.GetTestFlowers()[0]
+	flowerToAdd := database.Flower{
+		Name:        fullFlower.Name,
+		LatinName:   fullFlower.LatinName,
+		Grower:      fullFlower.Grower,
+		GrowerEmail: testdata.GetUsers()[0].Email,
+		Site:        &createdSite.ID,
+		SiteName:    site.Name,
+	}
+	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
+	s.Db.AddFlowerToSite(context.Background(), createdSite.ID, addedFlower.ID)
+
+	deleteResult, err := s.Db.DeleteSite(context.Background(), createdSite.ID, *site.Owner)
+
+	s.NoError(
+		err,
+		"DeleteSite() should not return an error",
+	)
+	s.EqualValues(
+		2,
+		deleteResult.DeletedCount,
+		"DeleteSite() should delete exactly two sites",
+	)
+
+	fetchedFlowers, _ := s.Db.GetFlowers(context.Background())
+
+	s.Len(
+		fetchedFlowers,
+		0,
+		"DeleteSite() should delete all flowers belonging to the site",
+	)
+
+	_, err = s.Db.GetSiteByID(context.Background(), createdSite.ID)
+
+	s.Equal(
+		mongo.ErrNoDocuments,
+		err,
+		"DeleteSite() should delete the site",
+	)
+
+	_, err = s.Db.GetSiteByID(context.Background(), createdSubSite.ID)
+
+	s.Equal(
+		mongo.ErrNoDocuments,
+		err,
+		"DeleteSite() should delete all subsites",
+	)
 }
 
 func (s *DbSiteTestSuite) TearDownTest() {
