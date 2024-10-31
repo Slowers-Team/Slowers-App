@@ -15,7 +15,7 @@ import (
 
 type DbUserTestSuite struct {
 	suite.Suite
-	Db database.Database
+	Db       database.Database
 	TestUser database.User
 }
 
@@ -29,7 +29,7 @@ func (s *DbUserTestSuite) TestCreateUser() {
 	hashedPassword, _ := utils.HashPassword(s.TestUser.Password)
 	user := database.User{
 		Username: s.TestUser.Username,
-		Email: s.TestUser.Email,
+		Email:    s.TestUser.Email,
 		Password: hashedPassword,
 	}
 	err := s.Db.CreateUser(context.Background(), user)
@@ -58,7 +58,7 @@ func (s *DbUserTestSuite) TestCreateAndGetUser() {
 	hashedPassword, _ := utils.HashPassword(s.TestUser.Password)
 	user := database.User{
 		Username: s.TestUser.Username,
-		Email: s.TestUser.Email,
+		Email:    s.TestUser.Email,
 		Password: hashedPassword,
 	}
 	s.Db.CreateUser(context.Background(), user)
@@ -84,8 +84,46 @@ func (s *DbUserTestSuite) TestCreateAndGetUser() {
 		"wrong email for fetched user",
 	)
 	s.NoError(
-	    bcrypt.CompareHashAndPassword([]byte(fetchedUser.Password), []byte(s.TestUser.Password)),
+		bcrypt.CompareHashAndPassword([]byte(fetchedUser.Password), []byte(s.TestUser.Password)),
 		"wrong password for fetched user",
+	)
+}
+
+func (s *DbUserTestSuite) TestCreateAndGetUserByID() {
+	hashedPassword, _ := utils.HashPassword(s.TestUser.Password)
+	user := database.User{
+		Username: s.TestUser.Username,
+		Email:    s.TestUser.Email,
+		Password: hashedPassword,
+	}
+	s.Db.CreateUser(context.Background(), user)
+
+	createdUser, _ := s.Db.GetUserByEmail(context.Background(), s.TestUser.Email)
+
+	fetchedUser, err := s.Db.GetUserByID(context.Background(), createdUser.ID)
+
+	s.NoError(
+		err,
+		"GetUserByID() should not return an error",
+	)
+	s.NotZero(
+		fetchedUser.ID,
+		"fetched user should have non-zero ID",
+	)
+	s.Equal(
+		fetchedUser.Username,
+		s.TestUser.Username,
+		"wrong username for fetched user",
+	)
+	s.Equal(
+		fetchedUser.Email,
+		s.TestUser.Email,
+		"wrong email for fetched user",
+	)
+	s.Equal(
+		fetchedUser.Password,
+		"",
+		"fetched user should have empty password",
 	)
 }
 
