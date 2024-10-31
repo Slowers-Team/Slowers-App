@@ -120,15 +120,29 @@ func (s *DbFlowerTestSuite) TestAddAndDeleteFlower() {
 }
 
 func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
+	users := testdata.GetUsers()
+
 	testFlower := database.Flower{
 		Name:        s.TestFlowers[0].Name,
 		LatinName:   s.TestFlowers[0].LatinName,
 		Grower:      s.TestFlowers[0].Grower,
-		GrowerEmail: testdata.GetUsers()[0].Email,
+		GrowerEmail: users[0].Email,
 		Site:        s.TestFlowers[0].Site,
 		SiteName:    testdata.GetRootSites()[0].Name,
 	}
 	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
+
+	fullFlower2 := testdata.GetTestFlowerForUser2()
+	testFlower2 := database.Flower{
+		Name:        fullFlower2.Name,
+		LatinName:   fullFlower2.LatinName,
+		Grower:      fullFlower2.Grower,
+		GrowerEmail: users[1].Email,
+		Site:        fullFlower2.Site,
+		SiteName:    testdata.GetRootSitesForUser2()[0].Name,
+	}
+	s.Db.AddFlower(context.Background(), testFlower2)
+
 	fetchedFlowers, err := s.Db.GetUserFlowers(context.Background(), *testFlower.Grower)
 
 	s.NoError(
