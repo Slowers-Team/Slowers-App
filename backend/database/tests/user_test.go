@@ -22,7 +22,7 @@ type DbUserTestSuite struct {
 func (s *DbUserTestSuite) SetupSuite() {
 	s.Db = testutils.ConnectDB()
 	s.Db.Clear()
-	s.TestUser = testdata.GetUser()
+	s.TestUser = testdata.GetUsers()[0]
 }
 
 func (s *DbUserTestSuite) TestCreateUser() {

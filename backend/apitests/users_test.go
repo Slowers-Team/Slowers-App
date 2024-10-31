@@ -21,7 +21,7 @@ type UsersAPITestSuite struct {
 }
 
 func (s *UsersAPITestSuite) SetupSuite() {
-	s.TestUser = testdata.GetUser()
+	s.TestUser = testdata.GetUsers()[0]
 }
 
 func (s *UsersAPITestSuite) TestCreatingUser() {

@@ -23,7 +23,7 @@ func GetTestFlowers() []database.Flower {
 		flowerIDs = append(flowerIDs, curFlowerID)
 	}
 
-	growerID := GetUser().ID
+	growerID := GetUsers()[0].ID
 	siteID, err := database.ParseID("66f5027d6430d371f8636c3c")
 	if err != nil {
 		log.Fatal(err)

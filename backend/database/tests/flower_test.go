@@ -124,7 +124,7 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
 		Name:        s.TestFlowers[0].Name,
 		LatinName:   s.TestFlowers[0].LatinName,
 		Grower:      s.TestFlowers[0].Grower,
-		GrowerEmail: testdata.GetUser().Email,
+		GrowerEmail: testdata.GetUsers()[0].Email,
 		Site:        s.TestFlowers[0].Site,
 		SiteName:    testdata.GetRootSites()[0].Name,
 	}

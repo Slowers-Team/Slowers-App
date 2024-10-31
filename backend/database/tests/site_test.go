@@ -23,7 +23,7 @@ func (s *DbSiteTestSuite) SetupSuite() {
 	s.Db = testutils.ConnectDB()
 	s.Db.Clear()
 	s.TestSite = testdata.GetRootSites()[0]
-	s.TestUser = testdata.GetUser()
+	s.TestUser = testdata.GetUsers()[0]
 }
 
 func (s *DbSiteTestSuite) TestAddSite() {
