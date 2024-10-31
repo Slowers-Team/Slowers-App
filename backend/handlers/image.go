@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"errors"
 	"os"
 
@@ -83,4 +84,17 @@ func DownloadImage(c *fiber.Ctx) error {
 	}
 
 	return c.SendFile(filepath)
+}
+
+func FetchImageByEntity(c *fiber.Ctx) error {
+	entityId := c.Params("id")
+
+	ctx := context.Background()
+
+	image, err := db.GetImageByEntity(ctx, entityId)
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).SendString("Image not found.")
+	}
+
+	return c.JSON(image)
 }
