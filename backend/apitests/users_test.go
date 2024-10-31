@@ -2,6 +2,7 @@ package apitests
 
 import (
 	"context"
+	"encoding/json"
 	"testing"
 
 	"github.com/stretchr/testify/mock"
@@ -38,7 +39,22 @@ func (s *UsersAPITestSuite) TestCreatingUser() {
 			},
 		),
 		ExpectedCode: 201,
-		ExpectedBody: "Created",
+		ExpectedBodyFunc: func(body string) {
+			var response struct {
+				Role  string `json:"role"`
+				Token string `json:"token"`
+			}
+			json.Unmarshal([]byte(body), &response)
+			s.Equal(
+				response.Role,
+				s.TestUser.Role,
+				"tried to add wrong role to database",
+			)
+			s.NotEmpty(
+				response.Token,
+				"token should not be empty",
+			)
+		},
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().CountUsersWithEmail(
 				mock.Anything, s.TestUser.Email,
