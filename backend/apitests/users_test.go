@@ -106,6 +106,24 @@ func (s *UsersAPITestSuite) TestLoggingIn() {
 	})
 }
 
+func (s *UsersAPITestSuite) TestFetchingUser() {
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:  "GET /api/user",
+		Route:        "/api/user",
+		Method:       "GET",
+		Body:         "",
+		ExpectedCode: 200,
+		ExpectedBody: utils.UserToJSON(s.TestUser),
+		SetupMocks: func(db *mocks.Database) {
+			db.EXPECT().GetUserByID(
+				mock.Anything, s.TestUser.ID,
+			).Return(
+				&s.TestUser, nil,
+			).Once()
+		},
+	})
+}
+
 func TestUsersAPITestSuite(t *testing.T) {
 	suite.Run(t, new(UsersAPITestSuite))
 }
