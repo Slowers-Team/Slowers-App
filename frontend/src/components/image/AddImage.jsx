@@ -46,7 +46,6 @@ const AddImage = ({ entity }) => {
           console.info("Image upload succesful:", data)
           setMessage(t("alert.imageuploaded"))
           setUploadedImageName(data._id + "." + data.file_format)
-          // toggleVisibility()
         })
         .catch(error => {
           const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, '')
