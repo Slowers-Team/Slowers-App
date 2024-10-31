@@ -32,6 +32,22 @@ func (mDb MongoDatabase) AddImage(ctx context.Context, newImage Image) (*Image, 
 	return createdImage, nil
 }
 
+func (mDb MongoDatabase) GetImageByEntity (ctx context.Context, entityId string) (*Image, error) {
+	objID, err := ParseID(entityId)
+	if err != nil {
+		return  nil, err
+	}
+
+	var image Image
+
+	err = db.Collection("images").FindOne(ctx, bson.M{"entity": objID}).Decode(&image)
+	if err != nil {
+		return nil, err
+	}
+
+	return &image, nil
+}
+
 func (mDb MongoDatabase) DeleteImage(ctx context.Context, id ObjectID) (bool, error) {
 	var image Image
 	err := db.Collection("images").FindOne(ctx, bson.M{"_id": id}).Decode(&image)
