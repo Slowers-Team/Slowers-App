@@ -285,6 +285,47 @@ func (s *DbSiteTestSuite) TestAddAndGetSiteByID() {
 	)
 }
 
+func (s *DbSiteTestSuite) TestAddFlowerToSite() {
+	siteData := testdata.GetSite()
+
+	site := siteData["site"].(database.Site)
+	site.ID = database.NilObjectID
+	site.Flowers = []*database.ObjectID{}
+	createdSite, _ := s.Db.AddSite(context.Background(), site)
+
+	fullFlower := testdata.GetTestFlowers()[0]
+	flowerToAdd := database.Flower{
+		Name:        fullFlower.Name,
+		LatinName:   fullFlower.LatinName,
+		Grower:      fullFlower.Grower,
+		GrowerEmail: testdata.GetUsers()[0].Email,
+		Site:        &createdSite.ID,
+		SiteName:    site.Name,
+	}
+	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
+	err := s.Db.AddFlowerToSite(context.Background(), createdSite.ID, addedFlower.ID)
+
+	s.NoError(
+		err,
+		"AddFlowerToSite() should not return an error",
+	)
+
+	fetchedSite, _ := s.Db.GetSiteByID(context.Background(), createdSite.ID)
+
+	isCorrectLen := s.Len(
+		fetchedSite.Flowers,
+		1,
+		"Site should contain exactly one added flower",
+	)
+	if isCorrectLen {
+		s.Equal(
+			addedFlower.ID,
+			*fetchedSite.Flowers[0],
+			"Added flower has wrong ID",
+		)
+	}
+}
+
 func (s *DbSiteTestSuite) TearDownTest() {
 	s.Db.Clear()
 }
