@@ -127,6 +127,33 @@ func (s *DbUserTestSuite) TestCreateAndGetUserByID() {
 	)
 }
 
+func (s *DbUserTestSuite) TestCreateUserAndChangeRole() {
+	hashedPassword, _ := utils.HashPassword(s.TestUser.Password)
+	user := database.User{
+		Username: s.TestUser.Username,
+		Email:    s.TestUser.Email,
+		Password: hashedPassword,
+	}
+	s.Db.CreateUser(context.Background(), user)
+
+	createdUser, _ := s.Db.GetUserByEmail(context.Background(), s.TestUser.Email)
+
+	err := s.Db.SetUserRole(context.Background(), createdUser.ID, "retailer")
+
+	s.NoError(
+		err,
+		"SetUserRole() should not return an error",
+	)
+
+	editedUser, _ := s.Db.GetUserByEmail(context.Background(), s.TestUser.Email)
+
+	s.Equal(
+		"retailer",
+		editedUser.Role,
+		"role should have changed to \"retailer\" for the user",
+	)
+}
+
 func (s *DbUserTestSuite) TearDownTest() {
 	s.Db.Clear()
 }
