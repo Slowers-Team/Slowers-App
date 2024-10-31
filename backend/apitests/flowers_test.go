@@ -130,6 +130,24 @@ func (s *FlowersAPITestSuite) TestDeletingFlower() {
 	})
 }
 
+func (s *FlowersAPITestSuite) TestListingFlowersOfCurrentUser() {
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:  "GET /api/flowers/user",
+		Route:        "/api/flowers/user",
+		Method:       "GET",
+		Body:         "",
+		ExpectedCode: 200,
+		ExpectedBody: utils.FlowersToJSON(s.TestFlowers),
+		SetupMocks: func(db *mocks.Database) {
+			db.EXPECT().GetUserFlowers(
+				mock.Anything, testdata.GetUser().ID,
+			).Return(
+				s.TestFlowers, nil,
+			).Once()
+		},
+	})
+}
+
 func TestFlowersAPITestSuite(t *testing.T) {
 	suite.Run(t, new(FlowersAPITestSuite))
 }
