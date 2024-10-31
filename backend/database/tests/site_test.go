@@ -235,7 +235,54 @@ func (s *DbSiteTestSuite) TestAddAndGetSite() {
 		fetchedSubSites[0]["note"],
 		"wrong note for the subsite returned from GetSite()",
 	)
+}
 
+func (s *DbSiteTestSuite) TestAddAndGetSiteByID() {
+	site := testdata.GetRootSites()[0]
+	site.ID = database.NilObjectID
+	createdSite, _ := s.Db.AddSite(context.Background(), site)
+
+	fetchedSite, err := s.Db.GetSiteByID(context.Background(), createdSite.ID)
+
+	s.NoError(
+		err,
+		"GetSiteByID() should not return an error",
+	)
+	s.Equal(
+		createdSite.ID,
+		fetchedSite.ID,
+		"wrong ID for the site returned from GetSiteByID()",
+	)
+	s.Equal(
+		site.Name,
+		fetchedSite.Name,
+		"wrong name for the site returned from GetSiteByID()",
+	)
+	s.Equal(
+		site.AddedTime,
+		fetchedSite.AddedTime,
+		"wrong AddedTime for the site returned from GetSiteByID()",
+	)
+	s.Equal(
+		site.Note,
+		fetchedSite.Note,
+		"wrong note for the site returned from GetSiteByID()",
+	)
+	s.Equal(
+		site.Parent,
+		fetchedSite.Parent,
+		"wrong parent for the site returned from GetSiteByID()",
+	)
+	s.Equal(
+		site.Flowers,
+		fetchedSite.Flowers,
+		"wrong flowers for the site returned from GetSiteByID()",
+	)
+	s.Equal(
+		site.Owner,
+		fetchedSite.Owner,
+		"wrong owner for the site returned from GetSiteByID()",
+	)
 }
 
 func (s *DbSiteTestSuite) TearDownTest() {
