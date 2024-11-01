@@ -206,10 +206,12 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersRelatedToSite() {
 
 	site1 := testdata.GetRootSites()[0]
 	site1.ID = database.NilObjectID
+	site1.Flowers = []*database.ObjectID{}
 	addedSite1, _ := s.Db.AddSite(context.Background(), site1)
 
 	site2 := testdata.GetRootSitesForUser2()[0]
 	site2.ID = database.NilObjectID
+	site2.Flowers = []*database.ObjectID{}
 	addedSite2, _ := s.Db.AddSite(context.Background(), site2)
 
 	testFlower := database.Flower{
@@ -222,6 +224,7 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersRelatedToSite() {
 		SiteName:    site1.Name,
 	}
 	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
+	s.Db.AddFlowerToSite(context.Background(), addedSite1.ID, addedFlower.ID)
 
 	fullFlower2 := testdata.GetTestFlowerForUser2()
 	testFlower2 := database.Flower{
@@ -233,7 +236,8 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersRelatedToSite() {
 		Site:        &addedSite2.ID,
 		SiteName:    site2.Name,
 	}
-	s.Db.AddFlower(context.Background(), testFlower2)
+	addedFlower2, _ := s.Db.AddFlower(context.Background(), testFlower2)
+	s.Db.AddFlowerToSite(context.Background(), addedSite2.ID, addedFlower2.ID)
 
 	fetchedFlowers, err := s.Db.GetAllFlowersRelatedToSite(
 		context.Background(), addedSite1.ID, *testFlower.Grower,
