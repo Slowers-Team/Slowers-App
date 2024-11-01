@@ -221,21 +221,23 @@ func (s *DbSiteTestSuite) TestAddAndGetSite() {
 		1,
 		"GetSite() should return exactly one subsite",
 	)
-	s.Equal(
-		createdSubSite.ID,
-		fetchedSubSites[0]["_id"],
-		"wrong ID for the subsite returned from GetSite()",
-	)
-	s.Equal(
-		subSite.Name,
-		fetchedSubSites[0]["name"],
-		"wrong name for the subsite returned from GetSite()",
-	)
-	s.Equal(
-		subSite.Note,
-		fetchedSubSites[0]["note"],
-		"wrong note for the subsite returned from GetSite()",
-	)
+	if len(fetchedSubSites) != 0 {
+		s.Equal(
+			createdSubSite.ID,
+			fetchedSubSites[0]["_id"],
+			"wrong ID for the subsite returned from GetSite()",
+		)
+		s.Equal(
+			subSite.Name,
+			fetchedSubSites[0]["name"],
+			"wrong name for the subsite returned from GetSite()",
+		)
+		s.Equal(
+			subSite.Note,
+			fetchedSubSites[0]["note"],
+			"wrong note for the subsite returned from GetSite()",
+		)
+	}
 }
 
 func (s *DbSiteTestSuite) TestAddAndGetSiteByID() {
