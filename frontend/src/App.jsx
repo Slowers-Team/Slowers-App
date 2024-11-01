@@ -83,35 +83,35 @@ const App = () => {
             </Offcanvas.Header>
             <Offcanvas.Body>
             <Nav className="flex-column pe-3">
-                <Nav.Link className="text-secondary" as={Link} to="/">
+                <Nav.Link className="text-secondary" as={Link} to="/" onClick={handleClose}>
                   {t("menu.home")}
                 </Nav.Link>
                 {!isLoggedIn && (
-                  <Nav.Link className="text-secondary" as={Link} to="/login">
+                  <Nav.Link className="text-secondary" as={Link} to="/login" onClick={handleClose}>
                     {t("menu.login")}
                   </Nav.Link>
                 )}
                 {!isLoggedIn && (
-                  <Nav.Link className="text-secondary" as={Link} to="/register">
+                  <Nav.Link className="text-secondary" as={Link} to="/register" onClick={handleClose}>
                     {t("menu.register")}
                   </Nav.Link>
                 )}
                 {isLoggedIn && (
-                  <Nav.Link className="text-secondary" as={Link} to="/retailer">
+                  <Nav.Link className="text-secondary" as={Link} to="/retailer" onClick={handleClose}>
                     {t("menu.retailer")}
                   </Nav.Link>
                 )}
                 {isLoggedIn && (
-                  <Nav.Link className="text-secondary" as={Link} to="/grower">
+                  <Nav.Link className="text-secondary" as={Link} to="/grower" onClick={handleClose}>
                     {t("menu.grower")}
                   </Nav.Link>
                 )}
                 {isLoggedIn && (
-                  <Nav.Link className="text-secondary" as={Link} onClick={handleLogout}>
+                  <Nav.Link className="text-secondary" as={Link} onClick={() => { handleLogout(); handleClose(); }}>
                     {t("menu.logout")}
                   </Nav.Link>
                 )}
-                <Nav.Link className="text-secondary" as={Link} to="/terms">
+                <Nav.Link className="text-secondary" as={Link} to="/terms" onClick={handleClose}>
                   {t("menu.terms")}
                 </Nav.Link>
               </Nav>
