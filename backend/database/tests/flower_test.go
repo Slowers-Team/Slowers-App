@@ -125,6 +125,7 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
 	testFlower := database.Flower{
 		Name:        s.TestFlowers[0].Name,
 		LatinName:   s.TestFlowers[0].LatinName,
+		AddedTime:   s.TestFlowers[0].AddedTime,
 		Grower:      s.TestFlowers[0].Grower,
 		GrowerEmail: users[0].Email,
 		Site:        s.TestFlowers[0].Site,
@@ -136,6 +137,7 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
 	testFlower2 := database.Flower{
 		Name:        fullFlower2.Name,
 		LatinName:   fullFlower2.LatinName,
+		AddedTime:   fullFlower2.AddedTime,
 		Grower:      fullFlower2.Grower,
 		GrowerEmail: users[1].Email,
 		Site:        fullFlower2.Site,
