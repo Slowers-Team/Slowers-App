@@ -1,10 +1,23 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 
 const ImageForm = ({ createImage }) => {
-  const [newImage, setNewImage] = useState(null)
+  const [newImage, setNewImage] = useState()
+  const [preview, setPreview] = useState()
   const [newImageNote, setNewImageNote] = useState("")
   const { t, i18n } = useTranslation()
+
+  useEffect(() => {
+    if (!newImage) {
+      setPreview(undefined)
+      return
+    }
+
+    const objectUrl = URL.createObjectURL(newImage)
+    setPreview(objectUrl)
+
+    return () => URL.revokeObjectURL(objectUrl)
+  }, [newImage])
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -14,13 +27,18 @@ const ImageForm = ({ createImage }) => {
       image: newImage
     })
 
-    setNewImage(null)
+    setNewImage(undefined)
     setNewImageNote("")
 
     document.getElementById("image-form").reset()
   }
 
+  
   const handleFileSelect = (event) => {
+    if (!event.target.files || event.target.files.length === 0) {
+      setSelectedFile(undefined)
+      return
+    }
     setNewImage(event.target.files[0])
   }
 
@@ -54,6 +72,7 @@ const ImageForm = ({ createImage }) => {
           </button>
         </div>
       </form>
+      {newImage && <img width={100} src={preview}/>}
     </div>
   )
 }
