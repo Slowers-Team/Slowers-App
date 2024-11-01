@@ -33,7 +33,7 @@ const AddImage = ({ entity }) => {
     const hide = () => {
       setShow(false)
       setUploadedImageName("")
-      setUploadedImage(null)
+      setUploadedImage(undefined)
       setMessage("")
     }
   
@@ -45,7 +45,7 @@ const AddImage = ({ entity }) => {
         .then(data => {
           console.info("Image upload succesful:", data)
           setMessage(t("alert.imageuploaded"))
-          setUploadedImageName(data._id + "." + data.file_format)
+          setUploadedImageName(ImageService.getFilename(data))
         })
         .catch(error => {
           const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, '')
@@ -67,9 +67,11 @@ const AddImage = ({ entity }) => {
               : <img width={100} src={uploadedImage}/>
             }
           </Modal.Body>
-          <Modal.Footer>
-            { message }
-          </Modal.Footer>
+          { message &&
+            <Modal.Footer>
+              { message }
+            </Modal.Footer>
+          }
         </Modal>
       </>
     )

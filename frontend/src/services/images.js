@@ -24,7 +24,11 @@ const create = imageObject => {
   return request.then(response => response.data)
 }
 
+const getFilename = image => image._id + "." + image.file_format 
+
+
 export default {
   get,
+  getFilename,
   create,
 }
