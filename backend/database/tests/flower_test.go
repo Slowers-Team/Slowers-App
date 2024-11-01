@@ -151,51 +151,54 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
 		err,
 		"GetUserFlowers() should not return an error",
 	)
+
 	s.Len(
 		fetchedFlowers,
 		1,
 		"GetUserFlowers() should return a slice of length 1",
 	)
-	s.Equal(
-		addedFlower.ID,
-		fetchedFlowers[0].ID,
-		"wrong ID for the flower returned from GetUserFlowers()",
-	)
-	s.Equal(
-		testFlower.Name,
-		fetchedFlowers[0].Name,
-		"wrong Name for the flower returned from GetUserFlowers()",
-	)
-	s.Equal(
-		testFlower.LatinName,
-		fetchedFlowers[0].LatinName,
-		"wrong LatinName for the flower returned from GetUserFlowers()",
-	)
-	s.Equal(
-		testFlower.AddedTime,
-		fetchedFlowers[0].AddedTime,
-		"wrong AddedTime for the flower returned from GetUserFlowers()",
-	)
-	s.Equal(
-		*testFlower.Grower,
-		*fetchedFlowers[0].Grower,
-		"wrong Grower for the flower returned from GetUserFlowers()",
-	)
-	s.Equal(
-		testFlower.GrowerEmail,
-		fetchedFlowers[0].GrowerEmail,
-		"wrong GrowerEmail for the flower returned from GetUserFlowers()",
-	)
-	s.Equal(
-		*testFlower.Site,
-		*fetchedFlowers[0].Site,
-		"wrong Site for the flower returned from GetUserFlowers()",
-	)
-	s.Equal(
-		testFlower.SiteName,
-		fetchedFlowers[0].SiteName,
-		"wrong SiteName for the flower returned from GetUserFlowers()",
-	)
+	if len(fetchedFlowers) != 0 {
+		s.Equal(
+			addedFlower.ID,
+			fetchedFlowers[0].ID,
+			"wrong ID for the flower returned from GetUserFlowers()",
+		)
+		s.Equal(
+			testFlower.Name,
+			fetchedFlowers[0].Name,
+			"wrong Name for the flower returned from GetUserFlowers()",
+		)
+		s.Equal(
+			testFlower.LatinName,
+			fetchedFlowers[0].LatinName,
+			"wrong LatinName for the flower returned from GetUserFlowers()",
+		)
+		s.Equal(
+			testFlower.AddedTime,
+			fetchedFlowers[0].AddedTime,
+			"wrong AddedTime for the flower returned from GetUserFlowers()",
+		)
+		s.Equal(
+			*testFlower.Grower,
+			*fetchedFlowers[0].Grower,
+			"wrong Grower for the flower returned from GetUserFlowers()",
+		)
+		s.Equal(
+			testFlower.GrowerEmail,
+			fetchedFlowers[0].GrowerEmail,
+			"wrong GrowerEmail for the flower returned from GetUserFlowers()",
+		)
+		s.Equal(
+			*testFlower.Site,
+			*fetchedFlowers[0].Site,
+			"wrong Site for the flower returned from GetUserFlowers()",
+		)
+		s.Equal(
+			testFlower.SiteName,
+			fetchedFlowers[0].SiteName,
+			"wrong SiteName for the flower returned from GetUserFlowers()",
+		)
+	}
 }
 
 func (s *DbFlowerTestSuite) TestAddAndGetFlowersRelatedToSite() {
@@ -238,51 +241,54 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersRelatedToSite() {
 		err,
 		"GetAllFlowersRelatedToSite() should not return an error",
 	)
+
 	s.Len(
 		fetchedFlowers,
 		1,
 		"GetAllFlowersRelatedToSite() should return a slice of length 1",
 	)
-	s.Equal(
-		addedFlower.ID,
-		fetchedFlowers[0].ID,
-		"wrong ID for the flower returned from GetAllFlowersRelatedToSite()",
-	)
-	s.Equal(
-		testFlower.Name,
-		fetchedFlowers[0].Name,
-		"wrong Name for the flower returned from GetAllFlowersRelatedToSite()",
-	)
-	s.Equal(
-		testFlower.LatinName,
-		fetchedFlowers[0].LatinName,
-		"wrong LatinName for the flower returned from GetAllFlowersRelatedToSite()",
-	)
-	s.Equal(
-		testFlower.AddedTime,
-		fetchedFlowers[0].AddedTime,
-		"wrong AddedTime for the flower returned from GetAllFlowersRelatedToSite()",
-	)
-	s.Equal(
-		*testFlower.Grower,
-		*fetchedFlowers[0].Grower,
-		"wrong Grower for the flower returned from GetAllFlowersRelatedToSite()",
-	)
-	s.Equal(
-		testFlower.GrowerEmail,
-		fetchedFlowers[0].GrowerEmail,
-		"wrong GrowerEmail for the flower returned from GetAllFlowersRelatedToSite()",
-	)
-	s.Equal(
-		*testFlower.Site,
-		*fetchedFlowers[0].Site,
-		"wrong Site for the flower returned from GetAllFlowersRelatedToSite()",
-	)
-	s.Equal(
-		testFlower.SiteName,
-		fetchedFlowers[0].SiteName,
-		"wrong SiteName for the flower returned from GetAllFlowersRelatedToSite()",
-	)
+	if len(fetchedFlowers) != 0 {
+		s.Equal(
+			addedFlower.ID,
+			fetchedFlowers[0].ID,
+			"wrong ID for the flower returned from GetAllFlowersRelatedToSite()",
+		)
+		s.Equal(
+			testFlower.Name,
+			fetchedFlowers[0].Name,
+			"wrong Name for the flower returned from GetAllFlowersRelatedToSite()",
+		)
+		s.Equal(
+			testFlower.LatinName,
+			fetchedFlowers[0].LatinName,
+			"wrong LatinName for the flower returned from GetAllFlowersRelatedToSite()",
+		)
+		s.Equal(
+			testFlower.AddedTime,
+			fetchedFlowers[0].AddedTime,
+			"wrong AddedTime for the flower returned from GetAllFlowersRelatedToSite()",
+		)
+		s.Equal(
+			*testFlower.Grower,
+			*fetchedFlowers[0].Grower,
+			"wrong Grower for the flower returned from GetAllFlowersRelatedToSite()",
+		)
+		s.Equal(
+			testFlower.GrowerEmail,
+			fetchedFlowers[0].GrowerEmail,
+			"wrong GrowerEmail for the flower returned from GetAllFlowersRelatedToSite()",
+		)
+		s.Equal(
+			*testFlower.Site,
+			*fetchedFlowers[0].Site,
+			"wrong Site for the flower returned from GetAllFlowersRelatedToSite()",
+		)
+		s.Equal(
+			testFlower.SiteName,
+			fetchedFlowers[0].SiteName,
+			"wrong SiteName for the flower returned from GetAllFlowersRelatedToSite()",
+		)
+	}
 }
 
 func (s *DbFlowerTestSuite) TearDownTest() {
