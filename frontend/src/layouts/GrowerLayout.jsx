@@ -11,17 +11,17 @@ const tabBar = () => {
       <div className="my-3">
         <Nav variant='tabs' defaultActiveKey="/grower">
           <Nav.Item>
-            <Nav.Link className="text-success" as={NavLink} to="/"> 
-              {t('menu.home')}
+            <Nav.Link className="text-success" as={NavLink} end to="/" disabled> 
+              {t('menu.home')} (Disabled)
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link className="text-success" as={NavLink} to="/grower/flowers">
+            <Nav.Link className="text-success" as={NavLink} end to="/grower/flowers">
               {t('menu.flowers')}
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link className="text-success" as={NavLink} to="/grower">
+            <Nav.Link className="text-success" as={NavLink} end to="/grower">
               Subsites
             </Nav.Link>
           </Nav.Item>
