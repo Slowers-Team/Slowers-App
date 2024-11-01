@@ -1,24 +1,23 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 
-const ImageForm = ({ createImage, entityID }) => {
+const ImageForm = ({ createImage }) => {
   const [newImage, setNewImage] = useState(null)
   const [newImageNote, setNewImageNote] = useState("")
   const { t, i18n } = useTranslation()
 
-  const addImage = event => {
-    if (!newImage) {
-      
-    }
+  const handleSubmit = event => {
     event.preventDefault()
+
     createImage({
       note: newImageNote,
-      entity: entityID,
       image: newImage
     })
 
     setNewImage(null)
     setNewImageNote("")
+
+    document.getElementById("image-form").reset()
   }
 
   const handleFileSelect = (event) => {
@@ -27,24 +26,26 @@ const ImageForm = ({ createImage, entityID }) => {
 
   return (
     <div className="text-left">
-      <form onSubmit={addImage}>
+      <form onSubmit={handleSubmit} id="image-form">
         <div className="form-group">
           <label htmlFor="newImage">{t("image.select")}:</label>
           <input
             id="newImageInput"
+            className="form-control"
             type="file"
             accept="image/*"
+            required={true}
             onChange={handleFileSelect}
-            className="form-control"
           />
         </div>
         <div className="form-group">
           <label htmlFor="newImageNoteInput">{t("image.note")}:</label>
           <input
             id="newImageNoteInput"
-            value={newImageNote}
-            onChange={event => setNewImageNote(event.target.value)}
             className="form-control"
+            value={newImageNote}
+            required={true}
+            onChange={event => setNewImageNote(event.target.value)}
           />
         </div>
         <div>

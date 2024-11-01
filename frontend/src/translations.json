@@ -2,7 +2,8 @@
   "en": {
     "translation": {
       "alert": {
-        "usercreated": "User created successfully"
+        "usercreated": "User created successfully",
+        "imageuploaded": "Image uploaded succesfully"
       },
       "button": {
         "addflower": "Add a new flower",
@@ -16,7 +17,9 @@
         "register": "Register",
         "save": "Save",
         "switchToRetailer": "Switch to Retailer",
-        "switchToGrower": "Switch to Grower"
+        "switchToGrower": "Switch to Grower",
+        "flowerpage": "Flower page",
+        "close": "Close"
       },
       "error": {
         "acceptterms": "You must accept the terms",
@@ -40,7 +43,8 @@
       },
       "image": {
         "note": "Note",
-        "select": "Select image"
+        "select": "Select image",
+        "title": "Add a new image"
       },
       "label": {
         "confirmflowerdeletion": "Are you sure you want to delete the flower",
@@ -61,7 +65,10 @@
         "terms": "Terms",
         "profile": "Profile",
         "language": "Language",
-        "role": "Role pages"
+        "role": "Role pages",
+        "info": "Info",
+        "pictures": "Pictures",
+        "lifecycle": "Life cycle"
       },
       "role": {
         "grower": "Grower",
@@ -101,11 +108,13 @@
   "fi": {
     "translation": {
       "alert": {
-        "usercreated": "Tili luotu onnistuneesti"
+        "usercreated": "Tili luotu onnistuneesti",
+        "imageuploaded": "Kuva lähetetty onnistuneesti"
       },
       "button": {
         "addflower": "Lisää uusi kukka",
         "addsite": "Lisää uusi alue",
+        "addimage": "Lisää uusi kuva",
         "back": "Takaisin",
         "delete": "Poista",
         "deletethissite": "Poista tämä alue",
@@ -114,7 +123,9 @@
         "register": "Rekisteröidy",
         "save": "Tallenna",
         "switchToRetailer": "Vaihda jälleenmyyjäksi",
-        "switchToGrower": "Vaihda kasvattajaksi"
+        "switchToGrower": "Vaihda kasvattajaksi",
+        "flowerpage": "Kukan sivu",
+        "close": "Sulje"
       },
       "error": {
         "acceptterms": "Käyttöehdot on hyväksyttävä",
@@ -138,7 +149,8 @@
       },
       "image": {
         "note": "Muistiinpano",
-        "select": "Valitse kuva"
+        "select": "Valitse kuva",
+        "title": "Lisää uusi kuva"
       },
       "label": {
         "confirmflowerdeletion": "Haluatko varmasti poistaa kukan",
@@ -159,7 +171,10 @@
         "terms": "Käyttöehdot",
         "profile": "Käyttäjätiedot",
         "language": "Kieli",
-        "role": "Roolisivut"
+        "role": "Roolisivut",
+        "info": "Tietoa",
+        "pictures": "Kuvat",
+        "lifecycle": "Elinkaari"
       },
       "role": {
         "grower": "Kasvattaja",

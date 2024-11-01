@@ -1,0 +1,77 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo:7
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'db.runCommand({ping: 1}).ok'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-go@v5
+      with:
+        go-version: '^1.23'
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install Mockery
+      run: go install github.com/vektra/mockery/v2@v2.46.3
+      env:
+        GOBIN: ${{ github.workspace }}/go/bin
+
+    - name: Generate mocks
+      run: ${{ github.workspace }}/go/bin/mockery
+      working-directory: backend
+
+    - name: Backend unit tests
+      run: go test ./...
+      working-directory: backend
+      env:
+        MONGODB_URI: mongodb://localhost:27017
+        SECRET_KEY: secretkey
+
+    - name: Install dependencies
+      run: npm clean-install
+      working-directory: frontend
+
+    - name: Frontend unit tests
+      run: npm test
+      working-directory: frontend
+
+  push_to_registry:
+    needs: ci
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/development'
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push the backend Docker image to Docker Hub
+        uses: docker/build-push-action@v6
+        with:
+          context: backend
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/slowers-backend:latest
+
+      - name: Build and push the frontend Docker image to Docker Hub
+        uses: docker/build-push-action@v6
+        with:
+          context: frontend
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/slowers-frontend:latest

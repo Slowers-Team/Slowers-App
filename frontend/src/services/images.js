@@ -2,12 +2,15 @@ import axios from 'axios'
 const baseUrl = '/api/images'
 import tokenService from './token'
 
-const get = id => {
+const get = filename => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
+    responseType: "blob"
   }
-  const request = axios.get(baseUrl, config)
-  return request.then(response => response.data)
+  const request = axios.get(`${baseUrl}/${filename}`, config)
+  return request.then(response => {
+    return URL.createObjectURL(response.data)
+  })
 }
 
 const create = imageObject => {
@@ -17,7 +20,6 @@ const create = imageObject => {
       'Content-Type': 'multipart/form-data'
        },
   }
-  console.log(imageObject)
   const request = axios.post(baseUrl, imageObject, config)
   return request.then(response => response.data)
 }

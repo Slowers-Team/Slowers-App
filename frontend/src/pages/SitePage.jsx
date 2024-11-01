@@ -2,10 +2,9 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import SiteService from '../services/sites'
 import flowerService from '../services/flowers'
-import ImageService from '../services/images'
 import FlowerForm from '../components/FlowerForm'
 import SiteFlexbox from '../components/SiteFlexbox'
-import ImageForm from '../components/ImageForm' 
+import AddImage from '../components/image/AddImage' 
 
 import { useTranslation } from "react-i18next"
 
@@ -84,15 +83,6 @@ const SitePage = () => {
     navigate(-1)
   }
 
-  const createImage = imageObject => {
-    ImageService.create(imageObject)
-      .then(data => console.log(data))
-      .catch(error => {
-        const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, '')
-        alert(t('error.error') + ': ' + (i18n.exists(key) ? t(key) : error.response.data))
-      })
-  }
-
   return (
     <>
       {params.id ? (
@@ -129,9 +119,9 @@ const SitePage = () => {
               <div className="site-actions">
                 <button onClick={handleBack} style={{ marginRight: "0.5rem" }} className="btn btn-light">{t("button.goback")}</button>
                 <button id="deleteSiteButton" onClick={() => deleteSite(site)} className="btn btn-light">{t("button.deletethissite")}</button>
+                <AddImage entity={site}/>
               </div>
               <SiteFlexbox createSite={createSite} sites={sites} />
-              <ImageForm createImage={createImage}  entityID={params.id}/>
             </main>
           </div>
         </div>
