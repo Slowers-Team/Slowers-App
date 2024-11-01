@@ -74,7 +74,8 @@ const App = () => {
                 </NavDropdown>
               </Nav>
           </Navbar>
-          <Offcanvas show={showOffCanvas} onHide={handleClose}>
+
+          <Offcanvas show={showOffCanvas} onHide={handleClose} className="offcanvas-thin">
             <Offcanvas.Header closeButton>
               <Offcanvas.Title> 
                 <h2>Slowers</h2>
@@ -116,6 +117,7 @@ const App = () => {
               </Nav>
             </Offcanvas.Body>
           </Offcanvas>
+
           <Routes>
             <Route
               path="/"
