@@ -1,6 +1,8 @@
 # Definition of Done
 
-- Pushed to the main production branch at GitHub
+- Pushed to the development branch at GitHub
 - Meets the acceptance criteria
+- Frontend and backend unit tests written for the most important features
 - Passes testing
 - Passes CI pipeline
+- Passed at least one code review
