@@ -21,7 +21,6 @@ func main() {
 	handlers.SetDatabase(db)
 
 	app := application.SetupAndSetAuthTo(true)
-	app.Static("/", "./client/dist")
 
 	appErr := app.Listen("0.0.0.0:" + port)
 
