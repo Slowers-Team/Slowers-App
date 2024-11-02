@@ -6,9 +6,6 @@ const ImageForm = ({ createImage }) => {
   const [newImageNote, setNewImageNote] = useState("")
   const { t, i18n } = useTranslation()
 
-  const addImage = event => {
-    if (!newImage) {
-    }
   const handleSubmit = event => {
     event.preventDefault()
 

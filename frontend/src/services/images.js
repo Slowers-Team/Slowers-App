@@ -24,19 +24,17 @@ const create = imageObject => {
   return request.then(response => response.data)
 }
 
-const getImagesByEntity = id => {
+const getImagesByEntity = entityId => {
   const config = {
-    headers: { Authorization: tokenService.fetchToken()},
+    headers: { Authorization: tokenService.fetchToken() },
+    responseType: "json" 
   }
-  const request = axios.get(`${baseUrl}/entity/${id}`)
-  return request.then(response => response.data)
-
+  const request = axios.get(`${baseUrl}/entity/${entityId}`, config);
+  return request.then(response => response.data); 
 }
-
-
 
 export default {
   get,
   create,
-  getImagesByEntity
+  getImagesByEntity,
 }

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import SiteService from '../services/sites'
 import flowerService from '../services/flowers'
+import ImageService from '../services/images'
 import FlowerForm from '../components/FlowerForm'
 import SiteFlexbox from '../components/SiteFlexbox'
 import AddImage from '../components/image/AddImage' 
@@ -45,16 +46,18 @@ const SitePage = () => {
           });
       }, [params.id, navigate]);
 
-  
-      useEffect (() => {
-        ImageService.getImagesByEntity(site.id)
-          .then( imageObjects => {
-            setImages(imageObjects.map(image => {
-              const filename = imageObject._id + "." + imageObject.file_format
-              const image = ImageService.get(filename)
-            }))
+  useEffect(() => {
+    if (site.id) {
+      ImageService.getImagesByEntity(site.id)
+          .then(imageObjects => {
+            console.log("Fetched oimages:", imageObjects)
+            setImages(imageObjects); 
           })
-      },[site]) 
+          .catch(error => {
+          console.error("Error fetching images:", error);
+          });
+    }
+  }, [site]); 
 
 
   const addFlower = flowerObject => {
@@ -135,6 +138,20 @@ const SitePage = () => {
                 <AddImage entity={site}/>
               </div>
               <SiteFlexbox createSite={createSite} sites={sites} />
+              <div className="uploaded-images">
+                <h3>Uploaded Images:</h3>
+                <div className="image-list">
+                  {images.length > 0 ? (
+                    images.map(image => {
+                      const imageUrl=URL.createObjectURL(image);
+                      return <img key={image._id} src={imageUrl} alt="Uploaded" />;
+                  
+                    })
+                  ) : (
+                    <p>No images uploaded for this site.</p>
+                  )}
+                </div>
+              </div>
             </main>
           </div>
         </div>
