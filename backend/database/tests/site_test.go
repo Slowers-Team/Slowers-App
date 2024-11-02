@@ -299,6 +299,7 @@ func (s *DbSiteTestSuite) TestAddFlowerToSite() {
 	flowerToAdd := database.Flower{
 		Name:        fullFlower.Name,
 		LatinName:   fullFlower.LatinName,
+		AddedTime:   fullFlower.AddedTime,
 		Grower:      fullFlower.Grower,
 		GrowerEmail: testdata.GetUsers()[0].Email,
 		Site:        &createdSite.ID,
@@ -356,6 +357,7 @@ func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
 	flowerToAdd := database.Flower{
 		Name:        fullFlower.Name,
 		LatinName:   fullFlower.LatinName,
+		AddedTime:   fullFlower.AddedTime,
 		Grower:      fullFlower.Grower,
 		GrowerEmail: testdata.GetUsers()[0].Email,
 		Site:        &createdSite.ID,
