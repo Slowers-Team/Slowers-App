@@ -11,6 +11,7 @@ const SiteFlexbox = ({ createSite, sites }) => {
   const [showAddNewSite, setShowAddNewSite] = useState(false)
   const { t, i18n } = useTranslation()
 
+    
   return (
     <div className={'flexbox'}>
       <div className={'flexGap'}>

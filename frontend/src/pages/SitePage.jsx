@@ -15,6 +15,7 @@ const SitePage = () => {
   const [sites, setSites] = useState([])
   const [flowers, setFlowers] = useState() 
   const [showAddNewFlower, setShowAddNewFlower] = useState(false)
+  const [images, setImages] = useState([])
   const { t, i18n } = useTranslation()
 
   useEffect(() => {
@@ -43,6 +44,18 @@ const SitePage = () => {
             console.error("Error fetching flowers:", error);
           });
       }, [params.id, navigate]);
+
+  
+      useEffect (() => {
+        ImageService.getImagesByEntity(site.id)
+          .then( imageObjects => {
+            setImages(imageObjects.map(image => {
+              const filename = imageObject._id + "." + imageObject.file_format
+              const image = ImageService.get(filename)
+            }))
+          })
+      },[site]) 
+
 
   const addFlower = flowerObject => {
     flowerService

@@ -24,7 +24,19 @@ const create = imageObject => {
   return request.then(response => response.data)
 }
 
+const getImagesByEntity = id => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken()},
+  }
+  const request = axios.get(`${baseUrl}/entity/${id}`)
+  return request.then(response => response.data)
+
+}
+
+
+
 export default {
   get,
   create,
+  getImagesByEntity
 }

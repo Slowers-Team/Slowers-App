@@ -86,12 +86,12 @@ func DownloadImage(c *fiber.Ctx) error {
 	return c.SendFile(filepath)
 }
 
-func FetchImageByEntity(c *fiber.Ctx) error {
-	entityId := c.Params("id")
+func FetchImagesByEntity(c *fiber.Ctx) error {
+	entityID := c.Params("entityID")
 
 	ctx := context.Background()
 
-	image, err := db.GetImageByEntity(ctx, entityId)
+	image, err := db.GetImagesByEntity(ctx, entityID)
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).SendString("Image not found.")
 	}
