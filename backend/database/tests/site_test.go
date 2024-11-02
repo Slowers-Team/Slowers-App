@@ -364,6 +364,25 @@ func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
 	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
 	s.Db.AddFlowerToSite(context.Background(), createdSite.ID, addedFlower.ID)
 
+	site2 := testdata.GetRootSitesForUser2()[0]
+	site2.ID = database.NilObjectID
+	site2.Flowers = []*database.ObjectID{}
+	site2.Owner = site.Owner
+	createdSite2, _ := s.Db.AddSite(context.Background(), site2)
+
+	fullFlower2 := testdata.GetTestFlowerForUser2()
+	flowerToAdd2 := database.Flower{
+		Name:        fullFlower2.Name,
+		LatinName:   fullFlower2.LatinName,
+		AddedTime:   fullFlower2.AddedTime,
+		Grower:      fullFlower.Grower,
+		GrowerEmail: testdata.GetUsers()[0].Email,
+		Site:        &createdSite2.ID,
+		SiteName:    site2.Name,
+	}
+	addedFlower2, _ := s.Db.AddFlower(context.Background(), flowerToAdd2)
+	s.Db.AddFlowerToSite(context.Background(), createdSite2.ID, addedFlower2.ID)
+
 	deleteResult, err := s.Db.DeleteSite(context.Background(), createdSite.ID, *site.Owner)
 
 	s.NoError(
@@ -378,19 +397,33 @@ func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
 
 	fetchedFlowers, _ := s.Db.GetFlowers(context.Background())
 
-	s.Len(
+	oneFlowerLeft := s.Len(
 		fetchedFlowers,
-		0,
-		"DeleteSite() should delete all flowers belonging to the site",
+		1,
+		"DeleteSite() should leave only the one flower not in the site",
 	)
+	if oneFlowerLeft {
+		s.Equal(
+			addedFlower2.ID,
+			fetchedFlowers[0].ID,
+			"wrong flower left after calling DeleteSite()",
+		)
+	}
 
-	_, err = s.Db.GetSiteByID(context.Background(), createdSite.ID)
+	rootSites, _ := s.Db.GetRootSites(context.Background(), *site.Owner)
 
-	s.Equal(
-		mongo.ErrNoDocuments,
-		err,
-		"DeleteSite() should delete the site",
+	oneRootSiteLeft := s.Len(
+		rootSites,
+		1,
+		"DeleteSite() should only delete the selected site and its descendants",
 	)
+	if oneRootSiteLeft {
+		s.Equal(
+			createdSite2.ID,
+			rootSites[0].ID,
+			"wrong root site left after calling DeleteSite()",
+		)
+	}
 
 	_, err = s.Db.GetSiteByID(context.Background(), createdSubSite.ID)
 
