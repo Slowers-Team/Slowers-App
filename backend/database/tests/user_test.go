@@ -112,18 +112,18 @@ func (s *DbUserTestSuite) TestCreateAndGetUserByID() {
 		"fetched user should have non-zero ID",
 	)
 	s.Equal(
-		fetchedUser.Username,
 		s.TestUser.Username,
+		fetchedUser.Username,
 		"wrong username for fetched user",
 	)
 	s.Equal(
-		fetchedUser.Email,
 		s.TestUser.Email,
+		fetchedUser.Email,
 		"wrong email for fetched user",
 	)
 	s.Equal(
-		fetchedUser.Password,
 		"",
+		fetchedUser.Password,
 		"fetched user should have empty password",
 	)
 }
