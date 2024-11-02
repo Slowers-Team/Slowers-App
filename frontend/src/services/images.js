@@ -2,15 +2,18 @@ import axios from 'axios'
 const baseUrl = '/api/images'
 import tokenService from './token'
 
-const get = filename => {
+// get URL for an imageObject
+const get = imageObject => {
+  const filename = getFilename(imageObject)
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
     responseType: "blob"
   }
   const request = axios.get(`${baseUrl}/${filename}`, config)
-  return request.then(response => {
-    return URL.createObjectURL(response.data)
-  })
+
+  return request.then(response => 
+    URL.createObjectURL(response.data)
+  )
 }
 
 const create = imageObject => {
@@ -24,14 +27,22 @@ const create = imageObject => {
   return request.then(response => response.data)
 }
 
+// get list of URLs for an entity
 const getImagesByEntity = entityId => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
     responseType: "json" 
   }
   const request = axios.get(`${baseUrl}/entity/${entityId}`, config);
-  return request.then(response => response.data); 
+
+  return request.then(response => 
+      response.data.map(object => 
+        get(object)
+      )
+  )
 }
+
+const getFilename = image => image._id + "." + image.file_format 
 
 export default {
   get,
