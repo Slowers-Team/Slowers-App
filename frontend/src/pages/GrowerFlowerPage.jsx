@@ -10,10 +10,8 @@ const GrowerFlowerPage = () => {
 
   useEffect(() => {
     if (params.siteId) {
-      console.log('params found ' + params.siteId)
       flowerService.getFlowersBySite(params.siteId).then(initialFlowers => setFlowers(initialFlowers))
     } else {
-      console.log('params not found')
       flowerService.getUserFlowers().then(initialFlowers => setFlowers(initialFlowers))
     }
   }, [])

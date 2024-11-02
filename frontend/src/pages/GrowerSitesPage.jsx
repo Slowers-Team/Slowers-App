@@ -69,13 +69,8 @@ const GrowerSitesPage = () => {
 
   const deleteSite = siteObject => {
     if (window.confirm(`${t("label.confirmsitedeletion")} ${siteObject.name}?`)) {
-      console.log("Deleting site:", siteObject);
-      console.log("Parent ID:", siteObject.parent);
       const parentId = siteObject.parent ? siteObject.parent : ''
-      console.log(parentId)
-      {params.siteId ? console.log('params found ' + params.siteId) : console.log('params not found')}
       SiteService.remove(siteObject._id)
-        // .then(() => navigate('/site/' + parentId))
         .then(() => {
         if (parentId !== null && parentId !== '') {
           navigate('/grower/' + parentId + '/sites')
@@ -83,9 +78,6 @@ const GrowerSitesPage = () => {
           navigate('/grower/sites')
         }
         })
-        //.then(() => navigate('/grower/' + parentId + '/sites'))
-        //.then(() => {params.siteId ? navigate('/grower/' + parentId + '/sites'): navigate('grower/sites')})
-        // .then(() => {params.siteId ? navigate(`/grower/flowers`): navigate('grower/sites')})
         .catch(error => {
           console.error('Error deleting site:', error)
         })

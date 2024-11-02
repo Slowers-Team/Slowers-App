@@ -130,10 +130,7 @@ const App = () => {
               </Route>
 
               <Route path="/user" element={<UserPage />} />
-              {/* <Route path="/site" element={<SitePage />} />
-              <Route path="/site/:siteId" element={<SitePage />} /> */}
 
-              {/* Lisää kirjautumista vaativat routet tänne */}
             </Route>
 
             <Route path="/login" element={<LogInPage
