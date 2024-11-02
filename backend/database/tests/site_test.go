@@ -246,10 +246,11 @@ func (s *DbSiteTestSuite) TestAddAndGetSiteByID() {
 
 	fetchedSite, err := s.Db.GetSiteByID(context.Background(), createdSite.ID)
 
-	s.NoError(
+	s.Require().NoError(
 		err,
 		"GetSiteByID() should not return an error",
 	)
+
 	s.Equal(
 		createdSite.ID,
 		fetchedSite.ID,
@@ -308,25 +309,24 @@ func (s *DbSiteTestSuite) TestAddFlowerToSite() {
 	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
 	err := s.Db.AddFlowerToSite(context.Background(), createdSite.ID, addedFlower.ID)
 
-	s.NoError(
+	s.Require().NoError(
 		err,
 		"AddFlowerToSite() should not return an error",
 	)
 
 	fetchedSite, _ := s.Db.GetSiteByID(context.Background(), createdSite.ID)
 
-	isCorrectLen := s.Len(
+	s.Require().Len(
 		fetchedSite.Flowers,
 		1,
 		"Site should contain exactly one added flower",
 	)
-	if isCorrectLen {
-		s.Equal(
-			addedFlower.ID,
-			*fetchedSite.Flowers[0],
-			"Added flower has wrong ID",
-		)
-	}
+
+	s.Equal(
+		addedFlower.ID,
+		*fetchedSite.Flowers[0],
+		"Added flower has wrong ID",
+	)
 }
 
 func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
