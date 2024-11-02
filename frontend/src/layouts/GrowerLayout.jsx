@@ -1,23 +1,46 @@
 import { Outlet, NavLink } from 'react-router-dom'
-//import './Grower.css'
+import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 const navigationBar = () => {
+  const params = useParams()
   const { t, i18n } = useTranslation()
+
   return (
     <div className="nav-container">
-      <nav>
-        <ul>
-          <li>
-            <NavLink to="/grower" end>
-              {t('menu.home')}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/grower/flowers">{t('menu.flowers')}</NavLink>
-          </li>
-        </ul>
-      </nav>
+      {params.siteId ? (
+        <nav>
+          <ul>
+            <li>
+              <NavLink to={`/grower/${params.siteId}`} end>
+                {t('menu.home')}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={`/grower/${params.siteId}/flowers`}>{t('menu.flowers')}</NavLink>
+            </li>
+            <li>
+              <NavLink to={`/grower/${params.siteId}/sites`}>{t('menu.sites')}</NavLink>
+            </li>
+          </ul>
+        </nav>
+      ) : (
+        <nav>
+          <ul>
+            <li>
+              <NavLink to="/grower" end>
+                {t('menu.home')}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/grower/flowers">{t('menu.flowers')}</NavLink>
+            </li>
+            <li>
+              <NavLink to="/grower/sites">{t('menu.sites')}</NavLink>
+            </li>
+          </ul>
+        </nav>
+      )}
     </div>
   )
 }
