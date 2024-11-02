@@ -86,10 +86,10 @@ func DownloadImage(c *fiber.Ctx) error {
 	return c.SendFile(filepath)
 }
 
-func fetchImagesByEntity(c *fiber.Ctx) error {
+func FetchImagesByEntity(c *fiber.Ctx) error {
     entityID := c.Params("entityID") 
 	
-    images, err := d.GetImagesByEntity(c.Context(), entityID)
+    images, err := db.GetImagesByEntity(c.Context(), entityID)
     if err != nil {
         return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
     }
