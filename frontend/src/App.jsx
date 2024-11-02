@@ -129,7 +129,7 @@ const App = () => {
                 <Route path="flowers" element={<RetailerFlowerPage />} />
               </Route>
 
-              <Route path="/user" element={<UserPage />} />
+              <Route path="/user" element={<UserPage setDefaultRole={setDefaultRole}/>} />
 
             </Route>
 
