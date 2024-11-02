@@ -4,13 +4,14 @@ import RegisterPage from './pages/RegisterPage'
 import TermsPage from './pages/TermsPage'
 import HomePage from './pages/HomePage'
 import LogInPage from './pages/LogInPage'
-import SitePage from './pages/SitePage'
 import UserPage from './pages/UserPage'
 import RetailerHomePage from './pages/RetailerHomePage'
 import RetailerFlowerPage from './pages/RetailerFlowerPage'
 import RetailerLayout from './layouts/RetailerLayout'
 import GrowerLayout from './layouts/GrowerLayout'
+import GrowerHomePage from './pages/GrowerHomePage'
 import GrowerFlowerPage from './pages/GrowerFlowerPage'
+import GrowerSitesPage from './pages/GrowerSitesPage'
 import LangSelect from './components/LangSelect'
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
@@ -108,114 +109,43 @@ const App = () => {
 
           <Routes>
             <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
-              <Route
-                path="/"
-                element={
-                  defaultRole == 'retailer' ? (
-                    <Navigate replace to="/retailer" />
-                  ) : (
-                    <Navigate replace to="/grower" />
-                  )
-                }
-              />
+
+              <Route path="/" element={defaultRole == 'retailer' ? <Navigate replace to="/retailer" /> : <Navigate replace to="/grower" />} />
+
               <Route path="/grower" element={<GrowerLayout />}>
-                <Route index element={<SitePage />} />
+                <Route index element={<GrowerHomePage />} />
                 <Route path="flowers" element={<GrowerFlowerPage />} />
+                <Route path="sites" element={<GrowerSitesPage />} />
               </Route>
+
+              <Route path="/grower/:siteId" element={<GrowerLayout />}>
+                <Route index element={<GrowerHomePage />} />
+                <Route path="flowers" element={<GrowerFlowerPage />} />
+                <Route path="sites" element={<GrowerSitesPage />} />
+              </Route>
+
               <Route path="/retailer" element={<RetailerLayout />}>
                 <Route index element={<RetailerHomePage />} />
                 <Route path="flowers" element={<RetailerFlowerPage />} />
               </Route>
+
               <Route path="/user" element={<UserPage />} />
-              <Route path="/site" element={<SitePage />} />
-              <Route path="/site/:siteId" element={<SitePage />} />
+              {/* <Route path="/site" element={<SitePage />} />
+              <Route path="/site/:siteId" element={<SitePage />} /> */}
+
               {/* Lisää kirjautumista vaativat routet tänne */}
             </Route>
 
-            <Route
-              path="/login"
-              element={
-                <LogInPage
-                  onLogin={handleLogout}
-                  setIsLoggedIn={setIsLoggedIn}
-                  setDefaultRole={setDefaultRole}
-                />
-              }
-            />
+            <Route path="/login" element={<LogInPage
+              onLogin={handleLogout}
+              setIsLoggedIn={setIsLoggedIn}
+              setDefaultRole={setDefaultRole}
+            />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/terms" element={<TermsPage />} />
             <Route path="/flowers" element={<HomePage />} />
           </Routes>
 
-          {/* <Routes>
-            <Route
-              path="/"
-              element={
-                isLoggedIn ? (
-                  defaultRole == 'retailer' ? (
-                    <Navigate replace to="/retailer" />
-                  ) : (
-                    <Navigate replace to="/grower" />
-                  )
-                ) : (
-                  <Navigate replace to="/login" />
-                )
-              }
-            />
-            <Route
-              path="/login"
-              element={
-                !isLoggedIn ? (
-                  <LogInPage
-                    onLogin={handleLogout}
-                    setIsLoggedIn={setIsLoggedIn}
-                    setDefaultRole={setDefaultRole}
-                  />
-                ) : (
-                  <Navigate replace to="/" />
-                )
-              }
-            />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/terms" element={<TermsPage />} />
-            <Route
-              path="/site"
-              element={isLoggedIn ? <SitePage /> : <Navigate replace to="/login" />}
-            />
-            <Route
-              path="/site/:id"
-              element={isLoggedIn ? <SitePage /> : <Navigate replace to="/login" />}
-            />
-            <Route
-              path="/flowers"
-              element={isLoggedIn ? <HomePage /> : <Navigate replace to="/login" />}
-            />
-
-            <Route
-              path="/retailer"
-              element={isLoggedIn ? <RetailerLayout /> : <Navigate replace to="/login" />}
-            >
-              <Route index element={<RetailerHomePage />} />
-              <Route path="flowers" element={<RetailerFlowerPage />} />
-            </Route>
-            <Route
-              path="/grower"
-              element={isLoggedIn ? <GrowerLayout /> : <Navigate replace to="/login" />}
-            >
-              <Route index element={<SitePage />} />
-              <Route path="flowers" element={<GrowerFlowerPage />} />
-            </Route>
-            <Route
-              path="/user"
-              element={
-                isLoggedIn ? (
-                  <UserPage setDefaultRole={setDefaultRole} />
-                ) : (
-                  <Navigate replace to="/login" />
-                )
-              }
-            />
-          </Routes> */}
         </div>
       </Router>
     </div>
