@@ -28,11 +28,18 @@ const App = () => {
     setIsLoggedIn(!!token)
     setDefaultRole(role)
     setIsLoading(false)
+    setLanguage()
+  }, [])
 
+  const setLanguage = () => {
     const langCookie = document.cookie.split('; ').find(row => row.startsWith('lang='))
     const language = langCookie ? langCookie.split('=')[1] : 'en'
     i18n.changeLanguage(language)
-  }, [])
+  }
+
+  const getDefaultRole = () => {
+    return defaultRole === 'retailer' ? <Navigate replace to="/retailer" /> : <Navigate replace to="/grower" />
+  }
 
   const handleLogout = () => {
     localStorage.removeItem('token')
@@ -56,7 +63,7 @@ const App = () => {
 
             <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
 
-              <Route path="/" element={defaultRole == 'retailer' ? <Navigate replace to="/retailer" /> : <Navigate replace to="/grower" />} />
+              <Route path="/" element={getDefaultRole()} />
 
               <Route path="/grower" element={<GrowerLayout />}>
                 <Route index element={<GrowerHomePage />} />
