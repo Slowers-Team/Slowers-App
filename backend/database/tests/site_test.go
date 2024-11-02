@@ -289,9 +289,7 @@ func (s *DbSiteTestSuite) TestAddAndGetSiteByID() {
 }
 
 func (s *DbSiteTestSuite) TestAddFlowerToSite() {
-	siteData := testdata.GetSite()
-
-	site := siteData["site"].(database.Site)
+	site := testdata.GetRootSites()[0]
 	site.ID = database.NilObjectID
 	site.Flowers = []*database.ObjectID{}
 	createdSite, _ := s.Db.AddSite(context.Background(), site)
