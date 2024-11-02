@@ -95,6 +95,7 @@ func (s *DbUserTestSuite) TestCreateAndGetUserByID() {
 		Username: s.TestUser.Username,
 		Email:    s.TestUser.Email,
 		Password: hashedPassword,
+		Role:     s.TestUser.Role,
 	}
 	s.Db.CreateUser(context.Background(), user)
 
@@ -133,6 +134,7 @@ func (s *DbUserTestSuite) TestCreateUserAndChangeRole() {
 		Username: s.TestUser.Username,
 		Email:    s.TestUser.Email,
 		Password: hashedPassword,
+		Role:     s.TestUser.Role,
 	}
 	s.Db.CreateUser(context.Background(), user)
 
