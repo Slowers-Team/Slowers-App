@@ -47,17 +47,17 @@ const SitePage = () => {
       }, [params.id, navigate]);
 
   useEffect(() => {
-    if (site.id) {
-      ImageService.getImagesByEntity(site.id)
-          .then(imageObjects => {
-            console.log("Fetched oimages:", imageObjects)
-            setImages(imageObjects); 
-          })
+    if (site._id) {
+      ImageService.getImagesByEntity(site._id)
+        .then(imageURLs => imageURLs.map(promise => {
+          promise.then(url => setImages([...images, url]))
+        }) )
           .catch(error => {
           console.error("Error fetching images:", error);
           });
     }
   }, [site]); 
+
 
 
   const addFlower = flowerObject => {
@@ -143,9 +143,8 @@ const SitePage = () => {
                 <div className="image-list">
                   {images.length > 0 ? (
                     images.map(image => {
-                      const imageUrl=URL.createObjectURL(image);
-                      return <img key={image._id} src={imageUrl} alt="Uploaded" />;
-                  
+                      return <img key={image} src={image} alt="Uploaded" />;
+               
                     })
                   ) : (
                     <p>No images uploaded for this site.</p>
