@@ -162,7 +162,7 @@ func (s *DbSiteTestSuite) TestAddAndGetSite() {
 
 	fetchedSiteData, err := s.Db.GetSite(context.Background(), createdSite.ID, *site.Owner)
 
-	s.NoError(
+	s.Require().NoError(
 		err,
 		"GetSite() should not return an error",
 	)
@@ -216,28 +216,27 @@ func (s *DbSiteTestSuite) TestAddAndGetSite() {
 		"wrong owner for the site returned from GetSite()",
 	)
 
-	s.Len(
+	s.Require().Len(
 		fetchedSubSites,
 		1,
 		"GetSite() should return exactly one subsite",
 	)
-	if len(fetchedSubSites) != 0 {
-		s.Equal(
-			createdSubSite.ID,
-			fetchedSubSites[0]["_id"],
-			"wrong ID for the subsite returned from GetSite()",
-		)
-		s.Equal(
-			subSite.Name,
-			fetchedSubSites[0]["name"],
-			"wrong name for the subsite returned from GetSite()",
-		)
-		s.Equal(
-			subSite.Note,
-			fetchedSubSites[0]["note"],
-			"wrong note for the subsite returned from GetSite()",
-		)
-	}
+
+	s.Equal(
+		createdSubSite.ID,
+		fetchedSubSites[0]["_id"],
+		"wrong ID for the subsite returned from GetSite()",
+	)
+	s.Equal(
+		subSite.Name,
+		fetchedSubSites[0]["name"],
+		"wrong name for the subsite returned from GetSite()",
+	)
+	s.Equal(
+		subSite.Note,
+		fetchedSubSites[0]["note"],
+		"wrong note for the subsite returned from GetSite()",
+	)
 }
 
 func (s *DbSiteTestSuite) TestAddAndGetSiteByID() {
