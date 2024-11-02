@@ -126,6 +126,11 @@ func (s *DbUserTestSuite) TestCreateAndGetUserByID() {
 		fetchedUser.Password,
 		"fetched user should have empty password",
 	)
+	s.Equal(
+		s.TestUser.Role,
+		fetchedUser.Role,
+		"wrong role for fetched user",
+	)
 }
 
 func (s *DbUserTestSuite) TestCreateUserAndChangeRole() {
