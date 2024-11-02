@@ -1,13 +1,21 @@
+import { useParams } from 'react-router-dom'
 import GrowerFlowerList from '../components/grower/GrowerFlowerList'
 import flowerService from '../services/flowers'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 const GrowerFlowerPage = () => {
-  const [flowers, setFlowers] = useState([])
+  const params = useParams()
+  const [flowers, setFlowers] = useState()
   const { t, i18n } = useTranslation()
 
   useEffect(() => {
-    flowerService.getUserFlowers().then(initialFlowers => setFlowers(initialFlowers))
+    if (params.siteId) {
+      console.log('params found ' + params.siteId)
+      flowerService.getFlowersBySite(params.siteId).then(initialFlowers => setFlowers(initialFlowers))
+    } else {
+      console.log('params not found')
+      flowerService.getUserFlowers().then(initialFlowers => setFlowers(initialFlowers))
+    }
   }, [])
 
   const deleteFlower = flowerObject => {
@@ -21,8 +29,13 @@ const GrowerFlowerPage = () => {
 
   return (
     <>
+    {params.siteId ? (
+      <h2>{params.siteId}</h2>
+    ) : (
+      <h2>{t('title.home')}</h2>
+    )}
       <h2>{t('title.flowers')}</h2>
-      {flowers && <GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} />}
+      { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} />) : (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} />) }
     </>
   )
 }
