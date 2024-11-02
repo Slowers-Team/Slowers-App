@@ -1,4 +1,3 @@
-import './App.css'
 import ProtectedRoute from './ProtectedRoute'
 import RegisterPage from './pages/RegisterPage'
 import TermsPage from './pages/TermsPage'
@@ -42,10 +41,6 @@ const App = () => {
     setDefaultRole('')
   }
 
-  const padding = {
-    padding: 5,
-  }
-
   if (isLoading) {
     return <div>{t('label.loading')}</div>
   }
@@ -58,6 +53,7 @@ const App = () => {
           <NavigationBar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
 
           <Routes>
+
             <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
 
               <Route path="/" element={defaultRole == 'retailer' ? <Navigate replace to="/retailer" /> : <Navigate replace to="/grower" />} />
@@ -86,11 +82,12 @@ const App = () => {
             <Route path="/login" element={<LogInPage
               onLogin={handleLogout}
               setIsLoggedIn={setIsLoggedIn}
-              setDefaultRole={setDefaultRole}
-            />} />
+              setDefaultRole={setDefaultRole}/>} 
+            />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/terms" element={<TermsPage />} />
             <Route path="/flowers" element={<HomePage />} />
+
           </Routes>
 
         </div>
