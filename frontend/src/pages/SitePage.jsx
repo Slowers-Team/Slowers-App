@@ -1,103 +1,111 @@
-import { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import SiteService from '../services/sites'
-import flowerService from '../services/flowers'
-import ImageService from '../services/images'
-import FlowerForm from '../components/FlowerForm'
-import SiteFlexbox from '../components/SiteFlexbox'
-import AddImage from '../components/image/AddImage' 
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import SiteService from '../services/sites';
+import flowerService from '../services/flowers';
+import ImageService from '../services/images';
+import FlowerForm from '../components/FlowerForm';
+import SiteFlexbox from '../components/SiteFlexbox';
+import AddImage from '../components/image/AddImage';
+import SiteImagesCarousel from '../components/image/SiteImagesCarousel';
 
-import { useTranslation } from "react-i18next"
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+import { useTranslation } from "react-i18next";
 
 const SitePage = () => {
-  const params = useParams()
-  const navigate = useNavigate()
-  const [site, setSite] = useState({})
-  const [sites, setSites] = useState([])
-  const [flowers, setFlowers] = useState() 
-  const [showAddNewFlower, setShowAddNewFlower] = useState(false)
-  const [images, setImages] = useState([])
-  const { t, i18n } = useTranslation()
+  const params = useParams();
+  const navigate = useNavigate();
+  const [site, setSite] = useState({});
+  const [sites, setSites] = useState([]);
+  const [flowers, setFlowers] = useState(); 
+  const [showAddNewFlower, setShowAddNewFlower] = useState(false);
+  const [images, setImages] = useState([]);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     SiteService.get(params.id)
       .then(initialSites => {
         if (params.id) {
-          setSite(initialSites.site)
-          setSites(initialSites.subsites)
+          setSite(initialSites.site);
+          setSites(initialSites.subsites);
         } else {
-          setSites(initialSites)
+          setSites(initialSites);
         }
       })
       .catch(error => {
-        console.error('Error:', error)
-        navigate('/')
-      })
-  }, [params.id, navigate])
+        console.error('Error:', error);
+        navigate('/');
+      });
+  }, [params.id, navigate]);
 
   useEffect(() => {
-        flowerService
-          .getFlowersBySite(params.id)
-          .then(flowers => {
-            setFlowers(flowers);
-          })
-          .catch(error => {
-            console.error("Error fetching flowers:", error);
-          });
-      }, [params.id, navigate]);
+    flowerService.getFlowersBySite(params.id)
+      .then(flowers => {
+        setFlowers(flowers);
+      })
+      .catch(error => {
+        console.error("Error fetching flowers:", error);
+      });
+  }, [params.id, navigate]);
 
   useEffect(() => {
     if (site._id) {
       ImageService.getImagesByEntity(site._id)
-        .then(imageURLs => imageURLs.map(promise => {
-          promise.then(url => setImages([...images, url]))
-        }) )
-          .catch(error => {
-          console.error("Error fetching images:", error);
-          });
+        .then(imageURLs => setImages(imageURLs))
+        .catch(error => console.error("Error fetching images:", error));
     }
-  }, [site]); 
-
-
+  }, [site]);
 
   const addFlower = flowerObject => {
-    flowerService
-      .create(flowerObject)
+    flowerService.create(flowerObject)
       .then(returnedFlower => 
-        setFlowers(flowers ? flowers.concat(returnedFlower) :
-          [returnedFlower])
+        setFlowers(flowers ? flowers.concat(returnedFlower) : [returnedFlower])
       )
       .catch(error => {
-      console.log(error)
-      alert(t("error.addingfailed"))
-    })
-  }
+        console.log(error);
+        alert(t("error.addingfailed"));
+      });
+  };
+
+  const deleteImage = imageId => {
+    if (window.confirm(`${t("Confirm image deletion")}?`)) {
+      ImageService.deleteImage(imageId)
+        .then(() => {
+          setImages(images.filter(image => image._id !== imageId)); 
+          alert(t("Image deleted")); 
+        })
+        .catch(error => {
+          console.error('Error deleting image:', error);
+          alert(t("Error deleting image")); 
+        });
+    }
+  };
 
   const createSite = siteObject => {
     SiteService.create(siteObject)
       .then(newSite => {
-        setSites(prevSites => (prevSites ? [...prevSites, newSite] : [newSite]))
+        setSites(prevSites => (prevSites ? [...prevSites, newSite] : [newSite]));
       })
       .catch(error => {
-        const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, '')
-        alert(t('error.error') + ': ' + (i18n.exists(key) ? t(key) : error.response.data))
-      })
-  }
+        const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, '');
+        alert(t('error.error') + ': ' + (i18n.exists(key) ? t(key) : error.response.data));
+      });
+  };
 
   const deleteSite = siteObject => {
     if (window.confirm(`${t("label.confirmsitedeletion")} ${siteObject.name}?`)) {
-      const parentId = siteObject.parent ? siteObject.parent : ''
+      const parentId = siteObject.parent ? siteObject.parent : '';
       SiteService.remove(siteObject._id)
         .then(() => navigate('/site/' + parentId))
         .catch(error => {
-          console.error('Error deleting site:', error)
-        })
+          console.error('Error deleting site:', error);
+        });
     }
-  }
+  };
 
   const handleBack = () => {
-    navigate(-1)
-  }
+    navigate(-1);
+  };
 
   return (
     <>
@@ -135,21 +143,12 @@ const SitePage = () => {
               <div className="site-actions">
                 <button onClick={handleBack} style={{ marginRight: "0.5rem" }} className="btn btn-light">{t("button.goback")}</button>
                 <button id="deleteSiteButton" onClick={() => deleteSite(site)} className="btn btn-light">{t("button.deletethissite")}</button>
-                <AddImage entity={site}/>
+                <AddImage entity={site} />
               </div>
               <SiteFlexbox createSite={createSite} sites={sites} />
               <div className="uploaded-images">
-                <h3>Uploaded Images:</h3>
-                <div className="image-list">
-                  {images.length > 0 ? (
-                    images.map(image => {
-                      return <img key={image} src={image} alt="Uploaded" />;
-               
-                    })
-                  ) : (
-                    <p>No images uploaded for this site.</p>
-                  )}
-                </div>
+                <h2>Site images:</h2>
+                <SiteImagesCarousel images={images} onDelete={deleteImage} /> 
               </div>
             </main>
           </div>
@@ -163,6 +162,6 @@ const SitePage = () => {
       )}
     </>
   );
-}
+};
 
-export default SitePage
+export default SitePage;

@@ -33,14 +33,23 @@ const getImagesByEntity = entityId => {
     headers: { Authorization: tokenService.fetchToken() },
     responseType: "json" 
   }
-  const request = axios.get(`${baseUrl}/entity/${entityId}`, config);
-
-  return request.then(response => 
-      response.data.map(object => 
-        get(object)
-      )
-  )
+  return axios.get(`${baseUrl}/entity/${entityId}`, config)
+    .then( response => 
+      Promise.all(response.data.map(object => get(object)))
+    )
 }
+const deleteImage = imageId => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken() },
+  }
+  return axios.delete(`${baseUrl}/${imageId}`, config)
+    .then(response => response.data)
+    .catch( error => {
+      console.error("Error deleting image:", error)
+      throw error;
+    })
+}
+
 
 const getFilename = image => image._id + "." + image.file_format 
 
@@ -48,4 +57,5 @@ export default {
   get,
   create,
   getImagesByEntity,
+  deleteImage,
 }
