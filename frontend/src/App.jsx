@@ -1,7 +1,6 @@
 import ProtectedRoute from './ProtectedRoute'
 import RegisterPage from './pages/RegisterPage'
 import TermsPage from './pages/TermsPage'
-import HomePage from './pages/HomePage'
 import LogInPage from './pages/LogInPage'
 import UserPage from './pages/UserPage'
 import RetailerHomePage from './pages/RetailerHomePage'
@@ -86,14 +85,15 @@ const App = () => {
 
             </Route>
 
-            <Route path="/login" element={<LogInPage
+            <Route path="/login" element={isLoggedIn ? getDefaultRole() : (
+              <LogInPage
               onLogin={handleLogout}
               setIsLoggedIn={setIsLoggedIn}
-              setDefaultRole={setDefaultRole}/>} 
-            />
-            <Route path="/register" element={<RegisterPage />} />
+              setDefaultRole={setDefaultRole}/>
+            )} />
+            
+            <Route path="/register" element={isLoggedIn ? getDefaultRole() : <RegisterPage />} />
             <Route path="/terms" element={<TermsPage />} />
-            <Route path="/flowers" element={<HomePage />} />
 
           </Routes>
 
