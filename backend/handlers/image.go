@@ -86,6 +86,33 @@ func DownloadImage(c *fiber.Ctx) error {
 	return c.SendFile(filepath)
 }
 
+func DeleteImage(c *fiber.Ctx) error  {
+	userID, err := GetCurrentUser(c)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	id, err := database.ParseID(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid image ID format")
+	}
+
+	deleted, err := db.DeleteImage(c.Context(), id)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+	}
+	if !deleted {
+		return c.Status(fiber.StatusNotFound).SendString("Image not fouond")
+	}
+
+	imagePath := "./images/" + id.Hex() + ".jpg"
+	if err := os.Remove(imagePath); err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString("Error deleting image")
+	}
+
+	return c.SendStatus(fiber.StatusNoContent)
+}
+
 func FetchImagesByEntity(c *fiber.Ctx) error {
     entityID := c.Params("entityID") 
 	
