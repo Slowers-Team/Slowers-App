@@ -87,11 +87,6 @@ func DownloadImage(c *fiber.Ctx) error {
 }
 
 func DeleteImage(c *fiber.Ctx) error  {
-	userID, err := GetCurrentUser(c)
-	if err != nil {
-		return c.Status(500).SendString(err.Error())
-	}
-
 	id, err := database.ParseID(c.Params("id"))
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid image ID format")
