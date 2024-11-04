@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
-import LangSelect from './components/LangSelect'
+import LangSelect from './LangSelect'
 import { Link } from 'react-router-dom'
 
 export const NavigationBar = ({ isLoggedIn, handleLogout }) => {

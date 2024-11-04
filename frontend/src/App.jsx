@@ -13,7 +13,7 @@ import GrowerSitesPage from './pages/GrowerSitesPage'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import NavigationBar from './NavigationBar'
+import NavigationBar from './components/NavigationBar'
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
