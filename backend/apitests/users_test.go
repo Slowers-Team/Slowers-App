@@ -83,7 +83,7 @@ func (s *UsersAPITestSuite) TestCreatingUser() {
 					s.TestUser.Role,
 					"tried to add wrong role to database",
 				)
-				return &user, nil
+				return &s.TestUser, nil
 			}).Once()
 		},
 	})

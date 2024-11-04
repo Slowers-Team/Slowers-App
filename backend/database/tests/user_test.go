@@ -38,9 +38,23 @@ func (s *DbUserTestSuite) TestCreateUser() {
 		err,
 		"CreateUser() should not return an error",
 	)
-	s.NotNil(
-		newUser,
-		"CreateUser() should return a non-nil user",
+	s.NotZero(
+		newUser.ID,
+		"new user should have non-zero ID",
+	)
+	s.Equal(
+		newUser.Username,
+		s.TestUser.Username,
+		"wrong username for new user",
+	)
+	s.Equal(
+		newUser.Email,
+		s.TestUser.Email,
+		"wrong email for new user",
+	)
+	s.NoError(
+		bcrypt.CompareHashAndPassword([]byte(newUser.Password), []byte(s.TestUser.Password)),
+		"wrong password for new user",
 	)
 }
 
@@ -66,16 +80,7 @@ func (s *DbUserTestSuite) TestCreateAndGetUser() {
 		Password: hashedPassword,
 	}
 
-	newUser, err := s.Db.CreateUser(context.Background(), user)
-
-	s.NoError(
-		err,
-		"CreateUser() should not return an error",
-	)
-	s.NotNil(
-		newUser,
-		"CreateUser() should return a non-nil user",
-	)
+	s.Db.CreateUser(context.Background(), user)
 
 	fetchedUser, err := s.Db.GetUserByEmail(context.Background(), s.TestUser.Email)
 
