@@ -28,9 +28,14 @@ func (mDb MongoDatabase) CountUsersWithEmail(ctx context.Context, email string) 
 	return count, nil
 }
 
-func (mDb MongoDatabase) CreateUser(ctx context.Context, newUser User) error {
-	_, err := db.Collection("users").InsertOne(ctx, newUser)
-	return err
+func (mDb MongoDatabase) CreateUser(ctx context.Context, newUser User) (*User, error) {
+	result, err := db.Collection("users").InsertOne(ctx, newUser)
+	if err != nil {
+		return nil, err
+	}
+
+	newUser.ID = result.InsertedID.(ObjectID)
+	return &newUser, nil
 }
 
 func (mDb MongoDatabase) GetUserByEmail(ctx context.Context, email string) (*User, error) {

@@ -53,12 +53,12 @@ func CreateUser(c *fiber.Ctx) error {
 
 	newUser := database.User{Username: user.Username, Password: hashedPassword, Email: user.Email, Role: user.Role}
 
-	err = db.CreateUser(c.Context(), newUser)
+	createdUser, err := db.CreateUser(c.Context(), newUser)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	return LogUserIn(c, &newUser, 201)
+	return LogUserIn(c, createdUser, 201)
 }
 
 func HandleLogin(c *fiber.Ctx) error {
