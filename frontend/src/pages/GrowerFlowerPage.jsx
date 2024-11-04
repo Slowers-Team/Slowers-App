@@ -28,7 +28,7 @@ const GrowerFlowerPage = () => {
   return (
     <>
     {params.siteId ? (
-      <h2>{params.siteId}</h2>
+      <h2>{t('title.site')}: {params.siteId}</h2>
     ) : (
       <h2>{t('title.home')}</h2>
     )}
