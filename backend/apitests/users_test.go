@@ -63,7 +63,7 @@ func (s *UsersAPITestSuite) TestCreatingUser() {
 			).Once()
 			db.EXPECT().CreateUser(
 				mock.Anything, mock.Anything,
-			).RunAndReturn(func(ctx context.Context, user database.User) error {
+			).RunAndReturn(func(ctx context.Context, user database.User) (*database.User, error) {
 				s.Equal(
 					user.Username,
 					s.TestUser.Username,
@@ -83,7 +83,7 @@ func (s *UsersAPITestSuite) TestCreatingUser() {
 					s.TestUser.Role,
 					"tried to add wrong role to database",
 				)
-				return nil
+				return &user, nil
 			}).Once()
 		},
 	})

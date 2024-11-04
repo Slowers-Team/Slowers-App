@@ -15,7 +15,7 @@ import (
 
 type DbUserTestSuite struct {
 	suite.Suite
-	Db database.Database
+	Db       database.Database
 	TestUser database.User
 }
 
@@ -29,14 +29,18 @@ func (s *DbUserTestSuite) TestCreateUser() {
 	hashedPassword, _ := utils.HashPassword(s.TestUser.Password)
 	user := database.User{
 		Username: s.TestUser.Username,
-		Email: s.TestUser.Email,
+		Email:    s.TestUser.Email,
 		Password: hashedPassword,
 	}
-	err := s.Db.CreateUser(context.Background(), user)
+	newUser, err := s.Db.CreateUser(context.Background(), user)
 
 	s.NoError(
 		err,
 		"CreateUser() should not return an error",
+	)
+	s.NotNil(
+		newUser,
+		"CreateUser() should return a non-nil user",
 	)
 }
 
@@ -58,10 +62,20 @@ func (s *DbUserTestSuite) TestCreateAndGetUser() {
 	hashedPassword, _ := utils.HashPassword(s.TestUser.Password)
 	user := database.User{
 		Username: s.TestUser.Username,
-		Email: s.TestUser.Email,
+		Email:    s.TestUser.Email,
 		Password: hashedPassword,
 	}
-	s.Db.CreateUser(context.Background(), user)
+
+	newUser, err := s.Db.CreateUser(context.Background(), user)
+
+	s.NoError(
+		err,
+		"CreateUser() should not return an error",
+	)
+	s.NotNil(
+		newUser,
+		"CreateUser() should return a non-nil user",
+	)
 
 	fetchedUser, err := s.Db.GetUserByEmail(context.Background(), s.TestUser.Email)
 
@@ -84,7 +98,7 @@ func (s *DbUserTestSuite) TestCreateAndGetUser() {
 		"wrong email for fetched user",
 	)
 	s.NoError(
-	    bcrypt.CompareHashAndPassword([]byte(fetchedUser.Password), []byte(s.TestUser.Password)),
+		bcrypt.CompareHashAndPassword([]byte(fetchedUser.Password), []byte(s.TestUser.Password)),
 		"wrong password for fetched user",
 	)
 }
