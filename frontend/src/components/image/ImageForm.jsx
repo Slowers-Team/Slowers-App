@@ -46,7 +46,7 @@ const ImageForm = ({ createImage }) => {
     <div className="text-left">
       <form onSubmit={handleSubmit} id="image-form">
         <div className="form-group">
-          <label htmlFor="newImage">{t("image.select")}:</label>
+          <label htmlFor="newImageInput">{t("image.select")}:</label>
           <input
             id="newImageInput"
             className="form-control"

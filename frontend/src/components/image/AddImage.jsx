@@ -62,10 +62,8 @@ const AddImage = ({ entity }) => {
             <Modal.Title>{t("image.title")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            { !uploadedImage
-              ? <ImageForm createImage={createImage}/>
-              : <img width={100} src={uploadedImage}/>
-            }
+
+        <ImageForm createImage={createImage}/>
           </Modal.Body>
           { message &&
             <Modal.Footer>
