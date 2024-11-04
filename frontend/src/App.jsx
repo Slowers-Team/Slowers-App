@@ -1,4 +1,4 @@
-import ProtectedRoute from './ProtectedRoute'
+import ProtectedRoute from './components/ProtectedRoute'
 import RegisterPage from './pages/RegisterPage'
 import TermsPage from './pages/TermsPage'
 import LogInPage from './pages/LogInPage'
