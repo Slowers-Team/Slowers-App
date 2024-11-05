@@ -8,7 +8,6 @@ import SiteFlexbox from '../components/SiteFlexbox';
 import AddImage from '../components/image/AddImage';
 import SiteImagesCarousel from '../components/image/SiteImagesCarousel';
 
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import { useTranslation } from "react-i18next";
 
@@ -67,16 +66,21 @@ const SitePage = () => {
       });
   };
 
-  const deleteImage = Id => {
+  const deleteImage = imageObject => {
+    if (!imageObject || !imageObject._id) {
+      console.error("image object is undefined or missing id")
+      return
+    }
     if (window.confirm(`${t("Confirm image deletion")}?`)) {
-      ImageService.deleteImage(Id)
+      ImageService.deleteImage(imageObject._id)
         .then(() => {
-          setImages(images.filter(image => image._id !== Id)); 
-          alert(t("Image deleted")); 
+          setImages(l => l.filter(item => item._id !== imageObject._id
+          )); 
+          alert(t("label.imagedeleted")); 
         })
         .catch(error => {
           console.error('Error deleting image:', error);
-          alert(t("Error deleting image")); 
+          alert(t("Error")); 
         });
     }
   };
@@ -147,7 +151,7 @@ const SitePage = () => {
               </div>
               <SiteFlexbox createSite={createSite} sites={sites} />
               <div className="uploaded-images">
-                <h1>Site images:</h1>
+                <h2>Site images:</h2>
                 <SiteImagesCarousel images={images} onDelete={deleteImage} /> 
               </div>
             </main>

@@ -16,7 +16,9 @@ const SiteImagesCarousel = ({ images, onDelete }) => {
           <img className="d-block w-100" src={image.url} alt={`Slide ${index + 1}`} />
           <CarouselCaption>
             <button
-              onClick={() => onDelete(image.id)}
+              onClick={() => {
+                console.log("Delete button clicked for image ID:", image.id);
+                onDelete(image._id)}}
               className="btn"
             >
               Delete
