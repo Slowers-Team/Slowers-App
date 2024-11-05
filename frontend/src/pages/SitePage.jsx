@@ -48,12 +48,7 @@ const SitePage = () => {
 
   useEffect(() => {
     if (site._id) {
-      ImageService.getImagesByEntity(site._id)
-        .then(imageURLs => {
-          console.log("Images after fetching:", imageURLs); 
-          setImages(imageURLs);
-        })
-        .catch(error => console.error("Error fetching images:", error));
+      fetchImages();
     }
   }, [site]);
 
@@ -68,10 +63,20 @@ const SitePage = () => {
       });
   };
 
+  const fetchImages = () => {
+    ImageService.getImagesByEntity(site._id)
+      .then(imageURLs => {
+        console.log("Images after fetching:", imageURLs); 
+        setImages(imageURLs);
+      })
+      .catch(error => console.error("Error fetching images:", error));
+  };
+
+
   const deleteImage = imageObject => {
     console.log("Deleting image:", imageObject); 
     if (!imageObject || !imageObject._id) {
-      console.error("image object is undefined or missing id");
+      console.error("Image object is undefined or missing id");
       return;
     }
     if (window.confirm(`${t("Confirm image deletion")}?`)) {
@@ -87,7 +92,6 @@ const SitePage = () => {
     }
   };
   
-
   const createSite = siteObject => {
     SiteService.create(siteObject)
       .then(newSite => {
@@ -150,7 +154,7 @@ const SitePage = () => {
               <div className="site-actions">
                 <button onClick={handleBack} style={{ marginRight: "0.5rem" }} className="btn btn-light">{t("button.goback")}</button>
                 <button id="deleteSiteButton" onClick={() => deleteSite(site)} className="btn btn-light">{t("button.deletethissite")}</button>
-                <AddImage entity={site} />
+                <AddImage entity={site} onImageUpload={fetchImages}/>
               </div>
               <SiteFlexbox createSite={createSite} sites={sites} />
               <div className="uploaded-images">
