@@ -1,7 +1,7 @@
 import React from "react";
 import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import'../../layouts/SiteImagesCarousel.css';
+
 import { CarouselCaption } from "react-bootstrap";
 
 const SiteImagesCarousel = ({ images, onDelete }) => {
