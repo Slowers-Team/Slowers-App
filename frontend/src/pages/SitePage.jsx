@@ -72,7 +72,7 @@ const SitePage = () => {
     console.log("Deleting image:", imageObject); 
     if (!imageObject || !imageObject._id) {
       console.error("image object is undefined or missing id");
-      return
+      return;
     }
     if (window.confirm(`${t("Confirm image deletion")}?`)) {
       ImageService.deleteImage(imageObject._id)
