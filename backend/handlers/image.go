@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	
+	"log"
 	"errors"
 	"os"
 
@@ -88,6 +88,8 @@ func DownloadImage(c *fiber.Ctx) error {
 
 func DeleteImage(c *fiber.Ctx) error  {
 	id, err := database.ParseID(c.Params("id"))
+	log.Printf("Received ID for deletion: %s", id) 
+
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid image ID format")
 	}
@@ -97,7 +99,7 @@ func DeleteImage(c *fiber.Ctx) error  {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
 	if !deleted {
-		return c.Status(fiber.StatusNotFound).SendString("Image not fouond")
+		return c.Status(fiber.StatusNotFound).SendString("Image not found")
 	}
 
 	imagePath := "./images/" + id.Hex() + ".jpg"
