@@ -49,7 +49,10 @@ const SitePage = () => {
   useEffect(() => {
     if (site._id) {
       ImageService.getImagesByEntity(site._id)
-        .then(imageURLs => setImages(imageURLs))
+        .then(imageURLs => {
+          console.log("Images after fetching:", imageURLs); 
+          setImages(imageURLs);
+        })
         .catch(error => console.error("Error fetching images:", error));
     }
   }, [site]);
@@ -66,23 +69,24 @@ const SitePage = () => {
   };
 
   const deleteImage = imageObject => {
+    console.log("Deleting image:", imageObject); 
     if (!imageObject || !imageObject._id) {
-      console.error("image object is undefined or missing id")
-      return
+      console.error("image object is undefined or missing id");
+      return;
     }
     if (window.confirm(`${t("Confirm image deletion")}?`)) {
       ImageService.deleteImage(imageObject._id)
         .then(() => {
-          setImages(l => l.filter(item => item._id !== imageObject._id
-          )); 
-          alert(t("label.imagedeleted")); 
+          setImages(l => l.filter(item => item._id !== imageObject._id));
+          alert(t("label.imagedeleted"));
         })
         .catch(error => {
           console.error('Error deleting image:', error);
-          alert(t("Error")); 
+          alert(t("Error"));
         });
     }
   };
+  
 
   const createSite = siteObject => {
     SiteService.create(siteObject)
@@ -168,3 +172,4 @@ const SitePage = () => {
 };
 
 export default SitePage;
+

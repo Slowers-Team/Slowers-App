@@ -12,7 +12,7 @@ const get = imageObject => {
   const request = axios.get(`${baseUrl}/${filename}`, config)
 
   return request.then(response => ({
-    id: imageObject._id,
+    _id: imageObject._id,
     url: URL.createObjectURL(response.data)
 }))
 }
