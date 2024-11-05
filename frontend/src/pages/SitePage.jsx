@@ -67,11 +67,11 @@ const SitePage = () => {
       });
   };
 
-  const deleteImage = imageId => {
+  const deleteImage = Id => {
     if (window.confirm(`${t("Confirm image deletion")}?`)) {
-      ImageService.deleteImage(imageId)
+      ImageService.deleteImage(Id)
         .then(() => {
-          setImages(images.filter(image => image._id !== imageId)); 
+          setImages(images.filter(image => image._id !== Id)); 
           alert(t("Image deleted")); 
         })
         .catch(error => {
@@ -147,7 +147,7 @@ const SitePage = () => {
               </div>
               <SiteFlexbox createSite={createSite} sites={sites} />
               <div className="uploaded-images">
-                <h2>Site images:</h2>
+                <h1>Site images:</h1>
                 <SiteImagesCarousel images={images} onDelete={deleteImage} /> 
               </div>
             </main>

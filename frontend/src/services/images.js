@@ -11,9 +11,10 @@ const get = imageObject => {
   }
   const request = axios.get(`${baseUrl}/${filename}`, config)
 
-  return request.then(response => 
-    URL.createObjectURL(response.data)
-  )
+  return request.then(response => ({
+    id: imageObject._id,
+    url: URL.createObjectURL(response.data)
+}))
 }
 
 const create = imageObject => {
@@ -38,18 +39,17 @@ const getImagesByEntity = entityId => {
       Promise.all(response.data.map(object => get(object)))
     )
 }
-const deleteImage = imageId => {
+const deleteImage = Id => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
   }
-  return axios.delete(`${baseUrl}/${imageId}`, config)
+  return axios.delete(`${baseUrl}/${Id}`, config)
     .then(response => response.data)
     .catch( error => {
       console.error("Error deleting image:", error)
       throw error;
     })
 }
-
 
 const getFilename = image => image._id + "." + image.file_format 
 

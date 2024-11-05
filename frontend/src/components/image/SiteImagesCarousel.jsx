@@ -13,10 +13,10 @@ const SiteImagesCarousel = ({ images, onDelete }) => {
     <Carousel>
       {images.map((image, index) => (
         <Carousel.Item key={index}>
-          <img className="d-block w-100" src={image} alt={`Slide ${index + 1}`} />
+          <img className="d-block w-100" src={image.url} alt={`Slide ${index + 1}`} />
           <CarouselCaption>
             <button
-              onClick={() => onDelete(image._id)}
+              onClick={() => onDelete(image.id)}
               className="btn"
             >
               Delete
