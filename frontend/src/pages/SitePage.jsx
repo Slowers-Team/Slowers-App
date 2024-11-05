@@ -8,7 +8,6 @@ import SiteFlexbox from '../components/SiteFlexbox';
 import AddImage from '../components/image/AddImage';
 import SiteImagesCarousel from '../components/image/SiteImagesCarousel';
 
-
 import { useTranslation } from "react-i18next";
 
 const SitePage = () => {
