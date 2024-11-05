@@ -78,7 +78,7 @@ const SitePage = () => {
       ImageService.deleteImage(imageObject._id)
         .then(() => {
           setImages(l => l.filter(item => item._id !== imageObject._id));
-          alert(t("IMage deleted"));
+          alert(t("Image deleted"));
         })
         .catch(error => {
           console.error('Error deleting image:', error);
