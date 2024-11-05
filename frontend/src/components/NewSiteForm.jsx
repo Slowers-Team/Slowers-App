@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 const SiteForm = ({ createSite }) => {
-  const { id: parentId } = useParams()
+  const params = useParams()
   const [newSiteName, setNewSiteName] = useState('')
   const [newSiteNote, setNewSiteNote] = useState('')
   const { t, i18n } = useTranslation()
@@ -13,7 +13,7 @@ const SiteForm = ({ createSite }) => {
     createSite({
       name: newSiteName,
       note: newSiteNote,
-      ...(parentId && { parent: parentId }),
+      ...(params.siteId && { parent: params.siteId }),
     })
 
     
