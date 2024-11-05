@@ -150,6 +150,24 @@ func (s *ImagesAPITestSuite) TestImageUpload() {
 	}
 }
 
+func (s *ImagesAPITestSuite) TestFetchingImagesByEntity() {
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:  "GET /api/images/entity/:entityID",
+		Route:        "/api/images/entity/" + s.Images[0].Entity.Hex(),
+		Method:       "GET",
+		Body:         []byte{},
+		ExpectedCode: 200,
+		ExpectedBody: utils.ImagesToJSON([]database.Image{s.Images[0]}),
+		SetupMocks: func(db *mocks.Database) {
+			db.EXPECT().GetImagesByEntity(
+				mock.Anything, s.Images[0].Entity.Hex(),
+			).Return(
+				[]database.Image{s.Images[0]}, nil,
+			).Once()
+		},
+	})
+}
+
 func TestImagesAPITestSuite(t *testing.T) {
 	suite.Run(t, new(ImagesAPITestSuite))
 }
