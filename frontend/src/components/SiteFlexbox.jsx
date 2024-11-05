@@ -16,7 +16,7 @@ const SiteFlexbox = ({ createSite, sites }) => {
         {sites &&
           sites.map(site => (
             <div className="box" key={site._id}>
-              <h3><Link to={'/site/' + site._id} className='link-success'>{site.name}</Link></h3>
+              <h3><Link to={`/grower/${site._id}`} className='link-success'>{site.name}</Link></h3>
               <p>{t('site.data.note')}:<br />{site.note}</p>
             </div>
           ))}

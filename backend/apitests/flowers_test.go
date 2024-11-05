@@ -130,6 +130,46 @@ func (s *FlowersAPITestSuite) TestDeletingFlower() {
 	})
 }
 
+func (s *FlowersAPITestSuite) TestListingFlowersOfCurrentUser() {
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:  "GET /api/flowers/user",
+		Route:        "/api/flowers/user",
+		Method:       "GET",
+		Body:         "",
+		ExpectedCode: 200,
+		ExpectedBody: utils.FlowersToJSON(s.TestFlowers),
+		SetupMocks: func(db *mocks.Database) {
+			db.EXPECT().GetUserFlowers(
+				mock.Anything, testdata.GetUser().ID,
+			).Return(
+				s.TestFlowers, nil,
+			).Once()
+		},
+	})
+}
+
+func (s *FlowersAPITestSuite) TestListingFlowersOfSite() {
+	site := testdata.GetRootSites()[0]
+	user := testdata.GetUser()
+	flowers := []database.Flower{s.TestFlowers[0]}
+
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:  "GET /api/sites/<id>/flowers",
+		Route:        "/api/sites/" + site.ID.Hex() + "/flowers",
+		Method:       "GET",
+		Body:         "",
+		ExpectedCode: 200,
+		ExpectedBody: utils.FlowersToJSON(flowers),
+		SetupMocks: func(db *mocks.Database) {
+			db.EXPECT().GetAllFlowersRelatedToSite(
+				mock.Anything, site.ID, user.ID,
+			).Return(
+				flowers, nil,
+			).Once()
+		},
+	})
+}
+
 func TestFlowersAPITestSuite(t *testing.T) {
 	suite.Run(t, new(FlowersAPITestSuite))
 }
