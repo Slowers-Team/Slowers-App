@@ -21,7 +21,7 @@ type UsersAPITestSuite struct {
 }
 
 func (s *UsersAPITestSuite) SetupSuite() {
-	s.TestUser = testdata.GetUser()
+	s.TestUser = testdata.GetUsers()[0]
 }
 
 func (s *UsersAPITestSuite) TestCreatingUser() {
@@ -100,6 +100,45 @@ func (s *UsersAPITestSuite) TestLoggingIn() {
 					Email:    s.TestUser.Email,
 					Password: hashedPassword,
 				},
+				nil,
+			).Once()
+		},
+	})
+}
+
+func (s *UsersAPITestSuite) TestFetchingUser() {
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:  "GET /api/user",
+		Route:        "/api/user",
+		Method:       "GET",
+		Body:         "",
+		ExpectedCode: 200,
+		ExpectedBody: utils.UserToJSON(s.TestUser),
+		SetupMocks: func(db *mocks.Database) {
+			db.EXPECT().GetUserByID(
+				mock.Anything, s.TestUser.ID,
+			).Return(
+				&s.TestUser, nil,
+			).Once()
+		},
+	})
+}
+
+func (s *UsersAPITestSuite) TestChangingRole() {
+	role := "retailer"
+	roleJSON := "\"" + role + "\""
+
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:  "POST /api/user/role",
+		Route:        "/api/user/role",
+		Method:       "POST",
+		Body:         roleJSON,
+		ExpectedCode: 201,
+		ExpectedBody: roleJSON,
+		SetupMocks: func(db *mocks.Database) {
+			db.EXPECT().SetUserRole(
+				mock.Anything, s.TestUser.ID, role,
+			).Return(
 				nil,
 			).Once()
 		},
