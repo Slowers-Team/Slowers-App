@@ -32,8 +32,8 @@ const tabBar = () => {
       ) : (
         <Nav variant='tabs' defaultActiveKey="/grower">
         <Nav.Item>
-          <Nav.Link className="text-success" as={NavLink} end to="/grower" disabled> 
-            {t('menu.home')} (Disabled)
+          <Nav.Link className="text-success" as={NavLink} end to="/grower"> 
+            {t('menu.home')}
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
@@ -43,7 +43,7 @@ const tabBar = () => {
         </Nav.Item>
         <Nav.Item>
           <Nav.Link className="text-success" as={NavLink} to="/grower/sites">
-            Subsites
+            {t('menu.sites')}
           </Nav.Link>
         </Nav.Item>
       </Nav>
