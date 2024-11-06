@@ -52,7 +52,7 @@ const ImageForm = ({ createImage }) => {
             className="form-control"
             type="file"
             accept="image/*"
-            required={true}
+            required
             onChange={handleFileSelect}
           />
         </div>
@@ -62,7 +62,7 @@ const ImageForm = ({ createImage }) => {
             id="newImageNoteInput"
             className="form-control"
             value={newImageNote}
-            required={true}
+            required
             onChange={event => setNewImageNote(event.target.value)}
           />
         </div>
