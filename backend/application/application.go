@@ -70,6 +70,6 @@ func AuthMiddleware(c *fiber.Ctx) error {
 }
 
 func TestAuthMiddleware(c *fiber.Ctx) error {
-	c.Locals("userID", testdata.GetUser().ID.Hex())
+	c.Locals("userID", testdata.GetUsers()[0].ID.Hex())
 	return c.Next()
 }

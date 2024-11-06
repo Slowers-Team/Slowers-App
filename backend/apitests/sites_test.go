@@ -27,7 +27,7 @@ type SitesAPITestSuite struct {
 func (s *SitesAPITestSuite) SetupSuite() {
 	s.TestFlowers = testdata.GetTestFlowers()
 	s.RootSites = testdata.GetRootSites()
-	s.TestUser = testdata.GetUser()
+	s.TestUser = testdata.GetUsers()[0]
 }
 
 func (s *SitesAPITestSuite) TestListingRootSites() {
