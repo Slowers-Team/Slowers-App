@@ -86,7 +86,7 @@ func (s *FlowersAPITestSuite) TestAddingFlower() {
 			s.Equal(flower.Site, s.TestFlowers[0].Site, "wrong Site in the added flower")
 		},
 		SetupMocks: func(db *mocks.Database) {
-			user := testdata.GetUser()
+			user := testdata.GetUsers()[0]
 			db.EXPECT().GetUserByID(mock.Anything, *s.TestFlowers[0].Grower).Return(&user, nil).Once()
 			sites := testdata.GetRootSites()
 			db.EXPECT().GetSiteByID(mock.Anything, sites[0].ID).Return(&sites[0], nil).Once()
@@ -140,7 +140,7 @@ func (s *FlowersAPITestSuite) TestListingFlowersOfCurrentUser() {
 		ExpectedBody: utils.FlowersToJSON(s.TestFlowers),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetUserFlowers(
-				mock.Anything, testdata.GetUser().ID,
+				mock.Anything, testdata.GetUsers()[0].ID,
 			).Return(
 				s.TestFlowers, nil,
 			).Once()
@@ -150,7 +150,7 @@ func (s *FlowersAPITestSuite) TestListingFlowersOfCurrentUser() {
 
 func (s *FlowersAPITestSuite) TestListingFlowersOfSite() {
 	site := testdata.GetRootSites()[0]
-	user := testdata.GetUser()
+	user := testdata.GetUsers()[0]
 	flowers := []database.Flower{s.TestFlowers[0]}
 
 	testutils.RunTest(s.T(), testutils.TestCase{
