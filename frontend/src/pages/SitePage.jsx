@@ -158,7 +158,6 @@ const SitePage = () => {
               </div>
               <SiteFlexbox createSite={createSite} sites={sites} />
               <div className="uploaded-images">
-                <h2>Site images:</h2>
                 <SiteImagesCarousel images={images} onDelete={deleteImage} /> 
               </div>
             </main>

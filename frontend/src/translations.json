@@ -102,6 +102,10 @@
           "password": "Enter password",
           "username": "Enter username"
         }
+      },
+      "carousel": {
+        "siteImages":"Site Images",
+        "noImages": "No images uploaded for this site."
       }
     }
   },
@@ -208,6 +212,10 @@
           "password": "Syötä salasana",
           "username": "Syötä käyttäjänimi"
         }
+      },
+      "carousel": {
+        "siteImages": "Siten kuvat:",
+        "noImages": "Tälle sivulle ei ole vielä ladattu kuvia."
       }
     }
   }
