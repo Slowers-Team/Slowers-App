@@ -68,7 +68,8 @@
         "role": "Role pages",
         "info": "Info",
         "pictures": "Pictures",
-        "lifecycle": "Life cycle"
+        "lifecycle": "Life cycle",
+        "sites": "Sites"
       },
       "role": {
         "grower": "Grower",
@@ -88,7 +89,8 @@
         "login": "Log into Slowers",
         "navigation": "Navigation",
         "rootsites": "Root Sites",
-        "terms": "Terms and Conditions"
+        "terms": "Terms and Conditions",
+        "site": "Site"
       },
       "user": {
         "data": {
@@ -178,7 +180,8 @@
         "role": "Roolisivut",
         "info": "Tietoa",
         "pictures": "Kuvat",
-        "lifecycle": "Elinkaari"
+        "lifecycle": "Elinkaari",
+        "sites": "Alueet"
       },
       "role": {
         "grower": "Kasvattaja",
@@ -198,7 +201,8 @@
         "login": "Kirjaudu Slowersiin",
         "navigation": "Navigointi",
         "rootsites": "Juurisivut",
-        "terms": "Käyttöehdot"
+        "terms": "Käyttöehdot",
+        "site": "Alue"
       },
       "user": {
         "data": {

@@ -1,23 +1,22 @@
-import './App.css'
+import ProtectedRoute from './components/ProtectedRoute'
 import RegisterPage from './pages/RegisterPage'
 import TermsPage from './pages/TermsPage'
-import HomePage from './pages/HomePage'
 import LogInPage from './pages/LogInPage'
-import SitePage from './pages/SitePage'
 import UserPage from './pages/UserPage'
 import RetailerHomePage from './pages/RetailerHomePage'
 import RetailerFlowerPage from './pages/RetailerFlowerPage'
 import RetailerLayout from './layouts/RetailerLayout'
 import GrowerLayout from './layouts/GrowerLayout'
+import GrowerHomePage from './pages/GrowerHomePage'
 import GrowerFlowerPage from './pages/GrowerFlowerPage'
-import LangSelect from './components/LangSelect'
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
+import GrowerSitesPage from './pages/GrowerSitesPage'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Navbar, Nav, NavDropdown } from "react-bootstrap"
+import NavigationBar from './components/NavigationBar'
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);  
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [defaultRole, setDefaultRole] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const { t, i18n } = useTranslation()
@@ -28,145 +27,80 @@ const App = () => {
     setIsLoggedIn(!!token)
     setDefaultRole(role)
     setIsLoading(false)
-
-    const langCookie = document.cookie.split("; ").find(row => row.startsWith("lang="))
-    const language = langCookie ? langCookie.split("=")[1] : "en"
-    i18n.changeLanguage(language)
+    setLanguage()
   }, [])
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    setIsLoggedIn(false);
-    setDefaultRole('')
-  };
+  const setLanguage = () => {
+    const langCookie = document.cookie.split('; ').find(row => row.startsWith('lang='))
+    const language = langCookie ? langCookie.split('=')[1] : 'en'
+    i18n.changeLanguage(language)
+  }
 
-  const padding = {
-    padding: 5,
-  };
+  const getDefaultRole = () => {
+    return defaultRole === 'retailer' ? <Navigate replace to="/retailer" /> : <Navigate replace to="/grower" />
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('role')
+    setIsLoggedIn(false)
+    setDefaultRole('')
+  }
 
   if (isLoading) {
-    return <div>{t("label.loading")}</div>
+    return <div>{t('label.loading')}</div>
   }
 
   return (
     <div>
       <Router>
         <div>
-          <Navbar collapseOnSelect expand="lg" bg="light">
-            <Navbar.Brand>
-              <h1 className='mx-3 text-center'>Slowers</h1>
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse id="responsive-navbar-nav">
-              <Nav className="me-auto justify-content-start">
-                <Nav.Link as={Link} to="/">
-                  {t("menu.home")}
-                </Nav.Link>
-                {!isLoggedIn && (
-                  <Nav.Link as={Link} to="/login">
-                    {t("menu.login")}
-                  </Nav.Link>
-                )}
-                {!isLoggedIn && (
-                  <Nav.Link as={Link} to="/register">
-                    {t("menu.register")}
-                  </Nav.Link>
-                )}
-                {isLoggedIn && (
-                <NavDropdown title={t("menu.role")} id="collasible-nav-dropdown">
-                  <Nav.Link as={Link} to="/retailer">
-                    {t("menu.retailer")}
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="/grower">
-                    {t("menu.grower")}
-                  </Nav.Link>
-                </NavDropdown>
-                )}
-                {isLoggedIn && (
-                  <Nav.Link as={Link} onClick={handleLogout}>
-                    {t("menu.logout")}
-                  </Nav.Link>
-                )}
-              </Nav>
-              <Nav className="ms-auto">
-                {isLoggedIn && (
-                  <Nav.Link as={Link} to="/user">
-                    {t("menu.profile")}
-                  </Nav.Link>
-                )}
-                <Nav.Link as={Link} to="/terms">
-                  {t("menu.terms")}
-                </Nav.Link>
-                <NavDropdown title={t("menu.language")} id="collasible-nav-dropdown">
-                  <LangSelect/>
-                </NavDropdown>
-              </Nav>
-            </Navbar.Collapse>
-          </Navbar>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                isLoggedIn 
-                  ? defaultRole == 'retailer' 
-                    ? <Navigate replace to='/retailer'/> 
-                    : <Navigate replace to='/grower'/>
-                  : <Navigate replace to="/login" />
-              }
-            />
-            <Route
-              path="/login"
-              element={
-                !isLoggedIn ? (
-                  <LogInPage
-                    onLogin={handleLogout}
-                    setIsLoggedIn={setIsLoggedIn}
-                    setDefaultRole={setDefaultRole}
-                  />
-                ) : (
-                  <Navigate replace to="/" />
-                )
-              }
-            />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/terms" element={<TermsPage />} />
-            <Route
-              path="/site"
-              element={isLoggedIn ? <SitePage /> : <Navigate replace to="/login" />}
-            />
-            <Route
-              path="/site/:id"
-              element={isLoggedIn ? <SitePage /> : <Navigate replace to="/login" />}
-            />
-            <Route
-              path="/flowers"
-              element={isLoggedIn ? <HomePage /> : <Navigate replace to="/login" />}
-            />
 
-            <Route
-              path="/retailer"
-              element={isLoggedIn ? <RetailerLayout /> : <Navigate replace to="/login" />}
-            >
-              <Route index element={<RetailerHomePage />} />
-              <Route path="flowers" element={<RetailerFlowerPage />} />
+          <NavigationBar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
+
+          <Routes>
+
+            <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
+
+              <Route path="/" element={getDefaultRole()} />
+
+              <Route path="/grower" element={<GrowerLayout />}>
+                <Route index element={<GrowerHomePage />} />
+                <Route path="flowers" element={<GrowerFlowerPage />} />
+                <Route path="sites" element={<GrowerSitesPage />} />
+              </Route>
+
+              <Route path="/grower/:siteId" element={<GrowerLayout />}>
+                <Route index element={<GrowerHomePage />} />
+                <Route path="flowers" element={<GrowerFlowerPage />} />
+                <Route path="sites" element={<GrowerSitesPage />} />
+              </Route>
+
+              <Route path="/retailer" element={<RetailerLayout />}>
+                <Route index element={<RetailerHomePage />} />
+                <Route path="flowers" element={<RetailerFlowerPage />} />
+              </Route>
+
+              <Route path="/user" element={<UserPage setDefaultRole={setDefaultRole}/>} />
+
             </Route>
-            <Route
-              path="/grower"
-              element={isLoggedIn ? <GrowerLayout /> : <Navigate replace to="/login" />}
-            >
-              <Route index element={<SitePage />} />
-              <Route path="flowers" element={<GrowerFlowerPage />} />
-            </Route>
-            <Route
-              path="/user"
-              element={isLoggedIn ? <UserPage setDefaultRole={setDefaultRole}/> : <Navigate replace to="/login" />}
-            />
+
+            <Route path="/login" element={isLoggedIn ? getDefaultRole() : (
+              <LogInPage
+              onLogin={handleLogout}
+              setIsLoggedIn={setIsLoggedIn}
+              setDefaultRole={setDefaultRole}/>
+            )} />
+            
+            <Route path="/register" element={isLoggedIn ? getDefaultRole() : <RegisterPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+
           </Routes>
+
         </div>
       </Router>
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App
