@@ -95,3 +95,21 @@ test('image and note can be submitted', async() => {
   waitFor(() => expect(createImage.mock.calls).toHaveLength(1))
   waitFor(() => expect(createImage.mock.calls[0][0]).toEqual({note: "this is a note", image: file}))
 })
+
+test("non-images can't be submitted", async() => {
+  const createImage = vi.fn()
+  const user = userEvent.setup()
+
+  render(<ImageForm createImage={createImage}/>)
+
+  const imageSelector = screen.getByLabelText('Select image:')
+  const noteInput = screen.getByLabelText('Note:')
+  const submit = screen.getByText('Save')
+
+  const file = new File(['hello'], 'hello.txt', {type: 'text/plain'})
+
+  await user.type(noteInput, "this is a note")
+  await user.click(submit)
+
+  waitFor(() => expect(createImage.mock.calls).toHaveLength(0))
+})
