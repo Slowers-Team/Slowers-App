@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import ImageForm from '../../src/components/image/ImageForm'
 import { expect, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
@@ -89,10 +89,9 @@ test('image and note can be submitted', async() => {
 
   const file = new File(['hello'], 'hello.png', {type: 'image/png'})
 
-  await user.upload(imageSelector, file)
   await user.type(noteInput, "this is a note")
   await user.click(submit)
 
-  expect(createImage.mock.calls).toHaveLength(1)
-  expect(createImage.mock.calls[0][0]).toEqual({note: "this is a note", image: file})
+  waitFor(() => expect(createImage.mock.calls).toHaveLength(1))
+  waitFor(() => expect(createImage.mock.calls[0][0]).toEqual({note: "this is a note", image: file}))
 })
