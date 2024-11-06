@@ -113,7 +113,7 @@ func (s *UsersAPITestSuite) TestFetchingUser() {
 		Description:  "GET /api/user",
 		Route:        "/api/user",
 		Method:       "GET",
-		Body:         "",
+		Body:         []byte{},
 		ExpectedCode: 200,
 		ExpectedBody: utils.UserToJSON(s.TestUser),
 		SetupMocks: func(db *mocks.Database) {
@@ -134,9 +134,9 @@ func (s *UsersAPITestSuite) TestChangingRole() {
 		Description:  "POST /api/user/role",
 		Route:        "/api/user/role",
 		Method:       "POST",
-		Body:         roleJSON,
+		Body:          []byte(roleJSON),
 		ExpectedCode: 201,
-		ExpectedBody: roleJSON,
+		ExpectedBody:  []byte(roleJSON),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().SetUserRole(
 				mock.Anything, s.TestUser.ID, role,
