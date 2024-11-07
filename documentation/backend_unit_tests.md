@@ -15,9 +15,9 @@
 - More specifically, the tests for the API routes whose handlers are in `backend/handlers/<filename_here>.go` are located in the file `backend/apitests/<filename_here>s_test.go`
   - So for example the tests for the API routes for flowers are located in the file `backend/apitests/flowers_test.go`
 
-(Adding tests to existing test files)[backend_unit_tests/api_route_add_test.md]
+[Adding tests to existing test files](backend_unit_tests/api_route_add_test.md)
 
-(Adding a new test file)[backend_unit_tests/api_route_add_file.md]
+[Adding a new test file](backend_unit_tests/api_route_add_file.md)
 
 ## Database functions
 
@@ -25,7 +25,6 @@
 - More specifically, the tests for the database functions in `backend/database/<filename_here>.go` are located in the file `backend/database/tests/<filename_here>_test.go`
   - So for example the tests for `backend/database/flower.go` are located in the file `backend/database/tests/flower_test.go`
 
-(Adding tests to existing test files)[backend_unit_tests/db_function_add_test.md]
+[Adding tests to existing test files](backend_unit_tests/db_function_add_test.md)
 
-(Adding a new test file)[backend_unit_tests/db_function_add_file.md]
-
+[Adding a new test file](backend_unit_tests/db_function_add_file.md)
