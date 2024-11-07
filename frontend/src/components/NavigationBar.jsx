@@ -1,3 +1,4 @@
+import '../App.css'
 import { useTranslation } from 'react-i18next'
 import { Navbar, Nav, NavDropdown, Button, Offcanvas } from 'react-bootstrap'
 import LangSelect from './LangSelect'
