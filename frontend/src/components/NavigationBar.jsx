@@ -2,16 +2,21 @@ import '../App.css'
 import { useTranslation } from 'react-i18next'
 import { Navbar, Nav, NavDropdown, Button, Offcanvas } from 'react-bootstrap'
 import LangSelect from './LangSelect'
+import userService from '../services/users'
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export const NavigationBar = ({ isLoggedIn, handleLogout }) => {
     const { t, i18n } = useTranslation()
     const [showOffCanvas, setShowOffCanvas] = useState(false)
+    const [user, setUser] = useState({})
 
     const handleClose = () => setShowOffCanvas(false)
     const handleShow = () => setShowOffCanvas(!showOffCanvas)
-  
+
+    useEffect(() => {
+      userService.get().then(user => setUser(user))
+    }, [])
 
     return (
         <>
@@ -24,9 +29,14 @@ export const NavigationBar = ({ isLoggedIn, handleLogout }) => {
             </Navbar.Brand>
               <Nav className="ms-auto mx-2">
                 {isLoggedIn && (
-                  <Nav.Link as={Link} to="/user">
-                    {t("menu.profile")}
-                  </Nav.Link>
+                  <NavDropdown title={user.username} id="collasible-nav-dropdown">
+                    <Nav.Link className="text-secondary" as={Link} to="/user">
+                      {t("menu.profile")}
+                    </Nav.Link>
+                    <Nav.Link className="text-secondary" as={Link} onClick={() => { handleLogout(); handleClose(); }}>
+                      {t("menu.logout")}
+                    </Nav.Link>
+                  </NavDropdown>
                 )}
                 <NavDropdown title={t("menu.language")} id="collasible-nav-dropdown">
                   <LangSelect/>
@@ -63,11 +73,6 @@ export const NavigationBar = ({ isLoggedIn, handleLogout }) => {
                 {isLoggedIn && (
                   <Nav.Link className="text-secondary" as={Link} to="/grower" onClick={handleClose}>
                     {t("menu.grower")}
-                  </Nav.Link>
-                )}
-                {isLoggedIn && (
-                  <Nav.Link className="text-secondary" as={Link} onClick={() => { handleLogout(); handleClose(); }}>
-                    {t("menu.logout")}
                   </Nav.Link>
                 )}
                 <Nav.Link className="text-secondary" as={Link} to="/terms" onClick={handleClose}>
