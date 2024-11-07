@@ -53,7 +53,6 @@ const tabBar = () => {
   )
 }
 const GrowerLayout = () => {
-  const { t, i18n } = useTranslation()
   return (
     <div>
       {tabBar()}

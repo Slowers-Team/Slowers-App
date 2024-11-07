@@ -9,7 +9,7 @@ const tabBar = () => {
     <div className='my-2'>
       <Link to="/retailer" className="mx-2 text-secondary text-decoration-none">Placeholder</Link>
       <div className="my-3">
-        <Nav variant='tabs' defaultActiveKey="/grower">
+        <Nav variant='tabs' defaultActiveKey="/retailer">
           <Nav.Item>
             <Nav.Link className="text-success" as={NavLink} end to="/retailer"> 
               {t('menu.home')}
@@ -27,7 +27,6 @@ const tabBar = () => {
 }
 
 const RetailerLayout = () => {
-  const { t, i18n } = useTranslation()
   return (
     <div>
       {tabBar()}
