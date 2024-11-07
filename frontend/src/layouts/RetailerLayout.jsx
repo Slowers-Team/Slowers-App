@@ -1,39 +1,36 @@
-import { Outlet, NavLink } from 'react-router-dom'
+import { Outlet, NavLink, Link } from 'react-router-dom'
 import './Retailer.css'
 import { useTranslation } from 'react-i18next'
+import { Nav } from 'react-bootstrap'
 
-const navigationBar = () => {
+const tabBar = () => {
   const { t, i18n } = useTranslation()
   return (
-    <div className="nav-container">
-      <nav>
-        <ul>
-          <li>
-            <NavLink to="/retailer" end>
+    <div className='my-2'>
+      <Link to="/retailer" className="mx-2 text-secondary text-decoration-none">Placeholder</Link>
+      <div className="my-3">
+        <Nav variant='tabs' defaultActiveKey="/retailer">
+          <Nav.Item>
+            <Nav.Link className="text-success" as={NavLink} end to="/retailer"> 
               {t('menu.home')}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/retailer/flowers">{t('menu.flowers')}</NavLink>
-          </li>
-        </ul>
-      </nav>
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link className="text-success" as={NavLink} end to="/retailer/flowers">
+              {t('menu.flowers')}
+            </Nav.Link>
+          </Nav.Item>
+        </Nav>
+      </div>
     </div>
   )
 }
 
 const RetailerLayout = () => {
-  const { t, i18n } = useTranslation()
   return (
-    <div className="layout-container">
-      <header className="header">
-        <h2>{t('menu.retailer')}</h2>
-      </header>
-      <div className="content">
-        <aside className="side-container">
-          <h2>{t('title.navigation')}</h2>
-          {navigationBar()}
-        </aside>
+    <div>
+      {tabBar()}
+      <div>
         <main className="main-container">
           <Outlet />
         </main>

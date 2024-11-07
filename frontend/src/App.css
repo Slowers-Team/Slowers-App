@@ -18,3 +18,8 @@ th {
 td {
     padding: 1rem 2rem 0 0;
 }
+
+.offcanvas-thin {
+  width: 250px !important;
+  max-width: 250px !important;
+}

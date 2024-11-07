@@ -1,64 +1,86 @@
+import '../App.css'
 import { useTranslation } from 'react-i18next'
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
+import { Navbar, Nav, NavDropdown, Button, Offcanvas } from 'react-bootstrap'
 import LangSelect from './LangSelect'
+import userService from '../services/users'
 import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 
 export const NavigationBar = ({ isLoggedIn, handleLogout }) => {
     const { t, i18n } = useTranslation()
+    const [showOffCanvas, setShowOffCanvas] = useState(false)
+    const [user, setUser] = useState({})
+
+    const handleClose = () => setShowOffCanvas(false)
+    const handleShow = () => setShowOffCanvas(!showOffCanvas)
+
+    useEffect(() => {
+      userService.get().then(user => setUser(user))
+    }, [])
 
     return (
         <>
-        <Navbar collapseOnSelect expand="lg" bg="light">
-            <Navbar.Brand>
-              <h1 className="mx-3 text-center">Slowers</h1>
+        <Navbar expand="sm" bg="light">
+            <Button variant="light" className="mx-2" onClick={handleShow}>
+              <span className='navbar-toggler-icon'></span>
+            </Button>
+            <Navbar.Brand as={Link} to="/">
+              <h1>Slowers</h1>
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse id="responsive-navbar-nav">
-              <Nav className="me-auto justify-content-start">
-                <Nav.Link as={Link} to="/">
-                  {t('menu.home')}
-                </Nav.Link>
-                {!isLoggedIn && (
-                  <Nav.Link as={Link} to="/login">
-                    {t('menu.login')}
-                  </Nav.Link>
-                )}
-                {!isLoggedIn && (
-                  <Nav.Link as={Link} to="/register">
-                    {t('menu.register')}
-                  </Nav.Link>
-                )}
+              <Nav className="ms-auto mx-2">
                 {isLoggedIn && (
-                  <NavDropdown title={t('menu.role')} id="collasible-nav-dropdown">
-                    <Nav.Link as={Link} to="/retailer">
-                      {t('menu.retailer')}
+                  <NavDropdown title={user.username} id="collasible-nav-dropdown">
+                    <Nav.Link className="text-secondary" as={Link} to="/user">
+                      {t("menu.profile")}
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/grower">
-                      {t('menu.grower')}
+                    <Nav.Link className="text-secondary" as={Link} onClick={() => { handleLogout(); handleClose(); }}>
+                      {t("menu.logout")}
                     </Nav.Link>
                   </NavDropdown>
                 )}
-                {isLoggedIn && (
-                  <Nav.Link as={Link} onClick={handleLogout}>
-                    {t('menu.logout')}
-                  </Nav.Link>
-                )}
-              </Nav>
-              <Nav className="ms-auto">
-                {isLoggedIn && (
-                  <Nav.Link as={Link} to="/user">
-                    {t('menu.profile')}
-                  </Nav.Link>
-                )}
-                <Nav.Link as={Link} to="/terms">
-                  {t('menu.terms')}
-                </Nav.Link>
-                <NavDropdown title={t('menu.language')} id="collasible-nav-dropdown">
-                  <LangSelect />
+                <NavDropdown title={t("menu.language")} id="collasible-nav-dropdown">
+                  <LangSelect/>
                 </NavDropdown>
               </Nav>
-            </Navbar.Collapse>
           </Navbar>
+
+          <Offcanvas show={showOffCanvas} onHide={handleClose} className="offcanvas-thin">
+            <Offcanvas.Header closeButton>
+              <Offcanvas.Title> 
+                <h2>Slowers</h2>
+              </Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body>
+            <Nav className="flex-column pe-3">
+                <Nav.Link className="text-secondary" as={Link} to="/" onClick={handleClose}>
+                  {t("menu.home")}
+                </Nav.Link>
+                {!isLoggedIn && (
+                  <Nav.Link className="text-secondary" as={Link} to="/login" onClick={handleClose}>
+                    {t("menu.login")}
+                  </Nav.Link>
+                )}
+                {!isLoggedIn && (
+                  <Nav.Link className="text-secondary" as={Link} to="/register" onClick={handleClose}>
+                    {t("menu.register")}
+                  </Nav.Link>
+                )}
+                {isLoggedIn && (
+                  <Nav.Link className="text-secondary" as={Link} to="/retailer" onClick={handleClose}>
+                    {t("menu.retailer")}
+                  </Nav.Link>
+                )}
+                {isLoggedIn && (
+                  <Nav.Link className="text-secondary" as={Link} to="/grower" onClick={handleClose}>
+                    {t("menu.grower")}
+                  </Nav.Link>
+                )}
+                <Nav.Link className="text-secondary" as={Link} to="/terms" onClick={handleClose}>
+                  {t("menu.terms")}
+                </Nav.Link>
+              </Nav>
+            </Offcanvas.Body>
+          </Offcanvas>
         </>
     )
 }
