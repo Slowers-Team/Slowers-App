@@ -7,6 +7,7 @@ import axios from 'axios'
 vi.mock('axios')
 
 tokenService.fetchToken = vi.fn().mockReturnValue('faketoken')
+global.URL.createObjectURL = vi.fn().mockReturnValue('mocked-url')
 
 test('creates a new image correctly', async() => {
     const newImage = {
@@ -35,6 +36,34 @@ test('creates a new image correctly', async() => {
 
     expect(result).toMatchObject(expected)
     expect(axios.post).toHaveBeenCalledWith('/api/images', newImage, config)
+})
+
+test('fetches images by entity correctly', async () => {
+    const entityId = '30939203029021ce'
+
+    const config = {
+        headers: {Authorization: tokenService.fetchToken() },
+        'Content-Type': "json",
+    }
+
+    const mockImages = [
+        { _id: '1', name: 'Image 1', entity: entityId},
+        { _id: '2', name: 'Image 2', entity: entityId},
+    ]
+    
+    axios.get.mockResolvedValue({
+        data: mockImages
+    })
+
+    const result = await images.getImagesByEntity(entityId)
+
+    expect(result).toEqual(
+        mockImages.map((imageObject) => ({
+            ...imageObject,
+            url: 'mocked-url', 
+        }))
+    )
+    expect(axios.get).toHaveBeenCalledWith(`/api/images/entity/${entityId}`, config);
 })
 
 test('deletes an image correctly', async () => {
