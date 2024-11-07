@@ -16,7 +16,6 @@ const GrowerSitesPage = () => {
   const [flowers, setFlowers] = useState() 
   const [showAddNewFlower, setShowAddNewFlower] = useState(false)
   const { t, i18n } = useTranslation()
-  console.log("params", params.siteId, "site", site)
 
   useEffect(() => {
     SiteService.get(params.siteId)
