@@ -16,11 +16,12 @@ const GrowerHomePage = () => {
 
   return (
     <>
-    {params.siteId ? (
-      <h2>{site?.name} {t('title.sitehome')} </h2>
-    ) : (
-      <h2>{t('title.home')}</h2>
-    )}
+      {params.siteId ? (
+        <h2>{site?.name} {t('title.sitehome')} </h2>
+      ) : (
+        <h2>{t('title.home')}</h2>
+      )}
+      {site?.note && <p className='mx-1'>{t('site.data.note')} : {site?.note}</p>}
     </>
   )
 }
