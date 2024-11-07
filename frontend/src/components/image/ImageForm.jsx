@@ -51,7 +51,7 @@ const ImageForm = ({ createImage }) => {
             id="newImageInput"
             className="form-control"
             type="file"
-            accept="image/jpg, image/png"
+            accept="image/jpg,image/png"
             required
             onChange={handleFileSelect}
           />
