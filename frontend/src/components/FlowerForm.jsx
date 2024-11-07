@@ -19,7 +19,7 @@ const FlowerForm = ({ createFlower, siteID }) => {
   }
 
   return (
-    <div className="text-left">
+    <div className="text-left m-1" style={{ maxWidth: "200px" }}>
       <form onSubmit={addFlower}>
         <div className="form-group">
           <label htmlFor="newFlowerNameInput">{t("flower.data.name")}:</label>
@@ -40,7 +40,7 @@ const FlowerForm = ({ createFlower, siteID }) => {
           />
         </div>
         <div>
-          <button id="saveNewFlowerButton" type="submit" className="btn btn-light">
+          <button id="saveNewFlowerButton" type="submit" className="btn btn-light my-2">
             {t("button.save")}
           </button>
         </div>
