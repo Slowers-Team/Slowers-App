@@ -1,15 +1,18 @@
 import { useParams } from 'react-router-dom'
 import GrowerFlowerList from '../components/grower/GrowerFlowerList'
 import flowerService from '../services/flowers'
+import siteService from '../services/sites'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 const GrowerFlowerPage = () => {
   const params = useParams()
   const [flowers, setFlowers] = useState()
+  const [site, setSite] = useState()
   const { t, i18n } = useTranslation()
 
   useEffect(() => {
     if (params.siteId) {
+      siteService.get(params.siteId).then(initialSite => setSite(initialSite.site))
       flowerService.getFlowersBySite(params.siteId).then(initialFlowers => setFlowers(initialFlowers))
     } else {
       flowerService.getUserFlowers().then(initialFlowers => setFlowers(initialFlowers))
@@ -28,11 +31,10 @@ const GrowerFlowerPage = () => {
   return (
     <>
     {params.siteId ? (
-      <h2>{t('title.site')}: {params.siteId}</h2>
+      <h2>{site?.name} {t('title.siteflowers')}</h2>
     ) : (
-      <h2>{t('title.home')}</h2>
+      <h2>{t('title.allflowers')}</h2>
     )}
-      <h2>{t('title.flowers')}</h2>
       { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} />) : (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} />) }
     </>
   )

@@ -77,6 +77,8 @@
       },
       "title": {
         "flowers": "Flowers",
+        "allflowers": "All flowers",
+        "siteflowers": "flowers",
         "home": "Home",
         "register": "Slowers registration",
         "login": "Log into Slowers",
@@ -178,6 +180,8 @@
       },
       "title": {
         "flowers": "Kukat",
+        "allflowers": "Kaikki kukat",
+        "siteflowers": "kukat",
         "home": "Kotisivu",
         "register": "Rekisteröidy Slowersiin",
         "login": "Kirjaudu Slowersiin",
