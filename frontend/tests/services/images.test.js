@@ -36,3 +36,20 @@ test('creates a new image correctly', async() => {
     expect(result).toMatchObject(expected)
     expect(axios.post).toHaveBeenCalledWith('/api/images', newImage, config)
 })
+
+test('deletes an image correctly', async () => {
+    const imageId = '123'
+
+    const config = {
+        headers: { Authorization: tokenService.fetchToken() },
+    }
+
+    const expected = { message: 'Image deleted successfully' }
+
+    axios.delete.mockResolvedValue({ data: expected })
+
+    const result = await images.deleteImage(imageId)
+
+    expect(result).toMatchObject(expected)
+    expect(axios.delete).toHaveBeenCalledWith(`/api/images/${imageId}`, config)
+})
