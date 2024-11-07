@@ -4,6 +4,7 @@ import SiteService from '../services/sites'
 import flowerService from '../services/flowers'
 import FlowerForm from '../components/FlowerForm'
 import SiteFlexbox from '../components/SiteFlexbox'
+import AddImage from '../components/image/AddImage'
 
 import { useTranslation } from "react-i18next"
 
@@ -15,6 +16,7 @@ const GrowerSitesPage = () => {
   const [flowers, setFlowers] = useState() 
   const [showAddNewFlower, setShowAddNewFlower] = useState(false)
   const { t, i18n } = useTranslation()
+  console.log("params", params.siteId, "site", site)
 
   useEffect(() => {
     SiteService.get(params.siteId)
@@ -124,6 +126,7 @@ const GrowerSitesPage = () => {
               <div className="site-actions">
                 <button onClick={handleBack} style={{ marginRight: "0.5rem" }} className="btn btn-light">{t("button.goback")}</button>
                 <button id="deleteSiteButton" onClick={() => deleteSite(site)} className="btn btn-light">{t("button.deletethissite")}</button>
+                <AddImage entity={site}/>
               </div>
               <SiteFlexbox createSite={createSite} sites={sites} />
             </main>
