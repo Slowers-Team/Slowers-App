@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react'
 import AddImage from '../../src/components/image/AddImage'
-import { expect, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 
 test('renders add image button', () => {
