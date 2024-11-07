@@ -23,7 +23,7 @@ func GetTestFlowers() []database.Flower {
 		flowerIDs = append(flowerIDs, curFlowerID)
 	}
 
-	growerID := GetUser().ID
+	growerID := GetUsers()[0].ID
 	siteID, err := database.ParseID("66f5027d6430d371f8636c3c")
 	if err != nil {
 		log.Fatal(err)
@@ -54,5 +54,27 @@ func GetTestFlowers() []database.Flower {
 			Grower:    &growerID,
 			Site:      &siteID,
 		},
+	}
+}
+
+func GetTestFlowerForUser2() database.Flower {
+	flowerID, err := database.ParseID("66fd466f0011335cd891aea8")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	growerID := GetUsers()[1].ID
+	siteID, err := database.ParseID("6700042668d22894f711af60")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return database.Flower{
+		ID:        flowerID,
+		Name:      "cornflower",
+		LatinName: "Centaurea cyanus",
+		AddedTime: time.Date(2024, 10, 11, 19, 32, 17, 0, time.UTC),
+		Grower:    &growerID,
+		Site:      &siteID,
 	}
 }
