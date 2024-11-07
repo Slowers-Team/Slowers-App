@@ -7,18 +7,6 @@ const ImageForm = ({ createImage }) => {
   const [newImageNote, setNewImageNote] = useState("")
   const { t, i18n } = useTranslation()
 
-  useEffect(() => {
-    if (!newImage) {
-      setPreview(undefined)
-      return
-    }
-
-    const objectUrl = URL.createObjectURL(newImage)
-    setPreview(objectUrl)
-
-    return () => URL.revokeObjectURL(objectUrl)
-  }, [newImage])
-
   const handleSubmit = event => {
     event.preventDefault()
 
@@ -39,7 +27,13 @@ const ImageForm = ({ createImage }) => {
       setSelectedFile(undefined)
       return
     }
-    setNewImage(event.target.files[0])
+    const file = event.target.files[0]
+    const objectUrl = URL.createObjectURL(file)
+
+    setPreview(objectUrl)
+    setNewImage(file)
+
+    return () => URL.revokeObjectURL(objectUrl)
   }
 
   return (
