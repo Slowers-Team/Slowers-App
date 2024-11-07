@@ -9,22 +9,11 @@ const AddImage = ({ entity }) => {
     const [id, setID] = useState("")
     const [message, setMessage] = useState("")
     const { t, i18n } = useTranslation()
-    const [uploadedImageName, setUploadedImageName] = useState("")
-    const [uploadedImage, setUploadedImage] = useState()
-
 
     useEffect(() => {
       setID(entity._id)
     }, [entity])
 
-    useEffect(() => {
-      if (!uploadedImageName) {
-        return
-      } else {
-        ImageService.get(uploadedImageName)        
-        .then(data => setUploadedImage(data))
-      }
-    }, [uploadedImageName])
 
     const showForm = () => {
       setShow(true)
@@ -32,20 +21,16 @@ const AddImage = ({ entity }) => {
 
     const hide = () => {
       setShow(false)
-      setUploadedImageName("")
-      setUploadedImage(undefined)
       setMessage("")
     }
   
     const createImage = imageObject => {
-      setUploadedImageName("")
       setMessage("")
 
       ImageService.create({ ...imageObject, entity: id })
         .then(data => {
           console.info("Image upload succesful:", data)
           setMessage(t("alert.imageuploaded"))
-          setUploadedImageName(ImageService.getFilename(data))
         })
         .catch(error => {
           const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, '')
