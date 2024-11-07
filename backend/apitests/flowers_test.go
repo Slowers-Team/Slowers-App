@@ -136,7 +136,7 @@ func (s *FlowersAPITestSuite) TestListingFlowersOfCurrentUser() {
 		Description:  "GET /api/flowers/user",
 		Route:        "/api/flowers/user",
 		Method:       "GET",
-		Body:         "",
+		Body:         []byte{},
 		ExpectedCode: 200,
 		ExpectedBody: utils.FlowersToJSON(s.TestFlowers),
 		SetupMocks: func(db *mocks.Database) {
@@ -158,7 +158,7 @@ func (s *FlowersAPITestSuite) TestListingFlowersOfSite() {
 		Description:  "GET /api/sites/<id>/flowers",
 		Route:        "/api/sites/" + site.ID.Hex() + "/flowers",
 		Method:       "GET",
-		Body:         "",
+		Body:         []byte{},
 		ExpectedCode: 200,
 		ExpectedBody: utils.FlowersToJSON(flowers),
 		SetupMocks: func(db *mocks.Database) {
