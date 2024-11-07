@@ -20,7 +20,7 @@ func UploadImage(c *fiber.Ctx) error {
 	}
 
 	if image.Note == "" {
-		return c.Status(400).SendString("Image name cannot be empty")
+		return c.Status(400).SendString("Image note cannot be empty")
 	}
 
 	if image.Entity == nil || *image.Entity == database.NilObjectID {
