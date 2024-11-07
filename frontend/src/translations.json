@@ -86,7 +86,9 @@
         "navigation": "Navigation",
         "rootsites": "Root Sites",
         "terms": "Terms and Conditions",
-        "site": "Site"
+        "site": "Site",
+        "sites": "Sites",
+        "sitesites": "sites"
       },
       "user": {
         "data": {
@@ -190,7 +192,9 @@
         "navigation": "Navigointi",
         "rootsites": "Juurisivut",
         "terms": "Käyttöehdot",
-        "site": "Alue"
+        "site": "Alue",
+        "sites": "Alueet",
+        "sitesites": "alueet"
       },
       "user": {
         "data": {
