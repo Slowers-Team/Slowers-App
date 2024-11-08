@@ -40,7 +40,7 @@ func (s *UsersAPITestSuite) TestCreatingUser() {
 			},
 		),
 		ExpectedCode: 201,
-		ExpectedBodyFunc: func(body string) {
+		ExpectedBodyFunc: func(body []byte) {
 			var response struct {
 				Role  string `json:"role"`
 				Token string `json:"token"`
