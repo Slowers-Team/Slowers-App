@@ -122,12 +122,12 @@ const SitePage = () => {
     <>
       {params.id ? (
         <div className="layout-container">
-          <header className="header">
+          <header>
             <h1>{site?.name}</h1>
             <p className="site-note">{site?.note}</p>
           </header>
-          <div className="content">
-            <aside className="side-container">
+          <div>
+            <aside>
               <h3>{t("site.siteflowers")}:</h3>
               <div className="flower-list">
                 {Array.isArray(flowers) && flowers.length > 0 ? (
@@ -171,6 +171,9 @@ const SitePage = () => {
         </div>
       )}
     </>
+  )
+}
+
   );
 };
 
