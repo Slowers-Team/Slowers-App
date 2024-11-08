@@ -41,7 +41,7 @@ const AddImage = ({ entity }) => {
 
     return (
       <>
-        <Button variant="secondary" onClick={showForm}>{t("button.addimage")}</Button>
+        <Button className='mx-2' variant="light" onClick={showForm}>{t("button.addimage")}</Button>
         <Modal size="l" show={show} onHide={hide}>
           <Modal.Header closeButton>
             <Modal.Title>{t("image.title")}</Modal.Title>
