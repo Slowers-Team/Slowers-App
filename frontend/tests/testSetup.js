@@ -5,3 +5,6 @@ import '@testing-library/jest-dom/vitest'
 afterEach(() => {
   cleanup()
 })
+
+URL.createObjectURL = function() {};
+URL.revokeObjectURL = function() {};

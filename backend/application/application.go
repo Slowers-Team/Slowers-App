@@ -22,7 +22,8 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app.Post("/api/register", handlers.CreateUser)
 	app.Post("/api/login", handlers.HandleLogin)
 
-	app.Static("/", "./client/dist")
+	app.Static("/assets", "./client/dist/assets")
+	app.Static("/*", "./client/dist")
 
 	if isAuthOn {
 		app.Use(AuthMiddleware)
@@ -43,6 +44,9 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 
 	app.Get("/api/user", handlers.GetUser)
 	app.Post("/api/user/role", handlers.SetRole)
+
+	app.Post("/api/images", handlers.UploadImage)
+	app.Get("/api/images/:filename", handlers.DownloadImage)
 
 	return app
 }
