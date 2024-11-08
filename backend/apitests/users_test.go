@@ -29,6 +29,7 @@ func (s *UsersAPITestSuite) TestCreatingUser() {
 		Description: "POST /api/register",
 		Route:       "/api/register",
 		Method:      "POST",
+		ContentType: "application/json",
 		Body: utils.UserToJSON(
 			database.User{
 				Username: s.TestUser.Username,
@@ -38,7 +39,7 @@ func (s *UsersAPITestSuite) TestCreatingUser() {
 			},
 		),
 		ExpectedCode: 201,
-		ExpectedBody: "Created",
+		ExpectedBody: []byte("Created"),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().CountUsersWithEmail(
 				mock.Anything, s.TestUser.Email,
@@ -80,6 +81,7 @@ func (s *UsersAPITestSuite) TestLoggingIn() {
 		Description: "POST /api/login",
 		Route:       "/api/login",
 		Method:      "POST",
+		ContentType: "application/json",
 		Body: utils.LogInToJSON(
 			database.LogIn{
 				Email:    s.TestUser.Email,
@@ -87,7 +89,7 @@ func (s *UsersAPITestSuite) TestLoggingIn() {
 			},
 		),
 		ExpectedCode: 200,
-		ExpectedBodyFunc: func(body string) {
+		ExpectedBodyFunc: func(body []byte) {
 			// TODO: Check here that the token is valid
 		},
 		SetupMocks: func(db *mocks.Database) {
@@ -111,7 +113,7 @@ func (s *UsersAPITestSuite) TestFetchingUser() {
 		Description:  "GET /api/user",
 		Route:        "/api/user",
 		Method:       "GET",
-		Body:         "",
+		Body:         []byte{},
 		ExpectedCode: 200,
 		ExpectedBody: utils.UserToJSON(s.TestUser),
 		SetupMocks: func(db *mocks.Database) {
@@ -132,9 +134,10 @@ func (s *UsersAPITestSuite) TestChangingRole() {
 		Description:  "POST /api/user/role",
 		Route:        "/api/user/role",
 		Method:       "POST",
-		Body:         roleJSON,
+		ContentType:  "application/json",
+		Body:         []byte(roleJSON),
 		ExpectedCode: 201,
-		ExpectedBody: roleJSON,
+		ExpectedBody: []byte(roleJSON),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().SetUserRole(
 				mock.Anything, s.TestUser.ID, role,

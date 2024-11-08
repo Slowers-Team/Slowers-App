@@ -1,9 +1,9 @@
 package testutils
 
 import (
+	"bytes"
 	"io"
 	"net/http"
-	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -17,10 +17,11 @@ type TestCase struct {
 	Description      string
 	Route            string
 	Method           string
-	Body             string
+	ContentType      string
+	Body             []byte
 	ExpectedCode     int
-	ExpectedBody     string
-	ExpectedBodyFunc func(body string)
+	ExpectedBody     []byte
+	ExpectedBodyFunc func(body []byte)
 	SetupMocks       func(db *mocks.Database)
 }
 
@@ -34,9 +35,9 @@ func RunTest(t *testing.T, test TestCase) {
 	req, _ := http.NewRequest(
 		test.Method,
 		test.Route,
-		strings.NewReader(test.Body),
+		bytes.NewReader(test.Body),
 	)
-	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Content-Type", test.ContentType)
 	res, err := app.Test(req, -1)
 
 	db.AssertExpectations(t)
@@ -46,8 +47,8 @@ func RunTest(t *testing.T, test TestCase) {
 	body, err := io.ReadAll(res.Body)
 	assert.Nilf(t, err, test.Description)
 	if test.ExpectedBodyFunc == nil {
-		assert.Equalf(t, test.ExpectedBody, string(body), test.Description)
+		assert.Equalf(t, test.ExpectedBody, body, test.Description)
 	} else {
-		test.ExpectedBodyFunc(string(body))
+		test.ExpectedBodyFunc(body)
 	}
 }

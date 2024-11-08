@@ -3,6 +3,7 @@
 .env
 client/
 mocks/
+/backend/images/
 
 node_modules
 

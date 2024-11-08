@@ -9,60 +9,68 @@ import (
 	"github.com/Slowers-team/Slowers-App/database"
 )
 
-func FlowerToJSON(flower database.Flower) string {
+func FlowerToJSON(flower database.Flower) []byte {
 	flowerJSON, err := json.Marshal(flower)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return string(flowerJSON)
+	return flowerJSON
 }
 
-func FlowersToJSON(flowers []database.Flower) string {
+func FlowersToJSON(flowers []database.Flower) []byte {
 	flowersJSON, err := json.Marshal(flowers)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return string(flowersJSON)
+	return flowersJSON
 }
 
-func SiteToJSON(site database.Site) string {
+func SiteToJSON(site database.Site) []byte {
 	siteJSON, err := json.Marshal(site)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return string(siteJSON)
+	return siteJSON
 }
 
-func SitesToJSON(sites []database.Site) string {
+func SitesToJSON(sites []database.Site) []byte {
 	sitesJSON, err := json.Marshal(sites)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return string(sitesJSON)
+	return sitesJSON
 }
 
-func SiteDataToJSON(siteData bson.M) string {
+func SiteDataToJSON(siteData bson.M) []byte {
 	siteDataJSON, err := json.Marshal(siteData)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return string(siteDataJSON)
+	return siteDataJSON
 }
 
-func UserToJSON(user database.User) string {
+func UserToJSON(user database.User) []byte {
 	userJSON, err := json.Marshal(user)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return string(userJSON)
+	return userJSON
 }
 
-func LogInToJSON(login database.LogIn) string {
+func LogInToJSON(login database.LogIn) []byte {
 	loginJSON, err := json.Marshal(login)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return string(loginJSON)
+	return loginJSON
+}
+
+func ImageToJSON(image database.Image) []byte {
+	imageJSON, err := json.Marshal(image)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return imageJSON
 }
 
 func IDToJSON(id string) string {
