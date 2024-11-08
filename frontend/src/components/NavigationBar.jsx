@@ -15,9 +15,13 @@ export const NavigationBar = ({ isLoggedIn, handleLogout }) => {
     const handleShow = () => setShowOffCanvas(!showOffCanvas)
 
     useEffect(() => {
-      userService.get().then(user => setUser(user))
-    }, [])
-
+      if (!isLoggedIn) {
+        setUser({})
+      } else {
+        userService.get().then(user => setUser(user))
+      }
+    }, [isLoggedIn])
+    
     return (
         <>
         <Navbar expand="sm" bg="light">
