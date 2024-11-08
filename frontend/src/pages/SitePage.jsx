@@ -174,8 +174,6 @@ const SitePage = () => {
   )
 }
 
-  );
-};
 
 export default SitePage;
 
