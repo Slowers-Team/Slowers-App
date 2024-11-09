@@ -84,13 +84,18 @@
       },
       "title": {
         "flowers": "Flowers",
-        "home": "Home",
+        "allflowers": "All flowers",
+        "siteflowers": "flowers",
+        "home": "Homepage",
+        "sitehome": "homepage",
         "register": "Slowers registration",
         "login": "Log into Slowers",
         "navigation": "Navigation",
         "rootsites": "Root Sites",
         "terms": "Terms and Conditions",
-        "site": "Site"
+        "site": "Site",
+        "sites": "Sites",
+        "sitesites": "sites"
       },
       "user": {
         "data": {
@@ -192,13 +197,18 @@
       },
       "title": {
         "flowers": "Kukat",
+        "allflowers": "Kaikki kukat",
+        "siteflowers": "kukat",
         "home": "Kotisivu",
+        "sitehome": "kotisivu",
         "register": "Rekisteröidy Slowersiin",
         "login": "Kirjaudu Slowersiin",
         "navigation": "Navigointi",
         "rootsites": "Juurisivut",
         "terms": "Käyttöehdot",
-        "site": "Alue"
+        "site": "Alue",
+        "sites": "Alueet",
+        "sitesites": "alueet"
       },
       "user": {
         "data": {
