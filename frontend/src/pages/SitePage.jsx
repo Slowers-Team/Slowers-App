@@ -4,6 +4,7 @@ import SiteService from '../services/sites'
 import flowerService from '../services/flowers'
 import FlowerForm from '../components/FlowerForm'
 import SiteFlexbox from '../components/SiteFlexbox'
+import AddImage from '../components/image/AddImage' 
 
 import { useTranslation } from "react-i18next"
 
@@ -86,12 +87,12 @@ const SitePage = () => {
     <>
       {params.id ? (
         <div className="layout-container">
-          <header className="header">
+          <header>
             <h1>{site?.name}</h1>
             <p className="site-note">{site?.note}</p>
           </header>
-          <div className="content">
-            <aside className="side-container">
+          <div>
+            <aside>
               <h3>{t("site.siteflowers")}:</h3>
               <div className="flower-list">
                 {Array.isArray(flowers) && flowers.length > 0 ? (
@@ -118,6 +119,7 @@ const SitePage = () => {
               <div className="site-actions">
                 <button onClick={handleBack} style={{ marginRight: "0.5rem" }} className="btn btn-light">{t("button.goback")}</button>
                 <button id="deleteSiteButton" onClick={() => deleteSite(site)} className="btn btn-light">{t("button.deletethissite")}</button>
+                <AddImage entity={site}/>
               </div>
               <SiteFlexbox createSite={createSite} sites={sites} />
             </main>
@@ -131,7 +133,8 @@ const SitePage = () => {
         </div>
       )}
     </>
-  );
+  )
 }
+
 
 export default SitePage

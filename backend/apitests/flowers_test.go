@@ -31,7 +31,7 @@ func (s *FlowersAPITestSuite) TestListingFlowersWithoutError() {
 		Description:  "\"GET /api/flowers\" without error",
 		Route:        "/api/flowers",
 		Method:       "GET",
-		Body:         "",
+		Body:         []byte{},
 		ExpectedCode: 200,
 		ExpectedBody: utils.FlowersToJSON(s.TestFlowers),
 		SetupMocks: func(db *mocks.Database) {
@@ -49,9 +49,9 @@ func (s *FlowersAPITestSuite) TestListingFlowersWithError() {
 		Description:  "\"GET /api/flowers\" with error",
 		Route:        "/api/flowers",
 		Method:       "GET",
-		Body:         "",
+		Body:         []byte{},
 		ExpectedCode: 500,
-		ExpectedBody: "Database error",
+		ExpectedBody: []byte("Database error"),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetFlowers(
 				mock.Anything,
@@ -67,6 +67,7 @@ func (s *FlowersAPITestSuite) TestAddingFlower() {
 		Description: "POST /api/flowers",
 		Route:       "/api/flowers",
 		Method:      "POST",
+		ContentType: "application/json",
 		Body: utils.FlowerToJSON(database.Flower{
 			Name:      s.TestFlowers[0].Name,
 			LatinName: s.TestFlowers[0].LatinName,
@@ -74,10 +75,10 @@ func (s *FlowersAPITestSuite) TestAddingFlower() {
 			Site:      s.TestFlowers[0].Site,
 		}),
 		ExpectedCode: 201,
-		ExpectedBodyFunc: func(body string) {
+		ExpectedBodyFunc: func(body []byte) {
 			flower := database.Flower{}
-			err := json.Unmarshal([]byte(body), &flower)
-			s.NoError(err, "response body should include flower data: \""+body+"\"")
+			err := json.Unmarshal(body, &flower)
+			s.NoError(err, "response body should include flower data: \""+string(body)+"\"")
 			s.Equal(flower.ID, s.TestFlowers[0].ID, "wrong ID in the added flower")
 			s.Equal(flower.Name, s.TestFlowers[0].Name, "wrong Name in the added flower")
 			s.Equal(flower.LatinName, s.TestFlowers[0].LatinName, "wrong LatinName in the added flower")
@@ -86,7 +87,7 @@ func (s *FlowersAPITestSuite) TestAddingFlower() {
 			s.Equal(flower.Site, s.TestFlowers[0].Site, "wrong Site in the added flower")
 		},
 		SetupMocks: func(db *mocks.Database) {
-			user := testdata.GetUser()
+			user := testdata.GetUsers()[0]
 			db.EXPECT().GetUserByID(mock.Anything, *s.TestFlowers[0].Grower).Return(&user, nil).Once()
 			sites := testdata.GetRootSites()
 			db.EXPECT().GetSiteByID(mock.Anything, sites[0].ID).Return(&sites[0], nil).Once()
@@ -117,14 +118,54 @@ func (s *FlowersAPITestSuite) TestDeletingFlower() {
 		Description:  "DELETE /api/flowers/<id>",
 		Route:        "/api/flowers/" + s.TestFlowers[0].ID.Hex(),
 		Method:       "DELETE",
-		Body:         "",
+		Body:         []byte{},
 		ExpectedCode: 204,
-		ExpectedBody: "",
+		ExpectedBody: []byte{},
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().DeleteFlower(
 				mock.Anything, s.TestFlowers[0].ID,
 			).Return(
 				true, nil,
+			).Once()
+		},
+	})
+}
+
+func (s *FlowersAPITestSuite) TestListingFlowersOfCurrentUser() {
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:  "GET /api/flowers/user",
+		Route:        "/api/flowers/user",
+		Method:       "GET",
+		Body:         []byte{},
+		ExpectedCode: 200,
+		ExpectedBody: utils.FlowersToJSON(s.TestFlowers),
+		SetupMocks: func(db *mocks.Database) {
+			db.EXPECT().GetUserFlowers(
+				mock.Anything, testdata.GetUsers()[0].ID,
+			).Return(
+				s.TestFlowers, nil,
+			).Once()
+		},
+	})
+}
+
+func (s *FlowersAPITestSuite) TestListingFlowersOfSite() {
+	site := testdata.GetRootSites()[0]
+	user := testdata.GetUsers()[0]
+	flowers := []database.Flower{s.TestFlowers[0]}
+
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:  "GET /api/sites/<id>/flowers",
+		Route:        "/api/sites/" + site.ID.Hex() + "/flowers",
+		Method:       "GET",
+		Body:         []byte{},
+		ExpectedCode: 200,
+		ExpectedBody: utils.FlowersToJSON(flowers),
+		SetupMocks: func(db *mocks.Database) {
+			db.EXPECT().GetAllFlowersRelatedToSite(
+				mock.Anything, site.ID, user.ID,
+			).Return(
+				flowers, nil,
 			).Once()
 		},
 	})
