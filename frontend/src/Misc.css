@@ -61,3 +61,11 @@
   width: 100%;
   border: 1px solid white;
 }
+
+.site-image {
+  width: 100%;         
+  height: auto;        
+  object-fit: cover;   
+  border-radius: 8px;  
+  max-height: 150px;   
+}

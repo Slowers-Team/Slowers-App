@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 import NewSiteForm from './NewSiteForm'
 import '../Misc.css'
+import placeholderImage from '../assets/images/site-placeholder-image.jpg'
 
 import { useTranslation } from 'react-i18next'
 
@@ -10,6 +11,7 @@ const SiteFlexbox = ({ createSite, sites }) => {
   const [showAddNewSite, setShowAddNewSite] = useState(false)
   const { t, i18n } = useTranslation()
 
+    
   return (
     <div className={'flexbox'}>
       <div className={'flexGap'}>
