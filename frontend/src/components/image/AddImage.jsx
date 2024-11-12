@@ -9,22 +9,11 @@ const AddImage = ({ entity, onImageUpload }) => {
     const [id, setID] = useState("")
     const [message, setMessage] = useState("")
     const { t, i18n } = useTranslation()
-    const [uploadedImageName, setUploadedImageName] = useState("")
-    const [uploadedImage, setUploadedImage] = useState()
-
 
     useEffect(() => {
       setID(entity._id)
     }, [entity])
 
-    useEffect(() => {
-      if (!uploadedImageName) {
-        return
-      } else {
-        ImageService.get(uploadedImageName)        
-        .then(data => setUploadedImage(data))
-      }
-    }, [uploadedImageName])
 
     const showForm = () => {
       setShow(true)
@@ -32,13 +21,10 @@ const AddImage = ({ entity, onImageUpload }) => {
 
     const hide = () => {
       setShow(false)
-      setUploadedImageName("")
-      setUploadedImage(null)
       setMessage("")
     }
   
     const createImage = imageObject => {
-      setUploadedImageName("")
       setMessage("")
 
       ImageService.create({ ...imageObject, entity: id })
@@ -57,20 +43,20 @@ const AddImage = ({ entity, onImageUpload }) => {
 
     return (
       <>
-        <Button variant="secondary" onClick={showForm}>{t("button.addimage")}</Button>
+        <Button className='mx-2' variant="light" onClick={showForm}>{t("button.addimage")}</Button>
         <Modal size="l" show={show} onHide={hide}>
           <Modal.Header closeButton>
             <Modal.Title>{t("image.title")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            { !uploadedImage
-              ? <ImageForm createImage={createImage}/>
-              : <img width={100} src={uploadedImage}/>
-            }
+
+        <ImageForm createImage={createImage}/>
           </Modal.Body>
-          <Modal.Footer>
-            { message }
-          </Modal.Footer>
+          { message &&
+            <Modal.Footer>
+              { message }
+            </Modal.Footer>
+          }
         </Modal>
       </>
     )

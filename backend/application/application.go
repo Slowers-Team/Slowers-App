@@ -22,6 +22,9 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app.Post("/api/register", handlers.CreateUser)
 	app.Post("/api/login", handlers.HandleLogin)
 
+	app.Static("/assets", "./client/dist/assets")
+	app.Static("/*", "./client/dist")
+
 	if isAuthOn {
 		app.Use(AuthMiddleware)
 	} else {
@@ -73,6 +76,6 @@ func AuthMiddleware(c *fiber.Ctx) error {
 }
 
 func TestAuthMiddleware(c *fiber.Ctx) error {
-	c.Locals("userID", testdata.GetUser().ID.Hex())
+	c.Locals("userID", testdata.GetUsers()[0].ID.Hex())
 	return c.Next()
 }
