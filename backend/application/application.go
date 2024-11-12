@@ -23,7 +23,6 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app.Post("/api/login", handlers.HandleLogin)
 
 	app.Static("/assets", "./client/dist/assets")
-	app.Static("/*", "./client/dist")
 
 	if isAuthOn {
 		app.Use(AuthMiddleware)
