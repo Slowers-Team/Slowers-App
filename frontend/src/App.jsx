@@ -40,6 +40,13 @@ const App = () => {
     return defaultRole === 'retailer' ? <Navigate replace to="/retailer" /> : <Navigate replace to="/grower" />
   }
 
+  const handleLogin = (token, role) => {
+      localStorage.setItem("token", token)
+      localStorage.setItem("role", role)
+      setIsLoggedIn(true)
+      setDefaultRole(role)
+  }
+
   const handleLogout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('role')
@@ -92,7 +99,7 @@ const App = () => {
               setDefaultRole={setDefaultRole}/>
             )} />
             
-            <Route path="/register" element={isLoggedIn ? getDefaultRole() : <RegisterPage />} />
+            <Route path="/register" element={isLoggedIn ? getDefaultRole() : <RegisterPage handleLogin={handleLogin} />} />
             <Route path="/terms" element={<TermsPage />} />
 
           </Routes>

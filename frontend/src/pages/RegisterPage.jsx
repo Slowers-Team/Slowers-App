@@ -1,13 +1,20 @@
 import userService from '../services/users'
 import RegisterForm from '../components/RegisterForm'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
-const RegisterPage = () => {
+const RegisterPage = ( { handleLogin }) => {
     const { t, i18n } = useTranslation()
+    const navigate = useNavigate()
 
     const createNewUser = userObject => {
           userService
             .create(userObject)
+            .then(data => {
+                handleLogin(data.token, data.role)
+                navigate('/')
+              }
+            )
             .catch(error => {
                 const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, '')
                 alert(t('error.error') + ': ' + (i18n.exists(key) ? t(key) : error.response.data))

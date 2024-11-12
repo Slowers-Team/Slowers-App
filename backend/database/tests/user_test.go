@@ -32,11 +32,29 @@ func (s *DbUserTestSuite) TestCreateUser() {
 		Email:    s.TestUser.Email,
 		Password: hashedPassword,
 	}
-	err := s.Db.CreateUser(context.Background(), user)
+	newUser, err := s.Db.CreateUser(context.Background(), user)
 
 	s.NoError(
 		err,
 		"CreateUser() should not return an error",
+	)
+	s.NotZero(
+		newUser.ID,
+		"new user should have non-zero ID",
+	)
+	s.Equal(
+		newUser.Username,
+		s.TestUser.Username,
+		"wrong username for new user",
+	)
+	s.Equal(
+		newUser.Email,
+		s.TestUser.Email,
+		"wrong email for new user",
+	)
+	s.NoError(
+		bcrypt.CompareHashAndPassword([]byte(newUser.Password), []byte(s.TestUser.Password)),
+		"wrong password for new user",
 	)
 }
 
@@ -61,6 +79,7 @@ func (s *DbUserTestSuite) TestCreateAndGetUser() {
 		Email:    s.TestUser.Email,
 		Password: hashedPassword,
 	}
+
 	s.Db.CreateUser(context.Background(), user)
 
 	fetchedUser, err := s.Db.GetUserByEmail(context.Background(), s.TestUser.Email)
