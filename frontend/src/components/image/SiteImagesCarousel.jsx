@@ -1,11 +1,11 @@
 import React from "react";
 import Carousel from 'react-bootstrap/Carousel';
 import { CarouselCaption } from "react-bootstrap";
-import { useTranslation } from "react-i18next"; // Tuodaan käännöshook
+import { useTranslation } from "react-i18next"; 
 import '../../layouts/SiteImagesCarousel.css';
 
 const SiteImagesCarousel = ({ images, onDelete }) => {
-  const { t } = useTranslation(); // Käytetään käännöksiä
+  const { t } = useTranslation(); 
 
   return (
     <div className="site-images-carousel">
