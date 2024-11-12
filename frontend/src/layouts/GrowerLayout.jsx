@@ -1,62 +1,62 @@
-import { Outlet, NavLink } from 'react-router-dom'
+import { Outlet, NavLink, Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Nav } from 'react-bootstrap'
 
-const navigationBar = () => {
+const tabBar = () => {
   const params = useParams()
   const { t, i18n } = useTranslation()
 
   return (
-    <div className="nav-container">
+    <div className='my-2'>
+      <Link to="/grower" className="mx-2 text-secondary text-decoration-none">Placeholder</Link>
+      <div className="my-3">
       {params.siteId ? (
-        <nav>
-          <ul>
-            <li>
-              <NavLink to={`/grower/${params.siteId}`} end>
-                {t('menu.home')}
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to={`/grower/${params.siteId}/flowers`}>{t('menu.flowers')}</NavLink>
-            </li>
-            <li>
-              <NavLink to={`/grower/${params.siteId}/sites`}>{t('menu.sites')}</NavLink>
-            </li>
-          </ul>
-        </nav>
+        <Nav variant='tabs' defaultActiveKey="/grower">
+          <Nav.Item>
+            <Nav.Link className="text-success" as={NavLink} end to={`/grower/${params.siteId}`}> 
+              {t('menu.home')}
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link className="text-success" as={NavLink} to={`/grower/${params.siteId}/flowers`}>
+              {t('menu.flowers')}
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link className="text-success" as={NavLink} to={`/grower/${params.siteId}/sites`}>
+              {t('menu.sites')}
+            </Nav.Link>
+          </Nav.Item>
+        </Nav>
       ) : (
-        <nav>
-          <ul>
-            <li>
-              <NavLink to="/grower" end>
-                {t('menu.home')}
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/grower/flowers">{t('menu.flowers')}</NavLink>
-            </li>
-            <li>
-              <NavLink to="/grower/sites">{t('menu.sites')}</NavLink>
-            </li>
-          </ul>
-        </nav>
+        <Nav variant='tabs' defaultActiveKey="/grower">
+        <Nav.Item>
+          <Nav.Link className="text-success" as={NavLink} end to="/grower"> 
+            {t('menu.home')}
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link className="text-success" as={NavLink} to="/grower/flowers">
+            {t('menu.flowers')}
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link className="text-success" as={NavLink} to="/grower/sites">
+            {t('menu.sites')}
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
       )}
+      </div>
     </div>
   )
 }
-
 const GrowerLayout = () => {
-  const { t, i18n } = useTranslation()
   return (
-    <div className="layout-container">
-      <header className="header">
-        <h2>{t('menu.grower')}</h2>
-      </header>
-      <div className="content">
-        <aside className="side-container">
-          <h2>{t('title.navigation')}</h2>
-          {navigationBar()}
-        </aside>
+    <div>
+      {tabBar()}
+      <div>
         <main className="main-container">
           <Outlet />
         </main>
