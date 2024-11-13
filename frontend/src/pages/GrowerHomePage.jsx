@@ -10,20 +10,13 @@ const GrowerHomePage = () => {
   const params = useParams();
   const [site, setSite] = useState(null);
   const [images, setImages] = useState([]);
-  const [imageUploaded, setImageUploaded] = useState(false);  // Track image upload success
-
   const { t } = useTranslation();
 
   useEffect(() => {
     if (params.siteId) {
-      siteService.get(params.siteId).then(initialSite => {
-        setSite(initialSite.site);
-        // Fetch the images for the site after fetching the site details
-        fetchImages();
-      });
+      siteService.get(params.siteId).then(initialSite => setSite(initialSite.site))
     }
-  }, [params.siteId, imageUploaded]); // Re-fetch when siteId or imageUploaded changes
-  
+  }, []);
 
   useEffect(() => {
      fetchImages();
@@ -61,7 +54,6 @@ const GrowerHomePage = () => {
     }
   };
   
-
   return (
     <>
       {params.siteId && site ? (
