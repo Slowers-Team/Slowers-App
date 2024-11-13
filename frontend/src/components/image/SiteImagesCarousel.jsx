@@ -6,6 +6,7 @@ import '../../layouts/SiteImagesCarousel.css';
 
 const SiteImagesCarousel = ({ images, onDelete }) => {
   const { t } = useTranslation(); 
+  console.log("Images received by Carousel:", images);
 
   return (
     <div className="site-images-carousel">
@@ -15,19 +16,20 @@ const SiteImagesCarousel = ({ images, onDelete }) => {
         <p>{t('carousel.noImages')}</p> 
       ) : (
         <Carousel>
-          {images.map((image, index) => (
-            <Carousel.Item key={index}>
-              <img className="d-block w-100" src={image.url} alt={`Slide ${index + 1}`} />
-              <CarouselCaption>
-                <button
-                  onClick={() => onDelete(image)}
-                  className="btn delete-button"
-                >
-                  {t('button.delete')} 
-                </button>
-              </CarouselCaption>
-            </Carousel.Item>
-          ))}
+          {images.map((image, index) => {
+            console.log("Rendering image with URL:", image.url); 
+            return (
+              <Carousel.Item key={image._id || index}>
+                <img className="d-block w-100" src={image.url} alt={`Slide ${index + 1}`} />
+                <CarouselCaption>
+                  <button onClick={() => onDelete(image)} className="btn delete-button">
+                  {t('button.delete')}
+                  </button>
+                </CarouselCaption>
+              </Carousel.Item>
+            );
+          })}
+
         </Carousel>
       )}
     </div>

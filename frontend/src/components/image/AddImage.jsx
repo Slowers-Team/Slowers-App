@@ -25,6 +25,7 @@ const AddImage = ({ entity, onImageUpload }) => {
     }
   
     const createImage = imageObject => {
+      console.log("image object to be uploaded: ", imageObject)
       setMessage("")
 
       ImageService.create({ ...imageObject, entity: id })

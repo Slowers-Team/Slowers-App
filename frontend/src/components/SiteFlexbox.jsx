@@ -23,7 +23,7 @@ const SiteFlexbox = ({ createSite, sites }) => {
                 alt={site.name} 
                 className="site-image" 
               />
-              <h3><Link to={'/site/' + site._id} className='link-success'>{site.name}</Link></h3>
+              <h3><Link to={`/grower/${site._id}`} className="link-success">{site.name}</Link></h3>
             </div>
           ))}
         <div className={'box'}>
