@@ -54,7 +54,12 @@ func (mDb MongoDatabase) GetRootSites(ctx context.Context, userID ObjectID) ([]S
 	return foundSites, nil
 }
 
+// GetSite returns a bson.M containing fields "site", "subSites" and "route", where
+// "site" is a Site corresponding to given siteID,
+// "subSites" is a list of Sites (_id, name and note) whose parent is "site", and
+// "route" is a list of Sites (_id and name) that create a route from "site" (last element is a RootSite).
 func (mDb MongoDatabase) GetSite(ctx context.Context, siteID ObjectID, userID ObjectID) (bson.M, error) {
+	// Fetch the site
 	var resultSite bson.M
 
 	filter := bson.M{"_id": siteID, "owner": userID}
@@ -67,6 +72,7 @@ func (mDb MongoDatabase) GetSite(ctx context.Context, siteID ObjectID, userID Ob
 		return nil, idErr
 	}
 
+	// Fetch subsites
 	matchStage := bson.D{{Key: "$match", Value: bson.D{{Key: "parent", Value: siteID}}}}
 	sortStage := bson.D{{Key: "$sort", Value: bson.D{{Key: "name", Value: 1}}}}
 	unsetStage := bson.D{{Key: "$unset", Value: bson.A{"parent", "addedTime", "owner", "flowers", "added_time"}}}
@@ -81,6 +87,8 @@ func (mDb MongoDatabase) GetSite(ctx context.Context, siteID ObjectID, userID Ob
 	if err = cursor.All(ctx, &subSites); err != nil {
 		return nil, err
 	}
+
+	// Fetch route to site
 
 	return bson.M{"site": resultSite, "subsites": subSites}, nil
 }
