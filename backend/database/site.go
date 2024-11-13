@@ -57,7 +57,7 @@ func (mDb MongoDatabase) GetRootSites(ctx context.Context, userID ObjectID) ([]S
 // GetSite returns a bson.M containing fields "site", "subSites" and "route", where
 // "site" is a Site corresponding to given siteID,
 // "subSites" is a list of Sites (_id, name and note) whose parent is "site", and
-// "route" is a list of Sites (_id and name) that create a route from "site", starting from "site" itself.
+// "route" is a list of Sites (_id and name) that create a route from Root to "site".
 func (mDb MongoDatabase) GetSite(ctx context.Context, siteID ObjectID, userID ObjectID) (bson.M, error) {
 	// Fetch the site
 	var resultSite bson.M
@@ -104,6 +104,7 @@ func (mDb MongoDatabase) GetSite(ctx context.Context, siteID ObjectID, userID Ob
 			{Key: "connectFromField", Value: "parent"},
 			{Key: "connectToField", Value: "_id"},
 			{Key: "as", Value: "route"},
+			{Key: "depthField", Value: "depth"},
 		}},
 	}
 	// Open up array of documents to a stream of documents
@@ -112,7 +113,13 @@ func (mDb MongoDatabase) GetSite(ctx context.Context, siteID ObjectID, userID Ob
 			{Key: "path", Value: "$route"},
 		},
 		}}
-	// Strip down everything except _id for each child Site
+	// Sort sites by depth
+	sortStage = bson.D{
+		{Key: "$sort", Value: bson.D{
+			{Key: "route.depth", Value: -1},
+		},
+		}}
+	// Lift nested _id and name
 	projectStage := bson.D{
 		{Key: "$project", Value: bson.D{
 			{Key: "_id", Value: "$route._id"},
@@ -120,7 +127,7 @@ func (mDb MongoDatabase) GetSite(ctx context.Context, siteID ObjectID, userID Ob
 		}},
 	}
 
-	cursor, err = db.Collection("sites").Aggregate(ctx, mongo.Pipeline{matchStage, graphLookupStage, unwindStage, projectStage})
+	cursor, err = db.Collection("sites").Aggregate(ctx, mongo.Pipeline{matchStage, graphLookupStage, unwindStage, sortStage, projectStage})
 	if err != nil {
 		return nil, err
 	}
