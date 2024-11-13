@@ -57,7 +57,7 @@ func (mDb MongoDatabase) GetRootSites(ctx context.Context, userID ObjectID) ([]S
 // GetSite returns a bson.M containing fields "site", "subSites" and "route", where
 // "site" is a Site corresponding to given siteID,
 // "subSites" is a list of Sites (_id, name and note) whose parent is "site", and
-// "route" is a list of Sites (_id and name) that create a route from "site" (last element is a RootSite).
+// "route" is a list of Sites (_id and name) that create a route from "site", starting from "site" itself.
 func (mDb MongoDatabase) GetSite(ctx context.Context, siteID ObjectID, userID ObjectID) (bson.M, error) {
 	// Fetch the site
 	var resultSite bson.M
@@ -89,8 +89,49 @@ func (mDb MongoDatabase) GetSite(ctx context.Context, siteID ObjectID, userID Ob
 	}
 
 	// Fetch route to site
+	// Start pipeline with top level parent Site
+	matchStage = bson.D{
+		{Key: "$match", Value: bson.D{
+			{Key: "_id", Value: siteID},
+			{Key: "owner", Value: userID},
+		}},
+	}
+	// Search for all children and their children
+	graphLookupStage := bson.D{
+		{Key: "$graphLookup", Value: bson.D{
+			{Key: "from", Value: "sites"},
+			{Key: "startWith", Value: "$_id"},
+			{Key: "connectFromField", Value: "parent"},
+			{Key: "connectToField", Value: "_id"},
+			{Key: "as", Value: "route"},
+		}},
+	}
+	// Open up array of documents to a stream of documents
+	unwindStage := bson.D{
+		{Key: "$unwind", Value: bson.D{
+			{Key: "path", Value: "$route"},
+		},
+		}}
+	// Strip down everything except _id for each child Site
+	projectStage := bson.D{
+		{Key: "$project", Value: bson.D{
+			{Key: "_id", Value: "$route._id"},
+			{Key: "name", Value: "$route.name"},
+		}},
+	}
 
-	return bson.M{"site": resultSite, "subsites": subSites}, nil
+	cursor, err = db.Collection("sites").Aggregate(ctx, mongo.Pipeline{matchStage, graphLookupStage, unwindStage, projectStage})
+	if err != nil {
+		return nil, err
+	}
+
+	var route []bson.M
+
+	if err = cursor.All(ctx, &route); err != nil {
+		return nil, err
+	}
+
+	return bson.M{"site": resultSite, "subsites": subSites, "route": route}, nil
 }
 
 func (mDb MongoDatabase) DeleteSite(ctx context.Context, siteID ObjectID, userID ObjectID) (*mongo.DeleteResult, error) {
