@@ -23,6 +23,7 @@ func main() {
 	}
 
 	application.SetSecretKey(secretKey)
+	application.SetEnv(env)
 	handlers.SetSecretKey(secretKey)
 	handlers.SetDatabase(db)
 
