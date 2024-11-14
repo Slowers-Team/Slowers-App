@@ -170,9 +170,9 @@ func (mDb MongoDatabase) GetAllFlowersRelatedToSite(ctx context.Context, siteID 
 // SetFlowerVisibility sets the given flower to a value indicated by "visibility",
 // and returns the new value or an error.
 // Visibility can be set if flower has at least one image attached.
-func (mDb MongoDatabase) SetFlowerVisibility(ctx context.Context, flowerID ObjectID, visibility bool) (bool, error) {
+func (mDb MongoDatabase) SetFlowerVisibility(ctx context.Context, userID, flowerID ObjectID, visibility bool) (bool, error) {
 	// Check if an image exists
 
 	// Set value
-	return false, nil
+	return visibility, nil
 }

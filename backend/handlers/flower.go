@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"strconv"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -115,4 +116,27 @@ func GetSiteFlowers(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(flowers)
+}
+
+func SetFlowerVisibility(c *fiber.Ctx) error {
+	userID, err := GetCurrentUser(c)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	flowerID, err := database.ParseID(c.Params("id"))
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+	visibility, err := strconv.ParseBool(c.Params("value"))
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	newValue, err := db.SetFlowerVisibility(c.Context(), userID, flowerID, visibility)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	return c.JSON(newValue)
 }
