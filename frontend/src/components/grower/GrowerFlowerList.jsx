@@ -1,13 +1,17 @@
 import '../../layouts/Grower.css'
 import FlowerModal from '../FlowerModal.jsx'
-import { useState } from "react"
-import { Button, Table } from 'react-bootstrap'
+import { useState, useEffect } from "react"
 import { useTranslation } from 'react-i18next'
 
-const GrowerFlowerList = ({ flowers, deleteFlower }) => {
+const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers}) => {
   const { t, i18n } = useTranslation()
   const [showModal, setShowModal] = useState(false)
   const [currentFlower, setCurrentFlower] = useState("")
+  const [checkedFlowers, setLocalCheckedFlowers] = useState([])
+
+  useEffect(() => {
+    setCheckedFlowers(checkedFlowers)
+  }, [checkedFlowers, setCheckedFlowers])
 
   const handleShow = (flower) => {
     setShowModal(true)
@@ -19,11 +23,36 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
     setCurrentFlower("")
   }
 
+  const areAllSelected = checkedFlowers.length === flowers.length
+
+  const toggleSelectAll = () => {
+    if (areAllSelected) {
+      setLocalCheckedFlowers([])
+    } else {
+      setLocalCheckedFlowers(flowers.map(flower => flower._id))
+    }
+  }
+
+  const toggleSelectFlower = (flower) => {
+    setLocalCheckedFlowers((prevSelected) =>
+      prevSelected.includes(flower)
+        ? prevSelected.filter((id) => id !== flower)
+        : [...prevSelected, flower]
+    )
+  }
+
   return (
     <div className="growerFlowerList">
       <table id="growerFlowerList">
         <thead>
           <tr>
+            <th>
+              <input
+                type="checkbox"
+                onChange={toggleSelectAll}
+                checked={areAllSelected}
+              />
+            </th>
             <th>{t('flower.data.name')}</th>
             <th>{t('flower.data.latinname')}</th>
             <th>{t('flower.data.addedtime')}</th>
@@ -43,6 +72,13 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
 
             return (
               <tr key={flower._id}>
+                <td>
+                  <input
+                    type="checkbox"
+                    checked={checkedFlowers.includes(flower._id)}
+                    onChange={() => toggleSelectFlower(flower._id)}
+                  />
+                </td>
                 <td>{flower.name}</td>
                 <td>
                   <em>{flower.latin_name}</em>

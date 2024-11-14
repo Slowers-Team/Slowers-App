@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 const GrowerFlowerPage = () => {
   const params = useParams()
   const [flowers, setFlowers] = useState()
+  const [checkedFlowers, setCheckedFlowers] = useState([])
   const [site, setSite] = useState()
   const { t, i18n } = useTranslation()
 
@@ -50,17 +51,24 @@ const GrowerFlowerPage = () => {
     }
   }
 
+  const testPrint = () => {
+    const checkedFlowerID = flowers.filter(flower => checkedFlowers.includes(flower._id))
+    console.log("Selected Flowers:", checkedFlowerID)
+  }
+
   return (
     <>
     {params.siteId ? (
       <div>
         <h2>{site?.name} {t('title.siteflowers')}</h2>
         <AddFlower createFlower={addFlower} siteID={params.siteId} />
+        <button className="btn btn-light mx-2" onClick={testPrint}>Test print</button>
       </div>
     ) : (
       <h2>{t('title.allflowers')}</h2>
     )}
-      { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} />) : (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} />) }
+      { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} setCheckedFlowers={setCheckedFlowers}/>) : 
+                  (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} setCheckedFlowers={setCheckedFlowers}/>) }
     </>
   )
 }
