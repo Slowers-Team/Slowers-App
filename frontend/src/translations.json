@@ -19,7 +19,8 @@
         "switchToRetailer": "Switch to Retailer",
         "switchToGrower": "Switch to Grower",
         "flowerpage": "Flower page",
-        "close": "Close"
+        "close": "Close",
+        "cancel": "Cancel"
       },
       "error": {
         "acceptterms": "You must accept the terms",
@@ -132,7 +133,8 @@
         "switchToRetailer": "Vaihda jälleenmyyjäksi",
         "switchToGrower": "Vaihda kasvattajaksi",
         "flowerpage": "Kukan sivu",
-        "close": "Sulje"
+        "close": "Sulje",
+        "cancel": "Peruuta"
       },
       "error": {
         "acceptterms": "Käyttöehdot on hyväksyttävä",

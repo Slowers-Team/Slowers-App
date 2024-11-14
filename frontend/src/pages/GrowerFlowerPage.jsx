@@ -2,13 +2,13 @@ import { useParams } from 'react-router-dom'
 import GrowerFlowerList from '../components/grower/GrowerFlowerList'
 import flowerService from '../services/flowers'
 import siteService from '../services/sites'
-import FlowerForm from '../components/FlowerForm'
+import AddFlower from '../components/grower/AddFlower'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+
 const GrowerFlowerPage = () => {
   const params = useParams()
   const [flowers, setFlowers] = useState()
-  const [showAddNewFlower, setShowAddNewFlower] = useState(false)
   const [site, setSite] = useState()
   const { t, i18n } = useTranslation()
 
@@ -55,10 +55,7 @@ const GrowerFlowerPage = () => {
     {params.siteId ? (
       <div>
         <h2>{site?.name} {t('title.siteflowers')}</h2>
-        <button id="showFlowerAddingFormButton" onClick={() => setShowAddNewFlower(!showAddNewFlower)} className="btn btn-light">
-          {t("button.addflower")}
-        </button>
-        {showAddNewFlower && <FlowerForm createFlower={addFlower} siteID={params.siteId} />}
+        <AddFlower createFlower={addFlower} siteID={params.siteId} />
       </div>
     ) : (
       <h2>{t('title.allflowers')}</h2>
