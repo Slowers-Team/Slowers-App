@@ -17,6 +17,7 @@ type Flower struct {
 	GrowerEmail string    `json:"grower_email" bson:"grower_email"`
 	Site        *ObjectID `json:"site"`
 	SiteName    string    `json:"site_name" bson:"site_name"`
+	Visible     bool      `json:"visible" bson:"visible"`
 }
 
 func (mDb MongoDatabase) GetFlowers(ctx context.Context) ([]Flower, error) {
