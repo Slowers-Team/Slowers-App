@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import SiteService from '../services/sites'
 import SiteFlexbox from '../components/SiteFlexbox'
-
 import { useTranslation } from "react-i18next"
 
 const GrowerSitesPage = () => {
@@ -64,43 +63,13 @@ const GrowerSitesPage = () => {
   return (
     <>
       {params.siteId ? (
-        <div className="layout-container">
-          <header className="header">
-            <h1>{site?.name}</h1>
-            <p className="site-note">{site?.note}</p>
-          </header>
-          <div className="content">
-            <aside className="side-container">
-              <h3>{t("site.siteflowers")}:</h3>
-              <div className="flower-list">
-                {Array.isArray(flowers) && flowers.length > 0 ? (
-                  flowers.map(flower => (
-                    <div key={flower._id} className="flower-card">
-                      <h4>{flower.name}</h4>
-                      <p>{flower.latinName}</p>
-                    </div>
-                  ))
-                ) : (
-                  <p>No flowers found for this site.</p>
-                )}
-              </div>
-              <button
-                id="showFlowerAddingFormButton"
-                onClick={() => setShowAddNewFlower(!showAddNewFlower)}
-                className="btn btn-light"
-              >
-                {t("button.addflower")}
-              </button>
-              {showAddNewFlower && <FlowerForm createFlower={addFlower} siteID={params.siteId} />}
-            </aside>
-            <main className="main-container">
-              <div className="site-actions">
-                <button onClick={handleBack} style={{ marginRight: "0.5rem" }} className="btn btn-light">{t("button.goback")}</button>
-                <button id="deleteSiteButton" onClick={() => deleteSite(site)} className="btn btn-light">{t("button.deletethissite")}</button>
-              </div>
-              <SiteFlexbox createSite={createSite} sites={sites} />
-            </main>
+        <div>
+          <h2>{site?.name} {t("title.sitesites")}</h2>
+          <div className='my-2'>
+            <button onClick={handleBack} style={{ marginRight: "0.5rem" }} className="btn btn-light">{t("button.goback")}</button>
+            <button id="deleteSiteButton" onClick={() => deleteSite(site)} className="btn btn-light">{t("button.deletethissite")}</button>
           </div>
+          <SiteFlexbox createSite={createSite} sites={sites} />
         </div>
       ) : (
         <div>
@@ -109,8 +78,7 @@ const GrowerSitesPage = () => {
         </div>
       )}
     </>
-  );
+  )
 }
 
 export default GrowerSitesPage
-
