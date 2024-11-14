@@ -51,6 +51,24 @@ const getFlowersBySite = (id=null) => {
     });
 };
 
+const setVisibility = (id, visible) => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken() },
+  };
+  const url = `${baseUrl}/${id}/visibility/${visible}`
+
+  return axios.post(url, config)
+    .then(response => {
+      console.log("Visibility of ", id, " set to ", response.data)
+      return response.data
+    })
+    .catch(error => {
+      console.error("Error setting visibility of flower", id,": ",error)
+      throw error
+    })
+  
+}
+
 export default {
   getAll,
   create,
