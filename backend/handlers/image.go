@@ -4,6 +4,7 @@ import (
 	"log"
 	"errors"
 	"os"
+	"fmt"
 
 	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/gofiber/fiber/v2"
@@ -86,9 +87,9 @@ func DownloadImage(c *fiber.Ctx) error {
 	return c.SendFile(filepath)
 }
 
-func DeleteImage(c *fiber.Ctx) error  {
+func DeleteImage(c *fiber.Ctx) error {
 	id, err := database.ParseID(c.Params("id"))
-	log.Printf("Received ID for deletion: %s", id) 
+	log.Printf("Received ID for deletion: %s", id)
 
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid image ID format")
@@ -102,9 +103,24 @@ func DeleteImage(c *fiber.Ctx) error  {
 		return c.Status(fiber.StatusNotFound).SendString("Image not found")
 	}
 
-	imagePath := "./images/" + id.Hex() + ".jpg"
-	if err := os.Remove(imagePath); err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString("Error deleting image")
+	extensions := []string{"jpg", "png"}
+	found := false
+
+	for _, ext := range extensions {
+		imagePath := fmt.Sprintf("./images/%s.%s", id.Hex(), ext)
+		if _, err := os.Stat(imagePath); err == nil {
+			if err := os.Remove(imagePath); err != nil {
+				return c.Status(fiber.StatusInternalServerError).SendString("Error deleting image file")
+			}
+			log.Printf("Successfully deleted image file: %s", imagePath)
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		log.Printf("Image file not found for ID: %s", id.Hex())
+		return c.Status(fiber.StatusNotFound).SendString("Image file not found")
 	}
 
 	return c.SendStatus(fiber.StatusNoContent)
