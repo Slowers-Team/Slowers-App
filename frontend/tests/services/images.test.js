@@ -23,7 +23,7 @@ test('creates a new image correctly', async() => {
         },
     }
 
-
+    
     const expected = {
         entity: newImage.entity,
         file_format: "png",
@@ -38,32 +38,34 @@ test('creates a new image correctly', async() => {
     expect(axios.post).toHaveBeenCalledWith('/api/images', newImage, config)
 })
 
-test('fetches images by entity correctly', async () => {
-    const entityId = '30939203029021ce'
-
-    const config = {
-        headers: {Authorization: tokenService.fetchToken() },
-        'Content-Type': "json",
-    }
+test('fetches images by entity ID and generates URLs correctly', async () => {
+    const entityId = '66f5027d6430d371f8636c3c';
 
     const mockImages = [
-        { _id: '1', name: 'Image 1', entity: entityId},
-        { _id: '2', name: 'Image 2', entity: entityId},
+        { _id: '1', file_format: 'jpg' },
+        { _id: '2', file_format: 'png' }
     ]
-    
-    axios.get.mockResolvedValue({
-        data: mockImages
+
+    const expectedResults = [
+        { _id: '1', url: 'mocked-url' },
+        { _id: '2', url: 'mocked-url' }
+    ]
+
+    axios.get.mockResolvedValueOnce({ data: mockImages });
+
+    axios.get.mockImplementation((url) => {
+        const id = url.split('/').pop();
+        return Promise.resolve({ data: new Blob(), headers: { 'content-type': 'image/jpeg' } });
     })
 
-    const result = await images.getImagesByEntity(entityId)
+    const result = await images.getImagesByEntity(entityId);
 
-    expect(result).toEqual(
-        mockImages.map((imageObject) => ({
-            ...imageObject,
-            url: 'mocked-url', 
-        }))
-    )
-    expect(axios.get).toHaveBeenCalledWith(`/api/images/entity/${entityId}`, config);
+    expect(axios.get).toHaveBeenCalledWith(`/api/images/entity/${entityId}`, expect.objectContaining({
+        headers: { Authorization: tokenService.fetchToken() },
+        responseType: "json"
+    }))
+
+    expect(result).toEqual(expectedResults);
 })
 
 test('deletes an image correctly', async () => {
