@@ -172,8 +172,7 @@ func (mDb MongoDatabase) GetAllFlowersRelatedToSite(ctx context.Context, siteID 
 // SetFlowerVisibility sets the given flower to a value indicated by "visibility",
 // and returns the new value or an error.
 // Visibility can be set if flower has at least one image attached.
-func (mDb MongoDatabase) SetFlowerVisibility(ctx context.Context, userID, flowerID ObjectID, visibility bool) (bool, error) {
-	// Check if an image exists
+func (mDb MongoDatabase) ToggleFlowerVisibility(ctx context.Context, userID, flowerID ObjectID) (*bool, error) {
 	opts := options.Count().SetLimit(1)
 	count, err := db.Collection("images").CountDocuments(
 		ctx,
@@ -181,24 +180,27 @@ func (mDb MongoDatabase) SetFlowerVisibility(ctx context.Context, userID, flower
 		opts,
 	)
 	if err != nil {
-		return false, err
+		return nil, err
 	}
 
 	if count < 1 {
-		return false, fmt.Errorf("No image attached to flower %q", flowerID)
+		return nil, fmt.Errorf("No image attached to flower %q", flowerID)
 	}
 
-	// Set value
-	update := bson.M{"$set": bson.M{"visible": visibility}}
-	result, err := db.Collection("flowers").UpdateByID(ctx, flowerID, update)
+	filter := bson.M{"_id": flowerID}
+	update := bson.A{bson.M{"$set": bson.M{"visible": bson.M{"$not": "$visible"}}}}
+	updateOpts := options.FindOneAndUpdate().SetReturnDocument(options.After).SetProjection(bson.M{"_id": 0, "visible": 1})
+
+	var updatedVisibility bson.M
+	err = db.Collection("flowers").FindOneAndUpdate(ctx, filter, update, updateOpts).Decode(&updatedVisibility)
 
 	if err != nil {
-		return false, err
+		return nil, err
 	}
 
-	if result.ModifiedCount == 1 {
-		return visibility, nil
-	} else {
-		return false, fmt.Errorf("Flower %q not updated, is id correct?", flowerID)
+	ret := updatedVisibility["visible"].(bool)
+	if err != nil {
+		return nil, err
 	}
+	return &ret, nil
 }

@@ -51,11 +51,11 @@ const getFlowersBySite = (id=null) => {
     });
 };
 
-const setVisibility = (id, visible) => {
+const toggleVisibility = (id) => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
   };
-  const url = `${baseUrl}/${id}/visibility/${visible}`
+  const url = `${baseUrl}/${id}/visibility`
 
   return axios.post(url, config)
     .then(response => {
