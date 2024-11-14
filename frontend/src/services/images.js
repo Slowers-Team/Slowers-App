@@ -41,6 +41,7 @@ const getImagesByEntity = entityId => {
       Promise.all(response.data.map(object => get(object)))
     )
 }
+
 const deleteImage = id => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
