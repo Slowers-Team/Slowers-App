@@ -1,12 +1,20 @@
-import React from "react";
-import Carousel from 'react-bootstrap/Carousel';
-import { CarouselCaption } from "react-bootstrap";
-import { useTranslation } from "react-i18next"; 
-import '../../layouts/SiteImagesCarousel.css';
+import React, { useState } from "react"
+import Carousel from 'react-bootstrap/Carousel'
+import { CarouselCaption } from "react-bootstrap"
+import { useTranslation } from "react-i18next" 
+import '../../layouts/SiteImagesCarousel.css'
 
 const SiteImagesCarousel = ({ images, onDelete }) => {
-  const { t } = useTranslation(); 
-  console.log("Images received by Carousel:", images);
+  const { t } = useTranslation() 
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  if (activeIndex >= images.length && images.length > 0) {
+    setActiveIndex(0)
+  }
+
+  const handleSelect = (selectedIndex) => {
+    setActiveIndex(selectedIndex)
+  }
 
   return (
     <div className="site-images-carousel">
@@ -15,25 +23,21 @@ const SiteImagesCarousel = ({ images, onDelete }) => {
       {(!images || images.length === 0) ? (
         <p>{t('carousel.noImages')}</p> 
       ) : (
-        <Carousel>
-          {images.map((image, index) => {
-            console.log("Rendering image with URL:", image.url); 
-            return (
-              <Carousel.Item key={image._id || index}>
-                <img className="d-block w-100" src={image.url} alt={`Slide ${index + 1}`} />
-                <CarouselCaption>
-                  <button onClick={() => onDelete(image)} className="btn delete-button">
+        <Carousel activeIndex={activeIndex} onSelect={handleSelect}>
+          {images.map((image, index) => (
+            <Carousel.Item key={image._id || index}>
+              <img className="d-block w-100" src={image.url} alt={`Slide ${index + 1}`} />
+              <CarouselCaption>
+                <button onClick={() => onDelete(image)} className="btn delete-button">
                   {t('button.delete')}
-                  </button>
-                </CarouselCaption>
-              </Carousel.Item>
-            );
-          })}
-
+                </button>
+              </CarouselCaption>
+            </Carousel.Item>
+          ))}
         </Carousel>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default SiteImagesCarousel;
+export default SiteImagesCarousel
