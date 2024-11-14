@@ -102,3 +102,13 @@ func (s *FlowersAPITestSuite) TestListingFlowers() {
     - Next we call the `Return()` method and give it the return values that we want the function `db.GetFlowers()` to return when called during the test. You can check from the original `db.GetFlowers()` function in `database/flower.go`, what kind of values it should return. You will find there that it has return values of types `([]Flower, error)` (see the line `func (mDb MongoDatabase) GetFlowers(ctx context.Context) ([]Flower, error) {` in that file) and that normally it returns `flowers` and `nil` (see the line `return flowers, nil`), so now we are using `s.TestFlowers` as the first return value of this mock instead of `flowers` and `nil` as the error, because there should be no error.
     - Because of the `Once()` method in the last line, it will be automatically checked that this mocked function will be called exactly once during the test (as it should, because `db.GetFlowers()` is called exactly once in the handler function).
     - (In this example we define only one mock, but in some tests there may be more. Then you would just do this kind of mock definition multiple times inside the function given to the `SetupMocks` field, once for each mock. The order of these definitions won't matter.)
+    - (The `Return()` method has also a variation `RunAndReturn()` that instead of just simply setting the return values that the mocked function should return takes as its argument a function that gives the return values. You could also write this example using the `RunAndReturn()` like this:
+    ```golang
+    db.EXPECT().GetFlowers(
+    	mock.Anything,
+    ).RunAndReturn(func(ctx context.Context) ([]Flower, error) {
+    	return s.TestFlowers, nil
+    }).Once()
+    ```
+    - The function given as the argument for `RunAndReturn()` (here `func(ctx context.Context) ([]Flower, error) {...`) gets as arguments the arguments that the mocked function is called with. (The mocked function here is `func (mDb MongoDatabase) GetFlowers(ctx context.Context) ([]Flower, error)` so this function gets as its argument the context that the `GetFlowers` function is called with during the test.)
+    - `RunAndReturn()` is used when the return value/values of the mocked function vary from test run to test run. For example, we would have to use it for the flower adding test, because the `AddedTime` field of the `Flower` struct, which is given as the argument for `db.AddFlower()` (and which is also returned by `db.AddFlower()` with ID and a couple of other fields added to it) is set to the current time (when the function is called) and for that reason varies from test run to test run.)
