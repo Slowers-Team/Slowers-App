@@ -2,10 +2,12 @@ package database
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Flower struct {
@@ -172,7 +174,31 @@ func (mDb MongoDatabase) GetAllFlowersRelatedToSite(ctx context.Context, siteID 
 // Visibility can be set if flower has at least one image attached.
 func (mDb MongoDatabase) SetFlowerVisibility(ctx context.Context, userID, flowerID ObjectID, visibility bool) (bool, error) {
 	// Check if an image exists
+	opts := options.Count().SetLimit(1)
+	count, err := db.Collection("images").CountDocuments(
+		ctx,
+		bson.M{"entity": flowerID},
+		opts,
+	)
+	if err != nil {
+		return false, err
+	}
+
+	if count < 1 {
+		return false, fmt.Errorf("No image attached to flower %q", flowerID)
+	}
 
 	// Set value
-	return visibility, nil
+	update := bson.M{"$set": bson.M{"visible": visibility}}
+	result, err := db.Collection("flowers").UpdateByID(ctx, flowerID, update)
+
+	if err != nil {
+		return false, err
+	}
+
+	if result.ModifiedCount == 1 {
+		return visibility, nil
+	} else {
+		return false, fmt.Errorf("Flower %q not updated, is id correct?", flowerID)
+	}
 }
