@@ -23,7 +23,8 @@ type Flower struct {
 }
 
 func (mDb MongoDatabase) GetFlowers(ctx context.Context) ([]Flower, error) {
-	cursor, err := db.Collection("flowers").Find(ctx, bson.M{})
+	cursor, err := db.Collection("flowers").Find(ctx, bson.M{"visible": true})
+
 	if err != nil {
 		return nil, err
 	}
