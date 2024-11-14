@@ -53,7 +53,7 @@ const GrowerFlowerPage = () => {
 
   const testPrint = () => {
     const checkedFlowerID = flowers.filter(flower => checkedFlowers.includes(flower._id))
-    console.log("Selected Flowers:", checkedFlowerID)
+    console.log("Checked flowers:", checkedFlowerID)
   }
 
   return (

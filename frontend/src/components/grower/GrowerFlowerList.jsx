@@ -23,22 +23,20 @@ const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers}) => {
     setCurrentFlower("")
   }
 
-  const areAllSelected = checkedFlowers.length === flowers.length
+  const areAllChecked = checkedFlowers.length === flowers.length
 
-  const toggleSelectAll = () => {
-    if (areAllSelected) {
+  const toggleCheckedAll = () => {
+    if (areAllChecked) {
       setLocalCheckedFlowers([])
     } else {
       setLocalCheckedFlowers(flowers.map(flower => flower._id))
     }
   }
 
-  const toggleSelectFlower = (flower) => {
-    setLocalCheckedFlowers((prevSelected) =>
-      prevSelected.includes(flower)
-        ? prevSelected.filter((id) => id !== flower)
-        : [...prevSelected, flower]
-    )
+  const toggleCheckedFlower = (flower) => {
+    setLocalCheckedFlowers((prevChecked) => (
+      prevChecked.includes(flower) ? prevChecked.filter(id => id !== flower) : [...prevChecked, flower]
+    ))
   }
 
   return (
@@ -47,7 +45,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers}) => {
         <thead>
           <tr>
             <th>
-              <input type="checkbox" onChange={toggleSelectAll} checked={areAllSelected}/>
+              <input type="checkbox" onChange={toggleCheckedAll} checked={areAllChecked}/>
             </th>
             <th>{t('flower.data.name')}</th>
             <th>{t('flower.data.latinname')}</th>
@@ -69,7 +67,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers}) => {
             return (
               <tr key={flower._id}>
                 <td>
-                  <input type="checkbox" checked={checkedFlowers.includes(flower._id)} onChange={() => toggleSelectFlower(flower._id)}/>
+                  <input type="checkbox" checked={checkedFlowers.includes(flower._id)} onChange={() => toggleCheckedFlower(flower._id)}/>
                 </td>
                 <td>{flower.name}</td>
                 <td>
