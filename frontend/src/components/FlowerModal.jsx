@@ -1,5 +1,6 @@
 import { Modal, Button, Tabs, Tab } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
+import AddImage from './image/AddImage'
 
 const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
   const { t } = useTranslation()
@@ -49,6 +50,7 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
           <Tab eventKey="pictures" title={t('menu.pictures')}>
             <div>
               <h3>{t('menu.pictures')}</h3>
+              <AddImage entity={flower}/>
             </div>
           </Tab>
           <Tab eventKey="lifecycle" title={t('menu.lifecycle')}>
