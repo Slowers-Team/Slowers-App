@@ -47,11 +47,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers}) => {
         <thead>
           <tr>
             <th>
-              <input
-                type="checkbox"
-                onChange={toggleSelectAll}
-                checked={areAllSelected}
-              />
+              <input type="checkbox" onChange={toggleSelectAll} checked={areAllSelected}/>
             </th>
             <th>{t('flower.data.name')}</th>
             <th>{t('flower.data.latinname')}</th>
@@ -73,11 +69,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers}) => {
             return (
               <tr key={flower._id}>
                 <td>
-                  <input
-                    type="checkbox"
-                    checked={checkedFlowers.includes(flower._id)}
-                    onChange={() => toggleSelectFlower(flower._id)}
-                  />
+                  <input type="checkbox" checked={checkedFlowers.includes(flower._id)} onChange={() => toggleSelectFlower(flower._id)}/>
                 </td>
                 <td>{flower.name}</td>
                 <td>
