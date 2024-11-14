@@ -2,6 +2,7 @@ package apitests
 
 import (
 	"context"
+	"encoding/json"
 	"testing"
 
 	"github.com/stretchr/testify/mock"
@@ -39,7 +40,24 @@ func (s *UsersAPITestSuite) TestCreatingUser() {
 			},
 		),
 		ExpectedCode: 201,
-		ExpectedBody: []byte("Created"),
+		ExpectedBodyFunc: func(body []byte) {
+			var response struct {
+				Role  string `json:"role"`
+				Token string `json:"token"`
+			}
+			err := json.Unmarshal([]byte(body), &response)
+			s.NoError(err, "response body should contain a role and a token")
+			s.Equal(
+				response.Role,
+				s.TestUser.Role,
+				"tried to add wrong role to database",
+			)
+			s.NotEmpty(
+				response.Token,
+				"token should not be empty",
+			)
+		},
+
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().CountUsersWithEmail(
 				mock.Anything, s.TestUser.Email,
@@ -48,7 +66,7 @@ func (s *UsersAPITestSuite) TestCreatingUser() {
 			).Once()
 			db.EXPECT().CreateUser(
 				mock.Anything, mock.Anything,
-			).RunAndReturn(func(ctx context.Context, user database.User) error {
+			).RunAndReturn(func(ctx context.Context, user database.User) (*database.User, error) {
 				s.Equal(
 					user.Username,
 					s.TestUser.Username,
@@ -68,7 +86,7 @@ func (s *UsersAPITestSuite) TestCreatingUser() {
 					s.TestUser.Role,
 					"tried to add wrong role to database",
 				)
-				return nil
+				return &s.TestUser, nil
 			}).Once()
 		},
 	})
