@@ -53,13 +53,14 @@ const getFlowersBySite = (id=null) => {
 
 const toggleVisibility = (id) => {
   const config = {
+    method: 'post',
+    url: `${baseUrl}/${id}/visibility`,
     headers: { Authorization: tokenService.fetchToken() },
-  };
-  const url = `${baseUrl}/${id}/visibility`
+  }
 
-  return axios.post(url, config)
+  return axios(config)
     .then(response => {
-      console.log("Visibility of ", id, " set to ", response.data)
+      console.log("Visibility of", id, "set to", response.data)
       return response.data
     })
     .catch(error => {
@@ -75,4 +76,5 @@ export default {
   remove,
   getUserFlowers,
   getFlowersBySite,
+  toggleVisibility
 }
