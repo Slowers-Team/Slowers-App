@@ -8,9 +8,9 @@ const AddImage = ({ entity, onImageUpload }) => {
     const [show, setShow] = useState(false)
     const [id, setID] = useState("")
     const [message, setMessage] = useState("")
-    const { t, i18n } = useTranslation()
     const [uploadedImageName, setUploadedImageName] = useState("")
     const [uploadedImage, setUploadedImage] = useState()
+    const { t, i18n } = useTranslation()
 
 
     useEffect(() => {
@@ -32,8 +32,8 @@ const AddImage = ({ entity, onImageUpload }) => {
 
     const hide = () => {
       setShow(false)
-      setUploadedImageName("")
-      setUploadedImage(null)
+      //setUploadedImageName("")
+      //setUploadedImage(null)
       setMessage("")
     }
   
@@ -57,7 +57,7 @@ const AddImage = ({ entity, onImageUpload }) => {
 
     return (
       <>
-        <Button variant="secondary" onClick={showForm}>{t("button.addimage")}</Button>
+        <Button className='mx-2' variant="light" onClick={showForm}>{t("button.addimage")}</Button>
         <Modal size="l" show={show} onHide={hide}>
           <Modal.Header closeButton>
             <Modal.Title>{t("image.title")}</Modal.Title>
@@ -68,9 +68,11 @@ const AddImage = ({ entity, onImageUpload }) => {
               : <img width={100} src={uploadedImage}/>
             }
           </Modal.Body>
+          { message &&
           <Modal.Footer>
             { message }
           </Modal.Footer>
+          }       
         </Modal>
       </>
     )
