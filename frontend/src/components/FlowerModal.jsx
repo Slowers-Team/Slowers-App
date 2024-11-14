@@ -1,6 +1,7 @@
 import { Modal, Button, Tabs, Tab } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import AddImage from './image/AddImage'
+import VisibilityButton from './VisibilityButton'
 
 const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
   const { t } = useTranslation()
@@ -45,6 +46,7 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
                   {t('button.delete')}
                 </button>
               )}
+              <VisibilityButton flower={flower}/>
             </div>
           </Tab>
           <Tab eventKey="pictures" title={t('menu.pictures')}>

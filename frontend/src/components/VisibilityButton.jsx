@@ -1,10 +1,19 @@
 import flowerService from '../services/flowers'
 import Button from 'react-bootstrap/ToggleButton'
+import { useState } from 'react' 
 
-const VisibilityButton = ({id}) => {
+const VisibilityButton = ({ flower }) => {
+  const [current, setCurrent] = useState(flower.visible)
+
+  const handleClick = () => {
+    flowerService.toggleVisibility(flower.id).then(setCurrent(!current))
+  }
+  
   return (
-    <Button onClick={() => flowerService.toggleVisibility(id)}>
-      Toggle visibility
+    <Button onClick={handleClick}>
+      {current
+        ? "Hide from retailers"
+        : "Show  to retailers"}
     </Button>
   )
 }
