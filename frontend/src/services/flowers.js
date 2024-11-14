@@ -64,8 +64,8 @@ const toggleVisibility = (id) => {
       return response.data
     })
     .catch(error => {
-      console.error("Error setting visibility of flower", id,": ",error)
-      throw error
+      console.error("Error setting visibility of flower", id,":",error.response)
+      throw error.response.data
     })
   
 }

@@ -6,7 +6,9 @@ const VisibilityButton = ({ flower }) => {
   const [current, setCurrent] = useState(flower.visible)
 
   const handleClick = () => {
-    flowerService.toggleVisibility(flower._id).then(setCurrent(!current))
+    flowerService.toggleVisibility(flower._id)
+    .then(setCurrent(!current))
+    .catch(error => alert(error))
   }
   
   return (
