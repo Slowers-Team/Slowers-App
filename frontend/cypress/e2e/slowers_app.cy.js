@@ -15,6 +15,11 @@ describe('Slowers ', function() {
     cy.contains('Slowers registration')
   })
 
+  it('can open terms page when not logged in', function() {
+    cy.visit('/terms')
+    cy.contains('Terms and Conditions')
+  })
+
   it('can register a new user', function() {
     cy.visit('/register')
     cy.get('#newUsernameInput').type('testuser')
