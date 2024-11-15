@@ -67,4 +67,13 @@ describe('Slowers ', function() {
     cy.get('#loginButton').click()
     cy.contains('Homepage')
   })
+
+  it('cannot login with incorrect credentials', function() {
+    cy.register({username: 'testuser', email: 'test@email.com', password: 'testpassword', role: 'grower'})
+    cy.visit('/login')
+    cy.get('#emailInput').type('test@email.com')
+    cy.get('#passwordInput').type('wrongpassword')
+    cy.get('#loginButton').click()
+    cy.contains('An error occurred. Please try again.')
+  })
 })
