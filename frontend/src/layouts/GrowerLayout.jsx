@@ -24,7 +24,7 @@ const tabBar = () => {
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link className="text-success" as={NavLink} to={`/grower/${params.siteId}/sites`}>
+            <Nav.Link id="sitesTab" className="text-success" as={NavLink} to={`/grower/${params.siteId}/sites`}>
               {t('menu.sites')}
             </Nav.Link>
           </Nav.Item>

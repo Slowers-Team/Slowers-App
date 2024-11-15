@@ -34,4 +34,46 @@ describe('Slowers ', function() {
     cy.get('#loginButton').click()
     cy.contains('Homepage')
   })
+
+  describe('when logged in', function() {
+    beforeEach(function() {
+      cy.registerAndLogin({username: 'testuser', email: 'test@email.com', password: 'testpassword', role: 'grower'})
+    })
+
+    it('changes role value on profile page when role switching button is clicked', function() {
+      cy.visit('/user')
+      cy.get('#roleValue').contains('Grower')
+      cy.contains('Switch to Retailer').click()
+      cy.get('#roleValue').contains('Retailer')
+    })
+
+    describe('when a site has been added', function() {
+      beforeEach(function() {
+        cy.visit('/grower/sites')
+        cy.get('#addNewSiteButton').click()
+        cy.get('#newSiteNameInput').type('Test site')
+        cy.get('#newSiteNoteInput').type('Test note')
+        cy.get('#saveNewSiteButton').click()
+      })
+
+      it('shows a site on the Sites tab after adding it', function() {
+        cy.visit('/grower/sites')
+        cy.contains('Test site')
+        cy.contains('Test note')
+      })
+
+      it('does not show a site after deleting it', function() {
+        cy.visit('/grower/sites')
+        cy.contains('Test site').click()
+        cy.get('#sitesTab').click()
+        cy.get('#deleteSiteButton').click()
+        cy.on('window:confirm', (confirmText) => {
+          return true
+        })
+
+        cy.visit('/grower/sites')
+        cy.contains('Test site').should('not.exist')
+      })
+    })
+  })
 })
