@@ -25,7 +25,7 @@ export const NavigationBar = ({ isLoggedIn, handleLogout }) => {
     return (
         <>
         <Navbar expand="sm" bg="light">
-            <Button variant="light" className="mx-2" onClick={handleShow}>
+            <Button id="offcanvasButton" variant="light" className="mx-2" onClick={handleShow}>
               <span className='navbar-toggler-icon'></span>
             </Button>
             <Navbar.Brand as={Link} to="/">
@@ -42,7 +42,7 @@ export const NavigationBar = ({ isLoggedIn, handleLogout }) => {
                     </Nav.Link>
                   </NavDropdown>
                 )}
-                <NavDropdown title={t("menu.language")} id="collasible-nav-dropdown">
+                <NavDropdown title={t("menu.language")} id="languageButton">
                   <LangSelect/>
                 </NavDropdown>
               </Nav>
