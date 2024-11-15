@@ -1,4 +1,7 @@
 describe('Slowers ', function() {
+  beforeEach(function() {
+    cy.request('GET', 'http://localhost:5173/api/reset')
+  })
   it('front page can be opened', function() {
     cy.visit('http://localhost:5173')
     cy.contains('Slowers')
