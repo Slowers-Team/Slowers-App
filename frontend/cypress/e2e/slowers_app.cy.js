@@ -26,6 +26,17 @@ describe('Slowers ', function() {
     cy.contains('Homepage')
   })
 
+  it('cannot register with malformatted email address', function() {
+    cy.visit('/register')
+    cy.get('#newUsernameInput').type('testuser')
+    cy.get('#newEmailInput').type('testemail')
+    cy.get('#newPasswordInput').type('testpassword')
+    cy.contains('Grower').click()
+    cy.get('#termsCheckbox').check()
+    cy.get('#createNewUserButton').click()
+    cy.get('input:invalid').should('have.length', 1)
+  })
+
   it('can login a user', function() {
     cy.register({username: 'testuser', email: 'test@email.com', password: 'testpassword', role: 'grower'})
     cy.visit('/login')
