@@ -1,19 +1,19 @@
 describe('Slowers ', function() {
   beforeEach(function() {
-    cy.request('GET', 'http://localhost:5173/api/reset')
+    cy.request('GET', '/api/reset')
   })
   it('front page can be opened', function() {
-    cy.visit('http://localhost:5173')
+    cy.visit('')
     cy.contains('Slowers')
   })
 
   it('register page can be opened', function() {
-    cy.visit('http://localhost:5173/register')
+    cy.visit('/register')
     cy.contains('Slowers registration')
   })
 
   it('user can register', function() {
-    cy.visit('http://localhost:5173/register')
+    cy.visit('/register')
     cy.get('#newUsernameInput').type('testuser')
     cy.get('#newEmailInput').type('test@email.com')
     cy.get('#newPasswordInput').type('testpassword')
@@ -23,7 +23,7 @@ describe('Slowers ', function() {
   })
 
   it('user can login', function() {
-    cy.visit('http://localhost:5173/login')
+    cy.visit('/login')
     cy.get('#emailInput').type('test@email.com')
     cy.get('#passwordInput').type('testpassword')
     cy.get('#loginButton').click()
