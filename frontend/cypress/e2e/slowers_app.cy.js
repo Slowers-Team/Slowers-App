@@ -2,17 +2,17 @@ describe('Slowers ', function() {
   beforeEach(function() {
     cy.request('GET', '/api/reset')
   })
-  it('front page can be opened', function() {
+  it('can open front page', function() {
     cy.visit('')
     cy.contains('Slowers')
   })
 
-  it('register page can be opened', function() {
+  it('can open register page', function() {
     cy.visit('/register')
     cy.contains('Slowers registration')
   })
 
-  it('user can register', function() {
+  it('can register a new user', function() {
     cy.visit('/register')
     cy.get('#newUsernameInput').type('testuser')
     cy.get('#newEmailInput').type('test@email.com')
@@ -22,7 +22,7 @@ describe('Slowers ', function() {
     cy.get('#createNewUserButton').click()
   })
 
-  it('user can login', function() {
+  it('can login a user', function() {
     cy.visit('/login')
     cy.get('#emailInput').type('test@email.com')
     cy.get('#passwordInput').type('testpassword')
