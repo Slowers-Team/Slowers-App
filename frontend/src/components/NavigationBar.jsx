@@ -42,7 +42,7 @@ export const NavigationBar = ({ isLoggedIn, handleLogout }) => {
                     </Nav.Link>
                   </NavDropdown>
                 )}
-                <NavDropdown title={t("menu.language")} id="collasible-nav-dropdown">
+                <NavDropdown title={t("menu.language")} id="languageButton">
                   <LangSelect/>
                 </NavDropdown>
               </Nav>
