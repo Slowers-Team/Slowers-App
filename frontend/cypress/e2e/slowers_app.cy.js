@@ -29,6 +29,16 @@ describe('Slowers ', function() {
     cy.contains('Terms')
   })
 
+  it('can change language', function() {
+    cy.visit('')
+    cy.contains('Log into Slowers')
+    cy.get('#languageButton').click()
+    cy.contains('en')
+    cy.contains('fi')
+    cy.get('#fi').click()
+    cy.contains('Kirjaudu Slowersiin')
+  })
+
   it('can register a new user', function() {
     cy.visit('/register')
     cy.get('#newUsernameInput').type('testuser')
