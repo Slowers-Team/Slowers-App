@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import AddImage from './image/AddImage'
 import VisibilityButton from './VisibilityButton'
 
-const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
+const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower }) => {
   const { t } = useTranslation()
 
   const handleFlowerDelete = (flower) => {
@@ -41,12 +41,13 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
               <p>{t('flower.data.latinname')}: {flower.latin_name}</p>
               <p>{t('flower.data.addedtime')}: {addedTime(flower)}</p>
               <p>{t('flower.data.site')}: {flower.site_name}</p>
+              <p>Visible: {flower.visible ? "joo" : "ei"}</p>
               {deleteFlower && (
                 <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
                   {t('button.delete')}
                 </button>
               )}
-              <VisibilityButton flower={flower}/>
+              <VisibilityButton flower={flower} updateFlower={updateFlower}/>
             </div>
           </Tab>
           <Tab eventKey="pictures" title={t('menu.pictures')}>

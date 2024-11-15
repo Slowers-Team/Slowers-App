@@ -1,10 +1,10 @@
 import '../../layouts/Grower.css'
 import FlowerModal from '../FlowerModal.jsx'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button, Table } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
-const GrowerFlowerList = ({ flowers, deleteFlower }) => {
+const GrowerFlowerList = ({ flowers, deleteFlower, updateFlower }) => {
   const { t, i18n } = useTranslation()
   const [showModal, setShowModal] = useState(false)
   const [currentFlower, setCurrentFlower] = useState("")
@@ -19,6 +19,11 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
     setCurrentFlower("")
   }
 
+  const handleUpdate = (flowerObject) => {
+    setCurrentFlower(flowerObject)
+    updateFlower(flowerObject)
+  }
+
   return (
     <div className="growerFlowerList">
       <table id="growerFlowerList">
@@ -28,6 +33,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
             <th>{t('flower.data.latinname')}</th>
             <th>{t('flower.data.addedtime')}</th>
             <th>{t('flower.data.site')}</th>
+            <th>Visibility</th>
             <th></th>
             <th></th>
           </tr>
@@ -49,6 +55,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
                 </td>
                 <td>{addedTimeStr}</td>
                 <td>{flower.site_name}</td>
+                <td>{flower.visible ? "joo" : "ei"}</td>
                 <td>
                   <button id='showFlowerPageButton' onClick={() => handleShow(flower)}>
                   {t('button.flowerpage')}
@@ -64,7 +71,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
           })}
         </tbody>
       </table>
-      <FlowerModal show={showModal} handleClose={handleClose} flower={currentFlower} deleteFlower={deleteFlower}/>
+      <FlowerModal show={showModal} handleClose={handleClose} flower={currentFlower} deleteFlower={deleteFlower} updateFlower={handleUpdate}/>
     </div>
   )
 }

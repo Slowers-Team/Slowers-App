@@ -1,21 +1,28 @@
 import flowerService from '../services/flowers'
 import Button from 'react-bootstrap/ToggleButton'
 import { useState } from 'react' 
+import { useTranslation } from 'react-i18next'
 
-const VisibilityButton = ({ flower }) => {
+const VisibilityButton = ({ flower, updateFlower }) => {
   const [current, setCurrent] = useState(flower.visible)
+  const {t, _ } = useTranslation()
 
   const handleClick = () => {
     flowerService.toggleVisibility(flower._id)
-    .then(setCurrent(!current))
+    .then((_)=> {
+      const newVis = !current
+      const newFlower = {...flower, visible: newVis}
+      setCurrent(newVis)
+      updateFlower(newFlower)
+    })
     .catch(error => alert(error))
   }
   
   return (
     <Button onClick={handleClick}>
       {current
-        ? "Hide from retailers"
-        : "Show  to retailers"}
+        ? t("button.hideFlower")
+        : t("button.showFlower")}
     </Button>
   )
 }
