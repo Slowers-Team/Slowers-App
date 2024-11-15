@@ -49,6 +49,16 @@ describe('Slowers ', function() {
    })
   })
 
+  it('cannot register with an empty field', function() {
+    cy.visit('/register')
+    cy.get('#newEmailInput').type('test@email.com')
+    cy.get('#newPasswordInput').type('testpassword')
+    cy.contains('Grower').click()
+    cy.get('#termsCheckbox').check()
+    cy.get('#createNewUserButton').click()
+    cy.get('input:invalid').should('have.length', 1)
+  })
+
   it('can login a user', function() {
     cy.register({username: 'testuser', email: 'test@email.com', password: 'testpassword', role: 'grower'})
     cy.visit('/login')
