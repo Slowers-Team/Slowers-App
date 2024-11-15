@@ -20,6 +20,15 @@ describe('Slowers ', function() {
     cy.contains('Terms and Conditions')
   })
 
+  it('can open side menu by clicking hamburger button', function() {
+    cy.visit('')
+    cy.get('#offcanvasButton').click()
+    cy.contains('Home')
+    cy.contains('Login')
+    cy.contains('Register')
+    cy.contains('Terms')
+  })
+
   it('can register a new user', function() {
     cy.visit('/register')
     cy.get('#newUsernameInput').type('testuser')
