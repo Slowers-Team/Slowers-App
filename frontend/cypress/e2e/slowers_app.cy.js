@@ -37,6 +37,18 @@ describe('Slowers ', function() {
     cy.get('input:invalid').should('have.length', 1)
   })
 
+  it('cannot register without accepting terms', function() {
+    cy.visit('/register')
+    cy.get('#newUsernameInput').type('testuser')
+    cy.get('#newEmailInput').type('test@email.com')
+    cy.get('#newPasswordInput').type('testpassword')
+    cy.contains('Grower').click()
+    cy.get('#createNewUserButton').click()
+    cy.on('window:alert',(t)=>{
+      expect(t).to.contains('You must accept the terms');
+   })
+  })
+
   it('can login a user', function() {
     cy.register({username: 'testuser', email: 'test@email.com', password: 'testpassword', role: 'grower'})
     cy.visit('/login')
