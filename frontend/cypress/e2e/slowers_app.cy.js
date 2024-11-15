@@ -2,6 +2,9 @@ describe('Slowers ', function() {
   beforeEach(function() {
     cy.request('GET', '/api/reset')
   })
+  after(function() {
+    cy.request('GET', '/api/reset')
+  })
   it('can open front page', function() {
     cy.visit('')
     cy.contains('Slowers')
