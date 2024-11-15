@@ -23,9 +23,11 @@ describe('Slowers ', function() {
     cy.contains('Grower').click()
     cy.get('#termsCheckbox').check()
     cy.get('#createNewUserButton').click()
+    cy.contains('Homepage')
   })
 
   it('can login a user', function() {
+    cy.register({username: 'testuser', email: 'test@email.com', password: 'testpassword', role: 'grower'})
     cy.visit('/login')
     cy.get('#emailInput').type('test@email.com')
     cy.get('#passwordInput').type('testpassword')
