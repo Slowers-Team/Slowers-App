@@ -360,6 +360,7 @@ func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
 		GrowerEmail: testdata.GetUsers()[0].Email,
 		Site:        &createdSite.ID,
 		SiteName:    site.Name,
+		Visible:     fullFlower.Visible,
 	}
 	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
 	s.Db.AddFlowerToSite(context.Background(), createdSite.ID, addedFlower.ID)
@@ -379,6 +380,7 @@ func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
 		GrowerEmail: testdata.GetUsers()[0].Email,
 		Site:        &createdSite2.ID,
 		SiteName:    site2.Name,
+		Visible:     fullFlower2.Visible,
 	}
 	addedFlower2, _ := s.Db.AddFlower(context.Background(), flowerToAdd2)
 	s.Db.AddFlowerToSite(context.Background(), createdSite2.ID, addedFlower2.ID)
