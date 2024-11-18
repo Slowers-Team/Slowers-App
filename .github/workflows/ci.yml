@@ -55,6 +55,9 @@ jobs:
         start: npm run prepare:e2e
         wait-on: http://localhost:5001
         working-directory: frontend
+      env:
+        MONGODB_URI: mongodb://localhost:27017
+        SECRET_KEY: secretkey
 
   push_to_registry:
     needs: ci
