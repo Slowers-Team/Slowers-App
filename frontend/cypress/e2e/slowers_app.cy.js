@@ -141,6 +141,7 @@ describe('Slowers ', function() {
         cy.visit('/grower/sites')
         cy.contains('Test site').click()
         cy.get('#sitesTab').click()
+        cy.contains('Delete this site')
         cy.get('#deleteSiteButton').click()
         cy.on('window:confirm', (confirmText) => {
           return true
