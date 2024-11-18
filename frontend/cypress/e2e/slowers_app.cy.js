@@ -1,3 +1,5 @@
+const { wait } = require("@testing-library/user-event/dist/cjs/utils/index.js")
+
 describe('Slowers ', function() {
   beforeEach(function() {
     cy.request('GET', '/api/reset')
@@ -104,6 +106,7 @@ describe('Slowers ', function() {
   describe('when logged in', function() {
     beforeEach(function() {
       cy.registerAndLogin({username: 'testuser', email: 'test@email.com', password: 'testpassword', role: 'grower'})
+      cy.contains('Homepage')
     })
 
     it('changes role value on profile page when role switching button is clicked', function() {
