@@ -123,6 +123,12 @@ describe('Slowers ', function() {
         cy.get('#newSiteNameInput').type('Test site')
         cy.get('#newSiteNoteInput').type('Test note')
         cy.get('#saveNewSiteButton').click()
+
+        cy.visit('/grower/sites')
+        cy.get('#addNewSiteButton').click()
+        cy.get('#newSiteNameInput').type('Greenhouse')
+        cy.get('#newSiteNoteInput').type('Something')
+        cy.get('#saveNewSiteButton').click()
       })
 
       it('shows a site on the Sites tab after adding it', function() {
@@ -141,6 +147,7 @@ describe('Slowers ', function() {
         })
 
         cy.visit('/grower/sites')
+        cy.contains('Greenhouse')
         cy.contains('Test site').should('not.exist')
       })
     })
