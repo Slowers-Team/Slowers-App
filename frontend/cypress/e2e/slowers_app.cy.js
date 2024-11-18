@@ -1,5 +1,3 @@
-const { wait } = require("@testing-library/user-event/dist/cjs/utils/index.js")
-
 describe('Slowers ', function() {
   beforeEach(function() {
     cy.request('GET', '/api/reset')
