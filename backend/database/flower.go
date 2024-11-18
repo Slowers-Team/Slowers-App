@@ -165,3 +165,27 @@ func (mDb MongoDatabase) GetAllFlowersRelatedToSite(ctx context.Context, siteID 
 
 	return flowers, nil
 }
+
+func (mDb MongoDatabase) ModifyFlower(ctx context.Context, id ObjectID, newFlower Flower) (*Flower, error) {
+	filter := bson.M{"_id": id}
+	update := bson.M{
+		"$set": bson.M{
+			"name":       newFlower.Name,
+			"latin_name": newFlower.LatinName,
+		},
+	}
+	updateResult, err := db.Collection("flowers").UpdateOne(ctx, filter, update)
+	if updateResult.ModifiedCount == 0 {
+		return nil, err
+	}
+
+	createdRecord := db.Collection("flowers").FindOne(ctx, bson.M{"_id": id})
+
+	updatedFlower := &Flower{}
+	err = createdRecord.Decode(updatedFlower)
+	if err != nil {
+		return nil, err
+	}
+
+	return updatedFlower, nil
+}

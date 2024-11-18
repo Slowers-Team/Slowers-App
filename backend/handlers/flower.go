@@ -115,3 +115,27 @@ func GetSiteFlowers(c *fiber.Ctx) error {
 
 	return c.JSON(flowers)
 }
+
+func ModifyFlower(c *fiber.Ctx) error {
+	id, err := database.ParseID(c.Params("id"))
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	flower := new(database.Flower)
+	if err := c.BodyParser(flower); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	if flower.Name == "" {
+		return c.Status(400).SendString("Flower name cannot be empty")
+	}
+
+	updatedFlower, err := db.ModifyFlower(c.Context(), id, database.Flower{Name: flower.Name, LatinName: flower.LatinName})
+
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	return c.Status(200).JSON(updatedFlower)
+}
