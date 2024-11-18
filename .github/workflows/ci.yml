@@ -53,7 +53,7 @@ jobs:
       with:
         install: false
         start: npm run prepare:e2e
-        wait-on: http://localhost:5001
+        wait-on: 'http://localhost:5001/api/healthcheck, http://localhost:5173'
         working-directory: frontend
       env:
         MONGODB_URI: mongodb://localhost:27017

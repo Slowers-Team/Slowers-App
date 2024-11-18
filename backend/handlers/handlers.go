@@ -32,3 +32,7 @@ func ResetDatabase(c *fiber.Ctx) error {
 	}
 	return c.SendString("Database reset successful")
 }
+
+func HealthCheck(c *fiber.Ctx) error {
+	return c.SendString("OK")
+}

@@ -24,6 +24,8 @@ func SetEnv(newEnv string) {
 func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app := fiber.New()
 
+	app.Get("/api/healthcheck", handlers.HealthCheck)
+
 	app.Post("/api/register", handlers.CreateUser)
 	app.Post("/api/login", handlers.HandleLogin)
 
