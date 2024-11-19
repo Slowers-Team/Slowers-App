@@ -56,19 +56,19 @@ const GrowerImagesPage = () => {
   
   return (
     <>
-        {params.siteId && site (
-        <main className="main-container">
-          <div className="image-section">
-            <div className="add-image-container">
-              <AddImage entity={site} onImageUpload={onImageUpload} />
-            </div>
-            <div className="carousel-wrapper">
-              <SiteImagesCarousel images={images} onDelete={deleteImage} />
-            </div>
-          </div>
-        </main>
-        )}
-    </>
+    {site && (
+    <main className="main-container">    
+      <div className="image-section">
+        <div className="add-image-container">
+          <AddImage entity={site} onImageUpload={onImageUpload} />
+        </div>
+        <div className="carousel-wrapper">
+          <SiteImagesCarousel images={images} onDelete={deleteImage} />
+        </div>
+      </div>
+    </main>
+    )}
+  </>
   )  
 }
 
