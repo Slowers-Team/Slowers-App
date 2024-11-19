@@ -41,7 +41,10 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower }) 
               <p>{t('flower.data.latinname')}: {flower.latin_name}</p>
               <p>{t('flower.data.addedtime')}: {addedTime(flower)}</p>
               <p>{t('flower.data.site')}: {flower.site_name}</p>
-              <p>Visible: {flower.visible ? "joo" : "ei"}</p>
+              <p>{t('flower.visible.text')}: {flower.visible 
+                    ? t('flower.visible.true') 
+                    : t('flower.visible.false')}
+              </p>
               {deleteFlower && (
                 <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
                   {t('button.delete')}

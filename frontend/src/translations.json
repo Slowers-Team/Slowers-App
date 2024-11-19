@@ -41,6 +41,11 @@
           "addedtime": "Added time",
           "grower": "Grower",
           "site": "Site"
+        },
+        "visible": {
+          "text": "Visible to retailers",
+          "true": "Yes",
+          "false": "No"
         }
       },
       "image": {
@@ -156,6 +161,11 @@
           "addedtime": "Lisäysaika",
           "grower": "Kasvattaja",
           "site": "Alue"
+        },
+        "visible": {
+          "text": "Näkyy jälleenmyyjille",
+          "true": "Kyllä",
+          "false": "Ei"
         }
       },
       "image": {
