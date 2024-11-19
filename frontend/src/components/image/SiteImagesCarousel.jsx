@@ -23,7 +23,7 @@ const SiteImagesCarousel = ({ images, onDelete }) => {
       {(!images || images.length === 0) ? (
         <p>{t('carousel.noImages')}</p> 
       ) : (
-        <Carousel activeIndex={activeIndex} onSelect={handleSelect}>
+        <Carousel activeIndex={activeIndex} onSelect={handleSelect} variant="dark">
           {images.map((image, index) => (
             <Carousel.Item key={image._id || index}>
               <img className="d-block w-100" src={image.url} alt={`Slide ${index + 1}`} />
