@@ -50,6 +50,20 @@ describe('Slowers ', function() {
     cy.contains('Homepage')
   })
 
+  it('cannot register with existing email address', function() {
+    cy.register({username: 'testuser', email: 'test@email.com', password: 'testpassword', role: 'grower'})
+    cy.visit('/register')
+    cy.get('#newUsernameInput').type('testuser2')
+    cy.get('#newEmailInput').type('test@email.com')
+    cy.get('#newPasswordInput').type('testpassword2')
+    cy.contains('Retailer').click()
+    cy.get('#termsCheckbox').check()
+    cy.get('#createNewUserButton').click()
+    cy.on('window:alert',(t)=>{
+      expect(t).to.contains('Error: Email already exists');
+   })
+  })
+
   it('cannot register with malformatted email address', function() {
     cy.visit('/register')
     cy.get('#newUsernameInput').type('testuser')
