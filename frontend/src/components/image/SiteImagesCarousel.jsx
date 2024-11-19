@@ -18,7 +18,7 @@ const SiteImagesCarousel = ({ images, onDelete }) => {
 
   return (
     <div className="site-images-carousel">
-      <h2>{t('carousel.siteImages')}</h2> 
+      <h3>{t('carousel.siteImages')}</h3> 
 
       {(!images || images.length === 0) ? (
         <p>{t('carousel.noImages')}</p> 
