@@ -133,5 +133,5 @@ func ToggleFlowerVisibility(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	return c.JSON(newValue)
+	return c.Status(200).JSON(newValue)
 }
