@@ -187,6 +187,12 @@ describe('Slowers ', function() {
           })
           cy.contains('Test flower').should('not.exist')
         })
+
+        it('does not show flower deletion buttons on retailer flower page', function() {
+          cy.visit('/retailer/flowers')
+          cy.contains('Test flower')
+          cy.contains('Delete').should('not.exist')
+        })
       })
     })
   })
