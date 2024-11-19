@@ -58,6 +58,8 @@ const GrowerHomePage = () => {
     <>
       {params.siteId && site ? (
         <main className="main-container">
+          <h2>{site?.name} {t('title.sitehome')} </h2>
+          {site?.note && <p className='mx-1'>{t('site.data.note')} : {site?.note}</p>}     
           <div className="image-section">
             <div className="add-image-container">
               <AddImage entity={site} onImageUpload={onImageUpload} />
@@ -68,7 +70,10 @@ const GrowerHomePage = () => {
           </div>
         </main>
       ) : (
-        <h2>{t('title.home')}</h2>
+        <div>
+          <h2>{t('title.home')}</h2>
+          {site?.note && <p className='mx-1'>{t('site.data.note')} : {site?.note}</p>}
+        </div> 
       )}
     </>
   )  
