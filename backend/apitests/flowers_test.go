@@ -73,6 +73,7 @@ func (s *FlowersAPITestSuite) TestAddingFlower() {
 			LatinName: s.TestFlowers[0].LatinName,
 			Grower:    s.TestFlowers[0].Grower,
 			Site:      s.TestFlowers[0].Site,
+			Quantity:  s.TestFlowers[0].Quantity,
 		}),
 		ExpectedCode: 201,
 		ExpectedBodyFunc: func(body []byte) {
@@ -85,6 +86,7 @@ func (s *FlowersAPITestSuite) TestAddingFlower() {
 			s.Less(time.Since(flower.AddedTime).Seconds(), 10.0, "invalid AddedTime in the added flower")
 			s.Equal(flower.Grower, s.TestFlowers[0].Grower, "wrong Grower in the added flower")
 			s.Equal(flower.Site, s.TestFlowers[0].Site, "wrong Site in the added flower")
+			s.Equal(flower.Quantity, s.TestFlowers[0].Quantity, "wrong Quantity in the added flower")
 		},
 		SetupMocks: func(db *mocks.Database) {
 			user := testdata.GetUsers()[0]
@@ -102,6 +104,7 @@ func (s *FlowersAPITestSuite) TestAddingFlower() {
 					AddedTime: newFlower.AddedTime,
 					Grower:    newFlower.Grower,
 					Site:      newFlower.Site,
+					Quantity:  newFlower.Quantity,
 				}, nil
 			}).Once()
 			db.EXPECT().AddFlowerToSite(
