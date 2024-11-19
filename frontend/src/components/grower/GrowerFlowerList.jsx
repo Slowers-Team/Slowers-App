@@ -28,6 +28,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
             <th>{t('flower.data.latinname')}</th>
             <th>{t('flower.data.addedtime')}</th>
             <th>{t('flower.data.site')}</th>
+            <th>{t('flower.data.qty')}</th>
             <th></th>
             <th></th>
           </tr>
@@ -49,6 +50,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
                 </td>
                 <td>{addedTimeStr}</td>
                 <td>{flower.site_name}</td>
+                <td>{flower.quantity}</td>
                 <td>
                   <button id='showFlowerPageButton' onClick={() => handleShow(flower)}>
                   {t('button.flowerpage')}
