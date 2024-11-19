@@ -69,7 +69,8 @@
         "info": "Info",
         "pictures": "Pictures",
         "lifecycle": "Life cycle",
-        "sites": "Sites"
+        "sites": "Sites",
+        "images": "Images"
       },
       "role": {
         "grower": "Grower",
@@ -186,7 +187,8 @@
         "info": "Tietoa",
         "pictures": "Kuvat",
         "lifecycle": "Elinkaari",
-        "sites": "Alueet"
+        "sites": "Alueet",
+        "images": "Kuvat"
       },
       "role": {
         "grower": "Kasvattaja",
