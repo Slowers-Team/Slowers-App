@@ -29,13 +29,15 @@ test('returns correct flowers when database has flowers', async() => {
             _id: '123',
             name: 'Sunflower',
             latin_name: 'Helianthus annuus',
-            added_time: '1999-02-08T15:16:00.000Z'
+            added_time: '1999-02-08T15:16:00.000Z',
+            quantity: 19,
         },
         {
             _id: '456',
             name: 'Lily',
             latin_name: 'Lilium',
-            added_time: '2024-09-23T11:11:11.000Z'
+            added_time: '2024-09-23T11:11:11.000Z',
+            quantity: 573,
         }
     ]
 
@@ -52,7 +54,8 @@ test('creates a flower correctly and uses the correct url', async() => {
     const newFlower = {
         name: 'Lily',
         latin_name: 'Lilium',
-        added_time: '2024-09-23T11:11:11.000Z'
+        added_time: '2024-09-23T11:11:11.000Z',
+        quantity: 103,
     }
 
     axios.post.mockResolvedValue({ data: newFlower })
@@ -69,13 +72,15 @@ test('deletes a flower correctly and uses the correct url', async() => {
             _id: '123',
             name: 'Sunflower',
             latin_name: 'Helianthus annuus',
-            added_time: '1999-02-08T15:16:00.000Z'
+            added_time: '1999-02-08T15:16:00.000Z',
+            quantity: 5,
         },
         {
             _id: '456',
             name: 'Lily',
             latin_name: 'Lilium',
-            added_time: '2024-09-23T11:11:11.000Z'
+            added_time: '2024-09-23T11:11:11.000Z',
+            quantity: 81,
         }
     ]
 
