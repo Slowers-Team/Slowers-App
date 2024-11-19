@@ -157,6 +157,18 @@ describe('Slowers ', function() {
         cy.contains('Greenhouse')
         cy.contains('Test site').should('not.exist')
       })
+
+      it.only('can add flower to a site', function() {
+        cy.visit('/grower/sites')
+        cy.contains('Test site').click()
+        cy.contains('Test site homepage')
+        cy.get('#flowersTab').click()
+        cy.get('#showFlowerAddingFormButton').click()
+        cy.get('#newFlowerNameInput').type('Test flower')
+        cy.get('#newFlowerLatinNameInput').type('Test latin name')
+        cy.get('#saveNewFlowerButton').click()
+        cy.contains('Test flower')
+      })
     })
   })
 })
