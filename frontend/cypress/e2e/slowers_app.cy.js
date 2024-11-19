@@ -109,6 +109,7 @@ describe('Slowers ', function() {
 
     it('changes role value on profile page when role switching button is clicked', function() {
       cy.visit('/user')
+      cy.contains('test@email.com')
       cy.get('#roleValue').contains('Grower')
       cy.contains('Switch to Retailer').click()
       cy.get('#roleValue').contains('Retailer')
@@ -158,7 +159,7 @@ describe('Slowers ', function() {
         cy.contains('Test site').should('not.exist')
       })
 
-      it.only('can add flower to a site', function() {
+      it('can add flower to a site', function() {
         cy.visit('/grower/sites')
         cy.contains('Test site').click()
         cy.contains('Test site homepage')
