@@ -33,7 +33,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, updateFlower }) => {
             <th>{t('flower.data.latinname')}</th>
             <th>{t('flower.data.addedtime')}</th>
             <th>{t('flower.data.site')}</th>
-            <th>Visibility</th>
+            <th>{t('flower.visible.text')}</th>
             <th></th>
             <th></th>
           </tr>
@@ -55,7 +55,9 @@ const GrowerFlowerList = ({ flowers, deleteFlower, updateFlower }) => {
                 </td>
                 <td>{addedTimeStr}</td>
                 <td>{flower.site_name}</td>
-                <td>{flower.visible ? "joo" : "ei"}</td>
+                <td>{flower.visible 
+                    ? t('flower.visible.true') 
+                    : t('flower.visible.false')}</td>
                 <td>
                   <button id='showFlowerPageButton' onClick={() => handleShow(flower)}>
                   {t('button.flowerpage')}

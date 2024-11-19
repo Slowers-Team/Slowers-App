@@ -15,7 +15,13 @@ const VisibilityButton = ({ flower, updateFlower }) => {
       setCurrent(newVis)
       updateFlower(newFlower)
     })
-    .catch(error => alert(error))
+    .catch(error => {
+      if (error.startsWith("No image")) {
+        alert(t("error.noimagesinflower"))
+      } else {
+       alert(error) 
+      }
+    })
   }
   
   return (
