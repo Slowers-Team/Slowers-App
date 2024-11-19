@@ -159,16 +159,34 @@ describe('Slowers ', function() {
         cy.contains('Test site').should('not.exist')
       })
 
-      it('can add flower to a site', function() {
-        cy.visit('/grower/sites')
-        cy.contains('Test site').click()
-        cy.contains('Test site homepage')
-        cy.get('#flowersTab').click()
-        cy.get('#showFlowerAddingFormButton').click()
-        cy.get('#newFlowerNameInput').type('Test flower')
-        cy.get('#newFlowerLatinNameInput').type('Test latin name')
-        cy.get('#saveNewFlowerButton').click()
-        cy.contains('Test flower')
+      describe('when a flower has been added', function() {
+        beforeEach(function() {
+          cy.visit('/grower/sites')
+          cy.contains('Test site').click()
+          cy.contains('Test site homepage')
+          cy.get('#flowersTab').click()
+          cy.get('#showFlowerAddingFormButton').click()
+          cy.get('#newFlowerNameInput').type('Test flower')
+          cy.get('#newFlowerLatinNameInput').type('Test latin name')
+          cy.get('#saveNewFlowerButton').click()
+        })
+
+        it('can add flower to a site', function() {
+          cy.contains('Test flower')
+        })
+
+        it('can delete flower from a site', function() {
+          cy.visit('/grower/sites')
+          cy.contains('Test site').click()
+          cy.contains('Test site homepage')
+          cy.get('#flowersTab').click()
+          cy.contains('Test flower').click()
+          cy.get('#deleteFlowerButton').click()
+          cy.on('window:confirm', (confirmText) => {
+            return true
+          })
+          cy.contains('Test flower').should('not.exist')
+        })
       })
     })
   })
