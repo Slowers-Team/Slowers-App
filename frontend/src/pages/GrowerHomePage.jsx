@@ -2,15 +2,11 @@ import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import siteService from '../services/sites'
-import ImageService from '../services/images'
-import SiteImagesCarousel from '../components/image/SiteImagesCarousel'
-import AddImage from '../components/image/AddImage'
 
 const GrowerHomePage = () => {
   const params = useParams()
-  const [site, setSite] = useState(null)
-  const [images, setImages] = useState([])
-  const { t } = useTranslation()
+  const [site, setSite] = useState()
+  const { t, i18n } = useTranslation()
 
   useEffect(() => {
     if (params.siteId) {
@@ -18,65 +14,16 @@ const GrowerHomePage = () => {
     }
   }, [])
 
-  useEffect(() => {
-     fetchImages()
-  }, [params.siteId])
-
-  const fetchImages = () => {
-    ImageService.getImagesByEntity(params.siteId)
-      .then(imageURLs => {
-        console.log('Images after fetching:', imageURLs)
-        setImages(imageURLs)
-      })
-      .catch(error => console.error('Error fetching images:', error))
-  }
- 
-  const deleteImage = imageObject => {
-    console.log("Deleting image:", imageObject) 
-    if (!imageObject || !imageObject._id) {
-      console.error("Image object is undefined or missing id")
-      return
-    }
-    if (window.confirm(`${t("Confirm image deletion")}?`)) {
-      ImageService.deleteImage(imageObject._id)
-        .then(() => {
-          setImages(l => l.filter(item => item._id !== imageObject._id))
-          alert(t("Image deleted"))
-        })
-        .catch(error => {
-          console.error('Error deleting image:', error)
-          alert(t("Error"))
-        })
-    }
-  }
-  
-  const onImageUpload = () => {
-    fetchImages()
-  }
-  
   return (
     <>
-      {params.siteId && site ? (
-        <main className="main-container">
-          <h2>{site?.name} {t('title.sitehome')} </h2>
-          {site?.note && <p className='mx-1'>{t('site.data.note')} : {site?.note}</p>}     
-          <div className="image-section">
-            <div className="add-image-container">
-              <AddImage entity={site} onImageUpload={onImageUpload} />
-            </div>
-            <div className="carousel-wrapper">
-              <SiteImagesCarousel images={images} onDelete={deleteImage} />
-            </div>
-          </div>
-        </main>
+      {params.siteId ? (
+        <h2>{site?.name} {t('title.sitehome')} </h2>
       ) : (
-        <div>
-          <h2>{t('title.home')}</h2>
-          {site?.note && <p className='mx-1'>{t('site.data.note')} : {site?.note}</p>}
-        </div> 
+        <h2>{t('title.home')}</h2>
       )}
+      {site?.note && <p className='mx-1'>{t('site.data.note')} : {site?.note}</p>}
     </>
-  )  
+  )
 }
 
 export default GrowerHomePage
