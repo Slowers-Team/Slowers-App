@@ -27,8 +27,6 @@ const RegisterForm = ({ createNewUser }) => {
         setNewEmail('')
         setNewRole('')
         setTermsAccepted(false)
-
-        alert(t('alert.usercreated'))
     }
 
     return (
