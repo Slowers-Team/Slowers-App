@@ -33,6 +33,8 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower }) 
           defaultActiveKey="info"
           id="uncontrolled-tab-example"
           className="mb-3"
+          mountOnEnter={true}
+          unmountOnExit={true}
           >
           <Tab eventKey="info" title={t('menu.info')}>
             <div>
