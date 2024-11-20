@@ -39,6 +39,7 @@ type Database interface {
 
 	AddImage(ctx context.Context, newImage Image) (*Image, error)
 	DeleteImage(ctx context.Context, id ObjectID) (bool, error)
+	GetImagesByEntity(ctx context.Context, entityID string) ([]Image, error)
 }
 
 type MongoDatabase struct {

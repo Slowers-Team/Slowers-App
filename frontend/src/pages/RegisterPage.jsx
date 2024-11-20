@@ -13,6 +13,7 @@ const RegisterPage = ( { handleLogin }) => {
             .then(data => {
                 handleLogin(data.token, data.role)
                 navigate('/')
+                alert(t('alert.usercreated'))
               }
             )
             .catch(error => {
