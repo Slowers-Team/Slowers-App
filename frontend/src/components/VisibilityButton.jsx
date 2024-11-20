@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 const VisibilityButton = ({ flower, updateFlower }) => {
   const [current, setCurrent] = useState(flower.visible)
+  const [disabled, setDisabled] = useState(false)
   const {t, _ } = useTranslation()
 
   const handleClick = () => {
@@ -17,6 +18,7 @@ const VisibilityButton = ({ flower, updateFlower }) => {
     })
     .catch(error => {
       if (error.startsWith("No image")) {
+        setDisabled(true)
         alert(t("error.noimagesinflower"))
       } else {
        alert(error) 
@@ -25,7 +27,7 @@ const VisibilityButton = ({ flower, updateFlower }) => {
   }
   
   return (
-    <Button onClick={handleClick}>
+    <Button onClick={handleClick} disabled={disabled}>
       {current
         ? t("button.hideFlower")
         : t("button.showFlower")}
