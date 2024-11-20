@@ -69,7 +69,8 @@
         "info": "Info",
         "pictures": "Pictures",
         "lifecycle": "Life cycle",
-        "sites": "Sites"
+        "sites": "Sites",
+        "images": "Images"
       },
       "role": {
         "grower": "Grower",
@@ -109,6 +110,10 @@
           "password": "Enter password",
           "username": "Enter username"
         }
+      },
+      "carousel": {
+        "siteImages":"Site Images",
+        "noImages": "No images uploaded for this site."
       }
     }
   },
@@ -182,7 +187,8 @@
         "info": "Tietoa",
         "pictures": "Kuvat",
         "lifecycle": "Elinkaari",
-        "sites": "Alueet"
+        "sites": "Alueet",
+        "images": "Kuvat"
       },
       "role": {
         "grower": "Kasvattaja",
@@ -222,6 +228,10 @@
           "password": "Syötä salasana",
           "username": "Syötä käyttäjänimi"
         }
+      },
+      "carousel": {
+        "siteImages": "Siten kuvat",
+        "noImages": "Tälle sivulle ei ole vielä ladattu kuvia."
       }
     }
   }
