@@ -64,6 +64,10 @@ func AddFlower(c *fiber.Ctx) error {
 		return c.Status(404).SendString("Site not found")
 	}
 
+	if flower.Quantity < 0 {
+		return c.Status(400).SendString("Flower quantity cannot be negative")
+	}
+
 	newFlower := database.Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(), Grower: &userID, GrowerEmail: grower.Email, Site: &site.ID, SiteName: site.Name, Quantity: flower.Quantity}
 
 	createdFlower, err := db.AddFlower(c.Context(), newFlower)
