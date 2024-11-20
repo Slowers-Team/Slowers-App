@@ -3,6 +3,7 @@ import GrowerFlowerList from '../components/grower/GrowerFlowerList'
 import flowerService from '../services/flowers'
 import siteService from '../services/sites'
 import AddFlower from '../components/grower/AddFlower'
+import AddFlowerUpdate from '../components/grower/AddFlowerUpdate'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -51,21 +52,19 @@ const GrowerFlowerPage = () => {
     }
   }
 
-  const testPrint = () => {
-    const checkedFlowerID = flowers.filter(flower => checkedFlowers.includes(flower._id))
-    console.log("Checked flowers:", checkedFlowerID)
-  }
-
   return (
     <>
     {params.siteId ? (
       <div>
         <h2>{site?.name} {t('title.siteflowers')}</h2>
         <AddFlower createFlower={addFlower} siteID={params.siteId} />
-        <button className="btn btn-light mx-2" onClick={testPrint}>Test print</button>
+        <AddFlowerUpdate checkedFlowers={checkedFlowers} />
       </div>
     ) : (
-      <h2>{t('title.allflowers')}</h2>
+      <div>
+        <h2>{t('title.allflowers')}</h2>
+        <AddFlowerUpdate checkedFlowers={checkedFlowers} />
+      </div>
     )}
       { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} setCheckedFlowers={setCheckedFlowers}/>) : 
                   (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} setCheckedFlowers={setCheckedFlowers}/>) }
