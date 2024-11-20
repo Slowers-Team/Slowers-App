@@ -170,7 +170,7 @@ func (mDb MongoDatabase) GetAllFlowersRelatedToSite(ctx context.Context, siteID 
 	return flowers, nil
 }
 
-// SetFlowerVisibility sets the given flower to a value indicated by "visibility",
+// ToggleFlowerVisibility sets the toggles (false->true or true->false) flower's visibility,
 // and returns the new value or an error.
 // Visibility can be set if flower has at least one image attached.
 func (mDb MongoDatabase) ToggleFlowerVisibility(ctx context.Context, userID, flowerID ObjectID) (*bool, error) {
