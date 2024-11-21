@@ -15,6 +15,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, createBrowserRouter, 
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import NavigationBar from './components/NavigationBar'
+import { Authenticator } from './Authenticator'
 
 
 const Root = () => {
@@ -114,7 +115,8 @@ const RetailerRoutes = () => (
 )
 
 const router = createBrowserRouter([
-  { path: "*", element: <Root />}
+  { path: "*", element: <Root />, id: "root",
+    loader() { return { role: Authenticator.role }}}
 ])
 
 export default function App() {

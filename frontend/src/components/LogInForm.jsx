@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import userService from '../services/users'
 import { useTranslation } from 'react-i18next'
+import { Authenticator } from '../Authenticator'
 
 const LogIn = ({ onLogin }) => {
   const [email, setEmail] = useState('')
@@ -17,6 +18,7 @@ const LogIn = ({ onLogin }) => {
       const data = await response.json()
 
       if (response.ok) {
+        Authenticator.login(data.token, data.role)
         onLogin(data.token, data.role)
       } else {
         setError(t("error.invalidlogininfo"))
