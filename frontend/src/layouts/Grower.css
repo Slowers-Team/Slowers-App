@@ -113,24 +113,3 @@
     cursor: pointer;
     border-radius: 5px;
   }
-
-  .flower-button {
-    background-color: #c1dadf;
-    color: black;
-    border: none;
-    padding: 5px 10px;
-    text-align: center;
-    display: inline-block;
-    font-size: 16px;
-    margin: 5px 2px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-
-  #visibilityButton {
-    margin-left: 10px;
-    margin-top: -5px;
-    position: absolute;
-  }
-
-

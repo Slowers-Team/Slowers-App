@@ -104,7 +104,6 @@ func (s *FlowersAPITestSuite) TestAddingFlower() {
 					AddedTime: newFlower.AddedTime,
 					Grower:    newFlower.Grower,
 					Site:      newFlower.Site,
-					Visible:   newFlower.Visible,
 				}, nil
 			}).Once()
 			db.EXPECT().AddFlowerToSite(
