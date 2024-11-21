@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import userService from '../services/users'
 import UserInfo from '../components/UserInfo' 
 
-const UserPage = ({setDefaultRole}) => {
+const UserPage = () => {
   const [user, setUser] = useState({})
 
   useEffect(() => {
@@ -13,8 +13,8 @@ const UserPage = ({setDefaultRole}) => {
     const newRole = switchRole();
     userService.setRole(newRole).then(_ => {
       setUser({...user, role: newRole})
-      localStorage.setItem('role', newRole);
-      setDefaultRole(newRole)
+      // localStorage.setItem('role', newRole);
+      Authenticator.setRole(newRole)
     })  }
 
   const switchRole = () => (user.role === 'grower' ? 'retailer' : 'grower')

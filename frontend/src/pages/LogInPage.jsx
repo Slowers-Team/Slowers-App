@@ -1,13 +1,14 @@
 import { useNavigate } from 'react-router-dom'
 import LogInForm from '../components/LogInForm'
 import { useTranslation } from 'react-i18next'
+import { Authenticator } from '../Authenticator'
 
-const LogInPage = ({ onLogin }) => {
+const LogInPage = () => {
   const navigate = useNavigate()
   const { t, i18n } = useTranslation()
 
   const handleLogin = (token, role) => {
-    onLogin(token, role)
+    Authenticator.login(token, role)
     navigate('/')
   }
 

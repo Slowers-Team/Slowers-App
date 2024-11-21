@@ -3,13 +3,14 @@ import { useTranslation } from 'react-i18next'
 import { Navbar, Nav, NavDropdown, Button, Offcanvas } from 'react-bootstrap'
 import LangSelect from './LangSelect'
 import userService from '../services/users'
-import { Link } from 'react-router-dom'
+import { Link, useRouteLoaderData } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
-export const NavigationBar = ({ isLoggedIn, handleLogout }) => {
+export const NavigationBar = ({ handleLogout }) => {
     const { t, i18n } = useTranslation()
     const [showOffCanvas, setShowOffCanvas] = useState(false)
     const [user, setUser] = useState({})
+    const {isLoggedIn} = useRouteLoaderData("root")
 
     const handleClose = () => setShowOffCanvas(false)
     const handleShow = () => setShowOffCanvas(!showOffCanvas)

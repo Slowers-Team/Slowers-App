@@ -13,6 +13,18 @@ export const Authenticator = {
     localStorage.removeItem('role')
     Authenticator.isLoggedIn = false
     Authenticator.role = ''
+  },
+  setRole(role){
+    Authenticator.role = role
+    localStorage.setItem('role', role)
+  },
+  refresh() {
+    Authenticator.role = localStorage.getItem("role")
+    if (Authenticator.role) {
+      Authenticator.isLoggedIn = true
+      return true
+    }
+    return false
   }
 }
   
