@@ -10,6 +10,7 @@ import GrowerLayout from './layouts/GrowerLayout'
 import GrowerHomePage from './pages/GrowerHomePage'
 import GrowerFlowerPage from './pages/GrowerFlowerPage'
 import GrowerSitesPage from './pages/GrowerSitesPage'
+import GrowerImagesPage from './pages/GrowerImagesPage'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -81,6 +82,7 @@ const App = () => {
                 <Route index element={<GrowerHomePage />} />
                 <Route path="flowers" element={<GrowerFlowerPage />} />
                 <Route path="sites" element={<GrowerSitesPage />} />
+                <Route path="images" element={<GrowerImagesPage />} />
               </Route>
 
               <Route path="/retailer" element={<RetailerLayout />}>

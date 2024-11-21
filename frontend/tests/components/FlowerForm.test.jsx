@@ -36,9 +36,10 @@ test('updates input values when typing', async() => {
 
 test('resets input values after submit', async () => {
     const createFlower = vi.fn()
+    const handleClose = vi.fn()
     const user = userEvent.setup()
 
-    render(<FlowerForm createFlower={createFlower} />)
+    render(<FlowerForm createFlower={createFlower} handleClose={handleClose} />)
 
     const flowerNameInput = screen.getByLabelText('Name:')
     const flowerLatinNameInput = screen.getByLabelText('Latin name:')
@@ -57,9 +58,10 @@ test('resets input values after submit', async () => {
 
 test('calls createFlower with correct values on submit', async () => {
     const createFlower = vi.fn()
+    const handleClose = vi.fn()
     const user = userEvent.setup()
 
-    render(<FlowerForm createFlower={createFlower} />)
+    render(<FlowerForm createFlower={createFlower} handleClose={handleClose}/>)
 
     const flowerNameInput = screen.getByLabelText('Name:')
     const flowerLatinNameInput = screen.getByLabelText('Latin name:')
