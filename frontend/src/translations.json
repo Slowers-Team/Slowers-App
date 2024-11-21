@@ -44,7 +44,8 @@
           "site": "Site"
         },
         "visible": {
-          "text": "Visible to retailers",
+          "long": "Visible to retailers",
+          "short": "Visible",
           "true": "Yes",
           "false": "No"
         }
@@ -165,7 +166,8 @@
           "site": "Alue"
         },
         "visible": {
-          "text": "Näkyy jälleenmyyjille",
+          "long": "Näkyy jälleenmyyjille",
+          "short": "Näkyvillä",
           "true": "Kyllä",
           "false": "Ei"
         }

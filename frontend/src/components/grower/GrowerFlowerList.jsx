@@ -33,7 +33,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, updateFlower }) => {
             <th>{t('flower.data.latinname')}</th>
             <th>{t('flower.data.addedtime')}</th>
             <th>{t('flower.data.site')}</th>
-            <th>{t('flower.visible.text')}</th>
+            <th>{t('flower.visible.short')}</th>
             <th></th>
             <th></th>
           </tr>
