@@ -1,9 +1,10 @@
 import '../../layouts/Grower.css'
 import FlowerModal from '../FlowerModal.jsx'
+import { Button, Table } from 'react-bootstrap'
 import { useState, useEffect } from "react"
 import { useTranslation } from 'react-i18next'
 
-const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers}) => {
+const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers, updateFlower}) => {
   const { t, i18n } = useTranslation()
   const [showModal, setShowModal] = useState(false)
   const [currentFlower, setCurrentFlower] = useState("")
@@ -21,6 +22,11 @@ const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers}) => {
   const handleClose = () => {
     setShowModal(false)
     setCurrentFlower("")
+  }
+
+  const handleUpdate = (flowerObject) => {
+    setCurrentFlower(flowerObject)
+    updateFlower(flowerObject)
   }
 
   const areAllChecked = checkedFlowers.length === flowers.length
@@ -51,6 +57,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers}) => {
             <th>{t('flower.data.latinname')}</th>
             <th>{t('flower.data.addedtime')}</th>
             <th>{t('flower.data.site')}</th>
+            <th>{t('flower.visible.short')}</th>
             <th></th>
             <th></th>
           </tr>
@@ -75,6 +82,9 @@ const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers}) => {
                 </td>
                 <td>{addedTimeStr}</td>
                 <td>{flower.site_name}</td>
+                <td>{flower.visible 
+                    ? t('flower.visible.true') 
+                    : t('flower.visible.false')}</td>
                 <td>
                   <button id='showFlowerPageButton' onClick={() => handleShow(flower)}>
                   {t('button.flowerpage')}
@@ -90,7 +100,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers}) => {
           })}
         </tbody>
       </table>
-      <FlowerModal show={showModal} handleClose={handleClose} flower={currentFlower} deleteFlower={deleteFlower}/>
+      <FlowerModal show={showModal} handleClose={handleClose} flower={currentFlower} deleteFlower={deleteFlower} updateFlower={handleUpdate}/>
     </div>
   )
 }

@@ -19,6 +19,8 @@
         "switchToRetailer": "Switch to Retailer",
         "switchToGrower": "Switch to Grower",
         "flowerpage": "Flower page",
+        "showFlower": "Show to retailers",
+        "hideFlower": "Hide from retailers",
         "close": "Close",
         "cancel": "Cancel",
         "update": "Update"
@@ -32,7 +34,8 @@
         "erroroccured": "An error occurred. Please try again.",
         "invalidemail": "Invalid email",
         "invalidlogininfo": "Invalid email or password",
-        "sitenamecannotbeempty": "Site name cannot be empty"
+        "sitenamecannotbeempty": "Site name cannot be empty",
+        "noimagesinflower": "At least one image has to be attached to a flower before its visibility can be changed."
       },
       "flower": {
         "data": {
@@ -41,6 +44,12 @@
           "addedtime": "Added time",
           "grower": "Grower",
           "site": "Site"
+        },
+        "visible": {
+          "long": "Visible to retailers",
+          "short": "Visible",
+          "true": "Yes",
+          "false": "No"
         }
       },
       "image": {
@@ -114,7 +123,7 @@
         }
       },
       "carousel": {
-        "siteImages":"Site Images",
+        "siteImages": "Site Images",
         "noImages": "No images uploaded for this site."
       }
     }
@@ -140,6 +149,8 @@
         "switchToGrower": "Vaihda kasvattajaksi",
         "flowerpage": "Kukan sivu",
         "close": "Sulje",
+        "showFlower": "Näytä myyjille",
+        "hideFlower": "Piilota myyjiltä",
         "cancel": "Peruuta",
         "update": "Päivitä"
       },
@@ -152,7 +163,8 @@
         "erroroccured": "Tapahtui virhe. Yritä uudelleen myöhemmin.",
         "invalidemail": "Virheellinen sähköpostiosoite",
         "invalidlogininfo": "Virheellinen sähköposti tai salasana",
-        "sitenamecannotbeempty": "Alueen nimi ei voi olla tyhjä"
+        "sitenamecannotbeempty": "Alueen nimi ei voi olla tyhjä",
+        "noimagesinflower": "Kukkaan täytyy liittää vähintään yksi kuva ennen sen näkyvyyden muuttamista."
       },
       "flower": {
         "data": {
@@ -161,6 +173,12 @@
           "addedtime": "Lisäysaika",
           "grower": "Kasvattaja",
           "site": "Alue"
+        },
+        "visible": {
+          "long": "Näkyy jälleenmyyjille",
+          "short": "Näkyvillä",
+          "true": "Kyllä",
+          "false": "Ei"
         }
       },
       "image": {
