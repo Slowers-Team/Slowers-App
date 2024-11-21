@@ -69,26 +69,10 @@ const App = () => {
           <Routes>
 
             <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
-
               <Route path="/" element={getDefaultRole()} />
-
-              <Route path="/grower" element={<GrowerLayout />}>
-                <Route index element={<GrowerHomePage />} />
-                <Route path="flowers" element={<GrowerFlowerPage />} />
-                <Route path="sites" element={<GrowerSitesPage />} />
-              </Route>
-
-              <Route path="/grower/:siteId" element={<GrowerLayout />}>
-                <Route index element={<GrowerHomePage />} />
-                <Route path="flowers" element={<GrowerFlowerPage />} />
-                <Route path="sites" element={<GrowerSitesPage />} />
-                <Route path="images" element={<GrowerImagesPage />} />
-              </Route>
-
+              <Route path="/grower/*" element={<GrowerRoutes />} />
               <Route path="/retailer/*" element={<RetailerRoutes />} />
-
               <Route path="/user" element={<UserPage setDefaultRole={setDefaultRole}/>} />
-
             </Route>
 
             <Route path="/login" element={isLoggedIn ? getDefaultRole() : (
@@ -108,6 +92,25 @@ const App = () => {
     </div>
   )
 }
+
+const GrowerRoutes = () => (
+  <Routes>
+    <Route element={<GrowerLayout />}>
+      <Route path="/">
+        <Route index element={<GrowerHomePage />} />
+        <Route path="flowers" element={<GrowerFlowerPage />} />
+        <Route path="sites" element={<GrowerSitesPage />} />
+      </Route>
+
+      <Route path="/:siteId">
+        <Route index element={<GrowerHomePage />} />
+        <Route path="flowers" element={<GrowerFlowerPage />} />
+        <Route path="sites" element={<GrowerSitesPage />} />
+        <Route path="images" element={<GrowerImagesPage />} />
+      </Route>
+    </Route>
+  </Routes>
+)
 
 const RetailerRoutes = () => (
   <Routes>
