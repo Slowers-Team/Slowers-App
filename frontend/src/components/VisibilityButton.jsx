@@ -27,11 +27,11 @@ const VisibilityButton = ({ flower, updateFlower }) => {
   }
   
   return (
-    <Button onClick={handleClick} disabled={disabled}>
+    <button onClick={handleClick} disabled={disabled} id="visibilityButton" className="flower-button">
       {current
         ? t("button.hideFlower")
         : t("button.showFlower")}
-    </Button>
+    </button>
   )
 }
 

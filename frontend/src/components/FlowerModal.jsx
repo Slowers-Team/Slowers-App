@@ -46,13 +46,13 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower }) 
               <p>{t('flower.visible.text')}: {flower.visible 
                     ? t('flower.visible.true') 
                     : t('flower.visible.false')}
+              <VisibilityButton flower={flower} updateFlower={updateFlower}/>
               </p>
               {deleteFlower && (
                 <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
                   {t('button.delete')}
                 </button>
               )}
-              <VisibilityButton flower={flower} updateFlower={updateFlower}/>
             </div>
           </Tab>
           <Tab eventKey="pictures" title={t('menu.pictures')}>
