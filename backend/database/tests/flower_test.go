@@ -58,7 +58,6 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlower() {
 		LatinName: s.TestFlowers[0].LatinName,
 		Grower:    s.TestFlowers[0].Grower,
 		Site:      s.TestFlowers[0].Site,
-		Visible:   s.TestFlowers[0].Visible,
 	}
 	s.Db.AddFlower(context.Background(), flower)
 	fetchedFlowers, err := s.Db.GetFlowers(context.Background())
@@ -90,11 +89,6 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlower() {
 		fetchedFlowers[0].AddedTime,
 		flower.AddedTime,
 		"wrong AddedTime for the flower returned from GetFlowers()",
-	)
-	s.Equal(
-		fetchedFlowers[0].Visible,
-		flower.Visible,
-		"wrong Visible for the flower returned from GetFlowers()",
 	)
 }
 
@@ -136,7 +130,6 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
 		GrowerEmail: users[0].Email,
 		Site:        s.TestFlowers[0].Site,
 		SiteName:    testdata.GetRootSites()[0].Name,
-		Visible:     s.TestFlowers[0].Visible,
 	}
 	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
 
@@ -149,7 +142,6 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
 		GrowerEmail: users[1].Email,
 		Site:        fullFlower2.Site,
 		SiteName:    testdata.GetRootSitesForUser2()[0].Name,
-		Visible:     fullFlower2.Visible,
 	}
 	s.Db.AddFlower(context.Background(), testFlower2)
 
@@ -205,11 +197,6 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
 		testFlower.SiteName,
 		fetchedFlowers[0].SiteName,
 		"wrong SiteName for the flower returned from GetUserFlowers()",
-	)
-	s.Equal(
-		testFlower.Visible,
-		fetchedFlowers[0].Visible,
-		"wrong Visible for the flower returned from GetUserFlowers()",
 	)
 }
 

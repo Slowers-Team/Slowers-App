@@ -3,7 +3,7 @@ import RegisterForm from '../components/RegisterForm'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-const RegisterPage = () => {
+const RegisterPage = ( { handleLogin }) => {
     const { t, i18n } = useTranslation()
     const navigate = useNavigate()
 
@@ -11,7 +11,7 @@ const RegisterPage = () => {
           userService
             .create(userObject)
             .then(data => {
-                Authenticator.login(data.token, data.role)
+                handleLogin(data.token, data.role)
                 navigate('/')
                 alert(t('alert.usercreated'))
               }

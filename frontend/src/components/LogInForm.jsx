@@ -2,7 +2,7 @@ import { useState } from 'react'
 import userService from '../services/users'
 import { useTranslation } from 'react-i18next'
 
-const LogIn = ({ onLogin }) => {
+const LogIn = ({ onLogin, setIsLoggedIn, setDefaultRole }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -17,7 +17,11 @@ const LogIn = ({ onLogin }) => {
       const data = await response.json()
 
       if (response.ok) {
-        onLogin(data.token, data.role)
+        localStorage.setItem("token", data.token)
+        localStorage.setItem("role", data.role)
+        setIsLoggedIn(true)
+        setDefaultRole(data.role)
+        onLogin()
       } else {
         setError(t("error.invalidlogininfo"))
       }

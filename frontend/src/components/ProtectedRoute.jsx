@@ -1,8 +1,6 @@
-import { Navigate, Outlet, useRouteLoaderData } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 
-export const ProtectedRoute = () => {
-  let { isLoggedIn } = useRouteLoaderData("root")
-
+export const ProtectedRoute = ({ isLoggedIn }) => {
   if (!isLoggedIn) {
     return <Navigate to="/login" replace />
   }
