@@ -40,7 +40,8 @@
           "latinname": "Latin name",
           "addedtime": "Added time",
           "grower": "Grower",
-          "site": "Site"
+          "site": "Site",
+          "qty": "Qty"
         }
       },
       "image": {
@@ -160,7 +161,8 @@
           "latinname": "Tieteellinen nimi",
           "addedtime": "Lisäysaika",
           "grower": "Kasvattaja",
-          "site": "Alue"
+          "site": "Alue",
+          "qty": "Kpl"
         }
       },
       "image": {

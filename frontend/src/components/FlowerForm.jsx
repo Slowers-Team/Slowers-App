@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next"
 const FlowerForm = ({ createFlower, siteID, handleClose }) => {
   const [newFlowerName, setNewFlowerName] = useState("")
   const [newFlowerLatinName, setNewFlowerLatinName] = useState("")
+  const [newFlowerQty, setNewFlowerQty] = useState("0")
   const { t, i18n } = useTranslation()
 
   const addFlower = event => {
@@ -13,10 +14,12 @@ const FlowerForm = ({ createFlower, siteID, handleClose }) => {
       name: newFlowerName,
       latin_name: newFlowerLatinName,
       site: siteID,
+      quantity: Number(newFlowerQty),
     })
 
     setNewFlowerName("")
     setNewFlowerLatinName("")
+    setNewFlowerQty("0")
     handleClose()
   }
 
@@ -42,6 +45,19 @@ const FlowerForm = ({ createFlower, siteID, handleClose }) => {
           />
         </div>
         <div className="form-group">
+          <label htmlFor="newFlowerQtyInput">{t("flower.data.qty")}:</label>
+          <input
+            type="number"
+            id="newFlowerQtyInput"
+            value={newFlowerQty}
+            onChange={event => setNewFlowerQty(event.target.value)}
+            className="form-control"
+            min="0"
+            required
+          />
+        </div>
+
+        <div>
           <button id="saveNewFlowerButton" type="submit" className="btn btn-light my-2">
             {t("button.save")}
           </button>

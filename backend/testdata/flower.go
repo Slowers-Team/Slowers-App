@@ -37,6 +37,7 @@ func GetTestFlowers() []database.Flower {
 			AddedTime: time.Date(2024, 9, 30, 21, 11, 54, 0, time.UTC),
 			Grower:    &growerID,
 			Site:      &siteID,
+			Quantity:  389,
 		},
 		{
 			ID:        flowerIDs[1],
@@ -45,6 +46,7 @@ func GetTestFlowers() []database.Flower {
 			AddedTime: time.Date(2024, 8, 27, 7, 4, 32, 0, time.UTC),
 			Grower:    &growerID,
 			Site:      &siteID,
+			Quantity:  1,
 		},
 		{
 			ID:        flowerIDs[2],
@@ -53,6 +55,7 @@ func GetTestFlowers() []database.Flower {
 			AddedTime: time.Date(2024, 9, 29, 19, 58, 1, 0, time.UTC),
 			Grower:    &growerID,
 			Site:      &siteID,
+			Quantity:  0,
 		},
 	}
 }
@@ -76,5 +79,6 @@ func GetTestFlowerForUser2() database.Flower {
 		AddedTime: time.Date(2024, 10, 11, 19, 32, 17, 0, time.UTC),
 		Grower:    &growerID,
 		Site:      &siteID,
+		Quantity:  7,
 	}
 }
