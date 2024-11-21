@@ -1,7 +1,6 @@
 import '../../layouts/Grower.css'
 import FlowerModal from '../FlowerModal.jsx'
-import { useEffect, useState } from "react"
-import { Button, Table } from 'react-bootstrap'
+import {  useState } from "react"
 import { useTranslation } from 'react-i18next'
 
 const GrowerFlowerList = ({ flowers, deleteFlower, updateFlower }) => {
