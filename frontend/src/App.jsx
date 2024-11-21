@@ -39,20 +39,13 @@ const Root = () => {
     i18n.changeLanguage(language)
   }
 
-
-  const handleLogout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('role')
-    setIsLoggedIn(false)
-  }
-
   if (isLoading) {
     return <div>{t('label.loading')}</div>
   }
 
   return (
     <div>
-      <NavigationBar handleLogout={handleLogout}/>
+      <NavigationBar />
       <Routes>
 
         <Route element={<ProtectedRoute />}>
