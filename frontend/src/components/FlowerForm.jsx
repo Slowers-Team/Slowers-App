@@ -1,7 +1,8 @@
+import { Container } from 'react-bootstrap'
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 
-const FlowerForm = ({ createFlower, siteID }) => {
+const FlowerForm = ({ createFlower, siteID, handleClose }) => {
   const [newFlowerName, setNewFlowerName] = useState("")
   const [newFlowerLatinName, setNewFlowerLatinName] = useState("")
   const { t, i18n } = useTranslation()
@@ -16,10 +17,11 @@ const FlowerForm = ({ createFlower, siteID }) => {
 
     setNewFlowerName("")
     setNewFlowerLatinName("")
+    handleClose()
   }
 
   return (
-    <div className="text-left m-1" style={{ maxWidth: "200px" }}>
+    <Container>
       <form onSubmit={addFlower}>
         <div className="form-group">
           <label htmlFor="newFlowerNameInput">{t("flower.data.name")}:</label>
@@ -39,13 +41,13 @@ const FlowerForm = ({ createFlower, siteID }) => {
             className="form-control"
           />
         </div>
-        <div>
+        <div className="form-group">
           <button id="saveNewFlowerButton" type="submit" className="btn btn-light my-2">
             {t("button.save")}
           </button>
         </div>
       </form>
-    </div>
+    </Container>
   )
 }
 

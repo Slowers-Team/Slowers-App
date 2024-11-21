@@ -150,6 +150,62 @@ func (s *ImagesAPITestSuite) TestImageUpload() {
 	}
 }
 
+func (s *ImagesAPITestSuite) TestFetchingImagesByEntity() {
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:  "GET /api/images/entity/:entityID",
+		Route:        "/api/images/entity/" + s.Images[0].Entity.Hex(),
+		Method:       "GET",
+		Body:         []byte{},
+		ExpectedCode: 200,
+		ExpectedBody: utils.ImagesToJSON([]database.Image{s.Images[0]}),
+		SetupMocks: func(db *mocks.Database) {
+			db.EXPECT().GetImagesByEntity(
+				mock.Anything, s.Images[0].Entity.Hex(),
+			).Return(
+				[]database.Image{s.Images[0]}, nil,
+			).Once()
+		},
+	})
+}
+
+func (s *ImagesAPITestSuite) TestDeletingImage() {
+	image := s.Images[0]
+	filename := image.ID.Hex() + "." + image.FileFormat
+
+	os.Mkdir("./images", 0775)
+
+	filedata, err := ioutil.ReadFile("../testdata/images/" + filename)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err := ioutil.WriteFile("./images/"+filename, filedata, 0664); err != nil {
+		log.Fatal(err)
+	}
+
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:  "DELETE /api/images/:id",
+		Route:        "/api/images/" + image.ID.Hex(),
+		Method:       "DELETE",
+		Body:         []byte{},
+		ExpectedCode: 204,
+		ExpectedBody: []byte{},
+		SetupMocks: func(db *mocks.Database) {
+			db.EXPECT().DeleteImage(
+				mock.Anything, image.ID,
+			).Return(
+				true, nil,
+			).Once()
+		},
+	})
+
+	s.NoFileExists("./images/"+filename, "File should have been deleted")
+
+	if err := os.RemoveAll("./images"); err != nil {
+		log.Fatal(err)
+	}
+}
+
 func TestImagesAPITestSuite(t *testing.T) {
 	suite.Run(t, new(ImagesAPITestSuite))
 }

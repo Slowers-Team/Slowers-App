@@ -19,9 +19,11 @@
         "switchToRetailer": "Switch to Retailer",
         "switchToGrower": "Switch to Grower",
         "flowerpage": "Flower page",
-        "close": "Close",
         "showFlower": "Show to retailers",
-        "hideFlower": "Hide from retailers"
+        "hideFlower": "Hide from retailers",
+        "close": "Close",
+        "cancel": "Cancel",
+        "update": "Update"
       },
       "error": {
         "acceptterms": "You must accept the terms",
@@ -78,7 +80,8 @@
         "info": "Info",
         "pictures": "Pictures",
         "lifecycle": "Life cycle",
-        "sites": "Sites"
+        "sites": "Sites",
+        "images": "Images"
       },
       "role": {
         "grower": "Grower",
@@ -118,6 +121,10 @@
           "password": "Enter password",
           "username": "Enter username"
         }
+      },
+      "carousel": {
+        "siteImages": "Site Images",
+        "noImages": "No images uploaded for this site."
       }
     }
   },
@@ -143,7 +150,9 @@
         "flowerpage": "Kukan sivu",
         "close": "Sulje",
         "showFlower": "Näytä myyjille",
-        "hideFlower": "Piilota myyjiltä"
+        "hideFlower": "Piilota myyjiltä",
+        "cancel": "Peruuta",
+        "update": "Päivitä"
       },
       "error": {
         "acceptterms": "Käyttöehdot on hyväksyttävä",
@@ -200,7 +209,8 @@
         "info": "Tietoa",
         "pictures": "Kuvat",
         "lifecycle": "Elinkaari",
-        "sites": "Alueet"
+        "sites": "Alueet",
+        "images": "Kuvat"
       },
       "role": {
         "grower": "Kasvattaja",
@@ -240,6 +250,10 @@
           "password": "Syötä salasana",
           "username": "Syötä käyttäjänimi"
         }
+      },
+      "carousel": {
+        "siteImages": "Siten kuvat",
+        "noImages": "Tälle sivulle ei ole vielä ladattu kuvia."
       }
     }
   }

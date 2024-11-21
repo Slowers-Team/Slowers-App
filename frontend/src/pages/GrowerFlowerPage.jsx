@@ -2,13 +2,15 @@ import { useParams } from 'react-router-dom'
 import GrowerFlowerList from '../components/grower/GrowerFlowerList'
 import flowerService from '../services/flowers'
 import siteService from '../services/sites'
-import FlowerForm from '../components/FlowerForm'
+import AddFlower from '../components/grower/AddFlower'
+import AddFlowerUpdate from '../components/grower/AddFlowerUpdate'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+
 const GrowerFlowerPage = () => {
   const params = useParams()
   const [flowers, setFlowers] = useState()
-  const [showAddNewFlower, setShowAddNewFlower] = useState(false)
+  const [checkedFlowers, setCheckedFlowers] = useState([])
   const [site, setSite] = useState()
   const { t, i18n } = useTranslation()
 
@@ -63,15 +65,17 @@ const GrowerFlowerPage = () => {
     {params.siteId ? (
       <div>
         <h2>{site?.name} {t('title.siteflowers')}</h2>
-        <button id="showFlowerAddingFormButton" onClick={() => setShowAddNewFlower(!showAddNewFlower)} className="btn btn-light">
-          {t("button.addflower")}
-        </button>
-        {showAddNewFlower && <FlowerForm createFlower={addFlower} siteID={params.siteId} />}
+        <AddFlower createFlower={addFlower} siteID={params.siteId} />
+        <AddFlowerUpdate checkedFlowers={checkedFlowers} />
       </div>
     ) : (
-      <h2>{t('title.allflowers')}</h2>
+      <div>
+        <h2>{t('title.allflowers')}</h2>
+        <AddFlowerUpdate checkedFlowers={checkedFlowers} />
+      </div>
     )}
-      { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} updateFlower={updateFlower}/>) : (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} />) }
+      { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) : 
+                  (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) }
     </>
   )
 }
