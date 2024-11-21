@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import userService from '../services/users'
 import UserInfo from '../components/UserInfo' 
+import { Authenticator } from '../Authenticator' 
 
 const UserPage = () => {
   const [user, setUser] = useState({})
@@ -13,7 +14,6 @@ const UserPage = () => {
     const newRole = switchRole();
     userService.setRole(newRole).then(_ => {
       setUser({...user, role: newRole})
-      // localStorage.setItem('role', newRole);
       Authenticator.setRole(newRole)
     })  }
 

@@ -5,8 +5,9 @@ import LangSelect from './LangSelect'
 import userService from '../services/users'
 import { Link, useRouteLoaderData } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { Authenticator } from '../Authenticator' 
 
-export const NavigationBar = ({ handleLogout }) => {
+export const NavigationBar = () => {
     const { t, i18n } = useTranslation()
     const [showOffCanvas, setShowOffCanvas] = useState(false)
     const [user, setUser] = useState({})
@@ -14,6 +15,8 @@ export const NavigationBar = ({ handleLogout }) => {
 
     const handleClose = () => setShowOffCanvas(false)
     const handleShow = () => setShowOffCanvas(!showOffCanvas)
+
+    const handleLogout = () => Authenticator.logout()
 
     useEffect(() => {
       if (!isLoggedIn) {
