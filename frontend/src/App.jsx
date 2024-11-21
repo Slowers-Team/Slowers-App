@@ -11,24 +11,24 @@ import GrowerHomePage from './pages/GrowerHomePage'
 import GrowerFlowerPage from './pages/GrowerFlowerPage'
 import GrowerSitesPage from './pages/GrowerSitesPage'
 import GrowerImagesPage from './pages/GrowerImagesPage'
-import { BrowserRouter as Router, Routes, Route, Navigate, createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { Routes, Route, Navigate, createBrowserRouter, RouterProvider, redirect } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import NavigationBar from './components/NavigationBar'
 import { Authenticator } from './Authenticator'
 
+const getDefaultRole = () => {
+  return localStorage.getItem('role') === 'retailer' ? <Navigate replace to="/retailer" /> : <Navigate replace to="/grower" />
+}
 
 const Root = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [defaultRole, setDefaultRole] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const { t, i18n } = useTranslation()
 
   useEffect(() => {
     const token = localStorage.getItem('token')
-    const role = localStorage.getItem('role')
     setIsLoggedIn(!!token)
-    setDefaultRole(role)
     setIsLoading(false)
     setLanguage()
   }, [])
@@ -39,22 +39,11 @@ const Root = () => {
     i18n.changeLanguage(language)
   }
 
-  const getDefaultRole = () => {
-    return defaultRole === 'retailer' ? <Navigate replace to="/retailer" /> : <Navigate replace to="/grower" />
-  }
-
-  const handleLogin = (token, role) => {
-    localStorage.setItem("token", token)
-    localStorage.setItem("role", role)
-    setIsLoggedIn(true)
-    setDefaultRole(role)
-  }
 
   const handleLogout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('role')
     setIsLoggedIn(false)
-    setDefaultRole('')
   }
 
   if (isLoading) {
@@ -63,22 +52,17 @@ const Root = () => {
 
   return (
     <div>
-      <NavigationBar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
+      <NavigationBar handleLogout={handleLogout}/>
       <Routes>
 
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={getDefaultRole()} />
           <Route path="/grower/*" element={<GrowerRoutes />} />
           <Route path="/retailer/*" element={<RetailerRoutes />} />
-          <Route path="/user" element={<UserPage setDefaultRole={setDefaultRole}/>} />
+          <Route path="/user" element={<UserPage />} />
         </Route>
-
-        <Route path="/login" element={isLoggedIn ? getDefaultRole() : (
-          <LogInPage
-          onLogin={handleLogin}/>
-        )} />
-        
-        <Route path="/register" element={isLoggedIn ? getDefaultRole() : <RegisterPage handleLogin={handleLogin} />} />
+      
+        <Route path="/register" element={isLoggedIn ? getDefaultRole() : <RegisterPage />} />
         <Route path="/terms" element={<TermsPage />} />
 
       </Routes>
@@ -114,11 +98,25 @@ const RetailerRoutes = () => (
   </Routes>
 )
 
+const loginLoader = () => {
+  if (Authenticator.refresh()) {
+    if (Authenticator.role === 'grower') {
+      return redirect('/grower')
+    } else {
+      return redirect('/retailer')
+    }
+  }
+  return null
+}
+
 const router = createBrowserRouter([
   { path: "*", element: <Root />, id: "root",
     loader() { return { 
       role: Authenticator.role, isLoggedIn: Authenticator.isLoggedIn 
-    }}}
+    }}},
+  {
+    path: "/login", loader: loginLoader, element: <LogInPage />
+  }
 ])
 
 export default function App() {
