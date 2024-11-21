@@ -66,7 +66,7 @@ const Root = () => {
       <NavigationBar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
       <Routes>
 
-        <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
+        <Route element={<ProtectedRoute />}>
           <Route path="/" element={getDefaultRole()} />
           <Route path="/grower/*" element={<GrowerRoutes />} />
           <Route path="/retailer/*" element={<RetailerRoutes />} />
@@ -116,7 +116,9 @@ const RetailerRoutes = () => (
 
 const router = createBrowserRouter([
   { path: "*", element: <Root />, id: "root",
-    loader() { return { role: Authenticator.role }}}
+    loader() { return { 
+      role: Authenticator.role, isLoggedIn: Authenticator.isLoggedIn 
+    }}}
 ])
 
 export default function App() {

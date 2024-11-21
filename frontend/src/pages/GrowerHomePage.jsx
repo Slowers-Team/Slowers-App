@@ -1,4 +1,4 @@
-import { useParams, useRouteLoaderData } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import siteService from '../services/sites'
@@ -7,8 +7,6 @@ const GrowerHomePage = () => {
   const params = useParams()
   const [site, setSite] = useState()
   const { t, i18n } = useTranslation()
-  let { role } = useRouteLoaderData("root")
-
 
   useEffect(() => {
     if (params.siteId) {
@@ -21,7 +19,7 @@ const GrowerHomePage = () => {
       {params.siteId ? (
         <h2>{site?.name} {t('title.sitehome')} </h2>
       ) : (
-        <h2>{t('title.home')} --{role}--</h2>
+        <h2>{t('title.home')}</h2>
       )}
       {site?.note && <p className='mx-1'>{t('site.data.note')} : {site?.note}</p>}
     </>
