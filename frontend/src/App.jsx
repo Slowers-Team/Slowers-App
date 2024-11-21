@@ -11,12 +11,13 @@ import GrowerHomePage from './pages/GrowerHomePage'
 import GrowerFlowerPage from './pages/GrowerFlowerPage'
 import GrowerSitesPage from './pages/GrowerSitesPage'
 import GrowerImagesPage from './pages/GrowerImagesPage'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate, createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import NavigationBar from './components/NavigationBar'
 
-const App = () => {
+
+const Root = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [defaultRole, setDefaultRole] = useState('')
   const [isLoading, setIsLoading] = useState(true)
@@ -61,34 +62,27 @@ const App = () => {
 
   return (
     <div>
-      <Router>
-        <div>
+      <NavigationBar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
+      <Routes>
 
-          <NavigationBar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
+        <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
+          <Route path="/" element={getDefaultRole()} />
+          <Route path="/grower/*" element={<GrowerRoutes />} />
+          <Route path="/retailer/*" element={<RetailerRoutes />} />
+          <Route path="/user" element={<UserPage setDefaultRole={setDefaultRole}/>} />
+        </Route>
 
-          <Routes>
+        <Route path="/login" element={isLoggedIn ? getDefaultRole() : (
+          <LogInPage
+          onLogin={handleLogout}
+          setIsLoggedIn={setIsLoggedIn}
+          setDefaultRole={setDefaultRole}/>
+        )} />
+        
+        <Route path="/register" element={isLoggedIn ? getDefaultRole() : <RegisterPage handleLogin={handleLogin} />} />
+        <Route path="/terms" element={<TermsPage />} />
 
-            <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
-              <Route path="/" element={getDefaultRole()} />
-              <Route path="/grower/*" element={<GrowerRoutes />} />
-              <Route path="/retailer/*" element={<RetailerRoutes />} />
-              <Route path="/user" element={<UserPage setDefaultRole={setDefaultRole}/>} />
-            </Route>
-
-            <Route path="/login" element={isLoggedIn ? getDefaultRole() : (
-              <LogInPage
-              onLogin={handleLogout}
-              setIsLoggedIn={setIsLoggedIn}
-              setDefaultRole={setDefaultRole}/>
-            )} />
-            
-            <Route path="/register" element={isLoggedIn ? getDefaultRole() : <RegisterPage handleLogin={handleLogin} />} />
-            <Route path="/terms" element={<TermsPage />} />
-
-          </Routes>
-
-        </div>
-      </Router>
+      </Routes>
     </div>
   )
 }
@@ -121,4 +115,10 @@ const RetailerRoutes = () => (
   </Routes>
 )
 
-export default App
+const router = createBrowserRouter([
+  { path: "*", element: <Root />}
+])
+
+export default function App() {
+  return <RouterProvider router={router} />
+}
