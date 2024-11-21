@@ -43,10 +43,10 @@ const Root = () => {
   }
 
   const handleLogin = (token, role) => {
-      localStorage.setItem("token", token)
-      localStorage.setItem("role", role)
-      setIsLoggedIn(true)
-      setDefaultRole(role)
+    localStorage.setItem("token", token)
+    localStorage.setItem("role", role)
+    setIsLoggedIn(true)
+    setDefaultRole(role)
   }
 
   const handleLogout = () => {
@@ -74,9 +74,7 @@ const Root = () => {
 
         <Route path="/login" element={isLoggedIn ? getDefaultRole() : (
           <LogInPage
-          onLogin={handleLogout}
-          setIsLoggedIn={setIsLoggedIn}
-          setDefaultRole={setDefaultRole}/>
+          onLogin={handleLogin}/>
         )} />
         
         <Route path="/register" element={isLoggedIn ? getDefaultRole() : <RegisterPage handleLogin={handleLogin} />} />
