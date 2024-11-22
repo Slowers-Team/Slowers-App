@@ -23,6 +23,8 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower }) 
     return addedTimeStr
   }
 
+  const isGrower = Boolean(deleteFlower && updateFlower)
+
   return (
     <Modal size="xl" show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -44,11 +46,12 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower }) 
               <p>{t('flower.data.addedtime')}: {addedTime(flower)}</p>
               <p>{t('flower.data.site')}: {flower.site_name}</p>
               <p>{t('flower.data.qty')}: {flower.quantity}</p>
+              {isGrower ?
               <p>{t('flower.visible.long')}: {flower.visible 
                     ? t('flower.visible.true') 
                     : t('flower.visible.false')}
               <VisibilityButton flower={flower} updateFlower={updateFlower}/>
-              </p>
+              </p> : <></>}
               {deleteFlower && (
                 <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
                   {t('button.delete')}
