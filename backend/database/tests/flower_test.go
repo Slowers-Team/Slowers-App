@@ -64,6 +64,7 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlower() {
 		Grower:    s.TestFlowers[0].Grower,
 		Site:      s.TestFlowers[0].Site,
 		Quantity:  s.TestFlowers[0].Quantity,
+		Visible:   s.TestFlowers[0].Visible,
 	}
 	s.Db.AddFlower(context.Background(), flower)
 	fetchedFlowers, err := s.Db.GetFlowers(context.Background())
@@ -100,6 +101,11 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlower() {
 		fetchedFlowers[0].Quantity,
 		flower.Quantity,
 		"wrong Quantity for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		fetchedFlowers[0].Visible,
+		flower.Visible,
+		"wrong Visible for the flower returned from GetFlowers()",
 	)
 }
 
@@ -143,6 +149,7 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
 		Site:        s.TestFlowers[0].Site,
 		SiteName:    testdata.GetRootSites()[0].Name,
 		Quantity:    s.TestFlowers[0].Quantity,
+		Visible:     s.TestFlowers[0].Visible,
 	}
 	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
 
@@ -156,6 +163,7 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
 		Site:        fullFlower2.Site,
 		SiteName:    testdata.GetRootSitesForUser2()[0].Name,
 		Quantity:    fullFlower2.Quantity,
+		Visible:     fullFlower2.Visible,
 	}
 	s.Db.AddFlower(context.Background(), testFlower2)
 
@@ -216,6 +224,11 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
 		testFlower.Quantity,
 		fetchedFlowers[0].Quantity,
 		"wrong Quantity for the flower returned from GetUserFlowers()",
+	)
+	s.Equal(
+		testFlower.Visible,
+		fetchedFlowers[0].Visible,
+		"wrong Visible for the flower returned from GetUserFlowers()",
 	)
 }
 

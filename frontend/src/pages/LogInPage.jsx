@@ -1,12 +1,14 @@
 import { useNavigate } from 'react-router-dom'
 import LogInForm from '../components/LogInForm'
 import { useTranslation } from 'react-i18next'
+import { Authenticator } from '../Authenticator'
 
-const LogInPage = ({ setIsLoggedIn, setDefaultRole }) => {
+const LogInPage = () => {
   const navigate = useNavigate()
   const { t, i18n } = useTranslation()
 
-  const handleLogin = () => {
+  const handleLogin = (token, role) => {
+    Authenticator.login(token, role)
     navigate('/')
   }
 
@@ -18,7 +20,7 @@ const LogInPage = ({ setIsLoggedIn, setDefaultRole }) => {
             <div className="card" style={{ borderRadius: '1rem' }}>
               <div className='card-body p-5'>
                 <h2 className='mb-5 text-center'>{t('title.login')}</h2>
-                <LogInForm onLogin={handleLogin} setIsLoggedIn={setIsLoggedIn} setDefaultRole={setDefaultRole}/>
+                <LogInForm onLogin={handleLogin}/>
               </div>
             </div>
           </div>

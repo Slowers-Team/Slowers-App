@@ -52,6 +52,14 @@ const GrowerFlowerPage = () => {
     }
   }
 
+  const updateFlower = flowerObject => {
+    setFlowers(flowers.map((flower) => 
+      flower._id === flowerObject._id 
+        ? flowerObject 
+        : flower
+    ))
+  }
+
   return (
     <>
     {params.siteId ? (
@@ -66,8 +74,8 @@ const GrowerFlowerPage = () => {
         <AddFlowerUpdate checkedFlowers={checkedFlowers} />
       </div>
     )}
-      { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} setCheckedFlowers={setCheckedFlowers}/>) : 
-                  (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} setCheckedFlowers={setCheckedFlowers}/>) }
+      { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) : 
+                  (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) }
     </>
   )
 }
