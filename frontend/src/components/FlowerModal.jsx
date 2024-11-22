@@ -62,7 +62,10 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower }) 
           <Tab eventKey="pictures" title={t('menu.pictures')}>
             <div>
               <h3>{t('menu.pictures')}</h3>
-              <AddImage entity={flower}/>
+
+              {isGrower
+                ? <AddImage entity={flower}/>
+                : <></> }
             </div>
           </Tab>
           <Tab eventKey="lifecycle" title={t('menu.lifecycle')}>
