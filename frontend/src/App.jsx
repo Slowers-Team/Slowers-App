@@ -54,9 +54,6 @@ const Root = () => {
           <Route path="/retailer/*" element={<RetailerRoutes />} />
           <Route path="/user" element={<UserPage />} />
         </Route>
-      
-        <Route path="/register" element={isLoggedIn ? getDefaultRole() : <RegisterPage />} />
-        <Route path="/terms" element={<TermsPage />} />
 
       </Routes>
     </div>
@@ -91,7 +88,7 @@ const RetailerRoutes = () => (
   </Routes>
 )
 
-const loginLoader = () => {
+const roleLoader = () => {
   if (Authenticator.refresh()) {
     if (Authenticator.role === 'grower') {
       return redirect('/grower')
@@ -103,13 +100,22 @@ const loginLoader = () => {
 }
 
 const router = createBrowserRouter([
-  { path: "*", element: <Root />, id: "root",
+  { path: "*", 
+    element: <Root />, 
+    id: "root",
     loader() { return { 
       role: Authenticator.role, isLoggedIn: Authenticator.isLoggedIn, username: Authenticator.username
     }}},
   {
-    path: "/login", loader: loginLoader, element: <LogInPage />
+    path: "/login", loader: roleLoader, element: <LogInPage />
+  },
+  {
+    path: "/register", loader: roleLoader, element: <RegisterPage />
+  },
+  {
+    path: "/terms", element: <TermsPage />
   }
+
 ])
 
 export default function App() {
