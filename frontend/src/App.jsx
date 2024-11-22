@@ -85,7 +85,7 @@ const App = () => {
                 <Route path="images" element={<GrowerImagesPage />} />
               </Route>
 
-              <Route element={<RetailerLayout />} >
+              <Route path="/retailer" element={<RetailerLayout />} >
                 <Route index element={<RetailerHomePage />} />
                 <Route path="flowers" element={<RetailerFlowerPage />} />
               </Route>
