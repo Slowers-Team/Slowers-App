@@ -4,29 +4,19 @@ import { Navbar, Nav, NavDropdown, Button, Offcanvas } from 'react-bootstrap'
 import LangSelect from './LangSelect'
 import userService from '../services/users'
 import { Link, useRouteLoaderData } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Authenticator } from '../Authenticator' 
 
 export const NavigationBar = () => {
     const { t, i18n } = useTranslation()
     const [showOffCanvas, setShowOffCanvas] = useState(false)
-    const [user, setUser] = useState({})
     const {isLoggedIn, username} = useRouteLoaderData("root")
 
     const handleClose = () => setShowOffCanvas(false)
     const handleShow = () => setShowOffCanvas(!showOffCanvas)
 
     const handleLogout = () => Authenticator.logout()
-
-    useEffect(() => {
-      if (!isLoggedIn) {
-        setUser({})
-      } else {
-        setUser(username)
-      }
-
-    }, [isLoggedIn])
-    
+  
     return (
         <>
         <Navbar expand="sm" bg="light">
