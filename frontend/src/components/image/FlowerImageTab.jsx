@@ -1,6 +1,6 @@
 import AddImage from './AddImage'
 
-const FlowerImageTab = ( isGrower, flower ) => {
+const FlowerImageTab = ({ isGrower, flower }) => {
 
     return (
         <div>
