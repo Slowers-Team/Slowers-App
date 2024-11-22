@@ -46,38 +46,9 @@ const Root = () => {
   return (
     <div>
       <NavigationBar />
-      <Routes>
-
-        <Route element={<ProtectedRoute />}>
-          <Route path="/" element={getDefaultRole()} />
-          <Route path="/grower/*" element={<GrowerRoutes />} />
-          <Route path="/retailer/*" element={<RetailerRoutes />} />
-          <Route path="/user" element={<UserPage />} />
-        </Route>
-
-      </Routes>
     </div>
   )
 }
-
-const GrowerRoutes = () => (
-  <Routes>
-    <Route element={<GrowerLayout />}>
-      <Route path="/">
-        <Route index element={<GrowerHomePage />} />
-        <Route path="flowers" element={<GrowerFlowerPage />} />
-        <Route path="sites" element={<GrowerSitesPage />} />
-      </Route>
-
-      <Route path="/:siteId">
-        <Route index element={<GrowerHomePage />} />
-        <Route path="flowers" element={<GrowerFlowerPage />} />
-        <Route path="sites" element={<GrowerSitesPage />} />
-        <Route path="images" element={<GrowerImagesPage />} />
-      </Route>
-    </Route>
-  </Routes>
-)
 
 const RetailerRoutes = () => (
   <Routes>
@@ -99,23 +70,47 @@ const roleLoader = () => {
   return null
 }
 
+function protectedLoader() {
+  if (!Authenticator.isLoggedIn) {
+    return redirect("/login")
+  }
+  return null
+}
+
 const router = createBrowserRouter([
-  { path: "*", 
+  { path: "/", 
     element: <Root />, 
     id: "root",
-    loader() { return { 
+    loader() {
+      Authenticator.refresh()
+      return { 
       role: Authenticator.role, isLoggedIn: Authenticator.isLoggedIn, username: Authenticator.username
-    }}},
-  {
-    path: "/login", loader: roleLoader, element: <LogInPage />
-  },
-  {
-    path: "/register", loader: roleLoader, element: <RegisterPage />
-  },
-  {
-    path: "/terms", element: <TermsPage />
+    }},
+    children: [
+      { index: true, element: <ProtectedRoute /> },
+      { path: "grower", element: <GrowerLayout />, children: [
+        { index: true, element: <RetailerHomePage />},
+        { path: "flowers", element: <GrowerFlowerPage />},
+        { path: "sites", element: <GrowerSitesPage />},
+        {
+          path: ":siteId",
+          children:
+          [
+            { index: true, element: <GrowerHomePage />},
+            { path: "flowers", element: <GrowerFlowerPage />},
+            { path: "sites", element: <GrowerSitesPage />},
+            { path: "images", element: <GrowerImagesPage />}
+          ]
+        }      
+      ] },
+      { path: "retailer", element: <RetailerRoutes /> },
+      { path: "user", loader: protectedLoader, element: <UserPage /> },
+      { path: "login", loader: roleLoader, element: <LogInPage />,
+      },
+      { path: "register", loader: roleLoader, element: <RegisterPage /> },
+      { path: "terms", element: <TermsPage /> }
+    ]
   }
-
 ])
 
 export default function App() {

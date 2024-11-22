@@ -2,15 +2,14 @@ import '../App.css'
 import { useTranslation } from 'react-i18next'
 import { Navbar, Nav, NavDropdown, Button, Offcanvas } from 'react-bootstrap'
 import LangSelect from './LangSelect'
-import userService from '../services/users'
-import { Link, useRouteLoaderData } from 'react-router-dom'
+import { Link, useLoaderData, Outlet } from 'react-router-dom'
 import { useState } from 'react'
 import { Authenticator } from '../Authenticator' 
 
 export const NavigationBar = () => {
     const { t, i18n } = useTranslation()
     const [showOffCanvas, setShowOffCanvas] = useState(false)
-    const {isLoggedIn, username} = useRouteLoaderData("root")
+    const {isLoggedIn, username} = useLoaderData()
 
     const handleClose = () => setShowOffCanvas(false)
     const handleShow = () => setShowOffCanvas(!showOffCanvas)
@@ -80,6 +79,7 @@ export const NavigationBar = () => {
               </Nav>
             </Offcanvas.Body>
           </Offcanvas>
+          <Outlet />
         </>
     )
 }
