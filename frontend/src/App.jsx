@@ -105,11 +105,12 @@ const router = createBrowserRouter([
       ] },
       { path: "retailer", element: <RetailerRoutes /> },
       { path: "user", loader: protectedLoader, element: <UserPage /> },
-      { path: "login", loader: roleLoader, element: <LogInPage />, async action() {
+      { path: "login", loader: roleLoader, element: <LogInPage />, action() {
         return roleLoader()},
       },
       { path: "register", loader: roleLoader, element: <RegisterPage /> },
-      { path: "terms", element: <TermsPage /> }
+      { path: "terms", element: <TermsPage /> },
+      { path: "logout", action() { Authenticator.logout(); return null}}
     ]
   }
 ])
