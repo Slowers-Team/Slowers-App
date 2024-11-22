@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { Button } from 'react-bootstrap'
 import { useTranslation } from "react-i18next" 
 
-const FlowerImageGallery = ({ images, onDelete }) => {
+const FlowerImageGallery = ({ images, deleteImage }) => {
   const { t } = useTranslation() 
   const [activeIndex, setActiveIndex] = useState(0)
 
@@ -13,15 +13,12 @@ const FlowerImageGallery = ({ images, onDelete }) => {
   return (
     <div>
 			{(!images || images.length === 0) ? (
-					<p>{t('carousel.noImages')}</p> 
+					<p>No flower images</p> 
 			) : (
 				<div class="row">
 					{images.map((image, index) => (
 						<div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
 							<img className="d-block w-100" src={image.url} alt={`Slide ${index + 1}`} />
-							<Button onClick={() => onDelete(image)}>
-								{t('button.delete')}
-							</Button>
 						</div>
 					))}
 				</div>
