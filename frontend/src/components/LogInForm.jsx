@@ -17,7 +17,7 @@ const LogIn = ({ onLogin }) => {
       const data = await response.json()
 
       if (response.ok) {
-        onLogin(data.token, data.role, data.username)
+        onLogin(data)
       } else {
         setError(t("error.invalidlogininfo"))
       }

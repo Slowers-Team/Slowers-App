@@ -2,7 +2,7 @@ export const Authenticator = {
   isLoggedIn: false,
   role: '',
   username: '',
-  login(token, role, username) {
+  login({ token, role, username} ) {
     localStorage.setItem('token', token)
     localStorage.setItem('role', role)
     localStorage.setItem('username', username)
