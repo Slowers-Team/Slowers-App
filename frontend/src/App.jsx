@@ -11,24 +11,22 @@ import GrowerHomePage from './pages/GrowerHomePage'
 import GrowerFlowerPage from './pages/GrowerFlowerPage'
 import GrowerSitesPage from './pages/GrowerSitesPage'
 import GrowerImagesPage from './pages/GrowerImagesPage'
-import { Routes, Route, Navigate, createBrowserRouter, RouterProvider, redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import NavigationBar from './components/NavigationBar'
-import { Authenticator } from './Authenticator'
 
-const getDefaultRole = () => {
-  return localStorage.getItem('role') === 'retailer' ? <Navigate replace to="/retailer" /> : <Navigate replace to="/grower" />
-}
-
-const Root = () => {
+const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [defaultRole, setDefaultRole] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const { t, i18n } = useTranslation()
 
   useEffect(() => {
     const token = localStorage.getItem('token')
+    const role = localStorage.getItem('role')
     setIsLoggedIn(!!token)
+    setDefaultRole(role)
     setIsLoading(false)
     setLanguage()
   }, [])
@@ -39,48 +37,77 @@ const Root = () => {
     i18n.changeLanguage(language)
   }
 
+  const getDefaultRole = () => {
+    return defaultRole === 'retailer' ? <Navigate replace to="/retailer" /> : <Navigate replace to="/grower" />
+  }
+
+  const handleLogin = (token, role) => {
+      localStorage.setItem("token", token)
+      localStorage.setItem("role", role)
+      setIsLoggedIn(true)
+      setDefaultRole(role)
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('role')
+    setIsLoggedIn(false)
+    setDefaultRole('')
+  }
+
   if (isLoading) {
     return <div>{t('label.loading')}</div>
   }
 
   return (
     <div>
-      <NavigationBar />
-      <Routes>
+      <Router>
+        <div>
 
-        <Route element={<ProtectedRoute />}>
-          <Route path="/" element={getDefaultRole()} />
-          <Route path="/grower/*" element={<GrowerRoutes />} />
-          <Route path="/retailer/*" element={<RetailerRoutes />} />
-          <Route path="/user" element={<UserPage />} />
-        </Route>
-      
-        <Route path="/register" element={isLoggedIn ? getDefaultRole() : <RegisterPage />} />
-        <Route path="/terms" element={<TermsPage />} />
+          <NavigationBar isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
 
-      </Routes>
+          <Routes>
+
+            <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
+
+              <Route path="/" element={getDefaultRole()} />
+
+              <Route path="/grower" element={<GrowerLayout />}>
+                <Route index element={<GrowerHomePage />} />
+                <Route path="flowers" element={<GrowerFlowerPage />} />
+                <Route path="sites" element={<GrowerSitesPage />} />
+              </Route>
+
+              <Route path="/grower/:siteId" element={<GrowerLayout />}>
+                <Route index element={<GrowerHomePage />} />
+                <Route path="flowers" element={<GrowerFlowerPage />} />
+                <Route path="sites" element={<GrowerSitesPage />} />
+                <Route path="images" element={<GrowerImagesPage />} />
+              </Route>
+
+              <Route path="/retailer/*" element={<RetailerRoutes />} />
+
+              <Route path="/user" element={<UserPage setDefaultRole={setDefaultRole}/>} />
+
+            </Route>
+
+            <Route path="/login" element={isLoggedIn ? getDefaultRole() : (
+              <LogInPage
+              onLogin={handleLogout}
+              setIsLoggedIn={setIsLoggedIn}
+              setDefaultRole={setDefaultRole}/>
+            )} />
+            
+            <Route path="/register" element={isLoggedIn ? getDefaultRole() : <RegisterPage handleLogin={handleLogin} />} />
+            <Route path="/terms" element={<TermsPage />} />
+
+          </Routes>
+
+        </div>
+      </Router>
     </div>
   )
 }
-
-const GrowerRoutes = () => (
-  <Routes>
-    <Route element={<GrowerLayout />}>
-      <Route path="/">
-        <Route index element={<GrowerHomePage />} />
-        <Route path="flowers" element={<GrowerFlowerPage />} />
-        <Route path="sites" element={<GrowerSitesPage />} />
-      </Route>
-
-      <Route path="/:siteId">
-        <Route index element={<GrowerHomePage />} />
-        <Route path="flowers" element={<GrowerFlowerPage />} />
-        <Route path="sites" element={<GrowerSitesPage />} />
-        <Route path="images" element={<GrowerImagesPage />} />
-      </Route>
-    </Route>
-  </Routes>
-)
 
 const RetailerRoutes = () => (
   <Routes>
@@ -91,27 +118,4 @@ const RetailerRoutes = () => (
   </Routes>
 )
 
-const loginLoader = () => {
-  if (Authenticator.refresh()) {
-    if (Authenticator.role === 'grower') {
-      return redirect('/grower')
-    } else {
-      return redirect('/retailer')
-    }
-  }
-  return null
-}
-
-const router = createBrowserRouter([
-  { path: "*", element: <Root />, id: "root",
-    loader() { return { 
-      role: Authenticator.role, isLoggedIn: Authenticator.isLoggedIn 
-    }}},
-  {
-    path: "/login", loader: loginLoader, element: <LogInPage />
-  }
-])
-
-export default function App() {
-  return <RouterProvider router={router} />
-}
+export default App
