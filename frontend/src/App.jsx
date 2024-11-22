@@ -85,7 +85,10 @@ const App = () => {
                 <Route path="images" element={<GrowerImagesPage />} />
               </Route>
 
-              <Route path="/retailer/*" element={<RetailerRoutes />} />
+              <Route element={<RetailerLayout />} >
+                <Route index element={<RetailerHomePage />} />
+                <Route path="flowers" element={<RetailerFlowerPage />} />
+              </Route>
 
               <Route path="/user" element={<UserPage setDefaultRole={setDefaultRole}/>} />
 
@@ -108,14 +111,5 @@ const App = () => {
     </div>
   )
 }
-
-const RetailerRoutes = () => (
-  <Routes>
-    <Route element={<RetailerLayout />} >
-      <Route index element={<RetailerHomePage />} />
-      <Route path="flowers" element={<RetailerFlowerPage />} />
-    </Route>
-  </Routes>
-)
 
 export default App
