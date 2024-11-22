@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useFetcher } from 'react-router-dom'
 import LogInForm from '../components/LogInForm'
 import { useTranslation } from 'react-i18next'
 import { Authenticator } from '../Authenticator'
@@ -6,10 +6,11 @@ import { Authenticator } from '../Authenticator'
 const LogInPage = () => {
   const navigate = useNavigate()
   const { t, i18n } = useTranslation()
+  let fetcher = useFetcher()
 
   const handleLogin = (data) => {
     Authenticator.login(data)
-    navigate('/')
+    fetcher.submit({data: data}, {action: "/login", method: "post"})
   }
 
   return (
