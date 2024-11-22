@@ -8,8 +8,6 @@ const AddImage = ({ entity, onImageUpload }) => {
     const [show, setShow] = useState(false)
     const [id, setID] = useState("")
     const [message, setMessage] = useState("")
-    const [uploadedImageName, setUploadedImageName] = useState("")
-    const [uploadedImage, setUploadedImage] = useState()
     const { t, i18n } = useTranslation()
 
 
@@ -17,38 +15,28 @@ const AddImage = ({ entity, onImageUpload }) => {
       setID(entity._id)
     }, [entity])
 
-    useEffect(() => {
-      if (!uploadedImageName) {
-        return
-      } else {
-        ImageService.get(uploadedImageName)        
-        .then(data => setUploadedImage(data))
-      }
-    }, [uploadedImageName])
-
     const showForm = () => {
       setShow(true)
     }
 
     const hide = () => {
       setShow(false)
-      //setUploadedImageName("")
-      //setUploadedImage(null)
       setMessage("")
     }
   
     const createImage = imageObject => {
-      setUploadedImageName("")
       setMessage("")
 
       ImageService.create({ ...imageObject, entity: id })
         .then(data => {
           console.info("Image upload succesful:", data)
           setMessage(t("alert.imageuploaded"))
-          setUploadedImageName(data._id + "." + data.file_format)
-          onImageUpload()
+          if (onImageUpload) {
+            onImageUpload()
+          }
         })
         .catch(error => {
+          console.log(error)
           const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, '')
           console.error("Image upload failed:", error)
           setMessage(t('error.error') + ': ' + (i18n.exists(key) ? t(key) : error.response.data))
@@ -63,10 +51,7 @@ const AddImage = ({ entity, onImageUpload }) => {
             <Modal.Title>{t("image.title")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            { !uploadedImage
-              ? <ImageForm createImage={createImage}/>
-              : <img width={100} src={uploadedImage}/>
-            }
+              <ImageForm createImage={createImage}/>
           </Modal.Body>
           { message &&
           <Modal.Footer>

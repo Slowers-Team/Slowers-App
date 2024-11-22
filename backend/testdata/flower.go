@@ -38,6 +38,7 @@ func GetTestFlowers() []database.Flower {
 			Grower:    &growerID,
 			Site:      &siteID,
 			Quantity:  389,
+			Visible:   true,
 		},
 		{
 			ID:        flowerIDs[1],
@@ -47,6 +48,7 @@ func GetTestFlowers() []database.Flower {
 			Grower:    &growerID,
 			Site:      &siteID,
 			Quantity:  1,
+			Visible:   true,
 		},
 		{
 			ID:        flowerIDs[2],
@@ -56,6 +58,7 @@ func GetTestFlowers() []database.Flower {
 			Grower:    &growerID,
 			Site:      &siteID,
 			Quantity:  0,
+			Visible:   true,
 		},
 	}
 }
@@ -80,5 +83,6 @@ func GetTestFlowerForUser2() database.Flower {
 		Grower:    &growerID,
 		Site:      &siteID,
 		Quantity:  7,
+		Visible:   true,
 	}
 }
