@@ -105,7 +105,7 @@ const loginLoader = () => {
 const router = createBrowserRouter([
   { path: "*", element: <Root />, id: "root",
     loader() { return { 
-      role: Authenticator.role, isLoggedIn: Authenticator.isLoggedIn 
+      role: Authenticator.role, isLoggedIn: Authenticator.isLoggedIn, username: Authenticator.username
     }}},
   {
     path: "/login", loader: loginLoader, element: <LogInPage />

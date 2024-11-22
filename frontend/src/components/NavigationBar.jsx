@@ -11,7 +11,7 @@ export const NavigationBar = () => {
     const { t, i18n } = useTranslation()
     const [showOffCanvas, setShowOffCanvas] = useState(false)
     const [user, setUser] = useState({})
-    const {isLoggedIn} = useRouteLoaderData("root")
+    const {isLoggedIn, username} = useRouteLoaderData("root")
 
     const handleClose = () => setShowOffCanvas(false)
     const handleShow = () => setShowOffCanvas(!showOffCanvas)
@@ -22,8 +22,9 @@ export const NavigationBar = () => {
       if (!isLoggedIn) {
         setUser({})
       } else {
-        userService.get().then(user => setUser(user))
+        setUser(username)
       }
+
     }, [isLoggedIn])
     
     return (
@@ -37,7 +38,7 @@ export const NavigationBar = () => {
             </Navbar.Brand>
               <Nav className="ms-auto mx-2">
                 {isLoggedIn && (
-                  <NavDropdown title={user.username} id="collasible-nav-dropdown">
+                  <NavDropdown title={username} id="collasible-nav-dropdown">
                     <Nav.Link className="text-secondary" as={Link} to="/user">
                       {t("menu.profile")}
                     </Nav.Link>

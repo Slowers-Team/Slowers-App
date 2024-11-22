@@ -7,8 +7,8 @@ const LogInPage = () => {
   const navigate = useNavigate()
   const { t, i18n } = useTranslation()
 
-  const handleLogin = (token, role) => {
-    Authenticator.login(token, role)
+  const handleLogin = (token, role, username) => {
+    Authenticator.login(token, role, username)
     navigate('/')
   }
 
