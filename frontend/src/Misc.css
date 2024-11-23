@@ -91,3 +91,27 @@
   margin-top: 1rem;
   width: 70;
 }
+
+.image-box {
+  position: relative;
+  display: inline-block;
+  margin: 5px;
+  max-width: 100%;
+}
+
+.image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.image-box .delete-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: white;
+  padding: 5px 5px;
+  margin: 3px 3px;
+  cursor: pointer;
+}
