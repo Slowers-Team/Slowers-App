@@ -44,10 +44,18 @@ const FlowerImageTab = ({ isGrower, flower }) => {
       fetchImages()
     }
 
+    const favoriteImage = imageObject => {
+      console.log("Favorite image:", imageObject) 
+      if (!imageObject || !imageObject._id) {
+        console.error("Image object is undefined or missing id")
+        return
+      }
+    }
+
     return (
       <div>
         {isGrower && <AddImage entity={flower} onImageUpload={onImageUpload}/>}
-        <FlowerImageGallery images={images} deleteImage={deleteImage}/>
+        <FlowerImageGallery images={images} deleteImage={deleteImage} favoriteImage={favoriteImage}/>
         </div>
     )
 }

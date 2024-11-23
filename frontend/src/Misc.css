@@ -106,12 +106,43 @@
   border-radius: 5px;
 }
 
-.image-box .delete-button {
+.image-buttons {
+  position: absolute;
+  top: 1px;
+  right: 45px;
+  padding: 5px 5px;
+}
+
+.delete-button {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  padding: 5px 10px;
+  margin: 3px 3px;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.favourite-button {
   position: absolute;
   top: 5px;
   right: 5px;
-  background-color: white;
-  padding: 5px 5px;
+  padding: 5px 10px;
   margin: 3px 3px;
   cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.favourite-button.selected {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: gold;
+}
+
+/* Hover effects */
+.favourite-button:hover {
+  background-color: rgba(255, 215, 0, 0.5);
+}
+
+.delete-button:hover {
+  background-color: rgba(255, 0, 0, 0.5);
 }

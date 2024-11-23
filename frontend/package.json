@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^1.7.7",
+    "bootstrap-icons": "^1.11.3",
     "i18next": "^23.15.2",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.5",
