@@ -26,7 +26,7 @@ const FlowerImageGallery = ({ images, deleteImage, favoriteImage }) => {
 			) : (
 				<div>
 					{images.map((image, index) => (
-						<div class="image-box" key={image._id || index}>
+						<div className="image-box" key={image._id || index}>
 							<img className="d-block w-100" src={image.url} alt={`Slide ${index + 1}`} />
 							<div className="image-buttons">
 								<Button variant="dark" className="delete-button" onClick={() => deleteImage(image)}><i className="bi bi-trash"></i></Button>
