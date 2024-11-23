@@ -22,9 +22,14 @@ const FlowerImageTab = ({ isGrower, flower }) => {
     const deleteImage = imageObject => {
         console.log("Deleting image:")
     }
+
+    const onImageUpload = () => {
+      fetchImages()
+    }
+
     return (
       <div>
-        {isGrower && <AddImage entity={flower}/>}
+        {isGrower && <AddImage entity={flower} onImageUpload={onImageUpload}/>}
         <FlowerImageGallery images={images} deleteImage={deleteImage}/>
         </div>
     )

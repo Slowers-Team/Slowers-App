@@ -11,7 +11,7 @@ const FlowerImageGallery = ({ images, deleteImage }) => {
   }
 
   return (
-    <div>
+    <div className="m-2">
 			{(!images || images.length === 0) ? (
 					<p>No flower images</p> 
 			) : (
