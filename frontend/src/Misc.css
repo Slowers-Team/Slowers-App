@@ -138,7 +138,6 @@
   color: gold;
 }
 
-/* Hover effects */
 .favourite-button:hover {
   background-color: rgba(255, 215, 0, 0.5);
 }
