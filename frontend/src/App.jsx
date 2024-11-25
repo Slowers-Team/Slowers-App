@@ -11,7 +11,7 @@ import GrowerHomePage from './pages/GrowerHomePage'
 import GrowerFlowerPage from './pages/GrowerFlowerPage'
 import GrowerSitesPage from './pages/GrowerSitesPage'
 import GrowerImagesPage from './pages/GrowerImagesPage'
-import { Routes, Route, createBrowserRouter, RouterProvider, redirect } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, redirect } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import NavigationBar from './components/NavigationBar'
@@ -37,14 +37,6 @@ const Root = () => {
   )
 }
 
-const RetailerRoutes = () => (
-  <Routes>
-    <Route element={<RetailerLayout />} >
-      <Route index element={<RetailerHomePage />} />
-      <Route path="flowers" element={<RetailerFlowerPage />} />
-    </Route>
-  </Routes>
-)
 
 
 // Redirect user to a default role, if they are logged in
@@ -105,18 +97,17 @@ const router = createBrowserRouter([
             { index: true, element: <RetailerHomePage />},
             { path: "flowers", element: <GrowerFlowerPage />},
             { path: "sites", element: <GrowerSitesPage />},
-            {
-              path: ":siteId",
-              children:
-              [
-                { index: true, element: <GrowerHomePage />},
-                { path: "flowers", element: <GrowerFlowerPage />},
-                { path: "sites", element: <GrowerSitesPage />},
-                { path: "images", element: <GrowerImagesPage />}
-              ]
-            } 
+            { path: ":siteId", children: [
+              { index: true, element: <GrowerHomePage />},
+              { path: "flowers", element: <GrowerFlowerPage />},
+              { path: "sites", element: <GrowerSitesPage />},
+              { path: "images", element: <GrowerImagesPage />}
+            ] } 
           ] },
-          { path: "retailer", element: <RetailerRoutes /> },
+          { path: "retailer", element: <RetailerLayout />, children: [
+            { index: true, element: <RetailerHomePage />},
+            { path: "flowers", element: <RetailerFlowerPage />}
+          ] },
           { path: "user", element: <UserPage /> },
           { path: "*", loader() { return redirect("/")} }
         ]
