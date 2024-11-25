@@ -10,6 +10,7 @@ import GrowerLayout from './layouts/GrowerLayout'
 import GrowerHomePage from './pages/GrowerHomePage'
 import GrowerFlowerPage from './pages/GrowerFlowerPage'
 import GrowerSitesPage from './pages/GrowerSitesPage'
+import GrowerImagesPage from './pages/GrowerImagesPage'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -38,6 +39,13 @@ const App = () => {
 
   const getDefaultRole = () => {
     return defaultRole === 'retailer' ? <Navigate replace to="/retailer" /> : <Navigate replace to="/grower" />
+  }
+
+  const handleLogin = (token, role) => {
+      localStorage.setItem("token", token)
+      localStorage.setItem("role", role)
+      setIsLoggedIn(true)
+      setDefaultRole(role)
   }
 
   const handleLogout = () => {
@@ -74,9 +82,10 @@ const App = () => {
                 <Route index element={<GrowerHomePage />} />
                 <Route path="flowers" element={<GrowerFlowerPage />} />
                 <Route path="sites" element={<GrowerSitesPage />} />
+                <Route path="images" element={<GrowerImagesPage />} />
               </Route>
 
-              <Route path="/retailer" element={<RetailerLayout />}>
+              <Route path="/retailer" element={<RetailerLayout />} >
                 <Route index element={<RetailerHomePage />} />
                 <Route path="flowers" element={<RetailerFlowerPage />} />
               </Route>
@@ -92,7 +101,7 @@ const App = () => {
               setDefaultRole={setDefaultRole}/>
             )} />
             
-            <Route path="/register" element={isLoggedIn ? getDefaultRole() : <RegisterPage />} />
+            <Route path="/register" element={isLoggedIn ? getDefaultRole() : <RegisterPage handleLogin={handleLogin} />} />
             <Route path="/terms" element={<TermsPage />} />
 
           </Routes>

@@ -53,12 +53,12 @@ func CreateUser(c *fiber.Ctx) error {
 
 	newUser := database.User{Username: user.Username, Password: hashedPassword, Email: user.Email, Role: user.Role}
 
-	err = db.CreateUser(c.Context(), newUser)
+	createdUser, err := db.CreateUser(c.Context(), newUser)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	return c.SendStatus(201)
+	return LogUserIn(c, createdUser, 201)
 }
 
 func HandleLogin(c *fiber.Ctx) error {
@@ -78,6 +78,10 @@ func HandleLogin(c *fiber.Ctx) error {
 		return c.Status(401).SendString("Invalid email or password")
 	}
 
+	return LogUserIn(c, user, 200)
+}
+
+func LogUserIn(c *fiber.Ctx, user *database.User, status int) error {
 	claims := &jwt.StandardClaims{
 		Subject:   primitive.ObjectID(user.ID).Hex(),
 		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
@@ -89,7 +93,7 @@ func HandleLogin(c *fiber.Ctx) error {
 		return c.Status(500).SendString("Could not create token")
 	}
 
-	return c.JSON(fiber.Map{"token": tokenString, "role": user.Role})
+	return c.Status(status).JSON(fiber.Map{"token": tokenString, "role": user.Role})
 }
 
 func GetUser(c *fiber.Ctx) error {

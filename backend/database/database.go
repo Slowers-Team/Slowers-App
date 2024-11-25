@@ -18,7 +18,7 @@ type Database interface {
 	Clear() error
 
 	CountUsersWithEmail(ctx context.Context, email string) (int64, error)
-	CreateUser(ctx context.Context, newUser User) error
+	CreateUser(ctx context.Context, newUser User) (*User, error)
 	GetUserByEmail(ctx context.Context, email string) (*User, error)
 	GetUserByID(ctx context.Context, userID ObjectID) (*User, error)
 	SetUserRole(ctx context.Context, userID ObjectID, role string) error
@@ -28,6 +28,7 @@ type Database interface {
 	GetAllFlowersRelatedToSite(ctx context.Context, siteID ObjectID, userID ObjectID) ([]Flower, error)
 	AddFlower(ctx context.Context, newFlower Flower) (*Flower, error)
 	DeleteFlower(ctx context.Context, id ObjectID) (bool, error)
+	ToggleFlowerVisibility(ctx context.Context, userID, flowerID ObjectID) (*bool, error)
 
 	AddSite(ctx context.Context, newSite Site) (*Site, error)
 	GetRootSites(ctx context.Context, userID ObjectID) ([]Site, error)
@@ -38,6 +39,7 @@ type Database interface {
 
 	AddImage(ctx context.Context, newImage Image) (*Image, error)
 	DeleteImage(ctx context.Context, id ObjectID) (bool, error)
+	GetImagesByEntity(ctx context.Context, entityID string) ([]Image, error)
 }
 
 type MongoDatabase struct {

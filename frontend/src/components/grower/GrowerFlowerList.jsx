@@ -1,13 +1,17 @@
 import '../../layouts/Grower.css'
 import FlowerModal from '../FlowerModal.jsx'
-import { useState } from "react"
-import { Button, Table } from 'react-bootstrap'
+import { useState, useEffect } from "react"
 import { useTranslation } from 'react-i18next'
 
-const GrowerFlowerList = ({ flowers, deleteFlower }) => {
+const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers, updateFlower}) => {
   const { t, i18n } = useTranslation()
   const [showModal, setShowModal] = useState(false)
   const [currentFlower, setCurrentFlower] = useState("")
+  const [checkedFlowers, setLocalCheckedFlowers] = useState([])
+
+  useEffect(() => {
+    setCheckedFlowers(checkedFlowers)
+  }, [checkedFlowers, setCheckedFlowers])
 
   const handleShow = (flower) => {
     setShowModal(true)
@@ -19,15 +23,41 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
     setCurrentFlower("")
   }
 
+  const handleUpdate = (flowerObject) => {
+    setCurrentFlower(flowerObject)
+    updateFlower(flowerObject)
+  }
+
+  const areAllChecked = checkedFlowers.length === flowers.length
+
+  const toggleCheckedAll = () => {
+    if (areAllChecked) {
+      setLocalCheckedFlowers([])
+    } else {
+      setLocalCheckedFlowers(flowers.map(flower => flower._id))
+    }
+  }
+
+  const toggleCheckedFlower = (flower) => {
+    setLocalCheckedFlowers((prevChecked) => (
+      prevChecked.includes(flower) ? prevChecked.filter(id => id !== flower) : [...prevChecked, flower]
+    ))
+  }
+
   return (
     <div className="growerFlowerList">
       <table id="growerFlowerList">
         <thead>
           <tr>
+            <th>
+              <input type="checkbox" onChange={toggleCheckedAll} checked={areAllChecked}/>
+            </th>
             <th>{t('flower.data.name')}</th>
             <th>{t('flower.data.latinname')}</th>
             <th>{t('flower.data.addedtime')}</th>
             <th>{t('flower.data.site')}</th>
+            <th>{t('flower.data.qty')}</th>
+            <th>{t('flower.visible.short')}</th>
             <th></th>
             <th></th>
           </tr>
@@ -43,12 +73,19 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
 
             return (
               <tr key={flower._id}>
+                <td>
+                  <input type="checkbox" checked={checkedFlowers.includes(flower._id)} onChange={() => toggleCheckedFlower(flower._id)}/>
+                </td>
                 <td>{flower.name}</td>
                 <td>
                   <em>{flower.latin_name}</em>
                 </td>
                 <td>{addedTimeStr}</td>
                 <td>{flower.site_name}</td>
+                <td>{flower.quantity}</td>
+                <td>{flower.visible 
+                    ? t('flower.visible.true') 
+                    : t('flower.visible.false')}</td>
                 <td>
                   <button id='showFlowerPageButton' onClick={() => handleShow(flower)}>
                   {t('button.flowerpage')}
@@ -64,7 +101,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower }) => {
           })}
         </tbody>
       </table>
-      <FlowerModal show={showModal} handleClose={handleClose} flower={currentFlower} deleteFlower={deleteFlower}/>
+      <FlowerModal show={showModal} handleClose={handleClose} flower={currentFlower} deleteFlower={deleteFlower} updateFlower={handleUpdate}/>
     </div>
   )
 }
