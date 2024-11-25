@@ -11,25 +11,16 @@ import GrowerHomePage from './pages/GrowerHomePage'
 import GrowerFlowerPage from './pages/GrowerFlowerPage'
 import GrowerSitesPage from './pages/GrowerSitesPage'
 import GrowerImagesPage from './pages/GrowerImagesPage'
-import { Routes, Route, Navigate, createBrowserRouter, RouterProvider, redirect } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { Routes, Route, createBrowserRouter, RouterProvider, redirect } from 'react-router-dom'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import NavigationBar from './components/NavigationBar'
 import { Authenticator } from './Authenticator'
 
-const getDefaultRole = () => {
-  return localStorage.getItem('role') === 'retailer' ? <Navigate replace to="/retailer" /> : <Navigate replace to="/grower" />
-}
-
 const Root = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
   const { t, i18n } = useTranslation()
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    setIsLoggedIn(!!token)
-    setIsLoading(false)
     setLanguage()
   }, [])
 
@@ -37,10 +28,6 @@ const Root = () => {
     const langCookie = document.cookie.split('; ').find(row => row.startsWith('lang='))
     const language = langCookie ? langCookie.split('=')[1] : 'en'
     i18n.changeLanguage(language)
-  }
-
-  if (isLoading) {
-    return <div>{t('label.loading')}</div>
   }
 
   return (
