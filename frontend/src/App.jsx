@@ -1,4 +1,3 @@
-import ProtectedRoute from './components/ProtectedRoute'
 import RegisterPage from './pages/RegisterPage'
 import TermsPage from './pages/TermsPage'
 import LogInPage from './pages/LogInPage'
@@ -91,7 +90,7 @@ const router = createBrowserRouter([
       { path: "logout",
         action() { return Authenticator.logout() } // PUT /logout -> Authenticator.logout()
       },
-      { path: "*", element: <ProtectedRoute />, loader: protectedLoader,
+      { path: "*", loader: protectedLoader,
         children: [
           { path: "grower",    element: <GrowerLayout />, children: [
             { index: true,     element: <RetailerHomePage />},
