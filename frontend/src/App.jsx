@@ -90,25 +90,28 @@ const router = createBrowserRouter([
       { path: "logout",
         action() { return Authenticator.logout() } // PUT /logout -> Authenticator.logout()
       },
-      { path: "*", loader: protectedLoader,
-        children: [
-          { path: "grower",    element: <GrowerLayout />, children: [
-            { index: true,     element: <RetailerHomePage />},
-            { path: "flowers", element: <GrowerFlowerPage />},
-            { path: "sites",   element: <GrowerSitesPage />},
-            { path: ":siteId", children: [
-              { index: true,     element: <GrowerHomePage />},
+      { path: "*", loader: protectedLoader, children: 
+        [
+          { path: "grower",    element: <GrowerLayout />, children: 
+            [
+              { index: true,     element: <RetailerHomePage />},
               { path: "flowers", element: <GrowerFlowerPage />},
               { path: "sites",   element: <GrowerSitesPage />},
-              { path: "images",  element: <GrowerImagesPage />}
-            ] } 
-          ] },
-          { path: "retailer",  element: <RetailerLayout />, children: [
-            { index: true,     element: <RetailerHomePage />},
-            { path: "flowers", element: <RetailerFlowerPage />}
-          ] },
+              { path: ":siteId", children: 
+                [
+                  { index: true,     element: <GrowerHomePage />},
+                  { path: "flowers", element: <GrowerFlowerPage />},
+                  { path: "sites",   element: <GrowerSitesPage />},
+                  { path: "images",  element: <GrowerImagesPage />}
+                ] } 
+            ] },
+          { path: "retailer",  element: <RetailerLayout />, children: 
+            [
+              { index: true,     element: <RetailerHomePage />},
+              { path: "flowers", element: <RetailerFlowerPage />}
+            ] },
           { path: "user", element: <UserPage /> },
-          { path: "*", loader() { return redirect("/")} }
+          { path: "*", loader() { return redirect("/")} } // redirect undefined paths to home
         ]
       }
     ]
