@@ -1,3 +1,5 @@
+// Authenticator provides persistent login information for the app.
+// It stores its state in local storage to allow reloading of page.
 export const Authenticator = {
   isLoggedIn: false,
   role: '',
@@ -9,6 +11,7 @@ export const Authenticator = {
     Authenticator.isLoggedIn = true
     Authenticator.role = role
     Authenticator.username = username
+    return null
   },
   logout() {
     localStorage.removeItem('token')
@@ -17,6 +20,7 @@ export const Authenticator = {
     Authenticator.isLoggedIn = false
     Authenticator.role = ''
     Authenticator.username = ''
+    return null
   },
   setRole(role){
     Authenticator.role = role

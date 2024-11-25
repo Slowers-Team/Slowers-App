@@ -37,8 +37,6 @@ const Root = () => {
   )
 }
 
-
-
 // Redirect user to a default role, if they are logged in
 const roleLoader = () => {
   if (Authenticator.isLoggedIn) {
@@ -77,35 +75,37 @@ const router = createBrowserRouter([
     element: <Root />, 
     id: "root",
     loader() {
-      Authenticator.refresh()
+      Authenticator.refresh() // try to fetch login info from local storage 
       return { 
         role: Authenticator.role,
         isLoggedIn: Authenticator.isLoggedIn,
         username: Authenticator.username
     }},
     children: [
-      { index: true, loader: rootLoader }, // rootLoader always redirects to another place
+      { index: true,   loader: rootLoader }, // rootLoader always redirects to another place
       { path: "login", loader: roleLoader, element: <LogInPage />,
-        action() { return roleLoader() },
+        action() { return redirect("/") }, // PUT /login -> redirect to homepage
       },
       { path: "register", loader: roleLoader, element: <RegisterPage /> },
       { path: "terms", element: <TermsPage /> },
-      { path: "logout", action() { Authenticator.logout(); return null}},
+      { path: "logout",
+        action() { return Authenticator.logout() } // PUT /logout -> Authenticator.logout()
+      },
       { path: "*", element: <ProtectedRoute />, loader: protectedLoader,
         children: [
-          { path: "grower", element: <GrowerLayout />, children: [
-            { index: true, element: <RetailerHomePage />},
+          { path: "grower",    element: <GrowerLayout />, children: [
+            { index: true,     element: <RetailerHomePage />},
             { path: "flowers", element: <GrowerFlowerPage />},
-            { path: "sites", element: <GrowerSitesPage />},
+            { path: "sites",   element: <GrowerSitesPage />},
             { path: ":siteId", children: [
-              { index: true, element: <GrowerHomePage />},
+              { index: true,     element: <GrowerHomePage />},
               { path: "flowers", element: <GrowerFlowerPage />},
-              { path: "sites", element: <GrowerSitesPage />},
-              { path: "images", element: <GrowerImagesPage />}
+              { path: "sites",   element: <GrowerSitesPage />},
+              { path: "images",  element: <GrowerImagesPage />}
             ] } 
           ] },
-          { path: "retailer", element: <RetailerLayout />, children: [
-            { index: true, element: <RetailerHomePage />},
+          { path: "retailer",  element: <RetailerLayout />, children: [
+            { index: true,     element: <RetailerHomePage />},
             { path: "flowers", element: <RetailerFlowerPage />}
           ] },
           { path: "user", element: <UserPage /> },
