@@ -5,7 +5,6 @@ import tokenService from './token'
 // get URL for an imageObject
 const get = imageObject => {
   const filename = getFilename(imageObject);
-  console.log("Generated filename:", filename);
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
     responseType: "blob"
@@ -13,7 +12,6 @@ const get = imageObject => {
   return axios.get(`${baseUrl}/${filename}`, config)
     .then(response => {
       const imageUrl = URL.createObjectURL(response.data);
-      console.log("Image URL:", imageUrl); 
       return { _id: imageObject._id, url: imageUrl };
     })
     .catch(error => console.error("Error fetching image blob:", error));
