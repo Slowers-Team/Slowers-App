@@ -131,6 +131,7 @@ const router = createBrowserRouter([
           ] },
           { path: "retailer", element: <RetailerRoutes /> },
           { path: "user", element: <UserPage /> },
+          { path: "*", loader() { return redirect("/")} }
         ]
       }
     ]
