@@ -1,5 +1,6 @@
 import userService from '../services/users'
 import RegisterForm from '../components/RegisterForm'
+import { Authenticator } from '../Authenticator' 
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
