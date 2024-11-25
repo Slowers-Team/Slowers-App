@@ -59,8 +59,10 @@ const RetailerRoutes = () => (
   </Routes>
 )
 
+
+// Redirect user to a default role, if they are logged in
 const roleLoader = () => {
-  if (Authenticator.refresh()) {
+  if (Authenticator.isLoggedIn) {
     if (Authenticator.role === 'grower') {
       return redirect('/grower')
     } else {
@@ -70,11 +72,25 @@ const roleLoader = () => {
   return null
 }
 
+// Redirect user to login-screen, if they are not logged in
 function protectedLoader() {
   if (!Authenticator.isLoggedIn) {
     return redirect("/login")
   }
   return null
+}
+
+// Redirect user to a default role if logged in, else to login
+const rootLoader = () => {
+  if (Authenticator.isLoggedIn) {
+    if (Authenticator.role === 'grower') {
+      return redirect('/grower')
+    } else {
+      return redirect('/retailer')
+    }
+  } else {
+    return redirect("/login")
+  }
 }
 
 const router = createBrowserRouter([
@@ -84,33 +100,39 @@ const router = createBrowserRouter([
     loader() {
       Authenticator.refresh()
       return { 
-      role: Authenticator.role, isLoggedIn: Authenticator.isLoggedIn, username: Authenticator.username
+        role: Authenticator.role,
+        isLoggedIn: Authenticator.isLoggedIn,
+        username: Authenticator.username
     }},
     children: [
-      { index: true, element: <ProtectedRoute /> },
-      { path: "grower", element: <GrowerLayout />, children: [
-        { index: true, element: <RetailerHomePage />},
-        { path: "flowers", element: <GrowerFlowerPage />},
-        { path: "sites", element: <GrowerSitesPage />},
-        {
-          path: ":siteId",
-          children:
-          [
-            { index: true, element: <GrowerHomePage />},
-            { path: "flowers", element: <GrowerFlowerPage />},
-            { path: "sites", element: <GrowerSitesPage />},
-            { path: "images", element: <GrowerImagesPage />}
-          ]
-        }      
-      ] },
-      { path: "retailer", element: <RetailerRoutes /> },
-      { path: "user", loader: protectedLoader, element: <UserPage /> },
-      { path: "login", loader: roleLoader, element: <LogInPage />, action() {
-        return roleLoader()},
+      { index: true, loader: rootLoader }, // rootLoader always redirects to another place
+      { path: "login", loader: roleLoader, element: <LogInPage />,
+        action() { return roleLoader() },
       },
       { path: "register", loader: roleLoader, element: <RegisterPage /> },
       { path: "terms", element: <TermsPage /> },
-      { path: "logout", action() { Authenticator.logout(); return null}}
+      { path: "logout", action() { Authenticator.logout(); return null}},
+      { path: "*", element: <ProtectedRoute />, loader: protectedLoader,
+        children: [
+          { path: "grower", element: <GrowerLayout />, children: [
+            { index: true, element: <RetailerHomePage />},
+            { path: "flowers", element: <GrowerFlowerPage />},
+            { path: "sites", element: <GrowerSitesPage />},
+            {
+              path: ":siteId",
+              children:
+              [
+                { index: true, element: <GrowerHomePage />},
+                { path: "flowers", element: <GrowerFlowerPage />},
+                { path: "sites", element: <GrowerSitesPage />},
+                { path: "images", element: <GrowerImagesPage />}
+              ]
+            } 
+          ] },
+          { path: "retailer", element: <RetailerRoutes /> },
+          { path: "user", element: <UserPage /> },
+        ]
+      }
     ]
   }
 ])
