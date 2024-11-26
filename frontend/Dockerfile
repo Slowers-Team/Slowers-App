@@ -1,9 +1,16 @@
-FROM node:18
+FROM node:18-alpine AS build-stage
 
-WORKDIR /app
+WORKDIR /build
 COPY . .
-RUN npm clean-install && npm run build && npm install http-server
+RUN npm clean-install && npm run build
 
-EXPOSE 5173
+FROM nginx:alpine-slim
 
-CMD npx http-server dist --port 5173 --proxy $BACKEND_URL
+RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx /etc/nginx/conf.d
+RUN chmod g+rw /etc/nginx/conf.d/default.conf
+RUN mkdir -m 775 /etc/nginx/templates
+
+COPY --from=build-stage /build/nginx.conf.template /etc/nginx/templates/default.conf.template
+COPY --from=build-stage /build/dist/ /usr/share/nginx/html/
+
+EXPOSE 8081
