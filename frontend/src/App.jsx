@@ -15,7 +15,7 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import NavigationBar from './components/NavigationBar'
 import { Authenticator } from './Authenticator'
-import siteService from './services/sites'
+import siteLoader  from './loaders/grower'
 
 const Root = () => {
   const { t, i18n } = useTranslation()
@@ -70,10 +70,6 @@ const rootLoader = () => {
   }
 }
 
-const siteLoader = async ({ params }) => {
-  const { site, subsites } = await siteService.get(params.siteId)
-  return { site, subsites }
-}
 
 const router = createBrowserRouter([
   { path: "/", 
