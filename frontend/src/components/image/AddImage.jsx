@@ -4,16 +4,16 @@ import { useState, useEffect } from 'react'
 import ImageService from '../../services/images'
 import ImageForm from './ImageForm'
 
-const AddImage = ({ entity }) => {
+const AddImage = ({ entity, onImageUpload }) => {
     const [show, setShow] = useState(false)
     const [id, setID] = useState("")
     const [message, setMessage] = useState("")
     const { t, i18n } = useTranslation()
 
+
     useEffect(() => {
       setID(entity._id)
     }, [entity])
-
 
     const showForm = () => {
       setShow(true)
@@ -31,8 +31,12 @@ const AddImage = ({ entity }) => {
         .then(data => {
           console.info("Image upload succesful:", data)
           setMessage(t("alert.imageuploaded"))
+          if (onImageUpload) {
+            onImageUpload()
+          }
         })
         .catch(error => {
+          console.log(error)
           const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, '')
           console.error("Image upload failed:", error)
           setMessage(t('error.error') + ': ' + (i18n.exists(key) ? t(key) : error.response.data))
@@ -47,14 +51,13 @@ const AddImage = ({ entity }) => {
             <Modal.Title>{t("image.title")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-
-        <ImageForm createImage={createImage}/>
+              <ImageForm createImage={createImage}/>
           </Modal.Body>
           { message &&
-            <Modal.Footer>
-              { message }
-            </Modal.Footer>
-          }
+          <Modal.Footer>
+            { message }
+          </Modal.Footer>
+          }       
         </Modal>
       </>
     )

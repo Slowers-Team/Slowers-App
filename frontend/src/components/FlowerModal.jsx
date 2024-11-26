@@ -1,7 +1,9 @@
 import { Modal, Button, Tabs, Tab } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
+import AddImage from './image/AddImage'
+import VisibilityButton from './VisibilityButton'
 
-const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
+const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower }) => {
   const { t } = useTranslation()
 
   const handleFlowerDelete = (flower) => {
@@ -21,6 +23,8 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
     return addedTimeStr
   }
 
+  const isGrower = Boolean(deleteFlower && updateFlower)
+
   return (
     <Modal size="xl" show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -31,6 +35,8 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
           defaultActiveKey="info"
           id="uncontrolled-tab-example"
           className="mb-3"
+          mountOnEnter={true}
+          unmountOnExit={true}
           >
           <Tab eventKey="info" title={t('menu.info')}>
             <div>
@@ -39,6 +45,13 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
               <p>{t('flower.data.latinname')}: {flower.latin_name}</p>
               <p>{t('flower.data.addedtime')}: {addedTime(flower)}</p>
               <p>{t('flower.data.site')}: {flower.site_name}</p>
+              <p>{t('flower.data.qty')}: {flower.quantity}</p>
+              {isGrower ?
+              <p>{t('flower.visible.long')}: {flower.visible 
+                    ? t('flower.visible.true') 
+                    : t('flower.visible.false')}
+              <VisibilityButton flower={flower} updateFlower={updateFlower}/>
+              </p> : <></>}
               {deleteFlower && (
                 <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
                   {t('button.delete')}
@@ -49,6 +62,10 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower }) => {
           <Tab eventKey="pictures" title={t('menu.pictures')}>
             <div>
               <h3>{t('menu.pictures')}</h3>
+
+              {isGrower
+                ? <AddImage entity={flower}/>
+                : <></> }
             </div>
           </Tab>
           <Tab eventKey="lifecycle" title={t('menu.lifecycle')}>

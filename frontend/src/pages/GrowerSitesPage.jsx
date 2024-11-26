@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import SiteService from '../services/sites'
 import SiteFlexbox from '../components/SiteFlexbox'
-import AddImage from '../components/image/AddImage'
 import { useTranslation } from "react-i18next"
 
 const GrowerSitesPage = () => {
@@ -69,7 +68,6 @@ const GrowerSitesPage = () => {
           <div className='my-2'>
             <button onClick={handleBack} style={{ marginRight: "0.5rem" }} className="btn btn-light">{t("button.goback")}</button>
             <button id="deleteSiteButton" onClick={() => deleteSite(site)} className="btn btn-light">{t("button.deletethissite")}</button>
-            <AddImage entity={site}/>
           </div>
           <SiteFlexbox createSite={createSite} sites={sites} />
         </div>
@@ -80,7 +78,7 @@ const GrowerSitesPage = () => {
         </div>
       )}
     </>
-  );
+  )
 }
 
 export default GrowerSitesPage
