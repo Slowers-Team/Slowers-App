@@ -2,26 +2,21 @@ import '../App.css'
 import { useTranslation } from 'react-i18next'
 import { Navbar, Nav, NavDropdown, Button, Offcanvas } from 'react-bootstrap'
 import LangSelect from './LangSelect'
-import userService from '../services/users'
-import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { Link, useLoaderData, Outlet, useFetcher } from 'react-router-dom'
+import { useState } from 'react'
+import { Authenticator } from '../Authenticator' 
 
-export const NavigationBar = ({ isLoggedIn, handleLogout }) => {
+export const NavigationBar = () => {
     const { t, i18n } = useTranslation()
     const [showOffCanvas, setShowOffCanvas] = useState(false)
-    const [user, setUser] = useState({})
+    const {isLoggedIn, username} = useLoaderData()
+    const fetcher = useFetcher()
 
     const handleClose = () => setShowOffCanvas(false)
     const handleShow = () => setShowOffCanvas(!showOffCanvas)
 
-    useEffect(() => {
-      if (!isLoggedIn) {
-        setUser({})
-      } else {
-        userService.get().then(user => setUser(user))
-      }
-    }, [isLoggedIn])
-    
+    const handleLogout = () => fetcher.submit({},{action: "/logout", method: "post"})
+  
     return (
         <>
         <Navbar expand="sm" bg="light">
@@ -33,7 +28,7 @@ export const NavigationBar = ({ isLoggedIn, handleLogout }) => {
             </Navbar.Brand>
               <Nav className="ms-auto mx-2">
                 {isLoggedIn && (
-                  <NavDropdown title={user.username} id="collasible-nav-dropdown">
+                  <NavDropdown title={username} id="collasible-nav-dropdown">
                     <Nav.Link className="text-secondary" as={Link} to="/user">
                       {t("menu.profile")}
                     </Nav.Link>
@@ -85,6 +80,7 @@ export const NavigationBar = ({ isLoggedIn, handleLogout }) => {
               </Nav>
             </Offcanvas.Body>
           </Offcanvas>
+          <Outlet />
         </>
     )
 }

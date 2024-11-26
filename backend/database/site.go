@@ -54,7 +54,12 @@ func (mDb MongoDatabase) GetRootSites(ctx context.Context, userID ObjectID) ([]S
 	return foundSites, nil
 }
 
+// GetSite returns a bson.M containing fields "site", "subSites" and "route", where
+// "site" is a Site corresponding to given siteID,
+// "subSites" is a list of Sites (_id, name and note) whose parent is "site", and
+// "route" is a list of Sites (_id and name) that create a route from Root to "site".
 func (mDb MongoDatabase) GetSite(ctx context.Context, siteID ObjectID, userID ObjectID) (bson.M, error) {
+	// Fetch the site
 	var resultSite bson.M
 
 	filter := bson.M{"_id": siteID, "owner": userID}
@@ -67,6 +72,7 @@ func (mDb MongoDatabase) GetSite(ctx context.Context, siteID ObjectID, userID Ob
 		return nil, idErr
 	}
 
+	// Fetch subsites
 	matchStage := bson.D{{Key: "$match", Value: bson.D{{Key: "parent", Value: siteID}}}}
 	sortStage := bson.D{{Key: "$sort", Value: bson.D{{Key: "name", Value: 1}}}}
 	unsetStage := bson.D{{Key: "$unset", Value: bson.A{"parent", "addedTime", "owner", "flowers", "added_time"}}}
@@ -82,7 +88,57 @@ func (mDb MongoDatabase) GetSite(ctx context.Context, siteID ObjectID, userID Ob
 		return nil, err
 	}
 
-	return bson.M{"site": resultSite, "subsites": subSites}, nil
+	// Fetch route to site
+	// Start pipeline with top level parent Site
+	matchStage = bson.D{
+		{Key: "$match", Value: bson.D{
+			{Key: "_id", Value: siteID},
+			{Key: "owner", Value: userID},
+		}},
+	}
+	// Search for all children and their children
+	graphLookupStage := bson.D{
+		{Key: "$graphLookup", Value: bson.D{
+			{Key: "from", Value: "sites"},
+			{Key: "startWith", Value: "$_id"},
+			{Key: "connectFromField", Value: "parent"},
+			{Key: "connectToField", Value: "_id"},
+			{Key: "as", Value: "route"},
+			{Key: "depthField", Value: "depth"},
+		}},
+	}
+	// Open up array of documents to a stream of documents
+	unwindStage := bson.D{
+		{Key: "$unwind", Value: bson.D{
+			{Key: "path", Value: "$route"},
+		},
+		}}
+	// Sort sites by depth
+	sortStage = bson.D{
+		{Key: "$sort", Value: bson.D{
+			{Key: "route.depth", Value: -1},
+		},
+		}}
+	// Lift nested _id and name
+	projectStage := bson.D{
+		{Key: "$project", Value: bson.D{
+			{Key: "_id", Value: "$route._id"},
+			{Key: "name", Value: "$route.name"},
+		}},
+	}
+
+	cursor, err = db.Collection("sites").Aggregate(ctx, mongo.Pipeline{matchStage, graphLookupStage, unwindStage, sortStage, projectStage})
+	if err != nil {
+		return nil, err
+	}
+
+	var route []bson.M
+
+	if err = cursor.All(ctx, &route); err != nil {
+		return nil, err
+	}
+
+	return bson.M{"site": resultSite, "subsites": subSites, "route": route}, nil
 }
 
 func (mDb MongoDatabase) DeleteSite(ctx context.Context, siteID ObjectID, userID ObjectID) (*mongo.DeleteResult, error) {

@@ -1,13 +1,16 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useFetcher } from 'react-router-dom'
 import LogInForm from '../components/LogInForm'
 import { useTranslation } from 'react-i18next'
+import { Authenticator } from '../Authenticator'
 
-const LogInPage = ({ setIsLoggedIn, setDefaultRole }) => {
+const LogInPage = () => {
   const navigate = useNavigate()
   const { t, i18n } = useTranslation()
+  let fetcher = useFetcher()
 
-  const handleLogin = () => {
-    navigate('/')
+  const handleLogin = (data) => {
+    Authenticator.login(data)
+    fetcher.submit({data: data}, {action: "/login", method: "post"})
   }
 
   return (
@@ -18,7 +21,7 @@ const LogInPage = ({ setIsLoggedIn, setDefaultRole }) => {
             <div className="card" style={{ borderRadius: '1rem' }}>
               <div className='card-body p-5'>
                 <h2 className='mb-5 text-center'>{t('title.login')}</h2>
-                <LogInForm onLogin={handleLogin} setIsLoggedIn={setIsLoggedIn} setDefaultRole={setDefaultRole}/>
+                <LogInForm onLogin={handleLogin}/>
               </div>
             </div>
           </div>
