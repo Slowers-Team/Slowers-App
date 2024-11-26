@@ -15,7 +15,7 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import NavigationBar from './components/NavigationBar'
 import { Authenticator } from './Authenticator'
-import siteLoader  from './loaders/grower'
+import {siteLoader, rootSiteLoader}  from './loaders/grower'
 
 const Root = () => {
   const { t, i18n } = useTranslation()
@@ -94,11 +94,15 @@ const router = createBrowserRouter([
       },
       { path: "*", loader: protectedLoader, children: 
         [
-          { path: "grower", element: <GrowerLayout />, children: 
+          { path: "grower", element: <GrowerLayout />, async action({ request}) {
+            const formData = await request.formData()
+            return redirect(formData.get("redirect"))
+          },
+            children: 
             [
               { index: true,     element: <RetailerHomePage />},
               { path: "flowers", element: <GrowerFlowerPage />},
-              { path: "sites",   element: <GrowerSitesPage />},
+              { path: "sites",   element: <GrowerSitesPage />, loader: rootSiteLoader, action() {return null}},
               { path: ":siteId", id: "site", loader: siteLoader, children: 
                 [
                   { index: true,     element: <GrowerHomePage />},

@@ -1,37 +1,23 @@
-import { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useRouteLoaderData, useLoaderData, useFetcher } from 'react-router-dom'
 import SiteService from '../services/sites'
 import SiteFlexbox from '../components/SiteFlexbox'
 import { useTranslation } from "react-i18next"
 
 const GrowerSitesPage = () => {
   const params = useParams()
+  const sitePage = Boolean(params.siteId)
   const navigate = useNavigate()
-  const [site, setSite] = useState({})
-  const [sites, setSites] = useState([])
+  const site = sitePage ? useRouteLoaderData("site").site : null
+  const sites = sitePage 
+    ? useRouteLoaderData("site").subsites
+    : useLoaderData()
   const { t, i18n } = useTranslation()
-
-  useEffect(() => {
-    SiteService.get(params.siteId)
-      .then(initialSites => {
-        if (params.siteId) {
-          setSite(initialSites.site)
-          setSites(initialSites.subsites)
-        } else {
-          setSites(initialSites)
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error)
-        navigate('/')
-      })
-  }, [params.siteId, navigate])
-
+  const fetcher = useFetcher()
 
   const createSite = siteObject => {
     SiteService.create(siteObject)
-      .then(newSite => {
-        setSites(prevSites => (prevSites ? [...prevSites, newSite] : [newSite]))
+      .then(_ => {
+        fetcher.submit({}, {action: "/grower/sites", method: "post"})
       })
       .catch(error => {
         const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, '')
@@ -44,11 +30,10 @@ const GrowerSitesPage = () => {
       const parentId = siteObject.parent ? siteObject.parent : ''
       SiteService.remove(siteObject._id)
         .then(() => {
-        if (parentId !== null && parentId !== '') {
-          navigate('/grower/' + parentId + '/sites')
-        } else {
-          navigate('/grower/sites')
-        }
+          const redirect = (parentId !== null && parentId !== '')
+            ? '/grower/' + parentId + '/sites'
+            : '/grower/sites'
+          fetcher.submit({redirect: redirect}, {action: "/grower", method: "delete"})
         })
         .catch(error => {
           console.error('Error deleting site:', error)
