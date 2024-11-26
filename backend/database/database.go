@@ -28,6 +28,7 @@ type Database interface {
 	GetAllFlowersRelatedToSite(ctx context.Context, siteID ObjectID, userID ObjectID) ([]Flower, error)
 	AddFlower(ctx context.Context, newFlower Flower) (*Flower, error)
 	DeleteFlower(ctx context.Context, id ObjectID) (bool, error)
+	ToggleFlowerVisibility(ctx context.Context, userID, flowerID ObjectID) (*bool, error)
 	ModifyFlower(ctx context.Context, id ObjectID, newFlower Flower) (*Flower, error)
 
 	AddSite(ctx context.Context, newSite Site) (*Site, error)
