@@ -1,10 +1,11 @@
+import GrowerLayout from "../layouts/GrowerLayout"
 import GrowerSitesPage from "../pages/GrowerSitesPage"
 import GrowerHomePage from "../pages/GrowerHomePage" 
 import GrowerFlowerPage from "../pages/GrowerFlowerPage" 
 import GrowerImagesPage from "../pages/GrowerImagesPage" 
 import { rootFlowerLoader, rootSiteLoader, siteFlowerLoader, siteLoader } from "../loaders/grower"
 
-export default growerRoutes = { 
+const growerRoutes = { 
   path: "grower",
   element: <GrowerLayout />,
   async action({ request}) {
@@ -45,3 +46,5 @@ export default growerRoutes = {
       ] } 
   ] 
 }
+
+export default growerRoutes
