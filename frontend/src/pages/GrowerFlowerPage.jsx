@@ -1,7 +1,6 @@
-import { useParams } from 'react-router-dom'
+import { useParams, useRouteLoaderData, useLoaderData } from 'react-router-dom'
 import GrowerFlowerList from '../components/grower/GrowerFlowerList'
 import flowerService from '../services/flowers'
-import siteService from '../services/sites'
 import AddFlower from '../components/grower/AddFlower'
 import AddFlowerUpdate from '../components/grower/AddFlowerUpdate'
 import { useEffect, useState } from 'react'
@@ -11,12 +10,15 @@ const GrowerFlowerPage = () => {
   const params = useParams()
   const [flowers, setFlowers] = useState()
   const [checkedFlowers, setCheckedFlowers] = useState([])
-  const [site, setSite] = useState()
   const { t, i18n } = useTranslation()
+  const site = useRouteLoaderData("site")?.site
+
+  const data = useLoaderData()
+  console.log("data", data)
+
 
   useEffect(() => {
     if (params.siteId) {
-      siteService.get(params.siteId).then(initialSite => setSite(initialSite.site))
       flowerService
           .getFlowersBySite(params.siteId)
           .then(flowers => {
@@ -62,10 +64,10 @@ const GrowerFlowerPage = () => {
 
   return (
     <>
-    {params.siteId ? (
+    {site ? (
       <div>
         <h2>{site?.name} {t('title.siteflowers')}</h2>
-        <AddFlower createFlower={addFlower} siteID={params.siteId} />
+        <AddFlower createFlower={addFlower} siteID={site._id} />
         <AddFlowerUpdate checkedFlowers={checkedFlowers} />
       </div>
     ) : (

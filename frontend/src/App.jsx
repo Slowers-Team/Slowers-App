@@ -15,7 +15,7 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import NavigationBar from './components/NavigationBar'
 import { Authenticator } from './Authenticator'
-import {siteLoader, rootSiteLoader}  from './loaders/grower'
+import {siteLoader, rootSiteLoader, siteFlowerLoader, rootFlowerLoader}  from './loaders/grower'
 
 const Root = () => {
   const { t, i18n } = useTranslation()
@@ -101,13 +101,13 @@ const router = createBrowserRouter([
             children: 
             [
               { index: true,     element: <RetailerHomePage />},
-              { path: "flowers", element: <GrowerFlowerPage />},
+              { path: "flowers", element: <GrowerFlowerPage />, loader: rootFlowerLoader},
               { path: "sites",   element: <GrowerSitesPage />, loader: rootSiteLoader,
                 action() {return null}}, // we only want to reload data
               { path: ":siteId", id: "site", loader: siteLoader, children: 
                 [
                   { index: true,     element: <GrowerHomePage />},
-                  { path: "flowers", element: <GrowerFlowerPage />},
+                  { path: "flowers", element: <GrowerFlowerPage />, loader: siteFlowerLoader},
                   { path: "sites",   element: <GrowerSitesPage />},
                   { path: "images",  element: <GrowerImagesPage />}
                 ] } 
