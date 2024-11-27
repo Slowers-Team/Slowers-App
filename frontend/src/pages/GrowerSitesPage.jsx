@@ -5,19 +5,17 @@ import { useTranslation } from "react-i18next"
 
 const GrowerSitesPage = () => {
   const params = useParams()
-  const sitePage = Boolean(params.siteId)
   const navigate = useNavigate()
-  const site = sitePage ? useRouteLoaderData("site").site : null
-  const sites = sitePage 
-    ? useRouteLoaderData("site").subsites
-    : useLoaderData()
+  const site = useRouteLoaderData("site")?.site
+  const sites = useRouteLoaderData("site")?.subsites ?? useLoaderData()
   const { t, i18n } = useTranslation()
+
   const fetcher = useFetcher()
 
   const createSite = siteObject => {
     SiteService.create(siteObject)
-      .then(_ => {
-        fetcher.submit({}, {action: "/grower/sites", method: "post"})
+      .then(newSite => {
+        fetcher.submit({site: newSite}, {action: "/grower/sites", method: "post"})
       })
       .catch(error => {
         const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, '')
@@ -30,6 +28,7 @@ const GrowerSitesPage = () => {
       const parentId = siteObject.parent ? siteObject.parent : ''
       SiteService.remove(siteObject._id)
         .then(() => {
+          // redirect user to site's parent and force loader reload
           const redirect = (parentId !== null && parentId !== '')
             ? '/grower/' + parentId + '/sites'
             : '/grower/sites'

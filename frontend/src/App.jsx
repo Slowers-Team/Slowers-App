@@ -96,13 +96,14 @@ const router = createBrowserRouter([
         [
           { path: "grower", element: <GrowerLayout />, async action({ request}) {
             const formData = await request.formData()
-            return redirect(formData.get("redirect"))
+            return redirect(formData.get("redirect")) // redirect user after site deletion
           },
             children: 
             [
               { index: true,     element: <RetailerHomePage />},
               { path: "flowers", element: <GrowerFlowerPage />},
-              { path: "sites",   element: <GrowerSitesPage />, loader: rootSiteLoader, action() {return null}},
+              { path: "sites",   element: <GrowerSitesPage />, loader: rootSiteLoader,
+                action() {return null}}, // we only want to reload data
               { path: ":siteId", id: "site", loader: siteLoader, children: 
                 [
                   { index: true,     element: <GrowerHomePage />},
