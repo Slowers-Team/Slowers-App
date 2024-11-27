@@ -93,13 +93,20 @@ const loginAction = async ({ request }) => {
       return redirect("/")
     } else {
       errors.invalidLogin = true
-      return errors
     }
   } catch (err) {
     console.error(err)
     errors.error = err
-    return errors
   }
+  return errors
+}
+
+const registerAction = async ({ request }) => {
+  const loginInfo = Object.fromEntries(await request.formData())
+
+  Authenticator.login(loginInfo)
+
+  return redirect("/")
 }
 
 const router = createBrowserRouter([
@@ -111,7 +118,7 @@ const router = createBrowserRouter([
     children: [
       { 
         index: true,
-        loader: rootRedirect // rootLoader always redirects to another place
+        loader: rootRedirect // rootRedirect always redirects to another place
       }, 
       { path: "login", 
         loader: roleLoader, 
@@ -121,6 +128,7 @@ const router = createBrowserRouter([
       { 
         path: "register", 
         loader: roleLoader, 
+        action: registerAction,
         element: <RegisterPage /> 
       },
       { path: "terms", element: <TermsPage /> },
