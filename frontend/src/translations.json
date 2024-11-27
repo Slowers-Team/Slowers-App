@@ -23,7 +23,8 @@
         "hideFlower": "Hide from retailers",
         "close": "Close",
         "cancel": "Cancel",
-        "update": "Update"
+        "update": "Update",
+        "modify": "Modify"
       },
       "error": {
         "acceptterms": "You must accept the terms",
@@ -35,6 +36,7 @@
         "invalidemail": "Invalid email",
         "invalidlogininfo": "Invalid email or password",
         "sitenamecannotbeempty": "Site name cannot be empty",
+        "updatingfailed": "Updating failed",
         "noimagesinflower": "At least one image has to be attached to a flower before its visibility can be changed."
       },
       "flower": {
@@ -153,7 +155,8 @@
         "showFlower": "Näytä myyjille",
         "hideFlower": "Piilota myyjiltä",
         "cancel": "Peruuta",
-        "update": "Päivitä"
+        "update": "Päivitä",
+        "modify": "Muokkaa"
       },
       "error": {
         "acceptterms": "Käyttöehdot on hyväksyttävä",
@@ -165,6 +168,7 @@
         "invalidemail": "Virheellinen sähköpostiosoite",
         "invalidlogininfo": "Virheellinen sähköposti tai salasana",
         "sitenamecannotbeempty": "Alueen nimi ei voi olla tyhjä",
+        "updatingfailed": "Päivitys epäonnistui",
         "noimagesinflower": "Kukkaan täytyy liittää vähintään yksi kuva ennen sen näkyvyyden muuttamista."
       },
       "flower": {
