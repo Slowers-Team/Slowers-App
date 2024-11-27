@@ -80,10 +80,26 @@ const rootLoader = () => {
 }
 
 const loginAction = async ({ request }) => {
-  const loginInfo = Object.fromEntries(await request.formData())
-  Authenticator.login(loginInfo)
+  const errors = {}
+  try {
+    const formData = await request.formData()
+    const email = formData.get("email")
+    const password = formData.get("password")
 
-  return redirect("/")
+    const response = await userService.login(email, password)
+
+    if (response.ok) {
+      Authenticator.login({ ... await response.json() })
+      return redirect("/")
+    } else {
+      errors.invalidLogin = true
+      return errors
+    }
+  } catch (err) {
+    console.error(err)
+    errors.error = err
+    return errors
+  }
 }
 
 const router = createBrowserRouter([
