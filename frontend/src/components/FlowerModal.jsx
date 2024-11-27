@@ -2,9 +2,12 @@ import { Modal, Button, Tabs, Tab } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import AddImage from './image/AddImage'
 import VisibilityButton from './VisibilityButton'
+import ModifyFlowerForm from './ModifyFlowerForm'
+import { useState } from "react"
 
-const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower }) => {
+const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower, modifyFlower }) => {
   const { t } = useTranslation()
+  const [isModifyFormVisible, setIsModifyFormVisible] = useState(false)
 
   const handleFlowerDelete = (flower) => {
     if (deleteFlower) {
@@ -23,7 +26,7 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower }) 
     return addedTimeStr
   }
 
-  const isGrower = Boolean(deleteFlower && updateFlower)
+  const isGrower = Boolean(deleteFlower && updateFlower && modifyFlower)
 
   return (
     <Modal size="xl" show={show} onHide={handleClose}>
@@ -40,12 +43,22 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower }) 
           >
           <Tab eventKey="info" title={t('menu.info')}>
             <div>
-              <h3>{t('menu.info')}</h3>
-              <p>{t('flower.data.name')}: {flower.name}</p>
-              <p>{t('flower.data.latinname')}: {flower.latin_name}</p>
-              <p>{t('flower.data.addedtime')}: {addedTime(flower)}</p>
-              <p>{t('flower.data.site')}: {flower.site_name}</p>
-              <p>{t('flower.data.qty')}: {flower.quantity}</p>
+              {isGrower && isModifyFormVisible ? (
+                  <ModifyFlowerForm 
+                    flower={flower} 
+                    modifyFlower={modifyFlower} 
+                    handleFlowerModify={updateFlower} 
+                  />
+                ) : (
+                  <div>
+                    <h3>{t('menu.info')}</h3>
+                    <p>{t('flower.data.name')}: {flower.name}</p>
+                    <p>{t('flower.data.latinname')}: {flower.latin_name}</p>
+                    <p>{t('flower.data.addedtime')}: {addedTime(flower)}</p>
+                    <p>{t('flower.data.site')}: {flower.site_name}</p>
+                    <p>{t('flower.data.qty')}: {flower.quantity}</p>
+                  </div>
+                )}
               {isGrower ?
               <p>{t('flower.visible.long')}: {flower.visible 
                     ? t('flower.visible.true') 
@@ -55,6 +68,11 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower }) 
               {deleteFlower && (
                 <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
                   {t('button.delete')}
+                </button>
+              )}
+              {isGrower && (
+                <button id="modifyFlowerButton" onClick={() => setIsModifyFormVisible((prev) => !prev)}>
+                  {isModifyFormVisible ? t('button.cancel') : t('button.modify')}
                 </button>
               )}
             </div>
