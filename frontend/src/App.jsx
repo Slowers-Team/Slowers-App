@@ -109,6 +109,12 @@ const registerAction = async ({ request }) => {
   return redirect("/")
 }
 
+const roleAction = async ({ request }) => {
+  const { role } = Object.fromEntries(await request.formData())
+  Authenticator.setRole(role)
+  return null
+}
+
 const router = createBrowserRouter([
   { 
     path: "/", 
@@ -165,7 +171,9 @@ const router = createBrowserRouter([
               { index: true,     element: <RetailerHomePage />},
               { path: "flowers", element: <RetailerFlowerPage />}
             ] },
-          { path: "user", element: <UserPage /> },
+          { path: "user",
+            element: <UserPage />,
+            action: roleAction },
           { path: "*", loader() { return redirect("/")} } // redirect undefined paths to home
         ]
       }

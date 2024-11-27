@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import userService from '../services/users'
 import UserInfo from '../components/UserInfo' 
-import { Authenticator } from '../Authenticator' 
+import { useSubmit } from 'react-router-dom'
 
 const UserPage = () => {
   const [user, setUser] = useState({})
+  const submit = useSubmit()
 
   useEffect(() => {
     userService.get().then(user => setUser(user))
@@ -14,7 +15,7 @@ const UserPage = () => {
     const newRole = switchRole();
     userService.setRole(newRole).then(_ => {
       setUser({...user, role: newRole})
-      Authenticator.setRole(newRole)
+      submit({role: newRole}, {action: "/user", method: "post"})
     })  }
 
   const switchRole = () => (user.role === 'grower' ? 'retailer' : 'grower')
