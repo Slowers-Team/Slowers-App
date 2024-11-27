@@ -7,7 +7,7 @@ const GrowerSitesPage = () => {
   const params = useParams()
   const navigate = useNavigate()
   const site = useRouteLoaderData("site")?.site
-  const sites = useRouteLoaderData("site")?.subsites ?? useLoaderData()
+  const sites = useRouteLoaderData("site")?.subsites ?? useLoaderData() // subsites or rootsites
   const { t, i18n } = useTranslation()
 
   const fetcher = useFetcher()

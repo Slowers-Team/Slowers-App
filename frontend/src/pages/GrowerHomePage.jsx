@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next'
-import { useRouteLoaderData } from 'react-router-dom' 
+import { useRouteLoaderData, useLoaderData } from 'react-router-dom' 
 
 const GrowerHomePage = () => {
   const { t, i18n } = useTranslation()
-  const { site } = useRouteLoaderData("site")
+  const { site } = useLoaderData() ?? useRouteLoaderData("site") // very ugly hack that makes site "false"
 
   return (
     <>
