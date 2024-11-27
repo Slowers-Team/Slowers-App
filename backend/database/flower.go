@@ -213,6 +213,7 @@ func (mDb MongoDatabase) ModifyFlower(ctx context.Context, id ObjectID, newFlowe
 		"$set": bson.M{
 			"name":       newFlower.Name,
 			"latin_name": newFlower.LatinName,
+			"quantity":   newFlower.Quantity,
 		},
 	}
 	updateResult, err := db.Collection("flowers").UpdateOne(ctx, filter, update)
