@@ -4,7 +4,6 @@ import { Navbar, Nav, NavDropdown, Button, Offcanvas } from 'react-bootstrap'
 import LangSelect from './LangSelect'
 import { Link, useLoaderData, Outlet, useFetcher } from 'react-router-dom'
 import { useState } from 'react'
-import { Authenticator } from '../Authenticator' 
 
 export const NavigationBar = () => {
     const { t, i18n } = useTranslation()

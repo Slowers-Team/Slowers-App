@@ -15,6 +15,7 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import NavigationBar from './components/NavigationBar'
 import { Authenticator } from './Authenticator'
+import userService from './services/users'
 
 const Root = () => {
   const { t, i18n } = useTranslation()
@@ -78,6 +79,13 @@ const rootLoader = () => {
   } 
 }
 
+const loginAction = async ({ request }) => {
+  const loginInfo = Object.fromEntries(await request.formData())
+  Authenticator.login(loginInfo)
+
+  return redirect("/")
+}
+
 const router = createBrowserRouter([
   { 
     path: "/", 
@@ -92,7 +100,7 @@ const router = createBrowserRouter([
       { path: "login", 
         loader: roleLoader, 
         element: <LogInPage />,
-        action() { return redirect("/") }, // POST /login -> redirect to homepage
+        action: loginAction,
       },
       { 
         path: "register", 

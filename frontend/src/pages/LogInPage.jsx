@@ -1,17 +1,8 @@
-import { useNavigate, useFetcher } from 'react-router-dom'
 import LogInForm from '../components/LogInForm'
 import { useTranslation } from 'react-i18next'
-import { Authenticator } from '../Authenticator'
 
 const LogInPage = () => {
-  const navigate = useNavigate()
   const { t, i18n } = useTranslation()
-  let fetcher = useFetcher()
-
-  const handleLogin = (data) => {
-    Authenticator.login(data)
-    fetcher.submit({data: data}, {action: "/login", method: "post"})
-  }
 
   return (
     <div style={{ minHeight: 'calc(100vh - 82px)', backgroundColor: '#eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -21,7 +12,7 @@ const LogInPage = () => {
             <div className="card" style={{ borderRadius: '1rem' }}>
               <div className='card-body p-5'>
                 <h2 className='mb-5 text-center'>{t('title.login')}</h2>
-                <LogInForm onLogin={handleLogin}/>
+                <LogInForm />
               </div>
             </div>
           </div>
