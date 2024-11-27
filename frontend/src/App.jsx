@@ -57,7 +57,7 @@ function protectedLoader() {
 }
 
 // Redirect user to a default role if logged in, else to login
-const rootLoader = () => {
+const rootRedirect = () => {
   if (Authenticator.isLoggedIn) {
     if (Authenticator.role === 'grower') {
       return redirect('/grower')
@@ -69,32 +69,50 @@ const rootLoader = () => {
   }
 }
 
+const rootLoader = () => {
+  Authenticator.refresh() // try to fetch login info from local storage 
+  return { 
+    role: Authenticator.role,
+    isLoggedIn: Authenticator.isLoggedIn,
+    username: Authenticator.username
+  } 
+}
+
 const router = createBrowserRouter([
-  { path: "/", 
+  { 
+    path: "/", 
     element: <Root />, 
     id: "root",
-    loader() {
-      Authenticator.refresh() // try to fetch login info from local storage 
-      return { 
-        role: Authenticator.role,
-        isLoggedIn: Authenticator.isLoggedIn,
-        username: Authenticator.username
-    }},
+    loader: rootLoader,
     children: [
-      { index: true,   loader: rootLoader }, // rootLoader always redirects to another place
-      { path: "login", loader: roleLoader, element: <LogInPage />,
-        action() { return redirect("/") }, // PUT /login -> redirect to homepage
+      { 
+        index: true,
+        loader: rootRedirect // rootLoader always redirects to another place
+      }, 
+      { path: "login", 
+        loader: roleLoader, 
+        element: <LogInPage />,
+        action() { return redirect("/") }, // POST /login -> redirect to homepage
       },
-      { path: "register", loader: roleLoader, element: <RegisterPage /> },
+      { 
+        path: "register", 
+        loader: roleLoader, 
+        element: <RegisterPage /> 
+      },
       { path: "terms", element: <TermsPage /> },
       { path: "logout",
-        action() { return Authenticator.logout() } // PUT /logout -> Authenticator.logout()
+        action() { return Authenticator.logout() } // POST /logout -> Authenticator.logout()
       },
-      { path: "*", loader: protectedLoader, children: 
+      { path: "*", 
+        loader: protectedLoader, 
+        children: 
         [
-          { path: "grower",    element: <GrowerLayout />, children: 
+          { 
+            path: "grower",
+            element: <GrowerLayout />,
+            children: 
             [
-              { index: true,     element: <RetailerHomePage />},
+              { index: true,     element: <GrowerHomePage />},
               { path: "flowers", element: <GrowerFlowerPage />},
               { path: "sites",   element: <GrowerSitesPage />},
               { path: ":siteId", children: 
@@ -103,9 +121,14 @@ const router = createBrowserRouter([
                   { path: "flowers", element: <GrowerFlowerPage />},
                   { path: "sites",   element: <GrowerSitesPage />},
                   { path: "images",  element: <GrowerImagesPage />}
-                ] } 
-            ] },
-          { path: "retailer",  element: <RetailerLayout />, children: 
+                ] 
+              } 
+            ] 
+          },
+          { 
+            path: "retailer",
+            element: <RetailerLayout />,
+            children: 
             [
               { index: true,     element: <RetailerHomePage />},
               { path: "flowers", element: <RetailerFlowerPage />}
