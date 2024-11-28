@@ -10,7 +10,7 @@ const LogIn = () => {
   if (errors?.invalidLogin) {
     error = t("error.invalidlogininfo")
   } else if (errors?.error) {
-    error = t("error.erroroccurred")
+    error = t("error.erroroccured")
   }
 
   return (
