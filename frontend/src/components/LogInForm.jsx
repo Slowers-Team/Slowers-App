@@ -1,44 +1,29 @@
-import { useState } from 'react'
-import userService from '../services/users'
 import { useTranslation } from 'react-i18next'
+import { Form, useActionData } from 'react-router-dom' 
 
-const LogIn = ({ onLogin }) => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
+const LogIn = () => {
   const { t, i18n } = useTranslation()
 
-  const handleSubmit = async (e) => {
-       e.preventDefault()
+  const errors = useActionData()
+  let error = null
 
-    try {
-      const response = await userService.login(email, password)
-
-      const data = await response.json()
-
-      if (response.ok) {
-        onLogin(data)
-      } else {
-        setError(t("error.invalidlogininfo"))
-      }
-    } catch (err) {
-      setError(t("error.erroroccured"))
-      console.log(err)
-    }
-  };
+  if (errors?.invalidLogin) {
+    error = t("error.invalidlogininfo")
+  } else if (errors?.error) {
+    error = t("error.erroroccurred")
+  }
 
   return (
     <div className='text-left'>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
+      <Form action="/login" method="post">
         <div className='form-group mb-4'>
           <label htmlFor="emailInput">{t("user.data.email")}</label>
           <input
             type="email"
             id="emailInput"
-            value={email}
+            name="email"
             placeholder={t("user.input.email")}
-            onChange={(e) => setEmail(e.target.value)}
             className='form-control'
             required
           />
@@ -48,9 +33,8 @@ const LogIn = ({ onLogin }) => {
           <input
             type="password"
             id="passwordInput"
-            value={password}
+            name="password"
             placeholder={t("user.input.password")}
-            onChange={(e) => setPassword(e.target.value)}
             className='form-control'
             required
           />
@@ -58,7 +42,7 @@ const LogIn = ({ onLogin }) => {
         <div>
           <button type="submit" id="loginButton" className='btn btn-primary' >{t("button.login")}</button>
         </div>
-      </form>
+      </Form>
     </div>
   )
 }
