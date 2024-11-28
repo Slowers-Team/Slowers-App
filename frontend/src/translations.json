@@ -24,7 +24,7 @@
         "close": "Close",
         "cancel": "Cancel",
         "update": "Update",
-        "modify": "Modify"
+        "modify": "Edit"
       },
       "error": {
         "acceptterms": "You must accept the terms",
