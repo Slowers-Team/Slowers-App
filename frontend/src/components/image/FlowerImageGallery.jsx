@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Button } from "react-bootstrap"
-import CloseButton from 'react-bootstrap/CloseButton'
+import Masonry from "react-masonry-css"
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import '../../Misc.css'
+import './ImageGallery.css'
 
 const FlowerImageGallery = ({ images, deleteImage, favoriteImage }) => {
   const { t } = useTranslation() 
@@ -18,24 +18,27 @@ const FlowerImageGallery = ({ images, deleteImage, favoriteImage }) => {
 		setSelectedFavoriteIndex(selectedIndex)
 		favoriteImage(imageObject)
 	}
-	
+	const breakpointColumnsObj = {default: 3, 991: 2, 550: 1,};
+
   return (
     <div className="m-2">
 			{(!images || images.length === 0) ? (
 					<p>No flower images</p> 
 			) : (
 				<div>
-					{images.map((image, index) => (
+					<Masonry breakpointCols={breakpointColumnsObj} className="my-masonry-grid" columnClassName="my-masonry-grid_column">
+						{images.map((image, index) => (
 						<div className="image-box" key={image._id || index}>
-							<img className="d-block w-100" src={image.url} alt={`Slide ${index + 1}`} />
+							<img src={image.url} alt={`Image ${index + 1}`}/>
 							<div className="image-buttons">
 								<Button variant="dark" className="delete-button" onClick={() => deleteImage(image)}><i className="bi bi-trash"></i></Button>
 								<Button variant="dark" onClick={() => handleFavoriteSelect(index, image)} className={`favourite-button ${selectedFavoriteIndex === index ? "selected" : ""}`} disabled={selectedFavoriteIndex !== null && selectedFavoriteIndex == index}>
-                  <i className={`bi bi-star-fill ${selectedFavoriteIndex === index ? "text-warning" : ""}`}></i>
+									<i className={`bi bi-star-fill ${selectedFavoriteIndex === index ? "text-warning" : ""}`}></i>
 								</Button>
-								</div>
+							</div>
 						</div>
-					))}
+						))}
+					</Masonry>
 				</div>
 			)}
     </div>
