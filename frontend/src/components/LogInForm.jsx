@@ -1,14 +1,12 @@
 import { useState } from 'react'
 import userService from '../services/users'
 import { useTranslation } from 'react-i18next'
-import { useSubmit } from 'react-router-dom' 
 
-const LogIn = () => {
+const LogIn = ({ onLogin }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const { t, i18n } = useTranslation()
-  const submit = useSubmit()
 
   const handleSubmit = async (e) => {
        e.preventDefault()
@@ -19,7 +17,7 @@ const LogIn = () => {
       const data = await response.json()
 
       if (response.ok) {
-        submit({...data}, {action: "/login", method: "post"})
+        onLogin(data)
       } else {
         setError(t("error.invalidlogininfo"))
       }
