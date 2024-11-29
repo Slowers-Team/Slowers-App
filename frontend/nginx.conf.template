@@ -2,9 +2,13 @@ server {
     listen 8081;
     server_name localhost;
 
-    location / {
+    location = / {
         root   /usr/share/nginx/html;
         index  index.html index.htm;
+    }
+
+    location /assets {
+        root   /usr/share/nginx/html/assets;
     }
 
     location ~ ^/api/(.*) {
@@ -14,5 +18,9 @@ server {
     error_page   500 502 503 504  /50x.html;
     location = /50x.html {
         root   /usr/share/nginx/html;
+    }
+
+    location ~ ^/.* {
+        return 308 /
     }
 }
