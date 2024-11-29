@@ -16,6 +16,10 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower, mo
     handleClose()
   }
 
+  const handleFormVisibility = () => {
+    setIsModifyFormVisible((prev) => !prev)
+  }
+
   const addedTime = (flower) => {
     let addedTime = new Date(flower.added_time)
 
@@ -44,11 +48,14 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower, mo
           <Tab eventKey="info" title={t('menu.info')}>
             <div>
               {isGrower && isModifyFormVisible ? (
-                  <ModifyFlowerForm 
-                    flower={flower} 
-                    modifyFlower={modifyFlower} 
-                    handleFlowerModify={updateFlower} 
-                  />
+                  <div>
+                    <ModifyFlowerForm 
+                      flower={flower} 
+                      modifyFlower={modifyFlower} 
+                      handleFlowerModify={updateFlower}
+                      handleFormVisibility={handleFormVisibility}
+                    />
+                  </div> 
                 ) : (
                   <div>
                     <h3>{t('menu.info')}</h3>
@@ -70,9 +77,9 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower, mo
                   {t('button.delete')}
                 </button>
               )}
-              {isGrower && (
+              {isGrower && !isModifyFormVisible && (
                 <button id="modifyFlowerButton" onClick={() => setIsModifyFormVisible((prev) => !prev)}>
-                  {isModifyFormVisible ? t('button.cancel') : t('button.modify')}
+                  {t('button.modify')}
                 </button>
               )}
             </div>

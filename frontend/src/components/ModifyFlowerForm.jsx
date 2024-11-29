@@ -2,7 +2,7 @@ import { Button, Container } from "react-bootstrap"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 
-const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify }) => {
+const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, handleFormVisibility }) => {
   const [modifiedFlowerName, setModifiedFlowerName] = useState(flower.name)
   const [modifiedFlowerLatinName, setModifiedFlowerLatinName] = useState(flower.latin_name)
   const [modifiedFlowerQty, setModifiedFlowerQty] = useState(flower.quantity)
@@ -60,7 +60,11 @@ const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify }) => {
             <Button variant="light" id="saveModifiedFlowerButton" type="submit">
               {t("button.save")}
             </Button>
+            <Button variant="dark" id="modifyFlowerButton" onClick={handleFormVisibility}>
+              {t('button.cancel')}
+            </Button>
           </div>
+
         </form>
       </Container>
     )
