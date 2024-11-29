@@ -78,7 +78,7 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower, mo
                 </button>
               )}
               {isGrower && !isModifyFormVisible && (
-                <button id="modifyFlowerButton" onClick={() => setIsModifyFormVisible((prev) => !prev)}>
+                <button id="modifyFlowerButton" onClick={handleFormVisibility}>
                   {t('button.modify')}
                 </button>
               )}
