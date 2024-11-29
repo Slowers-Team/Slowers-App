@@ -23,13 +23,13 @@ const FlowerImageGallery = ({ images, deleteImage, favoriteImage }) => {
   return (
     <div className="m-2">
 			{(!images || images.length === 0) ? (
-					<p>No flower images</p> 
+				<p>{t('image.noflowerimages')}</p> 
 			) : (
 				<div>
 					<Masonry breakpointCols={breakpointColumnsObj} className="my-masonry-grid" columnClassName="my-masonry-grid_column">
 						{images.map((image, index) => (
 						<div className="image-box" key={image._id || index}>
-							<img src={image.url} alt={`Image ${index + 1}`}/>
+							<img src={image.url}/>
 							<div className="image-buttons">
 								<Button variant="dark" className="delete-button" onClick={() => deleteImage(image)}><i className="bi bi-trash"></i></Button>
 								<Button variant="dark" onClick={() => handleFavoriteSelect(index, image)} className={`favourite-button ${selectedFavoriteIndex === index ? "selected" : ""}`} disabled={selectedFavoriteIndex !== null && selectedFavoriteIndex == index}>

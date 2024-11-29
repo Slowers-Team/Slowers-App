@@ -27,15 +27,14 @@ const FlowerImageTab = ({ isGrower, flower }) => {
         console.error("Image object is undefined or missing id")
         return
       }
-      if (window.confirm(`${t("Confirm image deletion")}?`)) {
+      if (window.confirm(`${t('image.confirmimagedeletion')}?`)) {
         ImageService.deleteImage(imageObject._id)
           .then(() => {
             setImages(l => l.filter(item => item._id !== imageObject._id))
-            alert(t("Image deleted"))
           })
           .catch(error => {
             console.error('Error deleting image:', error)
-            alert(t("Error"))
+            alert(t('error.erroroccured'))
           })
       }
     }
@@ -48,6 +47,7 @@ const FlowerImageTab = ({ isGrower, flower }) => {
       console.log("Favorite image:", imageObject) 
       if (!imageObject || !imageObject._id) {
         console.error("Image object is undefined or missing id")
+        alert(t('error.erroroccured'))
         return
       }
     }
