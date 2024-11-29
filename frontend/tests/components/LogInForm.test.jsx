@@ -2,13 +2,11 @@ import { render, screen } from '@testing-library/react'
 import LogInForm from '../../src/components/LogInForm'
 import { expect, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { RouterProvider, createMemoryRouter } from 'react-router-dom'
 
 test('renders LogIn form with email and password inputs', () => {
-    const router = createMemoryRouter([
-        { path: "/login", element: <LogInForm />, action() {return {invalidLogin: true}} }
-    ], {initialEntries: ["/login"]} )
-    render(<RouterProvider router={router}/>)
+    const login = vi.fn()
+
+    render(<LogInForm login={login} />)
 
     const email = screen.getByLabelText('Email')
     const password = screen.getByLabelText('Password')
@@ -16,12 +14,10 @@ test('renders LogIn form with email and password inputs', () => {
 })
 
 test('updates input values when typing', async () => {
+    const login = vi.fn()
     const user = userEvent.setup()
 
-    const router = createMemoryRouter([
-        { path: "/login", element: <LogInForm />, action() {return {invalidLogin: true}} }
-    ], {initialEntries: ["/login"]} )
-    render(<RouterProvider router={router}/>)
+    render(<LogInForm login={login} />)
 
     const emailInput = screen.getByLabelText('Email')
     const passwordInput = screen.getByLabelText('Password')
@@ -34,13 +30,10 @@ test('updates input values when typing', async () => {
 })
 
 test('does not clear input values after submit if email does not match standard format', async() => {
+    const login = vi.fn()
     const user = userEvent.setup()
 
-    const router = createMemoryRouter([
-        { path: "/login", element: <LogInForm />, action() {return {invalidLogin: true}} }
-    ], {initialEntries: ["/login"]} )
-    render(<RouterProvider router={router}/>)
-
+    render(<LogInForm login={login} />)
 
     const emailInput = screen.getByLabelText('Email')
     const passwordInput = screen.getByLabelText('Password')

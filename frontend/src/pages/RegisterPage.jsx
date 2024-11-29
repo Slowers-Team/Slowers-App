@@ -1,5 +1,6 @@
 import userService from '../services/users'
 import RegisterForm from '../components/RegisterForm'
+import { Authenticator } from '../Authenticator' 
 import { useTranslation } from 'react-i18next'
 import { useFetcher } from 'react-router-dom'
 
@@ -11,8 +12,9 @@ const RegisterPage = () => {
           userService
             .create(userObject)
             .then(data => {
+                Authenticator.login(data)
                 alert(t('alert.usercreated'))
-                fetcher.submit(data, {action: "/register", method: "post"})
+                fetcher.submit({data: data}, {action: "/login", method: "post"})
               }
             )
             .catch(error => {

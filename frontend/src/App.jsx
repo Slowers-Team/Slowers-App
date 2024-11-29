@@ -80,39 +80,10 @@ const rootLoader = () => {
 }
 
 const loginAction = async ({ request }) => {
-  const errors = {}
-  try {
-    const formData = await request.formData()
-    const email = formData.get("email")
-    const password = formData.get("password")
-
-    const response = await userService.login(email, password)
-
-    if (response.ok) {
-      Authenticator.login({ ... await response.json() })
-      return redirect("/")
-    } else {
-      errors.invalidLogin = true
-    }
-  } catch (err) {
-    console.error(err)
-    errors.error = err
-  }
-  return errors
-}
-
-const registerAction = async ({ request }) => {
   const loginInfo = Object.fromEntries(await request.formData())
-
   Authenticator.login(loginInfo)
 
   return redirect("/")
-}
-
-const roleAction = async ({ request }) => {
-  const { role } = Object.fromEntries(await request.formData())
-  Authenticator.setRole(role)
-  return null
 }
 
 const router = createBrowserRouter([
@@ -124,7 +95,7 @@ const router = createBrowserRouter([
     children: [
       { 
         index: true,
-        loader: rootRedirect // rootRedirect always redirects to another place
+        loader: rootRedirect // rootLoader always redirects to another place
       }, 
       { path: "login", 
         loader: roleLoader, 
@@ -134,7 +105,6 @@ const router = createBrowserRouter([
       { 
         path: "register", 
         loader: roleLoader, 
-        action: registerAction,
         element: <RegisterPage /> 
       },
       { path: "terms", element: <TermsPage /> },
@@ -171,9 +141,7 @@ const router = createBrowserRouter([
               { index: true,     element: <RetailerHomePage />},
               { path: "flowers", element: <RetailerFlowerPage />}
             ] },
-          { path: "user",
-            element: <UserPage />,
-            action: roleAction },
+          { path: "user", element: <UserPage /> },
           { path: "*", loader() { return redirect("/")} } // redirect undefined paths to home
         ]
       }
