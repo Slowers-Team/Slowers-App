@@ -155,6 +155,10 @@ func ModifyFlower(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Flower name cannot be empty")
 	}
 
+	if flower.Quantity < 0 {
+		return c.Status(400).SendString("Flower quantity cannot be negative")
+	}
+
 	updatedFlower, err := db.ModifyFlower(c.Context(), id, database.Flower{Name: flower.Name, LatinName: flower.LatinName, Quantity: flower.Quantity})
 
 	if err != nil {
