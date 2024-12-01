@@ -74,7 +74,7 @@ const modify = modifiedFlower => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
   }
-  const request = axios.patch(`${baseUrl}/${modifiedFlower._id}`, modifiedFlower, config)
+  const request = axios.put(`${baseUrl}/${modifiedFlower._id}`, modifiedFlower, config)
   return request.then(response => response.data)
 }
 
