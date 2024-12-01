@@ -334,6 +334,39 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersRelatedToSite() {
 	)
 }
 
+func (s *DbFlowerTestSuite) TestModifyAndGetFlower() {
+	flower := s.TestFlowers[0]
+	s.Db.AddFlower(context.Background(), flower)
+
+	modifiedFlower := database.Flower{
+		Name:      "modified name",
+		LatinName: "modified latin name",
+		Quantity:  10,
+	}
+	s.Db.ModifyFlower(context.Background(), flower.ID, modifiedFlower)
+	fetchedFlowers, err := s.Db.GetFlowers(context.Background())
+
+	s.Require().NoError(
+		err,
+		"ModiyfyFlower() should not return an error",
+	)
+	s.Equal(
+		fetchedFlowers[0].Name,
+		modifiedFlower.Name,
+		"wrong Name for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		fetchedFlowers[0].LatinName,
+		modifiedFlower.LatinName,
+		"wrong LatinName for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		fetchedFlowers[0].Quantity,
+		modifiedFlower.Quantity,
+		"wrong Quantity for the flower returned from GetFlowers()",
+	)
+}
+
 func (s *DbFlowerTestSuite) TearDownTest() {
 	s.Db.Clear()
 }
