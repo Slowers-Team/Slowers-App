@@ -180,6 +180,32 @@ func (s *FlowersAPITestSuite) TestListingFlowersOfSite() {
 	})
 }
 
+func (s *FlowersAPITestSuite) TestModifyingFlower() {
+	flower := s.TestFlowers[0]
+	modifiedFlower := database.Flower{
+		Name:      "modified name",
+		LatinName: "modified latin name",
+		Quantity:  10,
+	}
+
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:  "PUT /api/flowers/<id>",
+		Route:        "/api/flowers/" + s.TestFlowers[0].ID.Hex(),
+		Method:       "PUT",
+		ContentType:  "application/json",
+		Body:         []byte(utils.FlowerToJSON(modifiedFlower)),
+		ExpectedCode: 200,
+		ExpectedBody: utils.FlowerToJSON(flower),
+		SetupMocks: func(db *mocks.Database) {
+			db.EXPECT().ModifyFlower(
+				mock.Anything, s.TestFlowers[0].ID, modifiedFlower,
+			).Return(
+				&flower, nil,
+			).Once()
+		},
+	})
+}
+
 func TestFlowersAPITestSuite(t *testing.T) {
 	suite.Run(t, new(FlowersAPITestSuite))
 }
