@@ -5,7 +5,7 @@ import Masonry from "react-masonry-css"
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import './ImageGallery.css'
 
-const FlowerImageGallery = ({ images, deleteImage, favoriteImage }) => {
+const FlowerImageGallery = ({ isGrower, images, deleteImage, favoriteImage }) => {
   const { t } = useTranslation() 
   const [activeIndex, setActiveIndex] = useState(0)
 	const [selectedFavoriteIndex, setSelectedFavoriteIndex] = useState(0)
@@ -30,12 +30,14 @@ const FlowerImageGallery = ({ images, deleteImage, favoriteImage }) => {
 						{images.map((image, index) => (
 						<div className="image-box" key={image._id || index}>
 							<img src={image.url}/>
+							{isGrower && (
 							<div className="image-buttons">
 								<Button variant="dark" className="delete-button" onClick={() => deleteImage(image)}><i className="bi bi-trash"></i></Button>
 								<Button variant="dark" onClick={() => handleFavoriteSelect(index, image)} className={`favourite-button ${selectedFavoriteIndex === index ? "selected" : ""}`} disabled={selectedFavoriteIndex !== null && selectedFavoriteIndex == index}>
 									<i className={`bi bi-star-fill ${selectedFavoriteIndex === index ? "text-warning" : ""}`}></i>
 								</Button>
 							</div>
+							)}
 						</div>
 						))}
 					</Masonry>

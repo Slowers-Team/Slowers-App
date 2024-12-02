@@ -55,7 +55,7 @@ const FlowerImageTab = ({ isGrower, flower }) => {
     return (
       <div>
         {isGrower && <AddImage entity={flower} onImageUpload={onImageUpload}/>}
-        <FlowerImageGallery images={images} deleteImage={deleteImage} favoriteImage={favoriteImage}/>
+        <FlowerImageGallery isGrower={isGrower} images={images} deleteImage={deleteImage} favoriteImage={favoriteImage}/>
         </div>
     )
 }
