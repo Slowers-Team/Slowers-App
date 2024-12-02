@@ -190,17 +190,17 @@ func (s *FlowersAPITestSuite) TestModifyingFlower() {
 
 	testutils.RunTest(s.T(), testutils.TestCase{
 		Description:  "PUT /api/flowers/<id>",
-		Route:        "/api/flowers/" + s.TestFlowers[0].ID.Hex(),
+		Route:        "/api/flowers/" + flower.ID.Hex(),
 		Method:       "PUT",
 		ContentType:  "application/json",
 		Body:         []byte(utils.FlowerToJSON(modifiedFlower)),
 		ExpectedCode: 200,
-		ExpectedBody: utils.FlowerToJSON(flower),
+		ExpectedBody: utils.FlowerToJSON(modifiedFlower),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().ModifyFlower(
-				mock.Anything, s.TestFlowers[0].ID, modifiedFlower,
+				mock.Anything, flower.ID, modifiedFlower,
 			).Return(
-				&flower, nil,
+				&modifiedFlower, nil,
 			).Once()
 		},
 	})

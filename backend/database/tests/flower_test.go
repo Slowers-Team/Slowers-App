@@ -341,29 +341,59 @@ func (s *DbFlowerTestSuite) TestModifyAndGetFlower() {
 	modifiedFlower := database.Flower{
 		Name:      "modified name",
 		LatinName: "modified latin name",
-		Quantity:  10,
+		Quantity:  flower.Quantity + 1,
 	}
 	s.Db.ModifyFlower(context.Background(), flower.ID, modifiedFlower)
 	fetchedFlowers, err := s.Db.GetFlowers(context.Background())
 
 	s.Require().NoError(
 		err,
-		"ModiyfyFlower() should not return an error",
+		"ModifyFlower() should not return an error",
 	)
 	s.Equal(
-		fetchedFlowers[0].Name,
 		modifiedFlower.Name,
+		fetchedFlowers[0].Name,
 		"wrong Name for the flower returned from GetFlowers()",
 	)
 	s.Equal(
-		fetchedFlowers[0].LatinName,
 		modifiedFlower.LatinName,
+		fetchedFlowers[0].LatinName,
 		"wrong LatinName for the flower returned from GetFlowers()",
 	)
 	s.Equal(
-		fetchedFlowers[0].Quantity,
 		modifiedFlower.Quantity,
+		fetchedFlowers[0].Quantity,
 		"wrong Quantity for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		flower.ID,
+		fetchedFlowers[0].ID,
+		"wrong ID for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		flower.AddedTime,
+		fetchedFlowers[0].AddedTime,
+		"wrong AddedTime for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		flower.Grower,
+		fetchedFlowers[0].Grower,
+		"wrong Grower for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		flower.Site,
+		fetchedFlowers[0].Site,
+		"wrong Site for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		flower.GrowerEmail,
+		fetchedFlowers[0].GrowerEmail,
+		"wrong GrowerEmail for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		flower.Visible,
+		fetchedFlowers[0].Visible,
+		"wrong Visible for the flower returned from GetFlowers()",
 	)
 }
 
