@@ -21,6 +21,6 @@ server {
     }
 
     location ~ ^/.* {
-        return 308 /
+        return 308 /;
     }
 }
