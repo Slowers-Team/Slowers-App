@@ -216,16 +216,15 @@ func (mDb MongoDatabase) ModifyFlower(ctx context.Context, id ObjectID, newFlowe
 			"quantity":   newFlower.Quantity,
 		},
 	}
-	_, err := db.Collection("flowers").UpdateOne(ctx, filter, update)
-	if err != nil {
+
+	if _, err := db.Collection("flowers").UpdateOne(ctx, filter, update); err != nil {
 		return nil, err
 	}
 
-	createdRecord := db.Collection("flowers").FindOne(ctx, bson.M{"_id": id})
+	createdRecord := db.Collection("flowers").FindOne(ctx, filter)
 
 	updatedFlower := &Flower{}
-	err = createdRecord.Decode(updatedFlower)
-	if err != nil {
+	if err := createdRecord.Decode(updatedFlower); err != nil {
 		return nil, err
 	}
 
