@@ -10,7 +10,7 @@ test('renders FlowerImageGallery without images', () => {
 
     render(<FlowerImageGallery images={images} deleteImage={deleteImage} favoriteImage={favoriteImage} />)
 
-    const noImages = screen.getByText("This flower doesn't have any pictures yet")
+    const noImages = screen.getByText("This flower doesn't have any images yet")
 })
 
 test('renders FlowerImageGallery with one image', () => {

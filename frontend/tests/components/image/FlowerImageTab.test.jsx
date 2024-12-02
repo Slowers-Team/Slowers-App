@@ -9,9 +9,9 @@ test('renders FlowerImageTab as grower', () => {
 
     render(<FlowerImageTab isGrower={true} flower={flower} deleteImage={deleteImage} />)
 
-    const title = screen.getByText('Pictures')
+    const title = screen.getByText('Images')
     const addImageButton = screen.getByText('Add a new image')
-    const noImages = screen.getByText("This flower doesn't have any pictures yet")
+    const noImages = screen.getByText("This flower doesn't have any images yet")
 })
 
 test('renders FlowerImageTab as retailer', () => {
@@ -20,8 +20,8 @@ test('renders FlowerImageTab as retailer', () => {
 
     render(<FlowerImageTab isGrower={false} flower={flower} deleteImage={deleteImage} />)
 
-    const title = screen.getByText('Pictures')
-    const noImages = screen.getByText("This flower doesn't have any pictures yet")
+    const title = screen.getByText('Images')
+    const noImages = screen.getByText("This flower doesn't have any images yet")
 })
 
 test('open ImageForm when clicking button', async () => {

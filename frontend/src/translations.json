@@ -58,7 +58,7 @@
         "select": "Select image",
         "title": "Add a new image",
         "confirmimagedeletion": "Confirm image deletion",
-        "noflowerimages": "This flower doesn't have any pictures yet"
+        "noflowerimages": "This flower doesn't have any images yet"
       },
       "label": {
         "confirmflowerdeletion": "Are you sure you want to delete the flower",
@@ -81,7 +81,6 @@
         "language": "Language",
         "role": "Role pages",
         "info": "Info",
-        "pictures": "Pictures",
         "lifecycle": "Life cycle",
         "sites": "Sites",
         "images": "Images"
@@ -213,7 +212,6 @@
         "language": "Kieli",
         "role": "Roolisivut",
         "info": "Tietoa",
-        "pictures": "Kuvat",
         "lifecycle": "Elinkaari",
         "sites": "Alueet",
         "images": "Kuvat"
