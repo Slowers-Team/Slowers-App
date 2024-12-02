@@ -11,7 +11,7 @@ test('renders FlowerImageTab as grower', () => {
 
     const title = screen.getByText('Pictures')
     const addImageButton = screen.getByText('Add a new image')
-    const noPhotos = screen.getByText("This flower doesn't have any pictures yet")
+    const noImages = screen.getByText("This flower doesn't have any pictures yet")
 })
 
 test('renders FlowerImageTab as retailer', () => {
@@ -21,10 +21,10 @@ test('renders FlowerImageTab as retailer', () => {
     render(<FlowerImageTab isGrower={false} flower={flower} deleteImage={deleteImage} />)
 
     const title = screen.getByText('Pictures')
-    const noPhotos = screen.getByText("This flower doesn't have any pictures yet")
+    const noImages = screen.getByText("This flower doesn't have any pictures yet")
 })
 
-test('open imageform when clicking button', async () => {
+test('open ImageForm when clicking button', async () => {
     const flower = { _id: 'flowerId' }
     const deleteImage = vi.fn()
     const user = userEvent.setup()

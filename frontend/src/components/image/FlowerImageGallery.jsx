@@ -32,8 +32,10 @@ const FlowerImageGallery = ({ isGrower, images, deleteImage, favoriteImage }) =>
 							<img src={image.url}/>
 							{isGrower && (
 							<div className="image-buttons">
-								<Button variant="dark" className="delete-button" onClick={() => deleteImage(image)}><i className="bi bi-trash"></i></Button>
-								<Button variant="dark" onClick={() => handleFavoriteSelect(index, image)} className={`favourite-button ${selectedFavoriteIndex === index ? "selected" : ""}`} disabled={selectedFavoriteIndex !== null && selectedFavoriteIndex == index}>
+								<Button variant="dark" onClick={() => deleteImage(image)} className="delete-button" aria-label="Delete">
+									<i className="bi bi-trash"></i>
+								</Button>
+								<Button variant="dark" onClick={() => handleFavoriteSelect(index, image)} className={`favourite-button ${selectedFavoriteIndex === index ? "selected" : ""}`} disabled={selectedFavoriteIndex !== null && selectedFavoriteIndex == index} aria-label="Favorite">
 									<i className={`bi bi-star-fill ${selectedFavoriteIndex === index ? "text-warning" : ""}`}></i>
 								</Button>
 							</div>
