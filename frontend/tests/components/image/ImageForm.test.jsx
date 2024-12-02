@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import ImageForm from '../../src/components/image/ImageForm'
+import ImageForm from '../../../src/components/image/ImageForm'
 import { expect, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 
