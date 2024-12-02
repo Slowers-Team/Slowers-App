@@ -216,8 +216,8 @@ func (mDb MongoDatabase) ModifyFlower(ctx context.Context, id ObjectID, newFlowe
 			"quantity":   newFlower.Quantity,
 		},
 	}
-	updateResult, err := db.Collection("flowers").UpdateOne(ctx, filter, update)
-	if updateResult.ModifiedCount == 0 {
+	_, err := db.Collection("flowers").UpdateOne(ctx, filter, update)
+	if err != nil {
 		return nil, err
 	}
 
