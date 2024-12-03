@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import siteService from '../services/sites'
 import ImageService from '../services/images'
+import ImageGallery from '../components/image/ImageGallery'
 import AddImage from '../components/image/AddImage'
 
 const GrowerImagesPage = () => {
@@ -36,33 +37,38 @@ const GrowerImagesPage = () => {
       console.error("Image object is undefined or missing id")
       return
     }
-    if (window.confirm(`${t("Confirm image deletion")}?`)) {
+    if (window.confirm(`${t('image.confirmimagedeletion')}?`)) {
       ImageService.deleteImage(imageObject._id)
         .then(() => {
           setImages(l => l.filter(item => item._id !== imageObject._id))
-          alert(t("Image deleted"))
         })
         .catch(error => {
           console.error('Error deleting image:', error)
-          alert(t("Error"))
+          alert(t('error.erroroccured'))
         })
     }
   }
-  
+
   const onImageUpload = () => {
     fetchImages()
+  }
+
+  const favoriteImage = imageObject => {
+    console.log("Favorite image:", imageObject) 
+    if (!imageObject || !imageObject._id) {
+      console.error("Image object is undefined or missing id")
+      alert(t('error.erroroccured'))
+      return
+    }
   }
   
   return (
     <>
     {site && (
-    <main className="main-container">    
-      <div className="image-section">
-        <div className="add-image-container">
-          <AddImage entity={site} onImageUpload={onImageUpload} />
-        </div>
+      <div>
+        <AddImage entity={site} onImageUpload={onImageUpload} />
+        <ImageGallery isGrower={true} images={images} deleteImage={deleteImage} favoriteImage={favoriteImage} />
       </div>
-    </main>
     )}
   </>
   )  
