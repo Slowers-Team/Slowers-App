@@ -3,12 +3,22 @@ import { test, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import ImageGallery from '../../../src/components/image/ImageGallery'
 
-test('renders ImageGallery without images', () => {
+test('renders ImageGallery without site images', () => {
     const images = []
     const deleteImage = vi.fn()
     const favoriteImage = vi.fn()
 
     render(<ImageGallery images={images} deleteImage={deleteImage} favoriteImage={favoriteImage} />)
+
+    const noImages = screen.getByText("This site doesn't have any images yet")
+})
+
+test('renders ImageGallery without flower images', () => {
+    const images = []
+    const deleteImage = vi.fn()
+    const favoriteImage = vi.fn()
+
+    render(<ImageGallery images={images} deleteImage={deleteImage} favoriteImage={favoriteImage} type="flower" />)
 
     const noImages = screen.getByText("This flower doesn't have any images yet")
 })
