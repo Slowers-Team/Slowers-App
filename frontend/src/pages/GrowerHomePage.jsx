@@ -46,11 +46,11 @@ const GrowerHomePage = () => {
           {t("site.data.note")} : {site?.note}
         </p>
       )}
-      {params.siteId && (
+      {params.siteId && images && images.length > 0 ? (
         <div className="carousel-wrapper">
           <SiteImagesCarousel images={images} />
         </div>
-      )}
+      ) : null }
     </>
   );
 };
