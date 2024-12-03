@@ -58,7 +58,8 @@
         "select": "Select image",
         "title": "Add a new image",
         "confirmimagedeletion": "Confirm image deletion",
-        "noflowerimages": "This flower doesn't have any images yet"
+        "noflowerimages": "This flower doesn't have any images yet",
+        "nositeimages": "This site doesn't have any images yet"
       },
       "label": {
         "confirmflowerdeletion": "Are you sure you want to delete the flower",
@@ -123,10 +124,6 @@
           "password": "Enter password",
           "username": "Enter username"
         }
-      },
-      "carousel": {
-        "siteImages": "Site Images",
-        "noImages": "No images uploaded for this site."
       }
     }
   },
@@ -189,7 +186,8 @@
         "select": "Valitse kuva",
         "title": "Lisää uusi kuva",
         "confirmimagedeletion": "Vahvista kuvan poisto",
-        "noflowerimages": "Tällä kukalla ei ole vielä kuvia"
+        "noflowerimages": "Tällä kukalla ei ole vielä kuvia",
+        "nositeimages": "Tällä alueella ei ole vielä kuvia"
       },
       "label": {
         "confirmflowerdeletion": "Haluatko varmasti poistaa kukan",
@@ -254,10 +252,6 @@
           "password": "Syötä salasana",
           "username": "Syötä käyttäjänimi"
         }
-      },
-      "carousel": {
-        "siteImages": "Siten kuvat",
-        "noImages": "Tälle sivulle ei ole vielä ladattu kuvia."
       }
     }
   }

@@ -5,7 +5,7 @@ import Masonry from "react-masonry-css"
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import './ImageGallery.css'
 
-const ImageGallery = ({ isGrower, images, deleteImage, favoriteImage }) => {
+const ImageGallery = ({ isGrower, images, deleteImage, favoriteImage, type }) => {
   const { t } = useTranslation() 
   const [activeIndex, setActiveIndex] = useState(0)
 	const [selectedFavoriteIndex, setSelectedFavoriteIndex] = useState(0)
@@ -23,7 +23,11 @@ const ImageGallery = ({ isGrower, images, deleteImage, favoriteImage }) => {
   return (
     <div className="m-2">
 			{(!images || images.length === 0) ? (
-				<p>{t('image.noflowerimages')}</p> 
+        <p>
+				{type === "flower"
+					? t('image.noflowerimages')
+					: t('image.nositeimages')}
+				</p>
 			) : (
 				<div>
 					<Masonry breakpointCols={breakpointColumnsObj} className="my-masonry-grid" columnClassName="my-masonry-grid_column">
