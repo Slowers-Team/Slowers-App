@@ -3,9 +3,9 @@ import GrowerFlowerList from '../components/grower/GrowerFlowerList'
 import flowerService from '../services/flowers'
 import siteService from '../services/sites'
 import AddFlower from '../components/grower/AddFlower'
-import AddFlowerUpdate from '../components/grower/AddFlowerUpdate'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Button } from 'react-bootstrap'
 
 const GrowerFlowerPage = () => {
   const params = useParams()
@@ -52,6 +52,14 @@ const GrowerFlowerPage = () => {
     }
   }
 
+  const deleteMultipleFlowers = checkedFlowers => {
+    flowerService.removeMultipleFlowers(checkedFlowers).then(response => {
+      console.log(response)
+      setFlowers(l => l.filter(item => !checkedFlowers.includes(item._id)))
+      setCheckedFlowers([])
+    })
+  }
+
   const updateFlower = flowerObject => {
     setFlowers(flowers.map((flower) => 
       flower._id === flowerObject._id 
@@ -66,12 +74,16 @@ const GrowerFlowerPage = () => {
       <div>
         <h2>{site?.name} {t('title.siteflowers')}</h2>
         <AddFlower createFlower={addFlower} siteID={params.siteId} />
-        <AddFlowerUpdate checkedFlowers={checkedFlowers} />
+        <Button variant="light" onClick={() => deleteMultipleFlowers(checkedFlowers)}>
+          {t("button.delete")}
+        </Button>
       </div>
     ) : (
       <div>
         <h2>{t('title.allflowers')}</h2>
-        <AddFlowerUpdate checkedFlowers={checkedFlowers} />
+        <Button variant="light" onClick={() => DeleteMultipleFlowers(checkedFlowers)}>
+          {t("button.delete")}
+        </Button>
       </div>
     )}
       { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) : 
