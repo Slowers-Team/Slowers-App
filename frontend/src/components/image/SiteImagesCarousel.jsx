@@ -4,7 +4,7 @@ import { CarouselCaption } from "react-bootstrap"
 import { useTranslation } from "react-i18next" 
 import '../../layouts/SiteImagesCarousel.css'
 
-const SiteImagesCarousel = ({ images, onDelete }) => {
+const SiteImagesCarousel = ({ images }) => {
   const { t } = useTranslation() 
   const [activeIndex, setActiveIndex] = useState(0)
 
@@ -27,11 +27,6 @@ const SiteImagesCarousel = ({ images, onDelete }) => {
           {images.map((image, index) => (
             <Carousel.Item key={image._id || index}>
               <img className="d-block w-100" src={image.url} alt={`Slide ${index + 1}`} />
-              <CarouselCaption>
-                <button onClick={() => onDelete(image)} className="btn delete-button">
-                  {t('button.delete')}
-                </button>
-              </CarouselCaption>
             </Carousel.Item>
           ))}
         </Carousel>
