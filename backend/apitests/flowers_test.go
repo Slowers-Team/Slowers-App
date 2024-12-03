@@ -182,23 +182,28 @@ func (s *FlowersAPITestSuite) TestListingFlowersOfSite() {
 
 func (s *FlowersAPITestSuite) TestModifyingFlower() {
 	flower := s.TestFlowers[0]
-	modifiedFlower := database.Flower{
+	modifiedValues := database.Flower{
 		Name:      "modified name",
 		LatinName: "modified latin name",
 		Quantity:  flower.Quantity + 1,
 	}
+
+	modifiedFlower := flower
+	modifiedFlower.Name = modifiedValues.Name
+	modifiedFlower.LatinName = modifiedValues.LatinName
+	modifiedFlower.Quantity = modifiedValues.Quantity
 
 	testutils.RunTest(s.T(), testutils.TestCase{
 		Description:  "PUT /api/flowers/<id>",
 		Route:        "/api/flowers/" + flower.ID.Hex(),
 		Method:       "PUT",
 		ContentType:  "application/json",
-		Body:         []byte(utils.FlowerToJSON(modifiedFlower)),
+		Body:         []byte(utils.FlowerToJSON(modifiedValues)),
 		ExpectedCode: 200,
 		ExpectedBody: utils.FlowerToJSON(modifiedFlower),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().ModifyFlower(
-				mock.Anything, flower.ID, modifiedFlower,
+				mock.Anything, flower.ID, modifiedValues,
 			).Return(
 				&modifiedFlower, nil,
 			).Once()
