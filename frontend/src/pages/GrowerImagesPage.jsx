@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import siteService from '../services/sites'
 import ImageService from '../services/images'
-import SiteImagesCarousel from '../components/image/SiteImagesCarousel'
 import AddImage from '../components/image/AddImage'
 
 const GrowerImagesPage = () => {
@@ -62,9 +61,6 @@ const GrowerImagesPage = () => {
         <div className="add-image-container">
           <AddImage entity={site} onImageUpload={onImageUpload} />
         </div>
-        <div className="carousel-wrapper">
-          <SiteImagesCarousel images={images} onDelete={deleteImage} />
-        </div>
       </div>
     </main>
     )}
@@ -73,3 +69,4 @@ const GrowerImagesPage = () => {
 }
 
 export default GrowerImagesPage
+
