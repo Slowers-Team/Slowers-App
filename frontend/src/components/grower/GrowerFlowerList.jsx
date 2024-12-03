@@ -87,7 +87,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers, updateFlow
       <div className="d-flex justify-content-start mb-3 input-wrapper">
         <input
           type="text"
-          placeholder={t('Search')}
+          placeholder={t('button.Search')}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

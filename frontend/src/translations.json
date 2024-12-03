@@ -23,7 +23,8 @@
         "hideFlower": "Hide from retailers",
         "close": "Close",
         "cancel": "Cancel",
-        "update": "Update"
+        "update": "Update",
+        "Search": "Search"
       },
       "error": {
         "acceptterms": "You must accept the terms",
@@ -152,7 +153,8 @@
         "showFlower": "Näytä myyjille",
         "hideFlower": "Piilota myyjiltä",
         "cancel": "Peruuta",
-        "update": "Päivitä"
+        "update": "Päivitä",
+        "Search": "Hae"
       },
       "error": {
         "acceptterms": "Käyttöehdot on hyväksyttävä",
