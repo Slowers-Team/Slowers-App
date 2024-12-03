@@ -110,7 +110,8 @@
         "terms": "Terms and Conditions",
         "site": "Site",
         "sites": "Sites",
-        "sitesites": "sites"
+        "sitesites": "sites",
+        "siteimages": "images"
       },
       "user": {
         "data": {
@@ -238,7 +239,8 @@
         "terms": "Käyttöehdot",
         "site": "Alue",
         "sites": "Alueet",
-        "sitesites": "alueet"
+        "sitesites": "alueet",
+        "siteimages": "kuvat"
       },
       "user": {
         "data": {

@@ -66,11 +66,12 @@ const GrowerImagesPage = () => {
     <>
     {site && (
       <div>
+        <h2>{site?.name} {t('title.siteimages')}</h2>
         <AddImage entity={site} onImageUpload={onImageUpload} />
         <ImageGallery isGrower={true} images={images} deleteImage={deleteImage} favoriteImage={favoriteImage} />
       </div>
     )}
-  </>
+    </>
   )  
 }
 
