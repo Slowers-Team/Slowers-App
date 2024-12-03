@@ -20,7 +20,10 @@ func SetSecretKey(newSecretKey []byte) {
 func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app := fiber.New()
 
-	app.Use(cors.New())
+	app.Use(cors.New(cors.Config{
+		AllowOrigins:     "https://*.helsinki.fi",
+		AllowCredentials: true,
+	}))
 
 	app.Post("/api/register", handlers.CreateUser)
 	app.Post("/api/login", handlers.HandleLogin)
