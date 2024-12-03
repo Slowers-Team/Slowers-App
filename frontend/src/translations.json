@@ -67,6 +67,7 @@
         "defaultrole": "Choose your default role",
         "iagreeto": "I agree to the",
         "loading": "Loading...",
+        "noflowersselected": "No flowers selected",
         "terms": "terms and conditions"
       },
       "menu": {
@@ -199,6 +200,7 @@
         "defaultrole": "Valitse oletusroolisi",
         "iagreeto": "Hyväksyn",
         "loading": "Ladataan...",
+        "noflowersselected": "Ei valittuja kukkia",
         "terms": "käyttöehdot"
       },
       "menu": {

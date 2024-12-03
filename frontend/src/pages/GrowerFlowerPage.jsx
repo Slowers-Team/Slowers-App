@@ -53,6 +53,10 @@ const GrowerFlowerPage = () => {
   }
 
   const deleteMultipleFlowers = checkedFlowers => {
+    if (checkedFlowers.length === 0) {
+      alert(t('label.noflowersselected'))
+      return
+    }
     if (window.confirm(t('label.confirmmultipleflowerdeletion'))) {
       flowerService.removeMultipleFlowers(checkedFlowers).then(response => {
         console.log(response)
