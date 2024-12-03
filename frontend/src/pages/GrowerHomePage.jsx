@@ -16,13 +16,11 @@ const GrowerHomePage = () => {
       siteService
         .get(params.siteId)
         .then((initialSite) => setSite(initialSite.site));
+      
+      fetchImages();
     }
-  }, []);
-
-  useEffect(() => {
-    fetchImages()
- }, [params.siteId]);
-
+  }, [params.siteId]);
+  
  const fetchImages = () => {
   ImageService.getImagesByEntity(params.siteId)
     .then(imageURLs => {
