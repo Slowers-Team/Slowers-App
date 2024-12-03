@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ImageService from '../../services/images'
 import AddImage from './AddImage'
-import FlowerImageGallery from './FlowerImageGallery'
+import ImageGallery from './ImageGallery'
 
 const FlowerImageTab = ({ isGrower, flower }) => {
     const { t } = useTranslation()
@@ -56,7 +56,7 @@ const FlowerImageTab = ({ isGrower, flower }) => {
       <div>
         <h3>{t('menu.images')}</h3>
         {isGrower && <AddImage entity={flower} onImageUpload={onImageUpload}/>}
-        <FlowerImageGallery isGrower={isGrower} images={images} deleteImage={deleteImage} favoriteImage={favoriteImage}/>
+        <ImageGallery isGrower={isGrower} images={images} deleteImage={deleteImage} favoriteImage={favoriteImage} type="flower"/>
       </div>
     )
 }
