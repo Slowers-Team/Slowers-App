@@ -18,8 +18,6 @@ const SiteImagesCarousel = ({ images }) => {
 
   return (
     <div className="site-images-carousel">
-      <h3>{t('carousel.siteImages')}</h3> 
-
       {(!images || images.length === 0) ? (
         <p>{t('carousel.noImages')}</p> 
       ) : (
