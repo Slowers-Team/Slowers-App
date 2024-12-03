@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useTranslation } from 'react-i18next'
 
 const FlowerList = ({ flowers, deleteFlower }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [searchTerm, setSearchTerm] = useState("")
   const [sortConfig, setSortConfig] = useState({ key: '', direction: '' })
 

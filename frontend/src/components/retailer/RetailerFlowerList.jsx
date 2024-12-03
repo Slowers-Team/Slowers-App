@@ -2,9 +2,10 @@ import '../../layouts/Retailer.css'
 import { useTranslation } from 'react-i18next'
 import FlowerModal from '../FlowerModal.jsx'
 import { useState } from "react"
+import { Button, Table } from 'react-bootstrap'
 
 const RetailerFlowerList = ({ flowers }) => {
-  const { t, i18 } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [showModal, setShowModal] = useState(false)
   const [currentFlower, setCurrentFlower] = useState("")
   const [searchTerm, setSearchTerm] = useState("")
