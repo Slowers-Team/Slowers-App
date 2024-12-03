@@ -5,7 +5,7 @@ import Masonry from "react-masonry-css"
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import './ImageGallery.css'
 
-const FlowerImageGallery = ({ isGrower, images, deleteImage, favoriteImage }) => {
+const ImageGallery = ({ isGrower, images, deleteImage, favoriteImage }) => {
   const { t } = useTranslation() 
   const [activeIndex, setActiveIndex] = useState(0)
 	const [selectedFavoriteIndex, setSelectedFavoriteIndex] = useState(0)
@@ -49,4 +49,4 @@ const FlowerImageGallery = ({ isGrower, images, deleteImage, favoriteImage }) =>
   )
 }
 
-export default FlowerImageGallery
+export default ImageGallery
