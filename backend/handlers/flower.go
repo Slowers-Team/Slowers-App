@@ -139,3 +139,23 @@ func ToggleFlowerVisibility(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON(newValue)
 }
+
+func DeleteMultipleFlowers(c *fiber.Ctx) error {
+	var flowerIDs []string
+	if err := c.BodyParser(&flowerIDs); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	for _, id := range flowerIDs {
+		flowerID, err := database.ParseID(id)
+		if err != nil {
+			return c.Status(400).SendString(err.Error())
+		}
+
+		if _, err := db.DeleteFlower(c.Context(), flowerID); err != nil {
+			return c.Status(500).SendString(err.Error())
+		}
+	}
+
+	return c.SendStatus(204)
+}
