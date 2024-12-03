@@ -185,7 +185,7 @@ func (s *FlowersAPITestSuite) TestModifyingFlower() {
 	modifiedFlower := database.Flower{
 		Name:      "modified name",
 		LatinName: "modified latin name",
-		Quantity:  10,
+		Quantity:  flower.Quantity + 1,
 	}
 
 	testutils.RunTest(s.T(), testutils.TestCase{
