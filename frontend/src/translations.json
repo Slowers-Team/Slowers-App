@@ -62,6 +62,7 @@
       },
       "label": {
         "confirmflowerdeletion": "Are you sure you want to delete the flower",
+        "confirmmultipleflowerdeletion": "Are you sure you want to delete checked flowers",
         "confirmsitedeletion": "Are you sure you want to delete the site",
         "defaultrole": "Choose your default role",
         "iagreeto": "I agree to the",
@@ -193,6 +194,7 @@
       },
       "label": {
         "confirmflowerdeletion": "Haluatko varmasti poistaa kukan",
+        "confirmmultipleflowerdeletion": "Haluatko varmasti poistaa valitut kukat",
         "confirmsitedeletion": "Haluatko varmasti poistaa alueen",
         "defaultrole": "Valitse oletusroolisi",
         "iagreeto": "Hyväksyn",

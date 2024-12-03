@@ -53,11 +53,13 @@ const GrowerFlowerPage = () => {
   }
 
   const deleteMultipleFlowers = checkedFlowers => {
-    flowerService.removeMultipleFlowers(checkedFlowers).then(response => {
-      console.log(response)
-      setFlowers(l => l.filter(item => !checkedFlowers.includes(item._id)))
-      setCheckedFlowers([])
-    })
+    if (window.confirm(t('label.confirmmultipleflowerdeletion'))) {
+      flowerService.removeMultipleFlowers(checkedFlowers).then(response => {
+        console.log(response)
+        setFlowers(l => l.filter(item => !checkedFlowers.includes(item._id)))
+        setCheckedFlowers([])
+      })
+    }
   }
 
   const updateFlower = flowerObject => {
@@ -81,7 +83,7 @@ const GrowerFlowerPage = () => {
     ) : (
       <div>
         <h2>{t('title.allflowers')}</h2>
-        <Button variant="light" onClick={() => DeleteMultipleFlowers(checkedFlowers)}>
+        <Button variant="light" onClick={() => deleteMultipleFlowers(checkedFlowers)}>
           {t("button.delete")}
         </Button>
       </div>
