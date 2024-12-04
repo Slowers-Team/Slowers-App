@@ -76,7 +76,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers, updateFlow
     flower.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     flower.latin_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     flower.site_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    flower.quantity.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+    flower.quantity.toString().includes(searchTerm.toLowerCase()) ||
     new Date(flower.added_time).toLocaleDateString('fi').toLowerCase().includes(searchTerm.toLowerCase()) ||
     new Date(flower.added_time).toLocaleString('fi', { hour: 'numeric', minute: '2-digit' }).toLowerCase().includes(searchTerm.toLowerCase()) ||
     (flower.visible ? t('flower.visible.true') : t('flower.visible.false')).toLowerCase().includes(searchTerm.toLowerCase())
