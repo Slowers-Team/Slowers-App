@@ -63,7 +63,7 @@ const setFavorite = (entityID, entityType, imageID) => {
   }
 
   const data = {
-    entity: entityID,
+    entityID: entityID,
     entityType: entityType,
     imageID: imageID
   }
