@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	"log"
 	"errors"
-	"os"
 	"fmt"
+	"log"
+	"os"
 
 	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/gofiber/fiber/v2"
@@ -127,13 +127,22 @@ func DeleteImage(c *fiber.Ctx) error {
 }
 
 func FetchImagesByEntity(c *fiber.Ctx) error {
-    entityID := c.Params("entityID") 
-	
-    images, err := db.GetImagesByEntity(c.Context(), entityID) 
-    if err != nil {
-        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-    }
+	entityID := c.Params("entityID")
 
-    return c.JSON(images)
+	images, err := db.GetImagesByEntity(c.Context(), entityID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.JSON(images)
 }
 
+func SetFavorite(c *fiber.Ctx) error {
+	entityID := c.Params("entityID")
+	entityType := c.Params("entityType")
+	imageID := c.Params("imageID")
+
+	log.Printf(entityID, entityType, imageID)
+
+	return c.JSON(true)
+}
