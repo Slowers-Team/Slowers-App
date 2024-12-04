@@ -3,6 +3,8 @@ import FlowerModal from '../FlowerModal.jsx'
 import { useState, useEffect } from "react"
 import { useTranslation } from 'react-i18next'
 
+import placeholderImage from '../../assets/images/site-placeholder-image.jpg'
+
 const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers, updateFlower}) => {
   const { t, i18n } = useTranslation()
   const [showModal, setShowModal] = useState(false)
@@ -52,6 +54,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers, updateFlow
             <th>
               <input type="checkbox" onChange={toggleCheckedAll} checked={areAllChecked}/>
             </th>
+            <th>Image</th>
             <th>{t('flower.data.name')}</th>
             <th>{t('flower.data.latinname')}</th>
             <th>{t('flower.data.addedtime')}</th>
@@ -75,6 +78,9 @@ const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers, updateFlow
               <tr key={flower._id}>
                 <td>
                   <input type="checkbox" checked={checkedFlowers.includes(flower._id)} onChange={() => toggleCheckedFlower(flower._id)}/>
+                </td>
+                <td>
+                  <img src={placeholderImage} className='img-fluid' alt={flower.name} />
                 </td>
                 <td>{flower.name}</td>
                 <td>
