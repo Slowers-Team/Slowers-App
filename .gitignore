@@ -4,6 +4,7 @@
 client/
 mocks/
 /backend/images/
+/backend/dist/
 
 node_modules
 
