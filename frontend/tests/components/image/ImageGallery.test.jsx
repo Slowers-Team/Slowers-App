@@ -106,7 +106,7 @@ test('calls favoriteImage when favorite button is clicked', async () => {
 })
 
 test('favorite button is disabled if image is already favorited', async () => {
-    const images = [{ _id: '1', url: 'flower1.png' }, { _id: '2', url: 'flower2.png' }]
+    const images = [{ _id: '1', url: 'flower1.png', favorite: true }, { _id: '2', url: 'flower2.png', favorite: false }]
     const deleteImage = vi.fn()
     const favoriteImage = vi.fn()
     const user = userEvent.setup()
