@@ -2,7 +2,6 @@ package database
 
 import (
 	"context"
-	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -70,31 +69,14 @@ func (mDb MongoDatabase) DeleteImage(ctx context.Context, id ObjectID) (bool, er
 	return result.DeletedCount > 0, err
 }
 
-func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID, EntityID, ImageID ObjectID, Collection string) (bool, error) {
-	opts := options.Count().SetLimit(1)
-	count, err := db.Collection(Collection).CountDocuments(
-		ctx,
-		bson.M{"_id": EntityID, "grower": UserID},
-		opts,
-	)
+func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID, EntityID, ImageID ObjectID, Collection string) error {
+	err := mDb.UserOwnsEntity(ctx, UserID, EntityID, Collection)
 	if err != nil {
-		return false, err
+		return nil
 	}
-
-	if count < 1 {
-		return false, fmt.Errorf("User %s does not own %s", UserID.Hex(), EntityID.Hex())
-	}
-	count, err = db.Collection("images").CountDocuments(
-		ctx,
-		bson.M{"_id": ImageID, "owner": UserID},
-		opts,
-	)
+	err = mDb.UserOwnsEntity(ctx, UserID, ImageID, "images")
 	if err != nil {
-		return false, err
-	}
-
-	if count < 1 {
-		return false, fmt.Errorf("User %s does not own image %s", UserID.Hex(), ImageID.Hex())
+		return nil
 	}
 
 	filter := bson.M{"_id": EntityID}
@@ -104,8 +86,8 @@ func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID, EntityID,
 	var updatedFavorite bson.M
 	err = db.Collection(Collection).FindOneAndUpdate(ctx, filter, update, updateOpts).Decode(&updatedFavorite)
 	if err != nil {
-		return false, err
+		return err
 	}
 
-	return true, nil
+	return nil
 }
