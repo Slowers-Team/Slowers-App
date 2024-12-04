@@ -9,7 +9,7 @@ server {
     }
 
     location ~ ^/api/(.*) {
-        return 308 ${BACKEND_URL}/api/$1;
+        proxy_pass ${BACKEND_URL}/api/$1;
     }
 
     error_page   500 502 503 504  /50x.html;
