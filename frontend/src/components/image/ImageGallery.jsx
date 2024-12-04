@@ -7,11 +7,11 @@ import './ImageGallery.css'
 
 const ImageGallery = ({ isGrower, images, deleteImage, favoriteImage, type }) => {
   const { t } = useTranslation() 
-	const [selectedFavoriteIndex, setSelectedFavoriteIndex] = useState(null)
+	const [selectedFavoriteID, setSelectedFavoriteID] = useState(null)
 
 	useEffect(()=> {
-		const favIdx = images.findIndex((img) => img?.favorite)
-		setSelectedFavoriteIndex(favIdx)
+		const favID = images.find((img) => img?.favorite)?._id
+		setSelectedFavoriteID(favID)
 	},[images])
 	
 	const handleFavoriteSelect = (imageObject) => {
@@ -30,16 +30,19 @@ const ImageGallery = ({ isGrower, images, deleteImage, favoriteImage, type }) =>
 			) : (
 				<div>
 					<Masonry breakpointCols={breakpointColumnsObj} className="my-masonry-grid" columnClassName="my-masonry-grid_column">
-						{images.map((image, index) => (
-						<div className="image-box" key={image._id || index}>
+						{images.map((image) => (
+						<div className="image-box" key={image._id}>
 							<img src={image.url}/>
 							{isGrower && (
 							<div className="image-buttons">
 								<Button variant="dark" onClick={() => deleteImage(image)} className="delete-button" aria-label="Delete">
 									<i className="bi bi-trash"></i>
 								</Button>
-								<Button variant="dark" onClick={() => handleFavoriteSelect(image._id)} className={`favourite-button ${selectedFavoriteIndex === index ? "selected" : ""}`} disabled={selectedFavoriteIndex !== null && selectedFavoriteIndex == index} aria-label="Favorite">
-									<i className={`bi bi-star-fill ${selectedFavoriteIndex === index ? "text-warning" : ""}`}></i>
+								<Button variant="dark"
+									      onClick={() => handleFavoriteSelect(image._id)}
+									      className={`favourite-button ${selectedFavoriteID === image._id ? "selected" : ""}`} 
+									      disabled={selectedFavoriteID !== null && selectedFavoriteID == image._id} aria-label="Favorite">
+									<i className={`bi bi-star-fill ${selectedFavoriteID === image._id ? "text-warning" : ""}`}></i>
 								</Button>
 							</div>
 							)}
