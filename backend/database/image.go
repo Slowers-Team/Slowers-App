@@ -74,7 +74,7 @@ func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID, EntityID,
 	opts := options.Count().SetLimit(1)
 	count, err := db.Collection(Collection).CountDocuments(
 		ctx,
-		bson.M{"_id": EntityID, "owner": UserID},
+		bson.M{"_id": EntityID, "grower": UserID},
 		opts,
 	)
 	if err != nil {
@@ -99,7 +99,7 @@ func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID, EntityID,
 
 	filter := bson.M{"_id": EntityID}
 	update := bson.A{bson.M{"$set": bson.M{"favorite_image": ImageID}}}
-	updateOpts := options.FindOneAndUpdate().SetReturnDocument(options.After).SetProjection(bson.M{"_id": 1, "favorite_image": 1})
+	updateOpts := options.FindOneAndUpdate()
 
 	var updatedFavorite bson.M
 	err = db.Collection(Collection).FindOneAndUpdate(ctx, filter, update, updateOpts).Decode(&updatedFavorite)
