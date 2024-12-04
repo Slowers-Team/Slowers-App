@@ -38,7 +38,7 @@ const ImageGallery = ({ isGrower, images, deleteImage, favoriteImage, type }) =>
 								<Button variant="dark" onClick={() => deleteImage(image)} className="delete-button" aria-label="Delete">
 									<i className="bi bi-trash"></i>
 								</Button>
-								<Button variant="dark" onClick={() => handleFavoriteSelect(image)} className={`favourite-button ${selectedFavoriteIndex === index ? "selected" : ""}`} disabled={selectedFavoriteIndex !== null && selectedFavoriteIndex == index} aria-label="Favorite">
+								<Button variant="dark" onClick={() => handleFavoriteSelect(image._id)} className={`favourite-button ${selectedFavoriteIndex === index ? "selected" : ""}`} disabled={selectedFavoriteIndex !== null && selectedFavoriteIndex == index} aria-label="Favorite">
 									<i className={`bi bi-star-fill ${selectedFavoriteIndex === index ? "text-warning" : ""}`}></i>
 								</Button>
 							</div>

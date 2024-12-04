@@ -12,6 +12,10 @@ const FlowerImageTab = ({ isGrower, flower, updateFlower }) => {
         fetchImages()
     }, [])
 
+    useEffect(() => {
+      fetchImages()
+    }, [flower])
+
     const markFavorite = (images, id = null) => {
       if (id) {
         updateFlower({...flower, favorite_image: id})
@@ -53,19 +57,23 @@ const FlowerImageTab = ({ isGrower, flower, updateFlower }) => {
       }
     }
 
-    const onImageUpload = () => {
+    const onImageUpload = (newImageID) => {
+      if (images.length === 0) {
+        favoriteImage(newImageID)
+      }
+
       fetchImages()
     }
 
-    const favoriteImage = imageObject => {
-      console.log("Favorite image:", imageObject) 
-      if (!imageObject || !imageObject._id) {
+    const favoriteImage = imageID => {
+      console.log("Favorite image:", imageID) 
+      if (!imageID) {
         console.error("Image object is undefined or missing id")
         alert(t('error.erroroccured'))
         return
       }
-      const response = ImageService.setFavorite(flower._id, "flower", imageObject._id)
-      markFavorite(images, imageObject._id)
+      const response = ImageService.setFavorite(flower._id, "flower", imageID)
+      markFavorite(images, imageID)
 
       console.log(response)
     }
