@@ -52,6 +52,33 @@ const deleteImage = id => {
     })
 }
 
+const setFavorite = (entityID, entityType, imageID) => {
+  if (!(entityType === "flower" || entityType === "site")) {
+    throw "Invalid entity type"
+  }
+  
+  const url = `${baseUrl}/favorite`
+  const config = {
+    headers: { Authorization: tokenService.fetchToken() },
+  }
+
+  const data = {
+    entity: entityID,
+    entityType: entityType,
+    imageID: imageID
+  }
+
+  return axios.post(url, data, config)
+    .then(response => {
+      console.info("Favorite image of", entityType, entityID, "set to", imageID)
+      return response.data
+    })
+    .catch(error => {
+      console.error("Error setting visibility of flower", id,":",error.response)
+      throw error.response.data
+    })
+}
+
 const getFilename = image => image._id + "." + image.file_format 
 
 export default {
