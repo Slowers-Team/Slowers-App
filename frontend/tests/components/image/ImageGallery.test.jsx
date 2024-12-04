@@ -102,7 +102,7 @@ test('calls favoriteImage when favorite button is clicked', async () => {
     const favoriteButton = within(imageBox).getByRole('button', {name: 'Favorite'})
     await user.click(favoriteButton)
 
-    expect(favoriteImage).toHaveBeenCalledWith(images[1])
+    expect(favoriteImage).toHaveBeenCalledWith(images[1]._id)
 })
 
 test('favorite button is disabled if image is already favorited', async () => {
