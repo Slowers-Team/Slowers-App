@@ -50,6 +50,8 @@ const FlowerImageTab = ({ isGrower, flower }) => {
         alert(t('error.erroroccured'))
         return
       }
+      const response = ImageService.setFavorite(flower._id, "flower", imageObject._id)
+      console.log(response)
     }
 
     return (
