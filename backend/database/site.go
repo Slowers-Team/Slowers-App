@@ -12,13 +12,14 @@ import (
 )
 
 type Site struct {
-	ID        ObjectID    `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name      string      `json:"name"`
-	AddedTime time.Time   `json:"added_time" bson:"added_time"`
-	Note      string      `json:"note"`
-	Parent    *ObjectID   `json:"parent"`
-	Flowers   []*ObjectID `json:"flowers"`
-	Owner     *ObjectID   `json:"owner"`
+	ID            ObjectID    `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name          string      `json:"name"`
+	AddedTime     time.Time   `json:"added_time" bson:"added_time"`
+	Note          string      `json:"note"`
+	Parent        *ObjectID   `json:"parent"`
+	Flowers       []*ObjectID `json:"flowers"`
+	Owner         *ObjectID   `json:"owner"`
+	FavoriteImage string      `json:"favorite_image" bson:"favorite_image"`
 }
 
 func (mDb MongoDatabase) AddSite(ctx context.Context, newSite Site) (*Site, error) {
