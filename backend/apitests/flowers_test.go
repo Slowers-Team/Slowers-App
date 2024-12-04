@@ -180,6 +180,32 @@ func (s *FlowersAPITestSuite) TestListingFlowersOfSite() {
 	})
 }
 
+func (s *FlowersAPITestSuite) TestDeletingMultipleFlowers() {
+	var flowerIDs []string
+	var ids []database.ObjectID
+	for _, flower := range s.TestFlowers {
+		flowerIDs = append(flowerIDs, flower.ID.Hex())
+		ids = append(ids, flower.ID)
+	}
+
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:  "POST /api/flowers/delete-multiple",
+		Route:        "/api/flowers/delete-multiple",
+		Method:       "POST",
+		ContentType:  "application/json",
+		Body:         utils.ToJSON(flowerIDs),
+		ExpectedCode: 204,
+		ExpectedBody: []byte{},
+		SetupMocks: func(db *mocks.Database) {
+			db.EXPECT().DeleteMultipleFlowers(
+				mock.Anything, ids,
+			).Return(
+				nil,
+			).Once()
+		},
+	})
+}
+
 func TestFlowersAPITestSuite(t *testing.T) {
 	suite.Run(t, new(FlowersAPITestSuite))
 }
