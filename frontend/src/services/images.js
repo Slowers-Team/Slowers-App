@@ -70,11 +70,15 @@ const setFavorite = (entityID, entityType, imageID) => {
 
   return axios.post(url, data, config)
     .then(response => {
-      console.info("Favorite image of", entityType, entityID, "set to", imageID)
+      if (response.data === true) {
+        console.info("Favorite image of", entityType, entityID, "set to", imageID)
+      } else {
+        console.error("Failed to set favorite image of", entityType, entityID, "set to", imageID)
+      }
       return response.data
     })
     .catch(error => {
-      console.error("Error setting visibility of flower", id,":",error.response)
+        console.error("Failed to set favorite image of", entityType, entityID, "set to", imageID, ":\n", error)
       throw error.response.data
     })
 }
@@ -86,4 +90,5 @@ export default {
   create,
   getImagesByEntity,
   deleteImage,
+  setFavorite
 }
