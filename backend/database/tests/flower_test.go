@@ -334,6 +334,27 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersRelatedToSite() {
 	)
 }
 
+func (s *DbFlowerTestSuite) TestDeleteAndGetMultipleFlowers() {
+	flowers := testdata.GetTestFlowers()
+
+	for _, flower := range flowers {
+		s.Db.AddFlower(context.Background(), flower)
+	}
+
+	err := s.Db.DeleteMultipleFlowers(context.Background(), []database.ObjectID{flowers[0].ID, flowers[1].ID})
+	fetchedFlowers, _ := s.Db.GetFlowers(context.Background())
+
+	s.Require().NoError(
+		err,
+		"DeleteMultipleFlowers() should not return an error",
+	)
+	s.Equal(
+		flowers[2:],
+		fetchedFlowers,
+		"DeleteMultipleFlowers() should delete the correct flowers",
+	)
+}
+
 func (s *DbFlowerTestSuite) TearDownTest() {
 	s.Db.Clear()
 }
