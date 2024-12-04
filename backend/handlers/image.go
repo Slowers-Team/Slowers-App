@@ -138,11 +138,18 @@ func FetchImagesByEntity(c *fiber.Ctx) error {
 }
 
 func SetFavorite(c *fiber.Ctx) error {
-	entityID := c.Params("entityID")
-	entityType := c.Params("entityType")
-	imageID := c.Params("imageID")
+	type favoriteData struct {
+		EntityID   string `json:"entityID"`
+		EntityType string `json:"entityType"`
+		ImageID    string `json:"imageID"`
+	}
 
-	log.Printf(entityID, entityType, imageID)
+	formData := new(favoriteData)
+	if err := c.BodyParser(formData); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
 
-	return c.JSON(true)
+	log.Printf(formData.EntityID, formData.EntityType, formData.ImageID)
+
+	return c.JSON(formData)
 }

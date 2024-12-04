@@ -60,21 +60,24 @@ const setFavorite = (entityID, entityType, imageID) => {
   const url = `${baseUrl}/favorite`
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
+    'Content-Type': 'application/json'
   }
 
   const data = {
-    entityID: entityID,
-    entityType: entityType,
-    imageID: imageID
+    EntityID: entityID,
+    EntityType: entityType,
+    ImageID: imageID
   }
+  console.log(data)
 
   return axios.post(url, data, config)
     .then(response => {
-      if (response.data === true) {
-        console.info("Favorite image of", entityType, entityID, "set to", imageID)
-      } else {
-        console.error("Failed to set favorite image of", entityType, entityID, "set to", imageID)
-      }
+      console.info("response:", response.data)
+      // if (response.data === true) {
+      //   console.info("Favorite image of", entityType, entityID, "set to", imageID)
+      // } else {
+      //   console.error("Failed to set favorite image of", entityType, entityID, "set to", imageID)
+      // }
       return response.data
     })
     .catch(error => {
