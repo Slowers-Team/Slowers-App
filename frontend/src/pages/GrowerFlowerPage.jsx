@@ -61,7 +61,6 @@ const GrowerFlowerPage = () => {
       flowerService.removeMultipleFlowers(checkedFlowers).then(response => {
         console.log(response)
         setFlowers(l => l.filter(item => !checkedFlowers.includes(item._id)))
-        setCheckedFlowers([])
       })
     }
   }
