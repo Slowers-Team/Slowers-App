@@ -70,7 +70,7 @@ func (mDb MongoDatabase) DeleteImage(ctx context.Context, id ObjectID) (bool, er
 	return result.DeletedCount > 0, err
 }
 
-func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID, EntityID, ImageID ObjectID, Collection string) (*bool, error) {
+func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID, EntityID, ImageID ObjectID, Collection string) (bool, error) {
 	opts := options.Count().SetLimit(1)
 	count, err := db.Collection(Collection).CountDocuments(
 		ctx,
@@ -78,11 +78,11 @@ func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID, EntityID,
 		opts,
 	)
 	if err != nil {
-		return nil, err
+		return false, err
 	}
 
 	if count < 1 {
-		return nil, fmt.Errorf("User %s does not own %s", UserID.Hex(), EntityID.Hex())
+		return false, fmt.Errorf("User %s does not own %s", UserID.Hex(), EntityID.Hex())
 	}
 	count, err = db.Collection("images").CountDocuments(
 		ctx,
@@ -90,13 +90,22 @@ func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID, EntityID,
 		opts,
 	)
 	if err != nil {
-		return nil, err
+		return false, err
 	}
 
 	if count < 1 {
-		return nil, fmt.Errorf("User %s does not own image %s", UserID.Hex(), ImageID.Hex())
+		return false, fmt.Errorf("User %s does not own image %s", UserID.Hex(), ImageID.Hex())
 	}
 
-	ret := true
-	return &ret, nil
+	filter := bson.M{"_id": EntityID}
+	update := bson.A{bson.M{"$set": bson.M{"favorite_image": ImageID}}}
+	updateOpts := options.FindOneAndUpdate().SetReturnDocument(options.After).SetProjection(bson.M{"_id": 1, "favorite_image": 1})
+
+	var updatedFavorite bson.M
+	err = db.Collection(Collection).FindOneAndUpdate(ctx, filter, update, updateOpts).Decode(&updatedFavorite)
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }
