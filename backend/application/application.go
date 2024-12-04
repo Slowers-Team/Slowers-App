@@ -23,6 +23,7 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     "https://*.helsinki.fi",
 		AllowCredentials: true,
+		AllowHeaders:     "Authorization",
 	}))
 
 	app.Post("/api/register", handlers.CreateUser)
