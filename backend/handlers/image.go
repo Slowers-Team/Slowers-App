@@ -169,7 +169,18 @@ func SetFavorite(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid image ID format: %v", formData.ImageID))
 	}
 
-	log.Println(EntityID, Collection, ImageID)
+	UserID, err := GetCurrentUser(c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString("Could not get current user")
+	}
+
+	log.Println(EntityID, Collection, ImageID, UserID)
+	ret, err := db.SetFavoriteImage(c.Context(), UserID, EntityID, ImageID, Collection)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	log.Println(ret)
 
 	return c.JSON(formData)
 }

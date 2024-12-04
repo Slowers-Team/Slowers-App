@@ -68,7 +68,7 @@ func (mDb MongoDatabase) DeleteImage(ctx context.Context, id ObjectID) (bool, er
 	return result.DeletedCount > 0, err
 }
 
-func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, EntityID, ImageID ObjectID, Collection string) (*bool, error) {
+func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID, EntityID, ImageID ObjectID, Collection string) (*bool, error) {
 	ret := true
 	return &ret, nil
 }
