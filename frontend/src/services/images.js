@@ -68,17 +68,10 @@ const setFavorite = (entityID, entityType, imageID) => {
     EntityType: entityType,
     ImageID: imageID
   }
-  console.log(data)
 
   return axios.post(url, data, config)
-    .then(response => {
-      console.info("response:", response.data)
-      // if (response.data === true) {
-      //   console.info("Favorite image of", entityType, entityID, "set to", imageID)
-      // } else {
-      //   console.error("Failed to set favorite image of", entityType, entityID, "set to", imageID)
-      // }
-      return response.data
+    .then(_ => {
+      return true
     })
     .catch(error => {
         console.error("Failed to set favorite image of", entityType, entityID, "set to", imageID, ":\n", error)

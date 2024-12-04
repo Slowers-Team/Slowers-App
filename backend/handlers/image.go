@@ -174,10 +174,10 @@ func SetFavorite(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).SendString("Could not get current user")
 	}
 
-	ret, err := db.SetFavoriteImage(c.Context(), UserID, EntityID, ImageID, Collection)
+	err = db.SetFavoriteImage(c.Context(), UserID, EntityID, ImageID, Collection)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	return c.JSON(ret)
+	return c.Status(fiber.StatusOK).SendString("")
 }
