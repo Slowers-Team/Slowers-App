@@ -2,8 +2,10 @@ package database
 
 import (
 	"context"
+	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Image struct {
@@ -69,6 +71,32 @@ func (mDb MongoDatabase) DeleteImage(ctx context.Context, id ObjectID) (bool, er
 }
 
 func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID, EntityID, ImageID ObjectID, Collection string) (*bool, error) {
+	opts := options.Count().SetLimit(1)
+	count, err := db.Collection(Collection).CountDocuments(
+		ctx,
+		bson.M{"_id": EntityID, "owner": UserID},
+		opts,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	if count < 1 {
+		return nil, fmt.Errorf("User %s does not own %s", UserID.Hex(), EntityID.Hex())
+	}
+	count, err = db.Collection("images").CountDocuments(
+		ctx,
+		bson.M{"_id": ImageID, "owner": UserID},
+		opts,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	if count < 1 {
+		return nil, fmt.Errorf("User %s does not own image %s", UserID.Hex(), ImageID.Hex())
+	}
+
 	ret := true
 	return &ret, nil
 }
