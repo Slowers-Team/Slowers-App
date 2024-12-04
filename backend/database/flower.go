@@ -206,3 +206,9 @@ func (mDb MongoDatabase) ToggleFlowerVisibility(ctx context.Context, userID, flo
 	}
 	return &ret, nil
 }
+
+func (mDb MongoDatabase) DeleteMultipleFlowers(ctx context.Context, flowerIDs []ObjectID) error {
+	filter := bson.M{"_id": bson.M{"$in": flowerIDs}}
+	_, err := db.Collection("flowers").DeleteMany(ctx, filter)
+	return err
+}

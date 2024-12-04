@@ -146,15 +146,17 @@ func DeleteMultipleFlowers(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	for _, id := range flowerIDs {
-		flowerID, err := database.ParseID(id)
+	var ids []database.ObjectID
+	for _, idStr := range flowerIDs {
+		id, err := database.ParseID(idStr)
 		if err != nil {
 			return c.Status(400).SendString(err.Error())
 		}
+		ids = append(ids, id)
+	}
 
-		if _, err := db.DeleteFlower(c.Context(), flowerID); err != nil {
-			return c.Status(500).SendString(err.Error())
-		}
+	if err := db.DeleteMultipleFlowers(c.Context(), ids); err != nil {
+		return c.Status(500).SendString(err.Error())
 	}
 
 	return c.SendStatus(204)
