@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { Button } from "react-bootstrap"
 import Masonry from "react-masonry-css"
@@ -7,15 +7,14 @@ import './ImageGallery.css'
 
 const ImageGallery = ({ isGrower, images, deleteImage, favoriteImage, type }) => {
   const { t } = useTranslation() 
-  const [activeIndex, setActiveIndex] = useState(0)
-	const [selectedFavoriteIndex, setSelectedFavoriteIndex] = useState(0)
+	const [selectedFavoriteIndex, setSelectedFavoriteIndex] = useState(null)
 
-  if (activeIndex >= images.length && images.length > 0) {
-    setActiveIndex(0)
-  }
-
-	const handleFavoriteSelect = (selectedIndex, imageObject) => {
-		setSelectedFavoriteIndex(selectedIndex)
+	useEffect(()=> {
+		const favIdx = images.findIndex((img) => img?.favorite)
+		setSelectedFavoriteIndex(favIdx)
+	},[images])
+	
+	const handleFavoriteSelect = (imageObject) => {
 		favoriteImage(imageObject)
 	}
 	const breakpointColumnsObj = {default: 3, 991: 2, 550: 1,};
@@ -39,7 +38,7 @@ const ImageGallery = ({ isGrower, images, deleteImage, favoriteImage, type }) =>
 								<Button variant="dark" onClick={() => deleteImage(image)} className="delete-button" aria-label="Delete">
 									<i className="bi bi-trash"></i>
 								</Button>
-								<Button variant="dark" onClick={() => handleFavoriteSelect(index, image)} className={`favourite-button ${selectedFavoriteIndex === index ? "selected" : ""}`} disabled={selectedFavoriteIndex !== null && selectedFavoriteIndex == index} aria-label="Favorite">
+								<Button variant="dark" onClick={() => handleFavoriteSelect(image)} className={`favourite-button ${selectedFavoriteIndex === index ? "selected" : ""}`} disabled={selectedFavoriteIndex !== null && selectedFavoriteIndex == index} aria-label="Favorite">
 									<i className={`bi bi-star-fill ${selectedFavoriteIndex === index ? "text-warning" : ""}`}></i>
 								</Button>
 							</div>

@@ -4,7 +4,7 @@ import ImageService from '../../services/images'
 import AddImage from './AddImage'
 import ImageGallery from './ImageGallery'
 
-const FlowerImageTab = ({ isGrower, flower }) => {
+const FlowerImageTab = ({ isGrower, flower, updateFlower }) => {
     const { t } = useTranslation()
     const [images, setImages] = useState([])
 
@@ -12,11 +12,24 @@ const FlowerImageTab = ({ isGrower, flower }) => {
         fetchImages()
     }, [])
 
+    const markFavorite = (images, id = null) => {
+      if (id) {
+        updateFlower({...flower, favorite_image: id})
+      }
+
+      const fav = id ?? flower?.favorite_image
+      setImages(images.map(
+        (img) => fav === img._id 
+          ? {...img, favorite: true}
+          : {...img, favorite: false}
+      ))
+    }
+
     const fetchImages = () => {
         ImageService.getImagesByEntity(flower._id)
-          .then(imageURLs => {
-            console.log('Images after fetching:', imageURLs)
-            setImages(imageURLs)
+          .then(fetchedImages => {
+            console.log('Images after fetching:', fetchedImages)
+            markFavorite(fetchedImages)
           })
           .catch(error => console.error('Error fetching images:', error))
     }
@@ -30,6 +43,7 @@ const FlowerImageTab = ({ isGrower, flower }) => {
       if (window.confirm(`${t('image.confirmimagedeletion')}?`)) {
         ImageService.deleteImage(imageObject._id)
           .then(() => {
+            markFavorite(images)
             setImages(l => l.filter(item => item._id !== imageObject._id))
           })
           .catch(error => {
@@ -51,6 +65,8 @@ const FlowerImageTab = ({ isGrower, flower }) => {
         return
       }
       const response = ImageService.setFavorite(flower._id, "flower", imageObject._id)
+      markFavorite(images, imageObject._id)
+
       console.log(response)
     }
 

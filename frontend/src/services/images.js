@@ -74,7 +74,7 @@ const setFavorite = (entityID, entityType, imageID) => {
       return true
     })
     .catch(error => {
-        console.error("Failed to set favorite image of", entityType, entityID, "set to", imageID, ":\n", error)
+        console.error("Failed to set favorite image of", entityType, entityID, "set to", imageID, ":\n", error?.error)
       throw error.response.data
     })
 }
