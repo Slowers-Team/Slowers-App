@@ -42,14 +42,14 @@ func (mDb MongoDatabase) GetImagesByEntity(ctx context.Context, entityID string)
 	if err != nil {
 		return nil, err
 	}
-	defer cursor.Close(ctx) 
+	defer cursor.Close(ctx)
 
 	images := make([]Image, 0)
 	if err := cursor.All(ctx, &images); err != nil {
 		return nil, err
 	}
 
-	return images, nil 
+	return images, nil
 }
 
 func (mDb MongoDatabase) DeleteImage(ctx context.Context, id ObjectID) (bool, error) {
@@ -66,4 +66,9 @@ func (mDb MongoDatabase) DeleteImage(ctx context.Context, id ObjectID) (bool, er
 	}
 
 	return result.DeletedCount > 0, err
+}
+
+func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, EntityID, ImageID ObjectID, Collection string) (*bool, error) {
+	ret := true
+	return &ret, nil
 }

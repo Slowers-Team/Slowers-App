@@ -154,10 +154,13 @@ func SetFavorite(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid entity ID format: %v", formData.EntityID))
 	}
 
-	var entityType string
-	if formData.EntityType == "flower" || formData.EntityType == "site" {
-		entityType = formData.EntityType
-	} else {
+	var Collection string
+	switch formData.EntityType {
+	case "site":
+		Collection = "sites"
+	case "flower":
+		Collection = "flowers"
+	default:
 		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid EntityType: %v", formData.EntityType))
 	}
 
@@ -166,7 +169,7 @@ func SetFavorite(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid image ID format: %v", formData.ImageID))
 	}
 
-	log.Println(EntityID, entityType, ImageID)
+	log.Println(EntityID, Collection, ImageID)
 
 	return c.JSON(formData)
 }
