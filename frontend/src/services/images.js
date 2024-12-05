@@ -17,6 +17,19 @@ const get = imageObject => {
     .catch(error => console.error("Error fetching image blob:", error));
 };
 
+const getByID = id => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken() },
+    responseType: "blob"
+  };
+  return axios.get(`${baseUrl}`, {id: id}, config)
+    .then(response => {
+      const imageUrl = URL.createObjectURL(response.data);
+      return { _id: imageObject._id, url: imageUrl };
+    })
+    .catch(error => console.error("Error fetching image blob:", error));
+}
+
 const create = imageObject => {
   const config = {
     headers: { 
@@ -86,5 +99,6 @@ export default {
   create,
   getImagesByEntity,
   deleteImage,
-  setFavorite
+  setFavorite,
+  getByID
 }
