@@ -1,4 +1,5 @@
 import '../../layouts/Grower.css'
+import '../image/FlowerListImage.css'
 import FlowerModal from '../FlowerModal.jsx'
 import { useState, useEffect } from "react"
 import { useTranslation } from 'react-i18next'
@@ -80,7 +81,9 @@ const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers, updateFlow
                   <input type="checkbox" checked={checkedFlowers.includes(flower._id)} onChange={() => toggleCheckedFlower(flower._id)}/>
                 </td>
                 <td>
-                  <img src={placeholderImage} className='img-fluid' alt={flower.name} />
+                  <div className='image-container'>
+                    <img src={placeholderImage} alt={flower.name} />
+                  </div>
                 </td>
                 <td>{flower.name}</td>
                 <td>
