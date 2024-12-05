@@ -9,12 +9,11 @@ const FlowerImageTab = ({ isGrower, flower, updateFlower }) => {
     const [images, setImages] = useState([])
 
     useEffect(() => {
-        fetchImages()
-    }, [])
-
-    useEffect(() => {
-      fetchImages()
-    }, [flower])
+      if (flower?._id) {
+        fetchImages();
+      }
+    }, [flower]);
+    
 
     const markFavorite = (images, id = null) => {
       if (id) {
