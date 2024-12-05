@@ -66,7 +66,7 @@ const GrowerFlowerPage = () => {
       .then(updateFlower(flowerObject))
       .catch(error => {
         console.log(error)
-        alert(t("error.updatingfailed"))
+        alert(t("error.modifyingfailed"))
       })
   }
 
