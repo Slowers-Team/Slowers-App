@@ -8,6 +8,7 @@ import (
 
 	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/gofiber/fiber/v2"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func UploadImage(c *fiber.Ctx) error {
@@ -78,20 +79,29 @@ func GetImageByID(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
+	log.Println("got ID:", imageID)
 	image, err := db.GetImageByID(c.Context(), imageID)
+	log.Println(imageID, " -> ", image, err)
 	if err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			return c.SendStatus(404)
+		}
 		return c.Status(500).SendString(err.Error())
 	}
 
-	filepath := "./images/" + imageID.Hex() + image.FileFormat
+	filepath := fmt.Sprintf("./images/%v.%v", imageID.Hex(), image.FileFormat)
+	log.Println(filepath)
 
 	if _, err := os.Stat(filepath); err != nil {
 		if errors.Is(err, os.ErrNotExist) {
+			log.Println("404 fail")
 			return c.SendStatus(404)
 		} else {
+			log.Println("500 fail")
 			return c.Status(500).SendString(err.Error())
 		}
 	}
+	log.Println("sending file")
 
 	return c.SendFile(filepath)
 }

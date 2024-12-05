@@ -1,4 +1,5 @@
 import '../../layouts/Grower.css'
+import ImageService from '../../services/images'
 import '../image/FlowerListImage.css'
 import FlowerModal from '../FlowerModal.jsx'
 import { useState, useEffect } from "react"
@@ -11,10 +12,24 @@ const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers, updateFlow
   const [showModal, setShowModal] = useState(false)
   const [currentFlower, setCurrentFlower] = useState("")
   const [checkedFlowers, setLocalCheckedFlowers] = useState([])
+  const [images, setImages] = useState([])
 
   useEffect(() => {
     setCheckedFlowers(checkedFlowers)
   }, [checkedFlowers, setCheckedFlowers])
+
+  useEffect(() => {
+    flowers.forEach((f) => {
+      if (f.favorite_image) {
+        ImageService.getByID(f.favorite_image)
+          .then((url) => {
+            setImages([...images, {flower: f._id, url: url}])
+          })
+          // .catch((error) => console.error("bad", f, error))
+          .catch((_) => {})
+      }
+    })
+  }, [flowers])
 
   const handleShow = (flower) => {
     setShowModal(true)
@@ -82,7 +97,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers, updateFlow
                 </td>
                 <td>
                   <div className='image-container'>
-                    <img src={placeholderImage} alt={flower.name} />
+                    <img src={images.find((o) => o.flower === flower._id)?.url ?? placeholderImage} alt={flower.name} />
                   </div>
                 </td>
                 <td>{flower.name}</td>

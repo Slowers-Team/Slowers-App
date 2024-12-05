@@ -20,14 +20,17 @@ const get = imageObject => {
 const getByID = id => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
+    'Content-Type': "application/json", 
     responseType: "blob"
   };
-  return axios.get(`${baseUrl}`, {id: id}, config)
+  return axios.get(`${baseUrl}/id/${id}`, config)
     .then(response => {
       const imageUrl = URL.createObjectURL(response.data);
-      return { _id: imageObject._id, url: imageUrl };
+      return imageUrl;
     })
-    .catch(error => console.error("Error fetching image blob:", error));
+    .catch(error => {
+      // console.error("Error fetching image blob:", error); 
+      throw error});
 }
 
 const create = imageObject => {
