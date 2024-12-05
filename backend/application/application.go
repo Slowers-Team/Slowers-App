@@ -46,6 +46,7 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app.Post("/api/user/role", handlers.SetRole)
 
 	app.Post("/api/images", handlers.UploadImage)
+	app.Get("/api/images", handlers.GetImageByID)
 	app.Get("/api/images/:filename", handlers.DownloadImage)
 	app.Get("/api/images/entity/:entityID", handlers.FetchImagesByEntity)
 	app.Delete("/api/images/:id", handlers.DeleteImage)

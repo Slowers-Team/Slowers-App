@@ -73,6 +73,29 @@ func UploadImage(c *fiber.Ctx) error {
 	return c.Status(201).JSON(createdImage)
 }
 
+func GetImageByID(c *fiber.Ctx) error {
+	imageID, err := database.ParseID(c.Params("id"))
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	image, err := db.GetImageByID(c.Context(), imageID)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	filepath := "./images/" + imageID.Hex() + image.FileFormat
+
+	if _, err := os.Stat(filepath); err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			return c.SendStatus(404)
+		} else {
+			return c.Status(500).SendString(err.Error())
+		}
+	}
+
+	return c.SendFile(filepath)
+}
+
 func DownloadImage(c *fiber.Ctx) error {
 	filepath := "./images/" + c.Params("filename")
 
