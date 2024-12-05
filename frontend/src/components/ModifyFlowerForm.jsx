@@ -53,6 +53,7 @@ const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, handleForm
               onChange={event => setModifiedFlowerQty(event.target.value)}
               className="form-control"
               min="0"
+              max="1000000"
               required
             />
           </div>
