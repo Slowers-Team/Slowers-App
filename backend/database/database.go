@@ -42,6 +42,7 @@ type Database interface {
 	DeleteImage(ctx context.Context, id ObjectID) (bool, error)
 	GetImagesByEntity(ctx context.Context, entityID string) ([]Image, error)
 	SetFavoriteImage(ctx context.Context, UserID, EntityID, ImageID ObjectID, Collection string) error
+	GetImageByID(ctx context.Context, imageID ObjectID) (*Image, error)
 }
 
 type MongoDatabase struct {
