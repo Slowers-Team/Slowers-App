@@ -19,18 +19,22 @@ const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers, updateFlow
   }, [checkedFlowers, setCheckedFlowers])
 
   useEffect(() => {
-    flowers.forEach((f) => {
+    const newImages = Promise.all(flowers.map((f) => {
       if (f.favorite_image) {
-        ImageService.getByID(f.favorite_image)
-          .then((url) => {
-            setImages([...images, {flower: f._id, url: url}])
-          })
+        return ImageService.getByID(f.favorite_image)
+          .then((url) => (
+            {flower: f._id, url: url}
+          ))
           // .catch((error) => console.error("bad", f, error))
           .catch((_) => {})
       }
-    })
+    }))
+
+    newImages.then((imgs) => setImages(imgs.filter((x)=>x)))
+  
   }, [flowers])
 
+  console.log(images)
   const handleShow = (flower) => {
     setShowModal(true)
     setCurrentFlower(flower)
