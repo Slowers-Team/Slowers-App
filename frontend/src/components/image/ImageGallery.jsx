@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { Button } from "react-bootstrap"
 import Masonry from "react-masonry-css"
@@ -7,15 +7,14 @@ import './ImageGallery.css'
 
 const ImageGallery = ({ isGrower, images, deleteImage, favoriteImage, type }) => {
   const { t } = useTranslation() 
-  const [activeIndex, setActiveIndex] = useState(0)
-	const [selectedFavoriteIndex, setSelectedFavoriteIndex] = useState(0)
+	const [selectedFavoriteID, setSelectedFavoriteID] = useState(null)
 
-  if (activeIndex >= images.length && images.length > 0) {
-    setActiveIndex(0)
-  }
-
-	const handleFavoriteSelect = (selectedIndex, imageObject) => {
-		setSelectedFavoriteIndex(selectedIndex)
+	useEffect(()=> {
+		const favID = images.find((img) => img?.favorite)?._id
+		setSelectedFavoriteID(favID)
+	},[images])
+	
+	const handleFavoriteSelect = (imageObject) => {
 		favoriteImage(imageObject)
 	}
 	const breakpointColumnsObj = {default: 3, 991: 2, 550: 1,};
@@ -31,16 +30,19 @@ const ImageGallery = ({ isGrower, images, deleteImage, favoriteImage, type }) =>
 			) : (
 				<div>
 					<Masonry breakpointCols={breakpointColumnsObj} className="my-masonry-grid" columnClassName="my-masonry-grid_column">
-						{images.map((image, index) => (
-						<div className="image-box" key={image._id || index}>
+						{images.map((image) => (
+						<div className="image-box" key={image._id}>
 							<img src={image.url}/>
 							{isGrower && (
 							<div className="image-buttons">
 								<Button variant="dark" onClick={() => deleteImage(image)} className="delete-button" aria-label="Delete">
 									<i className="bi bi-trash"></i>
 								</Button>
-								<Button variant="dark" onClick={() => handleFavoriteSelect(index, image)} className={`favourite-button ${selectedFavoriteIndex === index ? "selected" : ""}`} disabled={selectedFavoriteIndex !== null && selectedFavoriteIndex == index} aria-label="Favorite">
-									<i className={`bi bi-star-fill ${selectedFavoriteIndex === index ? "text-warning" : ""}`}></i>
+								<Button variant="dark"
+									      onClick={() => handleFavoriteSelect(image._id)}
+									      className={`favourite-button ${selectedFavoriteID === image._id ? "selected" : ""}`} 
+									      disabled={selectedFavoriteID !== null && selectedFavoriteID == image._id} aria-label="Favorite">
+									<i className={`bi bi-star-fill ${selectedFavoriteID === image._id ? "text-warning" : ""}`}></i>
 								</Button>
 							</div>
 							)}
