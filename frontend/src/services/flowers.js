@@ -70,6 +70,14 @@ const toggleVisibility = (id) => {
   
 }
 
+const modify = modifiedFlower => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken() },
+  }
+  const request = axios.put(`${baseUrl}/${modifiedFlower._id}`, modifiedFlower, config)
+  return request.then(response => response.data)
+}
+
 const removeMultipleFlowers = ids => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
@@ -84,5 +92,6 @@ export default {
   getUserFlowers,
   getFlowersBySite,
   toggleVisibility,
+  modify,
   removeMultipleFlowers
 }

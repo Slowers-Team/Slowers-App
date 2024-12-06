@@ -73,6 +73,16 @@ const GrowerFlowerPage = () => {
     ))
   }
 
+  const modifyFlower = flowerObject => {
+    flowerService
+      .modify(flowerObject)
+      .then(updateFlower(flowerObject))
+      .catch(error => {
+        console.log(error)
+        alert(t("error.modifyingfailed"))
+      })
+  }
+
   return (
     <>
     {params.siteId ? (
@@ -91,8 +101,8 @@ const GrowerFlowerPage = () => {
         </Button>
       </div>
     )}
-      { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) : 
-                  (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) }
+      { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) : 
+                  (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) }
     </>
   )
 }

@@ -94,6 +94,26 @@ test('deletes a flower correctly and uses the correct url', async() => {
     expect(axios.delete).toHaveBeenCalledWith('/api/flowers/' + sunflowerId, config)
 })
 
+test('modifying a flower uses the correct url and sends the correct data', async() => {
+
+    const modifiedFlower = {
+            _id: '123',
+            name: 'Sunflower',
+            latin_name: 'Helianthus annuus',
+            added_time: '1999-02-08T15:16:00.000Z',
+            quantity: 10,
+    }
+
+    const sunflowerId = modifiedFlower._id
+
+    axios.put.mockResolvedValue({ data: modifiedFlower })
+
+    const result = await flowers.modify(modifiedFlower)
+
+    expect(result).toEqual(modifiedFlower)
+    expect(axios.put).toHaveBeenCalledWith('/api/flowers/' + sunflowerId, modifiedFlower, config)
+
+})
 test('deletes multiple flowers correctly and uses the correct url', async() => {
     const mockFlowers = [
         {
