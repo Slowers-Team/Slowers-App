@@ -32,16 +32,22 @@ const RegisterForm = ({ createNewUser }) => {
     return (
         <div className='text-left'>
             <form onSubmit={addUser}>
-                <div className='form-group mb-4'>
-                  <label htmlFor="newUsernameInput">{t('user.data.username')}</label>
+                <div class="input-group mb-4">
+                  <span class="input-group-text">
+                    <i class="bi bi-person-circle"></i>
+                  </span>
                   <input id="newUsernameInput" value={newUsername} placeholder={t('user.input.username')} onChange={event => setNewUsername(event.target.value)} className='form-control' required/>
                 </div>
-                <div className='form-group mb-4'>
-                  <label htmlFor="newEmailInput">{t('user.data.email')}</label>
+                <div className='input-group mb-4'>
+                  <span class="input-group-text">
+                    <i class="bi bi-envelope-fill"></i>
+                  </span>
                   <input type="email" id="newEmailInput" value={newEmail} placeholder={t('user.input.email')} onChange={event => setNewEmail(event.target.value)} className='form-control' required/>
                 </div>
-                <div className='form-group mb-4'>
-                  <label htmlFor="newPasswordInput">{t('user.data.password')}</label>
+                <div className='input-group mb-4'>
+                  <span class="input-group-text">
+                    <i class="bi bi-lock-fill"></i>
+                  </span>
                   <input type="password" id="newPasswordInput" value={newPassword} placeholder={t('user.input.password')} onChange={event => setNewPassword(event.target.value)} className='form-control' required/>
                 </div>
                 <div className='form-group mb-4'>
