@@ -2,7 +2,6 @@ import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Button } from "react-bootstrap"
 import Masonry from "react-masonry-css"
-import 'bootstrap-icons/font/bootstrap-icons.css'
 import './ImageGallery.css'
 
 const ImageGallery = ({ isGrower, images, deleteImage, favoriteImage, type }) => {
