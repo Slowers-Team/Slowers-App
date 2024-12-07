@@ -230,3 +230,9 @@ func (mDb MongoDatabase) ModifyFlower(ctx context.Context, id ObjectID, newFlowe
 
 	return updatedFlower, nil
 }
+
+func (mDb MongoDatabase) DeleteMultipleFlowers(ctx context.Context, flowerIDs []ObjectID) error {
+	filter := bson.M{"_id": bson.M{"$in": flowerIDs}}
+	_, err := db.Collection("flowers").DeleteMany(ctx, filter)
+	return err
+}

@@ -30,6 +30,7 @@ type Database interface {
 	DeleteFlower(ctx context.Context, id ObjectID) (bool, error)
 	ToggleFlowerVisibility(ctx context.Context, userID, flowerID ObjectID) (*bool, error)
 	ModifyFlower(ctx context.Context, id ObjectID, newFlower Flower) (*Flower, error)
+	DeleteMultipleFlowers(ctx context.Context, flowerIDs []ObjectID) error
 
 	AddSite(ctx context.Context, newSite Site) (*Site, error)
 	GetRootSites(ctx context.Context, userID ObjectID) ([]Site, error)

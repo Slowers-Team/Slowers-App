@@ -167,3 +167,25 @@ func ModifyFlower(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON(updatedFlower)
 }
+
+func DeleteMultipleFlowers(c *fiber.Ctx) error {
+	var flowerIDs []string
+	if err := c.BodyParser(&flowerIDs); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	var ids []database.ObjectID
+	for _, idStr := range flowerIDs {
+		id, err := database.ParseID(idStr)
+		if err != nil {
+			return c.Status(400).SendString(err.Error())
+		}
+		ids = append(ids, id)
+	}
+
+	if err := db.DeleteMultipleFlowers(c.Context(), ids); err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	return c.SendStatus(204)
+}

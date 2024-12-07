@@ -78,6 +78,13 @@ const modify = modifiedFlower => {
   return request.then(response => response.data)
 }
 
+const removeMultipleFlowers = ids => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken() },
+  }
+  return axios.post(`${baseUrl}/delete-multiple`, ids, config)
+}
+
 export default {
   getAll,
   create,
@@ -85,5 +92,6 @@ export default {
   getUserFlowers,
   getFlowersBySite,
   toggleVisibility,
-  modify
+  modify,
+  removeMultipleFlowers
 }

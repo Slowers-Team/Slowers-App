@@ -114,3 +114,34 @@ test('modifying a flower uses the correct url and sends the correct data', async
     expect(axios.put).toHaveBeenCalledWith('/api/flowers/' + sunflowerId, modifiedFlower, config)
 
 })
+test('deletes multiple flowers correctly and uses the correct url', async() => {
+    const mockFlowers = [
+        {
+            _id: '123',
+            name: 'Sunflower',
+            latin_name: 'Helianthus annuus',
+            added_time: '1999-02-08T15:16:00.000Z',
+            quantity: 5,
+        },
+        {
+            _id: '456',
+            name: 'Lily',
+            latin_name: 'Lilium',
+            added_time: '2024-09-23T11:11:11.000Z',
+            quantity: 81,
+        },
+        {
+            _id: '789',
+            name: 'Rose',
+            latin_name: 'Rosa',
+            added_time: '2024-10-10T10:10:10.000Z',
+            quantity: 25,
+        }
+    ]
+
+    const ids = [mockFlowers[0]._id, mockFlowers[2]._id]
+
+    await flowers.removeMultipleFlowers(ids)
+
+    expect(axios.post).toHaveBeenCalledWith('/api/flowers/delete-multiple', ids, config)
+})
