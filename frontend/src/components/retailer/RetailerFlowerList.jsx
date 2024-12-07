@@ -56,8 +56,6 @@ const RetailerFlowerList = ({ flowers }) => {
     new Date(flower.added_time).toLocaleString('fi', { hour: 'numeric', minute: '2-digit' }).toLowerCase().includes(searchTerm.toLowerCase())
   )
   
-  
-
   return (
     <div className="retailerFlowerList">
       <div className="d-flex justify-content-start mb-3 input-wrapper">
