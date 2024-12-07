@@ -165,7 +165,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers, updateFlow
           })}
         </tbody>
       </table>
-      <FlowerModal show={showModal} handleClose={handleClose} flower={currentFlower} deleteFlower={deleteFlower} updateFlower={handleUpdate}/>
+      <FlowerModal show={showModal} handleClose={handleClose} flower={currentFlower} deleteFlower={deleteFlower} updateFlower={handleUpdate} modifyFlower={modifyFlower}/>
     </div>
   )
 }

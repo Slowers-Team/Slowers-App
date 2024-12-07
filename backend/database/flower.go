@@ -206,3 +206,33 @@ func (mDb MongoDatabase) ToggleFlowerVisibility(ctx context.Context, userID, flo
 	}
 	return &ret, nil
 }
+
+func (mDb MongoDatabase) ModifyFlower(ctx context.Context, id ObjectID, newFlower Flower) (*Flower, error) {
+	filter := bson.M{"_id": id}
+	update := bson.M{
+		"$set": bson.M{
+			"name":       newFlower.Name,
+			"latin_name": newFlower.LatinName,
+			"quantity":   newFlower.Quantity,
+		},
+	}
+
+	if _, err := db.Collection("flowers").UpdateOne(ctx, filter, update); err != nil {
+		return nil, err
+	}
+
+	createdRecord := db.Collection("flowers").FindOne(ctx, filter)
+
+	updatedFlower := &Flower{}
+	if err := createdRecord.Decode(updatedFlower); err != nil {
+		return nil, err
+	}
+
+	return updatedFlower, nil
+}
+
+func (mDb MongoDatabase) DeleteMultipleFlowers(ctx context.Context, flowerIDs []ObjectID) error {
+	filter := bson.M{"_id": bson.M{"$in": flowerIDs}}
+	_, err := db.Collection("flowers").DeleteMany(ctx, filter)
+	return err
+}

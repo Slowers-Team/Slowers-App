@@ -101,6 +101,19 @@
     border-radius: 5px;
   }
 
+#modifyFlowerButton {
+  background-color: #c1dadf;
+  color: black;
+  border: none;
+  padding: 5px 10px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
   #showFlowerPageButton {
     background-color: #c1dadf;
     color: black;
