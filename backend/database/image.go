@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Image struct {
@@ -42,14 +43,14 @@ func (mDb MongoDatabase) GetImagesByEntity(ctx context.Context, entityID string)
 	if err != nil {
 		return nil, err
 	}
-	defer cursor.Close(ctx) 
+	defer cursor.Close(ctx)
 
 	images := make([]Image, 0)
 	if err := cursor.All(ctx, &images); err != nil {
 		return nil, err
 	}
 
-	return images, nil 
+	return images, nil
 }
 
 func (mDb MongoDatabase) DeleteImage(ctx context.Context, id ObjectID) (bool, error) {
@@ -66,4 +67,27 @@ func (mDb MongoDatabase) DeleteImage(ctx context.Context, id ObjectID) (bool, er
 	}
 
 	return result.DeletedCount > 0, err
+}
+
+func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID, EntityID, ImageID ObjectID, Collection string) error {
+	err := mDb.UserOwnsEntity(ctx, UserID, EntityID, Collection)
+	if err != nil {
+		return nil
+	}
+	err = mDb.UserOwnsEntity(ctx, UserID, ImageID, "images")
+	if err != nil {
+		return nil
+	}
+
+	filter := bson.M{"_id": EntityID}
+	update := bson.A{bson.M{"$set": bson.M{"favorite_image": ImageID}}}
+	updateOpts := options.FindOneAndUpdate()
+
+	var updatedFavorite bson.M
+	err = db.Collection(Collection).FindOneAndUpdate(ctx, filter, update, updateOpts).Decode(&updatedFavorite)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

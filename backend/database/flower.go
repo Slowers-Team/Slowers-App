@@ -11,16 +11,17 @@ import (
 )
 
 type Flower struct {
-	ID          ObjectID  `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name        string    `json:"name"`
-	LatinName   string    `json:"latin_name" bson:"latin_name"`
-	AddedTime   time.Time `json:"added_time" bson:"added_time"`
-	Grower      *ObjectID `json:"grower"`
-	GrowerEmail string    `json:"grower_email" bson:"grower_email"`
-	Site        *ObjectID `json:"site"`
-	SiteName    string    `json:"site_name" bson:"site_name"`
-	Quantity    int       `json:"quantity"`
-	Visible     bool      `json:"visible" bson:"visible"`
+	ID            ObjectID  `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name          string    `json:"name"`
+	LatinName     string    `json:"latin_name" bson:"latin_name"`
+	AddedTime     time.Time `json:"added_time" bson:"added_time"`
+	Grower        *ObjectID `json:"grower"`
+	GrowerEmail   string    `json:"grower_email" bson:"grower_email"`
+	Site          *ObjectID `json:"site"`
+	SiteName      string    `json:"site_name" bson:"site_name"`
+	Quantity      int       `json:"quantity"`
+	Visible       bool      `json:"visible" bson:"visible"`
+	FavoriteImage string    `json:"favorite_image" bson:"favorite_image"`
 }
 
 func (mDb MongoDatabase) GetFlowers(ctx context.Context) ([]Flower, error) {
