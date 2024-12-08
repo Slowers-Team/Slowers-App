@@ -23,7 +23,8 @@
         "hideFlower": "Hide from retailers",
         "close": "Close",
         "cancel": "Cancel",
-        "update": "Update"
+        "update": "Update",
+        "modify": "Edit"
       },
       "error": {
         "acceptterms": "You must accept the terms",
@@ -35,6 +36,7 @@
         "invalidemail": "Invalid email",
         "invalidlogininfo": "Invalid email or password",
         "sitenamecannotbeempty": "Site name cannot be empty",
+        "modifyingfailed": "Editing failed",
         "noimagesinflower": "At least one image has to be attached to a flower before its visibility can be changed."
       },
       "flower": {
@@ -63,10 +65,12 @@
       },
       "label": {
         "confirmflowerdeletion": "Are you sure you want to delete the flower",
+        "confirmmultipleflowerdeletion": "Are you sure you want to delete checked flowers",
         "confirmsitedeletion": "Are you sure you want to delete the site",
         "defaultrole": "Choose your default role",
         "iagreeto": "I agree to the",
         "loading": "Loading...",
+        "noflowersselected": "No flowers selected",
         "terms": "terms and conditions"
       },
       "menu": {
@@ -152,7 +156,8 @@
         "showFlower": "Näytä myyjille",
         "hideFlower": "Piilota myyjiltä",
         "cancel": "Peruuta",
-        "update": "Päivitä"
+        "update": "Päivitä",
+        "modify": "Muokkaa"
       },
       "error": {
         "acceptterms": "Käyttöehdot on hyväksyttävä",
@@ -164,6 +169,7 @@
         "invalidemail": "Virheellinen sähköpostiosoite",
         "invalidlogininfo": "Virheellinen sähköposti tai salasana",
         "sitenamecannotbeempty": "Alueen nimi ei voi olla tyhjä",
+        "modifyingfailed": "Päivitys epäonnistui",
         "noimagesinflower": "Kukkaan täytyy liittää vähintään yksi kuva ennen sen näkyvyyden muuttamista."
       },
       "flower": {
@@ -192,10 +198,12 @@
       },
       "label": {
         "confirmflowerdeletion": "Haluatko varmasti poistaa kukan",
+        "confirmmultipleflowerdeletion": "Haluatko varmasti poistaa valitut kukat",
         "confirmsitedeletion": "Haluatko varmasti poistaa alueen",
         "defaultrole": "Valitse oletusroolisi",
         "iagreeto": "Hyväksyn",
         "loading": "Ladataan...",
+        "noflowersselected": "Ei valittuja kukkia",
         "terms": "käyttöehdot"
       },
       "menu": {
