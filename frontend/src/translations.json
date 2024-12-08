@@ -24,6 +24,7 @@
         "close": "Close",
         "cancel": "Cancel",
         "update": "Update",
+        "Search": "Search",
         "modify": "Edit"
       },
       "error": {
@@ -157,6 +158,7 @@
         "hideFlower": "Piilota myyjiltä",
         "cancel": "Peruuta",
         "update": "Päivitä",
+        "Search": "Hae",
         "modify": "Muokkaa"
       },
       "error": {

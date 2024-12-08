@@ -145,3 +145,21 @@
     margin-top: -5px;
     position: absolute;
   }
+
+  .input-wrapper input {
+    background-color: rgb(247, 243, 243);
+    border: none;
+    padding: 0.5rem;
+    font-size: 1rem;
+    text-align: left;
+    width: 15rem;
+    border-radius: 1rem;
+    box-shadow: #23252248;
+    color: black;
+    cursor: pointer;
+  }
+  
+  .input-wrapper input:focus {
+    outline-color: rgb(255, 255, 255);
+  }
+  
