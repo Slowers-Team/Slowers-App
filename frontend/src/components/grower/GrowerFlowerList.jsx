@@ -3,7 +3,7 @@ import FlowerModal from '../FlowerModal.jsx'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const GrowerFlowerList = ({ flowers, deleteFlower, setCheckedFlowers, updateFlower }) => {
+const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowers, updateFlower }) => {
   const { t, i18n } = useTranslation()
   const [showModal, setShowModal] = useState(false)
   const [currentFlower, setCurrentFlower] = useState("")
