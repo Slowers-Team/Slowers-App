@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
+import { Button } from "react-bootstrap"
 
-const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, addedTime}) => {
+const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, handleFormVisibility, handleFlowerDelete, addedTime}) => {
   const [modifiedFlowerName, setModifiedFlowerName] = useState(flower.name)
   const [modifiedFlowerLatinName, setModifiedFlowerLatinName] = useState(flower.latin_name)
   const [modifiedFlowerQty, setModifiedFlowerQty] = useState(flower.quantity)
@@ -34,6 +35,7 @@ const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, addedTime}
                     value={modifiedFlowerName}
                     onChange={event => setModifiedFlowerName(event.target.value)}
                     className="form-control"
+                    aria-label="Name"
                     required
                   />
                 </td>
@@ -46,6 +48,7 @@ const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, addedTime}
                     value={modifiedFlowerLatinName}
                     onChange={event => setModifiedFlowerLatinName(event.target.value)}
                     className="form-control"
+                    aria-label="Latin name"
                   />
                 </td>
               </tr>
@@ -66,6 +69,7 @@ const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, addedTime}
                     value={modifiedFlowerQty}
                     onChange={event => setModifiedFlowerQty(event.target.value)}
                     className="form-control"
+                    aria-label="Quantity"
                     min="0"
                     max="1000000"
                     required
@@ -84,6 +88,15 @@ const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, addedTime}
             </tr>
             </tbody>
           </table>
+            <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
+              {t('button.delete')}
+            </button>
+            <Button variant="light" id="saveModifiedFlowerButton" type="submit">
+            {t("button.save")}
+            </Button>
+            <Button variant="dark" id="modifyFlowerCancelButton" onClick={handleFormVisibility} className="ml-2">
+              {t("button.cancel")}
+            </Button>
         </form>
       </div>
     )

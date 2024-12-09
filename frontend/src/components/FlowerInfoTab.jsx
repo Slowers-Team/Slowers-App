@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
-import { Button } from "react-bootstrap"
 import VisibilitySwitch from './VisibilitySwitch'
 import ModifyFlowerForm from './ModifyFlowerForm'
 import "./FlowerModal.css"
@@ -34,7 +33,7 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
 				<h3>{t('menu.info')}</h3>
         {isGrower && isModifyFormVisible ? (
             <div>
-              <ModifyFlowerForm flower={flower} modifyFlower={modifyFlower} handleFlowerModify={updateFlower} handleFormVisibility={handleFormVisibility} addedTime={addedTime(flower)}/>
+              <ModifyFlowerForm flower={flower} modifyFlower={modifyFlower} handleFlowerModify={updateFlower} handleFormVisibility={handleFormVisibility} handleFlowerDelete={handleFlowerDelete} addedTime={addedTime(flower)}/>
             </div> 
           ) : (
 						<div>
@@ -74,24 +73,15 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
 						</table>
 					</div>
 				)}
-        {deleteFlower && (
-          <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
-            {t('button.delete')}
-          </button>
-        )}
-        {isGrower && isModifyFormVisible ? (
-					<>
-						<Button variant="light" id="saveModifiedFlowerButton" type="submit">
-						{t("button.save")}
-						</Button>
-						<Button variant="dark" id="modifyFlowerCancelButton" onClick={handleFormVisibility} className="ml-2">
-							{t("button.cancel")}
-						</Button>
-					</>
-				) : (
-					<button id="modifyFlowerButton" onClick={handleFormVisibility}>
-					{t('button.modify')}
-					</button>
+        {isGrower && !isModifyFormVisible && (
+					<div>
+						<button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
+							{t('button.delete')}
+						</button>
+						<button id="modifyFlowerButton" onClick={handleFormVisibility}>
+						{t('button.modify')}
+						</button>
+					</div>
 				)}
     	</div>
     )
