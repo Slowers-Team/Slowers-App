@@ -214,3 +214,42 @@ func SetFavorite(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).SendString("")
 }
+
+func ClearFavorite(c *fiber.Ctx) error {
+	type favoriteData struct {
+		EntityID   string `json:"entityID"`
+		EntityType string `json:"entityType"`
+	}
+
+	formData := new(favoriteData)
+	if err := c.BodyParser(formData); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	EntityID, err := database.ParseID(formData.EntityID)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid entity ID format: %v", formData.EntityID))
+	}
+
+	var Collection string
+	switch formData.EntityType {
+	case "site":
+		Collection = "sites"
+	case "flower":
+		Collection = "flowers"
+	default:
+		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid EntityType: %v", formData.EntityType))
+	}
+
+	UserID, err := GetCurrentUser(c)
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).SendString("Could not get current user")
+	}
+
+	err = db.ClearFavoriteImage(c.Context(), UserID, EntityID, Collection)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).SendString("")
+}

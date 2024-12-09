@@ -53,6 +53,7 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app.Get("/api/images/entity/:entityID", handlers.FetchImagesByEntity)
 	app.Delete("/api/images/:id", handlers.DeleteImage)
 	app.Post("/api/images/favorite", handlers.SetFavorite)
+	app.Post("/api/images/clearfavorite", handlers.ClearFavorite)
 
 	return app
 }

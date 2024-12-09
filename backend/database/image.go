@@ -103,3 +103,22 @@ func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID, EntityID,
 
 	return nil
 }
+
+func (mDb MongoDatabase) ClearFavoriteImage(ctx context.Context, UserID, EntityID ObjectID, Collection string) error {
+	err := mDb.UserOwnsEntity(ctx, UserID, EntityID, Collection)
+	if err != nil {
+		return nil
+	}
+
+	filter := bson.M{"_id": EntityID}
+	update := bson.A{bson.M{"$unset": "favorite_image"}}
+	updateOpts := options.FindOneAndUpdate()
+
+	var updatedFavorite bson.M
+	err = db.Collection(Collection).FindOneAndUpdate(ctx, filter, update, updateOpts).Decode(&updatedFavorite)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
