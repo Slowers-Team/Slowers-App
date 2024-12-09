@@ -7,7 +7,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func GetEnvironmentVariables() ([]byte, string, string) {
+func GetEnvironmentVariables() ([]byte, string, string, string) {
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found")
 	}
@@ -29,5 +29,10 @@ func GetEnvironmentVariables() ([]byte, string, string) {
 		envPort = "5001"
 	}
 
-	return envSecretKey, envDatabaseURI, envPort
+	env := os.Getenv("ENV")
+	if env == "" {
+		env = "development"
+	}
+
+	return envSecretKey, envDatabaseURI, envPort, env
 }

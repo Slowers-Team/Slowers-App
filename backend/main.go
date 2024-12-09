@@ -9,14 +9,21 @@ import (
 )
 
 func main() {
-	secretKey, databaseURI, port := GetEnvironmentVariables()
+	secretKey, databaseURI, port, env := GetEnvironmentVariables()
 
 	db := database.NewMongoDatabase(databaseURI)
-	if err := db.Connect("Slowers"); err != nil {
-		log.Fatal(err)
+	if env == "test" {
+		if err := db.Connect("SlowersTest"); err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		if err := db.Connect("Slowers"); err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	application.SetSecretKey(secretKey)
+	application.SetEnv(env)
 	handlers.SetSecretKey(secretKey)
 	handlers.SetDatabase(db)
 
