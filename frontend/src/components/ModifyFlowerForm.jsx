@@ -88,7 +88,7 @@ const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, handleForm
             </tr>
             </tbody>
           </table>
-            <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
+            <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)} type="button">
               {t('button.delete')}
             </button>
             <Button variant="light" id="saveModifiedFlowerButton" type="submit">

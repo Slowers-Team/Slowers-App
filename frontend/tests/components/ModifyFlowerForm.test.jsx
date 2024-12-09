@@ -20,6 +20,7 @@ test('renders ModifyFlowerFrom with name, latin name and qty inputs', () => {
     const site = screen.getByText('Site')
     const qty = screen.getByLabelText('Quantity')
     const visible = screen.getByText('Visible to retailers')
+    const del = screen.getByText('Delete')
     const save = screen.getByText('Save')
     const cancel = screen.getByText('Cancel')
 })
