@@ -1,0 +1,270 @@
+﻿kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  annotations:
+    app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"Deployment","name":"slowers-mongo"}]'
+    app.openshift.io/route-disabled: 'false'
+    openshift.io/generated-by: OpenShiftWebConsole
+  resourceVersion: '1600953900'
+  name: slowers-backend
+  uid: 67fe3c73-bcab-41fe-b2f2-4e1a7e058e36
+  creationTimestamp: '2024-09-23T10:31:48Z'
+  generation: 64
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: apps.openshift.io/v1
+      time: '2024-11-08T11:28:29Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:app.openshift.io/connects-to': {}
+            'f:app.openshift.io/route-disabled': {}
+            'f:openshift.io/generated-by': {}
+          'f:labels':
+            .: {}
+            'f:app': {}
+            'f:app.kubernetes.io/component': {}
+            'f:app.kubernetes.io/instance': {}
+            'f:app.kubernetes.io/name': {}
+            'f:app.kubernetes.io/part-of': {}
+            'f:app.openshift.io/runtime': {}
+            'f:app.openshift.io/runtime-namespace': {}
+        'f:spec':
+          'f:replicas': {}
+          'f:selector':
+            .: {}
+            'f:app': {}
+            'f:deploymentconfig': {}
+          'f:strategy':
+            'f:activeDeadlineSeconds': {}
+            'f:rollingParams':
+              .: {}
+              'f:intervalSeconds': {}
+              'f:maxSurge': {}
+              'f:maxUnavailable': {}
+              'f:timeoutSeconds': {}
+              'f:updatePeriodSeconds': {}
+            'f:type': {}
+          'f:template':
+            .: {}
+            'f:metadata':
+              .: {}
+              'f:annotations':
+                .: {}
+                'f:openshift.io/generated-by': {}
+              'f:creationTimestamp': {}
+              'f:labels':
+                .: {}
+                'f:app': {}
+                'f:deploymentconfig': {}
+            'f:spec':
+              .: {}
+              'f:containers':
+                .: {}
+                'k:{"name":"slowers-backend"}':
+                  'f:volumeMounts':
+                    .: {}
+                    'k:{"mountPath":"/app/images"}':
+                      .: {}
+                      'f:mountPath': {}
+                      'f:name': {}
+                  'f:terminationMessagePolicy': {}
+                  .: {}
+                  'f:resources':
+                    .: {}
+                    'f:limits':
+                      .: {}
+                      'f:memory': {}
+                    'f:requests':
+                      .: {}
+                      'f:memory': {}
+                  'f:env':
+                    .: {}
+                    'k:{"name":"MONGODB_URI"}':
+                      .: {}
+                      'f:name': {}
+                      'f:value': {}
+                    'k:{"name":"SECRET_KEY"}':
+                      .: {}
+                      'f:name': {}
+                      'f:value': {}
+                  'f:terminationMessagePath': {}
+                  'f:imagePullPolicy': {}
+                  'f:ports':
+                    .: {}
+                    'k:{"containerPort":5001,"protocol":"TCP"}':
+                      .: {}
+                      'f:containerPort': {}
+                      'f:protocol': {}
+                  'f:name': {}
+              'f:dnsPolicy': {}
+              'f:restartPolicy': {}
+              'f:schedulerName': {}
+              'f:securityContext': {}
+              'f:terminationGracePeriodSeconds': {}
+              'f:volumes':
+                .: {}
+                'k:{"name":"slowers-image-storage-claim"}':
+                  .: {}
+                  'f:name': {}
+                  'f:persistentVolumeClaim':
+                    .: {}
+                    'f:claimName': {}
+    - manager: openshift-controller-manager
+      operation: Update
+      apiVersion: apps.openshift.io/v1
+      time: '2024-12-08T11:42:21Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          'f:template':
+            'f:spec':
+              'f:containers':
+                'k:{"name":"slowers-backend"}':
+                  'f:image': {}
+          'f:triggers': {}
+    - manager: openshift-controller-manager
+      operation: Update
+      apiVersion: apps.openshift.io/v1
+      time: '2024-12-08T11:42:47Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          'f:updatedReplicas': {}
+          'f:readyReplicas': {}
+          'f:conditions':
+            .: {}
+            'k:{"type":"Available"}':
+              .: {}
+              'f:lastTransitionTime': {}
+              'f:lastUpdateTime': {}
+              'f:message': {}
+              'f:status': {}
+              'f:type': {}
+            'k:{"type":"Progressing"}':
+              .: {}
+              'f:lastTransitionTime': {}
+              'f:lastUpdateTime': {}
+              'f:message': {}
+              'f:reason': {}
+              'f:status': {}
+              'f:type': {}
+          'f:details':
+            .: {}
+            'f:causes': {}
+            'f:message': {}
+          'f:replicas': {}
+          'f:availableReplicas': {}
+          'f:observedGeneration': {}
+          'f:unavailableReplicas': {}
+          'f:latestVersion': {}
+      subresource: status
+  namespace: ohtuprojekti-staging
+  labels:
+    app: slowers-backend
+    app.kubernetes.io/component: slowers-backend
+    app.kubernetes.io/instance: slowers-backend
+    app.kubernetes.io/name: slowers-backend
+    app.kubernetes.io/part-of: Slowers-App
+    app.openshift.io/runtime: golang
+    app.openshift.io/runtime-namespace: ohtuprojekti-staging
+spec:
+  strategy:
+    type: Rolling
+    rollingParams:
+      updatePeriodSeconds: 1
+      intervalSeconds: 1
+      timeoutSeconds: 600
+      maxUnavailable: 25%
+      maxSurge: 25%
+    resources: {}
+    activeDeadlineSeconds: 21600
+  triggers:
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - slowers-backend
+        from:
+          kind: ImageStreamTag
+          namespace: ohtuprojekti-staging
+          name: 'slowers-backend:latest'
+        lastTriggeredImage: 'image-registry.openshift-image-registry.svc:5000/ohtuprojekti-staging/slowers-backend@sha256:51cd52f67f965fa2003480af52e4d4dfde63515c1ac291c5651c849974231817'
+    - type: ConfigChange
+  replicas: 1
+  revisionHistoryLimit: 10
+  test: false
+  selector:
+    app: slowers-backend
+    deploymentconfig: slowers-backend
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: slowers-backend
+        deploymentconfig: slowers-backend
+      annotations:
+        openshift.io/generated-by: OpenShiftWebConsole
+    spec:
+      volumes:
+        - name: slowers-image-storage-claim
+          persistentVolumeClaim:
+            claimName: slowers-image-storage-claim
+      containers:
+        - resources:
+            limits:
+              memory: 100Mi
+            requests:
+              memory: 10Mi
+          terminationMessagePath: /dev/termination-log
+          name: slowers-backend
+          env:
+            - name: MONGODB_URI
+              value: 'mongodb://slowers-mongo.ohtuprojekti-staging.svc.cluster.local'
+            - name: SECRET_KEY
+              value: insert_a_secret_key_here
+          ports:
+            - containerPort: 5001
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: slowers-image-storage-claim
+              mountPath: /app/images
+          terminationMessagePolicy: File
+          image: 'image-registry.openshift-image-registry.svc:5000/ohtuprojekti-staging/slowers-backend@sha256:51cd52f67f965fa2003480af52e4d4dfde63515c1ac291c5651c849974231817'
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+status:
+  observedGeneration: 64
+  details:
+    message: image change
+    causes:
+      - type: ImageChange
+        imageTrigger:
+          from:
+            kind: DockerImage
+            name: 'image-registry.openshift-image-registry.svc:5000/ohtuprojekti-staging/slowers-backend@sha256:51cd52f67f965fa2003480af52e4d4dfde63515c1ac291c5651c849974231817'
+  availableReplicas: 1
+  unavailableReplicas: 0
+  latestVersion: 61
+  updatedReplicas: 1
+  conditions:
+    - type: Available
+      status: 'True'
+      lastUpdateTime: '2024-11-22T09:17:21Z'
+      lastTransitionTime: '2024-11-22T09:17:21Z'
+      message: Deployment config has minimum availability.
+    - type: Progressing
+      status: 'True'
+      lastUpdateTime: '2024-12-08T11:42:47Z'
+      lastTransitionTime: '2024-12-08T11:42:42Z'
+      reason: NewReplicationControllerAvailable
+      message: replication controller "slowers-backend-61" successfully rolled out
+  replicas: 1
+  readyReplicas: 1

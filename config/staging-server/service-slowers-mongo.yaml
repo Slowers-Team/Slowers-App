@@ -1,0 +1,69 @@
+﻿kind: Service
+apiVersion: v1
+metadata:
+  name: slowers-mongo
+  namespace: ohtuprojekti-staging
+  uid: 9484987c-03cd-40b0-a162-5a208aa087a4
+  resourceVersion: '1406340582'
+  creationTimestamp: '2024-09-12T12:40:40Z'
+  labels:
+    app: slowers-mongo
+    app.kubernetes.io/component: slowers-mongo
+    app.kubernetes.io/instance: slowers-mongo
+    app.kubernetes.io/name: slowers-mongo
+    app.kubernetes.io/part-of: Slowers-App
+    app.openshift.io/runtime-version: latest
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: v1
+      time: '2024-09-12T12:40:40Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:openshift.io/generated-by': {}
+          'f:labels':
+            .: {}
+            'f:app': {}
+            'f:app.kubernetes.io/component': {}
+            'f:app.kubernetes.io/instance': {}
+            'f:app.kubernetes.io/name': {}
+            'f:app.kubernetes.io/part-of': {}
+            'f:app.openshift.io/runtime-version': {}
+        'f:spec':
+          'f:internalTrafficPolicy': {}
+          'f:ports':
+            .: {}
+            'k:{"port":27017,"protocol":"TCP"}':
+              .: {}
+              'f:name': {}
+              'f:port': {}
+              'f:protocol': {}
+              'f:targetPort': {}
+          'f:selector': {}
+          'f:sessionAffinity': {}
+          'f:type': {}
+spec:
+  clusterIP: 172.30.112.72
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: 27017-tcp
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
+  internalTrafficPolicy: Cluster
+  clusterIPs:
+    - 172.30.112.72
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    app: slowers-mongo
+    deployment: slowers-mongo
+status:
+  loadBalancer: {}
