@@ -10,7 +10,7 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower, mo
   const isGrower = Boolean(deleteFlower && updateFlower && modifyFlower)
 
   return (
-    <Modal size="xl" show={show} onHide={handleClose}>
+    <Modal size="lg" show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{flower.name}</Modal.Title>
       </Modal.Header>
