@@ -31,9 +31,9 @@ const RetailerFlowerList = ({ flowers }) => {
 
   const renderSortIcon = (key) => {
     if (sortConfig.key === key) {
-      return sortConfig.direction === 'asc' ? ' \u25B2' : ' \u25BC'
+      return sortConfig.direction === 'asc' ? <i className="bi bi-caret-up-fill"></i> : <i className="bi bi-caret-down-fill"></i>
     }
-    return ' \u25BE'
+    return ''
   }
 
   const sortedFlowers = [...flowers].sort((a, b) => {
