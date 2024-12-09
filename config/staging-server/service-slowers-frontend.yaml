@@ -1,0 +1,71 @@
+﻿kind: Service
+apiVersion: v1
+metadata:
+  name: slowers-frontend
+  namespace: ohtuprojekti-staging
+  uid: 8040df07-26bd-45db-81ff-6fa1e72f7ef2
+  resourceVersion: '1423026603'
+  creationTimestamp: '2024-09-23T10:37:58Z'
+  labels:
+    app: slowers-frontend
+    app.kubernetes.io/component: slowers-frontend
+    app.kubernetes.io/instance: slowers-frontend
+    app.kubernetes.io/name: slowers-frontend
+    app.kubernetes.io/part-of: Slowers-App
+    app.openshift.io/runtime-version: latest
+  annotations:
+    app.openshift.io/connects-to: '[{"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","name":"slowers-backend"}]'
+    openshift.io/generated-by: OpenShiftWebConsole
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: v1
+      time: '2024-09-23T10:39:15Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:app.openshift.io/connects-to': {}
+            'f:openshift.io/generated-by': {}
+          'f:labels':
+            .: {}
+            'f:app': {}
+            'f:app.kubernetes.io/component': {}
+            'f:app.kubernetes.io/instance': {}
+            'f:app.kubernetes.io/name': {}
+            'f:app.kubernetes.io/part-of': {}
+            'f:app.openshift.io/runtime-version': {}
+        'f:spec':
+          'f:internalTrafficPolicy': {}
+          'f:ports':
+            .: {}
+            'k:{"port":5173,"protocol":"TCP"}':
+              .: {}
+              'f:name': {}
+              'f:port': {}
+              'f:protocol': {}
+              'f:targetPort': {}
+          'f:selector': {}
+          'f:sessionAffinity': {}
+          'f:type': {}
+spec:
+  clusterIP: 172.30.175.94
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: 5173-tcp
+      protocol: TCP
+      port: 5173
+      targetPort: 5173
+  internalTrafficPolicy: Cluster
+  clusterIPs:
+    - 172.30.175.94
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    app: slowers-frontend
+    deploymentconfig: slowers-frontend
+status:
+  loadBalancer: {}

@@ -1,0 +1,93 @@
+﻿kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: slowers-frontend
+  namespace: ohtuprojekti-staging
+  uid: c51a09b3-b5f7-4a4b-82ac-236410aec619
+  resourceVersion: '1529639396'
+  creationTimestamp: '2024-09-23T10:41:03Z'
+  labels:
+    app: slowers-frontend
+    app.kubernetes.io/component: slowers-frontend
+    app.kubernetes.io/instance: slowers-frontend
+    app.kubernetes.io/name: slowers-frontend
+    app.kubernetes.io/part-of: Slowers-App
+    app.openshift.io/runtime-version: latest
+    type: external
+  annotations:
+    app.openshift.io/connects-to: '[{"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","name":"slowers-backend"}]'
+    openshift.io/host.generated: 'true'
+  managedFields:
+    - manager: openshift-router
+      operation: Update
+      apiVersion: route.openshift.io/v1
+      time: '2024-09-23T10:41:03Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          'f:ingress': {}
+      subresource: status
+    - manager: Mozilla
+      operation: Update
+      apiVersion: route.openshift.io/v1
+      time: '2024-11-05T10:36:38Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:app.openshift.io/connects-to': {}
+            'f:openshift.io/host.generated': {}
+          'f:labels':
+            .: {}
+            'f:app': {}
+            'f:app.kubernetes.io/component': {}
+            'f:app.kubernetes.io/instance': {}
+            'f:app.kubernetes.io/name': {}
+            'f:app.kubernetes.io/part-of': {}
+            'f:app.openshift.io/runtime-version': {}
+            'f:type': {}
+        'f:spec':
+          'f:host': {}
+          'f:port':
+            .: {}
+            'f:targetPort': {}
+          'f:tls':
+            .: {}
+            'f:insecureEdgeTerminationPolicy': {}
+            'f:termination': {}
+          'f:to':
+            'f:kind': {}
+            'f:name': {}
+            'f:weight': {}
+          'f:wildcardPolicy': {}
+spec:
+  host: slowers.ext.ocp-test-0.k8s.it.helsinki.fi
+  to:
+    kind: Service
+    name: slowers-frontend
+    weight: 100
+  port:
+    targetPort: 5173-tcp
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
+status:
+  ingress:
+    - host: slowers.ext.ocp-test-0.k8s.it.helsinki.fi
+      routerName: default
+      conditions:
+        - type: Admitted
+          status: 'True'
+          lastTransitionTime: '2024-09-23T10:41:03Z'
+      wildcardPolicy: None
+      routerCanonicalHostname: router-default.apps.ocp-test-0.k8s.it.helsinki.fi
+    - host: slowers.ext.ocp-test-0.k8s.it.helsinki.fi
+      routerName: external
+      conditions:
+        - type: Admitted
+          status: 'True'
+          lastTransitionTime: '2024-09-23T10:41:03Z'
+      wildcardPolicy: None
+      routerCanonicalHostname: router-external.ext.ocp-test-0.k8s.it.helsinki.fi

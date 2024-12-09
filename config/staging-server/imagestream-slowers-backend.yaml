@@ -1,0 +1,129 @@
+﻿kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  annotations:
+    openshift.io/image.dockerRepositoryCheck: '2024-12-08T11:42:21Z'
+  resourceVersion: '1602020113'
+  name: slowers-backend
+  uid: 0bc937a7-b692-4ebf-815c-2ba256474622
+  creationTimestamp: '2024-09-23T10:31:46Z'
+  generation: 62
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: image.openshift.io/v1
+      time: '2024-09-24T09:05:25Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:labels':
+            .: {}
+            'f:app': {}
+            'f:app.kubernetes.io/component': {}
+            'f:app.kubernetes.io/instance': {}
+            'f:app.kubernetes.io/name': {}
+            'f:app.kubernetes.io/part-of': {}
+        'f:spec':
+          'f:tags':
+            .: {}
+            'k:{"name":"latest"}':
+              .: {}
+              'f:annotations':
+                .: {}
+                'f:openshift.io/generated-by': {}
+                'f:openshift.io/imported-from': {}
+              'f:from': {}
+              'f:generation': {}
+              'f:importPolicy':
+                .: {}
+                'f:importMode': {}
+                'f:scheduled': {}
+              'f:name': {}
+              'f:referencePolicy':
+                .: {}
+                'f:type': {}
+    - manager: oc
+      operation: Update
+      apiVersion: image.openshift.io/v1
+      time: '2024-12-09T00:00:14Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          'f:tags':
+            'k:{"tag":"latest"}':
+              'f:items': {}
+      subresource: status
+  namespace: ohtuprojekti-staging
+  labels:
+    app: slowers-backend
+    app.kubernetes.io/component: slowers-backend
+    app.kubernetes.io/instance: slowers-backend
+    app.kubernetes.io/name: slowers-backend
+    app.kubernetes.io/part-of: Slowers-App
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+    - name: latest
+      annotations:
+        openshift.io/generated-by: OpenShiftWebConsole
+        openshift.io/imported-from: 'docker.io/vsirvio/slowers-backend:latest'
+      from:
+        kind: DockerImage
+        name: 'docker.io/vsirvio/slowers-backend:latest'
+      generation: 62
+      importPolicy:
+        scheduled: true
+        importMode: Legacy
+      referencePolicy:
+        type: Local
+status:
+  dockerImageRepository: 'image-registry.openshift-image-registry.svc:5000/ohtuprojekti-staging/slowers-backend'
+  publicDockerImageRepository: registry.apps.ocp-test-0.k8s.it.helsinki.fi/ohtuprojekti-staging/slowers-backend
+  tags:
+    - tag: latest
+      items:
+        - created: '2024-12-08T11:42:21Z'
+          dockerImageReference: 'docker.io/vsirvio/slowers-backend@sha256:51cd52f67f965fa2003480af52e4d4dfde63515c1ac291c5651c849974231817'
+          image: 'sha256:51cd52f67f965fa2003480af52e4d4dfde63515c1ac291c5651c849974231817'
+          generation: 62
+        - created: '2024-12-08T10:57:25Z'
+          dockerImageReference: 'docker.io/vsirvio/slowers-backend@sha256:9199b3182c1ff164ca4296aa260b760b5d2894724724f2d47345ac01bec2d288'
+          image: 'sha256:9199b3182c1ff164ca4296aa260b760b5d2894724724f2d47345ac01bec2d288'
+          generation: 61
+        - created: '2024-12-07T11:43:14Z'
+          dockerImageReference: 'docker.io/vsirvio/slowers-backend@sha256:0caa046fe7e1111e5c73d8842801142d510950630d36990b26ce2f8bd4ccae06'
+          image: 'sha256:0caa046fe7e1111e5c73d8842801142d510950630d36990b26ce2f8bd4ccae06'
+          generation: 60
+        - created: '2024-12-05T20:58:16Z'
+          dockerImageReference: 'docker.io/vsirvio/slowers-backend@sha256:7c67e248fb7e0a14795cdb2b5382cad9434b1d99af1a977ca6f932186e84ed5e'
+          image: 'sha256:7c67e248fb7e0a14795cdb2b5382cad9434b1d99af1a977ca6f932186e84ed5e'
+          generation: 59
+        - created: '2024-12-03T14:43:08Z'
+          dockerImageReference: 'docker.io/vsirvio/slowers-backend@sha256:50eb29a137208a7bf4bd07b1450a4ed0903dec6f37d4bef90b2e3f4754594023'
+          image: 'sha256:50eb29a137208a7bf4bd07b1450a4ed0903dec6f37d4bef90b2e3f4754594023'
+          generation: 58
+        - created: '2024-12-03T05:17:21Z'
+          dockerImageReference: 'docker.io/vsirvio/slowers-backend@sha256:cd2f55f83151021579c1b8f7847fcc917da920df82a87f92753e624c3c21d936'
+          image: 'sha256:cd2f55f83151021579c1b8f7847fcc917da920df82a87f92753e624c3c21d936'
+          generation: 57
+        - created: '2024-11-29T10:32:12Z'
+          dockerImageReference: 'docker.io/vsirvio/slowers-backend@sha256:48a1db100273af08e41f4b69b1b4978ff28da8c3fd20cfb897b2c9c2a8e77bce'
+          image: 'sha256:48a1db100273af08e41f4b69b1b4978ff28da8c3fd20cfb897b2c9c2a8e77bce'
+          generation: 56
+        - created: '2024-11-22T11:47:21Z'
+          dockerImageReference: 'docker.io/vsirvio/slowers-backend@sha256:f2a43514f08ee9ef51d62045c0574add7e865e86fd632cbc9d74f0934055c998'
+          image: 'sha256:f2a43514f08ee9ef51d62045c0574add7e865e86fd632cbc9d74f0934055c998'
+          generation: 55
+        - created: '2024-11-21T17:02:02Z'
+          dockerImageReference: 'docker.io/vsirvio/slowers-backend@sha256:8fad77e652ba454bdd65abfc3be7457de17e7ee08f5b9511bda834972d5ff114'
+          image: 'sha256:8fad77e652ba454bdd65abfc3be7457de17e7ee08f5b9511bda834972d5ff114'
+          generation: 54
+        - created: '2024-11-21T15:32:29Z'
+          dockerImageReference: 'docker.io/vsirvio/slowers-backend@sha256:e64554243dfe542812477b2928333980d568a5cabd230623859c2b125a177cfa'
+          image: 'sha256:e64554243dfe542812477b2928333980d568a5cabd230623859c2b125a177cfa'
+          generation: 53
+        - created: '2024-11-21T09:47:30Z'
+          dockerImageReference: 'docker.io/vsirvio/slowers-backend@sha256:79f2d0b40f7002d4517b0209fe41c4c316a8a2430ab752ec034bdc2e8e5acc24'
+          image: 'sha256:79f2d0b40f7002d4517b0209fe41c4c316a8a2430ab752ec034bdc2e8e5acc24'
+          generation: 52

@@ -1,0 +1,101 @@
+﻿kind: ImageStreamTag
+apiVersion: image.openshift.io/v1
+metadata:
+  name: 'slowers-mongo:latest'
+  namespace: ohtuprojekti-staging
+  uid: 396c7999-16fb-440f-889c-b7a7c7ddccbc
+  resourceVersion: '1406340562'
+  creationTimestamp: '2024-09-12T12:40:39Z'
+  labels:
+    app: slowers-mongo
+    app.kubernetes.io/component: slowers-mongo
+    app.kubernetes.io/instance: slowers-mongo
+    app.kubernetes.io/name: slowers-mongo
+    app.kubernetes.io/part-of: Slowers-App
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+    openshift.io/imported-from: docker.io/library/mongo
+tag:
+  name: latest
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+    openshift.io/imported-from: docker.io/library/mongo
+  from:
+    kind: DockerImage
+    name: docker.io/library/mongo
+  generation: 2
+  importPolicy:
+    importMode: Legacy
+  referencePolicy:
+    type: Local
+generation: 2
+lookupPolicy:
+  local: false
+image:
+  metadata:
+    name: 'sha256:24c904ccff05dcd659aae47af9bf7c8ffeba84b62099f5cd8ca10327665cc1af'
+    uid: 905d1ce0-2230-496a-87c6-97abcb20f94e
+    resourceVersion: '1406061514'
+    creationTimestamp: '2024-09-12T07:46:09Z'
+    annotations:
+      image.openshift.io/dockerLayersOrder: ascending
+      openshift.io/generated-by: OpenShiftWebConsole
+      openshift.io/imported-from: docker.io/library/mongo
+  dockerImageReference: 'image-registry.openshift-image-registry.svc:5000/ohtuprojekti-staging/slowers-mongo@sha256:24c904ccff05dcd659aae47af9bf7c8ffeba84b62099f5cd8ca10327665cc1af'
+  dockerImageMetadata:
+    kind: DockerImage
+    apiVersion: image.openshift.io/1.0
+    Id: 'sha256:81a05b7283523bfe55eb2a90a39789c1bb3bbe95c14efcb4b014ef3e35a5e95e'
+    Created: '2024-08-26T16:01:29Z'
+    ContainerConfig: {}
+    Config:
+      ExposedPorts:
+        27017/tcp: {}
+      Env:
+        - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+        - GOSU_VERSION=1.17
+        - JSYAML_VERSION=3.13.1
+        - MONGO_PACKAGE=mongodb-org
+        - MONGO_REPO=repo.mongodb.org
+        - MONGO_MAJOR=7.0
+        - MONGO_VERSION=7.0.14
+        - HOME=/data/db
+      Cmd:
+        - mongod
+      Volumes:
+        /data/configdb: {}
+        /data/db: {}
+      Entrypoint:
+        - docker-entrypoint.sh
+      Labels:
+        org.opencontainers.image.ref.name: ubuntu
+        org.opencontainers.image.version: '22.04'
+    Architecture: amd64
+    Size: 258789184
+  dockerImageMetadataVersion: '1.0'
+  dockerImageLayers:
+    - name: 'sha256:857cc8cb19c0f475256df4b7709003b77f101215ebf3693118e61aac6a5ea4ff'
+      size: 29536025
+      mediaType: application/vnd.oci.image.layer.v1.tar+gzip
+    - name: 'sha256:a54f12bd58198590bc17d166d7e9d42dd34d95532894806656c46185c46c4d2d'
+      size: 1775
+      mediaType: application/vnd.oci.image.layer.v1.tar+gzip
+    - name: 'sha256:f95b02a6236d79e0c6666e918812b1faf12db63bcea429a89d49082f91babf3d'
+      size: 1500964
+      mediaType: application/vnd.oci.image.layer.v1.tar+gzip
+    - name: 'sha256:0d20d29fe9caa158e5e6612c0d7b28d1e19ab9c93d2401ec91f7eecb767d73a6'
+      size: 1094776
+      mediaType: application/vnd.oci.image.layer.v1.tar+gzip
+    - name: 'sha256:2382733f40de4cefce4aa72d34f893fad4a58907272dd73f9b4c3c7c60dae828'
+      size: 116
+      mediaType: application/vnd.oci.image.layer.v1.tar+gzip
+    - name: 'sha256:c1458145b657ba68d3a0fed527b5b947771999ab5996b7ea2cd178261800c833'
+      size: 265
+      mediaType: application/vnd.oci.image.layer.v1.tar+gzip
+    - name: 'sha256:fee77be417658c5caa35d1d096088fbbbafca3831b0541df1b69485d49a32fdd'
+      size: 226642954
+      mediaType: application/vnd.oci.image.layer.v1.tar+gzip
+    - name: 'sha256:da4a4cbb623f6224bf010a7ed79f2197d59740f37575011bebd6c7546cbcd3d0'
+      size: 4997
+      mediaType: application/vnd.oci.image.layer.v1.tar+gzip
+  dockerImageManifestMediaType: application/vnd.oci.image.manifest.v1+json
