@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
+import { Button } from "react-bootstrap"
 import VisibilitySwitch from './VisibilitySwitch'
 import ModifyFlowerForm from './ModifyFlowerForm'
 
@@ -75,11 +76,20 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
             {t('button.delete')}
           </button>
         )}
-        {isGrower && !isModifyFormVisible && (
-          <button id="modifyFlowerButton" onClick={handleFormVisibility}>
-            {t('button.modify')}
-          </button>
-        )}
+        {isGrower && isModifyFormVisible ? (
+					<>
+						<Button variant="light" id="saveModifiedFlowerButton" type="submit">
+						{t("button.save")}
+						</Button>
+						<Button variant="dark" id="modifyFlowerCancelButton" onClick={handleFormVisibility} className="ml-2">
+							{t("button.cancel")}
+						</Button>
+					</>
+				) : (
+					<button id="modifyFlowerButton" onClick={handleFormVisibility}>
+					{t('button.modify')}
+					</button>
+				)}
     	</div>
     )
 }

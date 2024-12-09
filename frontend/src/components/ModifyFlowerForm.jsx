@@ -1,4 +1,3 @@
-import { Button, Container } from "react-bootstrap"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 
@@ -85,14 +84,6 @@ const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, handleForm
             </tr>
             </tbody>
           </table>
-          <div className="mt-3">
-            <Button variant="light" id="saveModifiedFlowerButton" type="submit">
-              {t("button.save")}
-            </Button>
-            <Button variant="dark" id="modifyFlowerCancelButton" onClick={handleFormVisibility} className="ml-2">
-              {t("button.cancel")}
-            </Button>
-          </div>
         </form>
       </div>
     )
