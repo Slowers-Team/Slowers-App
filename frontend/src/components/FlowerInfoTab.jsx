@@ -28,19 +28,14 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
 			return addedTimeStr
 		}
     return (
-        <div>
+      <div>
+				<h3>{t('menu.info')}</h3>
         {isGrower && isModifyFormVisible ? (
             <div>
-              <ModifyFlowerForm 
-                flower={flower} 
-                modifyFlower={modifyFlower} 
-                handleFlowerModify={updateFlower}
-                handleFormVisibility={handleFormVisibility}
-              />
+              <ModifyFlowerForm flower={flower} modifyFlower={modifyFlower} handleFlowerModify={updateFlower} handleFormVisibility={handleFormVisibility}/>
             </div> 
           ) : (
             <div>
-              <h3>{t('menu.info')}</h3>
               <p>{t('flower.data.name')}: {flower.name}</p>
               <p>{t('flower.data.latinname')}: {flower.latin_name}</p>
               <p>{t('flower.data.addedtime')}: {addedTime(flower)}</p>
@@ -64,7 +59,7 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
             {t('button.modify')}
           </button>
         )}
-      </div>
+    	</div>
     )
 }
 
