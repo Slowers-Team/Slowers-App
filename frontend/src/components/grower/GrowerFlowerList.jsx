@@ -163,7 +163,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
                 <td>
                   <input type="checkbox" checked={checkedFlowers.includes(flower._id)} onChange={() => toggleCheckedFlower(flower._id)} />
                 </td>
-                <td>
+                <td className='image-cell'>
                   <div className='image-container'>
                     <img src={images.find((o) => o.flower === flower._id)?.url ?? placeholderImage} alt={flower.name} />
                   </div>

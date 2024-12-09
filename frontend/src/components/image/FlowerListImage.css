@@ -1,6 +1,6 @@
 .image-container {
-	width: 100px;
-	height: 100px;
+	width: 125px;
+	height: 125px;
 	text-align: center;
 	overflow: hidden;
 }
@@ -9,6 +9,14 @@
 	position: relative;
 	width: 100%;
 	height: 100%;
-	left: 100%;
-	margin-left: -200%;
+	object-fit: cover;
+	object-position: center;
+}
+
+.image-cell {
+	padding-top: 5px !important;
+	padding-bottom: 5px !important;
+	padding-right: 0px !important;
+	padding-left: 0px !important;
+	object-position: center;
 }
