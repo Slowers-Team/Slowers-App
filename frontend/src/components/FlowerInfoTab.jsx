@@ -32,7 +32,7 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
 				<h3>{t('menu.info')}</h3>
         {isGrower && isModifyFormVisible ? (
             <div>
-              <ModifyFlowerForm flower={flower} modifyFlower={modifyFlower} handleFlowerModify={updateFlower} handleFormVisibility={handleFormVisibility}/>
+              <ModifyFlowerForm flower={flower} modifyFlower={modifyFlower} handleFlowerModify={updateFlower} handleFormVisibility={handleFormVisibility} addedTime={addedTime(flower)}/>
             </div> 
           ) : (
 						<div>
