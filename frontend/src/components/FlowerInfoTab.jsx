@@ -35,20 +35,41 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
               <ModifyFlowerForm flower={flower} modifyFlower={modifyFlower} handleFlowerModify={updateFlower} handleFormVisibility={handleFormVisibility}/>
             </div> 
           ) : (
-            <div>
-              <p>{t('flower.data.name')}: {flower.name}</p>
-              <p>{t('flower.data.latinname')}: {flower.latin_name}</p>
-              <p>{t('flower.data.addedtime')}: {addedTime(flower)}</p>
-              <p>{t('flower.data.site')}: {flower.site_name}</p>
-              <p>{t('flower.data.qty')}: {flower.quantity}</p>
-            </div>
-          )}
-        {isGrower ?
-        <p>{t('flower.visible.long')}: {flower.visible 
-              ? t('flower.visible.true') 
-              : t('flower.visible.false')}
-        <VisibilityButton flower={flower} updateFlower={updateFlower}/>
-        </p> : <></>}
+						<div>
+						<table className="table">
+							<tbody>
+								<tr>
+									<th>{t('flower.data.name')}</th>
+									<td>{flower.name}</td>
+								</tr>
+								<tr>
+									<th>{t('flower.data.latinname')}</th>
+									<td>{flower.latin_name}</td>
+								</tr>
+								<tr>
+									<th>{t('flower.data.addedtime')}</th>
+									<td>{addedTime(flower)}</td>
+								</tr>
+								<tr>
+									<th>{t('flower.data.site')}</th>
+									<td>{flower.site_name}</td>
+								</tr>
+								<tr>
+									<th>{t('flower.data.qty')}</th>
+									<td>{flower.quantity}</td>
+								</tr>
+								<tr>
+									<th>{t('flower.visible.long')}</th>
+									<td>
+										{isGrower && (
+											<VisibilityButton flower={flower} updateFlower={updateFlower} visible={flower.visible}/>
+										)}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				)}
         {deleteFlower && (
           <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
             {t('button.delete')}
