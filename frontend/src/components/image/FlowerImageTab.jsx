@@ -59,7 +59,10 @@ const FlowerImageTab = ({ isGrower, flower, updateFlower }) => {
             alert(t('error.erroroccured'))
           })
           ImageService.clearFavorite(flower._id, "flower")
-          .then(_ => {console.log("cleared")})
+          .then(_ => {
+            console.log("cleared")
+            updateFlower({...flower, favorite_image: null})
+          })
           .catch(error => {
             console.error('Error clearing favorite image:', error)
             alert(t('error.erroroccured'))
