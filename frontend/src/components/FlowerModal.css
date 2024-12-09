@@ -1,11 +1,25 @@
 .custom-table {
     table-layout: fixed;
     width: 100%;
-  }
+}
   
   .custom-table th,
   .custom-table td {
     width: 25%;
-    height: 60px;
+    height: 65px;
     vertical-align: middle;
-  }
+    padding: 10px 15px;
+}
+
+.form-check {
+    margin-bottom: 0;
+}
+
+form > div {
+    margin-top: 0 !important;
+}
+
+form {
+    padding-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
