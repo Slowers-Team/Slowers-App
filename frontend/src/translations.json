@@ -62,6 +62,7 @@
         "select": "Select image",
         "title": "Add a new image",
         "confirmimagedeletion": "Confirm image deletion",
+        "flowerwillbehidden": "If you delete the last image, the flower will be hidden from retailers",
         "noflowerimages": "This flower doesn't have any images yet",
         "nositeimages": "This site doesn't have any images yet"
       },
@@ -197,6 +198,7 @@
         "select": "Valitse kuva",
         "title": "Lisää uusi kuva",
         "confirmimagedeletion": "Vahvista kuvan poisto",
+        "flowerwillbehidden": "Jos poistat viimeisen kuvan, kukka piilotetaan jälleenmyyjiltä",
         "noflowerimages": "Tällä kukalla ei ole vielä kuvia",
         "nositeimages": "Tällä alueella ei ole vielä kuvia"
       },
