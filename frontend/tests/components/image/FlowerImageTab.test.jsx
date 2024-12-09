@@ -10,7 +10,7 @@ test('renders FlowerImageTab as grower', () => {
     render(<FlowerImageTab isGrower={true} flower={flower} deleteImage={deleteImage} />)
 
     const title = screen.getByText('Images')
-    const addImageButton = screen.getByText('Add a new image')
+    const addImageButton = screen.getByText('+')
     const noImages = screen.getByText("This flower doesn't have any images yet")
 })
 
@@ -31,7 +31,7 @@ test('open ImageForm when clicking button', async () => {
 
     render(<FlowerImageTab isGrower={true} flower={flower} deleteImage={deleteImage} />)
 
-    const imageButton = screen.getByText('Add a new image')
+    const imageButton = screen.getByText('+')
     await user.click(imageButton)
 
     const selectImage = screen.getByText('Select image:')

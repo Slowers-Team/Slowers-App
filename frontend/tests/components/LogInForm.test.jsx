@@ -8,8 +8,8 @@ test('renders LogIn form with email and password inputs', () => {
 
     render(<LogInForm login={login} />)
 
-    const email = screen.getByLabelText('Email')
-    const password = screen.getByLabelText('Password')
+    const email = screen.getByPlaceholderText('Enter email')
+    const password = screen.getByPlaceholderText('Enter password')
     const submitButton = screen.getByRole('button', { name: 'Log in'})
 })
 
@@ -19,8 +19,8 @@ test('updates input values when typing', async () => {
 
     render(<LogInForm login={login} />)
 
-    const emailInput = screen.getByLabelText('Email')
-    const passwordInput = screen.getByLabelText('Password')
+    const emailInput = screen.getByPlaceholderText('Enter email')
+    const passwordInput = screen.getByPlaceholderText('Enter password')
 
     await user.type(emailInput, 'test@email.com') 
     await user.type(passwordInput, 'testpassword')
@@ -35,8 +35,8 @@ test('does not clear input values after submit if email does not match standard 
 
     render(<LogInForm login={login} />)
 
-    const emailInput = screen.getByLabelText('Email')
-    const passwordInput = screen.getByLabelText('Password')
+    const emailInput = screen.getByPlaceholderText('Enter email')
+    const passwordInput = screen.getByPlaceholderText('Enter password')
 
     await user.type(emailInput, 'invalidtestemail')
     await user.type(passwordInput, 'testpassword')
