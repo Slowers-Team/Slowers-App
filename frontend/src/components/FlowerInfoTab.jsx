@@ -51,22 +51,24 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
 									<th>{t('flower.data.addedtime')}</th>
 									<td>{addedTime(flower)}</td>
 								</tr>
+								{isGrower && (
 								<tr>
 									<th>{t('flower.data.site')}</th>
 									<td>{flower.site_name}</td>
 								</tr>
+								)}
 								<tr>
 									<th>{t('flower.data.qty')}</th>
 									<td>{flower.quantity}</td>
 								</tr>
-								<tr>
-									<th>{t('flower.visible.long')}</th>
-									<td>
-										{isGrower && (
+								{isGrower && (
+									<tr>
+										<th>{t('flower.visible.long')}</th>
+										<td>
 											<VisibilitySwitch flower={flower} updateFlower={updateFlower} visible={flower.visible}/>
-										)}
-									</td>
-								</tr>
+										</td>
+									</tr>
+								)}
 							</tbody>
 						</table>
 					</div>

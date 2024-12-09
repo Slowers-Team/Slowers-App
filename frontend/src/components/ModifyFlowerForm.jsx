@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 
-const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, handleFormVisibility, addedTime}) => {
+const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, addedTime}) => {
   const [modifiedFlowerName, setModifiedFlowerName] = useState(flower.name)
   const [modifiedFlowerLatinName, setModifiedFlowerLatinName] = useState(flower.latin_name)
   const [modifiedFlowerQty, setModifiedFlowerQty] = useState(flower.quantity)
