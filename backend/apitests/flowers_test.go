@@ -180,6 +180,63 @@ func (s *FlowersAPITestSuite) TestListingFlowersOfSite() {
 	})
 }
 
+func (s *FlowersAPITestSuite) TestModifyingFlower() {
+	flower := s.TestFlowers[0]
+	modifiedValues := database.Flower{
+		Name:      "modified name",
+		LatinName: "modified latin name",
+		Quantity:  flower.Quantity + 1,
+	}
+
+	modifiedFlower := flower
+	modifiedFlower.Name = modifiedValues.Name
+	modifiedFlower.LatinName = modifiedValues.LatinName
+	modifiedFlower.Quantity = modifiedValues.Quantity
+
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:  "PUT /api/flowers/<id>",
+		Route:        "/api/flowers/" + flower.ID.Hex(),
+		Method:       "PUT",
+		ContentType:  "application/json",
+		Body:         []byte(utils.FlowerToJSON(modifiedValues)),
+		ExpectedCode: 200,
+		ExpectedBody: utils.FlowerToJSON(modifiedFlower),
+		SetupMocks: func(db *mocks.Database) {
+			db.EXPECT().ModifyFlower(
+				mock.Anything, flower.ID, modifiedValues,
+			).Return(
+				&modifiedFlower, nil,
+			).Once()
+		},
+	})
+}
+
+func (s *FlowersAPITestSuite) TestDeletingMultipleFlowers() {
+	var flowerIDs []string
+	var ids []database.ObjectID
+	for _, flower := range s.TestFlowers {
+		flowerIDs = append(flowerIDs, flower.ID.Hex())
+		ids = append(ids, flower.ID)
+	}
+
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:  "POST /api/flowers/delete-multiple",
+		Route:        "/api/flowers/delete-multiple",
+		Method:       "POST",
+		ContentType:  "application/json",
+		Body:         utils.ToJSON(flowerIDs),
+		ExpectedCode: 204,
+		ExpectedBody: []byte{},
+		SetupMocks: func(db *mocks.Database) {
+			db.EXPECT().DeleteMultipleFlowers(
+				mock.Anything, ids,
+			).Return(
+				nil,
+			).Once()
+		},
+	})
+}
+
 func TestFlowersAPITestSuite(t *testing.T) {
 	suite.Run(t, new(FlowersAPITestSuite))
 }
