@@ -31,9 +31,9 @@ const LogIn = ({ onLogin }) => {
     <div className="text-left">
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleSubmit}>
-        <div class="input-group mb-3">
-          <span class="input-group-text">
-            <i class="bi bi-envelope-fill"></i>
+        <div className="input-group mb-3">
+          <span className="input-group-text">
+            <i className="bi bi-envelope-fill"></i>
           </span>
           <input
             type="email"
@@ -45,9 +45,9 @@ const LogIn = ({ onLogin }) => {
             required
           />
         </div>
-        <div class="input-group mb-3">
-          <span class="input-group-text">
-            <i class="bi bi-lock-fill"></i>
+        <div className="input-group mb-3">
+          <span className="input-group-text">
+            <i className="bi bi-lock-fill"></i>
           </span>
           <input
             type="password"

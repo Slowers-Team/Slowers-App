@@ -88,7 +88,7 @@ const GrowerSitesPage = () => {
               onClick={() => deleteSite(site)}
               className="btn btn-light"
             >
-              {t("button.deletethissite")}
+              <i className="bi bi-trash3-fill"></i>
             </button>
           </div>
           <SiteFlexbox createSite={createSite} sites={sites} />

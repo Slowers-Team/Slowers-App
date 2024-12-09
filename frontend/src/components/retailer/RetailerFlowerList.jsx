@@ -112,7 +112,7 @@ const RetailerFlowerList = ({ flowers }) => {
                 <td>{flower.quantity}</td>
                 <td>
                   <button id='showFlowerPageButton' onClick={() => handleShow(flower)}>
-                    {t('button.flowerpage')}
+                  <i className="bi bi-info-circle-fill"></i>
                   </button>
                 </td>
               </tr>

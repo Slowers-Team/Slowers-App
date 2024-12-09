@@ -32,21 +32,21 @@ const RegisterForm = ({ createNewUser }) => {
     return (
         <div className='text-left'>
             <form onSubmit={addUser}>
-                <div class="input-group mb-4">
-                  <span class="input-group-text">
-                    <i class="bi bi-person-circle"></i>
+                <div className="input-group mb-4">
+                  <span className="input-group-text">
+                    <i className="bi bi-person-circle"></i>
                   </span>
                   <input id="newUsernameInput" value={newUsername} placeholder={t('user.input.username')} onChange={event => setNewUsername(event.target.value)} className='form-control' required/>
                 </div>
                 <div className='input-group mb-4'>
-                  <span class="input-group-text">
-                    <i class="bi bi-envelope-fill"></i>
+                  <span className="input-group-text">
+                    <i className="bi bi-envelope-fill"></i>
                   </span>
                   <input type="email" id="newEmailInput" value={newEmail} placeholder={t('user.input.email')} onChange={event => setNewEmail(event.target.value)} className='form-control' required/>
                 </div>
                 <div className='input-group mb-4'>
-                  <span class="input-group-text">
-                    <i class="bi bi-lock-fill"></i>
+                  <span className="input-group-text">
+                    <i className="bi bi-lock-fill"></i>
                   </span>
                   <input type="password" id="newPasswordInput" value={newPassword} placeholder={t('user.input.password')} onChange={event => setNewPassword(event.target.value)} className='form-control' required/>
                 </div>
