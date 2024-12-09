@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
-import VisibilityButton from './VisibilityButton'
+import VisibilitySwitch from './VisibilitySwitch'
 import ModifyFlowerForm from './ModifyFlowerForm'
 
 const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlower, handleClose}) => {
@@ -62,7 +62,7 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
 									<th>{t('flower.visible.long')}</th>
 									<td>
 										{isGrower && (
-											<VisibilityButton flower={flower} updateFlower={updateFlower} visible={flower.visible}/>
+											<VisibilitySwitch flower={flower} updateFlower={updateFlower} visible={flower.visible}/>
 										)}
 									</td>
 								</tr>

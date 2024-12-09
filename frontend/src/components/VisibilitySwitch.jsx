@@ -1,8 +1,9 @@
 import flowerService from '../services/flowers'
 import { useState } from 'react' 
 import { useTranslation } from 'react-i18next'
+import Form from 'react-bootstrap/Form'
 
-const VisibilityButton = ({ flower, updateFlower }) => {
+const VisibilitySwitch = ({ flower, updateFlower }) => {
   const [current, setCurrent] = useState(flower.visible)
   const [disabled, setDisabled] = useState(false)
   const {t, _ } = useTranslation()
@@ -26,12 +27,10 @@ const VisibilityButton = ({ flower, updateFlower }) => {
   }
   
   return (
-    <button onClick={handleClick} disabled={disabled} id="visibilityButton" className="flower-button">
-      {current
-        ? t("button.hideFlower")
-        : t("button.showFlower")}
-    </button>
+    <Form>
+      <Form.Check type="switch" id="custom-switch" label={current ? t("button.hideFlower") : t("button.showFlower")} checked={current} onChange={handleClick} />
+    </Form>
   )
 }
 
-export default VisibilityButton
+export default VisibilitySwitch
