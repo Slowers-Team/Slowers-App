@@ -46,13 +46,13 @@ const FlowerImageTab = ({ isGrower, flower, updateFlower }) => {
       if (window.confirm(`${t('image.confirmimagedeletion')}?`)) {
         ImageService.deleteImage(imageObject._id)
         .then(() => {
-          const updatedImages = images.filter(item => item._id !== imageObject._id);
-          setImages(updatedImages);
+          const updatedImages = images.filter(item => item._id !== imageObject._id)
+          setImages(updatedImages)
           if (imageObject._id === flower.favorite_image) {
-              const newFavoriteImage = updatedImages[0]?._id || null;
-              markFavorite(updatedImages, newFavoriteImage);
+              const newFavoriteImage = updatedImages[0]?._id || null
+              favoriteImage(newFavoriteImage)
           } else {
-              markFavorite(updatedImages);
+              favoriteImage(flower.favorite_image)
           }
       })
           .catch(error => {
