@@ -5,8 +5,6 @@ import FlowerModal from '../FlowerModal.jsx'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import placeholderImage from '../../assets/images/site-placeholder-image.jpg'
-
 const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowers, updateFlower }) => {
   const { t, i18n } = useTranslation()
   const [showModal, setShowModal] = useState(false)
@@ -165,7 +163,9 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
                 </td>
                 <td className='image-cell'>
                   <div className='image-container'>
-                    <img src={images.find((o) => o.flower === flower._id)?.url ?? placeholderImage} alt={flower.name} />
+                    {images.find((o) => o.flower === flower._id)?.url && 
+                    <img src={images.find((o) => o.flower === flower._id)?.url} alt={flower.name} />
+                    }
                   </div>
                 </td>
                 <td>{flower.name}</td>
