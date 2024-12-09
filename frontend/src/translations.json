@@ -47,7 +47,8 @@
           "addedtime": "Added time",
           "grower": "Grower",
           "site": "Site",
-          "qty": "Qty"
+          "qty": "Qty",
+          "image": "Image"
         },
         "visible": {
           "long": "Visible to retailers",
@@ -181,7 +182,8 @@
           "addedtime": "Lisäysaika",
           "grower": "Kasvattaja",
           "site": "Alue",
-          "qty": "Kpl"
+          "qty": "Kpl",
+          "image": "Kuva"
         },
         "visible": {
           "long": "Näkyy jälleenmyyjille",

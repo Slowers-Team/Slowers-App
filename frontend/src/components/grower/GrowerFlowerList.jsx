@@ -118,7 +118,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
             <th>
               <input type="checkbox" onChange={toggleCheckedAll} checked={areAllChecked} />
             </th>
-            <th/>
+            <th>{t('flower.data.image')}</th>
             <th onClick={() => handleSort('name')} style={{ cursor: 'pointer' }}>
               {t('flower.data.name')}
               {renderSortIcon('name')}
