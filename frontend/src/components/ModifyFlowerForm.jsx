@@ -24,7 +24,7 @@ const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, addedTime}
     return (
       <div>
         <form onSubmit={updateFlower}>
-          <table className="table table">
+          <table className="table custom-table">
             <tbody>
               <tr>
                 <th>{t('flower.data.name')}</th>

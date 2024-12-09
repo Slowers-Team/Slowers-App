@@ -3,6 +3,7 @@ import { useState } from "react"
 import { Button } from "react-bootstrap"
 import VisibilitySwitch from './VisibilitySwitch'
 import ModifyFlowerForm from './ModifyFlowerForm'
+import "./FlowerModal.css"
 
 const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlower, handleClose}) => {
     const [isModifyFormVisible, setIsModifyFormVisible] = useState(false)
@@ -37,7 +38,7 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
             </div> 
           ) : (
 						<div>
-						<table className="table">
+						<table className="table custom-table">
 							<tbody>
 								<tr>
 									<th>{t('flower.data.name')}</th>

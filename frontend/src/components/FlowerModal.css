@@ -1,0 +1,11 @@
+.custom-table {
+    table-layout: fixed;
+    width: 100%;
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    width: 25%;
+    height: 60px;
+    vertical-align: middle;
+  }

@@ -2,6 +2,7 @@ import { Modal, Button, Tabs, Tab } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import FlowerInfoTab from './FlowerInfoTab'
 import FlowerImageTab from './image/FlowerImageTab'
+import "./FlowerModal.css"
 
 
 const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower, modifyFlower }) => {
