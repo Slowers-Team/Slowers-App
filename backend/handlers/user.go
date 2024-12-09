@@ -93,7 +93,7 @@ func LogUserIn(c *fiber.Ctx, user *database.User, status int) error {
 		return c.Status(500).SendString("Could not create token")
 	}
 
-	return c.Status(status).JSON(fiber.Map{"token": tokenString, "role": user.Role})
+	return c.Status(status).JSON(fiber.Map{"token": tokenString, "role": user.Role, "username": user.Username})
 }
 
 func GetUser(c *fiber.Ctx) error {

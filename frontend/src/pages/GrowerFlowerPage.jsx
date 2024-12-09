@@ -2,13 +2,15 @@ import { useParams } from 'react-router-dom'
 import GrowerFlowerList from '../components/grower/GrowerFlowerList'
 import flowerService from '../services/flowers'
 import siteService from '../services/sites'
-import FlowerForm from '../components/FlowerForm'
+import AddFlower from '../components/grower/AddFlower'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Button } from 'react-bootstrap'
+
 const GrowerFlowerPage = () => {
   const params = useParams()
   const [flowers, setFlowers] = useState()
-  const [showAddNewFlower, setShowAddNewFlower] = useState(false)
+  const [checkedFlowers, setCheckedFlowers] = useState([])
   const [site, setSite] = useState()
   const { t, i18n } = useTranslation()
 
@@ -50,20 +52,57 @@ const GrowerFlowerPage = () => {
     }
   }
 
+  const deleteMultipleFlowers = checkedFlowers => {
+    if (checkedFlowers.length === 0) {
+      alert(t('label.noflowersselected'))
+      return
+    }
+    if (window.confirm(t('label.confirmmultipleflowerdeletion'))) {
+      flowerService.removeMultipleFlowers(checkedFlowers).then(response => {
+        console.log(response)
+        setFlowers(l => l.filter(item => !checkedFlowers.includes(item._id)))
+      })
+    }
+  }
+
+  const updateFlower = flowerObject => {
+    setFlowers(flowers.map((flower) => 
+      flower._id === flowerObject._id 
+        ? flowerObject 
+        : flower
+    ))
+  }
+
+  const modifyFlower = flowerObject => {
+    flowerService
+      .modify(flowerObject)
+      .then(updateFlower(flowerObject))
+      .catch(error => {
+        console.log(error)
+        alert(t("error.modifyingfailed"))
+      })
+  }
+
   return (
     <>
     {params.siteId ? (
       <div>
         <h2>{site?.name} {t('title.siteflowers')}</h2>
-        <button id="showFlowerAddingFormButton" onClick={() => setShowAddNewFlower(!showAddNewFlower)} className="btn btn-light">
-          {t("button.addflower")}
-        </button>
-        {showAddNewFlower && <FlowerForm createFlower={addFlower} siteID={params.siteId} />}
+        <AddFlower createFlower={addFlower} siteID={params.siteId} />
+        <Button variant="light" onClick={() => deleteMultipleFlowers(checkedFlowers)}>
+          {t("button.delete")}
+        </Button>
       </div>
     ) : (
-      <h2>{t('title.allflowers')}</h2>
+      <div>
+        <h2>{t('title.allflowers')}</h2>
+        <Button variant="light" onClick={() => deleteMultipleFlowers(checkedFlowers)}>
+          {t("button.delete")}
+        </Button>
+      </div>
     )}
-      { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} />) : (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} />) }
+      { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) : 
+                  (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) }
     </>
   )
 }

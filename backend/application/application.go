@@ -34,7 +34,6 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	}
 
 	app.Static("/assets", "./client/dist/assets")
-	app.Static("/*", "./client/dist")
 
 	if isAuthOn {
 		app.Use(AuthMiddleware)
@@ -46,6 +45,9 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app.Get("/api/flowers", handlers.GetFlowers)
 	app.Get("/api/flowers/user", handlers.GetUserFlowers)
 	app.Delete("/api/flowers/:id", handlers.DeleteFlower)
+	app.Post("/api/flowers/:id/visibility", handlers.ToggleFlowerVisibility)
+	app.Put("/api/flowers/:id", handlers.ModifyFlower)
+	app.Post("/api/flowers/delete-multiple", handlers.DeleteMultipleFlowers)
 
 	app.Post("/api/sites", handlers.AddSite)
 	app.Get("/api/sites", handlers.GetRootSites)
@@ -58,6 +60,9 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 
 	app.Post("/api/images", handlers.UploadImage)
 	app.Get("/api/images/:filename", handlers.DownloadImage)
+	app.Get("/api/images/entity/:entityID", handlers.FetchImagesByEntity)
+	app.Delete("/api/images/:id", handlers.DeleteImage)
+	app.Post("/api/images/favorite", handlers.SetFavorite)
 
 	return app
 }

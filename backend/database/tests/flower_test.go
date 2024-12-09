@@ -46,6 +46,11 @@ func (s *DbFlowerTestSuite) TestAddFlower() {
 		flower.AddedTime,
 		"wrong AddedTime for the flower returned from AddFlower()",
 	)
+	s.Equal(
+		createdFlower.Quantity,
+		flower.Quantity,
+		"wrong Quantity for the flower returned from AddFlower()",
+	)
 	s.NotZero(
 		createdFlower.ID,
 		"ID for the created flower should be non-zero",
@@ -58,6 +63,8 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlower() {
 		LatinName: s.TestFlowers[0].LatinName,
 		Grower:    s.TestFlowers[0].Grower,
 		Site:      s.TestFlowers[0].Site,
+		Quantity:  s.TestFlowers[0].Quantity,
+		Visible:   s.TestFlowers[0].Visible,
 	}
 	s.Db.AddFlower(context.Background(), flower)
 	fetchedFlowers, err := s.Db.GetFlowers(context.Background())
@@ -90,6 +97,16 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlower() {
 		flower.AddedTime,
 		"wrong AddedTime for the flower returned from GetFlowers()",
 	)
+	s.Equal(
+		fetchedFlowers[0].Quantity,
+		flower.Quantity,
+		"wrong Quantity for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		fetchedFlowers[0].Visible,
+		flower.Visible,
+		"wrong Visible for the flower returned from GetFlowers()",
+	)
 }
 
 func (s *DbFlowerTestSuite) TestAddAndDeleteFlower() {
@@ -98,6 +115,7 @@ func (s *DbFlowerTestSuite) TestAddAndDeleteFlower() {
 		LatinName: s.TestFlowers[0].LatinName,
 		Grower:    s.TestFlowers[0].Grower,
 		Site:      s.TestFlowers[0].Site,
+		Quantity:  s.TestFlowers[0].Quantity,
 	}
 	flower, _ := s.Db.AddFlower(context.Background(), testFlower)
 	anyDeleted, err := s.Db.DeleteFlower(context.Background(), flower.ID)
@@ -130,6 +148,8 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
 		GrowerEmail: users[0].Email,
 		Site:        s.TestFlowers[0].Site,
 		SiteName:    testdata.GetRootSites()[0].Name,
+		Quantity:    s.TestFlowers[0].Quantity,
+		Visible:     s.TestFlowers[0].Visible,
 	}
 	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
 
@@ -142,6 +162,8 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
 		GrowerEmail: users[1].Email,
 		Site:        fullFlower2.Site,
 		SiteName:    testdata.GetRootSitesForUser2()[0].Name,
+		Quantity:    fullFlower2.Quantity,
+		Visible:     fullFlower2.Visible,
 	}
 	s.Db.AddFlower(context.Background(), testFlower2)
 
@@ -198,6 +220,16 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
 		fetchedFlowers[0].SiteName,
 		"wrong SiteName for the flower returned from GetUserFlowers()",
 	)
+	s.Equal(
+		testFlower.Quantity,
+		fetchedFlowers[0].Quantity,
+		"wrong Quantity for the flower returned from GetUserFlowers()",
+	)
+	s.Equal(
+		testFlower.Visible,
+		fetchedFlowers[0].Visible,
+		"wrong Visible for the flower returned from GetUserFlowers()",
+	)
 }
 
 func (s *DbFlowerTestSuite) TestAddAndGetFlowersRelatedToSite() {
@@ -221,6 +253,7 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersRelatedToSite() {
 		GrowerEmail: users[0].Email,
 		Site:        &addedSite1.ID,
 		SiteName:    site1.Name,
+		Quantity:    s.TestFlowers[0].Quantity,
 	}
 	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
 	s.Db.AddFlowerToSite(context.Background(), addedSite1.ID, addedFlower.ID)
@@ -234,6 +267,7 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersRelatedToSite() {
 		GrowerEmail: users[1].Email,
 		Site:        &addedSite2.ID,
 		SiteName:    site2.Name,
+		Quantity:    fullFlower2.Quantity,
 	}
 	addedFlower2, _ := s.Db.AddFlower(context.Background(), testFlower2)
 	s.Db.AddFlowerToSite(context.Background(), addedSite2.ID, addedFlower2.ID)
@@ -292,6 +326,95 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersRelatedToSite() {
 		testFlower.SiteName,
 		fetchedFlowers[0].SiteName,
 		"wrong SiteName for the flower returned from GetAllFlowersRelatedToSite()",
+	)
+	s.Equal(
+		testFlower.Quantity,
+		fetchedFlowers[0].Quantity,
+		"wrong Quantity for the flower returned from GetAllFlowersRelatedToSite()",
+	)
+}
+
+func (s *DbFlowerTestSuite) TestModifyAndGetFlower() {
+	flower := s.TestFlowers[0]
+	s.Db.AddFlower(context.Background(), flower)
+
+	modifiedFlower := database.Flower{
+		Name:      "modified name",
+		LatinName: "modified latin name",
+		Quantity:  flower.Quantity + 1,
+	}
+	s.Db.ModifyFlower(context.Background(), flower.ID, modifiedFlower)
+	fetchedFlowers, err := s.Db.GetFlowers(context.Background())
+
+	s.Require().NoError(
+		err,
+		"ModifyFlower() should not return an error",
+	)
+	s.Equal(
+		modifiedFlower.Name,
+		fetchedFlowers[0].Name,
+		"wrong Name for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		modifiedFlower.LatinName,
+		fetchedFlowers[0].LatinName,
+		"wrong LatinName for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		modifiedFlower.Quantity,
+		fetchedFlowers[0].Quantity,
+		"wrong Quantity for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		flower.ID,
+		fetchedFlowers[0].ID,
+		"wrong ID for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		flower.AddedTime,
+		fetchedFlowers[0].AddedTime,
+		"wrong AddedTime for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		flower.Grower,
+		fetchedFlowers[0].Grower,
+		"wrong Grower for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		flower.Site,
+		fetchedFlowers[0].Site,
+		"wrong Site for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		flower.GrowerEmail,
+		fetchedFlowers[0].GrowerEmail,
+		"wrong GrowerEmail for the flower returned from GetFlowers()",
+	)
+	s.Equal(
+		flower.Visible,
+		fetchedFlowers[0].Visible,
+		"wrong Visible for the flower returned from GetFlowers()",
+	)
+}
+
+func (s *DbFlowerTestSuite) TestDeleteAndGetMultipleFlowers() {
+	flowers := testdata.GetTestFlowers()
+
+	for _, flower := range flowers {
+		s.Db.AddFlower(context.Background(), flower)
+	}
+
+	err := s.Db.DeleteMultipleFlowers(context.Background(), []database.ObjectID{flowers[0].ID, flowers[1].ID})
+	fetchedFlowers, _ := s.Db.GetFlowers(context.Background())
+
+	s.Require().NoError(
+		err,
+		"DeleteMultipleFlowers() should not return an error",
+	)
+	s.Equal(
+		flowers[2:],
+		fetchedFlowers,
+		"DeleteMultipleFlowers() should delete the correct flowers",
 	)
 }
 

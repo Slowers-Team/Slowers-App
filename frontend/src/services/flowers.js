@@ -51,10 +51,47 @@ const getFlowersBySite = (id=null) => {
     });
 };
 
+const toggleVisibility = (id) => {
+  const config = {
+    method: 'post',
+    url: `${baseUrl}/${id}/visibility`,
+    headers: { Authorization: tokenService.fetchToken() },
+  }
+
+  return axios(config)
+    .then(response => {
+      console.log("Visibility of", id, "set to", response.data)
+      return response.data
+    })
+    .catch(error => {
+      console.error("Error setting visibility of flower", id,":",error.response)
+      throw error.response.data
+    })
+  
+}
+
+const modify = modifiedFlower => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken() },
+  }
+  const request = axios.put(`${baseUrl}/${modifiedFlower._id}`, modifiedFlower, config)
+  return request.then(response => response.data)
+}
+
+const removeMultipleFlowers = ids => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken() },
+  }
+  return axios.post(`${baseUrl}/delete-multiple`, ids, config)
+}
+
 export default {
   getAll,
   create,
   remove,
   getUserFlowers,
   getFlowersBySite,
+  toggleVisibility,
+  modify,
+  removeMultipleFlowers
 }

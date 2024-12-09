@@ -28,6 +28,11 @@ const tabBar = () => {
               {t('menu.sites')}
             </Nav.Link>
           </Nav.Item>
+          <Nav.Item>
+           <Nav.Link className="text-success" as={NavLink} to={`/grower/${params.siteId}/images`}>
+              {t('menu.images')}
+            </Nav.Link>
+          </Nav.Item>
         </Nav>
       ) : (
         <Nav variant='tabs' defaultActiveKey="/grower">

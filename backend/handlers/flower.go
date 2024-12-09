@@ -64,7 +64,12 @@ func AddFlower(c *fiber.Ctx) error {
 		return c.Status(404).SendString("Site not found")
 	}
 
-	newFlower := database.Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(), Grower: &userID, GrowerEmail: grower.Email, Site: &site.ID, SiteName: site.Name}
+	if flower.Quantity < 0 {
+		return c.Status(400).SendString("Flower quantity cannot be negative")
+	}
+
+	newFlower := database.Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(),
+		Grower: &userID, GrowerEmail: grower.Email, Site: &site.ID, SiteName: site.Name, Quantity: flower.Quantity, Visible: false}
 
 	createdFlower, err := db.AddFlower(c.Context(), newFlower)
 	if err != nil {
@@ -114,4 +119,73 @@ func GetSiteFlowers(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(flowers)
+}
+
+func ToggleFlowerVisibility(c *fiber.Ctx) error {
+	userID, err := GetCurrentUser(c)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	flowerID, err := database.ParseID(c.Params("id"))
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	newValue, err := db.ToggleFlowerVisibility(c.Context(), userID, flowerID)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	return c.Status(200).JSON(newValue)
+}
+
+func ModifyFlower(c *fiber.Ctx) error {
+	id, err := database.ParseID(c.Params("id"))
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	flower := new(database.Flower)
+	if err := c.BodyParser(flower); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	if flower.Name == "" {
+		return c.Status(400).SendString("Flower name cannot be empty")
+	}
+
+	if flower.Quantity < 0 {
+		return c.Status(400).SendString("Flower quantity cannot be negative")
+	}
+
+	updatedFlower, err := db.ModifyFlower(c.Context(), id, database.Flower{Name: flower.Name, LatinName: flower.LatinName, Quantity: flower.Quantity})
+
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	return c.Status(200).JSON(updatedFlower)
+}
+
+func DeleteMultipleFlowers(c *fiber.Ctx) error {
+	var flowerIDs []string
+	if err := c.BodyParser(&flowerIDs); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	var ids []database.ObjectID
+	for _, idStr := range flowerIDs {
+		id, err := database.ParseID(idStr)
+		if err != nil {
+			return c.Status(400).SendString(err.Error())
+		}
+		ids = append(ids, id)
+	}
+
+	if err := db.DeleteMultipleFlowers(c.Context(), ids); err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	return c.SendStatus(204)
 }

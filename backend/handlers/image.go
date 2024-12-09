@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"errors"
+	"fmt"
+	"log"
 	"os"
 
 	"github.com/Slowers-team/Slowers-App/database"
@@ -83,4 +85,99 @@ func DownloadImage(c *fiber.Ctx) error {
 	}
 
 	return c.SendFile(filepath)
+}
+
+func DeleteImage(c *fiber.Ctx) error {
+	id, err := database.ParseID(c.Params("id"))
+	log.Printf("Received ID for deletion: %s", id)
+
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid image ID format")
+	}
+
+	deleted, err := db.DeleteImage(c.Context(), id)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+	}
+	if !deleted {
+		return c.Status(fiber.StatusNotFound).SendString("Image not found")
+	}
+
+	extensions := []string{"jpg", "png"}
+	found := false
+
+	for _, ext := range extensions {
+		imagePath := fmt.Sprintf("./images/%s.%s", id.Hex(), ext)
+		if _, err := os.Stat(imagePath); err == nil {
+			if err := os.Remove(imagePath); err != nil {
+				return c.Status(fiber.StatusInternalServerError).SendString("Error deleting image file")
+			}
+			log.Printf("Successfully deleted image file: %s", imagePath)
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		log.Printf("Image file not found for ID: %s", id.Hex())
+		return c.Status(fiber.StatusNotFound).SendString("Image file not found")
+	}
+
+	return c.SendStatus(fiber.StatusNoContent)
+}
+
+func FetchImagesByEntity(c *fiber.Ctx) error {
+	entityID := c.Params("entityID")
+
+	images, err := db.GetImagesByEntity(c.Context(), entityID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.JSON(images)
+}
+
+func SetFavorite(c *fiber.Ctx) error {
+	type favoriteData struct {
+		EntityID   string `json:"entityID"`
+		EntityType string `json:"entityType"`
+		ImageID    string `json:"imageID"`
+	}
+
+	formData := new(favoriteData)
+	if err := c.BodyParser(formData); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	EntityID, err := database.ParseID(formData.EntityID)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid entity ID format: %v", formData.EntityID))
+	}
+
+	var Collection string
+	switch formData.EntityType {
+	case "site":
+		Collection = "sites"
+	case "flower":
+		Collection = "flowers"
+	default:
+		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid EntityType: %v", formData.EntityType))
+	}
+
+	ImageID, err := database.ParseID(formData.ImageID)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid image ID format: %v", formData.ImageID))
+	}
+
+	UserID, err := GetCurrentUser(c)
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).SendString("Could not get current user")
+	}
+
+	err = db.SetFavoriteImage(c.Context(), UserID, EntityID, ImageID, Collection)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).SendString("")
 }

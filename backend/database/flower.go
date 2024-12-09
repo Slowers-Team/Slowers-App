@@ -2,25 +2,31 @@ package database
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Flower struct {
-	ID          ObjectID  `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name        string    `json:"name"`
-	LatinName   string    `json:"latin_name" bson:"latin_name"`
-	AddedTime   time.Time `json:"added_time" bson:"added_time"`
-	Grower      *ObjectID `json:"grower"`
-	GrowerEmail string    `json:"grower_email" bson:"grower_email"`
-	Site        *ObjectID `json:"site"`
-	SiteName    string    `json:"site_name" bson:"site_name"`
+	ID            ObjectID  `json:"_id,omitempty" bson:"_id,omitempty"`
+	Name          string    `json:"name"`
+	LatinName     string    `json:"latin_name" bson:"latin_name"`
+	AddedTime     time.Time `json:"added_time" bson:"added_time"`
+	Grower        *ObjectID `json:"grower"`
+	GrowerEmail   string    `json:"grower_email" bson:"grower_email"`
+	Site          *ObjectID `json:"site"`
+	SiteName      string    `json:"site_name" bson:"site_name"`
+	Quantity      int       `json:"quantity"`
+	Visible       bool      `json:"visible" bson:"visible"`
+	FavoriteImage string    `json:"favorite_image" bson:"favorite_image"`
 }
 
 func (mDb MongoDatabase) GetFlowers(ctx context.Context) ([]Flower, error) {
-	cursor, err := db.Collection("flowers").Find(ctx, bson.M{})
+	cursor, err := db.Collection("flowers").Find(ctx, bson.M{"visible": true})
+
 	if err != nil {
 		return nil, err
 	}
@@ -164,4 +170,70 @@ func (mDb MongoDatabase) GetAllFlowersRelatedToSite(ctx context.Context, siteID 
 	}
 
 	return flowers, nil
+}
+
+// ToggleFlowerVisibility sets the toggles (false->true or true->false) flower's visibility,
+// and returns the new value or an error.
+// Visibility can be set if flower has at least one image attached.
+func (mDb MongoDatabase) ToggleFlowerVisibility(ctx context.Context, userID, flowerID ObjectID) (*bool, error) {
+	opts := options.Count().SetLimit(1)
+	count, err := db.Collection("images").CountDocuments(
+		ctx,
+		bson.M{"entity": flowerID},
+		opts,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	if count < 1 {
+		return nil, fmt.Errorf("No image attached to flower %s", flowerID.Hex())
+	}
+
+	filter := bson.M{"_id": flowerID}
+	update := bson.A{bson.M{"$set": bson.M{"visible": bson.M{"$not": "$visible"}}}}
+	updateOpts := options.FindOneAndUpdate().SetReturnDocument(options.After).SetProjection(bson.M{"_id": 0, "visible": 1})
+
+	var updatedVisibility bson.M
+	err = db.Collection("flowers").FindOneAndUpdate(ctx, filter, update, updateOpts).Decode(&updatedVisibility)
+
+	if err != nil {
+		return nil, err
+	}
+
+	ret := updatedVisibility["visible"].(bool)
+	if err != nil {
+		return nil, err
+	}
+	return &ret, nil
+}
+
+func (mDb MongoDatabase) ModifyFlower(ctx context.Context, id ObjectID, newFlower Flower) (*Flower, error) {
+	filter := bson.M{"_id": id}
+	update := bson.M{
+		"$set": bson.M{
+			"name":       newFlower.Name,
+			"latin_name": newFlower.LatinName,
+			"quantity":   newFlower.Quantity,
+		},
+	}
+
+	if _, err := db.Collection("flowers").UpdateOne(ctx, filter, update); err != nil {
+		return nil, err
+	}
+
+	createdRecord := db.Collection("flowers").FindOne(ctx, filter)
+
+	updatedFlower := &Flower{}
+	if err := createdRecord.Decode(updatedFlower); err != nil {
+		return nil, err
+	}
+
+	return updatedFlower, nil
+}
+
+func (mDb MongoDatabase) DeleteMultipleFlowers(ctx context.Context, flowerIDs []ObjectID) error {
+	filter := bson.M{"_id": bson.M{"$in": flowerIDs}}
+	_, err := db.Collection("flowers").DeleteMany(ctx, filter)
+	return err
 }

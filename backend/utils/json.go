@@ -73,6 +73,22 @@ func ImageToJSON(image database.Image) []byte {
 	return imageJSON
 }
 
+func ImagesToJSON(images []database.Image) []byte {
+	imagesJSON, err := json.Marshal(images)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return imagesJSON
+}
+
 func IDToJSON(id string) string {
 	return "{\"id\": \"" + id + "\"}"
+}
+
+func ToJSON(val any) []byte {
+	asJSON, err := json.Marshal(val)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return asJSON
 }
