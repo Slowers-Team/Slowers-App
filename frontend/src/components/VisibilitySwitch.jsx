@@ -27,10 +27,8 @@ const VisibilitySwitch = ({ flower, updateFlower }) => {
   }
   
   return (
-    <Form className='d-flex'>
-      {t("flower.visible.false")}
+    <Form>
       <Form.Check type="switch" id="custom-switch" className='custom-switch' checked={current} onChange={handleClick} />
-      {t("flower.visible.true")}
     </Form>
   )
 }

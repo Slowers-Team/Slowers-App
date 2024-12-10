@@ -16,15 +16,11 @@
 }
 
 .form-switch {
-	padding-left: 3em;
-	padding-right: 0.2em;
 }
 
 .custom-switch .form-check-input {
-	padding-left: 1px;
-	padding-right: 1px;
-	height: 16px;
-	width: 35px;
+	height: 18px;
+	width: 38px;
 }
 
 .custom-switch .form-check-input:focus {
