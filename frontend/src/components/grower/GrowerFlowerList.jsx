@@ -25,8 +25,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
           .then((url) => (
             {flower: f._id, url: url}
           ))
-          // .catch((error) => console.error("bad", f, error))
-          .catch((_) => {})
+          .catch((error) => console.error("error fetching image for flower:", f, error))
       }
     }))
 
