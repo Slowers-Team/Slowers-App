@@ -101,6 +101,19 @@
     border-radius: 5px;
   }
 
+#modifyFlowerButton {
+  background-color: #c1dadf;
+  color: black;
+  border: none;
+  padding: 5px 10px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
   #showFlowerPageButton {
     background-color: #c1dadf;
     color: black;
@@ -133,4 +146,20 @@
     position: absolute;
   }
 
-
+  .input-wrapper input {
+    background-color: rgb(247, 243, 243);
+    border: none;
+    padding: 0.5rem;
+    font-size: 1rem;
+    text-align: left;
+    width: 15rem;
+    border-radius: 1rem;
+    box-shadow: #23252248;
+    color: black;
+    cursor: pointer;
+  }
+  
+  .input-wrapper input:focus {
+    outline-color: rgb(255, 255, 255);
+  }
+  

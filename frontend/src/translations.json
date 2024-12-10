@@ -23,7 +23,9 @@
         "hideFlower": "Hide from retailers",
         "close": "Close",
         "cancel": "Cancel",
-        "update": "Update"
+        "update": "Update",
+        "Search": "Search",
+        "modify": "Edit"
       },
       "error": {
         "acceptterms": "You must accept the terms",
@@ -35,6 +37,7 @@
         "invalidemail": "Invalid email",
         "invalidlogininfo": "Invalid email or password",
         "sitenamecannotbeempty": "Site name cannot be empty",
+        "modifyingfailed": "Editing failed",
         "noimagesinflower": "At least one image has to be attached to a flower before its visibility can be changed."
       },
       "flower": {
@@ -56,14 +59,19 @@
       "image": {
         "note": "Note",
         "select": "Select image",
-        "title": "Add a new image"
+        "title": "Add a new image",
+        "confirmimagedeletion": "Confirm image deletion",
+        "noflowerimages": "This flower doesn't have any images yet",
+        "nositeimages": "This site doesn't have any images yet"
       },
       "label": {
         "confirmflowerdeletion": "Are you sure you want to delete the flower",
+        "confirmmultipleflowerdeletion": "Are you sure you want to delete checked flowers",
         "confirmsitedeletion": "Are you sure you want to delete the site",
         "defaultrole": "Choose your default role",
         "iagreeto": "I agree to the",
         "loading": "Loading...",
+        "noflowersselected": "No flowers selected",
         "terms": "terms and conditions"
       },
       "menu": {
@@ -79,7 +87,6 @@
         "language": "Language",
         "role": "Role pages",
         "info": "Info",
-        "pictures": "Pictures",
         "lifecycle": "Life cycle",
         "sites": "Sites",
         "images": "Images"
@@ -108,7 +115,8 @@
         "terms": "Terms and Conditions",
         "site": "Site",
         "sites": "Sites",
-        "sitesites": "sites"
+        "sitesites": "sites",
+        "siteimages": "images"
       },
       "user": {
         "data": {
@@ -122,10 +130,6 @@
           "password": "Enter password",
           "username": "Enter username"
         }
-      },
-      "carousel": {
-        "siteImages": "Site Images",
-        "noImages": "No images uploaded for this site."
       }
     }
   },
@@ -153,7 +157,9 @@
         "showFlower": "Näytä myyjille",
         "hideFlower": "Piilota myyjiltä",
         "cancel": "Peruuta",
-        "update": "Päivitä"
+        "update": "Päivitä",
+        "Search": "Hae",
+        "modify": "Muokkaa"
       },
       "error": {
         "acceptterms": "Käyttöehdot on hyväksyttävä",
@@ -165,6 +171,7 @@
         "invalidemail": "Virheellinen sähköpostiosoite",
         "invalidlogininfo": "Virheellinen sähköposti tai salasana",
         "sitenamecannotbeempty": "Alueen nimi ei voi olla tyhjä",
+        "modifyingfailed": "Päivitys epäonnistui",
         "noimagesinflower": "Kukkaan täytyy liittää vähintään yksi kuva ennen sen näkyvyyden muuttamista."
       },
       "flower": {
@@ -186,14 +193,19 @@
       "image": {
         "note": "Muistiinpano",
         "select": "Valitse kuva",
-        "title": "Lisää uusi kuva"
+        "title": "Lisää uusi kuva",
+        "confirmimagedeletion": "Vahvista kuvan poisto",
+        "noflowerimages": "Tällä kukalla ei ole vielä kuvia",
+        "nositeimages": "Tällä alueella ei ole vielä kuvia"
       },
       "label": {
         "confirmflowerdeletion": "Haluatko varmasti poistaa kukan",
+        "confirmmultipleflowerdeletion": "Haluatko varmasti poistaa valitut kukat",
         "confirmsitedeletion": "Haluatko varmasti poistaa alueen",
         "defaultrole": "Valitse oletusroolisi",
         "iagreeto": "Hyväksyn",
         "loading": "Ladataan...",
+        "noflowersselected": "Ei valittuja kukkia",
         "terms": "käyttöehdot"
       },
       "menu": {
@@ -209,7 +221,6 @@
         "language": "Kieli",
         "role": "Roolisivut",
         "info": "Tietoa",
-        "pictures": "Kuvat",
         "lifecycle": "Elinkaari",
         "sites": "Alueet",
         "images": "Kuvat"
@@ -238,7 +249,8 @@
         "terms": "Käyttöehdot",
         "site": "Alue",
         "sites": "Alueet",
-        "sitesites": "alueet"
+        "sitesites": "alueet",
+        "siteimages": "kuvat"
       },
       "user": {
         "data": {
@@ -252,10 +264,6 @@
           "password": "Syötä salasana",
           "username": "Syötä käyttäjänimi"
         }
-      },
-      "carousel": {
-        "siteImages": "Siten kuvat",
-        "noImages": "Tälle sivulle ei ole vielä ladattu kuvia."
       }
     }
   }

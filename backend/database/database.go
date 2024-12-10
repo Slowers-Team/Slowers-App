@@ -16,6 +16,7 @@ type Database interface {
 	Connect(databaseName string) error
 	Disconnect() error
 	Clear() error
+	UserOwnsEntity(ctx context.Context, UserID, EntityID ObjectID, Collection string) error
 
 	CountUsersWithEmail(ctx context.Context, email string) (int64, error)
 	CreateUser(ctx context.Context, newUser User) (*User, error)
@@ -29,6 +30,8 @@ type Database interface {
 	AddFlower(ctx context.Context, newFlower Flower) (*Flower, error)
 	DeleteFlower(ctx context.Context, id ObjectID) (bool, error)
 	ToggleFlowerVisibility(ctx context.Context, userID, flowerID ObjectID) (*bool, error)
+	ModifyFlower(ctx context.Context, id ObjectID, newFlower Flower) (*Flower, error)
+	DeleteMultipleFlowers(ctx context.Context, flowerIDs []ObjectID) error
 
 	AddSite(ctx context.Context, newSite Site) (*Site, error)
 	GetRootSites(ctx context.Context, userID ObjectID) ([]Site, error)
@@ -40,6 +43,7 @@ type Database interface {
 	AddImage(ctx context.Context, newImage Image) (*Image, error)
 	DeleteImage(ctx context.Context, id ObjectID) (bool, error)
 	GetImagesByEntity(ctx context.Context, entityID string) ([]Image, error)
+	SetFavoriteImage(ctx context.Context, UserID, EntityID, ImageID ObjectID, Collection string) error
 }
 
 type MongoDatabase struct {
@@ -83,6 +87,30 @@ func (mDb *MongoDatabase) Disconnect() error {
 
 func (mDb *MongoDatabase) Clear() error {
 	return db.Drop(context.Background())
+}
+
+func (mDb MongoDatabase) UserOwnsEntity(ctx context.Context, UserID, EntityID ObjectID, Collection string) error {
+	var user string
+	if Collection == "flowers" {
+		user = "grower"
+	} else {
+		user = "owner"
+	}
+	opts := options.Count().SetLimit(1)
+	count, err := db.Collection(Collection).CountDocuments(
+		ctx,
+		bson.M{"_id": EntityID, user: UserID},
+		opts,
+	)
+	if err != nil {
+		return err
+	}
+
+	if count < 1 {
+		return fmt.Errorf("User %s does not own %s in %s", UserID.Hex(), EntityID.Hex(), Collection)
+	}
+
+	return nil
 }
 
 func ParseID(id string) (ObjectID, error) {

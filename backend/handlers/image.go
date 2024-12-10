@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	"log"
 	"errors"
-	"os"
 	"fmt"
+	"log"
+	"os"
 
 	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/gofiber/fiber/v2"
@@ -127,13 +127,57 @@ func DeleteImage(c *fiber.Ctx) error {
 }
 
 func FetchImagesByEntity(c *fiber.Ctx) error {
-    entityID := c.Params("entityID") 
-	
-    images, err := db.GetImagesByEntity(c.Context(), entityID) 
-    if err != nil {
-        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-    }
+	entityID := c.Params("entityID")
 
-    return c.JSON(images)
+	images, err := db.GetImagesByEntity(c.Context(), entityID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.JSON(images)
 }
 
+func SetFavorite(c *fiber.Ctx) error {
+	type favoriteData struct {
+		EntityID   string `json:"entityID"`
+		EntityType string `json:"entityType"`
+		ImageID    string `json:"imageID"`
+	}
+
+	formData := new(favoriteData)
+	if err := c.BodyParser(formData); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	EntityID, err := database.ParseID(formData.EntityID)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid entity ID format: %v", formData.EntityID))
+	}
+
+	var Collection string
+	switch formData.EntityType {
+	case "site":
+		Collection = "sites"
+	case "flower":
+		Collection = "flowers"
+	default:
+		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid EntityType: %v", formData.EntityType))
+	}
+
+	ImageID, err := database.ParseID(formData.ImageID)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid image ID format: %v", formData.ImageID))
+	}
+
+	UserID, err := GetCurrentUser(c)
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).SendString("Could not get current user")
+	}
+
+	err = db.SetFavoriteImage(c.Context(), UserID, EntityID, ImageID, Collection)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).SendString("")
+}
