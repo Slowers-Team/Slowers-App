@@ -8,8 +8,8 @@ import i18n from '../../src/i18n'
 test('renders LangSelect with "en" and "fi" options', () => {
   render(<LangSelect />)
 
-  const en = screen.getByText('en')
-  const fi = screen.getByText('fi')
+  const en = screen.getByText('🇬🇧 en')
+  const fi = screen.getByText('🇫🇮 fi')
 })
 
 test('UI language is English by default', () => {
@@ -21,7 +21,7 @@ test('changes UI language to Finnish when "fi" is clicked', async() => {
 
   render(<LangSelect />)
 
-  const fi = screen.getByText('fi')
+  const fi = screen.getByText('🇫🇮 fi')
   await user.click(fi)
 
   expect(i18n.resolvedLanguage).toBe('fi')

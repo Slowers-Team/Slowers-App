@@ -2,6 +2,7 @@ import '../../layouts/Grower.css'
 import FlowerModal from '../FlowerModal.jsx'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import '../../App.css'
 
 const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowers, updateFlower }) => {
   const { t, i18n } = useTranslation()
@@ -65,12 +66,16 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
     return 0
   })
 
-  const renderSortIcon = (key) => {
-    if (sortConfig.key === key) {
-      return sortConfig.direction === 'asc' ? ' \u25B2' : ' \u25BC'
-    }
-    return ' \u25BE'
+  const renderSortIcon = () => {
+    return (
+      <span id="sort-icon">
+        <i className="bi bi-caret-down-fill" id="sort-icon-down"></i>
+        <i className="bi bi-caret-up-fill" id="sort-icon-up"></i>
+      </span>
+    )
   }
+
+  
 
   const filteredFlowers = sortedFlowers.filter(flower => 
     flower.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -151,13 +156,13 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
                     ? t('flower.visible.true') 
                     : t('flower.visible.false')}</td>
                 <td>
-                  <button className="flower-button" onClick={() => handleShow(flower)}>
-                  {t('button.flowerpage')}
+                  <button id='showFlowerPageButton' onClick={() => handleShow(flower)}>
+                  <i className="bi bi-info-circle-fill"></i>
                   </button>
                 </td>
                 <td>
-                  <button className="flower-button" onClick={() => deleteFlower(flower)}>
-                    {t('button.delete')}
+                  <button id="deleteFlowerButton" onClick={() => deleteFlower(flower)}>
+                    <i className="bi bi-trash3-fill"></i>
                   </button>
                 </td>
               </tr>

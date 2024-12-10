@@ -17,9 +17,9 @@ const AddFlower = ({ createFlower, siteID }) => {
 
     return (
       <>
-        <button className="flower-button" onClick={handleShow}>
-          {t("button.addflower")}
-        </button>
+        <Button variant="light" onClick={handleShow}>
+          +
+        </Button>
         <Modal size="l" show={showModal} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{t("button.addflower")}</Modal.Title>

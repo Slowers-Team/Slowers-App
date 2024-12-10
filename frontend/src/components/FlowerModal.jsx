@@ -69,13 +69,13 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower, mo
               {flower?.favorite_image ? <VisibilityButton flower={flower} updateFlower={updateFlower}/> : <></>}
               </p> : <></>}
               {deleteFlower && (
-                <button className="flower-button" onClick={() => handleFlowerDelete(flower)}>
-                  {t('button.delete')}
+                <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
+                  <i className="bi bi-trash3-fill"></i>
                 </button>
               )}
               {isGrower && !isModifyFormVisible && (
-                <button className="flower-button" onClick={handleFormVisibility}>
-                  {t('button.modify')}
+                <button id="modifyFlowerButton" onClick={handleFormVisibility}>
+                  <i className="bi bi-pencil-fill"> </i>
                 </button>
               )}
             </div>
