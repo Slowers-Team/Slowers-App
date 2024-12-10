@@ -101,6 +101,14 @@
     border-radius: 5px;
   }
 
+  .flower-button:hover {
+    filter: brightness(0.85)
+  }
+
+  .flower-button:active {
+    filter: brightness(0.7);
+  }
+
   #visibilityButton {
     margin-left: 10px;
     margin-top: -5px;
