@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import AddImage from '../../src/components/image/AddImage'
+import AddImage from '../../../src/components/image/AddImage'
 import userEvent from '@testing-library/user-event'
 
 test('renders add image button', () => {

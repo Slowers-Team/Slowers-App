@@ -1,141 +1,116 @@
-import RegisterPage from './pages/RegisterPage'
-import TermsPage from './pages/TermsPage'
-import LogInPage from './pages/LogInPage'
-import UserPage from './pages/UserPage'
-import RetailerHomePage from './pages/RetailerHomePage'
-import RetailerFlowerPage from './pages/RetailerFlowerPage'
-import RetailerLayout from './layouts/RetailerLayout'
-import { createBrowserRouter, RouterProvider, redirect } from 'react-router-dom'
-import { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-import NavigationBar from './components/NavigationBar'
-import { Authenticator } from './Authenticator'
 import growerRoutes from './routes/grower'
 import userService from './services/users'
+import RegisterPage from "./pages/RegisterPage";
+import TermsPage from "./pages/TermsPage";
+import LogInPage from "./pages/LogInPage";
+import UserPage from "./pages/UserPage";
+import RetailerHomePage from "./pages/RetailerHomePage";
+import RetailerFlowerPage from "./pages/RetailerFlowerPage";
+import RetailerLayout from "./layouts/RetailerLayout";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  redirect,
+} from "react-router-dom";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import NavigationBar from "./components/NavigationBar";
+import { Authenticator } from "./Authenticator";
 
 const Root = () => {
-  const { t, i18n } = useTranslation()
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
-    setLanguage()
-  }, [])
+    setLanguage();
+  }, []);
 
   const setLanguage = () => {
-    const langCookie = document.cookie.split('; ').find(row => row.startsWith('lang='))
-    const language = langCookie ? langCookie.split('=')[1] : 'en'
-    i18n.changeLanguage(language)
-  }
+    const langCookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("lang="));
+    const language = langCookie ? langCookie.split("=")[1] : "en";
+    i18n.changeLanguage(language);
+  };
 
   return (
     <div>
       <NavigationBar />
     </div>
-  )
-}
+  );
+};
 
 // Redirect user to a default role, if they are logged in
 const roleLoader = () => {
   if (Authenticator.isLoggedIn) {
-    if (Authenticator.role === 'grower') {
-      return redirect('/grower')
+    if (Authenticator.role === "grower") {
+      return redirect("/grower");
     } else {
-      return redirect('/retailer')
+      return redirect("/retailer");
     }
   }
-  return null
-}
+  return null;
+};
 
 // Redirect user to login-screen, if they are not logged in
 function protectedLoader() {
   if (!Authenticator.isLoggedIn) {
-    return redirect("/login")
+    return redirect("/login");
   }
-  return null
+  return null;
 }
 
 // Redirect user to a default role if logged in, else to login
 const rootRedirect = () => {
   if (Authenticator.isLoggedIn) {
-    if (Authenticator.role === 'grower') {
-      return redirect('/grower')
+    if (Authenticator.role === "grower") {
+      return redirect("/grower");
     } else {
-      return redirect('/retailer')
+      return redirect("/retailer");
     }
   } else {
-    return redirect("/login")
+    return redirect("/login");
   }
-}
+};
 
 const rootLoader = () => {
-  Authenticator.refresh() // try to fetch login info from local storage 
-  return { 
+  Authenticator.refresh(); // try to fetch login info from local storage
+  return {
     role: Authenticator.role,
     isLoggedIn: Authenticator.isLoggedIn,
-    username: Authenticator.username
-  } 
-}
-
-const loginAction = async ({ request }) => {
-  const errors = {}
-  try {
-    const formData = await request.formData()
-    const email = formData.get("email")
-    const password = formData.get("password")
-
-    const response = await userService.login(email, password)
-
-    if (response.ok) {
-      Authenticator.login({ ... await response.json() })
-      return redirect("/")
-    } else {
-      errors.invalidLogin = true
-    }
-  } catch (err) {
-    console.error(err)
-    errors.error = err
-  }
-  return errors
-}
-
-const registerAction = async ({ request }) => {
-  const loginInfo = Object.fromEntries(await request.formData())
-
-  Authenticator.login(loginInfo)
-
-  return redirect("/")
-}
-
-const roleAction = async ({ request }) => {
-  const { role } = Object.fromEntries(await request.formData())
-  Authenticator.setRole(role)
-  return null
-}
+    username: Authenticator.username,
+  };
+};
 
 const router = createBrowserRouter([
-  { 
-    path: "/", 
-    element: <Root />, 
+  {
+    path: "/",
+    element: <Root />,
     id: "root",
     loader: rootLoader,
     children: [
-      { 
+      {
         index: true,
-        loader: rootRedirect // rootRedirect always redirects to another place
-      }, 
-      { path: "login", 
-        loader: roleLoader, 
-        element: <LogInPage />,
-        action: loginAction,
+        loader: rootRedirect, // rootLoader always redirects to another place
       },
-      { 
-        path: "register", 
-        loader: roleLoader, 
-        action: registerAction,
-        element: <RegisterPage /> 
+      {
+        path: "login",
+        loader: roleLoader,
+        element: <LogInPage />,
+        action() {
+          return redirect("/");
+        }, // POST /login -> redirect to homepage
+      },
+      {
+        path: "register",
+        loader: roleLoader,
+        element: <RegisterPage />,
       },
       { path: "terms", element: <TermsPage /> },
-      { path: "logout",
-        action() { return Authenticator.logout() } // POST /logout -> Authenticator.logout()
+      {
+        path: "logout",
+        action() {
+          return Authenticator.logout();
+        }, // POST /logout -> Authenticator.logout()
       },
       { path: "*", 
         loader: protectedLoader, 
@@ -148,8 +123,8 @@ const router = createBrowserRouter([
               { path: "flowers", element: <RetailerFlowerPage />}
             ] },
           { path: "user",
-            element: <UserPage />,
-            action: roleAction },
+            element: <UserPage />
+          },
           { path: "*", loader() { return redirect("/")} } // redirect undefined paths to home
         ]
       }
@@ -158,5 +133,5 @@ const router = createBrowserRouter([
 ])
 
 export default function App() {
-  return <RouterProvider router={router} />
+  return <RouterProvider router={router} />;
 }

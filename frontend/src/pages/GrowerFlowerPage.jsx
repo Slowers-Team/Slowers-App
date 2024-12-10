@@ -2,9 +2,9 @@ import { useParams, useRouteLoaderData, useLoaderData } from 'react-router-dom'
 import GrowerFlowerList from '../components/grower/GrowerFlowerList'
 import flowerService from '../services/flowers'
 import AddFlower from '../components/grower/AddFlower'
-import AddFlowerUpdate from '../components/grower/AddFlowerUpdate'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Button } from 'react-bootstrap'
 
 const GrowerFlowerPage = () => {
   const params = useParams()
@@ -54,6 +54,19 @@ const GrowerFlowerPage = () => {
     }
   }
 
+  const deleteMultipleFlowers = checkedFlowers => {
+    if (checkedFlowers.length === 0) {
+      alert(t('label.noflowersselected'))
+      return
+    }
+    if (window.confirm(t('label.confirmmultipleflowerdeletion'))) {
+      flowerService.removeMultipleFlowers(checkedFlowers).then(response => {
+        console.log(response)
+        setFlowers(l => l.filter(item => !checkedFlowers.includes(item._id)))
+      })
+    }
+  }
+
   const updateFlower = flowerObject => {
     setFlowers(flowers.map((flower) => 
       flower._id === flowerObject._id 
@@ -62,22 +75,36 @@ const GrowerFlowerPage = () => {
     ))
   }
 
+  const modifyFlower = flowerObject => {
+    flowerService
+      .modify(flowerObject)
+      .then(updateFlower(flowerObject))
+      .catch(error => {
+        console.log(error)
+        alert(t("error.modifyingfailed"))
+      })
+  }
+
   return (
     <>
     {site ? (
       <div>
         <h2>{site?.name} {t('title.siteflowers')}</h2>
         <AddFlower createFlower={addFlower} siteID={site._id} />
-        <AddFlowerUpdate checkedFlowers={checkedFlowers} />
+        <Button variant="light" onClick={() => deleteMultipleFlowers(checkedFlowers)}>
+          {t("button.delete")}
+        </Button>
       </div>
     ) : (
       <div>
         <h2>{t('title.allflowers')}</h2>
-        <AddFlowerUpdate checkedFlowers={checkedFlowers} />
+        <Button variant="light" onClick={() => deleteMultipleFlowers(checkedFlowers)}>
+          {t("button.delete")}
+        </Button>
       </div>
     )}
-      { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) : 
-                  (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) }
+      { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) : 
+                  (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) }
     </>
   )
 }

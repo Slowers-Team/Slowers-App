@@ -32,7 +32,7 @@ const AddImage = ({ entity, onImageUpload }) => {
           console.info("Image upload succesful:", data)
           setMessage(t("alert.imageuploaded"))
           if (onImageUpload) {
-            onImageUpload()
+            onImageUpload(data._id)
           }
         })
         .catch(error => {
