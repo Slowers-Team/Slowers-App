@@ -91,12 +91,12 @@ const GrowerSitesPage = () => {
               {t("button.deletethissite")}
             </button>
           </div>
-          <SiteFlexbox createSite={createSite} sites={sites} />
+          <SiteFlexbox createSite={createSite} sites={sites}/>
         </div>
       ) : (
         <div>
           <h2 className="mb-3">{t("title.sites")}</h2>
-          <SiteFlexbox createSite={createSite} sites={sites} />
+          <SiteFlexbox createSite={createSite} sites={sites}/>
         </div>
       )}
     </>

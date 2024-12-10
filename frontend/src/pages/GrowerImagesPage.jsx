@@ -19,14 +19,16 @@ const GrowerImagesPage = () => {
   }, [])
 
   useEffect(() => {
+    if (params.siteId) {
      fetchImages()
+    }
   }, [params.siteId])
 
   const fetchImages = () => {
     ImageService.getImagesByEntity(params.siteId)
-      .then(imageURLs => {
-        console.log('Images after fetching:', imageURLs)
-        setImages(imageURLs)
+      .then(fetchedImages => {
+        console.log('Images after fetching:', fetchedImages)
+        setImages(fetchedImages)
       })
       .catch(error => console.error('Error fetching images:', error))
   }
@@ -49,17 +51,42 @@ const GrowerImagesPage = () => {
     }
   }
 
-  const onImageUpload = () => {
+  const onImageUpload = (newImageID) => {
+    if (images.length === 0) {
+      favoriteImage(newImageID)
+    }
+
     fetchImages()
   }
 
-  const favoriteImage = imageObject => {
-    console.log("Favorite image:", imageObject) 
-    if (!imageObject || !imageObject._id) {
+  const markFavorite = (images, id = null) => {
+    if (id) {
+      updateSite({...site, favorite_image: id})
+    }
+
+    const fav = id ?? site?.favorite_image
+    setImages(images.map(
+      (img) => fav === img._id 
+        ? {...img, favorite: true}
+        : {...img, favorite: false}
+    ))
+  }
+
+  const favoriteImage = imageID => {
+    console.log("Favorite image:", imageID) 
+    if (!imageID) {
       console.error("Image object is undefined or missing id")
       alert(t('error.erroroccured'))
       return
     }
+    const response = ImageService.setFavorite(site._id, "site", imageID)
+    markFavorite(images, imageID)
+
+    console.log(response)
+  }
+
+  const updateSite = SiteObject => {
+    setSite(SiteObject)
   }
   
   return (
@@ -68,7 +95,7 @@ const GrowerImagesPage = () => {
       <div>
         <h2>{site?.name} {t('title.siteimages')}</h2>
         <AddImage entity={site} onImageUpload={onImageUpload} />
-        <ImageGallery isGrower={true} images={images} deleteImage={deleteImage} favoriteImage={favoriteImage} />
+        <ImageGallery isGrower={true} images={images} deleteImage={deleteImage} favoriteImage={favoriteImage}/>
       </div>
     )}
     </>
