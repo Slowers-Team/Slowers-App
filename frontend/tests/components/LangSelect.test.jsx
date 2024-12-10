@@ -8,7 +8,7 @@ import i18n from '../../src/i18n'
 test('renders LangSelect with "en" and "fi" options', () => {
   render(<LangSelect />)
 
-  const en = screen.getByText('🇺🇸 en')
+  const en = screen.getByText('🇬🇧 en')
   const fi = screen.getByText('🇫🇮 fi')
 })
 
