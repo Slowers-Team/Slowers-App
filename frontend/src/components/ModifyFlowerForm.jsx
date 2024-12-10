@@ -94,8 +94,8 @@ const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, handleForm
             <Button variant="light" id="saveModifiedFlowerButton" type="submit">
             {t("button.save")}
             </Button>
-            <Button variant="dark" id="modifyFlowerCancelButton" onClick={handleFormVisibility} className="ml-2">
-              {t("button.cancel")}
+            <Button variant="dark" className="flower-button" onClick={handleFormVisibility}>
+              {t('button.cancel')}
             </Button>
         </form>
       </div>

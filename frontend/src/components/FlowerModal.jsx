@@ -7,6 +7,30 @@ import "./FlowerModal.css"
 
 const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower, modifyFlower }) => {
   const { t } = useTranslation()
+  const [isModifyFormVisible, setIsModifyFormVisible] = useState(false)
+
+  console.log(flower)
+
+  const handleFlowerDelete = (flower) => {
+    if (deleteFlower) {
+      deleteFlower(flower)
+    }
+    handleClose()
+  }
+
+  const handleFormVisibility = () => {
+    setIsModifyFormVisible((prev) => !prev)
+  }
+
+  const addedTime = (flower) => {
+    let addedTime = new Date(flower.added_time)
+
+    let date = addedTime.toLocaleDateString('fi')
+    let time = addedTime.toLocaleTimeString('fi', { hour: '2-digit', minute: '2-digit' })
+    let addedTimeStr = `${date} ${time}`
+
+    return addedTimeStr
+  }
 
   const isGrower = Boolean(deleteFlower && updateFlower && modifyFlower)
 
@@ -19,7 +43,41 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower, mo
         <Tabs defaultActiveKey="info" className="mb-3" mountOnEnter={true} unmountOnExit={true}>
           <Tab eventKey="info" title={t('menu.info')}>
             <div>
-              <FlowerInfoTab isGrower={isGrower} flower={flower} deleteFlower={deleteFlower} updateFlower={updateFlower} modifyFlower={modifyFlower} handleClose={handleClose}/>
+              {isGrower && isModifyFormVisible ? (
+                  <div>
+                    <ModifyFlowerForm 
+                      flower={flower} 
+                      modifyFlower={modifyFlower} 
+                      handleFlowerModify={updateFlower}
+                      handleFormVisibility={handleFormVisibility}
+                    />
+                  </div> 
+                ) : (
+                  <div>
+                    <h3>{t('menu.info')}</h3>
+                    <p>{t('flower.data.name')}: {flower.name}</p>
+                    <p>{t('flower.data.latinname')}: {flower.latin_name}</p>
+                    <p>{t('flower.data.addedtime')}: {addedTime(flower)}</p>
+                    <p>{t('flower.data.site')}: {flower.site_name}</p>
+                    <p>{t('flower.data.qty')}: {flower.quantity}</p>
+                  </div>
+                )}
+              {isGrower ?
+              <p>{t('flower.visible.long')}: {flower.visible 
+                    ? t('flower.visible.true') 
+                    : t('flower.visible.false')}
+              {flower?.favorite_image ? <VisibilityButton flower={flower} updateFlower={updateFlower}/> : <></>}
+              </p> : <></>}
+              {deleteFlower && (
+                <button className="flower-button" onClick={() => handleFlowerDelete(flower)}>
+                  {t('button.delete')}
+                </button>
+              )}
+              {isGrower && !isModifyFormVisible && (
+                <button className="flower-button" onClick={handleFormVisibility}>
+                  {t('button.modify')}
+                </button>
+              )}
             </div>
           </Tab>
           <Tab eventKey="images" title={t('menu.images')}>
