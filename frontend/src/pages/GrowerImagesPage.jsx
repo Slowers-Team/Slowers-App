@@ -19,16 +19,16 @@ const GrowerImagesPage = () => {
   }, [])
 
   useEffect(() => {
-    if (params.siteId) {
+    if (params.siteId && site) {
      fetchImages()
     }
-  }, [params.siteId])
+  }, [params.siteId, site])
 
   const fetchImages = () => {
     ImageService.getImagesByEntity(params.siteId)
       .then(fetchedImages => {
         console.log('Images after fetching:', fetchedImages)
-        setImages(fetchedImages)
+        markFavorite(fetchedImages)
       })
       .catch(error => console.error('Error fetching images:', error))
   }
