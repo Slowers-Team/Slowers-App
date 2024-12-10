@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import FlowerModal from '../FlowerModal.jsx'
 import { useState } from "react"
 import { Button, Table } from 'react-bootstrap'
+import '../../App.css'
 
 const RetailerFlowerList = ({ flowers }) => {
   const { t, i18n } = useTranslation()
@@ -29,11 +30,13 @@ const RetailerFlowerList = ({ flowers }) => {
     setSortConfig({ key, direction })
   }
 
-  const renderSortIcon = (key) => {
-    if (sortConfig.key === key) {
-      return sortConfig.direction === 'asc' ? <i className="bi bi-caret-up-fill"></i> : <i className="bi bi-caret-down-fill"></i>
-    }
-    return ''
+  const renderSortIcon = () => {
+    return (
+      <span id="sort-icon">
+        <i className="bi bi-caret-down-fill" id="sort-icon-down"></i>
+        <i className="bi bi-caret-up-fill" id="sort-icon-up"></i>
+      </span>
+    )
   }
 
   const sortedFlowers = [...flowers].sort((a, b) => {

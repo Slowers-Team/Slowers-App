@@ -2,6 +2,7 @@ import '../../layouts/Grower.css'
 import FlowerModal from '../FlowerModal.jsx'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import '../../App.css'
 
 const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowers, updateFlower }) => {
   const { t, i18n } = useTranslation()
@@ -65,11 +66,13 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
     return 0
   })
 
-  const renderSortIcon = (key) => {
-    if (sortConfig.key === key) {
-      return sortConfig.direction === 'asc' ? <i className="bi bi-caret-up-fill"></i> : <i className="bi bi-caret-down-fill"></i>
-    }
-    return ''
+  const renderSortIcon = () => {
+    return (
+      <span id="sort-icon">
+        <i className="bi bi-caret-down-fill" id="sort-icon-down"></i>
+        <i className="bi bi-caret-up-fill" id="sort-icon-up"></i>
+      </span>
+    )
   }
 
   
