@@ -111,7 +111,7 @@ const RetailerFlowerList = ({ flowers }) => {
                 <td>{flower.grower_email}</td>
                 <td>{flower.quantity}</td>
                 <td>
-                  <button id='showFlowerPageButton' onClick={() => handleShow(flower)}>
+                  <button className="flower-button" onClick={() => handleShow(flower)}>
                     {t('button.flowerpage')}
                   </button>
                 </td>
