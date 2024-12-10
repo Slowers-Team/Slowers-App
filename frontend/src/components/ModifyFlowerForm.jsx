@@ -53,13 +53,13 @@ const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, handleForm
                 </td>
               </tr>
               <tr>
-									<th>{t('flower.data.addedtime')}</th>
-									<td>{addedTime}</td>
-								</tr>
-								<tr>
-									<th>{t('flower.data.site')}</th>
-									<td>{flower.site_name}</td>
-								</tr>
+								<th>{t('flower.data.addedtime')}</th>
+                <td>{addedTime}</td>
+              </tr>
+              <tr>
+                <th>{t('flower.data.site')}</th>
+                <td>{flower.site_name}</td>
+              </tr>
               <tr>
                 <th>{t('flower.data.qty')}</th>
                 <td>
