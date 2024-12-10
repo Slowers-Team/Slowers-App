@@ -30,7 +30,6 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
 		}
     return (
       <div>
-				<h3>{t('menu.info')}</h3>
         {isGrower && isModifyFormVisible ? (
             <div>
               <ModifyFlowerForm flower={flower} modifyFlower={modifyFlower} handleFlowerModify={updateFlower} handleFormVisibility={handleFormVisibility} handleFlowerDelete={handleFlowerDelete} addedTime={addedTime(flower)}/>
@@ -55,6 +54,12 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
 								<tr>
 									<th>{t('flower.data.site')}</th>
 									<td>{flower.site_name}</td>
+								</tr>
+								)}
+								{!isGrower && (
+								<tr>
+									<th>{t('flower.data.grower')}</th>
+									<td>{flower.grower_email}</td>
 								</tr>
 								)}
 								<tr>
