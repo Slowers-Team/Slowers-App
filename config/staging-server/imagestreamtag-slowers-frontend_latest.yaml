@@ -1,0 +1,103 @@
+﻿kind: ImageStreamTag
+apiVersion: image.openshift.io/v1
+metadata:
+  name: 'slowers-frontend:latest'
+  namespace: ohtuprojekti-staging
+  uid: 68774a15-7dac-4e23-b4b9-012b2f45143e
+  resourceVersion: '1602020105'
+  creationTimestamp: '2024-12-08T11:46:00Z'
+  labels:
+    app: slowers-frontend
+    app.kubernetes.io/component: slowers-frontend
+    app.kubernetes.io/instance: slowers-frontend
+    app.kubernetes.io/name: slowers-frontend
+    app.kubernetes.io/part-of: Slowers-App
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+    openshift.io/imported-from: 'docker.io/vsirvio/slowers-frontend:latest'
+tag:
+  name: latest
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+    openshift.io/imported-from: 'docker.io/vsirvio/slowers-frontend:latest'
+  from:
+    kind: DockerImage
+    name: 'docker.io/vsirvio/slowers-frontend:latest'
+  generation: 65
+  importPolicy:
+    scheduled: true
+    importMode: Legacy
+  referencePolicy:
+    type: Local
+generation: 65
+lookupPolicy:
+  local: false
+image:
+  metadata:
+    name: 'sha256:4aceed7c58e15849344189cb1e78993315d63d627b4d17ca69655b184c7bac22'
+    uid: 57413b80-3c81-42eb-8784-9d4e1af1080c
+    resourceVersion: '1600958789'
+    creationTimestamp: '2024-12-08T11:46:00Z'
+    annotations:
+      image.openshift.io/dockerLayersOrder: ascending
+      openshift.io/generated-by: OpenShiftWebConsole
+      openshift.io/imported-from: 'docker.io/vsirvio/slowers-frontend:latest'
+  dockerImageReference: 'image-registry.openshift-image-registry.svc:5000/ohtuprojekti-staging/slowers-frontend@sha256:4aceed7c58e15849344189cb1e78993315d63d627b4d17ca69655b184c7bac22'
+  dockerImageMetadata:
+    kind: DockerImage
+    apiVersion: image.openshift.io/1.0
+    Id: 'sha256:bd7e099da438a2051a4d12b1184f9abd6bdca9db0d1d1c2883963fc074d5ee09'
+    Created: '2024-12-08T11:35:47Z'
+    ContainerConfig: {}
+    Config:
+      ExposedPorts:
+        5173/tcp: {}
+      Env:
+        - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+        - NODE_VERSION=18.20.5
+        - YARN_VERSION=1.22.22
+      Cmd:
+        - /bin/sh
+        - '-c'
+        - npx http-server dist --port 5173 --proxy $BACKEND_URL
+      WorkingDir: /app
+      Entrypoint:
+        - docker-entrypoint.sh
+    Architecture: amd64
+    Size: 458262355
+  dockerImageMetadataVersion: '1.0'
+  dockerImageLayers:
+    - name: 'sha256:b2b31b28ee3c96e96195c754f8679f690db4b18e475682d716122016ef056f39'
+      size: 49575695
+      mediaType: application/vnd.docker.image.rootfs.diff.tar.gzip
+    - name: 'sha256:c3cc7b6f04730c072f8b292917e0d95bb886096a2b2b1781196170965161cd27'
+      size: 24058346
+      mediaType: application/vnd.docker.image.rootfs.diff.tar.gzip
+    - name: 'sha256:2112e5e7c3ff699043b282f1ff24d3ef185c080c28846f1d7acc5ccf650bc13d'
+      size: 64391376
+      mediaType: application/vnd.docker.image.rootfs.diff.tar.gzip
+    - name: 'sha256:af247aac076473044d24960a352a8ec6f154cf0a28f4fbf35fe5d43b52687ba2'
+      size: 211293801
+      mediaType: application/vnd.docker.image.rootfs.diff.tar.gzip
+    - name: 'sha256:a331373192b98de7ab88ce5853c035de2fb8bd6951b96d4fb93813ff1ca8ac44'
+      size: 3328
+      mediaType: application/vnd.docker.image.rootfs.diff.tar.gzip
+    - name: 'sha256:2a6b93fc33579c901f6ee0afab1637a96bf0d2e9ddf630a35e7ba98e6e23d565'
+      size: 45701179
+      mediaType: application/vnd.docker.image.rootfs.diff.tar.gzip
+    - name: 'sha256:6d89e71c7276cf68f48dc98c737c456a8b703117804dee7547c1207214c6ee1a'
+      size: 1250675
+      mediaType: application/vnd.docker.image.rootfs.diff.tar.gzip
+    - name: 'sha256:7459a0d03bcb97f890ffe6229e653747b237c2890b6d2fe8ef989accf79982f3'
+      size: 448
+      mediaType: application/vnd.docker.image.rootfs.diff.tar.gzip
+    - name: 'sha256:b3e84f592738e3cd30588e38cf0b5bab839ca4fdd1c5041a755996d41bef1057'
+      size: 93
+      mediaType: application/vnd.docker.image.rootfs.diff.tar.gzip
+    - name: 'sha256:4c61fed4a91509a07f3ff59bfa7246401fd99a0f840633ed315ff3cbe043bd7e'
+      size: 5347522
+      mediaType: application/vnd.docker.image.rootfs.diff.tar.gzip
+    - name: 'sha256:a56381fb426fb496065d8f313516bab3cac42b8225b9245ecea9f970e0e82a1d'
+      size: 56632284
+      mediaType: application/vnd.docker.image.rootfs.diff.tar.gzip
+  dockerImageManifestMediaType: application/vnd.docker.distribution.manifest.v2+json
