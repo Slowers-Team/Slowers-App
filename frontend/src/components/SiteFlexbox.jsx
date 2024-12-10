@@ -12,6 +12,7 @@ const SiteFlexbox = ({ createSite, sites }) => {
   const { t, i18n } = useTranslation()
 
   useEffect(() => {
+    if (sites) {
     const newImages = Promise.all(sites.map((site) => {
       if (site.favorite_image) {
         return ImageService.getByID(site.favorite_image)
@@ -23,7 +24,7 @@ const SiteFlexbox = ({ createSite, sites }) => {
     }))
 
     newImages.then((imgs) => setImages(imgs.filter((x)=>x)))
-  
+    }
   }, [sites])
     
   return (
@@ -32,7 +33,7 @@ const SiteFlexbox = ({ createSite, sites }) => {
         {sites &&
           sites.map(site => (
             <div className="box" key={site._id}>
-              <div className='image-container'>
+              <div className='image-flexbox-container'>
                 {images.find((o) => o.site === site._id)?.url && 
                 <img src={images.find((o) => o.site === site._id)?.url} alt={site.name} />
                 }
