@@ -11,12 +11,12 @@ const tabBar = () => {
       <div className="my-3">
         <Nav variant='tabs' defaultActiveKey="/retailer">
           <Nav.Item>
-            <Nav.Link className="text-success" as={NavLink} end to="/retailer"> 
+            <Nav.Link className="menu-tab" as={NavLink} end to="/retailer"> 
               {t('menu.home')}
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link className="text-success" as={NavLink} end to="/retailer/flowers">
+            <Nav.Link className="menu-tab" as={NavLink} end to="/retailer/flowers">
               {t('menu.flowers')}
             </Nav.Link>
           </Nav.Item>

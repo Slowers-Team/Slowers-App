@@ -14,22 +14,22 @@ const tabBar = () => {
       {params.siteId ? (
         <Nav variant='tabs' defaultActiveKey="/grower">
           <Nav.Item>
-            <Nav.Link className="text-success" as={NavLink} end to={`/grower/${params.siteId}`}> 
+            <Nav.Link className="menu-tab" as={NavLink} end to={`/grower/${params.siteId}`}> 
               {t('menu.home')}
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link className="text-success" as={NavLink} to={`/grower/${params.siteId}/flowers`}>
+            <Nav.Link className="menu-tab" as={NavLink} to={`/grower/${params.siteId}/flowers`}>
               {t('menu.flowers')}
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link className="text-success" as={NavLink} to={`/grower/${params.siteId}/sites`}>
+            <Nav.Link className="menu-tab" as={NavLink} to={`/grower/${params.siteId}/sites`}>
               {t('menu.sites')}
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-           <Nav.Link className="text-success" as={NavLink} to={`/grower/${params.siteId}/images`}>
+           <Nav.Link className="menu-tab" as={NavLink} to={`/grower/${params.siteId}/images`}>
               {t('menu.images')}
             </Nav.Link>
           </Nav.Item>
@@ -37,17 +37,17 @@ const tabBar = () => {
       ) : (
         <Nav variant='tabs' defaultActiveKey="/grower">
         <Nav.Item>
-          <Nav.Link className="text-success" as={NavLink} end to="/grower"> 
+          <Nav.Link className="menu-tab" as={NavLink} end to="/grower"> 
             {t('menu.home')}
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link className="text-success" as={NavLink} to="/grower/flowers">
+          <Nav.Link className="menu-tab" as={NavLink} to="/grower/flowers">
             {t('menu.flowers')}
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link className="text-success" as={NavLink} to="/grower/sites">
+          <Nav.Link className="menu-tab" as={NavLink} to="/grower/sites">
             {t('menu.sites')}
           </Nav.Link>
         </Nav.Item>
