@@ -34,6 +34,7 @@ const SiteFlexbox = ({ createSite, sites }) => {
           sites.map(site => (
             <div className="box" key={site._id}>
               <div className='image-flexbox-container'>
+                
                 {images.find((o) => o.site === site._id)?.url && 
                 <img src={images.find((o) => o.site === site._id)?.url} alt={site.name} />
                 }
