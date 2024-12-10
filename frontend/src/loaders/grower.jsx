@@ -1,9 +1,12 @@
 import siteService from '../services/sites'
 import flowerService from '../services/flowers'
+import imageService from '../services/images'
+import { defer } from 'react-router-dom'
 
 const siteLoader = async ({ params }) => {
-  const { site, subsites } = await siteService.get(params.siteId)
-  return { site, subsites}
+  let { site, subsites } = await siteService.get(params.siteId)
+  let images = imageService.getImagesByEntity(params.siteId) 
+  return defer({ site: site, subsites: subsites, images: images})
 }
 
 const rootSiteLoader = async () => {

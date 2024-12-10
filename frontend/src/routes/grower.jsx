@@ -4,6 +4,7 @@ import GrowerHomePage from "../pages/GrowerHomePage"
 import GrowerFlowerPage from "../pages/GrowerFlowerPage" 
 import GrowerImagesPage from "../pages/GrowerImagesPage" 
 import { rootFlowerLoader, rootSiteLoader, siteFlowerLoader, siteLoader } from "../loaders/grower"
+import { redirect } from "react-router-dom" 
 
 const growerRoutes = { 
   path: "grower",

@@ -1,29 +1,12 @@
 import { useTranslation } from 'react-i18next'
-import { useRouteLoaderData, useLoaderData, useParams } from 'react-router-dom' 
-import { useState, useEffect } from 'react'; 
+import { useRouteLoaderData, useLoaderData, useParams, defer, Await } from 'react-router-dom' 
+import { useState, useEffect, Suspense } from 'react'; 
 import ImageService from "../services/images";
 import SiteImagesCarousel from "../components/image/SiteImagesCarousel";
 
 const GrowerHomePage = () => {
   const { t, i18n } = useTranslation()
-  const { site } = useLoaderData() ?? useRouteLoaderData("site") // very ugly hack that makes site "false"
-  const params = useParams()
-  const [images, setImages] = useState([]);
-
-  useEffect(() => {
-    if (site) {
-      fetchImages();
-    }
-  }, []);
-  
- const fetchImages = () => {
-  ImageService.getImagesByEntity(params.siteId)
-    .then(imageURLs => {
-      console.log('Images after fetching:', imageURLs)
-      setImages(imageURLs)
-    })
-    .catch(error => console.error('Error fetching images:', error))
-  }
+  const { site, images } = useLoaderData() ?? useRouteLoaderData("site")
 
   return (
     <>
@@ -37,11 +20,25 @@ const GrowerHomePage = () => {
           {t("site.data.note")} : {site?.note}
         </p>
       )}
-      {params.siteId && images && images.length > 0 ? (
-        <div className="carousel-wrapper">
-          <SiteImagesCarousel images={images} />
-        </div>
-      ) : null }
+      <Suspense
+        fallback={<p>Loading images...</p>}
+      >
+        <Await
+          resolve={images}
+          errorElement={
+            <p>Error loading images!</p>
+          }
+        >
+          {(imgs) => (
+             imgs && imgs.length > 0 ? (
+              <div className="carousel-wrapper">
+                <SiteImagesCarousel images={imgs} />
+              </div>
+            ) : null 
+          )}
+        </Await>
+      </Suspense>
+      
     </>
   );
 };
