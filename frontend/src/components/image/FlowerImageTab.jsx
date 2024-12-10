@@ -79,7 +79,6 @@ const FlowerImageTab = ({ isGrower, flower, updateFlower }) => {
 
     return (
       <div>
-        <h3>{t('menu.images')}</h3>
         {isGrower && <AddImage entity={flower} onImageUpload={onImageUpload}/>}
         <ImageGallery isGrower={isGrower} images={images} deleteImage={deleteImage} favoriteImage={favoriteImage} type="flower"/>
       </div>
