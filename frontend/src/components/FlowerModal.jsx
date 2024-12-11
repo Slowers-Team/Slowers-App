@@ -74,12 +74,14 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower, mo
               </p> : <></>}
               {deleteFlower && (
                 <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
-                  <i className="bi bi-trash3-fill"></i>
+                  <i className="bi bi-trash3-fill"> </i>
+                  {t('button.delete')}
                 </button>
               )}
               {isGrower && !isModifyFormVisible && (
                 <button id="modifyFlowerButton" onClick={handleFormVisibility}>
                   <i className="bi bi-pencil-fill"> </i>
+                  {t('button.modify')}
                 </button>
               )}
             </div>

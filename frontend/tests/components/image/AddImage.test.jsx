@@ -7,7 +7,7 @@ test('renders add image button', () => {
 
   render(<AddImage entity={entity}/>)
 
-  const buttonText = screen.getByText('+')
+  const buttonText = screen.getByText('+ Add a new image')
 })
 
 test('open imageform when clicking button', async () => {
@@ -16,7 +16,7 @@ test('open imageform when clicking button', async () => {
 
   render(<AddImage entity={entity}/>)
 
-  const imageButton = screen.getByText('+')
+  const imageButton = screen.getByText('+ Add a new image')
   await user.click(imageButton)
 
   const form = screen.getByText('Select image:')
