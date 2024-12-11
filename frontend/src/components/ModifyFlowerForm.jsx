@@ -61,7 +61,7 @@ const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, handleForm
             <Button variant="light" id="saveModifiedFlowerButton" type="submit">
               {t("button.save")}
             </Button>
-            <Button variant="dark" className="custom-button" onClick={handleFormVisibility}>
+            <Button variant="dark" id="modifyFlowerButton" className="custom-button" onClick={handleFormVisibility}>
               {t('button.cancel')}
             </Button>
           </div>

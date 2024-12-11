@@ -151,12 +151,12 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
                     ? t('flower.visible.true') 
                     : t('flower.visible.false')}</td>
                 <td>
-                  <button className="custom-button" onClick={() => handleShow(flower)}>
+                  <button id='showFlowerPageButton' className="custom-button" onClick={() => handleShow(flower)}>
                   {t('button.flowerpage')}
                   </button>
                 </td>
                 <td>
-                  <button className="custom-button" onClick={() => deleteFlower(flower)}>
+                  <button id="deleteFlowerButton" className="custom-button" onClick={() => deleteFlower(flower)}>
                     {t('button.delete')}
                   </button>
                 </td>

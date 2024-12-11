@@ -28,7 +28,7 @@ const FlowerList = ({ flowers, deleteFlower }) => {
               </td>
               <td>{addedTimeStr}</td>
               <td>
-                <button className="custom-button" onClick={() => deleteFlower(flower)}>
+                <button id="deleteFlowerButton" className="custom-button" onClick={() => deleteFlower(flower)}>
                   {t('button.delete')}
                 </button>
               </td>
