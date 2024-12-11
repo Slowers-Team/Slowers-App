@@ -88,7 +88,7 @@
     background-color: #f6f6f6eb;
   }
 
-  .flower-button {
+  .custom-button {
     background-color: #c1dadf;
     color: black;
     border: none;
@@ -101,11 +101,11 @@
     border-radius: 5px;
   }
 
-  .flower-button:hover {
+  .custom-button:hover {
     filter: brightness(0.85)
   }
 
-  .flower-button:active {
+  .custom-button:active {
     filter: brightness(0.7);
   }
 

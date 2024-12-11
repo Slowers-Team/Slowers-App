@@ -27,7 +27,7 @@ const SiteFlexbox = ({ createSite, sites }) => {
             </div>
           ))}
         <div className={'box'}>
-          <button className="flower-button" id="addNewSiteButton" onClick={() => setShowAddNewSite(!showAddNewSite)}>
+          <button className="custom-button" id="addNewSiteButton" onClick={() => setShowAddNewSite(!showAddNewSite)}>
             {t('button.addsite')}
           </button>
           {showAddNewSite && <NewSiteForm createSite={createSite} />}
