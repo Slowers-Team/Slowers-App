@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react'
-import { expect, test, vi } from 'vitest'
+import { test, vi } from 'vitest'
 import { BrowserRouter } from 'react-router-dom'
-import userEvent from '@testing-library/user-event'
 import SiteFlexbox from '../../src/components/SiteFlexbox'
 
 test('renders SiteFlexbox', () => {
