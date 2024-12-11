@@ -7,30 +7,6 @@ import "./FlowerModal.css"
 
 const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower, modifyFlower }) => {
   const { t } = useTranslation()
-  const [isModifyFormVisible, setIsModifyFormVisible] = useState(false)
-
-  console.log(flower)
-
-  const handleFlowerDelete = (flower) => {
-    if (deleteFlower) {
-      deleteFlower(flower)
-    }
-    handleClose()
-  }
-
-  const handleFormVisibility = () => {
-    setIsModifyFormVisible((prev) => !prev)
-  }
-
-  const addedTime = (flower) => {
-    let addedTime = new Date(flower.added_time)
-
-    let date = addedTime.toLocaleDateString('fi')
-    let time = addedTime.toLocaleTimeString('fi', { hour: '2-digit', minute: '2-digit' })
-    let addedTimeStr = `${date} ${time}`
-
-    return addedTimeStr
-  }
 
   const isGrower = Boolean(deleteFlower && updateFlower && modifyFlower)
 
