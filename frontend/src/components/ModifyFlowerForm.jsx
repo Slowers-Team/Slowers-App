@@ -1,8 +1,8 @@
-import { Button, Container } from "react-bootstrap"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
+import { Button } from "react-bootstrap"
 
-const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, handleFormVisibility }) => {
+const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, handleFormVisibility, handleFlowerDelete, addedTime}) => {
   const [modifiedFlowerName, setModifiedFlowerName] = useState(flower.name)
   const [modifiedFlowerLatinName, setModifiedFlowerLatinName] = useState(flower.latin_name)
   const [modifiedFlowerQty, setModifiedFlowerQty] = useState(flower.quantity)
@@ -23,7 +23,7 @@ const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, handleForm
     handleFlowerModify(newFlower)
   }
     return (
-      <Container>
+      <div>
         <form onSubmit={updateFlower}>
           <div className="form-group">
             <label htmlFor="modifiedFlowerNameInput">{t("flower.data.name")}:</label>
@@ -65,9 +65,8 @@ const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, handleForm
               {t('button.cancel')}
             </Button>
           </div>
-
         </form>
-      </Container>
+      </div>
     )
 }
 

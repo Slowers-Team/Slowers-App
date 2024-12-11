@@ -17,7 +17,14 @@ const ImageGallery = ({ isGrower, images, deleteImage, favoriteImage, type }) =>
 	const handleFavoriteSelect = (imageObject) => {
 		favoriteImage(imageObject)
 	}
-	const breakpointColumnsObj = {default: 3, 991: 2, 550: 1,};
+
+	let breakpointColumnsObj
+
+	if (type === "flower") {
+		breakpointColumnsObj = {default: 2, 991: 1,}
+	} else {
+		breakpointColumnsObj = {default: 4, 1500: 3, 950: 2, 550: 1,}
+	}
 
   return (
     <div className="m-2">
