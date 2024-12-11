@@ -5,7 +5,7 @@ import siteService from '../services/sites'
 import AddFlower from '../components/grower/AddFlower'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Button } from 'react-bootstrap'
+import { Button, Container } from 'react-bootstrap'
 
 const GrowerFlowerPage = () => {
   const params = useParams()
@@ -84,7 +84,7 @@ const GrowerFlowerPage = () => {
   }
 
   return (
-    <>
+    <Container>
     {params.siteId ? (
       <div>
         <h2>{site?.name} {t('title.siteflowers')}</h2>
@@ -103,7 +103,7 @@ const GrowerFlowerPage = () => {
     )}
       { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) : 
                   (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) }
-    </>
+    </Container>
   )
 }
 

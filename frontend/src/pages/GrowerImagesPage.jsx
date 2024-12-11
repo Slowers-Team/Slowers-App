@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Container } from 'react-bootstrap'
 import siteService from '../services/sites'
 import ImageService from '../services/images'
 import ImageGallery from '../components/image/ImageGallery'
@@ -117,7 +118,7 @@ const GrowerImagesPage = () => {
   }
   
   return (
-    <>
+    <Container>
     {site && (
       <div>
         <h2>{site?.name} {t('title.siteimages')}</h2>
@@ -125,7 +126,7 @@ const GrowerImagesPage = () => {
         <ImageGallery isGrower={true} images={images} deleteImage={deleteImage} favoriteImage={favoriteImage}/>
       </div>
     )}
-    </>
+    </Container>
   )  
 }
 

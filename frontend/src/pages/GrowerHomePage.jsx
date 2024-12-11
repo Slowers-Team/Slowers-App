@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { Container } from 'react-bootstrap'
 import siteService from "../services/sites";
 import ImageService from "../services/images";
 import SiteImagesCarousel from "../components/image/SiteImagesCarousel";
@@ -31,7 +32,7 @@ const GrowerHomePage = () => {
   }
 
   return (
-    <>
+    <Container>
       {params.siteId ? (
         <h2>
           {site?.name} {t("title.sitehome")}{" "}
@@ -49,7 +50,7 @@ const GrowerHomePage = () => {
           <SiteImagesCarousel images={images} />
         </div>
       ) : null }
-    </>
+    </Container>
   );
 };
 
