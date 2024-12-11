@@ -7,6 +7,7 @@ import ImageService from "../services/images";
 import SiteImagesCarousel from "../components/image/SiteImagesCarousel";
 import SiteFlexbox from "../components/SiteFlexbox";
 import SiteMasonry from "../components/SiteMasonry";
+import AddSite from "../components/AddSite";
 
 const GrowerHomePage = () => {
   const params = useParams();
@@ -87,8 +88,9 @@ const GrowerHomePage = () => {
           {site?.note}
         </p>
       )}
-      {params.siteId && (
-      <div className="my-2">
+      <div className="d-flex gap-2">
+        <AddSite createSite={createSite} />
+        {params.siteId && (
         <button
           id="deleteSiteButton"
           onClick={() => deleteSite(site)}
@@ -96,11 +98,11 @@ const GrowerHomePage = () => {
         >
           {t("button.deletethissite")}
         </button>
+        )}
       </div>
-      )}
       <div>
         <h3 className="my-3">{t("title.sites")}</h3>
-        <SiteMasonry createSite={createSite} sites={sites}/>
+        <SiteMasonry sites={sites}/>
       </div>
       {/*
       {params.siteId && images && images.length > 0 ? (

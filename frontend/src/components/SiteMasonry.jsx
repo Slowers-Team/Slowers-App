@@ -7,7 +7,7 @@ import NewSiteForm from './NewSiteForm'
 import placeholderImage from '../assets/images/site-placeholder-image.jpg'
 import '../Misc.css'
 
-const SiteMasonry = ({ createSite, sites }) => {
+const SiteMasonry = ({ sites }) => {
   const [showAddNewSite, setShowAddNewSite] = useState(false)
   const [images, setImages] = useState([])
   const { t, i18n } = useTranslation()
@@ -49,12 +49,6 @@ const SiteMasonry = ({ createSite, sites }) => {
             <h3 className="my-2"><Link to={`/grower/${site._id}`} className="link-success">{site.name}</Link></h3>
           </div>
         ))}
-      <div className='masonry-box'>
-        <button id="addNewSiteButton" onClick={() => setShowAddNewSite(!showAddNewSite)} className='btn btn-light'>
-          {t('button.addsite')}
-        </button>
-        {showAddNewSite && <NewSiteForm createSite={createSite} />}
-      </div>
     </Masonry>
   )
 }
