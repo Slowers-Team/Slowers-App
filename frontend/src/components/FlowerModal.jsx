@@ -9,6 +9,8 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower, mo
   const { t } = useTranslation()
   const [isModifyFormVisible, setIsModifyFormVisible] = useState(false)
 
+  console.log(flower)
+
   const handleFlowerDelete = (flower) => {
     if (deleteFlower) {
       deleteFlower(flower)
@@ -70,15 +72,15 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower, mo
               <p>{t('flower.visible.long')}: {flower.visible 
                     ? t('flower.visible.true') 
                     : t('flower.visible.false')}
-              <VisibilityButton flower={flower} updateFlower={updateFlower}/>
+              {flower?.favorite_image ? <VisibilityButton flower={flower} updateFlower={updateFlower}/> : <></>}
               </p> : <></>}
               {deleteFlower && (
-                <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
+                <button id="deleteFlowerButton" className="custom-button" onClick={() => handleFlowerDelete(flower)}>
                   {t('button.delete')}
                 </button>
               )}
               {isGrower && !isModifyFormVisible && (
-                <button id="modifyFlowerButton" onClick={handleFormVisibility}>
+                <button id="modifyFlowerButton" className="custom-button" onClick={handleFormVisibility}>
                   {t('button.modify')}
                 </button>
               )}
