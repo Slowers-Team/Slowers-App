@@ -150,7 +150,6 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
               {renderSortIcon('visible')}
             </th>
             <th></th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -185,11 +184,9 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
                     ? t('flower.visible.true') 
                     : t('flower.visible.false')}</td>
                 <td>
-                  <button id='showFlowerPageButton' className="custom-button" onClick={() => handleShow(flower)}>
+                  <button id='showFlowerPageButton' className="custom-button me-2" onClick={() => handleShow(flower)}>
                   <i className="bi bi-info-circle-fill"></i>
                   </button>
-                </td>
-                <td>
                   <button id="deleteFlowerButton" className="custom-button" onClick={() => deleteFlower(flower)}>
                     <i className="bi bi-trash3-fill"></i>
                   </button>
