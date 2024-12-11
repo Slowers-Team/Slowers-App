@@ -16,7 +16,7 @@ const TermsPage = () => {
       <h2 className="mx-3 my-3">{t("title.terms")}</h2>
       <TermsWindow />
       <br />
-      <button onClick={handleBack} className="mx-2 btn btn-light">{t("button.back")}</button>
+      <button onClick={handleBack} className="custom-button">{t("button.back")}</button>
     </Container>
   )
 }

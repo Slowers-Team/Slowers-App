@@ -102,9 +102,10 @@ const GrowerFlowerPage = () => {
             />
           </div>
           {params.siteId && <AddFlower createFlower={addFlower} siteID={params.siteId} />}
-          <Button variant="light" onClick={() => deleteMultipleFlowers(checkedFlowers)}>
-            {t("button.delete")}
-          </Button>
+          <button className="custom-button" onClick={() => deleteMultipleFlowers(checkedFlowers)}>
+            <i className="bi bi-trash3-fill"> </i>
+            {t('button.delete')}
+          </button>
         </div>
       </div>
       { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower} searchTerm={searchTerm}/>) : 

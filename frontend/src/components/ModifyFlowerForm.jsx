@@ -88,15 +88,18 @@ const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, handleForm
             </tr>
             </tbody>
           </table>
-            <button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)} type="button">
+            <button className="custom-button" id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)} type="button">
+            <i className="bi bi-trash3-fill"> </i>
               {t('button.delete')}
             </button>
-            <Button variant="light" id="saveModifiedFlowerButton" type="submit">
-            {t("button.save")}
-            </Button>
-            <Button variant="dark" id="modifyFlowerCancelButton" onClick={handleFormVisibility} className="ml-2">
+            <button variant="light" className="custom-button" id="saveModifiedFlowerButton" type="submit">
+              <i class="bi bi-floppy2-fill"> </i>
+              {t("button.save")}
+            </button>
+            <button variant="dark" className="custom-button" id="modifyFlowerCancelButton" onClick={handleFormVisibility}>
+              <i class="bi bi-x-lg"> </i>
               {t("button.cancel")}
-            </Button>
+            </button>
         </form>
       </div>
     )

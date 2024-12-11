@@ -1,4 +1,4 @@
-import { Modal, Button } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import NewSiteForm from './NewSiteForm'
@@ -17,9 +17,9 @@ const AddSite = ({ createSite }) => {
 
     return (
       <>
-        <Button variant="light" onClick={handleShow}>
-          {t("button.addsite")}
-        </Button>
+        <button className='custom-button' onClick={handleShow}>
+          + {t("button.addsite")}
+        </button>
         <Modal size="l" show={showModal} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{t("button.addsite")}</Modal.Title>
