@@ -30,9 +30,9 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower, mo
         </Tabs>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <button className="custom-button" onClick={handleClose}>
           {t('button.close')}
-        </Button>
+        </button>
       </Modal.Footer>
     </Modal>
   )
