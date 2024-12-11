@@ -33,7 +33,10 @@ const SiteForm = ({ createSite }) => {
           <input id="newSiteNoteInput" value={newSiteNote} onChange={event => setNewSiteNote(event.target.value)} className='form-control'/>
         </div>
         <div className='form-group'>
-          <button id="saveNewSiteButton" type="submit" className='btn btn-light'>{t("button.save")}</button>
+          <button id="saveNewSiteButton" type="submit" className='btn btn-light'>
+            <i class="bi bi-floppy2-fill"> </i>
+            {t("button.save")}
+          </button>
         </div>
       </form>
     </div>

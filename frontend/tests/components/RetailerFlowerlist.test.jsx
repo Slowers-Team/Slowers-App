@@ -32,8 +32,7 @@ test('sorts flowers correctly when clicking tha name', async () => {
 
     const nameHeader = screen.getByText((content, element) => {
       const hasText = content.includes('Name')
-      const hasArrow = /\s*▾|\s*▼/.test(content)
-      return hasText && hasArrow
+      return hasText
     })
   
     fireEvent.click(nameHeader)

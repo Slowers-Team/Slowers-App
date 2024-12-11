@@ -88,6 +88,7 @@ const GrowerSitesPage = () => {
               onClick={() => deleteSite(site)}
               className="custom-button"
             >
+              <i className="bi bi-trash3-fill"> </i>
               {t("button.deletethissite")}
             </button>
           </div>

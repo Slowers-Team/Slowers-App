@@ -8,9 +8,9 @@ test('renders RegisterForm with username, password, and email inputs', () => {
 
     render(<RegisterForm createNewUser={createNewUser} />)
 
-    const username = screen.getByLabelText('Username')
-    const password = screen.getByLabelText('Password')
-    const email = screen.getByLabelText('Email')
+    const username = screen.getByPlaceholderText('Enter username')
+    const password = screen.getByPlaceholderText('Enter password')
+    const email = screen.getByPlaceholderText('Enter email')
 })
 
 test('updates input values when typing', async () => {
@@ -19,9 +19,9 @@ test('updates input values when typing', async () => {
 
     render(<RegisterForm createNewUser={createNewUser} />)
 
-    const usernameInput = screen.getByLabelText('Username')
-    const passwordInput = screen.getByLabelText('Password')
-    const emailInput = screen.getByLabelText('Email')
+    const usernameInput = screen.getByPlaceholderText('Enter username')
+    const passwordInput = screen.getByPlaceholderText('Enter password')
+    const emailInput = screen.getByPlaceholderText('Enter email')
 
     await user.type(usernameInput, 'testuser')
     await user.type(passwordInput, 'testpassword')
@@ -38,9 +38,9 @@ test('clears input values after successful submit', async () => {
 
     render(<RegisterForm createNewUser={createNewUser} />)
 
-    const usernameInput = screen.getByLabelText('Username')
-    const passwordInput = screen.getByLabelText('Password')
-    const emailInput = screen.getByLabelText('Email')
+    const usernameInput = screen.getByPlaceholderText('Enter username')
+    const passwordInput = screen.getByPlaceholderText('Enter password')
+    const emailInput = screen.getByPlaceholderText('Enter email')
     const growerRadioButton = screen.getByLabelText('Grower')
     const termsCheckbox = screen.getByLabelText('I agree to the terms and conditions')
     const submitButton = screen.getByText('Register')
@@ -63,9 +63,9 @@ test('does not clear input values after submit if email does not match standard 
 
     render(<RegisterForm createNewUser={createNewUser} />)
 
-    const usernameInput = screen.getByLabelText('Username')
-    const passwordInput = screen.getByLabelText('Password')
-    const emailInput = screen.getByLabelText('Email')
+    const usernameInput = screen.getByPlaceholderText('Enter username')
+    const passwordInput = screen.getByPlaceholderText('Enter password')
+    const emailInput = screen.getByPlaceholderText('Enter email')
     const growerRadioButton = screen.getByLabelText('Grower')
     const termsCheckbox = screen.getByLabelText('I agree to the terms and conditions')
     const submitButton = screen.getByText('Register')
@@ -88,9 +88,9 @@ test('calls createNewUser with correct values on submit', async () => {
 
     render(<RegisterForm createNewUser={createNewUser} />)
 
-    const usernameInput = screen.getByLabelText('Username')
-    const passwordInput = screen.getByLabelText('Password')
-    const emailInput = screen.getByLabelText('Email')
+    const usernameInput = screen.getByPlaceholderText('Enter username')
+    const passwordInput = screen.getByPlaceholderText('Enter password')
+    const emailInput = screen.getByPlaceholderText('Enter email')
     const growerRadioButton = screen.getByLabelText('Grower')
     const termsCheckbox = screen.getByLabelText('I agree to the terms and conditions')
     const submitButton = screen.getByText('Register')
@@ -117,9 +117,9 @@ test('does not call createNewUser on submit if email does not match standard for
 
     render(<RegisterForm createNewUser={createNewUser} />)
 
-    const usernameInput = screen.getByLabelText('Username')
-    const passwordInput = screen.getByLabelText('Password')
-    const emailInput = screen.getByLabelText('Email')
+    const usernameInput = screen.getByPlaceholderText('Enter username')
+    const passwordInput = screen.getByPlaceholderText('Enter password')
+    const emailInput = screen.getByPlaceholderText('Enter email')
     const growerRadioButton = screen.getByLabelText('Grower')
     const termsCheckbox = screen.getByLabelText('I agree to the terms and conditions')
     const submitButton = screen.getByText('Register')
