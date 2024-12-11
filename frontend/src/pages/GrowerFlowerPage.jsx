@@ -11,6 +11,7 @@ const GrowerFlowerPage = () => {
   const params = useParams()
   const [flowers, setFlowers] = useState()
   const [checkedFlowers, setCheckedFlowers] = useState([])
+  const [searchTerm, setSearchTerm] = useState("")
   const [site, setSite] = useState()
   const { t, i18n } = useTranslation()
 
@@ -85,24 +86,29 @@ const GrowerFlowerPage = () => {
 
   return (
     <Container>
-    {params.siteId ? (
       <div>
+        {params.siteId ? (
         <h2>{site?.name} {t('title.siteflowers')}</h2>
-        <AddFlower createFlower={addFlower} siteID={params.siteId} />
-        <Button variant="light" onClick={() => deleteMultipleFlowers(checkedFlowers)}>
-          {t("button.delete")}
-        </Button>
+        ) : (
+          <h2>{t('title.allflowers')}</h2>
+        )}
+        <div className="d-flex gap-2 mt-4">
+          <div className="d-flex justify-content-start input-wrapper">
+            <input
+              type="text"
+              placeholder={t('button.Search')}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          {params.siteId && <AddFlower createFlower={addFlower} siteID={params.siteId} />}
+          <Button variant="light" onClick={() => deleteMultipleFlowers(checkedFlowers)}>
+            {t("button.delete")}
+          </Button>
+        </div>
       </div>
-    ) : (
-      <div>
-        <h2>{t('title.allflowers')}</h2>
-        <Button variant="light" onClick={() => deleteMultipleFlowers(checkedFlowers)}>
-          {t("button.delete")}
-        </Button>
-      </div>
-    )}
-      { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) : 
-                  (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower}/>) }
+      { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower} searchTerm={searchTerm}/>) : 
+                  (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower} searchTerm={searchTerm}/>) }
     </Container>
   )
 }

@@ -5,14 +5,13 @@ import FlowerModal from '../FlowerModal.jsx'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowers, updateFlower }) => {
+const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowers, updateFlower, searchTerm}) => {
   const { t, i18n } = useTranslation()
   const [showModal, setShowModal] = useState(false)
   const [currentFlower, setCurrentFlower] = useState("")
   const [checkedFlowers, setLocalCheckedFlowers] = useState([])
   const [images, setImages] = useState([])
   const [sortConfig, setSortConfig] = useState({ key: '', direction: '' })
-  const [searchTerm, setSearchTerm] = useState("")
 
   useEffect(() => {
     setCheckedFlowers(checkedFlowers)
@@ -103,14 +102,6 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
 
   return (
     <div className="growerFlowerList">
-      <div className="d-flex justify-content-start mb-3 input-wrapper">
-        <input
-          type="text"
-          placeholder={t('button.Search')}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
       <table id="growerFlowerList" className="table table-hover">
         <thead>
           <tr>
