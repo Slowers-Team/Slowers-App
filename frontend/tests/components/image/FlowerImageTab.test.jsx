@@ -9,7 +9,6 @@ test('renders FlowerImageTab as grower', () => {
 
     render(<FlowerImageTab isGrower={true} flower={flower} deleteImage={deleteImage} />)
 
-    const title = screen.getByText('Images')
     const addImageButton = screen.getByText('+ Add a new image')
     const noImages = screen.getByText("This flower doesn't have any images yet")
 })
