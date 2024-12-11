@@ -20,14 +20,14 @@ const GrowerHomePage = () => {
     SiteService.get(params.siteId)
       .then((initialSites) => {
         if (params.siteId) {
-          setSite(initialSites.site);
-          setSites(initialSites.subsites);
+          setSite(initialSites.site)
+          setSites(initialSites.subsites)
         } else {
-          setSites(initialSites);
+          setSites(initialSites)
         }
       })
-      fetchImages();
-  }, [params.siteId]);
+      fetchImages()
+  }, [params.siteId])
 
   const createSite = (siteObject) => {
     SiteService.create(siteObject)
@@ -55,9 +55,9 @@ const GrowerHomePage = () => {
       SiteService.remove(siteObject._id)
         .then(() => {
           if (parentId !== null && parentId !== "") {
-            navigate("/grower/" + parentId + "/sites");
+            navigate("/grower/" + parentId);
           } else {
-            navigate("/grower/sites");
+            navigate("/grower");
           }
         })
         .catch((error) => {
@@ -66,12 +66,14 @@ const GrowerHomePage = () => {
     }
   };
  const fetchImages = () => {
-  ImageService.getImagesByEntity(params.siteId)
-    .then(imageURLs => {
-      console.log('Images after fetching:', imageURLs)
-      setImages(imageURLs)
-    })
-    .catch(error => console.error('Error fetching images:', error))
+  if (params.siteId) {
+    ImageService.getImagesByEntity(params.siteId)
+      .then(imageURLs => {
+        console.log('Images after fetching:', imageURLs)
+        setImages(imageURLs)
+      })
+      .catch(error => console.error('Error fetching images:', error))
+    }
   }
 
   return (
