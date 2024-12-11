@@ -45,8 +45,8 @@ const AddImage = ({ entity, onImageUpload }) => {
 
     return (
       <>
-        <button className='custom-button'  onClick={showForm}>{t("button.addimage")}</button>
-        <Modal size="l" show={show} onHide={hide} backdropClassName="imageModalBackdrop">
+        <Button className='mx-2' variant="light" onClick={showForm}>{t("button.addimage")}</Button>
+        <Modal size="l" show={show} onHide={hide}>
           <Modal.Header closeButton>
             <Modal.Title>{t("image.title")}</Modal.Title>
           </Modal.Header>

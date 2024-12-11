@@ -26,7 +26,7 @@ const VisibilityButton = ({ flower, updateFlower }) => {
   }
   
   return (
-    <button onClick={handleClick} disabled={disabled} id="visibilityButton" className="custom-button">
+    <button onClick={handleClick} disabled={disabled} id="visibilityButton" className="flower-button">
       {current
         ? t("button.hideFlower")
         : t("button.showFlower")}

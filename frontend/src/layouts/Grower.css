@@ -88,7 +88,7 @@
     background-color: #f6f6f6eb;
   }
 
-  .custom-button {
+  #deleteFlowerButton {
     background-color: #c1dadf;
     color: black;
     border: none;
@@ -101,12 +101,43 @@
     border-radius: 5px;
   }
 
-  .custom-button:hover {
-    filter: brightness(0.85)
+#modifyFlowerButton {
+  background-color: #c1dadf;
+  color: black;
+  border: none;
+  padding: 5px 10px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+  #showFlowerPageButton {
+    background-color: #c1dadf;
+    color: black;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px 2px;
+    cursor: pointer;
+    border-radius: 5px;
   }
 
-  .custom-button:active {
-    filter: brightness(0.7);
+  .flower-button {
+    background-color: #c1dadf;
+    color: black;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px 2px;
+    cursor: pointer;
+    border-radius: 5px;
   }
 
   #visibilityButton {
