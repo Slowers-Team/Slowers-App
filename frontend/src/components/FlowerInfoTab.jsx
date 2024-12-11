@@ -80,10 +80,10 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
 			)}
 			{isGrower && !isModifyFormVisible && (
 				<div>
-					<button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
+					<button className="custom-button" id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
 						{t('button.delete')}
 					</button>
-					<button id="modifyFlowerButton" onClick={handleFormVisibility}>
+					<button className="custom-button" id="modifyFlowerButton" onClick={handleFormVisibility}>
 					{t('button.modify')}
 					</button>
 				</div>
