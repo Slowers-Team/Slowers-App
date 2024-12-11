@@ -102,7 +102,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
 
   return (
     <div className="growerFlowerList">
-      <table id="growerFlowerList" className="table table-hover">
+      <table id="growerFlowerList" className="table table-hover align-middle">
         <thead>
           <tr>
             <th>

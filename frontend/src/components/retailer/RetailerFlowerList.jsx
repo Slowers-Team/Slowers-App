@@ -66,7 +66,7 @@ const RetailerFlowerList = ({ flowers }) => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <table id="retailerFlowerList">
+      <table id="retailerFlowerList" className="table table-hover align-middle">
         <thead>
           <tr>
             <th onClick={() => handleSort('name')} style={{ cursor: 'pointer' }}>
