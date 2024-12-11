@@ -1,14 +1,24 @@
-import { Outlet, NavLink, Link } from 'react-router-dom'
-import { useParams } from 'react-router-dom'
+import { Outlet, NavLink, Link, useParams } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Nav } from 'react-bootstrap'
+import siteService from '../services/sites'
+import SiteBreadCrumbs from '../components/SiteBreadCrumbs' 
 
 const tabBar = () => {
   const params = useParams()
+  const [site, setSite] = useState()
   const { t, i18n } = useTranslation()
+
+  useEffect(()=>{
+    if (params.siteId && site?._id != params.siteId) {
+      siteService.get(params.siteId).then((s) => setSite(s)).catch((err) => console.error(err))
+    }
+  },[params.siteId])
 
   return (
     <div className='my-2'>
+      {site ? <SiteBreadCrumbs props={site} /> : <></>}
       <Link to="/grower" className="mx-2 text-secondary text-decoration-none">Placeholder</Link>
       <div className="my-3">
       {params.siteId ? (

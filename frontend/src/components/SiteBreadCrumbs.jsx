@@ -1,7 +1,7 @@
 import { Breadcrumb, BreadcrumbItem } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next'
 
-const SiteBreadCrumbs = (props) => {
+const SiteBreadCrumbs = ({props}) => {
   const { t, i18n } = useTranslation()
   const route = [{_id: '', name: t('menu.home')}, ...props.route]
 
