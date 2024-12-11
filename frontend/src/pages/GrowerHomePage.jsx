@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Container } from 'react-bootstrap'
@@ -8,6 +8,7 @@ import AddSite from "../components/AddSite";
 
 const GrowerHomePage = () => {
   const params = useParams();
+  const navigate = useNavigate();
   const [site, setSite] = useState();
   const [sites, setSites] = useState([]);
   const { t, i18n } = useTranslation();
