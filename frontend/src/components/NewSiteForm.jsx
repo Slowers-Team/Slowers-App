@@ -35,7 +35,7 @@ const SiteForm = ({ createSite, handleClose }) => {
         </div>
         <div className='form-group mt-3 mb-2'>
           <button id="saveNewSiteButton" type="submit" className='custom-button'>
-            <i class="bi bi-floppy2-fill"> </i>
+            <i className="bi bi-floppy2-fill"> </i>
             {t("button.save")}
           </button>
         </div>
