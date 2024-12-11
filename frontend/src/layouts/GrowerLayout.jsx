@@ -9,7 +9,6 @@ const tabBar = () => {
 
   return (
     <div className='my-2'>
-      <Link to="/grower" className="mx-2 text-secondary text-decoration-none">Placeholder</Link>
       <div className="my-3">
       {params.siteId ? (
         <Nav variant='tabs' defaultActiveKey="/grower">
