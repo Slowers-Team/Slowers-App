@@ -66,7 +66,19 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
     return 0
   })
 
-  const renderSortIcon = () => {
+  const renderSortIcon = (key) => {
+    if (sortConfig.key === key) {
+      return  (
+          sortConfig.direction === 'asc' ? 
+            <span id="sort-icon">
+              <i className="bi bi-caret-up-fill" id="sort-icon-up"></i>
+            </span> 
+            : 
+            <span id="sort-icon">
+              <i className="bi bi-caret-down-fill" id="sort-icon-down"></i>
+            </span>
+      )
+    }
     return (
       <span id="sort-icon">
         <i className="bi bi-caret-down-fill" id="sort-icon-down"></i>
