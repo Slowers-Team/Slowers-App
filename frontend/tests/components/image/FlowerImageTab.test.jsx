@@ -20,7 +20,6 @@ test('renders FlowerImageTab as retailer', () => {
 
     render(<FlowerImageTab isGrower={false} flower={flower} deleteImage={deleteImage} />)
 
-    const title = screen.getByText('Images')
     const noImages = screen.getByText("This flower doesn't have any images yet")
 })
 
