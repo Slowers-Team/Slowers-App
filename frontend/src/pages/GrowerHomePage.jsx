@@ -102,7 +102,9 @@ const GrowerHomePage = () => {
         )}
       </div>
       <div>
-        <h3 className="my-3">{t("title.sites")}</h3>
+        {sites && sites.length > 0 && (
+          <h3 className="my-3">{t("title.sites")}</h3>
+        )}
         <SiteMasonry sites={sites}/>
       </div>
       {/*
