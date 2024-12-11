@@ -25,3 +25,14 @@ func GetCurrentUser(c *fiber.Ctx) (database.ObjectID, error) {
 	}
 	return userID, nil
 }
+
+func ResetDatabase(c *fiber.Ctx) error {
+	if err := db.Clear(); err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	return c.SendString("Database reset successful")
+}
+
+func HealthCheck(c *fiber.Ctx) error {
+	return c.SendString("OK")
+}
