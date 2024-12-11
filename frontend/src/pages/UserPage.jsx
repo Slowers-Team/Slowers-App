@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import userService from "../services/users";
 import UserInfo from "../components/UserInfo";
 import { Authenticator } from "../Authenticator";
+import { Container } from "react-bootstrap";
 
 const UserPage = () => {
   const [user, setUser] = useState({});
@@ -21,13 +22,13 @@ const UserPage = () => {
   const switchRole = () => (user.role === "grower" ? "retailer" : "grower");
 
   return (
-    <div className="mx-3">
+    <Container className="m-3">
       <UserInfo
         user={user}
         handleRoleSwitch={handleRoleSwitch}
         switchedRole={switchRole(user.role)}
       />
-    </div>
+    </Container>
   );
 };
 

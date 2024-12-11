@@ -9,7 +9,6 @@ const tabBar = () => {
 
   return (
     <div className='my-2'>
-      <Link to="/grower" className="mx-2 text-secondary text-decoration-none">Placeholder</Link>
       <div className="my-3">
       {params.siteId ? (
         <Nav variant='tabs' defaultActiveKey="/grower">
@@ -21,11 +20,6 @@ const tabBar = () => {
           <Nav.Item>
             <Nav.Link className="text-success" as={NavLink} to={`/grower/${params.siteId}/flowers`}>
               {t('menu.flowers')}
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link className="text-success" as={NavLink} to={`/grower/${params.siteId}/sites`}>
-              {t('menu.sites')}
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
@@ -44,11 +38,6 @@ const tabBar = () => {
         <Nav.Item>
           <Nav.Link className="text-success" as={NavLink} to="/grower/flowers">
             {t('menu.flowers')}
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link className="text-success" as={NavLink} to="/grower/sites">
-            {t('menu.sites')}
           </Nav.Link>
         </Nav.Item>
       </Nav>

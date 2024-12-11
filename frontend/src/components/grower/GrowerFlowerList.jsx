@@ -6,14 +6,13 @@ import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import '../../App.css'
 
-const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowers, updateFlower }) => {
+const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowers, updateFlower, searchTerm}) => {
   const { t, i18n } = useTranslation()
   const [showModal, setShowModal] = useState(false)
   const [currentFlower, setCurrentFlower] = useState("")
   const [checkedFlowers, setLocalCheckedFlowers] = useState([])
   const [images, setImages] = useState([])
   const [sortConfig, setSortConfig] = useState({ key: '', direction: '' })
-  const [searchTerm, setSearchTerm] = useState("")
 
   useEffect(() => {
     setCheckedFlowers(checkedFlowers)
@@ -119,15 +118,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
 
   return (
     <div className="growerFlowerList">
-      <div className="d-flex justify-content-start mb-3 input-wrapper">
-        <input
-          type="text"
-          placeholder={t('button.Search')}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-      <table id="growerFlowerList" className="table table-hover">
+      <table id="growerFlowerList" className="table table-hover align-middle">
         <thead>
           <tr>
             <th>
@@ -158,7 +149,6 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
               {t('flower.visible.short')}
               {renderSortIcon('visible')}
             </th>
-            <th></th>
             <th></th>
           </tr>
         </thead>
@@ -194,11 +184,9 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
                     ? t('flower.visible.true') 
                     : t('flower.visible.false')}</td>
                 <td>
-                  <button id='showFlowerPageButton' className="custom-button" onClick={() => handleShow(flower)}>
+                  <button id='showFlowerPageButton' className="custom-button me-2" onClick={() => handleShow(flower)}>
                   <i className="bi bi-info-circle-fill"></i>
                   </button>
-                </td>
-                <td>
                   <button id="deleteFlowerButton" className="custom-button" onClick={() => deleteFlower(flower)}>
                     <i className="bi bi-trash3-fill"></i>
                   </button>

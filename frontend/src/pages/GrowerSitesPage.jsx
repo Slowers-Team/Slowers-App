@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import SiteService from "../services/sites";
 import SiteFlexbox from "../components/SiteFlexbox";
 import { useTranslation } from "react-i18next";
+import { Container } from 'react-bootstrap'
 
 const GrowerSitesPage = () => {
   const params = useParams();
@@ -69,7 +70,7 @@ const GrowerSitesPage = () => {
   };
 
   return (
-    <>
+    <Container>
       {params.siteId ? (
         <div>
           <h2>
@@ -100,7 +101,7 @@ const GrowerSitesPage = () => {
           <SiteFlexbox createSite={createSite} sites={sites}/>
         </div>
       )}
-    </>
+    </Container>
   );
 };
 
