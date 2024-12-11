@@ -159,6 +159,47 @@ func (s *DbImageTestSuite) TestAddAndGetImageByID() {
 	)
 }
 
+func (s *DbImageTestSuite) TestClearFavoriteImageForFlower() {
+	flowerToAdd := testdata.GetTestFlowers()[0]
+	flowerToAdd.ID = database.NilObjectID
+	flowerToAdd.FavoriteImage = ""
+	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
+
+	imagesForAdding := testdata.GetImagesForAdding()
+	addedImage, _ := s.Db.AddImage(context.Background(), imagesForAdding[0])
+
+	s.Db.SetFavoriteImage(
+		context.Background(),
+		*flowerToAdd.Grower,
+		addedFlower.ID,
+		addedImage.ID,
+		"flowers",
+	)
+
+	err := s.Db.ClearFavoriteImage(
+		context.Background(),
+		*flowerToAdd.Grower,
+		addedFlower.ID,
+		"flowers",
+	)
+
+	s.Require().NoError(
+		err,
+		"ClearFavoriteImage() should not return an error",
+	)
+
+	fetchedFlowers, _ := s.Db.GetFlowers(context.Background())
+
+	for _, flower := range fetchedFlowers {
+		if flower.ID == addedFlower.ID {
+			s.Zero(
+				flower.FavoriteImage,
+				"fetched flower should not have favorite image",
+			)
+		}
+	}
+}
+
 func (s *DbImageTestSuite) TearDownTest() {
 	s.Db.Clear()
 }
