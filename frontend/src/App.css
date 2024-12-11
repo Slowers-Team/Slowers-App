@@ -28,23 +28,27 @@ td {
   max-width: 95%;
 }
 
+a {
+  text-decoration: none;
+}
+
 #sort-icon {
-    display: inline-block;
-    position: relative;
-    width: 1em;
-    height: 1em;
+	display: inline-block;
+	position: relative;
+	width: 1em;
+	height: 1em;
 }
 
 #sort-icon-down {
-    position: absolute;
-    top: 8px;
-    font-size: 0.6em;
-    padding-left: 5px;
+	position: absolute;
+	top: 8px;
+	font-size: 0.6em;
+	padding-left: 5px;
 }
 
 #sort-icon-up {
-    position: absolute;
-    bottom: 2px;
-    font-size: 0.6em;
-    padding-left: 5px;
+	position: absolute;
+	bottom: 2px;
+	font-size: 0.6em;
+	padding-left: 5px;
 }

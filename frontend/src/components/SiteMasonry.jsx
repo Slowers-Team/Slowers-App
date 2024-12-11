@@ -3,14 +3,10 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Masonry from 'react-masonry-css'
 import ImageService from '../services/images'
-import NewSiteForm from './NewSiteForm'
-import placeholderImage from '../assets/images/site-placeholder-image.jpg'
 import '../Misc.css'
 
 const SiteMasonry = ({ sites }) => {
-  const [showAddNewSite, setShowAddNewSite] = useState(false)
   const [images, setImages] = useState([])
-  const { t, i18n } = useTranslation()
 
   const breakpointColumnsObj = {
     default: 5,
@@ -47,6 +43,7 @@ const SiteMasonry = ({ sites }) => {
               }
             </div>
             <h3 className="my-2"><Link to={`/grower/${site._id}`} className="link-success">{site.name}</Link></h3>
+            <p>{site.note}</p>
           </div>
         ))}
     </Masonry>
