@@ -18,7 +18,7 @@ test('renders SiteFlexbox', () => {
   )
 
   const siteName = screen.getByText('siteName')
-  const addSite = screen.getByText('Add a new site')
+  const addSite = screen.getByText('+ Add a new site')
 })
 
 test('open SiteForm when clicking button', async () => {
@@ -35,7 +35,7 @@ test('open SiteForm when clicking button', async () => {
     </BrowserRouter>
   )
 
-  const addSite = screen.getByText('Add a new site')
+  const addSite = screen.getByText('+ Add a new site')
   await user.click(addSite)
 
   const name = screen.getByText('Name:')
