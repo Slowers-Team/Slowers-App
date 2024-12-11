@@ -24,11 +24,6 @@ const tabBar = () => {
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link className="text-success" as={NavLink} to={`/grower/${params.siteId}/sites`}>
-              {t('menu.sites')}
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
            <Nav.Link className="text-success" as={NavLink} to={`/grower/${params.siteId}/images`}>
               {t('menu.images')}
             </Nav.Link>
@@ -44,11 +39,6 @@ const tabBar = () => {
         <Nav.Item>
           <Nav.Link className="text-success" as={NavLink} to="/grower/flowers">
             {t('menu.flowers')}
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link className="text-success" as={NavLink} to="/grower/sites">
-            {t('menu.sites')}
           </Nav.Link>
         </Nav.Item>
       </Nav>
