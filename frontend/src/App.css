@@ -25,8 +25,9 @@ td {
 }
 
 .container {
-  max-width: 1900px;
+  max-width: 95%;
 }
+
 #sort-icon {
     display: inline-block;
     position: relative;
