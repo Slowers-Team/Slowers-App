@@ -3,9 +3,6 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Container } from 'react-bootstrap'
 import SiteService from "../services/sites";
-import ImageService from "../services/images";
-import SiteImagesCarousel from "../components/image/SiteImagesCarousel";
-import SiteFlexbox from "../components/SiteFlexbox";
 import SiteMasonry from "../components/SiteMasonry";
 import AddSite from "../components/AddSite";
 
@@ -13,7 +10,6 @@ const GrowerHomePage = () => {
   const params = useParams();
   const [site, setSite] = useState();
   const [sites, setSites] = useState([]);
-  const [images, setImages] = useState([]);
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
@@ -26,7 +22,6 @@ const GrowerHomePage = () => {
           setSites(initialSites)
         }
       })
-      fetchImages()
   }, [params.siteId])
 
   const createSite = (siteObject) => {
@@ -65,16 +60,6 @@ const GrowerHomePage = () => {
         });
     }
   };
- const fetchImages = () => {
-  if (params.siteId) {
-    ImageService.getImagesByEntity(params.siteId)
-      .then(imageURLs => {
-        console.log('Images after fetching:', imageURLs)
-        setImages(imageURLs)
-      })
-      .catch(error => console.error('Error fetching images:', error))
-    }
-  }
 
   return (
     <Container>
