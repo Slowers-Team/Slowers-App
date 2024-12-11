@@ -13,6 +13,8 @@ const tabBar = () => {
   useEffect(()=>{
     if (params.siteId && site?._id != params.siteId) {
       siteService.get(params.siteId).then((s) => setSite(s)).catch((err) => console.error(err))
+    } else if (!params.siteId) {
+      setSite({route: []})
     }
   },[params.siteId])
 
