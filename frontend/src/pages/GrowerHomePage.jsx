@@ -2,26 +2,67 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Container } from 'react-bootstrap'
-import siteService from "../services/sites";
+import SiteService from "../services/sites";
 import ImageService from "../services/images";
 import SiteImagesCarousel from "../components/image/SiteImagesCarousel";
+import SiteFlexbox from "../components/SiteFlexbox";
 
 const GrowerHomePage = () => {
   const params = useParams();
   const [site, setSite] = useState();
+  const [sites, setSites] = useState([]);
   const [images, setImages] = useState([]);
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
-    if (params.siteId) {
-      siteService
-        .get(params.siteId)
-        .then((initialSite) => setSite(initialSite.site));
-      
+    SiteService.get(params.siteId)
+      .then((initialSites) => {
+        if (params.siteId) {
+          setSite(initialSites.site);
+          setSites(initialSites.subsites);
+        } else {
+          setSites(initialSites);
+        }
+      })
       fetchImages();
-    }
   }, [params.siteId]);
-  
+
+  const createSite = (siteObject) => {
+    SiteService.create(siteObject)
+      .then((newSite) => {
+        setSites((prevSites) =>
+          prevSites ? [...prevSites, newSite] : [newSite],
+        );
+      })
+      .catch((error) => {
+        const key =
+          "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, "");
+        alert(
+          t("error.error") +
+            ": " +
+            (i18n.exists(key) ? t(key) : error.response.data),
+        );
+      });
+  };
+
+  const deleteSite = (siteObject) => {
+    if (
+      window.confirm(`${t("label.confirmsitedeletion")} ${siteObject.name}?`)
+    ) {
+      const parentId = siteObject.parent ? siteObject.parent : "";
+      SiteService.remove(siteObject._id)
+        .then(() => {
+          if (parentId !== null && parentId !== "") {
+            navigate("/grower/" + parentId + "/sites");
+          } else {
+            navigate("/grower/sites");
+          }
+        })
+        .catch((error) => {
+          console.error("Error deleting site:", error);
+        });
+    }
+  };
  const fetchImages = () => {
   ImageService.getImagesByEntity(params.siteId)
     .then(imageURLs => {
@@ -44,6 +85,26 @@ const GrowerHomePage = () => {
         <p className="mx-1">
           {t("site.data.note")} : {site?.note}
         </p>
+      )}
+      {params.siteId ? (
+        <div>
+          <h3>{site?.name} {t("title.sitesites")}</h3>
+          <div className="my-2">
+            <button
+              id="deleteSiteButton"
+              onClick={() => deleteSite(site)}
+              className="btn btn-light"
+            >
+              {t("button.deletethissite")}
+            </button>
+          </div>
+          <SiteFlexbox createSite={createSite} sites={sites}/>
+        </div>
+      ) : (
+        <div>
+          <h3 className="mb-3">{t("title.sites")}</h3>
+          <SiteFlexbox createSite={createSite} sites={sites}/>
+        </div>
       )}
       {params.siteId && images && images.length > 0 ? (
         <div className="carousel-wrapper">
