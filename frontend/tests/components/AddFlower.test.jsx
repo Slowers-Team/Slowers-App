@@ -7,7 +7,7 @@ test('renders add flower button', () => {
 
     render(<AddFlower createFlower={createFlower}/>)
 
-    const buttonText = screen.getByText('Add a new flower')
+    const buttonText = screen.getByText('+ Add a new flower')
 })
 
 test('open flower form when clicking button', async () => {
@@ -16,7 +16,7 @@ test('open flower form when clicking button', async () => {
 
     render(<AddFlower createFlower={createFlower}/>)
 
-    const flowerButton = screen.getByText('Add a new flower')
+    const flowerButton = screen.getByText('+ Add a new flower')
     await user.click(flowerButton)
 
     const flowerNameInput = screen.getByLabelText('Name:')

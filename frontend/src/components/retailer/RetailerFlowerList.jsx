@@ -4,6 +4,7 @@ import FlowerModal from '../FlowerModal.jsx'
 import { useState, useEffect } from "react"
 import { Button, Table } from 'react-bootstrap'
 import ImageService from '../../services/images'
+import '../../App.css'
 
 const RetailerFlowerList = ({ flowers }) => {
   const { t, i18n } = useTranslation()
@@ -49,9 +50,23 @@ const RetailerFlowerList = ({ flowers }) => {
 
   const renderSortIcon = (key) => {
     if (sortConfig.key === key) {
-      return sortConfig.direction === 'asc' ? ' \u25B2' : ' \u25BC'
+      return  (
+          sortConfig.direction === 'asc' ? 
+            <span id="sort-icon">
+              <i className="bi bi-caret-up-fill" id="sort-icon-up"></i>
+            </span> 
+            : 
+            <span id="sort-icon">
+              <i className="bi bi-caret-down-fill" id="sort-icon-down"></i>
+            </span>
+      )
     }
-    return ' \u25BE'
+    return (
+      <span id="sort-icon">
+        <i className="bi bi-caret-down-fill" id="sort-icon-down"></i>
+        <i className="bi bi-caret-up-fill" id="sort-icon-up"></i>
+      </span>
+    )
   }
 
   const sortedFlowers = [...flowers].sort((a, b) => {
@@ -137,8 +152,8 @@ const RetailerFlowerList = ({ flowers }) => {
                 <td>{flower.grower_email}</td>
                 <td>{flower.quantity}</td>
                 <td>
-                  <button id='showFlowerPageButton' onClick={() => handleShow(flower)}>
-                    {t('button.flowerpage')}
+                  <button id='showFlowerPageButton' className="custom-button" onClick={() => handleShow(flower)}>
+                  <i className="bi bi-info-circle-fill"></i>
                   </button>
                 </td>
               </tr>

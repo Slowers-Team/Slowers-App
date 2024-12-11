@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { Button } from "react-bootstrap"
 import Masonry from "react-masonry-css"
-import 'bootstrap-icons/font/bootstrap-icons.css'
 import './ImageGallery.css'
 
 const ImageGallery = ({ isGrower, images, deleteImage, favoriteImage, type }) => {
@@ -17,7 +16,14 @@ const ImageGallery = ({ isGrower, images, deleteImage, favoriteImage, type }) =>
 	const handleFavoriteSelect = (imageObject) => {
 		favoriteImage(imageObject)
 	}
-	const breakpointColumnsObj = {default: 3, 991: 2, 550: 1,};
+
+	let breakpointColumnsObj
+
+	if (type === "flower") {
+		breakpointColumnsObj = {default: 2, 991: 1,}
+	} else {
+		breakpointColumnsObj = {default: 4, 1500: 3, 950: 2, 550: 1,}
+	}
 
   return (
     <div className="m-2">

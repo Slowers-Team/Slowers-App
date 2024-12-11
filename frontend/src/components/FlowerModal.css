@@ -1,0 +1,44 @@
+.custom-table {
+	table-layout: fixed;
+	width: 100%;
+}
+  
+.custom-table th,
+.custom-table td {
+	width: 25%;
+	height: 65px;
+	vertical-align: middle;
+	padding: 10px 15px;
+}
+
+.form-check {
+	margin-bottom: 0;
+}
+
+.custom-switch .form-check-input {
+	height: 18px;
+	width: 38px;
+}
+
+.custom-switch .form-check-input:focus {
+	border-color: lightgray;
+	outline: 0;
+	box-shadow: none;
+	background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(0,0,0,0.25)'/></svg>");
+}
+
+.custom-switch .form-check-input:checked {
+	background-color: green;
+	border-color: green;
+	border: none;
+	background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(255,255,255,1.0)'/></svg>");
+}
+
+form > div {
+	margin-top: 0 !important;
+}
+
+form {
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+}
