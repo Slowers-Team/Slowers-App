@@ -200,6 +200,50 @@ func (s *DbImageTestSuite) TestClearFavoriteImageForFlower() {
 	}
 }
 
+func (s *DbImageTestSuite) TestClearFavoriteImageForSite() {
+	siteToAdd := testdata.GetRootSites()[0]
+	siteToAdd.ID = database.NilObjectID
+	siteToAdd.FavoriteImage = ""
+	addedSite, _ := s.Db.AddSite(context.Background(), siteToAdd)
+
+	imagesForAdding := testdata.GetImagesForAdding()
+	addedImage, _ := s.Db.AddImage(context.Background(), imagesForAdding[1])
+
+	s.Db.SetFavoriteImage(
+		context.Background(),
+		*siteToAdd.Owner,
+		addedSite.ID,
+		addedImage.ID,
+		"sites",
+	)
+
+	err := s.Db.ClearFavoriteImage(
+		context.Background(),
+		*siteToAdd.Owner,
+		addedSite.ID,
+		"sites",
+	)
+
+	s.Require().NoError(
+		err,
+		"ClearFavoriteImage() should not return an error",
+	)
+
+	fetchedSites, _ := s.Db.GetRootSites(
+		context.Background(),
+		*siteToAdd.Owner,
+	)
+
+	for _, site := range fetchedSites {
+		if site.ID == addedSite.ID {
+			s.Zero(
+				site.FavoriteImage,
+				"fetched site should not have favorite image",
+			)
+		}
+	}
+}
+
 func (s *DbImageTestSuite) TearDownTest() {
 	s.Db.Clear()
 }
