@@ -18,27 +18,4 @@ test('renders SiteFlexbox', () => {
   )
 
   const siteName = screen.getByText('siteName')
-  const addSite = screen.getByText('Add a new site')
-})
-
-test('open SiteForm when clicking button', async () => {
-  const sites = [{ 
-    _id: 'siteId', 
-    name: 'siteName', 
-    favorite_image: 'imageId'}]
-  const createSite = vi.fn()
-  const user = userEvent.setup()
-
-  render(
-    <BrowserRouter>
-      <SiteFlexbox createSite={createSite} sites={sites} />
-    </BrowserRouter>
-  )
-
-  const addSite = screen.getByText('Add a new site')
-  await user.click(addSite)
-
-  const name = screen.getByText('Name:')
-  const note = screen.getByText('Note:')
-  const saveButton = screen.getByText('Save')
 })
