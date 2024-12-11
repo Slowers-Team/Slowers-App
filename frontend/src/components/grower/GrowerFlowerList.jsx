@@ -1,4 +1,6 @@
 import '../../layouts/Grower.css'
+import ImageService from '../../services/images'
+import '../image/FlowerListImage.css'
 import FlowerModal from '../FlowerModal.jsx'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -9,6 +11,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
   const [showModal, setShowModal] = useState(false)
   const [currentFlower, setCurrentFlower] = useState("")
   const [checkedFlowers, setLocalCheckedFlowers] = useState([])
+  const [images, setImages] = useState([])
   const [sortConfig, setSortConfig] = useState({ key: '', direction: '' })
   const [searchTerm, setSearchTerm] = useState("")
 
@@ -16,6 +19,22 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
     setCheckedFlowers(checkedFlowers)
   }, [checkedFlowers, setCheckedFlowers])
 
+  useEffect(() => {
+    const newImages = Promise.all(flowers.map((f) => {
+      if (f.favorite_image) {
+        return ImageService.getByID(f.favorite_image)
+          .then((url) => (
+            {flower: f._id, url: url}
+          ))
+          .catch((error) => console.error("error fetching image for flower:", f, error))
+      }
+    }))
+
+    newImages.then((imgs) => setImages(imgs.filter((x)=>x)))
+  
+  }, [flowers])
+
+  console.log(images)
   const handleShow = (flower) => {
     setShowModal(true)
     setCurrentFlower(flower)
@@ -115,6 +134,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
             <th>
               <input type="checkbox" onChange={toggleCheckedAll} checked={areAllChecked} />
             </th>
+            <th>{t('flower.data.image')}</th>
             <th onClick={() => handleSort('name')} style={{ cursor: 'pointer' }}>
               {t('flower.data.name')}
               {renderSortIcon('name')}
@@ -156,6 +176,13 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
               <tr key={flower._id}>
                 <td>
                   <input type="checkbox" checked={checkedFlowers.includes(flower._id)} onChange={() => toggleCheckedFlower(flower._id)} />
+                </td>
+                <td className='image-cell'>
+                  <div className='image-container'>
+                    {images.find((o) => o.flower === flower._id)?.url && 
+                    <img src={images.find((o) => o.flower === flower._id)?.url} alt={flower.name} />
+                    }
+                  </div>
                 </td>
                 <td>{flower.name}</td>
                 <td>

@@ -1,8 +1,9 @@
 import '../../layouts/Retailer.css'
 import { useTranslation } from 'react-i18next'
 import FlowerModal from '../FlowerModal.jsx'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button, Table } from 'react-bootstrap'
+import ImageService from '../../services/images'
 import '../../App.css'
 
 const RetailerFlowerList = ({ flowers }) => {
@@ -11,7 +12,24 @@ const RetailerFlowerList = ({ flowers }) => {
   const [currentFlower, setCurrentFlower] = useState("")
   const [searchTerm, setSearchTerm] = useState("")
   const [sortConfig, setSortConfig] = useState({ key: '', direction: '' })
+  const [images, setImages] = useState([])
 
+  useEffect(() => {
+    const newImages = Promise.all(flowers.map((f) => {
+      if (f.favorite_image) {
+        return ImageService.getByID(f.favorite_image)
+          .then((url) => (
+            {flower: f._id, url: url}
+          ))
+          .catch((error) => console.error("error fetching image for flower:", f, error))
+      }
+    }))
+
+    newImages.then((imgs) => setImages(imgs.filter((x)=>x)))
+  
+  }, [flowers])
+
+  
   const handleShow = (flower) => {
     setShowModal(true)
     setCurrentFlower(flower)
@@ -84,6 +102,7 @@ const RetailerFlowerList = ({ flowers }) => {
       <table id="retailerFlowerList">
         <thead>
           <tr>
+            <th>{t('flower.data.image')}</th>
             <th onClick={() => handleSort('name')} style={{ cursor: 'pointer' }}>
               {t('flower.data.name')}
               {renderSortIcon('name')}
@@ -118,6 +137,13 @@ const RetailerFlowerList = ({ flowers }) => {
 
             return (
               <tr key={flower._id}>
+                <td className='image-cell'>
+                  <div className='image-container'>
+                    {images.find((o) => o.flower === flower._id)?.url && 
+                    <img src={images.find((o) => o.flower === flower._id)?.url} alt={flower.name} />
+                    }
+                  </div>
+                </td>
                 <td>{flower.name}</td>
                 <td>
                   <em>{flower.latin_name}</em>
