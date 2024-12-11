@@ -59,7 +59,7 @@ const FlowerForm = ({ createFlower, siteID, handleClose }) => {
 
         <div>
           <button id="saveNewFlowerButton" type="submit" className="btn btn-light my-2">
-            <i classname="bi bi-floppy2-fill"> </i>
+            <i className="bi bi-floppy2-fill"> </i>
             {t("button.save")}
           </button>
         </div>

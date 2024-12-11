@@ -93,11 +93,11 @@ const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, handleForm
               {t('button.delete')}
             </button>
             <button variant="light" className="custom-button" id="saveModifiedFlowerButton" type="submit">
-              <i classname="bi bi-floppy2-fill"> </i>
+              <i className="bi bi-floppy2-fill"> </i>
               {t("button.save")}
             </button>
             <button variant="dark" className="custom-button" id="modifyFlowerCancelButton" onClick={handleFormVisibility}>
-              <i classname="bi bi-x-lg"> </i>
+              <i className="bi bi-x-lg"> </i>
               {t("button.cancel")}
             </button>
         </form>
