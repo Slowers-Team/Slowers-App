@@ -118,6 +118,47 @@ func (s *DbImageTestSuite) TestAddAndGetImageByEntity() {
 
 }
 
+func (s *DbImageTestSuite) TestAddAndGetImageByID() {
+	imagesForAdding := testdata.GetImagesForAdding()
+
+	createdImage, _ := s.Db.AddImage(context.Background(), imagesForAdding[0])
+	s.Db.AddImage(context.Background(), imagesForAdding[1])
+
+	fetchedImage, err := s.Db.GetImageByID(
+		context.Background(), createdImage.ID,
+	)
+
+	s.Require().NoError(
+		err,
+		"GetImageByID() should not return an error",
+	)
+	s.Equal(
+		createdImage.ID,
+		fetchedImage.ID,
+		"wrong ID for the image returned from GetImageByID()",
+	)
+	s.Equal(
+		createdImage.FileFormat,
+		fetchedImage.FileFormat,
+		"wrong file format for the image returned from GetImageByID()",
+	)
+	s.Equal(
+		createdImage.Note,
+		fetchedImage.Note,
+		"wrong note for the image returned from GetImageByID()",
+	)
+	s.Equal(
+		*createdImage.Entity,
+		*fetchedImage.Entity,
+		"wrong entity for the image returned from GetImageByID()",
+	)
+	s.Equal(
+		createdImage.Owner,
+		fetchedImage.Owner,
+		"wrong owner for the image returned from GetImageByID()",
+	)
+}
+
 func (s *DbImageTestSuite) TearDownTest() {
 	s.Db.Clear()
 }
