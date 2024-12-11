@@ -25,46 +25,78 @@ const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, handleForm
     return (
       <div>
         <form onSubmit={updateFlower}>
-          <div className="form-group">
-            <label htmlFor="modifiedFlowerNameInput">{t("flower.data.name")}:</label>
-            <input
-              id="modifiedFlowerNameInput"
-              value={modifiedFlowerName}
-              onChange={event => setModifiedFlowerName(event.target.value)}
-              className="form-control"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="modifiedFlowerLatinNameInput">{t("flower.data.latinname")}:</label>
-            <input
-              id="modifiedFlowerLatinNameInput"
-              value={modifiedFlowerLatinName}
-              onChange={event => setModifiedFlowerLatinName(event.target.value)}
-              className="form-control"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="modifiedFlowerQtyInput">{t("flower.data.qty")}:</label>
-            <input
-              type="number"
-              id="modifiedFlowerQtyInput"
-              value={modifiedFlowerQty}
-              onChange={event => setModifiedFlowerQty(event.target.value)}
-              className="form-control"
-              min="0"
-              max="1000000"
-              required
-            />
-          </div>
-          <div>
-            <Button variant="light" id="saveModifiedFlowerButton" className="custom-button" type="submit">
-              {t("button.save")}
-            </Button>
-            <Button variant="dark" id="modifyFlowerButton" className="custom-button" onClick={handleFormVisibility}>
-              {t('button.cancel')}
-            </Button>
-          </div>
+          <table className="table custom-table">
+            <tbody>
+              <tr>
+                <th>{t('flower.data.name')}</th>
+                <td>
+                  <input
+                    id="modifiedFlowerNameInput"
+                    value={modifiedFlowerName}
+                    onChange={event => setModifiedFlowerName(event.target.value)}
+                    className="form-control"
+                    aria-label="Name"
+                    required
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th>{t('flower.data.latinname')}</th>
+                <td>
+                  <input
+                    id="modifiedFlowerLatinNameInput"
+                    value={modifiedFlowerLatinName}
+                    onChange={event => setModifiedFlowerLatinName(event.target.value)}
+                    className="form-control"
+                    aria-label="Latin name"
+                  />
+                </td>
+              </tr>
+              <tr>
+								<th>{t('flower.data.addedtime')}</th>
+                <td>{addedTime}</td>
+              </tr>
+              <tr>
+                <th>{t('flower.data.site')}</th>
+                <td>{flower.site_name}</td>
+              </tr>
+              <tr>
+                <th>{t('flower.data.qty')}</th>
+                <td>
+                  <input
+                    type="number"
+                    id="modifiedFlowerQtyInput"
+                    value={modifiedFlowerQty}
+                    onChange={event => setModifiedFlowerQty(event.target.value)}
+                    className="form-control"
+                    aria-label="Quantity"
+                    min="0"
+                    max="1000000"
+                    required
+                  />
+                </td>
+              </tr>
+              <tr>
+              <th>{t('flower.visible.long')}</th>
+              <td>
+                <div>
+                  {flower.visible 
+                      ? t('flower.visible.true') 
+                      : t('flower.visible.false')}
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+            <button className="custom-button" id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)} type="button">
+              {t('button.delete')}
+            </button>
+            <button variant="light" className="custom-button" id="saveModifiedFlowerButton" type="submit">
+            {t("button.save")}
+            </button>
+            <button variant="dark" className="custom-button" id="modifyFlowerCancelButton" onClick={handleFormVisibility}>
+              {t("button.cancel")}
+            </button>
         </form>
       </div>
     )
