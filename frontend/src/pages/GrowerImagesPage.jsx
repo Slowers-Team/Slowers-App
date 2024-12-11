@@ -19,14 +19,16 @@ const GrowerImagesPage = () => {
   }, [])
 
   useEffect(() => {
+    if (params.siteId && site) {
      fetchImages()
-  }, [params.siteId])
+    }
+  }, [params.siteId, site])
 
   const fetchImages = () => {
     ImageService.getImagesByEntity(params.siteId)
-      .then(imageURLs => {
-        console.log('Images after fetching:', imageURLs)
-        setImages(imageURLs)
+      .then(fetchedImages => {
+        console.log('Images after fetching:', fetchedImages)
+        markFavorite(fetchedImages)
       })
       .catch(error => console.error('Error fetching images:', error))
   }
@@ -37,11 +39,38 @@ const GrowerImagesPage = () => {
       console.error("Image object is undefined or missing id")
       return
     }
+    if (images.length === 1) {
+      if (window.confirm(`${t('image.confirmimagedeletion')}?`)) {
+        ImageService.deleteImage(imageObject._id).then(() => {setImages([])})
+        .catch(error => {
+          console.error('Error deleting image:', error)
+          alert(t('error.erroroccured'))
+        })
+        ImageService.clearFavorite(site._id, "site")
+        .then(_ => {
+          console.log("cleared")
+          updateSite({...site, favorite_image: null})
+        })
+        .catch(error => {
+          console.error('Error clearing favorite image:', error)
+          alert(t('error.erroroccured'))
+        })
+
+      }
+      return
+    }
     if (window.confirm(`${t('image.confirmimagedeletion')}?`)) {
       ImageService.deleteImage(imageObject._id)
-        .then(() => {
-          setImages(l => l.filter(item => item._id !== imageObject._id))
-        })
+      .then(() => {
+        const updatedImages = images.filter(item => item._id !== imageObject._id)
+        setImages(updatedImages)
+        if (imageObject._id === site.favorite_image) {
+            const newFavoriteImage = updatedImages[0]?._id || null
+            favoriteImage(newFavoriteImage)
+        } else {
+            favoriteImage(site.favorite_image)
+        }
+      })
         .catch(error => {
           console.error('Error deleting image:', error)
           alert(t('error.erroroccured'))
@@ -49,17 +78,42 @@ const GrowerImagesPage = () => {
     }
   }
 
-  const onImageUpload = () => {
+  const onImageUpload = (newImageID) => {
+    if (images.length === 0) {
+      favoriteImage(newImageID)
+    }
+
     fetchImages()
   }
 
-  const favoriteImage = imageObject => {
-    console.log("Favorite image:", imageObject) 
-    if (!imageObject || !imageObject._id) {
+  const markFavorite = (images, id = null) => {
+    if (id) {
+      updateSite({...site, favorite_image: id})
+    }
+
+    const fav = id ?? site?.favorite_image
+    setImages(images.map(
+      (img) => fav === img._id 
+        ? {...img, favorite: true}
+        : {...img, favorite: false}
+    ))
+  }
+
+  const favoriteImage = imageID => {
+    console.log("Favorite image:", imageID) 
+    if (!imageID) {
       console.error("Image object is undefined or missing id")
       alert(t('error.erroroccured'))
       return
     }
+    const response = ImageService.setFavorite(site._id, "site", imageID)
+    markFavorite(images, imageID)
+
+    console.log(response)
+  }
+
+  const updateSite = SiteObject => {
+    setSite(SiteObject)
   }
   
   return (
@@ -68,7 +122,7 @@ const GrowerImagesPage = () => {
       <div>
         <h2>{site?.name} {t('title.siteimages')}</h2>
         <AddImage entity={site} onImageUpload={onImageUpload} />
-        <ImageGallery isGrower={true} images={images} deleteImage={deleteImage} favoriteImage={favoriteImage} />
+        <ImageGallery isGrower={true} images={images} deleteImage={deleteImage} favoriteImage={favoriteImage}/>
       </div>
     )}
     </>

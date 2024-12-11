@@ -34,7 +34,6 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
   
   }, [flowers])
 
-  console.log(images)
   const handleShow = (flower) => {
     setShowModal(true)
     setCurrentFlower(flower)
