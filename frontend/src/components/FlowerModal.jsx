@@ -29,11 +29,6 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower, mo
           </Tab>
         </Tabs>
       </Modal.Body>
-      <Modal.Footer>
-        <button className="custom-button" onClick={handleClose}>
-          {t('button.close')}
-        </button>
-      </Modal.Footer>
     </Modal>
   )
 }
