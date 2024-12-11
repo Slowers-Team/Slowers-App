@@ -6,6 +6,7 @@ import SiteService from "../services/sites";
 import ImageService from "../services/images";
 import SiteImagesCarousel from "../components/image/SiteImagesCarousel";
 import SiteFlexbox from "../components/SiteFlexbox";
+import SiteMasonry from "../components/SiteMasonry";
 
 const GrowerHomePage = () => {
   const params = useParams();
@@ -83,34 +84,39 @@ const GrowerHomePage = () => {
       )}
       {site?.note && (
         <p className="mx-1">
-          {t("site.data.note")} : {site?.note}
+          {site?.note}
         </p>
       )}
-      {params.siteId ? (
-        <div>
-          <h3>{site?.name} {t("title.sitesites")}</h3>
-          <div className="my-2">
-            <button
-              id="deleteSiteButton"
-              onClick={() => deleteSite(site)}
-              className="btn btn-light"
-            >
-              {t("button.deletethissite")}
-            </button>
-          </div>
-          <SiteFlexbox createSite={createSite} sites={sites}/>
-        </div>
-      ) : (
-        <div>
-          <h3 className="mb-3">{t("title.sites")}</h3>
-          <SiteFlexbox createSite={createSite} sites={sites}/>
-        </div>
+      {params.siteId && (
+      <div className="my-2">
+        <button
+          id="deleteSiteButton"
+          onClick={() => deleteSite(site)}
+          className="btn btn-light"
+        >
+          {t("button.deletethissite")}
+        </button>
+      </div>
       )}
+      <div>
+        <h3 className="my-3">{t("title.sites")}</h3>
+        <SiteMasonry createSite={createSite} sites={sites}/>
+      </div>
+      {/*
       {params.siteId && images && images.length > 0 ? (
-        <div className="carousel-wrapper">
-          <SiteImagesCarousel images={images} />
+        <div className="info-container">
+          <h3 className="my-3">Site's images</h3>
+          {site?.note && (
+            <p className="mx-1">
+              {t("site.data.note")} : {site?.note}
+            </p>
+          )}
+          <div className="carousel-wrapper">
+            <SiteImagesCarousel images={images} />
+          </div>
         </div>
       ) : null }
+      */}
     </Container>
   );
 };
