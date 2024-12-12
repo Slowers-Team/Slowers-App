@@ -155,22 +155,27 @@
   }
 
   .input-wrapper input {
-    background-color: #EEF0E5(255, 255, 255);
-    border: none;
+    background-color: white;
+    border: 1px solid #163020; 
     padding: 0.5rem;
     font-size: 1rem;
     text-align: left;
     width: 15rem;
     border-radius: 1rem;
     box-shadow: none;
-    color: #163020;
+    color: #163020; 
     cursor: pointer;
   }
   
-  .input-wrapper input:hover{
-    outline-color:none;
+  .input-wrapper input:focus {
+    border-color: #163020; 
+    outline: none; 
+  }
+  
+  .input-wrapper input:hover {
     cursor: pointer;
   }
+  
 
 
 /* main tabs styling */
