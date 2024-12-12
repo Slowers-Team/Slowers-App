@@ -5,6 +5,7 @@ import FlowerModal from '../FlowerModal.jsx'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import '../../App.css'
+import { formatTime } from '../../utils.js'
 
 const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowers, updateFlower, searchTerm}) => {
   const { t, i18n } = useTranslation()
@@ -154,13 +155,6 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
         </thead>
         <tbody>
           {filteredFlowers.map(flower => {
-            let addedTime = new Date(flower.added_time)
-
-            let date = addedTime.toLocaleDateString('fi')
-            let hour = addedTime.toLocaleString('fi', { hour: 'numeric' })
-            let minute = addedTime.toLocaleString('fi', { minute: '2-digit' })
-            let addedTimeStr = `${date} ${hour}:${minute}`
-
             return (
               <tr key={flower._id}>
                 <td>
@@ -177,7 +171,7 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
                 <td>
                   <em>{flower.latin_name}</em>
                 </td>
-                <td>{addedTimeStr}</td>
+                <td>{formatTime(flower.added_time)}</td>
                 <td>{flower.site_name}</td>
                 <td>{flower.quantity}</td>
                 <td>{flower.visible 

@@ -7,7 +7,7 @@
 .header {
   padding: 1rem;
   text-align: left;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #163020;
   font-size: 24px;
 }
   
@@ -19,7 +19,7 @@
 .side-container {
   width: 250px;
   padding: 1rem;
-  border-right: 1px solid black;
+  border-right: 1px solid #163020;
 }
   
 .main-container {
@@ -39,7 +39,7 @@
 .nav-container a {
   text-decoration: none;
   font-size: 18px;
-  color: black;
+  color: #163020;
   padding: 10px;
   display: block;
   transition: background-color 0.1s ease;
@@ -47,8 +47,8 @@
 
 .nav-container a:hover,
 .nav-container a.active {
-  background-color: #c1dadf;
-  color: black;
+  background-color: #B6C4B6;
+  color: #163020;
   border-radius: 4px;
 }
   
@@ -74,8 +74,8 @@
 }
   
 #retailerFlowerList thead {
-  background-color: #c1dadf;
-  color: black;
+  background-color: #B6C4B6;
+  color: #163020;
   font-weight: bold;
   font-size: 18px;
 }
@@ -89,18 +89,17 @@
 }
 
 .input-wrapper input {
-  background-color: rgb(247, 243, 243);
+  background-color: #B6C4B6;
   border: none;
   padding: 0.5rem;
   font-size: 1rem;
   text-align: left;
   width: 15rem;
   border-radius: 1rem;
-  box-shadow: #23252248;
-  color: black;
+  color: #163020;
   cursor: pointer;
 }
 
 .input-wrapper input:focus {
-  outline-color: rgb(255, 255, 255);
+  outline-color: #B6C4B6;
 }
