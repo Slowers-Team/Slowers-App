@@ -70,6 +70,18 @@ td {
 	margin: 2rem;
 }
 
+.logged-out-container {
+	min-height: calc(100vh - 82px);
+	background-color: #f9f9f9;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.input-group-text {
+	background-color: #f6f6f6;
+}
+
 a {
   text-decoration: none;
 }
