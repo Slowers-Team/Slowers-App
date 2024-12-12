@@ -8,8 +8,8 @@ const tabBar = () => {
   const { t, i18n } = useTranslation()
 
   return (
-    <div className='my-2'>
-      <div className="my-3">
+    <div className='tab-bar'>
+      <div>
       {params.siteId ? (
         <Nav variant='tabs' defaultActiveKey="/grower">
           <Nav.Item>
