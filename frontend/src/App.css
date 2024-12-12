@@ -53,6 +53,7 @@ td {
 .container {
   max-width: 95%;
 	height: 100%;
+	margin: 2rem 1rem;
 }
 
 a {
