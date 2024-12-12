@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import TermsWindow from "../components/TermsWindow"
 import { useTranslation } from "react-i18next"
+import { Container } from "react-bootstrap"
 
 const TermsPage = () => {
   const navigate = useNavigate()
@@ -11,12 +12,12 @@ const TermsPage = () => {
   }
 
   return (
-    <div>
+    <Container>
       <h2 className="mx-3 my-3">{t("title.terms")}</h2>
       <TermsWindow />
       <br />
-      <button onClick={handleBack} className="flower-button">{t("button.back")}</button>
-    </div>
+      <button onClick={handleBack} className="custom-button">{t("button.back")}</button>
+    </Container>
   )
 }
 

@@ -8,6 +8,7 @@ import (
 
 	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/gofiber/fiber/v2"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func UploadImage(c *fiber.Ctx) error {
@@ -71,6 +72,38 @@ func UploadImage(c *fiber.Ctx) error {
 	}
 
 	return c.Status(201).JSON(createdImage)
+}
+
+func GetImageByID(c *fiber.Ctx) error {
+	imageID, err := database.ParseID(c.Params("id"))
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	log.Println("got ID:", imageID)
+	image, err := db.GetImageByID(c.Context(), imageID)
+	log.Println(imageID, " -> ", image, err)
+	if err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			return c.SendStatus(404)
+		}
+		return c.Status(500).SendString(err.Error())
+	}
+
+	filepath := fmt.Sprintf("./images/%v.%v", imageID.Hex(), image.FileFormat)
+	log.Println(filepath)
+
+	if _, err := os.Stat(filepath); err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			log.Println("404 fail")
+			return c.SendStatus(404)
+		} else {
+			log.Println("500 fail")
+			return c.Status(500).SendString(err.Error())
+		}
+	}
+	log.Println("sending file")
+
+	return c.SendFile(filepath)
 }
 
 func DownloadImage(c *fiber.Ctx) error {
@@ -175,6 +208,45 @@ func SetFavorite(c *fiber.Ctx) error {
 	}
 
 	err = db.SetFavoriteImage(c.Context(), UserID, EntityID, ImageID, Collection)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).SendString("")
+}
+
+func ClearFavorite(c *fiber.Ctx) error {
+	type favoriteData struct {
+		EntityID   string `json:"entityID"`
+		EntityType string `json:"entityType"`
+	}
+
+	formData := new(favoriteData)
+	if err := c.BodyParser(formData); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	EntityID, err := database.ParseID(formData.EntityID)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid entity ID format: %v", formData.EntityID))
+	}
+
+	var Collection string
+	switch formData.EntityType {
+	case "site":
+		Collection = "sites"
+	case "flower":
+		Collection = "flowers"
+	default:
+		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid EntityType: %v", formData.EntityType))
+	}
+
+	UserID, err := GetCurrentUser(c)
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).SendString("Could not get current user")
+	}
+
+	err = db.ClearFavoriteImage(c.Context(), UserID, EntityID, Collection)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}

@@ -11,7 +11,7 @@ const ImageGallery = ({ isGrower, images, deleteImage, favoriteImage, type }) =>
 	useEffect(()=> {
 		const favID = images.find((img) => img?.favorite)?._id
 		setSelectedFavoriteID(favID)
-	},[images])
+	}, [images])
 	
 	const handleFavoriteSelect = (imageObject) => {
 		favoriteImage(imageObject)

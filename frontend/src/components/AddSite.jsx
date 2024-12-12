@@ -1,9 +1,9 @@
-import { Modal, Button } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
-import FlowerForm from '../FlowerForm'
+import NewSiteForm from './NewSiteForm'
 
-const AddFlower = ({ createFlower, siteID }) => {
+const AddSite = ({ createSite }) => {
     const { t, i18n } = useTranslation()
     const [showModal, setShowModal] = useState(false)
   
@@ -17,19 +17,19 @@ const AddFlower = ({ createFlower, siteID }) => {
 
     return (
       <>
-        <button className="custom-button" onClick={handleShow}>
-          + {t("button.addflower")}
+        <button className='custom-button' onClick={handleShow}>
+          + {t("button.addsite")}
         </button>
         <Modal size="l" show={showModal} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>{t("button.addflower")}</Modal.Title>
+            <Modal.Title>{t("button.addsite")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <FlowerForm createFlower={createFlower} siteID={siteID} handleClose={handleClose}/>
+            <NewSiteForm createSite={createSite} handleClose={handleClose}/>
           </Modal.Body>
         </Modal>
       </>
     )
   }
 
-export default AddFlower
+export default AddSite
