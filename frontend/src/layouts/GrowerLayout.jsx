@@ -13,7 +13,7 @@ const tabBar = () => {
       {params.siteId ? (
         <Nav variant='tabs' defaultActiveKey="/grower">
           <Nav.Item>
-            <Nav.Link className="text-success" as={NavLink} end to={`/grower/${params.siteId}`}> 
+            <Nav.Link id="homeTab" className="text-success" as={NavLink} end to={`/grower/${params.siteId}`}> 
               {t('menu.home')}
             </Nav.Link>
           </Nav.Item>
@@ -31,7 +31,7 @@ const tabBar = () => {
       ) : (
         <Nav variant='tabs' defaultActiveKey="/grower">
         <Nav.Item>
-          <Nav.Link className="text-success" as={NavLink} end to="/grower"> 
+          <Nav.Link id="homeTab" className="text-success" as={NavLink} end to="/grower"> 
             {t('menu.home')}
           </Nav.Link>
         </Nav.Item>

@@ -21,7 +21,7 @@ export const NavigationBar = () => {
   return (
     <>
       <Navbar expand="sm" bg="light">
-        <Button variant="light" className="mx-2" onClick={handleShow}>
+        <Button id="offcanvasButton" variant="light" className="mx-2" onClick={handleShow}>
           <span className="navbar-toggler-icon"></span>
         </Button>
         <Navbar.Brand as={Link} to="/">
@@ -47,7 +47,7 @@ export const NavigationBar = () => {
               </Nav.Link>
             </NavDropdown>
           )}
-          <NavDropdown title={<i className="bi bi-globe-americas"></i>} id="collasible-nav-dropdown">
+          <NavDropdown title={<i className="bi bi-globe-americas"></i>} id="languageButton">
             <LangSelect />
           </NavDropdown>
         </Nav>
