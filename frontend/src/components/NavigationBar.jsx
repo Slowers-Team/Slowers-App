@@ -21,7 +21,7 @@ export const NavigationBar = () => {
   return (
     <>
       <Navbar expand="sm" className="nav-bar">
-        <Button className="menu-button mx-2" onClick={handleShow}>
+        <Button variant="light" className="menu-button mx-2" onClick={handleShow}>
           <span className="navbar-toggler-icon"></span>
         </Button>
         <Navbar.Brand as={Link} to="/">

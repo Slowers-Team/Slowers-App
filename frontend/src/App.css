@@ -28,6 +28,11 @@ td {
 	border-color: #f6f6f6
 }
 
+.menu-button.hover {
+	background-color: #f6f6f6;
+	border-color: #f6f6f6
+}
+
 .offcanvas-thin {
 	width: 250px !important;
 	max-width: 250px !important;
