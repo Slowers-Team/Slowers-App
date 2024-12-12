@@ -1,3 +1,11 @@
+.flower-modal-tabs .nav-link{
+	color: #163020;
+}
+
+.flower-modal-tabs .nav-link.active {
+	font-weight: bold;
+}
+
 .custom-table {
 	table-layout: fixed;
 	width: 100%;

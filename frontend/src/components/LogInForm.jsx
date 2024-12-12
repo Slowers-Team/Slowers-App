@@ -60,7 +60,7 @@ const LogIn = ({ onLogin }) => {
           />
         </div>
         <div>
-          <button type="submit" id="loginButton" className="btn btn-primary">
+          <button type="submit" id="loginButton" className="custom-button">
             {t("button.login")}
           </button>
         </div>

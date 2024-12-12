@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import SiteService from "../services/sites";
 import SiteFlexbox from "../components/SiteFlexbox";
 import { useTranslation } from "react-i18next";
+import { Container } from 'react-bootstrap'
 
 const GrowerSitesPage = () => {
   const params = useParams();
@@ -69,7 +70,7 @@ const GrowerSitesPage = () => {
   };
 
   return (
-    <>
+    <Container>
       {params.siteId ? (
         <div>
           <h2>
@@ -79,27 +80,28 @@ const GrowerSitesPage = () => {
             <button
               onClick={handleBack}
               style={{ marginRight: "0.5rem" }}
-              className="flower-button"
+              className="custom-button"
             >
               {t("button.goback")}
             </button>
             <button
               id="deleteSiteButton"
               onClick={() => deleteSite(site)}
-              className="flower-button"
+              className="custom-button"
             >
-              <i className="bi bi-trash3-fill"></i>
+              <i className="bi bi-trash3-fill"> </i>
+              {t("button.deletethissite")}
             </button>
           </div>
-          <SiteFlexbox createSite={createSite} sites={sites} />
+          <SiteFlexbox createSite={createSite} sites={sites}/>
         </div>
       ) : (
         <div>
           <h2 className="mb-3">{t("title.sites")}</h2>
-          <SiteFlexbox createSite={createSite} sites={sites} />
+          <SiteFlexbox createSite={createSite} sites={sites}/>
         </div>
       )}
-    </>
+    </Container>
   );
 };
 

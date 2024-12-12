@@ -11,10 +11,10 @@ const LangSelect = () => {
   return (
     <>
       <Nav.Link href="#" onClick={() => changeLanguage('en')}>
-        🇬🇧 en
+        🇬🇧 <span className="lang-link">English</span>
       </Nav.Link>
       <Nav.Link href="#" onClick={() => changeLanguage('fi')}>
-        🇫🇮 fi
+        🇫🇮 <span className="lang-link">Suomi</span>
       </Nav.Link>
     </>
   )

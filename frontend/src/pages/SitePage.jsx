@@ -144,7 +144,7 @@ const SitePage = () => {
               <button
                 id="showFlowerAddingFormButton"
                 onClick={() => setShowAddNewFlower(!showAddNewFlower)}
-                className="flower-button"
+                className="custom-button"
               >
                 {t("button.addflower")}
               </button>
@@ -152,8 +152,8 @@ const SitePage = () => {
             </aside>
             <main className="main-container">
               <div className="site-actions">
-                <button onClick={handleBack} style={{ marginRight: "0.5rem" }} className="flower-button">{t("button.goback")}</button>
-                <button id="deleteSiteButton" onClick={() => deleteSite(site)} className="flower-button">{t("button.deletethissite")}</button>
+                <button onClick={handleBack} style={{ marginRight: "0.5rem" }} className="custom-button">{t("button.goback")}</button>
+                <button id="deleteSiteButton" onClick={() => deleteSite(site)} className="custom-button">{t("button.deletethissite")}</button>
                 <AddImage entity={site} onImageUpload={fetchImages}/>
               </div>
               <SiteFlexbox createSite={createSite} sites={sites} />

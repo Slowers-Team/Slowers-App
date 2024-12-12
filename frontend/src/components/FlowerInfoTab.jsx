@@ -3,6 +3,7 @@ import { useState } from "react"
 import VisibilitySwitch from './VisibilitySwitch'
 import ModifyFlowerForm from './ModifyFlowerForm'
 import "./FlowerModal.css"
+import { formatTime } from "../utils.js"
 
 const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlower, handleClose}) => {
 	const [isModifyFormVisible, setIsModifyFormVisible] = useState(false)
@@ -19,20 +20,11 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
 		handleClose()
 	}
 
-	const addedTime = (flower) => {
-		let addedTime = new Date(flower.added_time)
-
-		let date = addedTime.toLocaleDateString('fi')
-		let time = addedTime.toLocaleTimeString('fi', { hour: '2-digit', minute: '2-digit' })
-		let addedTimeStr = `${date} ${time}`
-
-		return addedTimeStr
-	}
 	return (
 		<div>
 			{isGrower && isModifyFormVisible ? (
 					<div>
-						<ModifyFlowerForm flower={flower} modifyFlower={modifyFlower} handleFlowerModify={updateFlower} handleFormVisibility={handleFormVisibility} handleFlowerDelete={handleFlowerDelete} addedTime={addedTime(flower)}/>
+						<ModifyFlowerForm flower={flower} modifyFlower={modifyFlower} handleFlowerModify={updateFlower} handleFormVisibility={handleFormVisibility} handleFlowerDelete={handleFlowerDelete} addedTime={formatTime(flower.added_time)}/>
 					</div> 
 				) : (
 					<div>
@@ -44,11 +36,13 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
 							</tr>
 							<tr>
 								<th>{t('flower.data.latinname')}</th>
-								<td>{flower.latin_name}</td>
+								<td>
+									<em>{flower.latin_name}</em>
+								</td>
 							</tr>
 							<tr>
 								<th>{t('flower.data.addedtime')}</th>
-								<td>{addedTime(flower)}</td>
+								<td>{formatTime(flower.added_time)}</td>
 							</tr>
 							{isGrower && (
 							<tr>
@@ -80,11 +74,13 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
 			)}
 			{isGrower && !isModifyFormVisible && (
 				<div>
-					<button id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
+					<button className="custom-button" id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
+						<i className="bi bi-trash3-fill"> </i>
 						{t('button.delete')}
 					</button>
-					<button id="modifyFlowerButton" onClick={handleFormVisibility}>
-					{t('button.modify')}
+					<button className="custom-button" id="modifyFlowerButton" onClick={handleFormVisibility}>
+						<i className="bi bi-pencil-fill"> </i>
+						{t('button.modify')}
 					</button>
 				</div>
 			)}
