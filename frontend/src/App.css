@@ -19,13 +19,35 @@ td {
     padding: 1rem 2rem 0 0;
 }
 
+.nav-bar {
+	background-color: #f4f4f4;
+}
+
+.menu-button {
+	background-color: #f4f4f4;
+	border-color: #f4f4f4
+}
+
 .offcanvas-thin {
-    width: 250px !important;
-    max-width: 250px !important;
+	width: 250px !important;
+	max-width: 250px !important;
+	background-color: #f4f4f4;
 }
 
 .tab-bar {
-	background-color: #f1f1f1;
+	background-color: #f4f4f4;
+}
+
+.tab-bar .nav-link {
+	padding: 0.5rem 1.5rem;
+}
+
+.tab-bar .nav-link.active {
+	background-color: #f9f9f9;
+	border-radius: 0.5rem 0.5rem 0 0;
+	--bs-nav-tabs-border-color: #163020;
+	--bs-nav-tabs-link-active-border-color: #dee2e6 #dee2e6 #f9f9f9;
+	
 }
 
 .container {
