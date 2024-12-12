@@ -16,7 +16,7 @@ const FlowerModal = ({ show, handleClose, flower, deleteFlower, updateFlower, mo
         <Modal.Title>{flower.name}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Tabs defaultActiveKey="info" className="mb-3" mountOnEnter={true} unmountOnExit={true}>
+        <Tabs defaultActiveKey="info" className="flower-modal-tabs mb-3" mountOnEnter={true} unmountOnExit={true}>
           <Tab eventKey="info" title={t('menu.info')}>
             <div>
               <FlowerInfoTab isGrower={isGrower} flower={flower} deleteFlower={deleteFlower} updateFlower={updateFlower} modifyFlower={modifyFlower} handleClose={handleClose}/>
