@@ -29,7 +29,7 @@ export const NavigationBar = () => {
         </Navbar.Brand>
         <Nav className="ms-auto mx-2">
           {isLoggedIn && (
-            <NavDropdown title={username} id="collasible-nav-dropdown">
+            <NavDropdown title={username} id="collasible-nav-dropdown" align="end">
               <Nav.Link className="text-secondary" as={Link} to="/user">
                 <i className="bi bi-person-circle"> </i>
                 {t("menu.profile")}
@@ -47,7 +47,7 @@ export const NavigationBar = () => {
               </Nav.Link>
             </NavDropdown>
           )}
-          <NavDropdown title={<i className="bi bi-globe-americas"></i>} id="collasible-nav-dropdown">
+          <NavDropdown title={<i className="bi bi-globe-americas"></i>} id="collasible-nav-dropdown" align="end" className="lang-menu">
             <LangSelect />
           </NavDropdown>
         </Nav>

@@ -33,6 +33,11 @@ td {
 	border-color: #f6f6f6
 }
 
+.dropdown-menu {
+	background-color: #f9f9f9;
+  width: max-content;
+}
+
 .offcanvas-thin {
 	width: 250px !important;
 	max-width: 250px !important;
