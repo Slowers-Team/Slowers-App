@@ -44,7 +44,9 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
 							</tr>
 							<tr>
 								<th>{t('flower.data.latinname')}</th>
-								<td>{flower.latin_name}</td>
+								<td>
+									<em>{flower.latin_name}</em>
+								</td>
 							</tr>
 							<tr>
 								<th>{t('flower.data.addedtime')}</th>
