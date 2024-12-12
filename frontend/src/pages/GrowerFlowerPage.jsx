@@ -92,7 +92,7 @@ const GrowerFlowerPage = () => {
         ) : (
           <h2>{t('title.allflowers')}</h2>
         )}
-        <div className="d-flex gap-2 mt-4">
+        <div className="d-flex gap-2 mt-3">
           <div className="d-flex justify-content-start input-wrapper">
             <input
               type="text"

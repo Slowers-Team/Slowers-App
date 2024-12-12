@@ -156,7 +156,7 @@
 
   .input-wrapper input {
     background-color: white;
-    border: 1px solid #163020; 
+    border: 1px solid #B6C4B6; 
     padding: 0.5rem;
     font-size: 1rem;
     text-align: left;
@@ -168,7 +168,7 @@
   }
   
   .input-wrapper input:focus {
-    border-color: #163020; 
+    border-color: #B6C4B6; 
     outline: none; 
   }
   

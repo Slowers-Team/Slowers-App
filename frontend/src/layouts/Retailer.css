@@ -89,7 +89,7 @@
 }
 
 .input-wrapper input {
-  background-color: #EEF0E5(255, 255, 255);
+  background-color: #B6C4B6;
   border: none;
   padding: 0.5rem;
   font-size: 1rem;
@@ -101,5 +101,5 @@
 }
 
 .input-wrapper input:focus {
-  outline-color: #EEF0E5(255, 255, 255);
+  outline-color: #B6C4B6;
 }
