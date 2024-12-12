@@ -38,6 +38,10 @@ td {
   width: max-content;
 }
 
+.lang-link {
+	color: rgba(0, 0, 0, 0.5);
+}
+
 .offcanvas-thin {
 	width: 250px !important;
 	max-width: 250px !important;
