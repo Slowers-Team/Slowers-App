@@ -33,6 +33,18 @@ func (mDb MongoDatabase) AddImage(ctx context.Context, newImage Image) (*Image, 
 	return createdImage, nil
 }
 
+func (mDb MongoDatabase) GetImageByID(ctx context.Context, imageID ObjectID) (*Image, error) {
+	found := db.Collection("images").FindOne(ctx, bson.M{"_id": imageID})
+
+	image := &Image{}
+	err := found.Decode(image)
+	if err != nil {
+		return nil, err
+	} else {
+		return image, nil
+	}
+}
+
 func (mDb MongoDatabase) GetImagesByEntity(ctx context.Context, entityID string) ([]Image, error) {
 	objID, err := ParseID(entityID)
 	if err != nil {
@@ -81,6 +93,25 @@ func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID, EntityID,
 
 	filter := bson.M{"_id": EntityID}
 	update := bson.A{bson.M{"$set": bson.M{"favorite_image": ImageID}}}
+	updateOpts := options.FindOneAndUpdate()
+
+	var updatedFavorite bson.M
+	err = db.Collection(Collection).FindOneAndUpdate(ctx, filter, update, updateOpts).Decode(&updatedFavorite)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (mDb MongoDatabase) ClearFavoriteImage(ctx context.Context, UserID, EntityID ObjectID, Collection string) error {
+	err := mDb.UserOwnsEntity(ctx, UserID, EntityID, Collection)
+	if err != nil {
+		return nil
+	}
+
+	filter := bson.M{"_id": EntityID}
+	update := bson.A{bson.M{"$unset": "favorite_image"}}
 	updateOpts := options.FindOneAndUpdate()
 
 	var updatedFavorite bson.M

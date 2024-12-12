@@ -1,0 +1,76 @@
+﻿kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  annotations:
+    openshift.io/image.dockerRepositoryCheck: '2024-09-12T12:40:39Z'
+  resourceVersion: '1406340562'
+  name: slowers-mongo
+  uid: 396c7999-16fb-440f-889c-b7a7c7ddccbc
+  creationTimestamp: '2024-09-12T12:40:38Z'
+  generation: 2
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: image.openshift.io/v1
+      time: '2024-09-12T12:40:38Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:labels':
+            .: {}
+            'f:app': {}
+            'f:app.kubernetes.io/component': {}
+            'f:app.kubernetes.io/instance': {}
+            'f:app.kubernetes.io/name': {}
+            'f:app.kubernetes.io/part-of': {}
+        'f:spec':
+          'f:tags':
+            .: {}
+            'k:{"name":"latest"}':
+              .: {}
+              'f:annotations':
+                .: {}
+                'f:openshift.io/generated-by': {}
+                'f:openshift.io/imported-from': {}
+              'f:from': {}
+              'f:generation': {}
+              'f:importPolicy':
+                .: {}
+                'f:importMode': {}
+              'f:name': {}
+              'f:referencePolicy':
+                .: {}
+                'f:type': {}
+  namespace: ohtuprojekti-staging
+  labels:
+    app: slowers-mongo
+    app.kubernetes.io/component: slowers-mongo
+    app.kubernetes.io/instance: slowers-mongo
+    app.kubernetes.io/name: slowers-mongo
+    app.kubernetes.io/part-of: Slowers-App
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+    - name: latest
+      annotations:
+        openshift.io/generated-by: OpenShiftWebConsole
+        openshift.io/imported-from: docker.io/library/mongo
+      from:
+        kind: DockerImage
+        name: docker.io/library/mongo
+      generation: 2
+      importPolicy:
+        importMode: Legacy
+      referencePolicy:
+        type: Local
+status:
+  dockerImageRepository: 'image-registry.openshift-image-registry.svc:5000/ohtuprojekti-staging/slowers-mongo'
+  publicDockerImageRepository: registry.apps.ocp-test-0.k8s.it.helsinki.fi/ohtuprojekti-staging/slowers-mongo
+  tags:
+    - tag: latest
+      items:
+        - created: '2024-09-12T12:40:39Z'
+          dockerImageReference: 'docker.io/library/mongo@sha256:24c904ccff05dcd659aae47af9bf7c8ffeba84b62099f5cd8ca10327665cc1af'
+          image: 'sha256:24c904ccff05dcd659aae47af9bf7c8ffeba84b62099f5cd8ca10327665cc1af'
+          generation: 2

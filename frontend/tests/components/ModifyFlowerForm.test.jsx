@@ -14,9 +14,13 @@ test('renders ModifyFlowerFrom with name, latin name and qty inputs', () => {
 
     render(<ModifyFlowerForm modifyFlower={modifyFlower} flower={flower} />)
 
-    const name = screen.getByLabelText('Name:')
-    const latinName = screen.getByLabelText('Latin name:')
-    const qty = screen.getByLabelText('Qty:')
+    const name = screen.getByLabelText('Name')
+    const latinName = screen.getByLabelText('Latin name')
+    const addedTime = screen.getByText('Added time')
+    const site = screen.getByText('Site')
+    const qty = screen.getByLabelText('Quantity')
+    const visible = screen.getByText('Visible to retailers')
+    const del = screen.getByText('Delete')
     const save = screen.getByText('Save')
     const cancel = screen.getByText('Cancel')
 })
@@ -32,9 +36,9 @@ test ('updates input values when typing', async() => {
 
     render(<ModifyFlowerForm modifyFlower={modifyFlower} flower={flower} />)
     
-    const name = screen.getByLabelText('Name:')
-    const latinName = screen.getByLabelText('Latin name:')
-    const qty = screen.getByLabelText('Qty:')
+    const name = screen.getByLabelText('Name')
+    const latinName = screen.getByLabelText('Latin name')
+    const qty = screen.getByLabelText('Quantity')
 
     await user.clear(name)
     await user.type(name, 'Rose')
@@ -60,9 +64,9 @@ test('calls modifyFlower with correct values on submit', async () => {
 
     render(<ModifyFlowerForm modifyFlower={modifyFlower} flower={flower} handleFlowerModify={handleFlowerModify} />)
 
-    const name = screen.getByLabelText('Name:')
-    const latinName = screen.getByLabelText('Latin name:')
-    const qty = screen.getByLabelText('Qty:')
+    const name = screen.getByLabelText('Name')
+    const latinName = screen.getByLabelText('Latin name')
+    const qty = screen.getByLabelText('Quantity')
     const save = screen.getByText('Save')
 
     await user.clear(name)
@@ -93,7 +97,7 @@ test('does not call modifyFlower if name is empty', async () => {
 
     render(<ModifyFlowerForm modifyFlower={modifyFlower} flower={flower} handleFlowerModify={handleFlowerModify} />)
 
-    const name = screen.getByLabelText('Name:')
+    const name = screen.getByLabelText('Name')
     const save = screen.getByText('Save')
 
     await user.clear(name)
@@ -114,7 +118,7 @@ test('does not call modifyFlower if qty is invalid input', async () => {
 
     render(<ModifyFlowerForm modifyFlower={modifyFlower} flower={flower} handleFlowerModify={handleFlowerModify} />)
 
-    const qty = screen.getByLabelText('Qty:')
+    const qty = screen.getByLabelText('Quantity')
     const save = screen.getByText('Save')
 
     await user.clear(qty)
