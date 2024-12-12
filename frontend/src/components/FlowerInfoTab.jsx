@@ -3,6 +3,7 @@ import { useState } from "react"
 import VisibilitySwitch from './VisibilitySwitch'
 import ModifyFlowerForm from './ModifyFlowerForm'
 import "./FlowerModal.css"
+import { formatTime } from "../utils.js"
 
 const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlower, handleClose}) => {
 	const [isModifyFormVisible, setIsModifyFormVisible] = useState(false)
@@ -19,20 +20,11 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
 		handleClose()
 	}
 
-	const addedTime = (flower) => {
-		let addedTime = new Date(flower.added_time)
-
-		let date = addedTime.toLocaleDateString('fi')
-		let time = addedTime.toLocaleTimeString('fi', { hour: '2-digit', minute: '2-digit' })
-		let addedTimeStr = `${date} ${time}`
-
-		return addedTimeStr
-	}
 	return (
 		<div>
 			{isGrower && isModifyFormVisible ? (
 					<div>
-						<ModifyFlowerForm flower={flower} modifyFlower={modifyFlower} handleFlowerModify={updateFlower} handleFormVisibility={handleFormVisibility} handleFlowerDelete={handleFlowerDelete} addedTime={addedTime(flower)}/>
+						<ModifyFlowerForm flower={flower} modifyFlower={modifyFlower} handleFlowerModify={updateFlower} handleFormVisibility={handleFormVisibility} handleFlowerDelete={handleFlowerDelete} addedTime={formatTime(flower.added_time)}/>
 					</div> 
 				) : (
 					<div>
@@ -50,7 +42,7 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
 							</tr>
 							<tr>
 								<th>{t('flower.data.addedtime')}</th>
-								<td>{addedTime(flower)}</td>
+								<td>{formatTime(flower.added_time)}</td>
 							</tr>
 							{isGrower && (
 							<tr>
