@@ -20,22 +20,22 @@ td {
 }
 
 .nav-bar {
-	background-color: #f4f4f4;
+	background-color: #f6f6f6;
 }
 
 .menu-button {
-	background-color: #f4f4f4;
-	border-color: #f4f4f4
+	background-color: #f6f6f6;
+	border-color: #f6f6f6
 }
 
 .offcanvas-thin {
 	width: 250px !important;
 	max-width: 250px !important;
-	background-color: #f4f4f4;
+	background-color: #f6f6f6;
 }
 
 .tab-bar {
-	background-color: #f4f4f4;
+	background-color: #f6f6f6;
 }
 
 .tab-bar .nav-link {
