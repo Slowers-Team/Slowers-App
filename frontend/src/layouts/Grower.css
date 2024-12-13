@@ -7,7 +7,7 @@
   .header {
     padding: 1rem;
     text-align: left;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #163020;
     font-size: 24px;
   }
     
@@ -19,7 +19,7 @@
   .side-container {
     width: 250px;
     padding: 1rem;
-    border-right: 1px solid black;
+    border-right: 1px solid #163020;
   }
     
   .main-container {
@@ -38,8 +38,8 @@
   
   .nav-container a {
     text-decoration: none;
-    font-size: 18px;
-    color: black;
+    font-size: 16px;
+    color: #163020;
     padding: 10px;
     display: block;
     transition: background-color 0.1s ease;
@@ -47,8 +47,8 @@
   
   .nav-container a:hover,
   .nav-container a.active {
-    background-color: #c1dadf;
-    color: black;
+    background-color: #B6C4B6;
+    color: #163020;
     border-radius: 4px;
   }
     
@@ -74,8 +74,8 @@
   }
     
   #growerFlowerList thead {
-    background-color: #c1dadf;
-    color: black;
+    background-color: #B6C4B6;
+    color: #163020;
     font-weight: bold;
     font-size: 18px;
   }
@@ -88,9 +88,48 @@
     background-color: #f6f6f6eb;
   }
 
+  #deleteFlowerButton {
+    background-color: #B6C4B6;
+    color: #163020;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+#modifyFlowerButton {
+  background-color: #B6C4B6;
+  color: #163020;
+  border: none;
+  padding: 5px 10px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+  #showFlowerPageButton {
+    background-color: #B6C4B6;
+    color: #163020;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
   .custom-button {
-    background-color: #c1dadf;
-    color: black;
+    background-color: #B6C4B6;
+    color: #163020;
     border: none;
     padding: 5px 10px;
     text-align: center;
@@ -116,19 +155,47 @@
   }
 
   .input-wrapper input {
-    background-color: rgb(247, 243, 243);
-    border: none;
+    background-color: white;
+    border: 1px solid #EEF0E5; 
     padding: 0.5rem;
     font-size: 1rem;
     text-align: left;
     width: 15rem;
     border-radius: 1rem;
-    box-shadow: #23252248;
-    color: black;
+    box-shadow: none;
+    color: #163020; 
     cursor: pointer;
   }
   
   .input-wrapper input:focus {
-    outline-color: rgb(255, 255, 255);
+    border-color: #B6C4B6; 
+    outline: none; 
   }
   
+  .input-wrapper input:hover {
+    cursor: pointer;
+  }
+  
+
+
+/* main tabs styling */
+  .menu-tab {
+    font-size: 16px;
+    padding: 10px 25px; 
+    color: #163020; 
+    transition: background-color 0.3s ease, color 0.3s ease; 
+    border-radius: 5px;
+  }
+
+  .menu-tab:hover {
+    color: #163020;
+    border-radius: 5px; 
+    background-color: none;
+  }
+  
+
+  .menu-tab.active {
+    background-color: none; 
+    border-radius: 5px; 
+    font-weight: bold;
+  }

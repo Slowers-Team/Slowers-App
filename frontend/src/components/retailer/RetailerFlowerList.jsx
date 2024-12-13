@@ -5,6 +5,7 @@ import { useState, useEffect } from "react"
 import { Button, Table } from 'react-bootstrap'
 import ImageService from '../../services/images'
 import '../../App.css'
+import { formatTime } from '../../utils.js'
 
 const RetailerFlowerList = ({ flowers }) => {
   const { t, i18n } = useTranslation()
@@ -128,13 +129,6 @@ const RetailerFlowerList = ({ flowers }) => {
         </thead>
         <tbody>
           {filteredFlowers.map(flower => {
-            let addedTime = new Date(flower.added_time)
-
-            let date = addedTime.toLocaleDateString('fi')
-            let hour = addedTime.toLocaleString('fi', { hour: 'numeric' })
-            let minute = addedTime.toLocaleString('fi', { minute: '2-digit' })
-            let addedTimeStr = `${date} ${hour}:${minute}`
-
             return (
               <tr key={flower._id}>
                 <td className='image-cell'>
@@ -148,7 +142,7 @@ const RetailerFlowerList = ({ flowers }) => {
                 <td>
                   <em>{flower.latin_name}</em>
                 </td>
-                <td>{addedTimeStr}</td>
+                <td>{formatTime(flower.added_time)}</td>
                 <td>{flower.grower_email}</td>
                 <td>{flower.quantity}</td>
                 <td>

@@ -64,7 +64,7 @@ const RegisterForm = ({ createNewUser }) => {
                   <label className='form-check-label' htmlFor="termsCheckbox">{t('label.iagreeto')} <a href='/terms' target="_blank" rel="noopener noreferrer">{t('label.terms')}</a></label>
                 </div>
                 <div>
-                  <button type="submit" id="createNewUserButton" className='btn btn-primary'>{t('button.register')}</button>
+                  <button type="submit" id="createNewUserButton" className='custom-button'>{t('button.register')}</button>
                 </div>
             </form>
         </div>

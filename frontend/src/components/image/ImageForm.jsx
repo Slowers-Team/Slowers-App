@@ -37,9 +37,9 @@ const ImageForm = ({ createImage }) => {
   }
 
   return (
-    <div className="text-left">
+    <div className="text-left mx-4">
       <form onSubmit={handleSubmit} id="image-form">
-        <div className="form-group">
+        <div className="form-group mt-2">
           <label htmlFor="newImageInput">{t("image.select")}:</label>
           <input
             id="newImageInput"
@@ -50,7 +50,7 @@ const ImageForm = ({ createImage }) => {
             onChange={handleFileSelect}
           />
         </div>
-        <div className="form-group">
+        <div className="form-group mt-2">
           <label htmlFor="newImageNoteInput">{t("image.note")}:</label>
           <input
             id="newImageNoteInput"
@@ -61,7 +61,7 @@ const ImageForm = ({ createImage }) => {
           />
         </div>
         <div>
-          <button id="saveNewImageButton" type="submit" className="custom-button">
+          <button id="saveNewImageButton" type="submit" className="custom-button my-3">
             <i className="bi bi-floppy2-fill"> </i>
             {t("button.save")}
           </button>

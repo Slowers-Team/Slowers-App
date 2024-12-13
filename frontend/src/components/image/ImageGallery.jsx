@@ -26,7 +26,7 @@ const ImageGallery = ({ isGrower, images, deleteImage, favoriteImage, type }) =>
 	}
 
   return (
-    <div className="m-2">
+    <div className="my-2">
 			{(!images || images.length === 0) ? (
         <p>
 				{type === "flower"

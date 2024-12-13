@@ -14,18 +14,10 @@ const LogInPage = () => {
   };
 
   return (
-    <div
-      style={{
-        minHeight: "calc(100vh - 82px)",
-        backgroundColor: "#eee",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <div className="logged-out-container">
       <div className="container">
         <div className="row justify-content-center">
-          <div className="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div className="col-12 col-md-8 col-lg-6 col-xl-4">
             <div className="card" style={{ borderRadius: "1rem" }}>
               <div className="card-body p-5">
                 <h2 className="mb-5 text-center">{t("title.login")}</h2>

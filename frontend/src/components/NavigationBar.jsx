@@ -20,8 +20,8 @@ export const NavigationBar = () => {
 
   return (
     <>
-      <Navbar expand="sm" bg="light">
-        <Button id="offcanvasButton" variant="light" className="mx-2" onClick={handleShow}>
+      <Navbar expand="sm" className="nav-bar">
+        <Button id="offcanvasButton" variant="light" className="menu-button mx-2" onClick={handleShow}>
           <span className="navbar-toggler-icon"></span>
         </Button>
         <Navbar.Brand as={Link} to="/">
@@ -29,7 +29,7 @@ export const NavigationBar = () => {
         </Navbar.Brand>
         <Nav className="ms-auto mx-2">
           {isLoggedIn && (
-            <NavDropdown title={username} id="collasible-nav-dropdown">
+            <NavDropdown title={username} id="collasible-nav-dropdown" align="end">
               <Nav.Link className="text-secondary" as={Link} to="/user">
                 <i className="bi bi-person-circle"> </i>
                 {t("menu.profile")}
@@ -47,7 +47,7 @@ export const NavigationBar = () => {
               </Nav.Link>
             </NavDropdown>
           )}
-          <NavDropdown title={<i className="bi bi-globe-americas"></i>} id="languageButton">
+          <NavDropdown title={<i className="bi bi-globe-americas"></i>} id="languageButton" align="end" className="lang-menu">
             <LangSelect />
           </NavDropdown>
         </Nav>
