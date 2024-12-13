@@ -47,7 +47,8 @@
           "addedtime": "Added time",
           "grower": "Grower",
           "site": "Site",
-          "qty": "Qty"
+          "qty": "Qty",
+          "image": "Image"
         },
         "visible": {
           "long": "Visible to retailers",
@@ -61,6 +62,7 @@
         "select": "Select image",
         "title": "Add a new image",
         "confirmimagedeletion": "Confirm image deletion",
+        "flowerwillbehidden": "If you delete the last image, the flower will be hidden from retailers",
         "noflowerimages": "This flower doesn't have any images yet",
         "nositeimages": "This site doesn't have any images yet"
       },
@@ -79,7 +81,7 @@
         "grower": "Grower page",
         "home": "Home",
         "register": "Register",
-        "retailer": "Retailer page",
+        "retailer": "Marketplace",
         "login": "Login",
         "logout": "Logout",
         "terms": "Terms",
@@ -181,7 +183,8 @@
           "addedtime": "Lisäysaika",
           "grower": "Kasvattaja",
           "site": "Alue",
-          "qty": "Kpl"
+          "qty": "Kpl",
+          "image": "Kuva"
         },
         "visible": {
           "long": "Näkyy jälleenmyyjille",
@@ -195,6 +198,7 @@
         "select": "Valitse kuva",
         "title": "Lisää uusi kuva",
         "confirmimagedeletion": "Vahvista kuvan poisto",
+        "flowerwillbehidden": "Jos poistat viimeisen kuvan, kukka piilotetaan jälleenmyyjiltä",
         "noflowerimages": "Tällä kukalla ei ole vielä kuvia",
         "nositeimages": "Tällä alueella ei ole vielä kuvia"
       },
@@ -213,7 +217,7 @@
         "grower": "Kasvattajan sivu",
         "home": "Kotisivu",
         "register": "Rekisteröidy",
-        "retailer": "Jälleenmyyjän sivu",
+        "retailer": "Tori",
         "login": "Kirjaudu sisään",
         "logout": "Kirjaudu ulos",
         "terms": "Käyttöehdot",

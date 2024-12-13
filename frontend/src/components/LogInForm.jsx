@@ -31,8 +31,10 @@ const LogIn = ({ onLogin }) => {
     <div className="text-left">
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleSubmit}>
-        <div className="form-group mb-4">
-          <label htmlFor="emailInput">{t("user.data.email")}</label>
+        <div className="input-group mb-3">
+          <span className="input-group-text">
+            <i className="bi bi-envelope-fill"></i>
+          </span>
           <input
             type="email"
             id="emailInput"
@@ -43,8 +45,10 @@ const LogIn = ({ onLogin }) => {
             required
           />
         </div>
-        <div className="form-group mb-4">
-          <label htmlFor="passwordInput">{t("user.data.password")}</label>
+        <div className="input-group mb-3">
+          <span className="input-group-text">
+            <i className="bi bi-lock-fill"></i>
+          </span>
           <input
             type="password"
             id="passwordInput"
@@ -56,7 +60,7 @@ const LogIn = ({ onLogin }) => {
           />
         </div>
         <div>
-          <button type="submit" id="loginButton" className="btn btn-primary">
+          <button type="submit" id="loginButton" className="custom-button">
             {t("button.login")}
           </button>
         </div>

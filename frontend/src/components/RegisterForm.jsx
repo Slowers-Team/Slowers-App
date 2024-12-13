@@ -32,16 +32,22 @@ const RegisterForm = ({ createNewUser }) => {
     return (
         <div className='text-left'>
             <form onSubmit={addUser}>
-                <div className='form-group mb-4'>
-                  <label htmlFor="newUsernameInput">{t('user.data.username')}</label>
+                <div className="input-group mb-4">
+                  <span className="input-group-text">
+                    <i className="bi bi-person-circle"></i>
+                  </span>
                   <input id="newUsernameInput" value={newUsername} placeholder={t('user.input.username')} onChange={event => setNewUsername(event.target.value)} className='form-control' required/>
                 </div>
-                <div className='form-group mb-4'>
-                  <label htmlFor="newEmailInput">{t('user.data.email')}</label>
+                <div className='input-group mb-4'>
+                  <span className="input-group-text">
+                    <i className="bi bi-envelope-fill"></i>
+                  </span>
                   <input type="email" id="newEmailInput" value={newEmail} placeholder={t('user.input.email')} onChange={event => setNewEmail(event.target.value)} className='form-control' required/>
                 </div>
-                <div className='form-group mb-4'>
-                  <label htmlFor="newPasswordInput">{t('user.data.password')}</label>
+                <div className='input-group mb-4'>
+                  <span className="input-group-text">
+                    <i className="bi bi-lock-fill"></i>
+                  </span>
                   <input type="password" id="newPasswordInput" value={newPassword} placeholder={t('user.input.password')} onChange={event => setNewPassword(event.target.value)} className='form-control' required/>
                 </div>
                 <div className='form-group mb-4'>
@@ -58,7 +64,7 @@ const RegisterForm = ({ createNewUser }) => {
                   <label className='form-check-label' htmlFor="termsCheckbox">{t('label.iagreeto')} <a href='/terms' target="_blank" rel="noopener noreferrer">{t('label.terms')}</a></label>
                 </div>
                 <div>
-                  <button type="submit" id="createNewUserButton" className='btn btn-primary'>{t('button.register')}</button>
+                  <button type="submit" id="createNewUserButton" className='custom-button'>{t('button.register')}</button>
                 </div>
             </form>
         </div>

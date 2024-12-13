@@ -6,17 +6,16 @@ import { Nav } from 'react-bootstrap'
 const tabBar = () => {
   const { t, i18n } = useTranslation()
   return (
-    <div className='my-2'>
-      <Link to="/retailer" className="mx-2 text-secondary text-decoration-none">Placeholder</Link>
-      <div className="my-3">
+    <div className='tab-bar'>
+      <div>
         <Nav variant='tabs' defaultActiveKey="/retailer">
           <Nav.Item>
-            <Nav.Link className="text-success" as={NavLink} end to="/retailer"> 
+            <Nav.Link className="menu-tab" as={NavLink} end to="/retailer"> 
               {t('menu.home')}
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link className="text-success" as={NavLink} end to="/retailer/flowers">
+            <Nav.Link className="menu-tab" as={NavLink} end to="/retailer/flowers">
               {t('menu.flowers')}
             </Nav.Link>
           </Nav.Item>

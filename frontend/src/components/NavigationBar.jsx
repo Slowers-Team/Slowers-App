@@ -20,8 +20,8 @@ export const NavigationBar = () => {
 
   return (
     <>
-      <Navbar expand="sm" bg="light">
-        <Button variant="light" className="mx-2" onClick={handleShow}>
+      <Navbar expand="sm" className="nav-bar">
+        <Button variant="light" className="menu-button mx-2" onClick={handleShow}>
           <span className="navbar-toggler-icon"></span>
         </Button>
         <Navbar.Brand as={Link} to="/">
@@ -29,8 +29,9 @@ export const NavigationBar = () => {
         </Navbar.Brand>
         <Nav className="ms-auto mx-2">
           {isLoggedIn && (
-            <NavDropdown title={username} id="collasible-nav-dropdown">
+            <NavDropdown title={username} id="collasible-nav-dropdown" align="end">
               <Nav.Link className="text-secondary" as={Link} to="/user">
+                <i className="bi bi-person-circle"> </i>
                 {t("menu.profile")}
               </Nav.Link>
               <Nav.Link
@@ -41,11 +42,12 @@ export const NavigationBar = () => {
                   handleClose();
                 }}
               >
+                <i className="bi bi-door-open-fill"> </i>
                 {t("menu.logout")}
               </Nav.Link>
             </NavDropdown>
           )}
-          <NavDropdown title={t("menu.language")} id="collasible-nav-dropdown">
+          <NavDropdown title={<i className="bi bi-globe-americas"></i>} id="collasible-nav-dropdown" align="end" className="lang-menu">
             <LangSelect />
           </NavDropdown>
         </Nav>
@@ -69,6 +71,7 @@ export const NavigationBar = () => {
               to="/"
               onClick={handleClose}
             >
+              <i className="bi bi-house"> </i>
               {t("menu.home")}
             </Nav.Link>
             {!isLoggedIn && (
@@ -78,6 +81,7 @@ export const NavigationBar = () => {
                 to="/login"
                 onClick={handleClose}
               >
+                <i className="bi bi-box-arrow-in-right"> </i>
                 {t("menu.login")}
               </Nav.Link>
             )}
@@ -88,6 +92,7 @@ export const NavigationBar = () => {
                 to="/register"
                 onClick={handleClose}
               >
+                <i className="bi bi-person-add"> </i>
                 {t("menu.register")}
               </Nav.Link>
             )}
@@ -98,6 +103,7 @@ export const NavigationBar = () => {
                 to="/retailer"
                 onClick={handleClose}
               >
+                <i className="bi bi-shop-window"> </i>
                 {t("menu.retailer")}
               </Nav.Link>
             )}
@@ -108,6 +114,7 @@ export const NavigationBar = () => {
                 to="/grower"
                 onClick={handleClose}
               >
+                <i className="bi bi-flower1"> </i>
                 {t("menu.grower")}
               </Nav.Link>
             )}
@@ -117,6 +124,7 @@ export const NavigationBar = () => {
               to="/terms"
               onClick={handleClose}
             >
+              <i className="bi bi-file-earmark-text"> </i>
               {t("menu.terms")}
             </Nav.Link>
           </Nav>

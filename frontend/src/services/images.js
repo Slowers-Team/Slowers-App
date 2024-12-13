@@ -17,6 +17,22 @@ const get = imageObject => {
     .catch(error => console.error("Error fetching image blob:", error));
 };
 
+const getByID = id => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken() },
+    'Content-Type': "application/json", 
+    responseType: "blob"
+  };
+  return axios.get(`${baseUrl}/id/${id}`, config)
+    .then(response => {
+      const imageUrl = URL.createObjectURL(response.data);
+      return imageUrl;
+    })
+    .catch(error => {
+      // console.error("Error fetching image blob:", error); 
+      throw error});
+}
+
 const create = imageObject => {
   const config = {
     headers: { 
@@ -79,6 +95,32 @@ const setFavorite = (entityID, entityType, imageID) => {
     })
 }
 
+const clearFavorite = (entityID, entityType) => {
+  if (!(entityType === "flower" || entityType === "site")) {
+    throw "Invalid entity type"
+  }
+  
+  const url = `${baseUrl}/clearfavorite`
+  const config = {
+    headers: { Authorization: tokenService.fetchToken() },
+    'Content-Type': 'application/json'
+  }
+
+  const data = {
+    EntityID: entityID,
+    EntityType: entityType,
+  }
+
+  return axios.post(url, data, config)
+    .then(_ => {
+      return true
+    })
+    .catch(error => {
+        console.error("Failed to clear favorite image of", entityType, entityID, ":\n", error?.error)
+      throw error.response.data
+    })
+}
+
 const getFilename = image => image._id + "." + image.file_format 
 
 export default {
@@ -86,5 +128,7 @@ export default {
   create,
   getImagesByEntity,
   deleteImage,
-  setFavorite
+  setFavorite,
+  getByID,
+  clearFavorite
 }
