@@ -115,7 +115,7 @@ func (s *ImagesAPITestSuite) TestImageUpload() {
 		ContentType:  formWriter.FormDataContentType(),
 		Body:         formData.Bytes(),
 		ExpectedCode: 201,
-		ExpectedBody: utils.ImageToJSON(image),
+		ExpectedBody: utils.ToJSON(image),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().AddImage(
 				mock.Anything, testdata.GetImagesForAdding()[0],
@@ -157,7 +157,7 @@ func (s *ImagesAPITestSuite) TestFetchingImagesByEntity() {
 		Method:       "GET",
 		Body:         []byte{},
 		ExpectedCode: 200,
-		ExpectedBody: utils.ImagesToJSON([]database.Image{s.Images[0]}),
+		ExpectedBody: utils.ToJSON([]database.Image{s.Images[0]}),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetImagesByEntity(
 				mock.Anything, s.Images[0].Entity.Hex(),
