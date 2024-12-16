@@ -19,15 +19,15 @@ import (
 
 type SitesAPITestSuite struct {
 	suite.Suite
-	TestFlowers []database.Flower
-	RootSites   []database.Site
-	TestUser    database.User
+	Flowers   []database.Flower
+	RootSites []database.Site
+	User      database.User
 }
 
 func (s *SitesAPITestSuite) SetupSuite() {
-	s.TestFlowers = testdata.GetFlowers()
+	s.Flowers = testdata.GetFlowers()
 	s.RootSites = testdata.GetRootSites()
-	s.TestUser = testdata.GetUsers()[0]
+	s.User = testdata.GetUsers()[0]
 }
 
 func (s *SitesAPITestSuite) TestListingRootSites() {
@@ -40,7 +40,7 @@ func (s *SitesAPITestSuite) TestListingRootSites() {
 		ExpectedBody: utils.ToJSON(s.RootSites),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetRootSites(
-				mock.Anything, s.TestUser.ID,
+				mock.Anything, s.User.ID,
 			).Return(
 				s.RootSites, nil,
 			).Once()
@@ -58,7 +58,7 @@ func (s *SitesAPITestSuite) TestFetchingSite() {
 		ExpectedBody: utils.ToJSON(testdata.GetSite()),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetSite(
-				mock.Anything, s.RootSites[0].ID, s.TestUser.ID,
+				mock.Anything, s.RootSites[0].ID, s.User.ID,
 			).Return(
 				testdata.GetSite(), nil,
 			).Once()
@@ -146,7 +146,7 @@ func (s *SitesAPITestSuite) TestDeletingSite() {
 		ExpectedBody: []byte("{\"DeletedCount\":1}"),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().DeleteSite(
-				mock.Anything, s.RootSites[0].ID, s.TestUser.ID,
+				mock.Anything, s.RootSites[0].ID, s.User.ID,
 			).Return(
 				&mongo.DeleteResult{DeletedCount: 1}, nil,
 			).Once()
