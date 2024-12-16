@@ -32,23 +32,23 @@ func (s *DbFlowerTestSuite) TestAddFlower() {
 		"AddFlower() should not return an error",
 	)
 	s.Equal(
-		createdFlower.Name,
 		flower.Name,
+		createdFlower.Name,
 		"wrong name for the flower returned from AddFlower()",
 	)
 	s.Equal(
-		createdFlower.LatinName,
 		flower.LatinName,
+		createdFlower.LatinName,
 		"wrong latin name for the flower returned from AddFlower()",
 	)
 	s.Equal(
-		createdFlower.AddedTime,
 		flower.AddedTime,
+		createdFlower.AddedTime,
 		"wrong AddedTime for the flower returned from AddFlower()",
 	)
 	s.Equal(
-		createdFlower.Quantity,
 		flower.Quantity,
+		createdFlower.Quantity,
 		"wrong Quantity for the flower returned from AddFlower()",
 	)
 	s.NotZero(
@@ -83,28 +83,28 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlower() {
 		"fetched flower should have non-zero ID",
 	)
 	s.Equal(
-		fetchedFlowers[0].Name,
 		flower.Name,
+		fetchedFlowers[0].Name,
 		"wrong Name for the flower returned from GetFlowers()",
 	)
 	s.Equal(
-		fetchedFlowers[0].LatinName,
 		flower.LatinName,
+		fetchedFlowers[0].LatinName,
 		"wrong LatinName for the flower returned from GetFlowers()",
 	)
 	s.Equal(
-		fetchedFlowers[0].AddedTime,
 		flower.AddedTime,
+		fetchedFlowers[0].AddedTime,
 		"wrong AddedTime for the flower returned from GetFlowers()",
 	)
 	s.Equal(
-		fetchedFlowers[0].Quantity,
 		flower.Quantity,
+		fetchedFlowers[0].Quantity,
 		"wrong Quantity for the flower returned from GetFlowers()",
 	)
 	s.Equal(
-		fetchedFlowers[0].Visible,
 		flower.Visible,
+		fetchedFlowers[0].Visible,
 		"wrong Visible for the flower returned from GetFlowers()",
 	)
 }

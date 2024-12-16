@@ -33,23 +33,23 @@ func (s *DbImageTestSuite) TestAddImage() {
 			"ID for the added image should be non-zero",
 		)
 		s.Equal(
-			createdImage.FileFormat,
 			image.FileFormat,
+			createdImage.FileFormat,
 			"wrong file format for the image returned from AddImage()",
 		)
 		s.Equal(
-			createdImage.Note,
 			image.Note,
+			createdImage.Note,
 			"wrong note for the image returned from AddImage()",
 		)
 		s.Equal(
-			*createdImage.Entity,
 			*image.Entity,
+			*createdImage.Entity,
 			"wrong entity for the image returned from AddImage()",
 		)
 		s.Equal(
-			createdImage.Owner,
 			image.Owner,
+			createdImage.Owner,
 			"wrong owner for the image returned from AddImage()",
 		)
 	}

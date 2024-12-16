@@ -43,13 +43,13 @@ func (s *DbUserTestSuite) TestCreateUser() {
 		"new user should have non-zero ID",
 	)
 	s.Equal(
-		newUser.Username,
 		s.TestUser.Username,
+		newUser.Username,
 		"wrong username for new user",
 	)
 	s.Equal(
-		newUser.Email,
 		s.TestUser.Email,
+		newUser.Email,
 		"wrong email for new user",
 	)
 	s.NoError(
@@ -66,8 +66,8 @@ func (s *DbUserTestSuite) TestCountUsers() {
 		"CountUsersWithEmail() should not return an error",
 	)
 	s.Equal(
-		count,
 		int64(0),
+		count,
 		"CountUsersWithEmail() should return 0 for an empty database",
 	)
 }
@@ -93,13 +93,13 @@ func (s *DbUserTestSuite) TestCreateAndGetUser() {
 		"fetched user should have non-zero ID",
 	)
 	s.Equal(
-		fetchedUser.Username,
 		s.TestUser.Username,
+		fetchedUser.Username,
 		"wrong username for fetched user",
 	)
 	s.Equal(
-		fetchedUser.Email,
 		s.TestUser.Email,
+		fetchedUser.Email,
 		"wrong email for fetched user",
 	)
 	s.NoError(

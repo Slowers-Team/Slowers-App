@@ -50,23 +50,23 @@ func (s *DbSiteTestSuite) TestAddSite() {
 		"ID for the created site should be non-zero",
 	)
 	s.Equal(
-		createdSite.Name,
 		site.Name,
+		createdSite.Name,
 		"wrong name for the site returned from AddSite()",
 	)
 	s.Equal(
-		createdSite.AddedTime,
 		site.AddedTime,
+		createdSite.AddedTime,
 		"wrong AddedTime for the site returned from AddSite()",
 	)
 	s.Equal(
-		createdSite.Note,
 		site.Note,
+		createdSite.Note,
 		"wrong note for the site returned from AddSite()",
 	)
 	s.Equal(
-		createdSite.Parent,
 		site.Parent,
+		createdSite.Parent,
 		"wrong parent for the site returned from AddSite()",
 	)
 	s.True(
@@ -74,8 +74,8 @@ func (s *DbSiteTestSuite) TestAddSite() {
 		"wrong flowers for the site returned from AddSite()",
 	)
 	s.Equal(
-		createdSite.Owner,
 		site.Owner,
+		createdSite.Owner,
 		"wrong owner for the site returned from AddSite()",
 	)
 }
@@ -102,28 +102,28 @@ func (s *DbSiteTestSuite) TestAddAndGetRootSites() {
 		"GetRootSites() should return a slice of length 1",
 	)
 	s.Equal(
-		rootSites[0].ID,
 		createdSite.ID,
+		rootSites[0].ID,
 		"ID for the fetched site should be non-zero",
 	)
 	s.Equal(
-		rootSites[0].Name,
 		site.Name,
+		rootSites[0].Name,
 		"wrong name for the site returned from GetRootSites()",
 	)
 	s.Equal(
-		rootSites[0].AddedTime,
 		site.AddedTime,
+		rootSites[0].AddedTime,
 		"wrong AddedTime for the site returned from GetRootSites()",
 	)
 	s.Equal(
-		rootSites[0].Note,
 		site.Note,
+		rootSites[0].Note,
 		"wrong note for the site returned from GetRootSites()",
 	)
 	s.Equal(
-		rootSites[0].Parent,
 		site.Parent,
+		rootSites[0].Parent,
 		"wrong parent for the site returned from GetRootSites()",
 	)
 	s.True(
@@ -131,8 +131,8 @@ func (s *DbSiteTestSuite) TestAddAndGetRootSites() {
 		"wrong flowers for the site returned from GetRootSites()",
 	)
 	s.Equal(
-		rootSites[0].Owner,
 		site.Owner,
+		rootSites[0].Owner,
 		"wrong owner for the site returned from GetRootSites()",
 	)
 }
