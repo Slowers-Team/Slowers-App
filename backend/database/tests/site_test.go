@@ -18,26 +18,26 @@ import (
 
 type DbSiteTestSuite struct {
 	suite.Suite
-	Db       database.Database
-	TestSite database.Site
-	TestUser database.User
+	Db   database.Database
+	Site database.Site
+	User database.User
 }
 
 func (s *DbSiteTestSuite) SetupSuite() {
 	s.Db = testutils.ConnectDB()
 	s.Db.Clear()
-	s.TestSite = testdata.GetRootSites()[0]
-	s.TestUser = testdata.GetUsers()[0]
+	s.Site = testdata.GetRootSites()[0]
+	s.User = testdata.GetUsers()[0]
 }
 
 func (s *DbSiteTestSuite) TestAddSite() {
 	site := database.Site{
-		Name:      s.TestSite.Name,
-		AddedTime: s.TestSite.AddedTime,
-		Note:      s.TestSite.Note,
-		Parent:    s.TestSite.Parent,
-		Flowers:   s.TestSite.Flowers,
-		Owner:     s.TestSite.Owner,
+		Name:      s.Site.Name,
+		AddedTime: s.Site.AddedTime,
+		Note:      s.Site.Note,
+		Parent:    s.Site.Parent,
+		Flowers:   s.Site.Flowers,
+		Owner:     s.Site.Owner,
 	}
 	createdSite, err := s.Db.AddSite(context.Background(), site)
 
@@ -82,15 +82,15 @@ func (s *DbSiteTestSuite) TestAddSite() {
 
 func (s *DbSiteTestSuite) TestAddAndGetRootSites() {
 	site := database.Site{
-		Name:      s.TestSite.Name,
-		AddedTime: s.TestSite.AddedTime,
-		Note:      s.TestSite.Note,
-		Parent:    s.TestSite.Parent,
-		Flowers:   s.TestSite.Flowers,
-		Owner:     s.TestSite.Owner,
+		Name:      s.Site.Name,
+		AddedTime: s.Site.AddedTime,
+		Note:      s.Site.Note,
+		Parent:    s.Site.Parent,
+		Flowers:   s.Site.Flowers,
+		Owner:     s.Site.Owner,
 	}
 	createdSite, _ := s.Db.AddSite(context.Background(), site)
-	rootSites, err := s.Db.GetRootSites(context.Background(), s.TestUser.ID)
+	rootSites, err := s.Db.GetRootSites(context.Background(), s.User.ID)
 
 	s.NoError(
 		err,
@@ -160,7 +160,9 @@ func (s *DbSiteTestSuite) TestAddAndGetSite() {
 	subSiteBson["_id"] = createdSubSite.ID.Hex()
 	siteData["subsites"] = []bson.M{subSiteBson}
 
-	fetchedSiteData, err := s.Db.GetSite(context.Background(), createdSite.ID, *site.Owner)
+	fetchedSiteData, err := s.Db.GetSite(
+		context.Background(), createdSite.ID, *site.Owner,
+	)
 
 	s.Require().NoError(
 		err,
@@ -305,7 +307,9 @@ func (s *DbSiteTestSuite) TestAddFlowerToSite() {
 		SiteName:    site.Name,
 	}
 	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
-	err := s.Db.AddFlowerToSite(context.Background(), createdSite.ID, addedFlower.ID)
+	err := s.Db.AddFlowerToSite(
+		context.Background(), createdSite.ID, addedFlower.ID,
+	)
 
 	s.Require().NoError(
 		err,
