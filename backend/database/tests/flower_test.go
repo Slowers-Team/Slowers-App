@@ -155,7 +155,7 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
 	}
 	addedFlower, _ := s.Db.AddFlower(context.Background(), flower)
 
-	fullFlower2 := testdata.GetTestFlowerForUser2()
+	fullFlower2 := testdata.GetFlowerForUser2()
 	flower2 := database.Flower{
 		Name:        fullFlower2.Name,
 		LatinName:   fullFlower2.LatinName,
@@ -262,7 +262,7 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersRelatedToSite() {
 	addedFlower, _ := s.Db.AddFlower(context.Background(), flower)
 	s.Db.AddFlowerToSite(context.Background(), addedSite1.ID, addedFlower.ID)
 
-	fullFlower2 := testdata.GetTestFlowerForUser2()
+	fullFlower2 := testdata.GetFlowerForUser2()
 	flower2 := database.Flower{
 		Name:        fullFlower2.Name,
 		LatinName:   fullFlower2.LatinName,

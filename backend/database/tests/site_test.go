@@ -375,7 +375,7 @@ func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
 	site2.Owner = site.Owner
 	createdSite2, _ := s.Db.AddSite(context.Background(), site2)
 
-	fullFlower2 := testdata.GetTestFlowerForUser2()
+	fullFlower2 := testdata.GetFlowerForUser2()
 	flowerToAdd2 := database.Flower{
 		Name:        fullFlower2.Name,
 		LatinName:   fullFlower2.LatinName,

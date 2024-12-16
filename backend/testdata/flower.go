@@ -63,7 +63,7 @@ func GetFlowers() []database.Flower {
 	}
 }
 
-func GetTestFlowerForUser2() database.Flower {
+func GetFlowerForUser2() database.Flower {
 	flowerID, err := database.ParseID("66fd466f0011335cd891aea8")
 	if err != nil {
 		log.Fatal(err)
