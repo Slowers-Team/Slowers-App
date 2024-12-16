@@ -160,7 +160,7 @@ func (s *DbImageTestSuite) TestAddAndGetImageByID() {
 }
 
 func (s *DbImageTestSuite) TestClearFavoriteImageForFlower() {
-	flowerToAdd := testdata.GetTestFlowers()[0]
+	flowerToAdd := testdata.GetFlowers()[0]
 	flowerToAdd.ID = database.NilObjectID
 	flowerToAdd.FavoriteImage = ""
 	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)

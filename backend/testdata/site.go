@@ -14,7 +14,7 @@ func GetRootSites() []database.Site {
 	if err != nil {
 		log.Fatal(err)
 	}
-	flowerID := GetTestFlowers()[0].ID
+	flowerID := GetFlowers()[0].ID
 	ownerID := GetUsers()[0].ID
 	return []database.Site{
 		{

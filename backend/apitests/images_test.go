@@ -244,7 +244,7 @@ func (s *ImagesAPITestSuite) TestGetImageByID() {
 }
 
 func (s *ImagesAPITestSuite) TestClearFavoriteImageOfFlower() {
-	flower := testdata.GetTestFlowers()[0]
+	flower := testdata.GetFlowers()[0]
 	entityType := "flower"
 	collection := "flowers"
 
@@ -304,7 +304,7 @@ func (s *ImagesAPITestSuite) TestClearFavoriteImageOfSite() {
 }
 
 func (s *ImagesAPITestSuite) TestClearFavoriteImageFailsWithIncorrectEntity() {
-	flower := testdata.GetTestFlowers()[0]
+	flower := testdata.GetFlowers()[0]
 	entityType := "incorrect"
 
 	b := make(map[string]string)

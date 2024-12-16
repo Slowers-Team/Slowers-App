@@ -7,7 +7,7 @@ import (
 	"github.com/Slowers-team/Slowers-App/database"
 )
 
-func GetTestFlowers() []database.Flower {
+func GetFlowers() []database.Flower {
 	flowerIDStrs := []string{
 		"842af389e234e768923475bc",
 		"485a28e70545c378ff29b438",

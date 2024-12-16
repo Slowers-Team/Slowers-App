@@ -294,7 +294,7 @@ func (s *DbSiteTestSuite) TestAddFlowerToSite() {
 	site.Flowers = []*database.ObjectID{}
 	createdSite, _ := s.Db.AddSite(context.Background(), site)
 
-	fullFlower := testdata.GetTestFlowers()[0]
+	fullFlower := testdata.GetFlowers()[0]
 	flowerToAdd := database.Flower{
 		Name:        fullFlower.Name,
 		LatinName:   fullFlower.LatinName,
@@ -351,7 +351,7 @@ func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
 	subSiteBson["_id"] = createdSubSite.ID.Hex()
 	siteData["subsites"] = []bson.M{subSiteBson}
 
-	fullFlower := testdata.GetTestFlowers()[0]
+	fullFlower := testdata.GetFlowers()[0]
 	flowerToAdd := database.Flower{
 		Name:        fullFlower.Name,
 		LatinName:   fullFlower.LatinName,

@@ -23,7 +23,7 @@ type FlowersAPITestSuite struct {
 }
 
 func (s *FlowersAPITestSuite) SetupSuite() {
-	s.TestFlowers = testdata.GetTestFlowers()
+	s.TestFlowers = testdata.GetFlowers()
 }
 
 func (s *FlowersAPITestSuite) TestListingFlowersWithoutError() {
