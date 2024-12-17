@@ -93,8 +93,9 @@ func (s *SitesAPITestSuite) TestAddingSite() {
 				10.0,
 				"added site has invalid AddedTime",
 			)
-			s.True(
-				utils.AreIDPtrSlicesEql(site.Flowers, s.RootSites[0].Flowers),
+			s.Equal(
+				site.Flowers,
+				s.RootSites[0].Flowers,
 				"added site has wrong flowers",
 			)
 			s.Equal(

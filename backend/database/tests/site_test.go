@@ -13,7 +13,6 @@ import (
 	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/Slowers-team/Slowers-App/testdata"
 	"github.com/Slowers-team/Slowers-App/testutils"
-	"github.com/Slowers-team/Slowers-App/utils"
 )
 
 type DbSiteTestSuite struct {
@@ -69,8 +68,9 @@ func (s *DbSiteTestSuite) TestAddSite() {
 		createdSite.Parent,
 		"wrong parent for the site returned from AddSite()",
 	)
-	s.True(
-		utils.AreIDPtrSlicesEql(createdSite.Flowers, site.Flowers),
+	s.Equal(
+		site.Flowers,
+		createdSite.Flowers,
 		"wrong flowers for the site returned from AddSite()",
 	)
 	s.Equal(
@@ -126,8 +126,9 @@ func (s *DbSiteTestSuite) TestAddAndGetRootSites() {
 		rootSites[0].Parent,
 		"wrong parent for the site returned from GetRootSites()",
 	)
-	s.True(
-		utils.AreIDPtrSlicesEql(rootSites[0].Flowers, site.Flowers),
+	s.Equal(
+		site.Flowers,
+		rootSites[0].Flowers,
 		"wrong flowers for the site returned from GetRootSites()",
 	)
 	s.Equal(
