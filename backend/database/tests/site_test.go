@@ -41,7 +41,7 @@ func (s *DbSiteTestSuite) TestAddSite() {
 	}
 	createdSite, err := s.Db.AddSite(context.Background(), site)
 
-	s.NoError(
+	s.Require().NoError(
 		err,
 		"AddSite() should not return an error",
 	)
@@ -92,11 +92,11 @@ func (s *DbSiteTestSuite) TestAddAndGetRootSites() {
 	createdSite, _ := s.Db.AddSite(context.Background(), site)
 	rootSites, err := s.Db.GetRootSites(context.Background(), s.User.ID)
 
-	s.NoError(
+	s.Require().NoError(
 		err,
 		"GetRootSites() should not return an error",
 	)
-	s.Len(
+	s.Require().Len(
 		rootSites,
 		1,
 		"GetRootSites() should return a slice of length 1",
@@ -391,7 +391,7 @@ func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
 
 	deleteResult, err := s.Db.DeleteSite(context.Background(), createdSite.ID, *site.Owner)
 
-	s.NoError(
+	s.Require().NoError(
 		err,
 		"DeleteSite() should not return an error",
 	)

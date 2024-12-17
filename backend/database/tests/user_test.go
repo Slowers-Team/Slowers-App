@@ -34,7 +34,7 @@ func (s *DbUserTestSuite) TestCreateUser() {
 	}
 	newUser, err := s.Db.CreateUser(context.Background(), user)
 
-	s.NoError(
+	s.Require().NoError(
 		err,
 		"CreateUser() should not return an error",
 	)
@@ -84,7 +84,7 @@ func (s *DbUserTestSuite) TestCreateAndGetUser() {
 
 	fetchedUser, err := s.Db.GetUserByEmail(context.Background(), s.User.Email)
 
-	s.NoError(
+	s.Require().NoError(
 		err,
 		"GetUserByEmail() should not return an error",
 	)
@@ -122,7 +122,7 @@ func (s *DbUserTestSuite) TestCreateAndGetUserByID() {
 
 	fetchedUser, err := s.Db.GetUserByID(context.Background(), createdUser.ID)
 
-	s.NoError(
+	s.Require().NoError(
 		err,
 		"GetUserByID() should not return an error",
 	)
@@ -166,7 +166,7 @@ func (s *DbUserTestSuite) TestCreateUserAndChangeRole() {
 
 	err := s.Db.SetUserRole(context.Background(), createdUser.ID, "retailer")
 
-	s.NoError(
+	s.Require().NoError(
 		err,
 		"SetUserRole() should not return an error",
 	)

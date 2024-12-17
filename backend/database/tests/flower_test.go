@@ -27,7 +27,7 @@ func (s *DbFlowerTestSuite) TestAddFlower() {
 	flower := s.Flowers[0]
 	createdFlower, err := s.Db.AddFlower(context.Background(), flower)
 
-	s.NoError(
+	s.Require().NoError(
 		err,
 		"AddFlower() should not return an error",
 	)
@@ -69,11 +69,11 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlower() {
 	s.Db.AddFlower(context.Background(), flower)
 	fetchedFlowers, err := s.Db.GetFlowers(context.Background())
 
-	s.NoError(
+	s.Require().NoError(
 		err,
 		"GetFlowers() should not return an error",
 	)
-	s.Len(
+	s.Require().Len(
 		fetchedFlowers,
 		1,
 		"GetFlowers() should return a slice of length 1",
@@ -409,12 +409,14 @@ func (s *DbFlowerTestSuite) TestDeleteAndGetMultipleFlowers() {
 	}
 
 	err := s.Db.DeleteMultipleFlowers(context.Background(), []database.ObjectID{flowers[0].ID, flowers[1].ID})
-	fetchedFlowers, _ := s.Db.GetFlowers(context.Background())
 
 	s.Require().NoError(
 		err,
 		"DeleteMultipleFlowers() should not return an error",
 	)
+
+	fetchedFlowers, _ := s.Db.GetFlowers(context.Background())
+
 	s.Equal(
 		flowers[2:],
 		fetchedFlowers,

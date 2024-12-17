@@ -81,20 +81,60 @@ func (s *FlowersAPITestSuite) TestAddingFlower() {
 		ExpectedBodyFunc: func(body []byte) {
 			flower := database.Flower{}
 			err := json.Unmarshal(body, &flower)
-			s.NoError(err, "response body should include flower data: \""+string(body)+"\"")
-			s.Equal(s.Flowers[0].ID, flower.ID, "wrong ID in the added flower")
-			s.Equal(s.Flowers[0].Name, flower.Name, "wrong Name in the added flower")
-			s.Equal(s.Flowers[0].LatinName, flower.LatinName, "wrong LatinName in the added flower")
-			s.Less(time.Since(flower.AddedTime).Seconds(), 10.0, "invalid AddedTime in the added flower")
-			s.Equal(s.Flowers[0].Grower, flower.Grower, "wrong Grower in the added flower")
-			s.Equal(s.Flowers[0].Site, flower.Site, "wrong Site in the added flower")
-			s.Equal(s.Flowers[0].Quantity, flower.Quantity, "wrong Quantity in the added flower")
+
+			s.Require().NoError(
+				err,
+				"response body should include flower data: \""+string(body)+"\"",
+			)
+			s.Equal(
+				s.Flowers[0].ID,
+				flower.ID,
+				"wrong ID in the added flower",
+			)
+			s.Equal(
+				s.Flowers[0].Name,
+				flower.Name,
+				"wrong Name in the added flower",
+			)
+			s.Equal(
+				s.Flowers[0].LatinName,
+				flower.LatinName,
+				"wrong LatinName in the added flower",
+			)
+			s.Less(
+				time.Since(flower.AddedTime).Seconds(),
+				10.0,
+				"invalid AddedTime in the added flower",
+			)
+			s.Equal(
+				s.Flowers[0].Grower,
+				flower.Grower,
+				"wrong Grower in the added flower",
+			)
+			s.Equal(
+				s.Flowers[0].Site,
+				flower.Site,
+				"wrong Site in the added flower",
+			)
+			s.Equal(
+				s.Flowers[0].Quantity,
+				flower.Quantity,
+				"wrong Quantity in the added flower",
+			)
 		},
 		SetupMocks: func(db *mocks.Database) {
 			user := testdata.GetUsers()[0]
-			db.EXPECT().GetUserByID(mock.Anything, *s.Flowers[0].Grower).Return(&user, nil).Once()
+			db.EXPECT().GetUserByID(
+				mock.Anything, *s.Flowers[0].Grower,
+			).Return(
+				&user, nil,
+			).Once()
 			sites := testdata.GetRootSites()
-			db.EXPECT().GetSiteByID(mock.Anything, sites[0].ID).Return(&sites[0], nil).Once()
+			db.EXPECT().GetSiteByID(
+				mock.Anything, sites[0].ID,
+			).Return(
+				&sites[0], nil,
+			).Once()
 
 			db.EXPECT().AddFlower(
 				mock.Anything, mock.Anything,

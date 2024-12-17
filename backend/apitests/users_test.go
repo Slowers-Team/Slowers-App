@@ -46,7 +46,10 @@ func (s *UsersAPITestSuite) TestCreatingUser() {
 				Token string `json:"token"`
 			}
 			err := json.Unmarshal([]byte(body), &response)
-			s.NoError(err, "response body should contain a role and a token")
+			s.Require().NoError(
+				err,
+				"response body should contain a role and a token",
+			)
 			s.Equal(
 				s.User.Role,
 				response.Role,

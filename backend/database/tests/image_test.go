@@ -24,7 +24,7 @@ func (s *DbImageTestSuite) TestAddImage() {
 	for _, image := range testdata.GetImagesForAdding() {
 		createdImage, err := s.Db.AddImage(context.Background(), image)
 
-		s.NoError(
+		s.Require().NoError(
 			err,
 			"AddImage() should not return an error",
 		)
@@ -196,6 +196,7 @@ func (s *DbImageTestSuite) TestClearFavoriteImageForFlower() {
 				flower.FavoriteImage,
 				"fetched flower should not have favorite image",
 			)
+			break
 		}
 	}
 }
@@ -240,6 +241,7 @@ func (s *DbImageTestSuite) TestClearFavoriteImageForSite() {
 				site.FavoriteImage,
 				"fetched site should not have favorite image",
 			)
+			break
 		}
 	}
 }
