@@ -25,7 +25,7 @@ const UserInfo = ({ user, handleRoleSwitch, switchedRole }) => {
         </tr>
         <tr>
           <td>{t('user.data.role')}</td>
-          <td>{t(`role.${user.role}`)}</td>
+          <td id="roleValue">{t(`role.${user.role}`)}</td>
           <td><button onClick={handleRoleSwitch} className='custom-button'>{translateRoleButton(switchedRole)}</button></td>
         </tr>
         </tbody>
