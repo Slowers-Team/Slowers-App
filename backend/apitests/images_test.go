@@ -118,7 +118,7 @@ func (s *ImagesAPITestSuite) TestImageUpload() {
 		ExpectedBody: utils.ToJSON(image),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().AddImage(
-				mock.Anything, testdata.GetImagesForAdding()[0],
+				mock.Anything, testdata.PrepareImageForAdding(s.Images[0]),
 			).RunAndReturn(func(ctx context.Context, newImage database.Image) (*database.Image, error) {
 				return &database.Image{
 					ID:         image.ID,

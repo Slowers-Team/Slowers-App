@@ -61,3 +61,9 @@ func GetSite() bson.M {
 		},
 	}
 }
+
+func PrepareSiteForAdding(site database.Site) database.Site {
+	site.ID = database.NilObjectID
+	site.FavoriteImage = ""
+	return site
+}

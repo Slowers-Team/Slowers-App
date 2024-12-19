@@ -10,7 +10,6 @@ import (
 	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/Slowers-team/Slowers-App/testdata"
 	"github.com/Slowers-team/Slowers-App/testutils"
-	"github.com/Slowers-team/Slowers-App/utils"
 )
 
 type DbUserTestSuite struct {
@@ -26,34 +25,32 @@ func (s *DbUserTestSuite) SetupSuite() {
 }
 
 func (s *DbUserTestSuite) TestCreateUser() {
-	hashedPassword, _ := utils.HashPassword(s.User.Password)
-	user := database.User{
-		Username: s.User.Username,
-		Email:    s.User.Email,
-		Password: hashedPassword,
-	}
-	newUser, err := s.Db.CreateUser(context.Background(), user)
+	user := s.User
+	userToAdd := testdata.PrepareUserForAdding(user)
+	addedUser, err := s.Db.CreateUser(context.Background(), userToAdd)
 
 	s.Require().NoError(
 		err,
 		"CreateUser() should not return an error",
 	)
 	s.NotZero(
-		newUser.ID,
+		addedUser.ID,
 		"new user should have non-zero ID",
 	)
 	s.Equal(
-		s.User.Username,
-		newUser.Username,
+		user.Username,
+		addedUser.Username,
 		"wrong username for new user",
 	)
 	s.Equal(
-		s.User.Email,
-		newUser.Email,
+		user.Email,
+		addedUser.Email,
 		"wrong email for new user",
 	)
 	s.NoError(
-		bcrypt.CompareHashAndPassword([]byte(newUser.Password), []byte(s.User.Password)),
+		bcrypt.CompareHashAndPassword(
+			[]byte(addedUser.Password), []byte(user.Password),
+		),
 		"wrong password for new user",
 	)
 }
@@ -73,70 +70,64 @@ func (s *DbUserTestSuite) TestCountUsers() {
 }
 
 func (s *DbUserTestSuite) TestCreateAndGetUser() {
-	hashedPassword, _ := utils.HashPassword(s.User.Password)
-	user := database.User{
-		Username: s.User.Username,
-		Email:    s.User.Email,
-		Password: hashedPassword,
-	}
+	user := s.User
+	userToAdd := testdata.PrepareUserForAdding(user)
+	addedUser, _ := s.Db.CreateUser(context.Background(), userToAdd)
 
-	s.Db.CreateUser(context.Background(), user)
-
-	fetchedUser, err := s.Db.GetUserByEmail(context.Background(), s.User.Email)
+	fetchedUser, err := s.Db.GetUserByEmail(context.Background(), user.Email)
 
 	s.Require().NoError(
 		err,
 		"GetUserByEmail() should not return an error",
 	)
-	s.NotZero(
+	s.Equal(
+		addedUser.ID,
 		fetchedUser.ID,
-		"fetched user should have non-zero ID",
+		"wrong ID for fetched user",
 	)
 	s.Equal(
-		s.User.Username,
+		user.Username,
 		fetchedUser.Username,
 		"wrong username for fetched user",
 	)
 	s.Equal(
-		s.User.Email,
+		user.Email,
 		fetchedUser.Email,
 		"wrong email for fetched user",
 	)
 	s.NoError(
-		bcrypt.CompareHashAndPassword([]byte(fetchedUser.Password), []byte(s.User.Password)),
+		bcrypt.CompareHashAndPassword(
+			[]byte(fetchedUser.Password), []byte(user.Password),
+		),
 		"wrong password for fetched user",
 	)
 }
 
 func (s *DbUserTestSuite) TestCreateAndGetUserByID() {
-	hashedPassword, _ := utils.HashPassword(s.User.Password)
-	user := database.User{
-		Username: s.User.Username,
-		Email:    s.User.Email,
-		Password: hashedPassword,
-		Role:     s.User.Role,
-	}
-	s.Db.CreateUser(context.Background(), user)
+	user := s.User
+	userToAdd := testdata.PrepareUserForAdding(user)
+	s.Db.CreateUser(context.Background(), userToAdd)
 
-	createdUser, _ := s.Db.GetUserByEmail(context.Background(), s.User.Email)
+	addedUser, _ := s.Db.GetUserByEmail(context.Background(), user.Email)
 
-	fetchedUser, err := s.Db.GetUserByID(context.Background(), createdUser.ID)
+	fetchedUser, err := s.Db.GetUserByID(context.Background(), addedUser.ID)
 
 	s.Require().NoError(
 		err,
 		"GetUserByID() should not return an error",
 	)
-	s.NotZero(
+	s.Equal(
+		addedUser.ID,
 		fetchedUser.ID,
-		"fetched user should have non-zero ID",
+		"wrong ID for fetched user",
 	)
 	s.Equal(
-		s.User.Username,
+		user.Username,
 		fetchedUser.Username,
 		"wrong username for fetched user",
 	)
 	s.Equal(
-		s.User.Email,
+		user.Email,
 		fetchedUser.Email,
 		"wrong email for fetched user",
 	)
@@ -146,32 +137,27 @@ func (s *DbUserTestSuite) TestCreateAndGetUserByID() {
 		"fetched user should have empty password",
 	)
 	s.Equal(
-		s.User.Role,
+		user.Role,
 		fetchedUser.Role,
 		"wrong role for fetched user",
 	)
 }
 
 func (s *DbUserTestSuite) TestCreateUserAndChangeRole() {
-	hashedPassword, _ := utils.HashPassword(s.User.Password)
-	user := database.User{
-		Username: s.User.Username,
-		Email:    s.User.Email,
-		Password: hashedPassword,
-		Role:     s.User.Role,
-	}
-	s.Db.CreateUser(context.Background(), user)
+	user := s.User
+	userToAdd := testdata.PrepareUserForAdding(user)
+	s.Db.CreateUser(context.Background(), userToAdd)
 
-	createdUser, _ := s.Db.GetUserByEmail(context.Background(), s.User.Email)
+	fetchedUser, _ := s.Db.GetUserByEmail(context.Background(), user.Email)
 
-	err := s.Db.SetUserRole(context.Background(), createdUser.ID, "retailer")
+	err := s.Db.SetUserRole(context.Background(), fetchedUser.ID, "retailer")
 
 	s.Require().NoError(
 		err,
 		"SetUserRole() should not return an error",
 	)
 
-	editedUser, _ := s.Db.GetUserByEmail(context.Background(), s.User.Email)
+	editedUser, _ := s.Db.GetUserByEmail(context.Background(), user.Email)
 
 	s.Equal(
 		"retailer",

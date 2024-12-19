@@ -26,19 +26,15 @@ func (s *UsersAPITestSuite) SetupSuite() {
 }
 
 func (s *UsersAPITestSuite) TestCreatingUser() {
+	userToAdd := s.User
+	userToAdd.ID = database.NilObjectID
+
 	testutils.RunTest(s.T(), testutils.TestCase{
-		Description: "POST /api/register",
-		Route:       "/api/register",
-		Method:      "POST",
-		ContentType: "application/json",
-		Body: utils.ToJSON(
-			database.User{
-				Username: s.User.Username,
-				Email:    s.User.Email,
-				Password: s.User.Password,
-				Role:     s.User.Role,
-			},
-		),
+		Description:  "POST /api/register",
+		Route:        "/api/register",
+		Method:       "POST",
+		ContentType:  "application/json",
+		Body:         utils.ToJSON(userToAdd),
 		ExpectedCode: 201,
 		ExpectedBodyFunc: func(body []byte) {
 			var response struct {

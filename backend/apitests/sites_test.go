@@ -68,17 +68,11 @@ func (s *SitesAPITestSuite) TestFetchingSite() {
 
 func (s *SitesAPITestSuite) TestAddingSite() {
 	testutils.RunTest(s.T(), testutils.TestCase{
-		Description: "POST /api/sites",
-		Route:       "/api/sites",
-		Method:      "POST",
-		ContentType: "application/json",
-		Body: utils.ToJSON(database.Site{
-			Flowers: s.RootSites[0].Flowers,
-			Name:    s.RootSites[0].Name,
-			Note:    s.RootSites[0].Note,
-			Owner:   s.RootSites[0].Owner,
-			Parent:  s.RootSites[0].Parent,
-		}),
+		Description:  "POST /api/sites",
+		Route:        "/api/sites",
+		Method:       "POST",
+		ContentType:  "application/json",
+		Body:         utils.ToJSON(testdata.PrepareSiteForAdding(s.RootSites[0])),
 		ExpectedCode: 201,
 		ExpectedBodyFunc: func(body []byte) {
 			site := database.Site{}

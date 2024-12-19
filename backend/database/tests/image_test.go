@@ -21,44 +21,48 @@ func (s *DbImageTestSuite) SetupSuite() {
 }
 
 func (s *DbImageTestSuite) TestAddImage() {
-	for _, image := range testdata.GetImagesForAdding() {
-		createdImage, err := s.Db.AddImage(context.Background(), image)
+	for _, image := range testdata.GetImages() {
+		imageToAdd := testdata.PrepareImageForAdding(image)
+		addedImage, err := s.Db.AddImage(context.Background(), imageToAdd)
 
 		s.Require().NoError(
 			err,
 			"AddImage() should not return an error",
 		)
 		s.NotZero(
-			createdImage.ID,
+			addedImage.ID,
 			"ID for the added image should be non-zero",
 		)
 		s.Equal(
 			image.FileFormat,
-			createdImage.FileFormat,
+			addedImage.FileFormat,
 			"wrong file format for the image returned from AddImage()",
 		)
 		s.Equal(
 			image.Note,
-			createdImage.Note,
+			addedImage.Note,
 			"wrong note for the image returned from AddImage()",
 		)
 		s.Equal(
 			*image.Entity,
-			*createdImage.Entity,
+			*addedImage.Entity,
 			"wrong entity for the image returned from AddImage()",
 		)
 		s.Equal(
 			image.Owner,
-			createdImage.Owner,
+			addedImage.Owner,
 			"wrong owner for the image returned from AddImage()",
 		)
 	}
 }
 
 func (s *DbImageTestSuite) TestAddAndDeleteImage() {
-	for _, image := range testdata.GetImagesForAdding() {
-		createdImage, _ := s.Db.AddImage(context.Background(), image)
-		anyDeleted, err := s.Db.DeleteImage(context.Background(), createdImage.ID)
+	for _, image := range testdata.GetImages() {
+		imageToAdd := testdata.PrepareImageForAdding(image)
+		addedImage, _ := s.Db.AddImage(context.Background(), imageToAdd)
+		anyDeleted, err := s.Db.DeleteImage(
+			context.Background(), addedImage.ID,
+		)
 
 		s.True(
 			anyDeleted,
@@ -72,13 +76,17 @@ func (s *DbImageTestSuite) TestAddAndDeleteImage() {
 }
 
 func (s *DbImageTestSuite) TestAddAndGetImageByEntity() {
-	imagesForAdding := testdata.GetImagesForAdding()
+	images := testdata.GetImages()
+	imagesToAdd := []database.Image{
+		testdata.PrepareImageForAdding(images[0]),
+		testdata.PrepareImageForAdding(images[1]),
+	}
 
-	createdImage, _ := s.Db.AddImage(context.Background(), imagesForAdding[0])
-	s.Db.AddImage(context.Background(), imagesForAdding[1])
+	addedImage, _ := s.Db.AddImage(context.Background(), imagesToAdd[0])
+	s.Db.AddImage(context.Background(), imagesToAdd[1])
 
 	fetchedImages, err := s.Db.GetImagesByEntity(
-		context.Background(), imagesForAdding[0].Entity.Hex(),
+		context.Background(), images[0].Entity.Hex(),
 	)
 
 	s.Require().NoError(
@@ -91,27 +99,27 @@ func (s *DbImageTestSuite) TestAddAndGetImageByEntity() {
 		"GetImagesByEntity() should return a slice containing exactly 1 image",
 	)
 	s.Equal(
-		createdImage.ID,
+		addedImage.ID,
 		fetchedImages[0].ID,
 		"wrong ID for the image returned from GetImagesByEntity()",
 	)
 	s.Equal(
-		createdImage.FileFormat,
+		images[0].FileFormat,
 		fetchedImages[0].FileFormat,
 		"wrong file format for the image returned from GetImagesByEntity()",
 	)
 	s.Equal(
-		createdImage.Note,
+		images[0].Note,
 		fetchedImages[0].Note,
 		"wrong note for the image returned from GetImagesByEntity()",
 	)
 	s.Equal(
-		*createdImage.Entity,
+		*images[0].Entity,
 		*fetchedImages[0].Entity,
 		"wrong entity for the image returned from GetImagesByEntity()",
 	)
 	s.Equal(
-		createdImage.Owner,
+		images[0].Owner,
 		fetchedImages[0].Owner,
 		"wrong owner for the image returned from GetImagesByEntity()",
 	)
@@ -119,58 +127,60 @@ func (s *DbImageTestSuite) TestAddAndGetImageByEntity() {
 }
 
 func (s *DbImageTestSuite) TestAddAndGetImageByID() {
-	imagesForAdding := testdata.GetImagesForAdding()
+	images := testdata.GetImages()
+	imagesToAdd := []database.Image{
+		testdata.PrepareImageForAdding(images[0]),
+		testdata.PrepareImageForAdding(images[1]),
+	}
 
-	createdImage, _ := s.Db.AddImage(context.Background(), imagesForAdding[0])
-	s.Db.AddImage(context.Background(), imagesForAdding[1])
+	addedImage, _ := s.Db.AddImage(context.Background(), imagesToAdd[0])
+	s.Db.AddImage(context.Background(), imagesToAdd[1])
 
-	fetchedImage, err := s.Db.GetImageByID(
-		context.Background(), createdImage.ID,
-	)
+	fetchedImage, err := s.Db.GetImageByID(context.Background(), addedImage.ID)
 
 	s.Require().NoError(
 		err,
 		"GetImageByID() should not return an error",
 	)
 	s.Equal(
-		createdImage.ID,
+		addedImage.ID,
 		fetchedImage.ID,
 		"wrong ID for the image returned from GetImageByID()",
 	)
 	s.Equal(
-		createdImage.FileFormat,
+		images[0].FileFormat,
 		fetchedImage.FileFormat,
 		"wrong file format for the image returned from GetImageByID()",
 	)
 	s.Equal(
-		createdImage.Note,
+		images[0].Note,
 		fetchedImage.Note,
 		"wrong note for the image returned from GetImageByID()",
 	)
 	s.Equal(
-		*createdImage.Entity,
+		*images[0].Entity,
 		*fetchedImage.Entity,
 		"wrong entity for the image returned from GetImageByID()",
 	)
 	s.Equal(
-		createdImage.Owner,
+		images[0].Owner,
 		fetchedImage.Owner,
 		"wrong owner for the image returned from GetImageByID()",
 	)
 }
 
 func (s *DbImageTestSuite) TestClearFavoriteImageForFlower() {
-	flowerToAdd := testdata.GetFlowers()[0]
-	flowerToAdd.ID = database.NilObjectID
-	flowerToAdd.FavoriteImage = ""
+	flower := testdata.GetFlowers()[0]
+	flowerToAdd := testdata.PrepareFlowerForAdding(flower)
 	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
 
-	imagesForAdding := testdata.GetImagesForAdding()
-	addedImage, _ := s.Db.AddImage(context.Background(), imagesForAdding[0])
+	image := testdata.GetImages()[0]
+	imageToAdd := testdata.PrepareImageForAdding(image)
+	addedImage, _ := s.Db.AddImage(context.Background(), imageToAdd)
 
 	s.Db.SetFavoriteImage(
 		context.Background(),
-		*flowerToAdd.Grower,
+		*flower.Grower,
 		addedFlower.ID,
 		addedImage.ID,
 		"flowers",
@@ -178,7 +188,7 @@ func (s *DbImageTestSuite) TestClearFavoriteImageForFlower() {
 
 	err := s.Db.ClearFavoriteImage(
 		context.Background(),
-		*flowerToAdd.Grower,
+		*flower.Grower,
 		addedFlower.ID,
 		"flowers",
 	)
@@ -190,10 +200,10 @@ func (s *DbImageTestSuite) TestClearFavoriteImageForFlower() {
 
 	fetchedFlowers, _ := s.Db.GetFlowers(context.Background())
 
-	for _, flower := range fetchedFlowers {
-		if flower.ID == addedFlower.ID {
+	for _, fetchedFlower := range fetchedFlowers {
+		if fetchedFlower.ID == addedFlower.ID {
 			s.Zero(
-				flower.FavoriteImage,
+				fetchedFlower.FavoriteImage,
 				"fetched flower should not have favorite image",
 			)
 			break
@@ -202,17 +212,17 @@ func (s *DbImageTestSuite) TestClearFavoriteImageForFlower() {
 }
 
 func (s *DbImageTestSuite) TestClearFavoriteImageForSite() {
-	siteToAdd := testdata.GetRootSites()[0]
-	siteToAdd.ID = database.NilObjectID
-	siteToAdd.FavoriteImage = ""
+	site := testdata.GetRootSites()[0]
+	siteToAdd := testdata.PrepareSiteForAdding(site)
 	addedSite, _ := s.Db.AddSite(context.Background(), siteToAdd)
 
-	imagesForAdding := testdata.GetImagesForAdding()
-	addedImage, _ := s.Db.AddImage(context.Background(), imagesForAdding[1])
+	image := testdata.GetImages()[1]
+	imageToAdd := testdata.PrepareImageForAdding(image)
+	addedImage, _ := s.Db.AddImage(context.Background(), imageToAdd)
 
 	s.Db.SetFavoriteImage(
 		context.Background(),
-		*siteToAdd.Owner,
+		*site.Owner,
 		addedSite.ID,
 		addedImage.ID,
 		"sites",
@@ -220,7 +230,7 @@ func (s *DbImageTestSuite) TestClearFavoriteImageForSite() {
 
 	err := s.Db.ClearFavoriteImage(
 		context.Background(),
-		*siteToAdd.Owner,
+		*site.Owner,
 		addedSite.ID,
 		"sites",
 	)
@@ -232,13 +242,13 @@ func (s *DbImageTestSuite) TestClearFavoriteImageForSite() {
 
 	fetchedSites, _ := s.Db.GetRootSites(
 		context.Background(),
-		*siteToAdd.Owner,
+		*site.Owner,
 	)
 
-	for _, site := range fetchedSites {
-		if site.ID == addedSite.ID {
+	for _, fetchedSite := range fetchedSites {
+		if fetchedSite.ID == addedSite.ID {
 			s.Zero(
-				site.FavoriteImage,
+				fetchedSite.FavoriteImage,
 				"fetched site should not have favorite image",
 			)
 			break

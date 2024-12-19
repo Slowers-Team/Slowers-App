@@ -30,110 +30,98 @@ func (s *DbSiteTestSuite) SetupSuite() {
 }
 
 func (s *DbSiteTestSuite) TestAddSite() {
-	site := database.Site{
-		Name:      s.Site.Name,
-		AddedTime: s.Site.AddedTime,
-		Note:      s.Site.Note,
-		Parent:    s.Site.Parent,
-		Flowers:   s.Site.Flowers,
-		Owner:     s.Site.Owner,
-	}
-	createdSite, err := s.Db.AddSite(context.Background(), site)
+	site := s.Site
+	siteToAdd := testdata.PrepareSiteForAdding(site)
+	addedSite, err := s.Db.AddSite(context.Background(), siteToAdd)
 
 	s.Require().NoError(
 		err,
 		"AddSite() should not return an error",
 	)
 	s.NotZero(
-		createdSite.ID,
+		addedSite.ID,
 		"ID for the created site should be non-zero",
 	)
 	s.Equal(
 		site.Name,
-		createdSite.Name,
+		addedSite.Name,
 		"wrong name for the site returned from AddSite()",
 	)
 	s.Equal(
 		site.AddedTime,
-		createdSite.AddedTime,
+		addedSite.AddedTime,
 		"wrong AddedTime for the site returned from AddSite()",
 	)
 	s.Equal(
 		site.Note,
-		createdSite.Note,
+		addedSite.Note,
 		"wrong note for the site returned from AddSite()",
 	)
 	s.Equal(
 		site.Parent,
-		createdSite.Parent,
+		addedSite.Parent,
 		"wrong parent for the site returned from AddSite()",
 	)
 	s.Equal(
 		site.Flowers,
-		createdSite.Flowers,
+		addedSite.Flowers,
 		"wrong flowers for the site returned from AddSite()",
 	)
 	s.Equal(
 		site.Owner,
-		createdSite.Owner,
+		addedSite.Owner,
 		"wrong owner for the site returned from AddSite()",
 	)
 }
 
 func (s *DbSiteTestSuite) TestAddAndGetRootSites() {
-	site := database.Site{
-		Name:      s.Site.Name,
-		AddedTime: s.Site.AddedTime,
-		Note:      s.Site.Note,
-		Parent:    s.Site.Parent,
-		Flowers:   s.Site.Flowers,
-		Owner:     s.Site.Owner,
-	}
-	createdSite, _ := s.Db.AddSite(context.Background(), site)
-	rootSites, err := s.Db.GetRootSites(context.Background(), s.User.ID)
+	site := s.Site
+	siteToAdd := testdata.PrepareSiteForAdding(site)
+	addedSite, _ := s.Db.AddSite(context.Background(), siteToAdd)
+	fetchedSites, err := s.Db.GetRootSites(context.Background(), s.User.ID)
 
 	s.Require().NoError(
 		err,
 		"GetRootSites() should not return an error",
 	)
 	s.Require().Len(
-		rootSites,
+		fetchedSites,
 		1,
 		"GetRootSites() should return a slice of length 1",
 	)
 	s.Equal(
-		createdSite.ID,
-		rootSites[0].ID,
+		addedSite.ID,
+		fetchedSites[0].ID,
 		"ID for the fetched site should be non-zero",
 	)
 	s.Equal(
 		site.Name,
-		rootSites[0].Name,
+		fetchedSites[0].Name,
 		"wrong name for the site returned from GetRootSites()",
 	)
 	s.Equal(
 		site.AddedTime,
-		rootSites[0].AddedTime,
+		fetchedSites[0].AddedTime,
 		"wrong AddedTime for the site returned from GetRootSites()",
 	)
 	s.Equal(
 		site.Note,
-		rootSites[0].Note,
+		fetchedSites[0].Note,
 		"wrong note for the site returned from GetRootSites()",
 	)
 	s.Equal(
 		site.Parent,
-		rootSites[0].Parent,
+		fetchedSites[0].Parent,
 		"wrong parent for the site returned from GetRootSites()",
 	)
 	s.Equal(
 		site.Flowers,
-		rootSites[0].Flowers,
+		fetchedSites[0].Flowers,
 		"wrong flowers for the site returned from GetRootSites()",
 	)
 	s.Equal(
 		site.Owner,
-		rootSites[0].Owner,
+		fetchedSites[0].Owner,
 		"wrong owner for the site returned from GetRootSites()",
 	)
 }
@@ -142,27 +130,27 @@ func (s *DbSiteTestSuite) TestAddAndGetSite() {
 	siteData := testdata.GetSite()
 
 	site := siteData["site"].(database.Site)
-	site.ID = database.NilObjectID
-	createdSite, _ := s.Db.AddSite(context.Background(), site)
+	siteToAdd := testdata.PrepareSiteForAdding(site)
+	addedSite, _ := s.Db.AddSite(context.Background(), siteToAdd)
 
 	subSiteBson := siteData["subsites"].([]bson.M)[0]
 	subSite := database.Site{
 		Name:      subSiteBson["name"].(string),
 		AddedTime: time.Date(2024, 9, 19, 12, 11, 4, 0, time.UTC),
 		Note:      subSiteBson["note"].(string),
-		Parent:    &createdSite.ID,
+		Parent:    &addedSite.ID,
 		Flowers:   []*database.ObjectID{},
 		Owner:     site.Owner,
 	}
-	createdSubSite, _ := s.Db.AddSite(context.Background(), subSite)
+	addedSubSite, _ := s.Db.AddSite(context.Background(), subSite)
 
-	site.ID = createdSite.ID
+	site.ID = addedSite.ID
 	siteData["site"] = site
-	subSiteBson["_id"] = createdSubSite.ID.Hex()
+	subSiteBson["_id"] = addedSubSite.ID.Hex()
 	siteData["subsites"] = []bson.M{subSiteBson}
 
 	fetchedSiteData, err := s.Db.GetSite(
-		context.Background(), createdSite.ID, *site.Owner,
+		context.Background(), addedSite.ID, *site.Owner,
 	)
 
 	s.Require().NoError(
@@ -184,7 +172,7 @@ func (s *DbSiteTestSuite) TestAddAndGetSite() {
 	fetchedSubSites := fetchedSiteData["subsites"].([]bson.M)
 
 	s.Equal(
-		createdSite.ID,
+		addedSite.ID,
 		fetchedSite.ID,
 		"wrong ID for the site returned from GetSite()",
 	)
@@ -226,7 +214,7 @@ func (s *DbSiteTestSuite) TestAddAndGetSite() {
 	)
 
 	s.Equal(
-		createdSubSite.ID,
+		addedSubSite.ID,
 		fetchedSubSites[0]["_id"],
 		"wrong ID for the subsite returned from GetSite()",
 	)
@@ -243,11 +231,11 @@ func (s *DbSiteTestSuite) TestAddAndGetSite() {
 }
 
 func (s *DbSiteTestSuite) TestAddAndGetSiteByID() {
-	site := testdata.GetRootSites()[0]
-	site.ID = database.NilObjectID
-	createdSite, _ := s.Db.AddSite(context.Background(), site)
+	site := s.Site
+	siteToAdd := testdata.PrepareSiteForAdding(site)
+	addedSite, _ := s.Db.AddSite(context.Background(), siteToAdd)
 
-	fetchedSite, err := s.Db.GetSiteByID(context.Background(), createdSite.ID)
+	fetchedSite, err := s.Db.GetSiteByID(context.Background(), addedSite.ID)
 
 	s.Require().NoError(
 		err,
@@ -255,7 +243,7 @@ func (s *DbSiteTestSuite) TestAddAndGetSiteByID() {
 	)
 
 	s.Equal(
-		createdSite.ID,
+		addedSite.ID,
 		fetchedSite.ID,
 		"wrong ID for the site returned from GetSiteByID()",
 	)
@@ -292,24 +280,17 @@ func (s *DbSiteTestSuite) TestAddAndGetSiteByID() {
 }
 
 func (s *DbSiteTestSuite) TestAddFlowerToSite() {
-	site := testdata.GetRootSites()[0]
-	site.ID = database.NilObjectID
+	site := s.Site
 	site.Flowers = []*database.ObjectID{}
-	createdSite, _ := s.Db.AddSite(context.Background(), site)
+	siteToAdd := testdata.PrepareSiteForAdding(site)
+	addedSite, _ := s.Db.AddSite(context.Background(), siteToAdd)
 
-	fullFlower := testdata.GetFlowers()[0]
-	flowerToAdd := database.Flower{
-		Name:        fullFlower.Name,
-		LatinName:   fullFlower.LatinName,
-		AddedTime:   fullFlower.AddedTime,
-		Grower:      fullFlower.Grower,
-		GrowerEmail: testdata.GetUsers()[0].Email,
-		Site:        &createdSite.ID,
-		SiteName:    site.Name,
-	}
+	flower := testdata.GetFlowers()[0]
+	flower.Site = &addedSite.ID
+	flowerToAdd := testdata.PrepareFlowerForAdding(flower)
 	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
 	err := s.Db.AddFlowerToSite(
-		context.Background(), createdSite.ID, addedFlower.ID,
+		context.Background(), addedSite.ID, addedFlower.ID,
 	)
 
 	s.Require().NoError(
@@ -317,7 +298,7 @@ func (s *DbSiteTestSuite) TestAddFlowerToSite() {
 		"AddFlowerToSite() should not return an error",
 	)
 
-	fetchedSite, _ := s.Db.GetSiteByID(context.Background(), createdSite.ID)
+	fetchedSite, _ := s.Db.GetSiteByID(context.Background(), addedSite.ID)
 
 	s.Require().Len(
 		fetchedSite.Flowers,
@@ -336,61 +317,47 @@ func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
 	siteData := testdata.GetSite()
 
 	site := siteData["site"].(database.Site)
-	site.ID = database.NilObjectID
 	site.Flowers = []*database.ObjectID{}
-	createdSite, _ := s.Db.AddSite(context.Background(), site)
+	siteToAdd := testdata.PrepareSiteForAdding(site)
+	addedSite, _ := s.Db.AddSite(context.Background(), siteToAdd)
 
 	subSiteBson := siteData["subsites"].([]bson.M)[0]
 	subSite := database.Site{
 		Name:      subSiteBson["name"].(string),
 		AddedTime: time.Date(2024, 9, 19, 12, 11, 4, 0, time.UTC),
 		Note:      subSiteBson["note"].(string),
-		Parent:    &createdSite.ID,
+		Parent:    &addedSite.ID,
 		Flowers:   []*database.ObjectID{},
 		Owner:     site.Owner,
 	}
-	createdSubSite, _ := s.Db.AddSite(context.Background(), subSite)
+	addedSubSite, _ := s.Db.AddSite(context.Background(), subSite)
 
-	site.ID = createdSite.ID
+	site.ID = addedSite.ID
 	siteData["site"] = site
-	subSiteBson["_id"] = createdSubSite.ID.Hex()
+	subSiteBson["_id"] = addedSubSite.ID.Hex()
 	siteData["subsites"] = []bson.M{subSiteBson}
 
-	fullFlower := testdata.GetFlowers()[0]
-	flowerToAdd := database.Flower{
-		Name:        fullFlower.Name,
-		LatinName:   fullFlower.LatinName,
-		AddedTime:   fullFlower.AddedTime,
-		Grower:      fullFlower.Grower,
-		GrowerEmail: testdata.GetUsers()[0].Email,
-		Site:        &createdSite.ID,
-		SiteName:    site.Name,
-		Visible:     fullFlower.Visible,
-	}
+	flower := testdata.GetFlowers()[0]
+	flower.Site = &addedSite.ID
+	flowerToAdd := testdata.PrepareFlowerForAdding(flower)
 	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
-	s.Db.AddFlowerToSite(context.Background(), createdSite.ID, addedFlower.ID)
+	s.Db.AddFlowerToSite(context.Background(), addedSite.ID, addedFlower.ID)
 
 	site2 := testdata.GetRootSitesForUser2()[0]
-	site2.ID = database.NilObjectID
 	site2.Flowers = []*database.ObjectID{}
 	site2.Owner = site.Owner
-	createdSite2, _ := s.Db.AddSite(context.Background(), site2)
+	siteToAdd2 := testdata.PrepareSiteForAdding(site2)
+	addedSite2, _ := s.Db.AddSite(context.Background(), siteToAdd2)
 
-	fullFlower2 := testdata.GetFlowerForUser2()
-	flowerToAdd2 := database.Flower{
-		Name:        fullFlower2.Name,
-		LatinName:   fullFlower2.LatinName,
-		AddedTime:   fullFlower2.AddedTime,
-		Grower:      fullFlower.Grower,
-		GrowerEmail: testdata.GetUsers()[0].Email,
-		Site:        &createdSite2.ID,
-		SiteName:    site2.Name,
-		Visible:     fullFlower2.Visible,
-	}
+	flower2 := testdata.GetFlowerForUser2()
+	flower2.Site = &addedSite2.ID
+	flowerToAdd2 := testdata.PrepareFlowerForAdding(flower2)
 	addedFlower2, _ := s.Db.AddFlower(context.Background(), flowerToAdd2)
-	s.Db.AddFlowerToSite(context.Background(), createdSite2.ID, addedFlower2.ID)
+	s.Db.AddFlowerToSite(context.Background(), addedSite2.ID, addedFlower2.ID)
 
-	deleteResult, err := s.Db.DeleteSite(context.Background(), createdSite.ID, *site.Owner)
+	deleteResult, err := s.Db.DeleteSite(
+		context.Background(), addedSite.ID, *site.Owner,
+	)
 
 	s.Require().NoError(
 		err,
@@ -417,22 +384,22 @@ func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
 		)
 	}
 
-	rootSites, _ := s.Db.GetRootSites(context.Background(), *site.Owner)
+	fetchedSites, _ := s.Db.GetRootSites(context.Background(), *site.Owner)
 
 	oneRootSiteLeft := s.Len(
-		rootSites,
+		fetchedSites,
 		1,
 		"DeleteSite() should only delete the selected site and its descendants",
 	)
 	if oneRootSiteLeft {
 		s.Equal(
-			createdSite2.ID,
-			rootSites[0].ID,
+			addedSite2.ID,
+			fetchedSites[0].ID,
 			"wrong root site left after calling DeleteSite()",
 		)
 	}
 
-	_, err = s.Db.GetSiteByID(context.Background(), createdSubSite.ID)
+	_, err = s.Db.GetSiteByID(context.Background(), addedSubSite.ID)
 
 	s.Equal(
 		mongo.ErrNoDocuments,

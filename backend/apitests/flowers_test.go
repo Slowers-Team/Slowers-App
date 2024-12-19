@@ -66,17 +66,11 @@ func (s *FlowersAPITestSuite) TestListingFlowersWithError() {
 
 func (s *FlowersAPITestSuite) TestAddingFlower() {
 	testutils.RunTest(s.T(), testutils.TestCase{
-		Description: "POST /api/flowers",
-		Route:       "/api/flowers",
-		Method:      "POST",
-		ContentType: "application/json",
-		Body: utils.ToJSON(database.Flower{
-			Name:      s.Flowers[0].Name,
-			LatinName: s.Flowers[0].LatinName,
-			Grower:    s.Flowers[0].Grower,
-			Site:      s.Flowers[0].Site,
-			Quantity:  s.Flowers[0].Quantity,
-		}),
+		Description:  "POST /api/flowers",
+		Route:        "/api/flowers",
+		Method:       "POST",
+		ContentType:  "application/json",
+		Body:         utils.ToJSON(testdata.PrepareFlowerForAdding(s.Flowers[0])),
 		ExpectedCode: 201,
 		ExpectedBodyFunc: func(body []byte) {
 			flower := database.Flower{}

@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/utils"
 )
 
 func GetUsers() []database.User {
@@ -37,4 +38,11 @@ func GetUsers() []database.User {
 			Role:     "grower",
 		},
 	}
+}
+
+func PrepareUserForAdding(user database.User) database.User {
+	user.ID = database.NilObjectID
+	hashedPassword, _ := utils.HashPassword(user.Password)
+	user.Password = hashedPassword
+	return user
 }
