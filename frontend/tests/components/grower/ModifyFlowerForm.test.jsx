@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { render, screen } from '@testing-library/react'
-import ModifyFlowerForm from '../../src/components/ModifyFlowerForm'
+import ModifyFlowerForm from '../../../src/components/grower/ModifyFlowerForm'
 import { expect, test, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 

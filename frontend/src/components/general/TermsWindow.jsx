@@ -1,4 +1,4 @@
-import '../Misc.css'
+import '../../Misc.css'
 
 const TermsWindow = () => {
   return (

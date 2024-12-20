@@ -1,6 +1,6 @@
 import '../../layouts/Retailer.css'
 import { useTranslation } from 'react-i18next'
-import FlowerModal from '../FlowerModal.jsx'
+import FlowerModal from '../flower/FlowerModal'
 import { useState, useEffect } from "react"
 import { Button, Table } from 'react-bootstrap'
 import ImageService from '../../services/images'

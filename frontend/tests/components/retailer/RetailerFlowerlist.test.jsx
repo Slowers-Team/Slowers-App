@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor, within } from '@testing-library/react'
-import RetailerFlowerList from '../../src/components/retailer/RetailerFlowerList'
+import RetailerFlowerList from '../../../src/components/retailer/RetailerFlowerList'
 
 test('searches correctly when typing in the search box', async () => {
     const flowers = [

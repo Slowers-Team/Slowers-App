@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import SiteService from "../services/sites";
-import SiteFlexbox from "../components/SiteFlexbox";
 import { useTranslation } from "react-i18next";
 import { Container } from 'react-bootstrap'
 
@@ -93,12 +92,10 @@ const GrowerSitesPage = () => {
               {t("button.deletethissite")}
             </button>
           </div>
-          <SiteFlexbox createSite={createSite} sites={sites}/>
         </div>
       ) : (
         <div>
           <h2 className="mb-3">{t("title.sites")}</h2>
-          <SiteFlexbox createSite={createSite} sites={sites}/>
         </div>
       )}
     </Container>

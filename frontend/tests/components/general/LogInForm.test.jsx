@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import LogInForm from '../../src/components/LogInForm'
+import LogInForm from '../../../src/components/general/LogInForm'
 import { expect, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 

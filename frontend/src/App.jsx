@@ -17,7 +17,7 @@ import {
 } from "react-router-dom";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import NavigationBar from "./components/NavigationBar";
+import NavigationBar from "./components/general/NavigationBar";
 import { Authenticator } from "./Authenticator";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 

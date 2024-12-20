@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Container } from 'react-bootstrap'
 import SiteService from "../services/sites";
-import SiteMasonry from "../components/SiteMasonry";
-import AddSite from "../components/AddSite";
+import SiteMasonry from "../components/grower/SiteMasonry";
+import AddSite from "../components/grower/AddSite";
 
 const GrowerHomePage = () => {
   const params = useParams();

@@ -1,7 +1,7 @@
 import { Modal, Tabs, Tab } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import FlowerInfoTab from './FlowerInfoTab'
-import FlowerImageTab from './image/FlowerImageTab'
+import FlowerImageTab from './FlowerImageTab'
 import "./FlowerModal.css"
 
 

@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { render, screen } from '@testing-library/react'
-import LangSelect from '../../src/components/LangSelect'
+import LangSelect from '../../../src/components/general/LangSelect'
 import { expect } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import i18n from '../../src/i18n'
+import i18n from '../../../src/i18n'
 
 test('renders LangSelect with "en" and "fi" options', () => {
   render(<LangSelect />)

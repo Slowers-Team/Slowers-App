@@ -1,5 +1,5 @@
 import userService from "../services/users";
-import RegisterForm from "../components/RegisterForm";
+import RegisterForm from "../components/general/RegisterForm";
 import { Authenticator } from "../Authenticator";
 import { useTranslation } from "react-i18next";
 import { useFetcher } from "react-router-dom";

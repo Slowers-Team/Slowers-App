@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import ImageService from '../../services/images'
 import FlowerService from '../../services/flowers'
-import AddImage from './AddImage'
-import ImageGallery from './ImageGallery'
+import AddImage from '../image/AddImage'
+import ImageGallery from '../image/ImageGallery'
 
 const FlowerImageTab = ({ isGrower, flower, updateFlower }) => {
     const { t } = useTranslation()
