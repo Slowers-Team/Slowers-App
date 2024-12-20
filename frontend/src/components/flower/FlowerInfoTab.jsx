@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
-import VisibilitySwitch from './VisibilitySwitch'
-import ModifyFlowerForm from './ModifyFlowerForm'
+import VisibilitySwitch from '../grower/VisibilitySwitch'
+import ModifyFlowerForm from '../grower/ModifyFlowerForm'
 import "./FlowerModal.css"
-import { formatTime } from "../utils.js"
+import { formatTime } from "../../utils.js"
 
 const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlower, handleClose}) => {
 	const [isModifyFormVisible, setIsModifyFormVisible] = useState(false)

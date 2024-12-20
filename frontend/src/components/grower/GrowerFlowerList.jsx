@@ -1,7 +1,7 @@
 import '../../layouts/Grower.css'
 import ImageService from '../../services/images'
 import '../image/FlowerListImage.css'
-import FlowerModal from '../FlowerModal.jsx'
+import FlowerModal from '../flower/FlowerModal.jsx'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import '../../App.css'

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import TermsWindow from "../components/TermsWindow"
+import TermsWindow from "../components/general/TermsWindow"
 import { useTranslation } from "react-i18next"
 import { Container } from "react-bootstrap"
 

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import AddSite from '../../src/components/AddSite'
+import AddSite from '../../../src/components/grower/AddSite'
 import userEvent from '@testing-library/user-event'
 import { test, vi } from 'vitest'
 

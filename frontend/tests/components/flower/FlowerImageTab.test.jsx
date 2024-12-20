@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { test, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import FlowerImageTab from '../../../src/components/image/FlowerImageTab'
+import FlowerImageTab from '../../../src/components/flower/FlowerImageTab'
 
 test('renders FlowerImageTab as grower', () => {
     const flower = { _id: 'flowerId' }

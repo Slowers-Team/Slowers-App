@@ -1,5 +1,5 @@
 import { useNavigate, useFetcher } from "react-router-dom";
-import LogInForm from "../components/LogInForm";
+import LogInForm from "../components/general/LogInForm";
 import { useTranslation } from "react-i18next";
 import { Authenticator } from "../Authenticator";
 

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { expect, test, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import FlowerInfoTab from '../../src/components/FlowerInfoTab'
+import FlowerInfoTab from '../../../src/components/flower/FlowerInfoTab'
 
 test('renders FlowerInfoTab as grower', () => {
     const flower = { 

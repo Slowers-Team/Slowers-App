@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Masonry from 'react-masonry-css'
-import ImageService from '../services/images'
-import '../Misc.css'
+import ImageService from '../../services/images'
+import '../../Misc.css'
 
 const SiteMasonry = ({ sites }) => {
   const [images, setImages] = useState([])

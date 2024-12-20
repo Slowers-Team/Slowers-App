@@ -1,7 +1,7 @@
 import { Modal, Button } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
-import FlowerForm from '../FlowerForm'
+import FlowerForm from './FlowerForm'
 
 const AddFlower = ({ createFlower, siteID }) => {
     const { t, i18n } = useTranslation()

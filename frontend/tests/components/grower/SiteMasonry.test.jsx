@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import { expect, test, vi } from 'vitest'
 import { BrowserRouter } from 'react-router-dom'
-import SiteMasonry from '../../src/components/SiteMasonry'
-import ImageService from '../../src/services/images'
+import SiteMasonry from '../../../src/components/grower/SiteMasonry'
+import ImageService from '../../../src/services/images'
 
 test('renders SiteMasonry', async () => {
   const sites = [{ 

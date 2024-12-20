@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import userService from "../services/users";
-import UserInfo from "../components/UserInfo";
+import UserInfo from "../components/general/UserInfo";
 import { Authenticator } from "../Authenticator";
 import { Container } from "react-bootstrap";
 

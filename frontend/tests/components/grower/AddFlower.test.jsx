@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import AddFlower from '../../src/components/grower/AddFlower'
+import AddFlower from '../../../src/components/grower/AddFlower'
 import userEvent from '@testing-library/user-event'
 
 test('renders add flower button', () => {

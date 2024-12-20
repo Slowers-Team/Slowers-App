@@ -1,4 +1,4 @@
-import flowerService from '../services/flowers'
+import flowerService from '../../services/flowers'
 import { useState } from 'react' 
 import { useTranslation } from 'react-i18next'
 import Form from 'react-bootstrap/Form'
