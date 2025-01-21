@@ -2,7 +2,6 @@
   "en": {
     "translation": {
       "alert": {
-        "usercreated": "User created successfully",
         "imageuploaded": "Image uploaded succesfully"
       },
       "button": {
@@ -138,7 +137,6 @@
   "fi": {
     "translation": {
       "alert": {
-        "usercreated": "Tili luotu onnistuneesti",
         "imageuploaded": "Kuva lähetetty onnistuneesti"
       },
       "button": {

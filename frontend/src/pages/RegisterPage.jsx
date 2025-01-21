@@ -13,7 +13,6 @@ const RegisterPage = () => {
       .create(userObject)
       .then((data) => {
         Authenticator.login(data);
-        alert(t("alert.usercreated"));
         fetcher.submit({ data: data }, { action: "/login", method: "post" });
       })
       .catch((error) => {
