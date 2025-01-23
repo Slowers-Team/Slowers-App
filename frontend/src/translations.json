@@ -28,7 +28,7 @@
       },
       "error": {
         "acceptterms": "You must accept the terms",
-        "addingfailed": "Adding failed",
+        "addingfailed": "Failed to add",
         "allfieldsarerequired": "All fields are required",
         "emailalreadyexists": "Email already exists",
         "error": "Error",
@@ -272,12 +272,12 @@
   "sv": {
     "translation": {
       "alert": {
-        "imageuploaded": "Fotot har skickats"
+        "imageuploaded": "Bilden har skickats"
       },
       "button": {
         "addflower": "Lägga till en ny blomma",
         "addsite": "Lägga till ett nytt område",
-        "addimage": "Lägga till ett nytt foto",
+        "addimage": "Lägga till en ny bild",
         "back": "Tilbaka",
         "delete": "Radera",
         "deletethissite": "Radera området",
@@ -289,7 +289,7 @@
         "switchToGrower": "Byta rollen mot odlare",
         "flowerpage": "Blommasidan",
         "showFlower": "Visa för återförsäljaren",
-        "hideFlower": "Gömma för återförsäljaren",
+        "hideFlower": "Dölja för återförsäljaren",
         "close": "Stäng",
         "cancel": "Ångra",
         "update": "Uppdatera",
@@ -297,43 +297,43 @@
         "modify": "Redigera"
       },
       "error": {
-        "acceptterms": "You must accept the terms",
-        "addingfailed": "Adding failed",
-        "allfieldsarerequired": "All fields are required",
-        "emailalreadyexists": "Email already exists",
-        "error": "Error",
-        "erroroccured": "An error occurred. Please try again.",
-        "invalidemail": "Invalid email",
-        "invalidlogininfo": "Invalid email or password",
-        "sitenamecannotbeempty": "Site name cannot be empty",
-        "modifyingfailed": "Editing failed",
-        "noimagesinflower": "At least one image has to be attached to a flower before its visibility can be changed."
+        "acceptterms": "Du måste acceptera villkor",
+        "addingfailed": "Misslyckades med att lägga till",
+        "allfieldsarerequired": "Alla fält krävs",
+        "emailalreadyexists": "E-postadressen finns redan",
+        "error": "Fel",
+        "erroroccured": "Ett fel inträffade. Försök igen.",
+        "invalidemail": "Ogiltig e-postadress",
+        "invalidlogininfo": "Ogiltig e-postadress eller lösenord",
+        "sitenamecannotbeempty": "Områdesnamet kan inte vara tomt",
+        "modifyingfailed": "Misslyckades med att redigera",
+        "noimagesinflower": "Minst en bild måste fästas på en blomma innan dess synlighet kan ändras."
       },
       "flower": {
         "data": {
-          "name": "Name",
-          "latinname": "Latin name",
-          "addedtime": "Added time",
-          "grower": "Grower",
-          "site": "Site",
-          "qty": "Qty",
-          "image": "Image"
+          "name": "Namn",
+          "latinname": "Latinskt namn",
+          "addedtime": "Tilläggningstid",
+          "grower": "Odlare ",
+          "site": "Område",
+          "qty": "St",
+          "image": "Bild"
         },
         "visible": {
-          "long": "Visible to retailers",
-          "short": "Visible",
-          "true": "Yes",
-          "false": "No"
+          "long": "Synlig till återförsäljare",
+          "short": "Synlig",
+          "true": "Ja",
+          "false": "Nej"
         }
       },
       "image": {
-        "note": "Note",
-        "select": "Select image",
-        "title": "Add a new image",
-        "confirmimagedeletion": "Confirm image deletion",
-        "flowerwillbehidden": "If you delete the last image, the flower will be hidden from retailers",
-        "noflowerimages": "This flower doesn't have any images yet",
-        "nositeimages": "This site doesn't have any images yet"
+        "note": "Anteckning",
+        "select": "Välja en bild",
+        "title": "Lägga till en ny bild",
+        "confirmimagedeletion": "Bekräfta borttagning av bilden",
+        "flowerwillbehidden": "Blomman kommer att döljas för återförsäljare om du raderar den sista bilden",
+        "noflowerimages": "Blomman har inga bilder än",
+        "nositeimages": "Området har inga bilder än"
       },
       "label": {
         "confirmflowerdeletion": "Are you sure you want to delete the flower",
