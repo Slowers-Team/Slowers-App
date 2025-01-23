@@ -100,6 +100,33 @@ const RetailerFlowerList = ({ flowers }) => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
+      
+      Hae näiden kenttien perusteella:
+      <br></br>
+      <label class="checkbox_container">nimi
+        <input type="checkbox"></input>
+        <span class="checkmark"></span>
+      </label>
+      <label class="checkbox_container">Tieteellinen nimi
+        <input type="checkbox" ></input>
+        <span class="checkmark"></span>
+      </label>
+      <label class="checkbox_container">Lisäysaika
+        <input type="checkbox" ></input>
+        <span class="checkmark"></span>
+      </label>
+      <label class="checkbox_container">Kasvattaja
+        <input type="checkbox"></input>
+        <span class="checkmark"></span>
+      </label>
+      <label class="checkbox_container">Kpl
+        <input type="checkbox"></input>
+        <span class="checkmark"></span>
+      </label>
+
+
+
+
       <table id="retailerFlowerList" className="table table-hover align-middle">
         <thead>
           <tr>
