@@ -1,19 +1,16 @@
 import userService from "../services/users";
 import RegisterForm from "../components/RegisterForm";
-import { Authenticator } from "../Authenticator";
 import { useTranslation } from "react-i18next";
-import { useFetcher } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
   const { t, i18n } = useTranslation();
-  const fetcher = useFetcher();
-
+  const navigate = useNavigate();
   const createNewUser = (userObject) => {
     userService
       .create(userObject)
-      .then((data) => {
-        Authenticator.login(data);
-        fetcher.submit({ data: data }, { action: "/login", method: "post" });
+      .then(() => {
+        navigate("/login");
       })
       .catch((error) => {
         const key =
