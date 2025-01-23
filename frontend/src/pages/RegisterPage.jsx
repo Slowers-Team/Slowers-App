@@ -2,12 +2,15 @@ import userService from "../services/users";
 import RegisterForm from "../components/RegisterForm";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const RegisterPage = () => {
   const { t, i18n } = useTranslation();
+  const [errorMessage, setErrorMessage] = useState("")
   const navigate = useNavigate();
+
   const createNewUser = (userObject) => {
-    userService
+    return userService
       .create(userObject)
       .then(() => {
         navigate("/login");
@@ -15,11 +18,9 @@ const RegisterPage = () => {
       .catch((error) => {
         const key =
           "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, "");
-        alert(
-          t("error.error") +
-            ": " +
-            (i18n.exists(key) ? t(key) : error.response.data),
-        );
+        
+        setErrorMessage(i18n.exists(key) ? t(key) : error.response.data);
+        throw error;
       });
   };
 
