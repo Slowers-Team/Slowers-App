@@ -7,6 +7,7 @@ const RegisterForm = ({ createNewUser }) => {
     const [newEmail, setNewEmail] = useState('')
     const [newRole, setNewRole] = useState('')
     const [termsAccepted, setTermsAccepted] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
     const { t, i18n } = useTranslation()
 
     const addUser = event => {
@@ -22,15 +23,23 @@ const RegisterForm = ({ createNewUser }) => {
             role: newRole
         })
 
-        setNewUsername('')
-        setNewPassword('')
-        setNewEmail('')
-        setNewRole('')
-        setTermsAccepted(false)
+        .then(() => {
+          setNewUsername('')
+          setNewPassword('')
+          setNewEmail('')
+          setNewRole('')
+          setTermsAccepted(false)
+        })
+
+        .catch((error) => {
+          const key = `error.${error.response?.data?.toLowerCase().replace(/[^a-z]/g, '')}`
+          setErrorMessage(t(key) || t('error.generic'))
+        })
     }
 
     return (
         <div className='text-left'>
+          {errorMessage && <p style={{ color: 'red'}}>{errorMessage}</p>}
             <form onSubmit={addUser}>
                 <div className="input-group mb-4">
                   <span className="input-group-text">
