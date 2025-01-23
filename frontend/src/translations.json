@@ -268,5 +268,140 @@
         }
       }
     }
-  }
+  },
+  "sv": {
+    "translation": {
+      "alert": {
+        "imageuploaded": "Fotot har skickats"
+      },
+      "button": {
+        "addflower": "Lägga till en ny blomma",
+        "addsite": "Lägga till ett nytt område",
+        "addimage": "Lägga till ett nytt foto",
+        "back": "Tilbaka",
+        "delete": "Radera",
+        "deletethissite": "Radera området",
+        "goback": "Gå tillbaka",
+        "login": "Logga in",
+        "register": "Skriva in",
+        "save": "Spara",
+        "switchToRetailer": "Byta rollen mot återförsäljare",
+        "switchToGrower": "Byta rollen mot odlare",
+        "flowerpage": "Blommasidan",
+        "showFlower": "Visa för återförsäljaren",
+        "hideFlower": "Gömma för återförsäljaren",
+        "close": "Stäng",
+        "cancel": "Ångra",
+        "update": "Uppdatera",
+        "Search": "Söka",
+        "modify": "Redigera"
+      },
+      "error": {
+        "acceptterms": "You must accept the terms",
+        "addingfailed": "Adding failed",
+        "allfieldsarerequired": "All fields are required",
+        "emailalreadyexists": "Email already exists",
+        "error": "Error",
+        "erroroccured": "An error occurred. Please try again.",
+        "invalidemail": "Invalid email",
+        "invalidlogininfo": "Invalid email or password",
+        "sitenamecannotbeempty": "Site name cannot be empty",
+        "modifyingfailed": "Editing failed",
+        "noimagesinflower": "At least one image has to be attached to a flower before its visibility can be changed."
+      },
+      "flower": {
+        "data": {
+          "name": "Name",
+          "latinname": "Latin name",
+          "addedtime": "Added time",
+          "grower": "Grower",
+          "site": "Site",
+          "qty": "Qty",
+          "image": "Image"
+        },
+        "visible": {
+          "long": "Visible to retailers",
+          "short": "Visible",
+          "true": "Yes",
+          "false": "No"
+        }
+      },
+      "image": {
+        "note": "Note",
+        "select": "Select image",
+        "title": "Add a new image",
+        "confirmimagedeletion": "Confirm image deletion",
+        "flowerwillbehidden": "If you delete the last image, the flower will be hidden from retailers",
+        "noflowerimages": "This flower doesn't have any images yet",
+        "nositeimages": "This site doesn't have any images yet"
+      },
+      "label": {
+        "confirmflowerdeletion": "Are you sure you want to delete the flower",
+        "confirmmultipleflowerdeletion": "Are you sure you want to delete checked flowers",
+        "confirmsitedeletion": "Are you sure you want to delete the site",
+        "defaultrole": "Choose your default role",
+        "iagreeto": "I agree to the",
+        "loading": "Loading...",
+        "noflowersselected": "No flowers selected",
+        "terms": "terms and conditions"
+      },
+      "menu": {
+        "flowers": "Flowers",
+        "grower": "Grower page",
+        "home": "Home",
+        "register": "Register",
+        "retailer": "Marketplace",
+        "login": "Login",
+        "logout": "Logout",
+        "terms": "Terms",
+        "profile": "Profile",
+        "language": "Language",
+        "role": "Role pages",
+        "info": "Info",
+        "lifecycle": "Life cycle",
+        "sites": "Sites",
+        "images": "Images"
+      },
+      "role": {
+        "grower": "Grower",
+        "retailer": "Retailer"
+      },
+      "site": {
+        "data": {
+          "name": "Name",
+          "note": "Note"
+        },
+        "siteflowers": "This site's flowers"
+      },
+      "title": {
+        "flowers": "Flowers",
+        "allflowers": "All flowers",
+        "siteflowers": "flowers",
+        "home": "Homepage",
+        "sitehome": "homepage",
+        "register": "Slowers registration",
+        "login": "Log into Slowers",
+        "navigation": "Navigation",
+        "rootsites": "Root Sites",
+        "terms": "Terms and Conditions",
+        "site": "Site",
+        "sites": "Sites",
+        "sitesites": "sites",
+        "siteimages": "images"
+      },
+      "user": {
+        "data": {
+          "username": "Username",
+          "email": "Email",
+          "password": "Password",
+          "role": "Role"
+        },
+        "input": {
+          "email": "Enter email",
+          "password": "Enter password",
+          "username": "Enter username"
+        }
+      }
+    }
+  },
 }
