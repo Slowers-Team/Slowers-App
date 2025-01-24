@@ -28,7 +28,7 @@
       },
       "error": {
         "acceptterms": "You must accept the terms",
-        "addingfailed": "Adding failed",
+        "addingfailed": "Failed to add",
         "allfieldsarerequired": "All fields are required",
         "emailalreadyexists": "Email already exists",
         "error": "Error",
@@ -265,6 +265,141 @@
           "email": "Syötä sähköpostiosoite",
           "password": "Syötä salasana",
           "username": "Syötä käyttäjänimi"
+        }
+      }
+    }
+  },
+  "sv": {
+    "translation": {
+      "alert": {
+        "imageuploaded": "Bilden har skickats"
+      },
+      "button": {
+        "addflower": "Lägga till en ny blomma",
+        "addsite": "Lägga till ett nytt område",
+        "addimage": "Lägga till en ny bild",
+        "back": "Tilbaka",
+        "delete": "Radera",
+        "deletethissite": "Radera området",
+        "goback": "Gå tillbaka",
+        "login": "Logga in",
+        "register": "Skriva in",
+        "save": "Spara",
+        "switchToRetailer": "Byta rollen mot återförsäljare",
+        "switchToGrower": "Byta rollen mot odlare",
+        "flowerpage": "Blommasidan",
+        "showFlower": "Visa för återförsäljaren",
+        "hideFlower": "Dölja för återförsäljaren",
+        "close": "Stäng",
+        "cancel": "Ångra",
+        "update": "Uppdatera",
+        "Search": "Söka",
+        "modify": "Redigera"
+      },
+      "error": {
+        "acceptterms": "Du måste acceptera villkor",
+        "addingfailed": "Misslyckades med att lägga till",
+        "allfieldsarerequired": "Alla fält krävs",
+        "emailalreadyexists": "E-postadressen finns redan",
+        "error": "Fel",
+        "erroroccured": "Ett fel inträffade. Försök igen.",
+        "invalidemail": "Ogiltig e-postadress",
+        "invalidlogininfo": "Ogiltig e-postadress eller lösenord",
+        "sitenamecannotbeempty": "Områdesnamet kan inte vara tomt",
+        "modifyingfailed": "Misslyckades med att redigera",
+        "noimagesinflower": "Minst en bild måste fästas på en blomma innan dess synlighet kan ändras."
+      },
+      "flower": {
+        "data": {
+          "name": "Namn",
+          "latinname": "Latinskt namn",
+          "addedtime": "Tilläggningstid",
+          "grower": "Odlare ",
+          "site": "Område",
+          "qty": "St",
+          "image": "Bild"
+        },
+        "visible": {
+          "long": "Synlig till återförsäljare",
+          "short": "Synlig",
+          "true": "Ja",
+          "false": "Nej"
+        }
+      },
+      "image": {
+        "note": "Anteckning",
+        "select": "Välja en bild",
+        "title": "Lägga till en ny bild",
+        "confirmimagedeletion": "Bekräfta radering av bilden",
+        "flowerwillbehidden": "Blomman kommer att döljas för återförsäljare om du raderar den sista bilden",
+        "noflowerimages": "Blomman har inga bilder än",
+        "nositeimages": "Området har inga bilder än"
+      },
+      "label": {
+        "confirmflowerdeletion": "Är du säker på att du vill radera blomman",
+        "confirmmultipleflowerdeletion": "Är du säker på att du vill radera vald blommor",
+        "confirmsitedeletion": "Är du säker på att du vill radera området",
+        "defaultrole": "Välja din standardroll",
+        "iagreeto": "Jag godkännar",
+        "loading": "Laddar...",
+        "noflowersselected": "Inga blommor vald",
+        "terms": "villkor"
+      },
+      "menu": {
+        "flowers": "Blommor",
+        "grower": "Odlare",
+        "home": "Hem",
+        "register": "Skriva in",
+        "retailer": "Marknadsplats",
+        "login": "Logga in",
+        "logout": "Logga ut",
+        "terms": "Villkor",
+        "profile": "Profil",
+        "language": "Språk",
+        "role": "Rollsidor",
+        "info": "Information",
+        "lifecycle": "Livscykel",
+        "sites": "Sidot",
+        "images": "Bilder"
+      },
+      "role": {
+        "grower": "Odlare",
+        "retailer": "Återförsäljare"
+      },
+      "site": {
+        "data": {
+          "name": "Namn",
+          "note": "Anteckning"
+        },
+        "siteflowers": "Blommor i området"
+      },
+      "title": {
+        "flowers": "Blommor",
+        "allflowers": "Alla blommor",
+        "siteflowers": "blommor",
+        "home": "Hemsida",
+        "sitehome": "hemsida",
+        "register": "Slowers inskrivning",
+        "login": "Logga in i Slowers",
+        "navigation": "Navigering",
+        "rootsites": "Rotwebbplatser",
+        "terms": "Villkor",
+        "site": "Sida",
+        "sites": "Sidor",
+        "sitesites": "sidor",
+        "siteimages": "bilder"
+      },
+      "user": {
+        "data": {
+          "username": "Användarnamn",
+          "email": "E-postadress",
+          "password": "Lösenord",
+          "role": "Roll"
+        },
+        "input": {
+          "email": "Ange e-postadress",
+          "password": "Ange lösenord",
+          "username": "Ange användarnamn"
         }
       }
     }
