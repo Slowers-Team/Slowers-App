@@ -81,15 +81,22 @@ const RetailerFlowerList = ({ flowers }) => {
     return 0
   })
 
-  const filteredFlowers = sortedFlowers.filter(flower => 
-    flower.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    flower.latin_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    flower.grower_email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    flower.quantity.toString().includes(searchTerm.toLowerCase()) ||
-    new Date(flower.added_time).toLocaleDateString('fi').toLowerCase().includes(searchTerm.toLowerCase()) ||
-    new Date(flower.added_time).toLocaleString('fi', { hour: 'numeric', minute: '2-digit' }).toLowerCase().includes(searchTerm.toLowerCase())
-  )
   
+  // const filteredFlowers = sortedFlowers.filter(flower => document.getElementById("name").checked && flower.name.toLowerCase().includes(searchTerm.toLowerCase())||
+  //                                               document.getElementById("scientificname").checked && flower.latin_name.toLowerCase().includes(searchTerm.toLowerCase())||
+  //                                               document.getElementById("grower").checked && flower.grower_email.toLowerCase().includes(searchTerm.toLowerCase()))
+
+    const filteredFlowers = sortedFlowers.filter(flower => {
+      const nameChecked = document.getElementById("name").checked;
+      const scientificNameChecked = document.getElementById("scientificname").checked;
+      const growerChecked = document.getElementById("grower").checked;
+    
+      const filterNames = nameChecked && flower.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const filterScientificnames = scientificNameChecked && flower.latin_name.toLowerCase().includes(searchTerm.toLowerCase());
+      const filterGrowers = growerChecked && flower.grower_email.toLowerCase().includes(searchTerm.toLowerCase());
+    
+      return filterNames || filterScientificnames || filterGrowers;
+    });
   return (
     <div className="retailerFlowerList">
       <div className="d-flex justify-content-start mb-3 input-wrapper">
@@ -104,23 +111,15 @@ const RetailerFlowerList = ({ flowers }) => {
       Hae näiden kenttien perusteella:
       <br></br>
       <label class="checkbox_container">nimi
-        <input type="checkbox"></input>
+        <input type="checkbox" id="name" ></input>
         <span class="checkmark"></span>
       </label>
       <label class="checkbox_container">Tieteellinen nimi
-        <input type="checkbox" ></input>
-        <span class="checkmark"></span>
-      </label>
-      <label class="checkbox_container">Lisäysaika
-        <input type="checkbox" ></input>
+        <input type="checkbox" id="scientificname"></input>
         <span class="checkmark"></span>
       </label>
       <label class="checkbox_container">Kasvattaja
-        <input type="checkbox"></input>
-        <span class="checkmark"></span>
-      </label>
-      <label class="checkbox_container">Kpl
-        <input type="checkbox"></input>
+        <input type="checkbox" id="grower"></input>
         <span class="checkmark"></span>
       </label>
 
