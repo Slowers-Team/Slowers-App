@@ -112,17 +112,17 @@ const RetailerFlowerList = ({ flowers }) => {
         />
       </div>
       
-      Hae näiden kenttien perusteella:
+      {t('flower.search.filter')}
       <br></br>
-      <label class="checkbox_container">nimi
+      <label class="checkbox_container">{t('flower.data.name')}
         <input type="checkbox" id="name" ></input>
         <span class="checkmark"></span>
       </label>
-      <label class="checkbox_container">Tieteellinen nimi
+      <label class="checkbox_container">{t('flower.data.latinname')}
         <input type="checkbox" id="scientificname"></input>
         <span class="checkmark"></span>
       </label>
-      <label class="checkbox_container">Kasvattaja
+      <label class="checkbox_container">{t('flower.data.grower')}
         <input type="checkbox" id="grower"></input>
         <span class="checkmark"></span>
       </label>

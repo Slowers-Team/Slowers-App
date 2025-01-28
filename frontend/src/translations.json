@@ -54,6 +54,9 @@
           "short": "Visible",
           "true": "Yes",
           "false": "No"
+        },
+        "search": {
+          "filter": "Filter search:"
         }
       },
       "image": {
@@ -189,6 +192,9 @@
           "short": "Näkyvillä",
           "true": "Kyllä",
           "false": "Ei"
+        },
+        "search": {
+          "filter": "Rajaa hakua:"
         }
       },
       "image": {
@@ -324,6 +330,9 @@
           "short": "Synlig",
           "true": "Ja",
           "false": "Nej"
+        },
+        "search": {
+          "filter": "Begränsa sökningen:"
         }
       },
       "image": {
