@@ -20,7 +20,6 @@ const RegisterPage = () => {
           setMessage(null);
           navigate("/login");
         }, 3000)
-      navigate("/login");
     } catch (error) {
       const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, "");
 
