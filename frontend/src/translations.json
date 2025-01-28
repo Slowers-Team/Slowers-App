@@ -131,6 +131,9 @@
           "password": "Enter password",
           "username": "Enter username"
         }
+      },
+      "message": {
+        "registersuccessful": "Register successful"
       }
     }
   },
@@ -266,6 +269,9 @@
           "password": "Syötä salasana",
           "username": "Syötä käyttäjänimi"
         }
+      },
+      "message": {
+        "registersuccessful": "Rekisteröinti onnistui"
       }
     }
   },
@@ -401,6 +407,9 @@
           "password": "Ange lösenord",
           "username": "Ange användarnamn"
         }
+      },
+      "message": {
+        "registersuccessful": "Registreringen lyckades"
       }
     }
   }

@@ -3,16 +3,23 @@ import RegisterForm from "../components/RegisterForm";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Notification from "../components/Notification";
 
 const RegisterPage = () => {
   const { t, i18n } = useTranslation();
   const [errorMessage, setErrorMessage] = useState("")
   const navigate = useNavigate();
+  const [message, setMessage] = useState("");
 
   const createNewUser = async (userObject) => {
     try {
       await userService
         .create(userObject);
+        setMessage(t("message.registersuccessful"));
+        setTimeout(() => {
+          setMessage(null);
+          navigate("/login");
+        }, 3000)
       navigate("/login");
     } catch (error) {
       const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, "");
@@ -25,6 +32,8 @@ const RegisterPage = () => {
   return (
     <div className="logged-out-container">
       <div className="container">
+        <Notification message={message}/>
+        <br />
         <div className="row justify-content-center">
           <div className="col-12 col-md-8 col-lg-6 col-xl-5">
             <div className="card" style={{ borderRadius: "1rem" }}>
