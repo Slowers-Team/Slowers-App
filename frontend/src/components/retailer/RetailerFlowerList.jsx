@@ -90,12 +90,16 @@ const RetailerFlowerList = ({ flowers }) => {
       const nameChecked = document.getElementById("name").checked;
       const scientificNameChecked = document.getElementById("scientificname").checked;
       const growerChecked = document.getElementById("grower").checked;
+      const searchByname = flower.name.toLowerCase().includes(searchTerm.toLowerCase())
+      const searchByscientificname = flower.latin_name.toLowerCase().includes(searchTerm.toLowerCase())
+      const searchByGrower = flower.grower_email.toLowerCase().includes(searchTerm.toLowerCase())
     
-      const filterNames = nameChecked && flower.name.toLowerCase().includes(searchTerm.toLowerCase());
-      const filterScientificnames = scientificNameChecked && flower.latin_name.toLowerCase().includes(searchTerm.toLowerCase());
-      const filterGrowers = growerChecked && flower.grower_email.toLowerCase().includes(searchTerm.toLowerCase());
+      const filterNames = nameChecked && searchByname;
+      const filterScientificnames = scientificNameChecked && searchByscientificname;
+      const filterGrowers = growerChecked && searchByGrower;
+      const showAll = !nameChecked && !scientificNameChecked && !growerChecked && (searchByGrower || searchByname || searchByscientificname);
     
-      return filterNames || filterScientificnames || filterGrowers;
+      return filterNames || filterScientificnames || filterGrowers || showAll;
     });
   return (
     <div className="retailerFlowerList">
