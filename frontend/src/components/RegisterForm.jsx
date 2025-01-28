@@ -10,31 +10,31 @@ const RegisterForm = ({ createNewUser }) => {
     const [errorMessage, setErrorMessage] = useState('')
     const { t, i18n } = useTranslation()
 
-    const addUser = event => {
+    const addUser = async event => {
         event.preventDefault()
         if (!termsAccepted) {
-            alert(t('error.acceptterms'))
-            return
+          alert(t('error.acceptterms'))
+          return
         }
-        createNewUser({ 
-            username: newUsername,
-            password: newPassword,
-            email: newEmail,
-            role: newRole
-        })
+        
+        const userObject = {
+          username: newUsername,
+          password: newPassword,
+          email: newEmail,
+          role: newRole,
+        }
 
-        .then(() => {
+        try {
+          await createNewUser(userObject)
           setNewUsername('')
           setNewPassword('')
           setNewEmail('')
           setNewRole('')
           setTermsAccepted(false)
-        })
-
-        .catch((error) => {
+        } catch (error) {
           const key = `error.${error.response?.data?.toLowerCase().replace(/[^a-z]/g, '')}`
           setErrorMessage(t(key) || t('error.generic'))
-        })
+        }
     }
 
     return (

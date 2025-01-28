@@ -9,19 +9,17 @@ const RegisterPage = () => {
   const [errorMessage, setErrorMessage] = useState("")
   const navigate = useNavigate();
 
-  const createNewUser = (userObject) => {
-    return userService
-      .create(userObject)
-      .then(() => {
-        navigate("/login");
-      })
-      .catch((error) => {
-        const key =
-          "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, "");
-        
-        setErrorMessage(i18n.exists(key) ? t(key) : error.response.data);
-        throw error;
-      });
+  const createNewUser = async (userObject) => {
+    try {
+      await userService
+        .create(userObject);
+      navigate("/login");
+    } catch (error) {
+      const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, "");
+
+      setErrorMessage(i18n.exists(key) ? t(key) : error.response.data);
+      throw error;
+    }
   };
 
   return (
