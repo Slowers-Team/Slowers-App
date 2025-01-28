@@ -103,3 +103,8 @@
 .input-wrapper input:focus {
   outline-color: #B6C4B6;
 }
+
+.checkbox_container {
+  display: inline-block;
+  margin-right: 10px;
+}
