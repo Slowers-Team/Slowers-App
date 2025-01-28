@@ -11,23 +11,22 @@ const RegisterPage = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
 
-  const createNewUser = (userObject) => {
-    return userService
-      .create(userObject)
-      .then(() => {
+  const createNewUser = async (userObject) => {
+    try {
+      await userService
+        .create(userObject);
         setMessage(t("message.registersuccessful"));
         setTimeout(() => {
           setMessage(null);
           navigate("/login");
         }, 3000)
-      })
-      .catch((error) => {
-        const key =
-          "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, "");
-        
-        setErrorMessage(i18n.exists(key) ? t(key) : error.response.data);
-        throw error;
-      });
+      navigate("/login");
+    } catch (error) {
+      const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, "");
+
+      setErrorMessage(i18n.exists(key) ? t(key) : error.response.data);
+      throw error;
+    }
   };
 
   return (

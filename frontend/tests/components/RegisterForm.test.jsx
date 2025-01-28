@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import RegisterForm from '../../src/components/RegisterForm'
 import { expect, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
@@ -33,7 +33,7 @@ test('updates input values when typing', async () => {
 })
 
 test('clears input values after successful submit', async () => {
-    const createNewUser = vi.fn()
+    const createNewUser = vi.fn().mockResolvedValue({})
     const user = userEvent.setup()
 
     render(<RegisterForm createNewUser={createNewUser} />)
@@ -52,9 +52,11 @@ test('clears input values after successful submit', async () => {
     await user.click(termsCheckbox)
     await user.click(submitButton)
 
-    expect(usernameInput.value).toBe('')
-    expect(passwordInput.value).toBe('')
-    expect(emailInput.value).toBe('')
+    await waitFor(() => {
+        expect(usernameInput.value).toBe('')
+        expect(passwordInput.value).toBe('')
+        expect(emailInput.value).toBe('')
+    })
 })
 
 test('does not clear input values after submit if email does not match standard format', async () => {
