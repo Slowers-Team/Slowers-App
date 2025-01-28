@@ -15,7 +15,7 @@ const RegisterPage = () => {
     return userService
       .create(userObject)
       .then(() => {
-        setMessage("Register successful");
+        setMessage(t("message.registersuccessful"));
         setTimeout(() => {
           setMessage(null);
           navigate("/login");
@@ -34,6 +34,7 @@ const RegisterPage = () => {
     <div className="logged-out-container">
       <div className="container">
         <Notification message={message}/>
+        <br />
         <div className="row justify-content-center">
           <div className="col-12 col-md-8 col-lg-6 col-xl-5">
             <div className="card" style={{ borderRadius: "1rem" }}>
