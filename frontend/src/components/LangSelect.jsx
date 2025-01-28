@@ -16,6 +16,9 @@ const LangSelect = () => {
       <Nav.Link href="#" onClick={() => changeLanguage('fi')}>
         🇫🇮 <span className="lang-link">Suomi</span>
       </Nav.Link>
+      <Nav.Link href="#" onClick={() => changeLanguage('sv')}>
+        🇸🇪 <span className="lang-link">Svenska</span>
+      </Nav.Link>
     </>
   )
 }

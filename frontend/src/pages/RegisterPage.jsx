@@ -1,35 +1,38 @@
 import userService from "../services/users";
 import RegisterForm from "../components/RegisterForm";
-import { Authenticator } from "../Authenticator";
 import { useTranslation } from "react-i18next";
-import { useFetcher } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import Notification from "../components/Notification";
 
 const RegisterPage = () => {
   const { t, i18n } = useTranslation();
-  const fetcher = useFetcher();
+  const [errorMessage, setErrorMessage] = useState("")
+  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
 
-  const createNewUser = (userObject) => {
-    userService
-      .create(userObject)
-      .then((data) => {
-        Authenticator.login(data);
-        alert(t("alert.usercreated"));
-        fetcher.submit({ data: data }, { action: "/login", method: "post" });
-      })
-      .catch((error) => {
-        const key =
-          "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, "");
-        alert(
-          t("error.error") +
-            ": " +
-            (i18n.exists(key) ? t(key) : error.response.data),
-        );
-      });
+  const createNewUser = async (userObject) => {
+    try {
+      await userService
+        .create(userObject);
+        setMessage(t("message.registersuccessful"));
+        setTimeout(() => {
+          setMessage(null);
+          navigate("/login");
+        }, 3000)
+    } catch (error) {
+      const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, "");
+
+      setErrorMessage(i18n.exists(key) ? t(key) : error.response.data);
+      throw error;
+    }
   };
 
   return (
     <div className="logged-out-container">
       <div className="container">
+        <Notification message={message}/>
+        <br />
         <div className="row justify-content-center">
           <div className="col-12 col-md-8 col-lg-6 col-xl-5">
             <div className="card" style={{ borderRadius: "1rem" }}>
