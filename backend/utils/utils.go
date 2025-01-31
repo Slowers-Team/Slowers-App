@@ -1,8 +1,6 @@
 package utils
 
 import (
-	"encoding/json"
-	"log"
 	"regexp"
 
 	"golang.org/x/crypto/bcrypt"
@@ -35,12 +33,4 @@ func AreIDPtrSlicesEql(a []*database.ObjectID, b []*database.ObjectID) bool {
 	}
 
 	return true
-}
-
-func ToJSON(val any) []byte {
-	asJSON, err := json.Marshal(val)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return asJSON
 }

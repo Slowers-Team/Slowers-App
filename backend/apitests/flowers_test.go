@@ -34,7 +34,7 @@ func (s *FlowersAPITestSuite) TestListingFlowersWithoutError() {
 		ContentType:  "application/json",
 		Body:         []byte{},
 		ExpectedCode: 200,
-		ExpectedBody: utils.ToJSON(s.TestFlowers),
+		ExpectedBody: utils.FlowersToJSON(s.TestFlowers),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetFlowers(
 				mock.Anything,
@@ -70,7 +70,7 @@ func (s *FlowersAPITestSuite) TestAddingFlower() {
 		Route:       "/api/flowers",
 		Method:      "POST",
 		ContentType: "application/json",
-		Body: utils.ToJSON(database.Flower{
+		Body: utils.FlowerToJSON(database.Flower{
 			Name:      s.TestFlowers[0].Name,
 			LatinName: s.TestFlowers[0].LatinName,
 			Grower:    s.TestFlowers[0].Grower,
@@ -146,7 +146,7 @@ func (s *FlowersAPITestSuite) TestListingFlowersOfCurrentUser() {
 		ContentType:  "application/json",
 		Body:         []byte{},
 		ExpectedCode: 200,
-		ExpectedBody: utils.ToJSON(s.TestFlowers),
+		ExpectedBody: utils.FlowersToJSON(s.TestFlowers),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetUserFlowers(
 				mock.Anything, testdata.GetUsers()[0].ID,
@@ -169,7 +169,7 @@ func (s *FlowersAPITestSuite) TestListingFlowersOfSite() {
 		ContentType:  "application/json",
 		Body:         []byte{},
 		ExpectedCode: 200,
-		ExpectedBody: utils.ToJSON(flowers),
+		ExpectedBody: utils.FlowersToJSON(flowers),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetAllFlowersRelatedToSite(
 				mock.Anything, site.ID, user.ID,
@@ -198,9 +198,9 @@ func (s *FlowersAPITestSuite) TestModifyingFlower() {
 		Route:        "/api/flowers/" + flower.ID.Hex(),
 		Method:       "PUT",
 		ContentType:  "application/json",
-		Body:         utils.ToJSON(modifiedValues),
+		Body:         []byte(utils.FlowerToJSON(modifiedValues)),
 		ExpectedCode: 200,
-		ExpectedBody: utils.ToJSON(modifiedFlower),
+		ExpectedBody: utils.FlowerToJSON(modifiedFlower),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().ModifyFlower(
 				mock.Anything, flower.ID, modifiedValues,

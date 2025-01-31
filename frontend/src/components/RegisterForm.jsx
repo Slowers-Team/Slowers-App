@@ -7,39 +7,30 @@ const RegisterForm = ({ createNewUser }) => {
     const [newEmail, setNewEmail] = useState('')
     const [newRole, setNewRole] = useState('')
     const [termsAccepted, setTermsAccepted] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
     const { t, i18n } = useTranslation()
 
-    const addUser = async event => {
+    const addUser = event => {
         event.preventDefault()
         if (!termsAccepted) {
-          alert(t('error.acceptterms'))
-          return
+            alert(t('error.acceptterms'))
+            return
         }
-        
-        const userObject = {
-          username: newUsername,
-          password: newPassword,
-          email: newEmail,
-          role: newRole,
-        }
+        createNewUser({ 
+            username: newUsername,
+            password: newPassword,
+            email: newEmail,
+            role: newRole
+        })
 
-        try {
-          await createNewUser(userObject)
-          setNewUsername('')
-          setNewPassword('')
-          setNewEmail('')
-          setNewRole('')
-          setTermsAccepted(false)
-        } catch (error) {
-          const key = `error.${error.response?.data?.toLowerCase().replace(/[^a-z]/g, '')}`
-          setErrorMessage(t(key) || t('error.generic'))
-        }
+        setNewUsername('')
+        setNewPassword('')
+        setNewEmail('')
+        setNewRole('')
+        setTermsAccepted(false)
     }
 
     return (
         <div className='text-left'>
-          {errorMessage && <p style={{ color: 'red'}}>{errorMessage}</p>}
             <form onSubmit={addUser}>
                 <div className="input-group mb-4">
                   <span className="input-group-text">

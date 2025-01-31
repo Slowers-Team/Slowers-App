@@ -18,9 +18,11 @@ const LogIn = ({ onLogin }) => {
 
       if (response.ok) {
         onLogin(data);
-      } 
+      } else {
+        setError(t("error.invalidlogininfo"));
+      }
     } catch (err) {
-      setError(t("error.invalidlogininfo"));
+      setError(t("error.erroroccured"));
       console.log(err);
     }
   };
