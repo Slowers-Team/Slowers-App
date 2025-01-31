@@ -3,10 +3,10 @@
 Project done for the Software Lab course (TKT20007) at the University of Helsinki. Helps connecting local flower growers to local flower shops in the spirit of the [Slow Flowers](https://en.wikipedia.org/wiki/Slow_Flowers) movement.
 
 - [Staging server](https://slowers.ext.ocp-test-0.k8s.it.helsinki.fi)
-- [Product backlog](https://github.com/orgs/Slowers-Team/projects/3)
-- [Sprint backlogs](https://github.com/orgs/Slowers-Team/projects?query=is%3Aopen+Sprint)
-- [Coding conduct](https://github.com/Slowers-Team/Slowers-App/blob/main/documentation/coding_conduct.md)
-- [Definition of done](https://github.com/Slowers-Team/Slowers-App/blob/main/documentation/definition_of_done.md)
+- [Product backlog](https://github.com/orgs/SlowersTeamSpring2025/projects/1/views/1)
+- [Sprint backlogs](https://github.com/orgs/SlowersTeamSpring2025/projects?query=is%3Aopen+Sprint)
+- [Coding conduct](documentation/coding_conduct_spring2025.md)
+- [Definition of done](documentation/definition_of_done.md)
 
 ## Starting the application locally
 

@@ -31,7 +31,7 @@ func (s *UsersAPITestSuite) TestCreatingUser() {
 		Route:       "/api/register",
 		Method:      "POST",
 		ContentType: "application/json",
-		Body: utils.UserToJSON(
+		Body: utils.ToJSON(
 			database.User{
 				Username: s.TestUser.Username,
 				Email:    s.TestUser.Email,
@@ -100,7 +100,7 @@ func (s *UsersAPITestSuite) TestLoggingIn() {
 		Route:       "/api/login",
 		Method:      "POST",
 		ContentType: "application/json",
-		Body: utils.LogInToJSON(
+		Body: utils.ToJSON(
 			database.LogIn{
 				Email:    s.TestUser.Email,
 				Password: s.TestUser.Password,
@@ -131,10 +131,10 @@ func (s *UsersAPITestSuite) TestFetchingUser() {
 		Description:  "GET /api/user",
 		Route:        "/api/user",
 		Method:       "GET",
-		ContentType: "application/json",
+		ContentType:  "application/json",
 		Body:         []byte{},
 		ExpectedCode: 200,
-		ExpectedBody: utils.UserToJSON(s.TestUser),
+		ExpectedBody: utils.ToJSON(s.TestUser),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetUserByID(
 				mock.Anything, s.TestUser.ID,
@@ -153,10 +153,10 @@ func (s *UsersAPITestSuite) TestChangingRole() {
 		Description:  "POST /api/user/role",
 		Route:        "/api/user/role",
 		Method:       "POST",
-		ContentType: "application/json",
-		Body:          []byte(roleJSON),
+		ContentType:  "application/json",
+		Body:         []byte(roleJSON),
 		ExpectedCode: 201,
-		ExpectedBody:  []byte(roleJSON),
+		ExpectedBody: []byte(roleJSON),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().SetUserRole(
 				mock.Anything, s.TestUser.ID, role,

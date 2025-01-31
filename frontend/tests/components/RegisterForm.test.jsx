@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import RegisterForm from '../../src/components/RegisterForm'
 import { expect, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
@@ -33,7 +33,7 @@ test('updates input values when typing', async () => {
 })
 
 test('clears input values after successful submit', async () => {
-    const createNewUser = vi.fn()
+    const createNewUser = vi.fn().mockResolvedValue({})
     const user = userEvent.setup()
 
     render(<RegisterForm createNewUser={createNewUser} />)
@@ -52,9 +52,11 @@ test('clears input values after successful submit', async () => {
     await user.click(termsCheckbox)
     await user.click(submitButton)
 
-    expect(usernameInput.value).toBe('')
-    expect(passwordInput.value).toBe('')
-    expect(emailInput.value).toBe('')
+    await waitFor(() => {
+        expect(usernameInput.value).toBe('')
+        expect(passwordInput.value).toBe('')
+        expect(emailInput.value).toBe('')
+    })
 })
 
 test('does not clear input values after submit if email does not match standard format', async () => {
@@ -132,4 +134,27 @@ test('does not call createNewUser on submit if email does not match standard for
     await user.click(submitButton)
 
     expect(createNewUser.mock.calls).toHaveLength(0)
+})
+
+test('shows error message after submit if email is already in use', async () => {
+    const createNewUser = vi.fn(async (userData) => {
+        // nyt käytössä kovakoodattu sähköposti
+        // myöhemmin tarkoitus luoda testikäyttäjä testitietokantaan
+        if (userData.email === 'testemail@email.com') {
+            throw { response: { data: 'Email already exists' } }
+        }
+    })
+
+    const user = userEvent.setup()
+    render(<RegisterForm createNewUser={createNewUser} />)
+
+    await user.type(screen.getByPlaceholderText('Enter username'), 'testuser')
+    await user.type(screen.getByPlaceholderText('Enter password'), 'testpassword')
+    await user.type(screen.getByPlaceholderText('Enter email'), 'testemail@email.com')
+    await user.click(screen.getByLabelText('Grower'))
+    await user.click(screen.getByLabelText('I agree to the terms and conditions'))
+    await user.click(screen.getByText('Register'))
+
+    const errorMessage = await screen.findByText(/email already exists/i)
+    expect(errorMessage).toBeInTheDocument()
 })

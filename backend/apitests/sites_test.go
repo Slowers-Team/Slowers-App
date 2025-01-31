@@ -37,7 +37,7 @@ func (s *SitesAPITestSuite) TestListingRootSites() {
 		Method:       "GET",
 		Body:         []byte{},
 		ExpectedCode: 200,
-		ExpectedBody: utils.SitesToJSON(s.RootSites),
+		ExpectedBody: utils.ToJSON(s.RootSites),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetRootSites(
 				mock.Anything, s.TestUser.ID,
@@ -55,7 +55,7 @@ func (s *SitesAPITestSuite) TestFetchingSite() {
 		Method:       "GET",
 		Body:         []byte{},
 		ExpectedCode: 200,
-		ExpectedBody: utils.SiteDataToJSON(testdata.GetSite()),
+		ExpectedBody: utils.ToJSON(testdata.GetSite()),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetSite(
 				mock.Anything, s.RootSites[0].ID, s.TestUser.ID,
@@ -72,7 +72,7 @@ func (s *SitesAPITestSuite) TestAddingSite() {
 		Route:       "/api/sites",
 		Method:      "POST",
 		ContentType: "application/json",
-		Body: utils.SiteToJSON(database.Site{
+		Body: utils.ToJSON(database.Site{
 			Flowers: s.RootSites[0].Flowers,
 			Name:    s.RootSites[0].Name,
 			Note:    s.RootSites[0].Note,
