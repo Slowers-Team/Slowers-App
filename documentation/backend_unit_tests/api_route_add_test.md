@@ -11,7 +11,7 @@ func (s *FlowersAPITestSuite) TestListingFlowers() {
 		Method:       "GET",
 		Body:         []byte{},
 		ExpectedCode: 200,
-		ExpectedBody: utils.ToJSON(s.TestFlowers),
+		ExpectedBody: utils.FlowersToJSON(s.TestFlowers),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetFlowers(
 				mock.Anything,
@@ -74,11 +74,11 @@ func (s *FlowersAPITestSuite) TestListingFlowers() {
 
 8. The expected body of the response from the API route:
     ```golang
-    ExpectedBody: utils.ToJSON(s.TestFlowers),
+    ExpectedBody: utils.FlowersToJSON(s.TestFlowers),
     ```
     - The `GET /api/flowers` route should return all flowers in the database, so the response body should contain all flowers from the database as JSON.
     - Here the database will contain the flowers in the test data, so we use `s.TestFlowers`.
-    - Then we use the function `utils.ToJSON()` in `backend/utils/utils.go` to convert the flowers to JSON.
+    - The file `backend/utils/json.go` contains conversion functions from different data types to JSON. Here we use `utils.FlowersToJSON()`, because we need to convert a slice of flowers to JSON (an array/list of variable length is called a _slice_ in Go).
     - (This `ExpectedBody` has also a variation called `ExpectedBodyFunc`. This let's you give instead of a `[]byte` a function of type `func(body []byte)` for testing the expected body. The function gets the response body as an argument automatically and then you would test the body manually inside the function by using `testify` assertions the same way as in the `Database functions` section of these instructions. You can find an example of how to use `ExpectedBodyFunc` in the `TestAddingFlower()` test function in `apitests/flowers_test.go`. `ExpectedBodyFunc` should be used instead of `ExpectedBody` when the expected body varies from test run to test run. This would happen for example when adding a new flower, because whenever adding a new flower, its AddedTime is set to the current time at that moment, so the AddedTime would vary depending on when the flower was added.)
 
 9. We don't want the API route to fetch the flower data from an actual database, because we want to test the handler function code of the API route separately from the database code. For that reason we setup mocks for the database functions in this last field of the struct:
