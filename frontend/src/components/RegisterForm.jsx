@@ -33,8 +33,8 @@ const RegisterForm = ({ createNewUser }) => {
           setTermsAccepted(false)
         } catch (error) {
           //täällä tapahtuu palvelimen lähettämän errorin näyttäminen
-          const key = `error.${error.response?.data?.toLowerCase().replace(/[^a-z]/g, '')}`
-          setErrorMessage('Tapahtui virhe. Yritä uudelleen.')
+          //console.log(t('error.erroroccured'))
+          setErrorMessage(t('error.erroroccured'))
         }
     }
 
