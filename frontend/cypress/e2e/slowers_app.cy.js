@@ -30,92 +30,39 @@ describe('Slowers ', function() {
     cy.contains('Slowers')
   })
 
-  // it('can open register page', function() {
-  //   cy.visit('/register')
-  //   cy.contains('Slowers registration')
-  // })
+  it('can open register page', function() {
+    cy.visit('/register')
+    cy.contains('Slowers registration')
+  })
 
-  // it('can open terms page when not logged in', function() {
-  //   cy.visit('/terms')
-  //   cy.contains('Terms and Conditions')
-  // })
+  it('can open terms page when not logged in', function() {
+    cy.visit('/terms')
+    cy.contains('Terms and Conditions')
+  })
 
-  // it('can open side menu by clicking hamburger button', function() {
-  //   cy.visit('')
-  //   cy.get('#offcanvasButton').click()
-  //   cy.contains('Home')
-  //   cy.contains('Login')
-  //   cy.contains('Register')
-  //   cy.contains('Terms')
-  // })
+  it('can open side menu by clicking hamburger button', function() {
+    cy.visit('')
+    cy.get('#offcanvasButton').click()
+    cy.contains('Home')
+    cy.contains('Login')
+    cy.contains('Register')
+    cy.contains('Terms')
+  })
 
-  // it('can change language', function() {
-  //   cy.visit('')
-  //   cy.contains('Log into Slowers')
-  //   cy.get('#languageButton').click()
-  //   cy.contains('🇬🇧 English')
-  //   cy.contains('🇫🇮 Suomi')
-  //   cy.get('#fi').click()
-  //   cy.contains('Kirjaudu Slowersiin')
-  // })
+  it('can change language', function() {
+    cy.visit('')
+    cy.contains('Log into Slowers')
+    cy.get('#languageButton').click()
+    cy.contains('🇬🇧 English')
+    cy.contains('🇫🇮 Suomi')
+    cy.contains('🇸🇪 Svenska')
+    cy.get('#fi').click()
+    cy.contains('Kirjaudu Slowersiin')
+    cy.get('#languageButton').click()
+    cy.get('#sv').click()
+    cy.contains('Logga in i Slowers')
+  })
 
-  // it('can register a new user', function() {
-  //   cy.visit('/register')
-  //   cy.get('#newUsernameInput').type('testuser')
-  //   cy.get('#newEmailInput').type('test@email.com')
-  //   cy.get('#newPasswordInput').type('testpassword')
-  //   cy.contains('Grower').click()
-  //   cy.get('#termsCheckbox').check()
-  //   cy.get('#createNewUserButton').click()
-  //   cy.contains('Homepage')
-  // })
-
-  // it('cannot register with existing email address', function() {
-  //   cy.register({username: 'testuser', email: 'test@email.com', password: 'testpassword', role: 'grower'})
-  //   cy.visit('/register')
-  //   cy.get('#newUsernameInput').type('testuser2')
-  //   cy.get('#newEmailInput').type('test@email.com')
-  //   cy.get('#newPasswordInput').type('testpassword2')
-  //   cy.contains('Retailer').click()
-  //   cy.get('#termsCheckbox').check()
-  //   cy.get('#createNewUserButton').click()
-  //   cy.on('window:alert',(t)=>{
-  //     expect(t).to.contains('Error: Email already exists');
-  //  })
-  // })
-
-  // it('cannot register with malformatted email address', function() {
-  //   cy.visit('/register')
-  //   cy.get('#newUsernameInput').type('testuser')
-  //   cy.get('#newEmailInput').type('testemail')
-  //   cy.get('#newPasswordInput').type('testpassword')
-  //   cy.contains('Grower').click()
-  //   cy.get('#termsCheckbox').check()
-  //   cy.get('#createNewUserButton').click()
-  //   cy.get('input:invalid').should('have.length', 1)
-  // })
-
-  // it('cannot register without accepting terms', function() {
-  //   cy.visit('/register')
-  //   cy.get('#newUsernameInput').type('testuser')
-  //   cy.get('#newEmailInput').type('test@email.com')
-  //   cy.get('#newPasswordInput').type('testpassword')
-  //   cy.contains('Grower').click()
-  //   cy.get('#createNewUserButton').click()
-  //   cy.on('window:alert',(t)=>{
-  //     expect(t).to.contains('You must accept the terms');
-  //  })
-  // })
-
-  // it('cannot register with an empty field', function() {
-  //   cy.visit('/register')
-  //   cy.get('#newEmailInput').type('test@email.com')
-  //   cy.get('#newPasswordInput').type('testpassword')
-  //   cy.contains('Grower').click()
-  //   cy.get('#termsCheckbox').check()
-  //   cy.get('#createNewUserButton').click()
-  //   cy.get('input:invalid').should('have.length', 1)
-  // })
 
   // it('can login a user', function() {
   //   cy.register({username: 'testuser', email: 'test@email.com', password: 'testpassword', role: 'grower'})
