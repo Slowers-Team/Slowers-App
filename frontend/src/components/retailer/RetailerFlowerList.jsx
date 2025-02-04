@@ -28,7 +28,7 @@ const RetailerFlowerList = ({ flowers }) => {
 
     newImages.then((imgs) => setImages(imgs.filter((x)=>x)))
   
-  }, [flowers])
+  }, [flowers]) 
 
   
   const handleShow = (flower) => {
@@ -80,16 +80,14 @@ const RetailerFlowerList = ({ flowers }) => {
     if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1
     return 0
   })
-
-  
-  // const filteredFlowers = sortedFlowers.filter(flower => document.getElementById("name").checked && flower.name.toLowerCase().includes(searchTerm.toLowerCase())||
-  //                                               document.getElementById("scientificname").checked && flower.latin_name.toLowerCase().includes(searchTerm.toLowerCase())||
-  //                                               document.getElementById("grower").checked && flower.grower_email.toLowerCase().includes(searchTerm.toLowerCase()))
+  const [filterByName, setFilterByName] = useState(false);
+  const [filterByGrower, setFilterByGrower] = useState(false);
+  const [filterByScientificName, setFilterByScientificName] = useState(false);
 
     const filteredFlowers = sortedFlowers.filter(flower => {
-      const nameChecked = document.getElementById("name").checked;
-      const scientificNameChecked = document.getElementById("scientificname").checked;
-      const growerChecked = document.getElementById("grower").checked;
+      const nameChecked = console.log(filterByName);
+      const scientificNameChecked = console.log(filterByScientificName);
+      const growerChecked = console.log(filterByGrower)
       const searchByname = flower.name.toLowerCase().includes(searchTerm.toLowerCase())
       const searchByscientificname = flower.latin_name.toLowerCase().includes(searchTerm.toLowerCase())
       const searchByGrower = flower.grower_email.toLowerCase().includes(searchTerm.toLowerCase())
@@ -114,16 +112,16 @@ const RetailerFlowerList = ({ flowers }) => {
       
       {t('flower.search.filter')}
       <br></br>
-      <label class="checkbox_container">{t('flower.data.name')}
-        <input type="checkbox" id="name" ></input>
+      <label class="checkbox_container" >{t('flower.data.name')}
+        <input type="checkbox" id="name" checked={filterByName} onChange={(e) => setFilterByName(e.target.checked)}></input>
         <span class="checkmark"></span>
       </label>
       <label class="checkbox_container">{t('flower.data.latinname')}
-        <input type="checkbox" id="scientificname"></input>
+        <input type="checkbox" id="scientificname" checked={filterByScientificName} onChange={(e) => setFilterByScientificName(e.target.checked)}></input>
         <span class="checkmark"></span>
       </label>
       <label class="checkbox_container">{t('flower.data.grower')}
-        <input type="checkbox" id="grower"></input>
+        <input type="checkbox" id="grower" checked={filterByGrower} onChange={(e) => setFilterByGrower(e.target.checked)}></input>
         <span class="checkmark"></span>
       </label>
 
