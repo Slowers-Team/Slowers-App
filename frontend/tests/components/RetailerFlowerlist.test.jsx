@@ -5,26 +5,30 @@ import { expect } from 'vitest'
 test ('dummy test', async () => {
   expect(true).toEqual(true)
 })
+// test ('Searches correctly when Scientific name search box is checked',async()=>{
+//   document.getElementById("checkbox").checked = true;
 
-// test('searches correctly when typing in the search box', async () => {
-//     const flowers = [
-//         { _id: '123', name: 'Sunflower', latin_name: 'Helianthus annuus', added_time: '1999-02-08T15:16:00.000Z', grower_email: 'grower1@example.com', quantity: 10 },
-//         { _id: '456', name: 'Lily', latin_name: 'Lilium', added_time: '2024-01-01T09:11:11.000Z', grower_email: 'grower2@example.com', quantity: 5 },
-//         { _id: '789', name: 'Rose', latin_name: 'Rosa', added_time: '2010-06-14T13:45:00.000Z', grower_email: 'grower3@example.com', quantity: 8 }
-//     ]
+// }
+// )
+test('searches correctly when typing in the search box', async () => {
+    const flowers = [
+        { _id: '123', name: 'Sunflower', latin_name: 'Helianthus annuus', added_time: '1999-02-08T15:16:00.000Z', grower_email: 'grower1@example.com', quantity: 10 },
+        { _id: '456', name: 'Lily', latin_name: 'Lilium', added_time: '2024-01-01T09:11:11.000Z', grower_email: 'grower2@example.com', quantity: 5 },
+        { _id: '789', name: 'Rose', latin_name: 'Rosa', added_time: '2010-06-14T13:45:00.000Z', grower_email: 'grower3@example.com', quantity: 8 }
+    ]
 
-//   render(<RetailerFlowerList flowers={flowers} />)
+  render(<RetailerFlowerList flowers={flowers} />)
 
-//   const searchInput = screen.getByPlaceholderText('Search')
-//   fireEvent.change(searchInput, { target: { value: 'Lily' } })
+  const searchInput = screen.getByPlaceholderText('Search')
+  fireEvent.change(searchInput, { target: { value: 'Lily' } })
 
 
-//   await waitFor(() => {
-//     expect(screen.getByText('Lily')).toBeInTheDocument()
-//     expect(screen.queryByText('Rose')).toBeNull()
-//   })
+  await waitFor(() => {
+    expect(screen.getByText('Lily')).toBeInTheDocument()
+    expect(screen.queryByText('Rose')).toBeNull()
+  })
 
-// })
+})
 
 // test('sorts flowers correctly when clicking tha name', async () => {
 //     const flowers = [
