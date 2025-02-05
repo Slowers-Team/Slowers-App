@@ -54,6 +54,7 @@ func CreateUser(c *fiber.Ctx) error {
 	newUser := database.User{Username: user.Username, Password: hashedPassword, Email: user.Email, Role: user.Role}
 
 	createdUser, err := db.CreateUser(c.Context(), newUser)
+	//täällä palautetaan palvelimelta saatu errori fronttiin
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}

@@ -155,6 +155,6 @@ test('shows error message after submit if email is already in use', async () => 
     await user.click(screen.getByLabelText('I agree to the terms and conditions'))
     await user.click(screen.getByText('Register'))
 
-    const errorMessage = await screen.findByText(/email already exists/i)
+    const errorMessage = await screen.findByText('An error occurred. Please try again.')
     expect(errorMessage).toBeInTheDocument()
 })

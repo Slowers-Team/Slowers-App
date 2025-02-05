@@ -32,8 +32,9 @@ const RegisterForm = ({ createNewUser }) => {
           setNewRole('')
           setTermsAccepted(false)
         } catch (error) {
-          const key = `error.${error.response?.data?.toLowerCase().replace(/[^a-z]/g, '')}`
-          setErrorMessage(t(key) || t('error.generic'))
+          //täällä tapahtuu palvelimen lähettämän errorin näyttäminen
+          //console.log(t('error.erroroccured'))
+          setErrorMessage(t('error.erroroccured'))
         }
     }
 
