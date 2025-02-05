@@ -26,7 +26,7 @@ describe('Slowers ', function() {
     cy.contains('Retailer').click()
     cy.get('#termsCheckbox').check()
     cy.get('#createNewUserButton').click()
-    cy.contains('Email already exists')
+    cy.contains('An error occurred. Please try again.')
    })
   
 
