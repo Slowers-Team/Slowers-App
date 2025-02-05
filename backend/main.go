@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	secretKey, databaseURI, port, env := GetEnvironmentVariables()
+	secretKey, databaseURI, port, env, useSQL, SQLDatabaseURI := GetEnvironmentVariables()
 
 	db := database.NewMongoDatabase(databaseURI)
 	if env == "test" {
@@ -19,6 +19,20 @@ func main() {
 	} else {
 		if err := db.Connect("Slowers"); err != nil {
 			log.Fatal(err)
+		}
+	}
+
+	var sqldb *database.SQLDatabase
+	if useSQL == "true" {
+		sqldb := database.NewSQLDatabase(SQLDatabaseURI)
+		if env == "test" {
+			if err := sqldb.Connect("SlowersTest"); err != nil {
+				log.Fatal(err)
+			}
+		} else {
+			if err := sqldb.Connect("Slowers"); err != nil {
+				log.Fatal(err)
+			}
 		}
 	}
 
@@ -38,5 +52,13 @@ func main() {
 	}
 	if dbErr != nil {
 		log.Fatal(dbErr)
+	}
+
+	if useSQL == "true" {
+		sqlDbErr := sqldb.Disconnect()
+
+		if sqlDbErr != nil {
+			log.Fatal(sqlDbErr)
+		}
 	}
 }

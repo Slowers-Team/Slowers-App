@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/jackc/pgx/v5"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -123,4 +124,41 @@ func ParseID(id string) (ObjectID, error) {
 	}
 
 	return parsed, nil
+}
+
+// SQL-connection implementations below
+
+type SQLDatabase struct {
+	databaseURI string
+	conn        *pgx.Conn
+}
+
+var sqlconn *pgx.Conn
+
+func NewSQLDatabase(databaseURI string) *SQLDatabase {
+	return &SQLDatabase{databaseURI, nil}
+}
+
+func (sqlDb *SQLDatabase) Connect(databaseName string) error {
+	connString := fmt.Sprintf("%s/%s", sqlDb.databaseURI, databaseName)
+	var err error
+	conn, err := pgx.Connect(context.Background(), connString)
+
+	if err != nil {
+		return err
+	}
+
+	if err := conn.Ping(context.Background()); err != nil {
+		return err
+	}
+
+	log.Println("Connected to PostgreSQL")
+
+	sqlconn = conn
+
+	return nil
+}
+
+func (sqlDb *SQLDatabase) Disconnect() error {
+	return sqlconn.Close(context.Background())
 }
