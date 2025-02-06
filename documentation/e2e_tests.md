@@ -6,7 +6,7 @@
 
 ## How to run E2E-tests
 
-1. Inside ```frontend``` directory, install the dependencies using the command ```npm install``` and create a ```.env``` file inside the backend directory following instructions in README.
+1. Inside ```frontend``` directory, install the dependencies using the command ```npm install``` and make sure you have a ```.env``` file inside the backend directory following instructions in README.
 2. Run the tests either in interactive mode or command-line mode.
     1. **Option 1 (recommended)**: To run E2E-tests in interactive test runner mode, use command ```npm run e2e``` inside the frontend directory. 
     2. **Option 2**: Tests can be run from the command line using the command ```npx cypress run``` while the backend is running with the command ```ENV=test go run .``` and frontend with the command ```npm run dev```.
