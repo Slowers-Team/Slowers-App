@@ -13,8 +13,11 @@ test ('Searches correctly when Scientific name search box is checked',async()=>{
     { _id: '789', name: 'Targetflower', latin_name: 'Rosa', added_time: '2010-06-14T13:45:00.000Z', grower_email: 'grower3@example.com', quantity: 8 },
     { _id: '790', name: 'Rosa', latin_name: 'Wolfsbane', added_time: '2010-06-14T13:45:00.000Z', grower_email: 'grower3@example.com', quantity: 8 }
 ]
+  render(<RetailerFlowerList flowers={flowers} />)
   const scientificnamecheckbox = screen.getByTestId('scientificnamecheckbox')
+  expect(scientificnamecheckbox).not.toBeChecked();
   fireEvent.click(scientificnamecheckbox)
+  expect(scientificnamecheckbox).toBeChecked();
   const searchInput = screen.getByPlaceholderText('Search')
   fireEvent.change(searchInput, { target: { value: 'Rosa' } })
 
