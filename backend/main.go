@@ -56,10 +56,6 @@ func main() {
 	}
 
 	if useSQL == "true" {
-		sqlDbErr := sqldb.Disconnect()
-
-		if sqlDbErr != nil {
-			log.Fatal(sqlDbErr)
-		}
+		sqldb.Disconnect()
 	}
 }
