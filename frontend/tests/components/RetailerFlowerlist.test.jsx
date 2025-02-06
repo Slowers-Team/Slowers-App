@@ -2,14 +2,32 @@ import { render, screen, fireEvent, waitFor, within } from '@testing-library/rea
 import RetailerFlowerList from '../../src/components/retailer/RetailerFlowerList'
 import { expect } from 'vitest'
 
+
 test ('dummy test', async () => {
   expect(true).toEqual(true)
 })
-// test ('Searches correctly when Scientific name search box is checked',async()=>{
-//   document.getElementById("checkbox").checked = true;
+test ('Searches correctly when Scientific name search box is checked',async()=>{
+  const flowers = [
+    { _id: '123', name: 'Sunflower', latin_name: 'Helianthus annuus', added_time: '1999-02-08T15:16:00.000Z', grower_email: 'grower1@example.com', quantity: 10 },
+    { _id: '456', name: 'Lily', latin_name: 'Lilium', added_time: '2024-01-01T09:11:11.000Z', grower_email: 'rosa@example.com', quantity: 5 },
+    { _id: '789', name: 'Targetflower', latin_name: 'Rosa', added_time: '2010-06-14T13:45:00.000Z', grower_email: 'grower3@example.com', quantity: 8 },
+    { _id: '790', name: 'Rosa', latin_name: 'Wolfsbane', added_time: '2010-06-14T13:45:00.000Z', grower_email: 'grower3@example.com', quantity: 8 }
+]
+  const scientificnamecheckbox = screen.getByLabelText('Latin name')
+  fireEvent.click(scientificnamecheckbox)
+  const searchInput = screen.getByPlaceholderText('Search')
+  fireEvent.change(searchInput, { target: { value: 'Rosa' } })
 
-// }
-// )
+  await waitFor(() => {
+    expect(screen.getByText('Targetflower')).toBeInTheDocument()
+    expect(screen.queryByText('Wolfsbane')).toBeNull()
+    expect(screen.queryByText('rosa@example.com')).toBeNull()
+
+  })
+
+  
+}
+)
 test('searches correctly when typing in the search box', async () => {
     const flowers = [
         { _id: '123', name: 'Sunflower', latin_name: 'Helianthus annuus', added_time: '1999-02-08T15:16:00.000Z', grower_email: 'grower1@example.com', quantity: 10 },
