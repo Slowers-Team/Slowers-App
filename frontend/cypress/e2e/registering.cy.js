@@ -62,4 +62,15 @@ describe('Slowers ', function() {
     cy.get('#createNewUserButton').click()
     cy.get('input:invalid').should('have.length', 1)
   })
+
+  it('register successful notifications shows', function() {
+    cy.visit('/register')
+    cy.get('#newUsernameInput').type('testuser')
+    cy.get('#newEmailInput').type('test@email.com')
+    cy.get('#newPasswordInput').type('testpassword')
+    cy.contains('Grower').click()
+    cy.get('#termsCheckbox').check()
+    cy.get('#createNewUserButton').click()
+    cy.contains('Register successful')
+  })
 })
