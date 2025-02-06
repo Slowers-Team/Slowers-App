@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type Database interface {
 	Connect(databaseName string) error
-	Disconnect() error
+	Disconnect()
 	// 	Clear() error
 	// 	UserOwnsEntity(ctx context.Context, UserID, EntityID ObjectID, Collection string) error
 
@@ -46,10 +46,10 @@ type Database interface {
 
 type SQLDatabase struct {
 	databaseURI string
-	conn        *pgx.Conn
+	pool        *pgxpool.Pool
 }
 
-var sqlconn *pgx.Conn
+var sqlpool *pgxpool.Pool
 
 func NewSQLDatabase(databaseURI string) *SQLDatabase {
 	return &SQLDatabase{databaseURI, nil}
@@ -58,23 +58,23 @@ func NewSQLDatabase(databaseURI string) *SQLDatabase {
 func (sqlDb *SQLDatabase) Connect(databaseName string) error {
 	connString := fmt.Sprintf("%s/%s", sqlDb.databaseURI, databaseName)
 	var err error
-	conn, err := pgx.Connect(context.Background(), connString)
+	pool, err := pgxpool.New(context.Background(), connString)
 
 	if err != nil {
 		return err
 	}
 
-	if err := conn.Ping(context.Background()); err != nil {
+	if err := pool.Ping(context.Background()); err != nil {
 		return err
 	}
 
 	log.Println("Connected to PostgreSQL")
 
-	sqlconn = conn
+	sqlpool = pool
 
 	return nil
 }
 
-func (sqlDb *SQLDatabase) Disconnect() error {
-	return sqlconn.Close(context.Background())
+func (sqlDb *SQLDatabase) Disconnect() {
+	sqlpool.Close()
 }
