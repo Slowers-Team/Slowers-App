@@ -113,15 +113,16 @@ const RetailerFlowerList = ({ flowers }) => {
       {t('flower.search.filter')}
       <br></br>
       <label class="checkbox_container" >{t('flower.data.name')}
-        <input type="checkbox" id="name" checked={filterByName} onChange={(e) => setFilterByName(e.target.checked)}></input>
+        <input type="checkbox" id="name" checked={filterByName} onChange={(e) => setFilterByName(e.target.checked)} data-testid="flowernamecheckbox"></input>
         <span class="checkmark"></span>
       </label>
-      <label class="checkbox_container">{t('flower.data.latinname')}
-        <input type="checkbox" id="scientificname" checked={filterByScientificName} onChange={(e) => setFilterByScientificName(e.target.checked)}></input>
+      <label class="checkbox_container">
+        <input type="checkbox" id="scientificname" checked={filterByScientificName} onChange={(e) => setFilterByScientificName(e.target.checked)} data-testid="scientificnamecheckbox"></input>
+        {t('flower.data.latinname')}
         <span class="checkmark"></span>
       </label>
       <label class="checkbox_container">{t('flower.data.grower')}
-        <input type="checkbox" id="grower" checked={filterByGrower} onChange={(e) => setFilterByGrower(e.target.checked)}></input>
+        <input type="checkbox" id="grower" checked={filterByGrower} onChange={(e) => setFilterByGrower(e.target.checked)} data-testid="growercheckbox"></input>
         <span class="checkmark"></span>
       </label>
 
