@@ -85,9 +85,9 @@ const RetailerFlowerList = ({ flowers }) => {
   const [filterByScientificName, setFilterByScientificName] = useState(false);
 
     const filteredFlowers = sortedFlowers.filter(flower => {
-      const nameChecked = console.log(filterByName);
-      const scientificNameChecked = console.log(filterByScientificName);
-      const growerChecked = console.log(filterByGrower)
+      const nameChecked = filterByName;
+      const scientificNameChecked = filterByScientificName;
+      const growerChecked = filterByGrower;
       const searchByname = flower.name.toLowerCase().includes(searchTerm.toLowerCase())
       const searchByscientificname = flower.latin_name.toLowerCase().includes(searchTerm.toLowerCase())
       const searchByGrower = flower.grower_email.toLowerCase().includes(searchTerm.toLowerCase())
