@@ -116,9 +116,8 @@ const RetailerFlowerList = ({ flowers }) => {
         <input type="checkbox" id="name" checked={filterByName} onChange={(e) => setFilterByName(e.target.checked)} data-testid="flowernamecheckbox"></input>
         <span class="checkmark"></span>
       </label>
-      <label class="checkbox_container">
+      <label class="checkbox_container"> {t('flower.data.latinname')}
         <input type="checkbox" id="scientificname" checked={filterByScientificName} onChange={(e) => setFilterByScientificName(e.target.checked)} data-testid="scientificnamecheckbox"></input>
-        {t('flower.data.latinname')}
         <span class="checkmark"></span>
       </label>
       <label class="checkbox_container">{t('flower.data.grower')}
