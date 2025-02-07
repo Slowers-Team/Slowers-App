@@ -48,9 +48,7 @@ describe('Slowers ', function() {
     cy.get('#newPasswordInput').type('testpassword')
     cy.contains('Grower').click()
     cy.get('#createNewUserButton').click()
-    cy.on('window:alert',(t)=>{
-      expect(t).to.contains('You must accept the terms');
-   })
+    cy.contains('You must accept the terms')
   })
 
   it('cannot register with an empty field', function() {
