@@ -54,10 +54,7 @@ func GetImages() []database.Image {
 	}
 }
 
-func GetImagesForAdding() []database.Image {
-	images := GetImages()
-	for i, _ := range images {
-		images[i].ID = database.NilObjectID
-	}
-	return images
+func PrepareImageForAdding(image database.Image) database.Image {
+	image.ID = database.NilObjectID
+	return image
 }
