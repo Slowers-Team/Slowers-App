@@ -20,6 +20,8 @@ import { useTranslation } from "react-i18next";
 import NavigationBar from "./components/NavigationBar";
 import { Authenticator } from "./Authenticator";
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import BusinessLayout from "./layouts/BusinessLayout";
+import BusinessOwnerPage from "./pages/BusinessOwnerPage";
 
 const Root = () => {
   const { t, i18n } = useTranslation();
@@ -145,6 +147,13 @@ const router = createBrowserRouter([
               { index: true, element: <RetailerHomePage /> },
               { path: "flowers", element: <RetailerFlowerPage /> },
             ],
+          },
+          {
+            path: "business_owner",
+            element: <BusinessLayout />,
+            children: [
+              { index: true, element: <BusinessOwnerPage /> }
+            ]
           },
           { path: "user", element: <UserPage /> },
           {

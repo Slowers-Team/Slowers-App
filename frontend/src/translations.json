@@ -81,6 +81,7 @@
       "menu": {
         "flowers": "Flowers",
         "grower": "Grower page",
+        "businessowner": "Business page",
         "home": "Home",
         "register": "Register",
         "retailer": "Marketplace",
@@ -120,7 +121,8 @@
         "site": "Site",
         "sites": "Sites",
         "sitesites": "sites",
-        "siteimages": "images"
+        "siteimages": "images",
+        "businessowner": "Business page"
       },
       "user": {
         "data": {
@@ -222,6 +224,7 @@
       "menu": {
         "flowers": "Kukat",
         "grower": "Kasvattajan sivu",
+        "businessowner": "Yrityssivut",
         "home": "Kotisivu",
         "register": "Rekisteröidy",
         "retailer": "Tori",
@@ -261,7 +264,8 @@
         "site": "Alue",
         "sites": "Alueet",
         "sitesites": "alueet",
-        "siteimages": "kuvat"
+        "siteimages": "kuvat",
+        "businessowner": "Yrityssivut"
       },
       "user": {
         "data": {
@@ -363,6 +367,7 @@
       "menu": {
         "flowers": "Blommor",
         "grower": "Odlare",
+        "businessowner": "Företagssida",
         "home": "Hem",
         "register": "Skriva in",
         "retailer": "Marknadsplats",
@@ -402,7 +407,8 @@
         "site": "Sida",
         "sites": "Sidor",
         "sitesites": "sidor",
-        "siteimages": "bilder"
+        "siteimages": "bilder",
+        "businessowner": "Företagssida"
       },
       "user": {
         "data": {
