@@ -29,8 +29,8 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(400).SendString("All fields are required")
 	}
 
-	if !(user.Role == "grower" || user.Role == "retailer") {
-		return c.Status(400).SendString("Role must be grower or retailer")
+	if !(user.Role == "grower" || user.Role == "retailer" || user.Role == "growerowner" || user.Role == "retailerowner") {
+		return c.Status(400).SendString("Role must be grower, retailer, growerowner or retailerowner")
 	}
 
 	count, err := db.CountUsersWithEmail(c.Context(), user.Email)
