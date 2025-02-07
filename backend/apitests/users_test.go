@@ -18,11 +18,13 @@ import (
 
 type UsersAPITestSuite struct {
 	suite.Suite
-	TestUser database.User
+	TestUser  database.User
+	TestUsers []database.User
 }
 
 func (s *UsersAPITestSuite) SetupSuite() {
 	s.TestUser = testdata.GetUsers()[0]
+	s.TestUsers = testdata.GetUsers()
 }
 
 func (s *UsersAPITestSuite) TestCreatingUser() {
@@ -165,6 +167,75 @@ func (s *UsersAPITestSuite) TestChangingRole() {
 			).Once()
 		},
 	})
+}
+
+func (s *UsersAPITestSuite) TestCreatingUsersWithAllAvailableRoles() { //TODO: This is currently modified copy-paste of TestCreatingUser()
+	for i := 0; i < len(s.TestUsers); i++ {
+		testutils.RunTest(s.T(), testutils.TestCase{
+			Description: "POST /api/register",
+			Route:       "/api/register",
+			Method:      "POST",
+			ContentType: "application/json",
+			Body: utils.ToJSON(
+				database.User{
+					Username: s.TestUsers[i].Username,
+					Email:    s.TestUsers[i].Email,
+					Password: s.TestUsers[i].Password,
+					Role:     s.TestUsers[i].Role,
+				},
+			),
+			ExpectedCode: 201,
+			ExpectedBodyFunc: func(body []byte) {
+				var response struct {
+					Role  string `json:"role"`
+					Token string `json:"token"`
+				}
+				err := json.Unmarshal([]byte(body), &response)
+				s.NoError(err, "response body should contain a role and a token")
+				s.Equal(
+					response.Role,
+					s.TestUsers[i].Role,
+					"tried to add wrong role to database",
+				)
+				s.NotEmpty(
+					response.Token,
+					"token should not be empty",
+				)
+			},
+
+			SetupMocks: func(db *mocks.Database) {
+				db.EXPECT().CountUsersWithEmail(
+					mock.Anything, s.TestUsers[i].Email,
+				).Return(
+					0, nil,
+				).Once()
+				db.EXPECT().CreateUser(
+					mock.Anything, mock.Anything,
+				).RunAndReturn(func(ctx context.Context, user database.User) (*database.User, error) {
+					s.Equal(
+						user.Username,
+						s.TestUsers[i].Username,
+						"tried to add wrong username to database",
+					)
+					s.Equal(
+						user.Email,
+						s.TestUsers[i].Email,
+						"tried to add wrong email to database",
+					)
+					s.NoError(
+						bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(s.TestUsers[i].Password)),
+						"tried to add wrong Username to database",
+					)
+					s.Equal(
+						user.Role,
+						s.TestUsers[i].Role,
+						"tried to add wrong role to database",
+					)
+					return &s.TestUsers[i], nil
+				}).Once()
+			},
+		})
+	}
 }
 
 func TestUsersAPITestSuite(t *testing.T) {
