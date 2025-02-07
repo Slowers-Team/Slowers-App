@@ -43,7 +43,7 @@
       "flower": {
         "data": {
           "name": "Name",
-          "latinname": "Latin name",
+          "latinname": "Scientific name",
           "addedtime": "Added time",
           "grower": "Grower",
           "site": "Site",
@@ -301,7 +301,7 @@
         "save": "Spara",
         "switchToRetailer": "Byta rollen mot återförsäljare",
         "switchToGrower": "Byta rollen mot odlare",
-        "createBusiness": "Skapa försök",
+        "createBusiness": "Skapa företag",
         "flowerpage": "Blommasidan",
         "showFlower": "Visa för återförsäljaren",
         "hideFlower": "Dölja för återförsäljaren",
@@ -327,7 +327,7 @@
       "flower": {
         "data": {
           "name": "Namn",
-          "latinname": "Latinskt namn",
+          "latinname": "Vetenskapligt namn",
           "addedtime": "Tilläggningstid",
           "grower": "Odlare ",
           "site": "Område",
