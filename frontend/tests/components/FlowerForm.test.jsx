@@ -4,13 +4,13 @@ import FlowerForm from '../../src/components/FlowerForm'
 import { expect, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 
-test('renders FlowerForm with name and latin name inputs', () => {
+test('renders FlowerForm with name and Scientific name inputs', () => {
     const createFlower = vi.fn()
 
     render(<FlowerForm createFlower={createFlower} />)
 
     const name = screen.getByLabelText('Name:')
-    const latinName = screen.getByLabelText('Latin name:')
+    const latinName = screen.getByLabelText('Scientific name:')
     const qty = screen.getByLabelText('Qty:')
     const save = screen.getByText('Save')
 })
@@ -22,7 +22,7 @@ test('updates input values when typing', async() => {
     render(<FlowerForm createFlower={createFlower} />)
 
     const flowerNameInput = screen.getByLabelText('Name:')
-    const flowerLatinNameInput = screen.getByLabelText('Latin name:')
+    const flowerLatinNameInput = screen.getByLabelText('Scientific name:')
     const flowerQtyInput = screen.getByLabelText('Qty:')
 
     await user.type(flowerNameInput, 'Sunflower')
@@ -42,7 +42,7 @@ test('resets input values after submit', async () => {
     render(<FlowerForm createFlower={createFlower} handleClose={handleClose} />)
 
     const flowerNameInput = screen.getByLabelText('Name:')
-    const flowerLatinNameInput = screen.getByLabelText('Latin name:')
+    const flowerLatinNameInput = screen.getByLabelText('Scientific name:')
     const flowerQtyInput = screen.getByLabelText('Qty:')
     const saveButton = screen.getByText('Save')
 
@@ -64,7 +64,7 @@ test('calls createFlower with correct values on submit', async () => {
     render(<FlowerForm createFlower={createFlower} handleClose={handleClose}/>)
 
     const flowerNameInput = screen.getByLabelText('Name:')
-    const flowerLatinNameInput = screen.getByLabelText('Latin name:')
+    const flowerLatinNameInput = screen.getByLabelText('Scientific name:')
     const flowerQtyInput = screen.getByLabelText('Qty:')
     const saveButton = screen.getByText('Save')
 
