@@ -118,6 +118,17 @@ export const NavigationBar = () => {
                 {t("menu.grower")}
               </Nav.Link>
             )}
+            {isLoggedIn && (
+              <Nav.Link
+                className="text-secondary"
+                as={Link}
+                to="/business_owner"
+                onClick={handleClose}
+              >
+                <i className="bi bi-flower1"> </i>
+                {t("menu.businessowner")}
+              </Nav.Link>
+            )}
             <Nav.Link
               className="text-secondary"
               as={Link}
