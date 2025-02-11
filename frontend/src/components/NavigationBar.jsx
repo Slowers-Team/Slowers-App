@@ -67,15 +67,15 @@ export const NavigationBar = () => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <Nav className="flex-column pe-3">
-            <Nav.Link
+            {/* <Nav.Link
               className="text-secondary"
               as={Link}
-              to="/"
+              to="/home"
               onClick={handleClose}
             >
               <i className="bi bi-house"> </i>
               {t("menu.home")}
-            </Nav.Link>
+            </Nav.Link> */}
             {!isLoggedIn && (
               <Nav.Link
                 className="text-secondary"
@@ -96,6 +96,17 @@ export const NavigationBar = () => {
               >
                 <i className="bi bi-person-add"> </i>
                 {t("menu.register")}
+              </Nav.Link>
+            )}
+            {isLoggedIn && (
+              <Nav.Link
+                className="text-secondary"
+                as={Link}
+                to="/home"
+                onClick={handleClose}
+              >
+                <i className="bi bi-house"> </i>
+                {t("menu.home")}
               </Nav.Link>
             )}
             {isLoggedIn && (
