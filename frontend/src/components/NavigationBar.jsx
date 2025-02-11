@@ -9,7 +9,7 @@ import { Authenticator } from "../Authenticator";
 export const NavigationBar = () => {
   const { t, i18n } = useTranslation();
   const [showOffCanvas, setShowOffCanvas] = useState(false);
-  const { isLoggedIn, username } = useLoaderData();
+  const { isLoggedIn, username, role } = useLoaderData();
   const fetcher = useFetcher();
 
   const handleClose = () => setShowOffCanvas(false);
@@ -17,6 +17,8 @@ export const NavigationBar = () => {
 
   const handleLogout = () =>
     fetcher.submit({}, { action: "/logout", method: "post" });
+
+  console.log(isLoggedIn, username, role)
 
   return (
     <>
@@ -100,14 +102,25 @@ export const NavigationBar = () => {
               <Nav.Link
                 className="text-secondary"
                 as={Link}
-                to="/retailer"
+                to="/marketplace"
                 onClick={handleClose}
               >
                 <i className="bi bi-cart4"> </i>
+                {t("menu.marketplace")}
+              </Nav.Link>
+            )}
+            {isLoggedIn && ( role === 'retailer' || role === 'retailerowner' ) && (
+              <Nav.Link
+                className="text-secondary"
+                as={Link}
+                to="/retailer"
+                onClick={handleClose}
+              >
+                <i className="bi bi-flower1"> </i>
                 {t("menu.retailer")}
               </Nav.Link>
             )}
-            {isLoggedIn && (
+            {isLoggedIn && ( role === 'grower' || role === 'growerowner' )  && (
               <Nav.Link
                 className="text-secondary"
                 as={Link}
@@ -118,7 +131,7 @@ export const NavigationBar = () => {
                 {t("menu.grower")}
               </Nav.Link>
             )}
-            {isLoggedIn && (
+            {isLoggedIn && ( role === 'growerowner' || role === 'retailerowner' ) && (
               <Nav.Link
                 className="text-secondary"
                 as={Link}

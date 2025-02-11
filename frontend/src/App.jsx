@@ -6,6 +6,7 @@ import RetailerHomePage from "./pages/RetailerHomePage";
 import RetailerFlowerPage from "./pages/RetailerFlowerPage";
 import RetailerLayout from "./layouts/RetailerLayout";
 import GrowerLayout from "./layouts/GrowerLayout";
+import MarketplaceLayout from "./layouts/MarketplaceLayout";
 import GrowerHomePage from "./pages/GrowerHomePage";
 import GrowerFlowerPage from "./pages/GrowerFlowerPage";
 import GrowerSitesPage from "./pages/GrowerSitesPage";
@@ -143,6 +144,13 @@ const router = createBrowserRouter([
           {
             path: "retailer",
             element: <RetailerLayout />,
+            children: [
+              { index: true, element: <RetailerHomePage /> }
+            ],
+          },
+          {
+            path: "marketplace",
+            element: <MarketplaceLayout />,
             children: [
               { index: true, element: <RetailerHomePage /> },
               { path: "flowers", element: <RetailerFlowerPage /> },
