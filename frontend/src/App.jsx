@@ -4,8 +4,11 @@ import LogInPage from "./pages/LogInPage";
 import UserPage from "./pages/UserPage";
 import RetailerHomePage from "./pages/RetailerHomePage";
 import RetailerFlowerPage from "./pages/RetailerFlowerPage";
+import HomeLayout from "./layouts/HomeLayout";
 import RetailerLayout from "./layouts/RetailerLayout";
 import GrowerLayout from "./layouts/GrowerLayout";
+import MarketplaceLayout from "./layouts/MarketplaceLayout";
+import HomePage from "./pages/HomePage";
 import GrowerHomePage from "./pages/GrowerHomePage";
 import GrowerFlowerPage from "./pages/GrowerFlowerPage";
 import GrowerSitesPage from "./pages/GrowerSitesPage";
@@ -68,11 +71,7 @@ function protectedLoader() {
 // Redirect user to a default role if logged in, else to login
 const rootRedirect = () => {
   if (Authenticator.isLoggedIn) {
-    if (Authenticator.role === "grower") {
-      return redirect("/grower");
-    } else {
-      return redirect("/retailer");
-    }
+    return redirect("/home")
   } else {
     return redirect("/login");
   }
@@ -123,6 +122,13 @@ const router = createBrowserRouter([
         loader: protectedLoader,
         children: [
           {
+            path: "home",
+            element: <HomeLayout />,
+            children: [
+              { index: true, element: <HomePage />}
+            ],
+          },
+          {
             path: "grower",
             element: <GrowerLayout />,
             children: [
@@ -143,6 +149,13 @@ const router = createBrowserRouter([
           {
             path: "retailer",
             element: <RetailerLayout />,
+            children: [
+              { index: true, element: <RetailerHomePage /> }
+            ],
+          },
+          {
+            path: "marketplace",
+            element: <MarketplaceLayout />,
             children: [
               { index: true, element: <RetailerHomePage /> },
               { path: "flowers", element: <RetailerFlowerPage /> },

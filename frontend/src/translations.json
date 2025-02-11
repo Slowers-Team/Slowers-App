@@ -85,7 +85,7 @@
         "businessowner": "Business page",
         "home": "Home",
         "register": "Register",
-        "retailer": "Marketplace",
+        "retailer": "Retailer",
         "login": "Login",
         "logout": "Logout",
         "terms": "Terms",
@@ -95,7 +95,8 @@
         "info": "Info",
         "lifecycle": "Life cycle",
         "sites": "Sites",
-        "images": "Images"
+        "images": "Images",
+        "marketplace": "Marketplace"
       },
       "role": {
         "grower": "Grower",
@@ -229,7 +230,7 @@
         "businessowner": "Yrityssivut",
         "home": "Kotisivu",
         "register": "Rekisteröidy",
-        "retailer": "Tori",
+        "retailer": "Jälleenmyyjä",
         "login": "Kirjaudu sisään",
         "logout": "Kirjaudu ulos",
         "terms": "Käyttöehdot",
@@ -239,7 +240,8 @@
         "info": "Tietoa",
         "lifecycle": "Elinkaari",
         "sites": "Alueet",
-        "images": "Kuvat"
+        "images": "Kuvat",
+        "marketplace": "Tori"
       },
       "role": {
         "grower": "Kasvattaja",
@@ -373,7 +375,7 @@
         "businessowner": "Företagssida",
         "home": "Hem",
         "register": "Skriva in",
-        "retailer": "Marknadsplats",
+        "retailer": "Återförsäljare",
         "login": "Logga in",
         "logout": "Logga ut",
         "terms": "Villkor",
@@ -383,7 +385,8 @@
         "info": "Information",
         "lifecycle": "Livscykel",
         "sites": "Sidot",
-        "images": "Bilder"
+        "images": "Bilder",
+        "marketplace": "Marknadsplats"
       },
       "role": {
         "grower": "Odlare",

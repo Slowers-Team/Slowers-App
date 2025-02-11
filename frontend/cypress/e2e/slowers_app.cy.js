@@ -23,7 +23,6 @@ describe('Slowers ', function() {
   it('can open side menu by clicking hamburger button', function() {
     cy.visit('')
     cy.get('#offcanvasButton').click()
-    cy.contains('Home')
     cy.contains('Login')
     cy.contains('Register')
     cy.contains('Terms')
