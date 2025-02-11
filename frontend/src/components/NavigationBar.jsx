@@ -103,7 +103,7 @@ export const NavigationBar = () => {
                 to="/retailer"
                 onClick={handleClose}
               >
-                <i className="bi bi-shop-window"> </i>
+                <i class="bi bi-cart4"> </i>
                 {t("menu.retailer")}
               </Nav.Link>
             )}
@@ -125,7 +125,7 @@ export const NavigationBar = () => {
                 to="/business_owner"
                 onClick={handleClose}
               >
-                <i className="bi bi-flower1"> </i>
+                <i className="bi bi-shop-window"> </i>
                 {t("menu.businessowner")}
               </Nav.Link>
             )}
