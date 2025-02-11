@@ -238,6 +238,27 @@ func (s *UsersAPITestSuite) TestCreatingUsersWithAllAvailableRoles() { //TODO: T
 	}
 }
 
+func (s *UsersAPITestSuite) TestCreatingUserWithNonavailableRole() {
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description: "POST /api/register",
+		Route:       "/api/register",
+		Method:      "POST",
+		ContentType: "application/json",
+		Body: utils.ToJSON(
+			database.User{
+				Username: s.TestUser.Username,
+				Email:    s.TestUser.Email,
+				Password: s.TestUser.Password,
+				Role:     "superadmin",
+			},
+		),
+		ExpectedCode: 400,
+		ExpectedBody: []byte("unknown role: superadmin"),
+		SetupMocks: func(db *mocks.Database) {
+		},
+	})
+}
+
 func TestUsersAPITestSuite(t *testing.T) {
 	suite.Run(t, new(UsersAPITestSuite))
 }
