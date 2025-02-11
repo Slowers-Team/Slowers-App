@@ -9,6 +9,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/enums"
 	"github.com/Slowers-team/Slowers-App/utils"
 )
 
@@ -29,8 +30,9 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(400).SendString("All fields are required")
 	}
 
-	if !(user.Role == "grower" || user.Role == "retailer") {
-		return c.Status(400).SendString("Role must be grower or retailer")
+	_, err := enums.RoleFromString(user.Role)
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
 	}
 
 	count, err := db.CountUsersWithEmail(c.Context(), user.Email)
