@@ -259,6 +259,47 @@ func (s *UsersAPITestSuite) TestCreatingUserWithNonavailableRole() {
 	})
 }
 
+func (s *UsersAPITestSuite) TestChangingRoleWithAllAvailableRoles() {
+	roles := [4]string{"retailer", "grower", "retailerowner", "growerowner"}
+
+	for i := 0; i < len(roles); i++ {
+		roleJSON := "\"" + roles[i] + "\""
+		testutils.RunTest(s.T(), testutils.TestCase{
+			Description:  "POST /api/user/role",
+			Route:        "/api/user/role",
+			Method:       "POST",
+			ContentType:  "application/json",
+			Body:         []byte(roleJSON),
+			ExpectedCode: 201,
+			ExpectedBody: []byte(roleJSON),
+			SetupMocks: func(db *mocks.Database) {
+				db.EXPECT().SetUserRole(
+					mock.Anything, s.TestUser.ID, roles[i],
+				).Return(
+					nil,
+				).Once()
+			},
+		})
+	}
+}
+
+func (s *UsersAPITestSuite) TestChangingRoleWithNonavailableRole() {
+	role := "superadmin"
+	roleJSON := "\"" + role + "\""
+
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:  "POST /api/user/role",
+		Route:        "/api/user/role",
+		Method:       "POST",
+		ContentType:  "application/json",
+		Body:         []byte(roleJSON),
+		ExpectedCode: 400,
+		ExpectedBody: []byte("unknown role: superadmin"),
+		SetupMocks: func(db *mocks.Database) {
+		},
+	})
+}
+
 func TestUsersAPITestSuite(t *testing.T) {
 	suite.Run(t, new(UsersAPITestSuite))
 }
