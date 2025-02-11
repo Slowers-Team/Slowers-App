@@ -103,7 +103,7 @@ export const NavigationBar = () => {
                 to="/retailer"
                 onClick={handleClose}
               >
-                <i class="bi bi-cart4"> </i>
+                <i className="bi bi-cart4"> </i>
                 {t("menu.retailer")}
               </Nav.Link>
             )}
