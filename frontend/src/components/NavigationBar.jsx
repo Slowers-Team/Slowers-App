@@ -103,7 +103,7 @@ export const NavigationBar = () => {
                 to="/retailer"
                 onClick={handleClose}
               >
-                <i className="bi bi-shop-window"> </i>
+                <i className="bi bi-cart4"> </i>
                 {t("menu.retailer")}
               </Nav.Link>
             )}
@@ -116,6 +116,17 @@ export const NavigationBar = () => {
               >
                 <i className="bi bi-flower1"> </i>
                 {t("menu.grower")}
+              </Nav.Link>
+            )}
+            {isLoggedIn && (
+              <Nav.Link
+                className="text-secondary"
+                as={Link}
+                to="/business_owner"
+                onClick={handleClose}
+              >
+                <i className="bi bi-shop-window"> </i>
+                {t("menu.businessowner")}
               </Nav.Link>
             )}
             <Nav.Link
