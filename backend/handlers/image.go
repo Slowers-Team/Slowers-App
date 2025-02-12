@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/utils"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -68,9 +69,22 @@ func UploadImage(c *fiber.Ctx) error {
 
 	var outputBuffer bytes.Buffer
 
-	smallimage := utils.resizeImage(image.Entity, &outputBuffer, fileext, 200, 200)
+	fileBytes, err := file.Open()
+	if err != nil {
+		return c.Status(500).SendString("Failed to open image file: " + err.Error())
+	}
+	defer fileBytes.Close()
+
+	buf := new(bytes.Buffer)
+	if _, err := buf.ReadFrom(fileBytes); err != nil {
+		return c.Status(500).SendString("Failed to read image file: " + err.Error())
+	}
+
+	smallimage := utils.ResizeImage(bytes.NewReader(buf.Bytes()), &outputBuffer, fileext, 200, 200)
+	_ = smallimage
 
 	newThumbnail := database.Image{FileFormat: fileext, Note: image.Note, Entity: image.Entity, Owner: userID}
+	_ = newThumbnail
 
 	savepath := "./images/" + createdImage.ID.Hex() + "." + fileext
 	if err := c.SaveFile(file, savepath); err != nil {

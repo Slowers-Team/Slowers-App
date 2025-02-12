@@ -54,7 +54,7 @@ func ToJSON(val any) []byte {
 	return asJSON
 }
 
-func resizeImage(input io.Reader, output io.Writer, format string, newWidth, newHeight int) error {
+func ResizeImage(input io.Reader, output io.Writer, format string, newWidth, newHeight int) error {
 	var src image.Image
 	var err error
 	switch format {
@@ -62,6 +62,8 @@ func resizeImage(input io.Reader, output io.Writer, format string, newWidth, new
 		src, err = png.Decode(input)
 	case "jpg", "jpeg":
 		src, err = jpeg.Decode(input)
+	case "gif":
+		src, err = gif.Decode(input)
 	default:
 		return fmt.Errorf("unsupported file type")
 	}
