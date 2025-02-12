@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"log"
@@ -64,6 +65,12 @@ func UploadImage(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
+
+	var outputBuffer bytes.Buffer
+
+	smallimage := utils.resizeImage(image.Entity, &outputBuffer, fileext, 200, 200)
+
+	newThumbnail := database.Image{FileFormat: fileext, Note: image.Note, Entity: image.Entity, Owner: userID}
 
 	savepath := "./images/" + createdImage.ID.Hex() + "." + fileext
 	if err := c.SaveFile(file, savepath); err != nil {

@@ -62,8 +62,6 @@ func resizeImage(input io.Reader, output io.Writer, format string, newWidth, new
 		src, err = png.Decode(input)
 	case "jpg", "jpeg":
 		src, err = jpeg.Decode(input)
-	case "gif":
-		src, err = gif.Decode(input)
 	default:
 		return fmt.Errorf("unsupported file type")
 	}
