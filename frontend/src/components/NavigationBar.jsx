@@ -18,8 +18,6 @@ export const NavigationBar = () => {
   const handleLogout = () =>
     fetcher.submit({}, { action: "/logout", method: "post" });
 
-  console.log(isLoggedIn, username, role)
-
   return (
     <>
       <Navbar expand="sm" className="nav-bar">
