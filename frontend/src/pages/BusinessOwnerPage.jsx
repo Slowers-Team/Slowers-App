@@ -2,17 +2,17 @@ import { useTranslation } from "react-i18next";
 import { Container } from 'react-bootstrap'
 
 
-const HomePage = () => {
+const BusinessOwnerPage = () => {
   const { t, i18n } = useTranslation();
 
 
   return (
     <Container>
-      <h2>{t('title.home')}</h2>
+      <h2>{t('title.businessowner')}</h2>
       <br/>
-      <p>Welcome to Slowers App</p>
+      <p>Here comes the content of the business page</p>
     </Container>
   );
 };
 
-export default HomePage;
+export default BusinessOwnerPage;

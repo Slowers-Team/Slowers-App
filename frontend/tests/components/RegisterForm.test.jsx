@@ -133,3 +133,26 @@ test('does not call createNewUser on submit if email does not match standard for
 
     expect(createNewUser.mock.calls).toHaveLength(0)
 })
+
+test('shows error message after submit if email is already in use', async () => {
+    const createNewUser = vi.fn(async (userData) => {
+        // nyt käytössä kovakoodattu sähköposti
+        // myöhemmin tarkoitus luoda testikäyttäjä testitietokantaan
+        if (userData.email === 'testemail@email.com') {
+            throw { response: { data: 'Email already exists' } }
+        }
+    })
+
+    const user = userEvent.setup()
+    render(<RegisterForm createNewUser={createNewUser} />)
+
+    await user.type(screen.getByPlaceholderText('Enter username'), 'testuser')
+    await user.type(screen.getByPlaceholderText('Enter password'), 'testpassword')
+    await user.type(screen.getByPlaceholderText('Enter email'), 'testemail@email.com')
+    await user.click(screen.getByLabelText('Grower'))
+    await user.click(screen.getByLabelText('I agree to the terms and conditions'))
+    await user.click(screen.getByText('Register'))
+
+    const errorMessage = await screen.findByText('An error occurred. Please try again.')
+    expect(errorMessage).toBeInTheDocument()
+})
