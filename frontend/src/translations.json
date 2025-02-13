@@ -100,7 +100,9 @@
       },
       "role": {
         "grower": "Grower",
-        "retailer": "Retailer"
+        "retailer": "Retailer",
+        "growerowner": "Grower (Owner)",
+        "retailerowner": "Retailer (Owner)"
       },
       "site": {
         "data": {
