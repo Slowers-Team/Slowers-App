@@ -7,13 +7,17 @@ const RegisterForm = ({ createNewUser }) => {
     const [newEmail, setNewEmail] = useState('')
     const [newRole, setNewRole] = useState('')
     const [termsAccepted, setTermsAccepted] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
+    const [termsError, setTermsError] = useState('')
     const { t, i18n } = useTranslation()
 
     const addUser = event => {
         event.preventDefault()
+        setTermsError('')
+        setErrorMessage('')
         if (!termsAccepted) {
-            alert(t('error.acceptterms'))
-            return
+          setTermsError(t('error.acceptterms'))
+          return
         }
         createNewUser({ 
             username: newUsername,
@@ -22,15 +26,24 @@ const RegisterForm = ({ createNewUser }) => {
             role: newRole
         })
 
-        setNewUsername('')
-        setNewPassword('')
-        setNewEmail('')
-        setNewRole('')
-        setTermsAccepted(false)
+        try {
+          await createNewUser(userObject)
+          setNewUsername('')
+          setNewPassword('')
+          setNewEmail('')
+          setNewRole('')
+          setTermsAccepted(false)
+        } catch (error) {
+          //täällä tapahtuu palvelimen lähettämän errorin näyttäminen
+          //console.log(t('error.erroroccured'))
+          setErrorMessage(t('error.erroroccured'))
+        }
     }
 
     return (
         <div className='text-left'>
+          {errorMessage && <p style={{ color: 'red'}}>{errorMessage}</p>}
+          {termsError && <p style={{ color: 'red'}}>{termsError}</p>}
             <form onSubmit={addUser}>
                 <div className="input-group mb-4">
                   <span className="input-group-text">
