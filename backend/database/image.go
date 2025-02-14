@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -33,7 +34,8 @@ func (mDb MongoDatabase) AddImage(ctx context.Context, newImage Image) (*Image, 
 	return createdImage, nil
 }
 
-func (mDb MongoDatabase) GetImageByID(ctx context.Context, imageID ObjectID) (*Image, error) {
+func (mDb MongoDatabase) GetImageByID(ctx context.Context, imageID ObjectID, target string) (*Image, error) {
+	log.Println(target)
 	found := db.Collection("images").FindOne(ctx, bson.M{"_id": imageID})
 
 	image := &Image{}

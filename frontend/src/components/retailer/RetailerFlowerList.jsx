@@ -6,6 +6,7 @@ import { Button, Table } from 'react-bootstrap'
 import ImageService from '../../services/images'
 import '../../App.css'
 import { formatTime } from '../../utils.js'
+const baseUrl = "/api/thumbnails"
 
 const RetailerFlowerList = ({ flowers }) => {
   const { t, i18n } = useTranslation()

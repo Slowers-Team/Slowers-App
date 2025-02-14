@@ -60,6 +60,8 @@ test('fetches images by entity ID and generates URLs correctly', async () => {
 
     const result = await images.getImagesByEntity(entityId);
 
+    console.log("HELP", result)
+
     expect(axios.get).toHaveBeenCalledWith(`/api/images/entity/${entityId}`, expect.objectContaining({
         headers: { Authorization: tokenService.fetchToken() },
         responseType: "json"

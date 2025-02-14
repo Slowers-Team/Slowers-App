@@ -12,13 +12,13 @@ import (
 )
 
 func GetThumbnailByID(c *fiber.Ctx) error {
-	imageID, err := database.ParseID(c.Params("id"))
+	thumbnailID, err := database.ParseID(c.Params("id"))
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
-	log.Println("got ID:", imageID)
-	image, err := db.GetImageByID(c.Context(), imageID)
-	log.Println(imageID, " -> ", image, err)
+	log.Println("got ID:", thumbnailID)
+	thumbnail, err := db.GetImageByID(c.Context(), thumbnailID, "thumbnails")
+	log.Println(thumbnailID, " -> ", thumbnail, err)
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
 			return c.SendStatus(404)
@@ -26,7 +26,7 @@ func GetThumbnailByID(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	filepath := fmt.Sprintf("./images/%v.%v", imageID.Hex(), image.FileFormat)
+	filepath := fmt.Sprintf("./images/%v.%v", thumbnailID.Hex(), thumbnail.FileFormat)
 	log.Println(filepath)
 
 	if _, err := os.Stat(filepath); err != nil {
@@ -48,7 +48,7 @@ func DeleteThumbnail(c *fiber.Ctx) error {
 	log.Printf("Received ID for deletion: %s", id)
 
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).SendString("Invalid image ID format")
+		return c.Status(fiber.StatusBadRequest).SendString("Invalid thumbnail ID format")
 	}
 
 	deleted, err := db.DeleteImage(c.Context(), id)
@@ -66,9 +66,9 @@ func DeleteThumbnail(c *fiber.Ctx) error {
 		imagePath := fmt.Sprintf("./images/%s.%s", id.Hex(), ext)
 		if _, err := os.Stat(imagePath); err == nil {
 			if err := os.Remove(imagePath); err != nil {
-				return c.Status(fiber.StatusInternalServerError).SendString("Error deleting image file")
+				return c.Status(fiber.StatusInternalServerError).SendString("Error deleting thumbnail file")
 			}
-			log.Printf("Successfully deleted image file: %s", imagePath)
+			log.Printf("Successfully deleted thumbnail file: %s", imagePath)
 			found = true
 			break
 		}

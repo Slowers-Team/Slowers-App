@@ -125,8 +125,7 @@ func (s *DbImageTestSuite) TestAddAndGetImageByID() {
 	s.Db.AddImage(context.Background(), imagesForAdding[1])
 
 	fetchedImage, err := s.Db.GetImageByID(
-		context.Background(), createdImage.ID,
-	)
+		context.Background(), createdImage.ID, "images")
 
 	s.Require().NoError(
 		err,

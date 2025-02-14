@@ -231,7 +231,7 @@ func (s *ImagesAPITestSuite) TestGetImageByID() {
 		ExpectedBody: filedata,
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetImageByID(
-				mock.Anything, image.ID,
+				mock.Anything, image.ID, "images",
 			).Return(
 				&image, nil,
 			).Once()

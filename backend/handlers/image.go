@@ -101,7 +101,7 @@ func GetImageByID(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 	log.Println("got ID:", imageID)
-	image, err := db.GetImageByID(c.Context(), imageID)
+	image, err := db.GetImageByID(c.Context(), imageID, "images")
 	log.Println(imageID, " -> ", image, err)
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
