@@ -7,7 +7,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func GetEnvironmentVariables() ([]byte, string, string, string, string, string) {
+func GetEnvironmentVariables() ([]byte, string, string) {
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found")
 	}
@@ -29,19 +29,5 @@ func GetEnvironmentVariables() ([]byte, string, string, string, string, string) 
 		envPort = "5001"
 	}
 
-	env := os.Getenv("ENV")
-	if env == "" {
-		env = "development"
-	}
-
-	envUseSQL := os.Getenv("USESQL")
-
-	envSQLDatabaseURI := os.Getenv("SQLDATABASEURI")
-	if envDatabaseURI == "" && envUseSQL == "true" {
-		log.Fatal("Set your 'SQLDATABASEURI' environment variable or do not enable SQL-connection. " +
-			"See: " +
-			"www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable")
-	}
-
-	return envSecretKey, envDatabaseURI, envPort, env, envUseSQL, envSQLDatabaseURI
+	return envSecretKey, envDatabaseURI, envPort
 }

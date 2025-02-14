@@ -18,7 +18,7 @@ test('renders FlowerInfoTab as grower', () => {
     render(<FlowerInfoTab isGrower={true} flower={flower} deleteImage={deleteImage} />)
 
     const name = screen.getByText('Name')
-    const latinName = screen.getByText('Scientific name')
+    const latinName = screen.getByText('Latin name')
     const addedTime = screen.getByText('Added time')    
     const site = screen.getByText('Site')
     const qty = screen.getByText('Qty')
@@ -40,7 +40,7 @@ test('renders FlowerInfoTab as retailer', () => {
     render(<FlowerInfoTab isGrower={false} flower={flower} deleteImage={deleteImage} />)
 
     const name = screen.getByText('Name')
-    const latinName = screen.getByText('Scientific name')
+    const latinName = screen.getByText('Latin name')
     const addedTime = screen.getByText('Added time')    
     const site = screen.getByText('Grower')
     const qty = screen.getByText('Qty')

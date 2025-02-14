@@ -20,6 +20,6 @@ test('open flower form when clicking button', async () => {
     await user.click(flowerButton)
 
     const flowerNameInput = screen.getByLabelText('Name:')
-    const flowerLatinNameInput = screen.getByLabelText('Scientific name:')
+    const flowerLatinNameInput = screen.getByLabelText('Latin name:')
     const saveButton = screen.getByText('Save')
 })

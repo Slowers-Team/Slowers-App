@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 const LogIn = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setErrorMessage] = useState("");
+  const [error, setError] = useState("");
   const { t, i18n } = useTranslation();
 
   const handleSubmit = async (e) => {
@@ -22,7 +22,8 @@ const LogIn = ({ onLogin }) => {
         setError(t("error.invalidlogininfo"));
       }
     } catch (err) {
-      setErrorMessage(t("error.erroroccured"));
+      setError(t("error.erroroccured"));
+      console.log(err);
     }
   };
 

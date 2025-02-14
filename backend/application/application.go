@@ -11,27 +11,16 @@ import (
 )
 
 var SecretKey []byte
-var Env string
 
 func SetSecretKey(newSecretKey []byte) {
 	SecretKey = newSecretKey
 }
 
-func SetEnv(newEnv string) {
-	Env = newEnv
-}
-
 func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app := fiber.New()
 
-	app.Get("/api/healthcheck", handlers.HealthCheck)
-
 	app.Post("/api/register", handlers.CreateUser)
 	app.Post("/api/login", handlers.HandleLogin)
-
-	if Env == "test" {
-		app.Get("/api/reset", handlers.ResetDatabase)
-	}
 
 	app.Static("/assets", "./client/dist/assets")
 

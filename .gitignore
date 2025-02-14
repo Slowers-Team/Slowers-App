@@ -5,7 +5,6 @@ client/
 mocks/
 /backend/images/
 /backend/dist/
-/frontend/cypress/screenshots/
 
 node_modules
 

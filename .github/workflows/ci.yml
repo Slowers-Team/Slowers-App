@@ -48,17 +48,6 @@ jobs:
       run: npm test
       working-directory: frontend
 
-    - name: e2e tests
-      uses: cypress-io/github-action@v6
-      with:
-        install: false
-        start: npm run prepare:e2e
-        wait-on: 'http://localhost:5001/api/healthcheck, http://localhost:5173'
-        working-directory: frontend
-      env:
-        MONGODB_URI: mongodb://localhost:27017
-        SECRET_KEY: secretkey
-
   push_to_registry:
     needs: ci
     runs-on: ubuntu-latest

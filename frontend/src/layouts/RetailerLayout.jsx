@@ -14,6 +14,11 @@ const tabBar = () => {
               {t('menu.home')}
             </Nav.Link>
           </Nav.Item>
+          <Nav.Item>
+            <Nav.Link className="menu-tab" as={NavLink} end to="/retailer/flowers">
+              {t('menu.flowers')}
+            </Nav.Link>
+          </Nav.Item>
         </Nav>
       </div>
     </div>

@@ -30,13 +30,3 @@ Project done for the Software Lab course (TKT20007) at the University of Helsink
 3. Install Mockery if you haven't already ([instructions here](https://vektra.github.io/mockery/latest/installation)). (Do not use the version in the Ubuntu package manager, because it's not up-to-date.)
 4. Generate the mocks using the command `mockery`. (You might need to use the full path (e.g. `/home/user/go/bin/mockery`) depending on how you installed Mockery.)
 5. Run unit tests using the command `go test ./...`
-
-## Running unit tests for the frontend
-
-1. Go to the `frontend` directory
-2. Install dependencies using `npm install`
-3. Run units tests using the command `npm test`
-
-## Running End-to-End tests
-
-[Instructions for running E2E tests](documentation/e2e_tests.md)

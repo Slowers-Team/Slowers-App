@@ -17,7 +17,7 @@ const AddSite = ({ createSite }) => {
 
     return (
       <>
-        <button id="addNewSiteButton" className='custom-button' onClick={handleShow}>
+        <button className='custom-button' onClick={handleShow}>
           + {t("button.addsite")}
         </button>
         <Modal size="l" show={showModal} onHide={handleClose}>

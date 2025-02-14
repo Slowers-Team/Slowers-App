@@ -9,7 +9,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/Slowers-team/Slowers-App/database"
-	"github.com/Slowers-team/Slowers-App/enums"
 	"github.com/Slowers-team/Slowers-App/utils"
 )
 
@@ -30,9 +29,8 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(400).SendString("All fields are required")
 	}
 
-	_, err := enums.RoleFromString(user.Role)
-	if err != nil {
-		return c.Status(400).SendString(err.Error())
+	if !(user.Role == "grower" || user.Role == "retailer") {
+		return c.Status(400).SendString("Role must be grower or retailer")
 	}
 
 	count, err := db.CountUsersWithEmail(c.Context(), user.Email)
@@ -56,7 +54,6 @@ func CreateUser(c *fiber.Ctx) error {
 	newUser := database.User{Username: user.Username, Password: hashedPassword, Email: user.Email, Role: user.Role}
 
 	createdUser, err := db.CreateUser(c.Context(), newUser)
-	//täällä palautetaan palvelimelta saatu errori fronttiin
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
@@ -123,10 +120,8 @@ func SetRole(c *fiber.Ctx) error {
 	if err := c.BodyParser(&role); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
-
-	_, err = enums.RoleFromString(role)
-	if err != nil {
-		return c.Status(400).SendString(err.Error())
+	if !(role == "grower" || role == "retailer") {
+		return c.Status(500).SendString("Role must be grower or retailer")
 	}
 
 	err = db.SetUserRole(c.Context(), userID, role)
