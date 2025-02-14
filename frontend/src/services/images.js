@@ -12,7 +12,7 @@ const get = (imageObject, Url=baseUrl) => {
   };
   return axios.get(`${Url}/${filename}`, config)
     .then(response => {
-      const imageUrl = Url.createObjectURL(response.data);
+      const imageUrl = URL.createObjectURL(response.data);
       return { _id: imageObject._id, url: imageUrl };
     })
     .catch(error => console.error("Error fetching image blob:", error));
@@ -27,7 +27,7 @@ const getByID = (id, Url=baseUrl) => {
   //console.log(`${Url}/id/${id}`)
   return axios.get(`${Url}/id/${id}`, config)
     .then(response => {
-      const imageUrl = Url.createObjectURL(response.data);
+      const imageUrl = URL.createObjectURL(response.data);
       console.log(imageUrl)
       return imageUrl;
     })
@@ -54,12 +54,9 @@ const getImagesByEntity = (entityId, Url=baseUrl) => {
     responseType: "json" 
   }
   return axios.get(`${Url}/entity/${entityId}`, config)
-  .then(response => {
-    if (!Array.isArray(response.data)) {
-      throw new Error("Invalid data format: Expected an array");
-    }
-    return Promise.all(response.data.map(object => get(object)));
-  });
+    .then( response => 
+      Promise.all(response.data.map(object => get(object)))
+    )
 }
 
 const deleteImage = (id, Url=baseUrl) => {
