@@ -68,7 +68,26 @@ function protectedLoader() {
   return null;
 }
 
-// Redirect user to a default role if logged in, else to login
+// Redirect user to home page if they are not allowed to access the page
+function authorizeAccess() {
+  if (!Authenticator.isLoggedIn) {
+    return redirect("/login");
+  }
+  const path = window.location.pathname
+
+  if (path.startsWith("/grower") && ( Authenticator.role === "retailer" | Authenticator.role === "retailerowner" )) {
+    return redirect("/home")
+  }
+  if (path.startsWith("/retailer") && ( Authenticator.role === "grower" | Authenticator.role === "growerowner" )) {
+    return redirect("/home")
+  }
+  if (path.startsWith("/business_owner") && ( Authenticator.role === "retailer" | Authenticator.role === "grower" )) {
+    return redirect("/home")
+  }
+  return null;
+}
+
+// Redirect user to home page if logged in, else to login
 const rootRedirect = () => {
   if (Authenticator.isLoggedIn) {
     return redirect("/home")
@@ -130,6 +149,7 @@ const router = createBrowserRouter([
           },
           {
             path: "grower",
+            loader: authorizeAccess,
             element: <GrowerLayout />,
             children: [
               { index: true, element: <GrowerHomePage /> },
@@ -148,6 +168,7 @@ const router = createBrowserRouter([
           },
           {
             path: "retailer",
+            loader: authorizeAccess,
             element: <RetailerLayout />,
             children: [
               { index: true, element: <RetailerHomePage /> }
@@ -163,6 +184,7 @@ const router = createBrowserRouter([
           },
           {
             path: "business_owner",
+            loader: authorizeAccess,
             element: <BusinessLayout />,
             children: [
               { index: true, element: <BusinessOwnerPage /> }
