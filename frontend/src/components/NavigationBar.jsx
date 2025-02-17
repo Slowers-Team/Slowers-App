@@ -5,7 +5,7 @@ import LangSelect from "./LangSelect";
 import { Link, useLoaderData, Outlet, useFetcher } from "react-router-dom";
 import { useState } from "react";
 import { Authenticator } from "../Authenticator";
-import Snaillogo from "../images/etana3.svg"
+import Snaillogo from "../images/etanavihrea2.svg"
 
 export const NavigationBar = () => {
   const { t, i18n } = useTranslation();
@@ -26,7 +26,7 @@ export const NavigationBar = () => {
           <span className="navbar-toggler-icon"></span>
         </Button>
         <Navbar.Brand as={Link} to="/">
-          <h1><img width="50" src={Snaillogo} alt="snail"/>Slowers<img width="50" src={Snaillogo} alt="snail"/></h1>
+          <h1>Slowers<img width="50" src={Snaillogo} alt="snail"/></h1>
         </Navbar.Brand>
         <Nav className="ms-auto mx-2">
           {isLoggedIn && (

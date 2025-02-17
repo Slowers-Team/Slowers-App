@@ -1,3 +1,13 @@
+body {
+   background-color: #a3c47e;
+   .bg-image{
+	opacity:0.5;
+	position: absolute;
+	width: 100%;
+	z-index: -1;
+   }
+}
+
 form {
     padding-top: 0.1rem;
     padding-bottom: 0.7rem;
