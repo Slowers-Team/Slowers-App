@@ -21,7 +21,7 @@ services:
     volumes: 
       - ../dbs/psql-init.sql:/docker-entrypoint-initdb.d/init.sql
     container_name: slowers-psql-dev
-  server:
+  slowers-backend:
     image: slowers-backend-dev
     build:
       context: .
