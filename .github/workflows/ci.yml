@@ -74,14 +74,16 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push the backend Docker image to Docker Hub
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@c382f71
+
         with:
           context: backend
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/slowers-backend:latest
 
       - name: Build and push the frontend Docker image to Docker Hub
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@c382f71
+
         with:
           context: frontend
           push: true
