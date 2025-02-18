@@ -25,7 +25,10 @@
         "cancel": "Cancel",
         "update": "Update",
         "Search": "Search",
-        "modify": "Edit"
+        "modify": "Edit",
+        "createbusiness": "Create business",
+        "grower": "Grower",
+        "retailer": "Retailer"
       },
       "error": {
         "acceptterms": "You must accept the terms",
@@ -126,7 +129,8 @@
         "sites": "Sites",
         "sitesites": "sites",
         "siteimages": "images",
-        "businessowner": "Business page"
+        "businessowner": "Business page",
+        "createbusiness": "Create a business"
       },
       "user": {
         "data": {
@@ -143,6 +147,15 @@
       },
       "message": {
         "registersuccessful": "Register successful"
+      },
+      "businessform": {
+        "fieldname": {
+          "businessname": "Name of the business",
+          "businesstype": "Type of the business"
+        },
+        "input": {
+          "businessname": "Enter the name of the business"
+        }
       }
     }
   },
@@ -172,7 +185,10 @@
         "cancel": "Peruuta",
         "update": "Päivitä",
         "Search": "Hae",
-        "modify": "Muokkaa"
+        "modify": "Muokkaa",
+        "createbusiness": "Luo yritys",
+        "grower": "Kasvattaja",
+        "retailer": "Jälleenmyyjä"
       },
       "error": {
         "acceptterms": "Käyttöehdot on hyväksyttävä",
@@ -271,7 +287,8 @@
         "sites": "Alueet",
         "sitesites": "alueet",
         "siteimages": "kuvat",
-        "businessowner": "Yrityssivut"
+        "businessowner": "Yrityssivut",
+        "createbusiness": "Luo yritys"
       },
       "user": {
         "data": {
@@ -288,7 +305,16 @@
       },
       "message": {
         "registersuccessful": "Rekisteröinti onnistui"
-      }
+      },
+      "businessform": {
+        "fieldname": {
+          "businessname": "Yrityksen nimi",
+          "businesstype": "Yrityksen tyyppi"
+        },
+        "input": {
+          "businessname": "Syötä yrityksen nimi"
+        }
+      } 
     }
   },
   "sv": {
@@ -317,7 +343,10 @@
         "cancel": "Ångra",
         "update": "Uppdatera",
         "Search": "Söka",
-        "modify": "Redigera"
+        "modify": "Redigera",
+        "createbusiness": "Skapa företaget",
+        "grower": "Odlare",
+        "retailer": "Återförsäljare"
       },
       "error": {
         "acceptterms": "Du måste acceptera villkor",
@@ -416,7 +445,8 @@
         "sites": "Sidor",
         "sitesites": "sidor",
         "siteimages": "bilder",
-        "businessowner": "Företagssida"
+        "businessowner": "Företagssida",
+        "createbusiness": "Skapa ett företag"
       },
       "user": {
         "data": {
@@ -433,7 +463,16 @@
       },
       "message": {
         "registersuccessful": "Registreringen lyckades"
-      }
+      },
+      "businessform": {
+        "fieldname": {
+          "businessname": "Företagets namn",
+          "businesstype": "Typ av företaget"
+        },
+        "input": {
+          "businessname": "Ange företagets namn"
+        }
+      }  
     }
   }
 }
