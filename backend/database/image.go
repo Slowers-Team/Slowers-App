@@ -67,9 +67,9 @@ func (mDb MongoDatabase) GetImagesByEntity(ctx context.Context, entityID string)
 	return images, nil
 }
 
-func (mDb MongoDatabase) DeleteImage(ctx context.Context, id ObjectID) (bool, error) {
+func (mDb MongoDatabase) DeleteImage(ctx context.Context, id ObjectID, target string) (bool, error) {
 	var image Image
-	err := db.Collection("images").FindOne(ctx, bson.M{"_id": id}).Decode(&image)
+	err := db.Collection(target).FindOne(ctx, bson.M{"_id": id}).Decode(&image)
 	if err != nil {
 		return false, nil
 	}

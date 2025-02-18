@@ -58,7 +58,7 @@ func (s *DbImageTestSuite) TestAddImage() {
 func (s *DbImageTestSuite) TestAddAndDeleteImage() {
 	for _, image := range testdata.GetImagesForAdding() {
 		createdImage, _ := s.Db.AddImage(context.Background(), image)
-		anyDeleted, err := s.Db.DeleteImage(context.Background(), createdImage.ID)
+		anyDeleted, err := s.Db.DeleteImage(context.Background(), createdImage.ID, "images")
 
 		s.True(
 			anyDeleted,

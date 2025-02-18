@@ -41,7 +41,7 @@ type Database interface {
 	GetSiteByID(ctx context.Context, siteID ObjectID) (*Site, error)
 
 	AddImage(ctx context.Context, newImage Image) (*Image, error)
-	DeleteImage(ctx context.Context, id ObjectID) (bool, error)
+	DeleteImage(ctx context.Context, id ObjectID, target string) (bool, error)
 	GetImagesByEntity(ctx context.Context, entityID string) ([]Image, error)
 	SetFavoriteImage(ctx context.Context, UserID, EntityID, ImageID ObjectID, Collection string) error
 	GetImageByID(ctx context.Context, imageID ObjectID, target string) (*Image, error)

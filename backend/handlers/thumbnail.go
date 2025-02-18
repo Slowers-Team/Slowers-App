@@ -43,45 +43,6 @@ func GetThumbnailByID(c *fiber.Ctx) error {
 	return c.SendFile(filepath)
 }
 
-func DeleteThumbnail(c *fiber.Ctx) error {
-	id, err := database.ParseID(c.Params("id"))
-	log.Printf("Received ID for deletion: %s", id)
-
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).SendString("Invalid thumbnail ID format")
-	}
-
-	deleted, err := db.DeleteImage(c.Context(), id)
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
-	}
-	if !deleted {
-		return c.Status(fiber.StatusNotFound).SendString("Image not found")
-	}
-
-	extensions := []string{"jpg", "png"}
-	found := false
-
-	for _, ext := range extensions {
-		imagePath := fmt.Sprintf("./images/%s.%s", id.Hex(), ext)
-		if _, err := os.Stat(imagePath); err == nil {
-			if err := os.Remove(imagePath); err != nil {
-				return c.Status(fiber.StatusInternalServerError).SendString("Error deleting thumbnail file")
-			}
-			log.Printf("Successfully deleted thumbnail file: %s", imagePath)
-			found = true
-			break
-		}
-	}
-
-	if !found {
-		log.Printf("Image file not found for ID: %s", id.Hex())
-		return c.Status(fiber.StatusNotFound).SendString("Image file not found")
-	}
-
-	return c.SendStatus(fiber.StatusNoContent)
-}
-
 func FetchThumbnailsByEntity(c *fiber.Ctx) error {
 	entityID := c.Params("entityID")
 

@@ -88,7 +88,7 @@ func UploadImage(c *fiber.Ctx) error {
 
 	savepath := "./images/" + createdImage.ID.Hex() + "." + fileext
 	if err := c.SaveFile(file, savepath); err != nil {
-		db.DeleteImage(c.Context(), createdImage.ID)
+		db.DeleteImage(c.Context(), createdImage.ID, "images")
 		return c.Status(500).SendString(err.Error())
 	}
 
@@ -149,13 +149,22 @@ func DeleteImage(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid image ID format")
 	}
 
-	deleted, err := db.DeleteImage(c.Context(), id)
+	deletedImage, err := db.DeleteImage(c.Context(), id, "images")
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
-	if !deleted {
+	if !deletedImage {
 		return c.Status(fiber.StatusNotFound).SendString("Image not found")
 	}
+
+	// This is yet to be implemented, commented to not make unnecessary errors
+	// deletedThumbnail, err := db.DeleteImage(c.Context(), id, "thumbnails")
+	// if err != nil {
+	// 	return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+	// }
+	// if !deletedThumbnail {
+	// 	return c.Status(fiber.StatusNotFound).SendString("Image not found")
+	// }
 
 	extensions := []string{"jpg", "png"}
 	found := false

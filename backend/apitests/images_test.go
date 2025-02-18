@@ -192,7 +192,7 @@ func (s *ImagesAPITestSuite) TestDeletingImage() {
 		ExpectedBody: []byte{},
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().DeleteImage(
-				mock.Anything, image.ID,
+				mock.Anything, image.ID, "images",
 			).Return(
 				true, nil,
 			).Once()
