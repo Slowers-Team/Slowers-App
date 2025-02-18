@@ -48,7 +48,7 @@ const CreateBusinessForm = () => {
 					<button type="submit" className='custom-button'>{t('button.createbusiness')}</button>
 				</div>
 			</form>
-    </div>
+    </div> 
   )
 }
 
