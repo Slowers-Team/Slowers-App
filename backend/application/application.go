@@ -68,8 +68,6 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 
 	app.Get("/api/thumbnails/id/:id", handlers.GetThumbnailByID)
 	app.Get("/api/thumbnails/entity/:entityID", handlers.FetchThumbnailsByEntity)
-	app.Delete("/api/thumbnails/:id", handlers.DeleteThumbnail)
-
 	return app
 }
 
