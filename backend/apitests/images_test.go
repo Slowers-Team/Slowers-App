@@ -4,6 +4,10 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+
+	// "image"
+	// "image/jpeg"
+	// "image/png"
 	"io"
 	"io/ioutil"
 	"log"
@@ -149,6 +153,76 @@ func (s *ImagesAPITestSuite) TestImageUpload() {
 		log.Fatal(err)
 	}
 }
+
+// func (s *ImagesAPITestSuite) TestResizeImage() {
+// 	// var image renamed to photo to suit image package
+// 	photo := s.Images[0]
+// 	filename := photo.ID.Hex() + "." + photo.FileFormat
+
+// 	var fieldWriter io.Writer
+// 	var formData bytes.Buffer
+// 	formWriter := multipart.NewWriter(&formData)
+// 	var err error
+
+// 	if fieldWriter, err = formWriter.CreateFormField("entity"); err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	if _, err := io.Copy(fieldWriter, strings.NewReader(photo.Entity.Hex())); err != nil {
+// 		log.Fatal(err)
+// 	}
+
+// 	header := make(textproto.MIMEHeader)
+// 	header.Set("Content-Disposition", fmt.Sprintf(`form-data; name="%s"; filename="%s"`, "image", filename))
+// 	if photo.FileFormat == "jpg" {
+// 		header.Set("Content-Type", "image/jpeg")
+// 	} else if photo.FileFormat == "png" {
+// 		header.Set("Content-Type", "image/png")
+// 	} else {
+// 		log.Fatal("apitests/image_test.go: TestImageUpload(): Unknown image format \"" + photo.FileFormat + "\"")
+// 	}
+// 	if fieldWriter, err = formWriter.CreatePart(header); err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	file, err := os.Open("../testdata/images/" + filename)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	if _, err := io.Copy(fieldWriter, file); err != nil {
+// 		log.Fatal(err)
+// 	}
+
+// 	formWriter.Close()
+
+// 	// Read the first few bytes to check the SOI marker
+// 	buffer := make([]byte, 2)
+// 	if _, err := file.Read(buffer); err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	fmt.Printf("First two bytes: %x\n", buffer)
+
+// 	var output bytes.Buffer
+// 	err = utils.ResizeImage(&formData, &output, photo.FileFormat, 100, 100)
+// 	if err != nil {
+// 		s.T().Fatalf("ResizeImage failed: %v", err)
+// 	}
+
+// 	// Decode the output image to verify the resize operation
+// 	var decoded image.Image
+
+// 	switch photo.FileFormat {
+// 	case "png":
+// 		decoded, err = png.Decode(&output)
+// 	case "jpg", "jpeg":
+// 		decoded, err = jpeg.Decode(&output)
+// 	}
+// 	if err != nil {
+// 		s.T().Fatalf("failed to decode output image: %v", err)
+// 	}
+
+// 	if decoded.Bounds().Dx() != 100 || decoded.Bounds().Dy() != 100 {
+// 		s.T().Fatalf("expected resized image to be 50x50, got %dx%d", decoded.Bounds().Dx(), decoded.Bounds().Dy())
+// 	}
+// }
 
 func (s *ImagesAPITestSuite) TestFetchingImagesByEntity() {
 	testutils.RunTest(s.T(), testutils.TestCase{
