@@ -23,6 +23,22 @@ Project done for the Software Lab course (TKT20007) at the University of Helsink
 6. Inside the `backend` directory, start the app with the command `go run .` (the app can be stopped by pressing Ctrl+C in the terminal where it was started)
 7. If you chose to run the frontend in the development mode, the application is now running at http://localhost:5173. If you chose to run it in the production mode, the application is running at http://localhost:5001.
 
+## Starting development environment(s) using Docker
+
+You need installation of Docker in your machine. [Fullstack MOOC part 12](https://fullstackopen.com/en/part12) has [links and some basic terminology](https://fullstackopen.com/en/part12/introduction_to_containers#installing-everything-required-for-this-part) you will need. Docker Desktop is also useful.
+
+Currently you can run either backend+databases or frontend inside development container, but not both (containers are not in same network and can't communicate). This will be fixed. Also, changing files updates pages served from frontend container automatically, but backend changes require removing and restarting backend container.
+
+### Run development backend inside container
+Inside the repository root directory, build and run container backend+databases -images using command `docker compose -f backend/docker-compose.dev.yml up`. You can exit and remove containers with Ctrl+C. If you want to run container in detached mode, add flag `-d` to the end of the command and remove containers with command `docker compose -f backend/docker-compose.dev.yml down`.
+
+You can inspect MongoDB with command `docker exec -it slowers-mongo-dev mongosh -u root -p example`. You can exit container with command `exit`.
+
+To enable PostgreSQL-database, add line `- USESQL=true` to `environment:` -part of file [backend/docker-compose.dev.yml](backend/docker-compose.dev.yml).
+
+### Run development frontend inside container
+Inside the repository root directory, build and run container backend+databases -images using command `docker compose -f frontend/docker-compose.dev.yml up`. You can exit and remove containers with Ctrl+C. If you want to run container in detached mode, add flag `-d` to the end of the command and remove containers with command `docker compose -f frontend/docker-compose.dev.yml down`.
+
 ## Running unit tests for the backend
 
 1. Go to the `backend` directory
