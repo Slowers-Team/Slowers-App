@@ -1,9 +1,10 @@
 body {
-   background-color: #a3c47e;
+   background-color: #f1f3f0ee;
    .bg-image{
-	opacity:0.5;
+	opacity:0.2;
 	position: absolute;
-	width: 100%;
+	margin: 0;
+	width: 150%;
 	z-index: -1;
    }
 }
