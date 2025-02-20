@@ -6,6 +6,7 @@ mocks/
 /backend/images/
 /backend/dist/
 /frontend/cypress/screenshots/
+/dbs/mongo_data/
 
 node_modules
 
