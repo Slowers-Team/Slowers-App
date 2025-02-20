@@ -37,12 +37,14 @@ To run whole application inside containers, build and run containers from reposi
 
 If you want to run container in detached mode, add flag `-d` to the end of the command and close containers with command `docker compose -f docker-compose.dev.yml down`.
 
+To run unit tests for frontend, you can use command `docker exec -it slowers-frontend-dev npm run test` while slowers-frontend-dev -container is running. Unit tests for backend can similarly be run using command `docker exec -it slowers-backend-dev go test ./...`. Another option is to go inside containers e.g. in VSCode and use normal test commands there.
+
+End-to-end tests are not currently supported.
+
 #### Run only development backend inside containers
 Inside the repository root directory, build and run container from backend+databases -images using command `docker compose -f backend/docker-compose.dev.yml up`. Now you can use address http://localhost:5001/ to access backend. You can exit and close containers with Ctrl+C.
 
 If you want to run container in detached mode, add flag `-d` to the end of the command and close containers with command `docker compose -f backend/docker-compose.dev.yml down`.
-
-To enable PostgreSQL-database, add line `- USESQL=true` to `environment:` -part of file [backend/docker-compose.dev.yml](backend/docker-compose.dev.yml).
 
 #### Run only development frontend inside container
 Inside the repository root directory, build and run container from frontend image using command `docker compose -f frontend/docker-compose.dev.yml up`. Now you can use address http://localhost:5173/ to access frontend. You can exit and close containers with Ctrl+C.
@@ -55,7 +57,7 @@ You can inspect MongoDB with command `docker exec -it slowers-mongo-dev mongosh 
 
 #### Enabling PostgreSQL-database
 
-To enable PostgreSQL-database, add line `- USESQL=true` to `environment:` -part of file [backend/docker-compose.dev.yml](backend/docker-compose.dev.yml).
+To enable PostgreSQL-database, add line `- USESQL=true` to `environment:` -part of file [backend/docker-compose.dev.yml](backend/docker-compose.dev.yml). This selection will be moved to environment variable given through command line and/or .env-file at some point.
 
 ## Running unit tests for the backend
 
