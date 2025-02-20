@@ -14,14 +14,6 @@ const UserPage = () => {
     userService.get().then((user) => setUser(user));
   }, []);
 
-  const handleRoleSwitch = () => {
-    const newRole = switchRole();
-    userService.setRole(newRole).then((_) => {
-      setUser({ ...user, role: newRole });
-      Authenticator.setRole(newRole);
-    });
-  };
-
   const switchRole = () => (user.role === "grower" ? "retailer" : "grower");
 
   return (
@@ -29,8 +21,6 @@ const UserPage = () => {
       <h2>{t('menu.profile')}</h2>
       <UserInfo
         user={user}
-        handleRoleSwitch={handleRoleSwitch}
-        switchedRole={switchRole(user.role)}
       />
       <br/>
       <h2>{t('title.createbusiness')}</h2>

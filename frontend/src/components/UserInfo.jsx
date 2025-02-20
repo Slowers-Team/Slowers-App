@@ -3,13 +3,6 @@ import { useTranslation } from 'react-i18next'
 const UserInfo = ({ user, handleRoleSwitch, switchedRole }) => {
   const { t, i18n } = useTranslation()
 
-  const translateRoleButton = (role) => {
-    if (role == "grower") {
-      return t('button.switchToGrower')
-    } else {
-      return t('button.switchToRetailer')
-    }
-  }
   
   return (
     <div id="userinfo">
@@ -26,7 +19,6 @@ const UserInfo = ({ user, handleRoleSwitch, switchedRole }) => {
         <tr>
           <td>{t('user.data.role')}</td>
           <td id="roleValue">{t(`role.${user.role}`)}</td>
-          <td><button onClick={handleRoleSwitch} className='custom-button'>{translateRoleButton(switchedRole)}</button></td>
         </tr>
         </tbody>
       </table>
