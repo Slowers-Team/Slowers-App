@@ -5,6 +5,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 
 	"github.com/Slowers-team/Slowers-App/handlers"
 	"github.com/Slowers-team/Slowers-App/testdata"
@@ -25,6 +26,12 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app := fiber.New()
 
 	app.Get("/api/healthcheck", handlers.HealthCheck)
+
+	app.Use(cors.New(cors.Config{
+		AllowOrigins:     "https://*.helsinki.fi",
+		AllowCredentials: true,
+		AllowHeaders:     "Authorization",
+	}))
 
 	app.Post("/api/register", handlers.CreateUser)
 	app.Post("/api/login", handlers.HandleLogin)
@@ -63,8 +70,6 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app.Get("/api/images/:filename", handlers.DownloadImage)
 	app.Get("/api/images/entity/:entityID", handlers.FetchImagesByEntity)
 	app.Delete("/api/images/:id", handlers.DeleteImage)
-	app.Post("/api/images/favorite", handlers.SetFavorite)
-	app.Post("/api/images/clearfavorite", handlers.ClearFavorite)
 
 	return app
 }
