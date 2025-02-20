@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"os"
 
@@ -67,30 +68,33 @@ func UploadImage(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	var outputBuffer bytes.Buffer
-
-	fileBytes, err := file.Open()
-	if err != nil {
-		return c.Status(500).SendString("Failed to open image file: " + err.Error())
-	}
-	defer fileBytes.Close()
-
-	buf := new(bytes.Buffer)
-	if _, err := buf.ReadFrom(fileBytes); err != nil {
-		return c.Status(500).SendString("Failed to read image file: " + err.Error())
-	}
-
-	smallimage := utils.ResizeImage(bytes.NewReader(buf.Bytes()), &outputBuffer, fileext, 200, 200)
-	_ = smallimage
-
-	newThumbnail := database.Image{FileFormat: fileext, Note: image.Note, Entity: image.Entity, Owner: userID}
-	_ = newThumbnail
-
 	savepath := "./images/" + createdImage.ID.Hex() + "." + fileext
 	if err := c.SaveFile(file, savepath); err != nil {
 		db.DeleteImage(c.Context(), createdImage.ID, "images")
 		return c.Status(500).SendString(err.Error())
 	}
+
+	// Read the file into a byte slice
+	fileContent, err := file.Open()
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	defer fileContent.Close()
+
+	fileBytes, err := io.ReadAll(fileContent)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	// Create an io.Reader from the byte slice
+	fileReader := bytes.NewReader(fileBytes)
+
+	var outputBuffer bytes.Buffer
+
+	smallimage := utils.ResizeImage(fileReader, &outputBuffer, fileext, 200, 200)
+	_ = smallimage
+	newThumbnail := database.Image{FileFormat: fileext, Note: image.Note, Entity: image.Entity, Owner: userID}
+	_ = newThumbnail
 
 	return c.Status(201).JSON(createdImage)
 }
