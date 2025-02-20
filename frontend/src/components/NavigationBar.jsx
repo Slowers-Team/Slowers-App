@@ -1,6 +1,6 @@
 import "../App.css";
 import { useTranslation } from "react-i18next";
-import { Navbar, Nav, NavDropdown, Button, Offcanvas, Coatntainer } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, Button, Offcanvas, Container } from "react-bootstrap";
 import LangSelect from "./LangSelect";
 import { Link, useLoaderData, Outlet, useFetcher } from "react-router-dom";
 import { useState } from "react";
@@ -26,7 +26,7 @@ export const NavigationBar = () => {
           <span className="navbar-toggler-icon"></span>
         </Button>
         <Navbar.Brand as={Link} to="/">
-        <h1><img width="30" src={Snaillogo} alt="snail"/>Slowers</h1>
+        <h1><img width="50" src={Snaillogo} alt="snail"/>Slowers</h1>
         </Navbar.Brand>
         <Nav className="ms-auto mx-2">
           {isLoggedIn && (
