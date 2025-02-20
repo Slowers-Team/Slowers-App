@@ -31,15 +31,20 @@ There are two ways to run the application locally: the first one in more traditi
 
 You need installation of Docker in your machine. [Fullstack MOOC part 12](https://fullstackopen.com/en/part12) has [links and some basic terminology](https://fullstackopen.com/en/part12/introduction_to_containers#installing-everything-required-for-this-part) you will need. Docker Desktop is also useful.
 
-You can run development containers of either backend+databases, frontend or both. Changing files updates pages served from frontend container automatically, but backend changes require restarting backend container.
+You can run development containers of either databases, backend, frontend or all three simultaneously. Changing files restarts backend server container and updates pages served from frontend container automatically.
 
 To run whole application inside containers, build and run containers from repository root directory with command `docker compose -f docker-compose.dev.yml up`. Now you can use address http://localhost:8080 to access frontend and address http://localhost:8080/api to access backend. You can exit and close containers with Ctrl+C.
 
 If you want to run container in detached mode, add flag `-d` to the end of the command and close containers with command `docker compose -f docker-compose.dev.yml down`.
 
-To run unit tests for frontend, you can use command `docker exec -it slowers-frontend-dev npm run test` while slowers-frontend-dev -container is running. Unit tests for backend can similarly be run using command `docker exec -it slowers-backend-dev go test ./...`. Another option is to go inside containers e.g. in VSCode and use normal test commands there.
+To run unit tests for frontend, you can use command `docker exec slowers-frontend-dev npm run test` while slowers-frontend-dev -container is running. Unit tests for backend can similarly be run using command `docker exec slowers-backend-dev go test ./...`. Another option is to go inside containers e.g. in VSCode and use normal test commands there.
 
 End-to-end tests are not currently supported.
+
+#### Run only databases inside container
+Inside the repository root directory, build and run container from frontend image using command `docker compose -f dbs/docker-compose.dev.yml up`. See files in [dbs](dbs/) directory and [backend/docker-compose.dev.yml](backend/docker-compose.dev.yml) for settings needed to connect to the databases. You can exit and close containers with Ctrl+C.
+
+If you want to run container in detached mode, add flag `-d` to the end of the command and close containers with command `docker compose -f dbs/docker-compose.dev.yml down`.
 
 #### Run only development backend inside containers
 Inside the repository root directory, build and run container from backend+databases -images using command `docker compose -f backend/docker-compose.dev.yml up`. Now you can use address http://localhost:5001/ to access backend. You can exit and close containers with Ctrl+C.
