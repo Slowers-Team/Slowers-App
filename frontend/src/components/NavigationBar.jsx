@@ -26,7 +26,7 @@ export const NavigationBar = () => {
           <span className="navbar-toggler-icon"></span>
         </Button>
         <Navbar.Brand as={Link} to="/">
-        <h1><img width="50" src={Snaillogo} alt="snail"/>Slowers</h1>
+        <h1><img width="50" src={Snaillogo} alt="snail" />Slowers</h1>
         </Navbar.Brand>
         <Nav className="ms-auto mx-2">
           {isLoggedIn && (
