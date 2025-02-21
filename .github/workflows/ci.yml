@@ -88,3 +88,8 @@ jobs:
           context: frontend
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/slowers-frontend:latest
+
+  my-job:
+    permissions:
+      contents: read
+      pull-requests: write
