@@ -2,8 +2,9 @@ FROM node:18
 
 WORKDIR /app
 COPY . .
-RUN npm clean-install && npm run build && npm install http-server
 
-EXPOSE 5173
+RUN npm clean-install
+RUN npm run build
+RUN npm install http-server
 
-CMD npx http-server dist --port 5173 --proxy $BACKEND_URL
+CMD npx http-server --port 5173 --proxy http://localhost:5173? ./dist
