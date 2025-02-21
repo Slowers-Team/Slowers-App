@@ -1,8 +1,13 @@
 package utils
 
 import (
+	"bytes"
 	"encoding/json"
+	"errors"
 	"log"
+	"mime/multipart"
+	"net/textproto"
+	"path/filepath"
 	"regexp"
 
 	"fmt"
@@ -86,4 +91,49 @@ func ResizeImage(input io.Reader, output io.Writer, format string, newWidth, new
 		return fmt.Errorf("failed to encode image: %w", err)
 	}
 	return nil
+}
+
+func BufferToMultipartFileHeader(buf *bytes.Buffer, filename string) (*multipart.FileHeader, error) {
+	// Determine the content type based on the file extension
+	var contentType string
+	ext := filepath.Ext(filename)
+	switch ext {
+	case ".png":
+		contentType = "image/png"
+	case ".jpeg", ".jpg":
+		contentType = "image/jpeg"
+	default:
+		return nil, errors.New("unsupported file type")
+	}
+
+	// Create a new multipart writer
+	body := &bytes.Buffer{}
+	writer := multipart.NewWriter(body)
+
+	// Create a form file field
+	part, err := writer.CreateFormFile("file", filename)
+	if err != nil {
+		return nil, err
+	}
+
+	// Write the buffer content to the form file field
+	_, err = buf.WriteTo(part)
+	if err != nil {
+		return nil, err
+	}
+
+	// Close the writer to finalize the multipart message
+	writer.Close()
+
+	// Manually create the FileHeader
+	fileHeader := &multipart.FileHeader{
+		Filename: filename,
+		Header: textproto.MIMEHeader{
+			"Content-Disposition": []string{fmt.Sprintf(`form-data; name="file"; filename="%s"`, filename)},
+			"Content-Type":        []string{contentType},
+		},
+		Size: int64(buf.Len()),
+	}
+
+	return fileHeader, nil
 }

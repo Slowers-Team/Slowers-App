@@ -11,7 +11,6 @@ import (
 	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/Slowers-team/Slowers-App/utils"
 	"github.com/gofiber/fiber/v2"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -64,7 +63,7 @@ func UploadImage(c *fiber.Ctx) error {
 
 	newImage := database.Image{FileFormat: fileext, Note: image.Note, Entity: image.Entity, Owner: userID}
 
-	createdImage, err := db.AddImage(c.Context(), newImage)
+	createdImage, err := db.AddImage(c.Context(), newImage, "images")
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
@@ -90,21 +89,29 @@ func UploadImage(c *fiber.Ctx) error {
 	// Create an io.Reader from the byte slice
 	fileReader := bytes.NewReader(fileBytes)
 
-	var outputBuffer bytes.Buffer
-	var thumbNail database.ObjectID
-	var thumbnailObject *database.ObjectID = &thumbNail
+	if filedir, err := os.Stat("./thumbnails"); errors.Is(err, os.ErrNotExist) || !filedir.IsDir() {
+		os.Remove("./thumbnails")
+		if err := os.Mkdir("./thumbnails", 0775); err != nil {
+			return c.Status(500).SendString("Could not create directory for thumbnails: " + err.Error())
+		}
+	}
 
-	err = utils.ResizeImage(fileReader, &outputBuffer, fileext, 200, 200)
+	savepath = "./thumbnails/" + createdImage.ID.Hex() + "." + fileext
+	createdThumbnail, err := os.Create(savepath)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
-	thumbNail, err = primitive.ObjectIDFromHex(outputBuffer.String())
+
+	err = utils.ResizeImage(fileReader, createdThumbnail, fileext, 200, 200)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	newThumbnail := database.Image{FileFormat: fileext, Note: image.Note, Entity: thumbnailObject, Owner: userID}
-	_ = newThumbnail
+	thumbnail, err := db.AddImage(c.Context(), newImage, "thumbnails")
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	_ = thumbnail
 
 	return c.Status(201).JSON(createdImage)
 }

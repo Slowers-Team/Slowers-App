@@ -16,14 +16,14 @@ type Image struct {
 	Owner      ObjectID  `json:"owner"`
 }
 
-func (mDb MongoDatabase) AddImage(ctx context.Context, newImage Image) (*Image, error) {
-	insertResult, err := db.Collection("images").InsertOne(ctx, newImage)
+func (mDb MongoDatabase) AddImage(ctx context.Context, newImage Image, target string) (*Image, error) {
+	insertResult, err := db.Collection(target).InsertOne(ctx, newImage)
 	if err != nil {
 		return nil, err
 	}
 
 	filter := bson.M{"_id": insertResult.InsertedID}
-	createdRecord := db.Collection("images").FindOne(ctx, filter)
+	createdRecord := db.Collection(target).FindOne(ctx, filter)
 
 	createdImage := &Image{}
 	err = createdRecord.Decode(createdImage)
