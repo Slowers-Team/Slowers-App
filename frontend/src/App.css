@@ -3,12 +3,17 @@ body {
    .bg-image{
 	opacity:0.2;
 	position: absolute;
+	background-repeat: repeat;
 	margin: 0;
 	width: 150%;
 	z-index: -1;
    }
 }
-
+h1 {
+	font-weight: normal;
+	color: #1a2919;
+	font-size: 70px;
+  }
 form {
     padding-top: 0.1rem;
     padding-bottom: 0.7rem;
