@@ -12,7 +12,7 @@ describe('Slowers ', function() {
     cy.get('#emailInput').type('test@email.com')
     cy.get('#passwordInput').type('testpassword')
     cy.get('#loginButton').click()
-    cy.contains('Homepage')
+    cy.contains('Welcome to Slowers')
   })
 
   it('cannot login with incorrect credentials', function() {

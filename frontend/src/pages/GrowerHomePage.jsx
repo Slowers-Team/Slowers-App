@@ -69,7 +69,7 @@ const GrowerHomePage = () => {
           {site?.name} {t("title.sitehome")}{" "}
         </h2>
       ) : (
-        <h2>{t("title.home")}</h2>
+        <h2>{t("title.growerhome")}</h2>
       )}
       {site?.note && (
         <p className="mx-1">

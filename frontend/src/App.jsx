@@ -8,6 +8,7 @@ import HomeLayout from "./layouts/HomeLayout";
 import RetailerLayout from "./layouts/RetailerLayout";
 import GrowerLayout from "./layouts/GrowerLayout";
 import MarketplaceLayout from "./layouts/MarketplaceLayout";
+import MarketplaceHomePage from "./pages/marketplaceHomePage";
 import HomePage from "./pages/HomePage";
 import GrowerHomePage from "./pages/GrowerHomePage";
 import GrowerFlowerPage from "./pages/GrowerFlowerPage";
@@ -178,7 +179,7 @@ const router = createBrowserRouter([
             path: "marketplace",
             element: <MarketplaceLayout />,
             children: [
-              { index: true, element: <RetailerHomePage /> },
+              { index: true, element: <MarketplaceHomePage /> },
               { path: "flowers", element: <RetailerFlowerPage /> },
             ],
           },

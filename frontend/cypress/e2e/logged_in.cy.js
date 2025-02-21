@@ -8,7 +8,7 @@ describe('Slowers ', function() {
 	describe('when logged in', function() {
 		beforeEach(function() {
 			cy.registerAndLogin({username: 'testuser', email: 'test@email.com', password: 'testpassword', role: 'grower'})
-			cy.contains('Homepage')
+			cy.contains('Welcome to Slowers')
 		})
 
 		// it('changes role value on profile page when role switching button is clicked', function() {
@@ -32,12 +32,12 @@ describe('Slowers ', function() {
 			it('grower user can not access retailer page', function() {
 				cy.contains('Grower')
 				cy.visit('retailer')
-				cy.contains('Welcome to Slowers App')
+				cy.contains('Welcome to Slowers')
 			})
 			it('grower user can not access business owner page', function() {
 				cy.contains('Grower')
 				cy.visit('business_owner')
-				cy.contains('Welcome to Slowers App')
+				cy.contains('Welcome to Slowers')
 			})
 			// it('retailer can see authorized pages in side menu', function() {
 			// 	cy.contains('Switch to Retailer').click()

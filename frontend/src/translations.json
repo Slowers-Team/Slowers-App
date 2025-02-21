@@ -128,7 +128,11 @@
         "sitesites": "sites",
         "siteimages": "images",
         "businessowner": "Business page",
-        "createbusiness": "Create a business"
+        "createbusiness": "Create a business",
+        "welcome": "Welcome to Slowers",
+        "marketplacehome": "Marketplace homepage",
+        "retailerhome": "Retailer homepage",
+        "growerhome": "Grower homepage"
       },
       "user": {
         "data": {
@@ -259,7 +263,9 @@
       },
       "role": {
         "grower": "Kasvattaja",
-        "retailer": "Jälleenmyyjä"
+        "retailer": "Jälleenmyyjä",
+        "growerowner": "Kavattaja (Omistaja)",
+        "retailerowner": "Jälleenmyyjä (Omistaja)"
       },
       "site": {
         "data": {
@@ -284,7 +290,11 @@
         "sitesites": "alueet",
         "siteimages": "kuvat",
         "businessowner": "Yrityssivut",
-        "createbusiness": "Luo yritys"
+        "createbusiness": "Luo yritys",
+        "welcome": "Tervetuloa Slowersiin",
+        "marketplacehome": "Torin kotisivu",
+        "retailerhome": "Jälleenmyyjän kotisivu",
+        "growerhome": "Kasvattajan kotisivu"
       },
       "user": {
         "data": {
@@ -415,7 +425,9 @@
       },
       "role": {
         "grower": "Odlare",
-        "retailer": "Återförsäljare"
+        "retailer": "Återförsäljare",
+        "growerowner": "Odlare (Ägare)",
+        "retailerowner": "Återförsäljare (Ägare)"
       },
       "site": {
         "data": {
@@ -440,7 +452,11 @@
         "sitesites": "sidor",
         "siteimages": "bilder",
         "businessowner": "Företagssida",
-        "createbusiness": "Skapa ett företag"
+        "createbusiness": "Skapa ett företag",
+        "welcome": "Välkommen till Slowers",
+        "marketplacehome": "Marknadsplatsens hemsida",
+        "retailerhome": "Återförsäljarens hemsida",
+        "growerhome": "Odlarens hemsida"
       },
       "user": {
         "data": {
