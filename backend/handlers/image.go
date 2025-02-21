@@ -11,6 +11,7 @@ import (
 	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/Slowers-team/Slowers-App/utils"
 	"github.com/gofiber/fiber/v2"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -90,10 +91,19 @@ func UploadImage(c *fiber.Ctx) error {
 	fileReader := bytes.NewReader(fileBytes)
 
 	var outputBuffer bytes.Buffer
+	var thumbNail database.ObjectID
+	var thumbnailObject *database.ObjectID = &thumbNail
 
-	smallimage := utils.ResizeImage(fileReader, &outputBuffer, fileext, 200, 200)
-	_ = smallimage
-	newThumbnail := database.Image{FileFormat: fileext, Note: image.Note, Entity: image.Entity, Owner: userID}
+	err = utils.ResizeImage(fileReader, &outputBuffer, fileext, 200, 200)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	thumbNail, err = primitive.ObjectIDFromHex(outputBuffer.String())
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	newThumbnail := database.Image{FileFormat: fileext, Note: image.Note, Entity: thumbnailObject, Owner: userID}
 	_ = newThumbnail
 
 	return c.Status(201).JSON(createdImage)
