@@ -8,7 +8,7 @@ test('renders FlowerList without flowers', () => {
     render(<FlowerList flowers={[]} deleteFlower={deleteFlower} />)
 
     const name = screen.getByText('Name')
-    const latinName = screen.getByText('Latin name')
+    const latinName = screen.getByText('Scientific name')
     const addedTime = screen.getByText('Added time')
 })
 

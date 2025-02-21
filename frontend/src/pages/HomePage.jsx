@@ -1,35 +1,18 @@
-import { useState, useEffect } from 'react'
-import flowerService from '../services/flowers'
-import FlowerList from '../components/FlowerList'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from "react-i18next";
+import { Container } from 'react-bootstrap'
+
 
 const HomePage = () => {
-  const [flowers, setFlowers] = useState([])
-  const { t, i18n } = useTranslation()
+  const { t, i18n } = useTranslation();
 
-  useEffect(() => {
-    flowerService.getUserFlowers().then(initialFlowers => setFlowers(initialFlowers))
-  }, [])
-
-  const deleteFlower = flowerObject => {
-    if (
-      window.confirm(
-        `${t('label.confirmflowerdeletion')} ${flowerObject.name}?`
-      )
-    ) {
-      flowerService.remove(flowerObject._id).then(response => {
-        console.log(response)
-        setFlowers(l => l.filter(item => item._id !== flowerObject._id))
-      })
-    }
-  }
 
   return (
-    <div>
-      <h2>{t('title.flowers')}</h2>
-      {flowers && <FlowerList flowers={flowers} deleteFlower={deleteFlower} />}
-    </div>
-  )
-}
+    <Container>
+      <h2>{t('title.home')}</h2>
+      <br/>
+      <p>Welcome to Slowers App</p>
+    </Container>
+  );
+};
 
-export default HomePage
+export default HomePage;

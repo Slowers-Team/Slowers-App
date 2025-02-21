@@ -66,9 +66,6 @@ const TermsWindow = () => {
         Morbi placerat ornare lacus ac porta. Quisque id ante ac dui hendrerit varius in vel nulla.
         Sed imperdiet velit sed tristique rutrum.
       </p>
-      <p>
-        The quick brown fox jumps over the lazy dog.
-      </p>
     </div>
   )
 }

@@ -1,0 +1,26 @@
+services:
+  slowers-mongo-dev:
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: default_db
+    volumes: 
+      - ../dbs/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - ../dbs/mongo_data:/data/db
+    container_name: slowers-mongo-dev
+  slowers-psql-dev:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: Slowers
+      POSTGRES_PASSWORD: verysecretword
+    volumes: 
+      - ../dbs/psql-init.sql:/docker-entrypoint-initdb.d/init.sql
+    container_name: slowers-psql-dev
+
+volumes:
+  mongo_data:
