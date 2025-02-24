@@ -17,7 +17,7 @@ func GetThumbnailByID(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 	log.Println("got ID:", thumbnailID)
-	thumbnail, err := db.GetImageByID(c.Context(), thumbnailID, "thumbnails")
+	thumbnail, err := db.GetImageByID(c.Context(), thumbnailID)
 	log.Println(thumbnailID, " -> ", thumbnail, err)
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
@@ -26,7 +26,7 @@ func GetThumbnailByID(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	filepath := fmt.Sprintf("./images/%v.%v", thumbnailID.Hex(), thumbnail.FileFormat)
+	filepath := fmt.Sprintf("./thumbnails/%v.%v", thumbnailID.Hex(), thumbnail.FileFormat)
 	log.Println(filepath)
 
 	if _, err := os.Stat(filepath); err != nil {
@@ -41,15 +41,4 @@ func GetThumbnailByID(c *fiber.Ctx) error {
 	log.Println("sending file")
 
 	return c.SendFile(filepath)
-}
-
-func FetchThumbnailsByEntity(c *fiber.Ctx) error {
-	entityID := c.Params("entityID")
-
-	images, err := db.GetImagesByEntity(c.Context(), entityID)
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-	}
-
-	return c.JSON(images)
 }

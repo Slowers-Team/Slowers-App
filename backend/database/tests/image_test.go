@@ -22,7 +22,7 @@ func (s *DbImageTestSuite) SetupSuite() {
 
 func (s *DbImageTestSuite) TestAddImage() {
 	for _, image := range testdata.GetImagesForAdding() {
-		createdImage, err := s.Db.AddImage(context.Background(), image, "images")
+		createdImage, err := s.Db.AddImage(context.Background(), image)
 
 		s.NoError(
 			err,
@@ -57,8 +57,8 @@ func (s *DbImageTestSuite) TestAddImage() {
 
 func (s *DbImageTestSuite) TestAddAndDeleteImage() {
 	for _, image := range testdata.GetImagesForAdding() {
-		createdImage, _ := s.Db.AddImage(context.Background(), image, "images")
-		anyDeleted, err := s.Db.DeleteImage(context.Background(), createdImage.ID, "images")
+		createdImage, _ := s.Db.AddImage(context.Background(), image)
+		anyDeleted, err := s.Db.DeleteImage(context.Background(), createdImage.ID)
 
 		s.True(
 			anyDeleted,
@@ -74,8 +74,8 @@ func (s *DbImageTestSuite) TestAddAndDeleteImage() {
 func (s *DbImageTestSuite) TestAddAndGetImageByEntity() {
 	imagesForAdding := testdata.GetImagesForAdding()
 
-	createdImage, _ := s.Db.AddImage(context.Background(), imagesForAdding[0], "images")
-	s.Db.AddImage(context.Background(), imagesForAdding[1], "images")
+	createdImage, _ := s.Db.AddImage(context.Background(), imagesForAdding[0])
+	s.Db.AddImage(context.Background(), imagesForAdding[1])
 
 	fetchedImages, err := s.Db.GetImagesByEntity(
 		context.Background(), imagesForAdding[0].Entity.Hex(),
@@ -121,11 +121,11 @@ func (s *DbImageTestSuite) TestAddAndGetImageByEntity() {
 func (s *DbImageTestSuite) TestAddAndGetImageByID() {
 	imagesForAdding := testdata.GetImagesForAdding()
 
-	createdImage, _ := s.Db.AddImage(context.Background(), imagesForAdding[0], "images")
-	s.Db.AddImage(context.Background(), imagesForAdding[1], "images")
+	createdImage, _ := s.Db.AddImage(context.Background(), imagesForAdding[0])
+	s.Db.AddImage(context.Background(), imagesForAdding[1])
 
 	fetchedImage, err := s.Db.GetImageByID(
-		context.Background(), createdImage.ID, "images")
+		context.Background(), createdImage.ID)
 
 	s.Require().NoError(
 		err,
@@ -165,7 +165,7 @@ func (s *DbImageTestSuite) TestClearFavoriteImageForFlower() {
 	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
 
 	imagesForAdding := testdata.GetImagesForAdding()
-	addedImage, _ := s.Db.AddImage(context.Background(), imagesForAdding[0], "images")
+	addedImage, _ := s.Db.AddImage(context.Background(), imagesForAdding[0])
 
 	s.Db.SetFavoriteImage(
 		context.Background(),
@@ -206,7 +206,7 @@ func (s *DbImageTestSuite) TestClearFavoriteImageForSite() {
 	addedSite, _ := s.Db.AddSite(context.Background(), siteToAdd)
 
 	imagesForAdding := testdata.GetImagesForAdding()
-	addedImage, _ := s.Db.AddImage(context.Background(), imagesForAdding[1], "images")
+	addedImage, _ := s.Db.AddImage(context.Background(), imagesForAdding[1])
 
 	s.Db.SetFavoriteImage(
 		context.Background(),

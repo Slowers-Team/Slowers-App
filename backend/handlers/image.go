@@ -63,14 +63,14 @@ func UploadImage(c *fiber.Ctx) error {
 
 	newImage := database.Image{FileFormat: fileext, Note: image.Note, Entity: image.Entity, Owner: userID}
 
-	createdImage, err := db.AddImage(c.Context(), newImage, "images")
+	createdImage, err := db.AddImage(c.Context(), newImage)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
 
 	savepath := "./images/" + createdImage.ID.Hex() + "." + fileext
 	if err := c.SaveFile(file, savepath); err != nil {
-		db.DeleteImage(c.Context(), createdImage.ID, "images")
+		db.DeleteImage(c.Context(), createdImage.ID)
 		return c.Status(500).SendString(err.Error())
 	}
 
@@ -107,12 +107,6 @@ func UploadImage(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	thumbnail, err := db.AddImage(c.Context(), newImage, "thumbnails")
-	if err != nil {
-		return c.Status(500).SendString(err.Error())
-	}
-	_ = thumbnail
-
 	return c.Status(201).JSON(createdImage)
 }
 
@@ -122,7 +116,7 @@ func GetImageByID(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 	log.Println("got ID:", imageID)
-	image, err := db.GetImageByID(c.Context(), imageID, "images")
+	image, err := db.GetImageByID(c.Context(), imageID)
 	log.Println(imageID, " -> ", image, err)
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
@@ -170,7 +164,7 @@ func DeleteImage(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid image ID format")
 	}
 
-	deletedImage, err := db.DeleteImage(c.Context(), id, "images")
+	deletedImage, err := db.DeleteImage(c.Context(), id)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}

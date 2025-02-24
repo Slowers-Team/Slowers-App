@@ -40,11 +40,11 @@ type Database interface {
 	AddFlowerToSite(ctx context.Context, siteID ObjectID, flowerID ObjectID) error
 	GetSiteByID(ctx context.Context, siteID ObjectID) (*Site, error)
 
-	AddImage(ctx context.Context, newImage Image, target string) (*Image, error)
-	DeleteImage(ctx context.Context, id ObjectID, target string) (bool, error)
+	AddImage(ctx context.Context, newImage Image) (*Image, error)
+	DeleteImage(ctx context.Context, id ObjectID) (bool, error)
 	GetImagesByEntity(ctx context.Context, entityID string) ([]Image, error)
 	SetFavoriteImage(ctx context.Context, UserID, EntityID, ImageID ObjectID, Collection string) error
-	GetImageByID(ctx context.Context, imageID ObjectID, target string) (*Image, error)
+	GetImageByID(ctx context.Context, imageID ObjectID) (*Image, error)
 	ClearFavoriteImage(ctx context.Context, UserID, EntityID ObjectID, Collection string) error
 }
 

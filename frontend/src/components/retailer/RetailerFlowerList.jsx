@@ -19,7 +19,7 @@ const RetailerFlowerList = ({ flowers }) => {
   useEffect(() => {
     const newImages = Promise.all(flowers.map((f) => {
       if (f.favorite_image) {
-        return ImageService.getByID(f.favorite_image)
+        return ImageService.getByID(f.favorite_image, baseUrl)
           .then((url) => (
             {flower: f._id, url: url}
           ))
@@ -113,17 +113,17 @@ const RetailerFlowerList = ({ flowers }) => {
       
       {t('flower.search.filter')}
       <br></br>
-      <label class="checkbox_container" >{t('flower.data.name')}
+      <label className="checkbox_container" >{t('flower.data.name')}
         <input type="checkbox" id="name" checked={filterByName} onChange={(e) => setFilterByName(e.target.checked)} data-testid="flowernamecheckbox"></input>
-        <span class="checkmark"></span>
+        <span className="checkmark"></span>
       </label>
-      <label class="checkbox_container"> {t('flower.data.latinname')}
+      <label className="checkbox_container"> {t('flower.data.latinname')}
         <input type="checkbox" id="scientificname" checked={filterByScientificName} onChange={(e) => setFilterByScientificName(e.target.checked)} data-testid="scientificnamecheckbox"></input>
-        <span class="checkmark"></span>
+        <span className="checkmark"></span>
       </label>
-      <label class="checkbox_container">{t('flower.data.grower')}
+      <label className="checkbox_container">{t('flower.data.grower')}
         <input type="checkbox" id="grower" checked={filterByGrower} onChange={(e) => setFilterByGrower(e.target.checked)} data-testid="growercheckbox"></input>
-        <span class="checkmark"></span>
+        <span className="checkmark"></span>
       </label>
 
 

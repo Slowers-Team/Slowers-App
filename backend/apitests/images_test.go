@@ -122,20 +122,8 @@ func (s *ImagesAPITestSuite) TestImageUpload() {
 		ExpectedBody: utils.ToJSON(image),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().AddImage(
-				mock.Anything, testdata.GetImagesForAdding()[0], "images",
-			).RunAndReturn(func(ctx context.Context, newImage database.Image, target string) (*database.Image, error) {
-				return &database.Image{
-					ID:         image.ID,
-					FileFormat: newImage.FileFormat,
-					Note:       newImage.Note,
-					Entity:     newImage.Entity,
-					Owner:      newImage.Owner,
-				}, nil
-			}).Once()
-
-			db.EXPECT().AddImage(
-				mock.Anything, testdata.GetImagesForAdding()[0], "thumbnails",
-			).RunAndReturn(func(ctx context.Context, newImage database.Image, target string) (*database.Image, error) {
+				mock.Anything, testdata.GetImagesForAdding()[0],
+			).RunAndReturn(func(ctx context.Context, newImage database.Image) (*database.Image, error) {
 				return &database.Image{
 					ID:         image.ID,
 					FileFormat: newImage.FileFormat,
@@ -278,7 +266,7 @@ func (s *ImagesAPITestSuite) TestDeletingImage() {
 		ExpectedBody: []byte{},
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().DeleteImage(
-				mock.Anything, image.ID, "images",
+				mock.Anything, image.ID,
 			).Return(
 				true, nil,
 			).Once()
@@ -317,7 +305,7 @@ func (s *ImagesAPITestSuite) TestGetImageByID() {
 		ExpectedBody: filedata,
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetImageByID(
-				mock.Anything, image.ID, "images",
+				mock.Anything, image.ID,
 			).Return(
 				&image, nil,
 			).Once()
