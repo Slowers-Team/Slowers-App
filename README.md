@@ -62,7 +62,7 @@ You can inspect MongoDB with command `docker exec -it slowers-mongo-dev mongosh 
 
 #### Enabling PostgreSQL-database
 
-To enable PostgreSQL-database, add line `- USESQL=true` to `environment:` -part of file [backend/docker-compose.dev.yml](backend/docker-compose.dev.yml). This selection will be moved to environment variable given through command line and/or .env-file at some point.
+To enable PostgreSQL-database feature toggles in backend, use command `USESQL=true docker compose -f docker-compose.dev.yml up` to run development containers.
 
 ## Running unit tests for the backend
 

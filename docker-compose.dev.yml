@@ -1,7 +1,8 @@
 include:
   - ./dbs/docker-compose.dev.yml
   - ./frontend/docker-compose.dev.yml
-  - ./backend/docker-compose.dev.yml
+  - path: ./backend/docker-compose.dev.yml
+    env: USESQL=${USESQL:-false}
 
 services:
   nginx:
