@@ -187,7 +187,7 @@ func (mDb MongoDatabase) ToggleFlowerVisibility(ctx context.Context, userID, flo
 	}
 
 	if count < 1 {
-		return nil, fmt.Errorf("No image attached to flower %s", flowerID.Hex())
+		return nil, fmt.Errorf("no image attached to flower %s", flowerID.Hex())
 	}
 
 	filter := bson.M{"_id": flowerID}
@@ -202,9 +202,7 @@ func (mDb MongoDatabase) ToggleFlowerVisibility(ctx context.Context, userID, flo
 	}
 
 	ret := updatedVisibility["visible"].(bool)
-	if err != nil {
-		return nil, err
-	}
+
 	return &ret, nil
 }
 

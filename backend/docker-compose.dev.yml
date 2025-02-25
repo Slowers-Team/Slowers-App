@@ -8,8 +8,8 @@ services:
       - ./:/usr/src/app
     ports:
       - 5001:5001
+    env_file:
+      - .dev.env
     environment:
-      - MONGODB_URI=mongodb://the_username:the_password@slowers-mongo-dev:27017/default_db
-      - SECRET_KEY=tihwerei2h4rjr423ju
-      - SQLDATABASEURI=postgres://Slowers:verysecretword@slowers-psql-dev:5432
+      - USESQL=${USESQL:-false}
     container_name: slowers-backend-dev

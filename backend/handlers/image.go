@@ -1,12 +1,15 @@
 package handlers
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"os"
 
 	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/utils"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -71,6 +74,39 @@ func UploadImage(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
+	// Read the file into a byte slice
+	fileContent, err := file.Open()
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	defer fileContent.Close()
+
+	fileBytes, err := io.ReadAll(fileContent)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	// Create an io.Reader from the byte slice
+	fileReader := bytes.NewReader(fileBytes)
+
+	if filedir, err := os.Stat("./thumbnails"); errors.Is(err, os.ErrNotExist) || !filedir.IsDir() {
+		os.Remove("./thumbnails")
+		if err := os.Mkdir("./thumbnails", 0775); err != nil {
+			return c.Status(500).SendString("Could not create directory for thumbnails: " + err.Error())
+		}
+	}
+
+	savepath = "./thumbnails/" + createdImage.ID.Hex() + "." + fileext
+	createdThumbnail, err := os.Create(savepath)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	err = utils.ResizeImage(fileReader, createdThumbnail, fileext, 200, 200)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
 	return c.Status(201).JSON(createdImage)
 }
 
@@ -128,13 +164,22 @@ func DeleteImage(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid image ID format")
 	}
 
-	deleted, err := db.DeleteImage(c.Context(), id)
+	deletedImage, err := db.DeleteImage(c.Context(), id)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
-	if !deleted {
+	if !deletedImage {
 		return c.Status(fiber.StatusNotFound).SendString("Image not found")
 	}
+
+	// This is yet to be implemented, commented to not make unnecessary errors
+	// deletedThumbnail, err := db.DeleteImage(c.Context(), id, "thumbnails")
+	// if err != nil {
+	// 	return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+	// }
+	// if !deletedThumbnail {
+	// 	return c.Status(fiber.StatusNotFound).SendString("Image not found")
+	// }
 
 	extensions := []string{"jpg", "png"}
 	found := false

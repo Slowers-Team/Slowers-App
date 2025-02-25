@@ -2,7 +2,10 @@ FROM node:18
 
 WORKDIR /app
 COPY . .
-RUN npm clean-install && npm run build && npm install http-server
+
+RUN npm clean-install
+RUN npm run build
+RUN npm install http-server
 
 EXPOSE 5173
 

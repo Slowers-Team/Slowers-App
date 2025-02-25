@@ -8,9 +8,7 @@ const HomePage = () => {
 
   return (
     <Container>
-      <h2>{t('title.home')}</h2>
-      <br/>
-      <p>Welcome to Slowers App</p>
+      <h2>{t('title.welcome')}</h2>
     </Container>
   );
 };
