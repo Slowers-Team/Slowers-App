@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
@@ -69,6 +70,16 @@ func (sqlDb *SQLDatabase) Connect(databaseName string) error {
 	}
 
 	log.Println("Connected to PostgreSQL")
+
+	sqlQuery, err := os.ReadFile("database/psql/schema.sql")
+	if err != nil {
+		return err
+	}
+
+	_, err = pool.Exec(context.Background(), string(sqlQuery))
+	if err != nil {
+		return err
+	}
 
 	sqlpool = pool
 
