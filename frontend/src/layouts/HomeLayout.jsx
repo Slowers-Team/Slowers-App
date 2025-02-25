@@ -8,9 +8,9 @@ const tabBar = () => {
   return (
     <div className='tab-bar'>
       <div>
-        <Nav variant='tabs' defaultActiveKey="/retailer">
+        <Nav variant='tabs' defaultActiveKey="/home">
           <Nav.Item>
-            <Nav.Link className="menu-tab" as={NavLink} end to="/retailer"> 
+            <Nav.Link className="menu-tab" as={NavLink} end to="/home"> 
               {t('menu.home')}
             </Nav.Link>
           </Nav.Item>
@@ -20,7 +20,7 @@ const tabBar = () => {
   )
 }
 
-const RetailerLayout = () => {
+const HomeLayout = () => {
   return (
     <div>
       {tabBar()}
@@ -33,4 +33,4 @@ const RetailerLayout = () => {
   )
 }
 
-export default RetailerLayout
+export default HomeLayout

@@ -10,6 +10,10 @@ Project done for the Software Lab course (TKT20007) at the University of Helsink
 
 ## Starting the application locally
 
+There are two ways to run the application locally: the first one in more traditional way of installing and building application locally and the second one uses Docker containers.
+
+### Run by installing and building locally
+
 1. Run MongoDB either online in MongoDB Atlas ([Instructions in Finnish](https://fullstackopen.com/osa3/tietojen_tallettaminen_mongo_db_tietokantaan#mongo-db)/[English](https://fullstackopen.com/en/part3/saving_data_to_mongo_db#mongo-db)) or locally on your computer ([Instructions in English](https://www.mongodb.com/docs/manual/administration/install-community))
 2. Inside the `frontend` directory, install the dependencies using the command `npm install`
 3. Pick one:
@@ -22,6 +26,43 @@ Project done for the Software Lab course (TKT20007) at the University of Helsink
 5. Add `SECRET_KEY=<your-secret-key>` into `.env` file. Replace `<your-secret-key>` with a secret key of your choice. This is needed for JWT authentication to work.
 6. Inside the `backend` directory, start the app with the command `go run .` (the app can be stopped by pressing Ctrl+C in the terminal where it was started)
 7. If you chose to run the frontend in the development mode, the application is now running at http://localhost:5173. If you chose to run it in the production mode, the application is running at http://localhost:5001.
+
+### Run using Docker development containers
+
+You need installation of Docker in your machine. [Fullstack MOOC part 12](https://fullstackopen.com/en/part12) has [links and some basic terminology](https://fullstackopen.com/en/part12/introduction_to_containers#installing-everything-required-for-this-part) you will need. Docker Desktop is also useful.
+
+You can run development containers of either databases, backend, frontend or all three simultaneously. Changing files restarts backend server container and updates pages served from frontend container automatically.
+
+To run whole application inside containers, build and run containers from repository root directory with command `docker compose -f docker-compose.dev.yml up`. Now you can use address http://localhost:8080 to access frontend and address http://localhost:8080/api to access backend. You can exit and close containers with Ctrl+C.
+
+If you want to run container in detached mode, add flag `-d` to the end of the command and close containers with command `docker compose -f docker-compose.dev.yml down`.
+
+To run unit tests for frontend, you can use command `docker exec slowers-frontend-dev npm run test` while slowers-frontend-dev -container is running. Unit tests for backend can similarly be run using command `docker exec slowers-backend-dev go test ./...`. Another option is to go inside containers e.g. in VSCode and use normal test commands there.
+
+End-to-end tests are not currently supported.
+
+#### Run only databases inside container
+Inside the repository root directory, build and run container from frontend image using command `docker compose -f dbs/docker-compose.dev.yml up`. See files in [dbs](dbs/) directory and [backend/docker-compose.dev.yml](backend/docker-compose.dev.yml) for settings needed to connect to the databases. You can exit and close containers with Ctrl+C.
+
+If you want to run container in detached mode, add flag `-d` to the end of the command and close containers with command `docker compose -f dbs/docker-compose.dev.yml down`.
+
+#### Run only development backend inside containers
+Inside the repository root directory, build and run container from backend+databases -images using command `docker compose -f backend/docker-compose.dev.yml up`. Now you can use address http://localhost:5001/ to access backend. You can exit and close containers with Ctrl+C.
+
+If you want to run container in detached mode, add flag `-d` to the end of the command and close containers with command `docker compose -f backend/docker-compose.dev.yml down`.
+
+#### Run only development frontend inside container
+Inside the repository root directory, build and run container from frontend image using command `docker compose -f frontend/docker-compose.dev.yml up`. Now you can use address http://localhost:5173/ to access frontend. You can exit and close containers with Ctrl+C.
+
+If you want to run container in detached mode, add flag `-d` to the end of the command and close containers with command `docker compose -f frontend/docker-compose.dev.yml down`.
+
+#### Inspecting MongoDB inside container
+
+You can inspect MongoDB with command `docker exec -it slowers-mongo-dev mongosh -u root -p example` while the backend+datebases -containers are running. You can exit container with command `exit`. MongoDB data is saved to directory `mongo-data`, which is created inside directory [dbs](dbs/) when container is created for the first time.
+
+#### Enabling PostgreSQL-database
+
+To enable PostgreSQL-database, add line `- USESQL=true` to `environment:` -part of file [backend/docker-compose.dev.yml](backend/docker-compose.dev.yml). This selection will be moved to environment variable given through command line and/or .env-file at some point.
 
 ## Running unit tests for the backend
 

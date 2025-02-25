@@ -15,8 +15,6 @@
         "login": "Log in",
         "register": "Register",
         "save": "Save",
-        "switchToRetailer": "Switch to Retailer",
-        "switchToGrower": "Switch to Grower",
         "createBusiness": "createBusiness",
         "flowerpage": "Flower page",
         "showFlower": "Show to retailers",
@@ -25,7 +23,10 @@
         "cancel": "Cancel",
         "update": "Update",
         "Search": "Search",
-        "modify": "Edit"
+        "modify": "Edit",
+        "createbusiness": "Create business",
+        "grower": "Grower",
+        "retailer": "Retailer"
       },
       "error": {
         "acceptterms": "You must accept the terms",
@@ -85,7 +86,7 @@
         "businessowner": "Business page",
         "home": "Home",
         "register": "Register",
-        "retailer": "Marketplace",
+        "retailer": "Retailer",
         "login": "Login",
         "logout": "Logout",
         "terms": "Terms",
@@ -95,11 +96,14 @@
         "info": "Info",
         "lifecycle": "Life cycle",
         "sites": "Sites",
-        "images": "Images"
+        "images": "Images",
+        "marketplace": "Marketplace"
       },
       "role": {
         "grower": "Grower",
-        "retailer": "Retailer"
+        "retailer": "Retailer",
+        "growerowner": "Grower (Owner)",
+        "retailerowner": "Retailer (Owner)"
       },
       "site": {
         "data": {
@@ -123,7 +127,8 @@
         "sites": "Sites",
         "sitesites": "sites",
         "siteimages": "images",
-        "businessowner": "Business page"
+        "businessowner": "Business page",
+        "createbusiness": "Create a business"
       },
       "user": {
         "data": {
@@ -140,6 +145,15 @@
       },
       "message": {
         "registersuccessful": "Register successful"
+      },
+      "businessform": {
+        "fieldname": {
+          "businessname": "Name of the business",
+          "businesstype": "Type of the business"
+        },
+        "input": {
+          "businessname": "Enter the name of the business"
+        }
       }
     }
   },
@@ -159,8 +173,6 @@
         "login": "Kirjaudu",
         "register": "Rekisteröidy",
         "save": "Tallenna",
-        "switchToRetailer": "Vaihda jälleenmyyjäksi",
-        "switchToGrower": "Vaihda kasvattajaksi",
         "createBusiness": "Luo yritys",
         "flowerpage": "Kukan sivu",
         "close": "Sulje",
@@ -169,7 +181,10 @@
         "cancel": "Peruuta",
         "update": "Päivitä",
         "Search": "Hae",
-        "modify": "Muokkaa"
+        "modify": "Muokkaa",
+        "createbusiness": "Luo yritys",
+        "grower": "Kasvattaja",
+        "retailer": "Jälleenmyyjä"
       },
       "error": {
         "acceptterms": "Käyttöehdot on hyväksyttävä",
@@ -229,7 +244,7 @@
         "businessowner": "Yrityssivut",
         "home": "Kotisivu",
         "register": "Rekisteröidy",
-        "retailer": "Tori",
+        "retailer": "Jälleenmyyjä",
         "login": "Kirjaudu sisään",
         "logout": "Kirjaudu ulos",
         "terms": "Käyttöehdot",
@@ -239,7 +254,8 @@
         "info": "Tietoa",
         "lifecycle": "Elinkaari",
         "sites": "Alueet",
-        "images": "Kuvat"
+        "images": "Kuvat",
+        "marketplace": "Tori"
       },
       "role": {
         "grower": "Kasvattaja",
@@ -267,7 +283,8 @@
         "sites": "Alueet",
         "sitesites": "alueet",
         "siteimages": "kuvat",
-        "businessowner": "Yrityssivut"
+        "businessowner": "Yrityssivut",
+        "createbusiness": "Luo yritys"
       },
       "user": {
         "data": {
@@ -284,7 +301,16 @@
       },
       "message": {
         "registersuccessful": "Rekisteröinti onnistui"
-      }
+      },
+      "businessform": {
+        "fieldname": {
+          "businessname": "Yrityksen nimi",
+          "businesstype": "Yrityksen tyyppi"
+        },
+        "input": {
+          "businessname": "Syötä yrityksen nimi"
+        }
+      } 
     }
   },
   "sv": {
@@ -303,8 +329,6 @@
         "login": "Logga in",
         "register": "Skriva in",
         "save": "Spara",
-        "switchToRetailer": "Byta rollen mot återförsäljare",
-        "switchToGrower": "Byta rollen mot odlare",
         "createBusiness": "Skapa företag",
         "flowerpage": "Blommasidan",
         "showFlower": "Visa för återförsäljaren",
@@ -313,7 +337,10 @@
         "cancel": "Ångra",
         "update": "Uppdatera",
         "Search": "Söka",
-        "modify": "Redigera"
+        "modify": "Redigera",
+        "createbusiness": "Skapa företaget",
+        "grower": "Odlare",
+        "retailer": "Återförsäljare"
       },
       "error": {
         "acceptterms": "Du måste acceptera villkor",
@@ -373,7 +400,7 @@
         "businessowner": "Företagssida",
         "home": "Hem",
         "register": "Skriva in",
-        "retailer": "Marknadsplats",
+        "retailer": "Återförsäljare",
         "login": "Logga in",
         "logout": "Logga ut",
         "terms": "Villkor",
@@ -383,7 +410,8 @@
         "info": "Information",
         "lifecycle": "Livscykel",
         "sites": "Sidot",
-        "images": "Bilder"
+        "images": "Bilder",
+        "marketplace": "Marknadsplats"
       },
       "role": {
         "grower": "Odlare",
@@ -411,7 +439,8 @@
         "sites": "Sidor",
         "sitesites": "sidor",
         "siteimages": "bilder",
-        "businessowner": "Företagssida"
+        "businessowner": "Företagssida",
+        "createbusiness": "Skapa ett företag"
       },
       "user": {
         "data": {
@@ -428,7 +457,16 @@
       },
       "message": {
         "registersuccessful": "Registreringen lyckades"
-      }
+      },
+      "businessform": {
+        "fieldname": {
+          "businessname": "Företagets namn",
+          "businesstype": "Typ av företaget"
+        },
+        "input": {
+          "businessname": "Ange företagets namn"
+        }
+      }  
     }
   }
 }

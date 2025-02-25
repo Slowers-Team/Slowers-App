@@ -123,8 +123,10 @@ func SetRole(c *fiber.Ctx) error {
 	if err := c.BodyParser(&role); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
-	if !(role == "grower" || role == "retailer") {
-		return c.Status(500).SendString("Role must be grower or retailer")
+
+	_, err = enums.RoleFromString(role)
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
 	}
 
 	err = db.SetUserRole(c.Context(), userID, role)

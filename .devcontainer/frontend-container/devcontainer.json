@@ -1,0 +1,7 @@
+{
+  "name": "Frontend container",
+  "dockerComposeFile": ["../../docker-compose.dev.yml"],
+  "service": "slowers-frontend",
+  "shutdownAction": "none",
+  "workspaceFolder": "/usr/src/app"
+}

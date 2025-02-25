@@ -11,14 +11,53 @@ describe('Slowers ', function() {
 			cy.contains('Homepage')
 		})
 
-		it('changes role value on profile page when role switching button is clicked', function() {
-			cy.visit('/user')
-			cy.contains('test@email.com')
-			cy.get('#roleValue').contains('Grower')
-			cy.contains('Switch to Retailer').click()
-			cy.get('#roleValue').contains('Retailer')
-		})
+		// it('changes role value on profile page when role switching button is clicked', function() {
+		// 	cy.visit('/user')
+		// 	cy.contains('test@email.com')
+		// 	cy.get('#roleValue').contains('Grower')
+		// 	cy.contains('Switch to Retailer').click()
+		// 	cy.get('#roleValue').contains('Retailer')
+		// })
+		describe('page visibility', function() {
+			beforeEach(function() {
+				cy.visit('/user')
+				cy.contains('test@email.com')
+			})
 
+			// it('retailer user can not access grower page', function() {
+			// 	cy.contains('Switch to Retailer').click()
+			// 	cy.visit('grower')
+			// 	cy.contains('Welcome to Slowers App')
+			// })
+			it('grower user can not access retailer page', function() {
+				cy.contains('Grower')
+				cy.visit('retailer')
+				cy.contains('Welcome to Slowers App')
+			})
+			it('grower user can not access business owner page', function() {
+				cy.contains('Grower')
+				cy.visit('business_owner')
+				cy.contains('Welcome to Slowers App')
+			})
+			// it('retailer can see authorized pages in side menu', function() {
+			// 	cy.contains('Switch to Retailer').click()
+			// 	cy.visit('home')
+			// 	cy.get('#offcanvasButton').click()
+			// 	cy.contains('Home')
+			// 	cy.contains('Marketplace')
+			// 	cy.contains('Retailer')
+			// 	cy.contains('Terms')
+			// })			
+			it('grower can see authorized pages in side menu', function() {
+				cy.contains('Grower')
+				cy.visit('home')
+				cy.get('#offcanvasButton').click()
+				cy.contains('Home')
+				cy.contains('Marketplace')
+				cy.contains('Grower page')
+				cy.contains('Terms')
+			})
+		})
 		describe('when a site has been added', function() {
 			beforeEach(function() {
 				cy.visit('/grower')
