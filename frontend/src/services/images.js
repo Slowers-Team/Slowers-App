@@ -2,14 +2,15 @@ import axios from 'axios'
 const baseUrl = '/api/images'
 import tokenService from './token'
 
-// get URL for an imageObject
-const get = imageObject => {
+
+// get Url for an imageObject
+const get = (imageObject, Url=baseUrl) => {
   const filename = getFilename(imageObject);
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
     responseType: "blob"
   };
-  return axios.get(`${baseUrl}/${filename}`, config)
+  return axios.get(`${Url}/${filename}`, config)
     .then(response => {
       const imageUrl = URL.createObjectURL(response.data);
       return { _id: imageObject._id, url: imageUrl };
@@ -17,50 +18,52 @@ const get = imageObject => {
     .catch(error => console.error("Error fetching image blob:", error));
 };
 
-const getByID = id => {
+const getByID = (id, Url=baseUrl) => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
     'Content-Type': "application/json", 
     responseType: "blob"
   };
-  return axios.get(`${baseUrl}/id/${id}`, config)
+  //console.log(`${Url}/id/${id}`)
+  return axios.get(`${Url}/id/${id}`, config)
     .then(response => {
       const imageUrl = URL.createObjectURL(response.data);
+      console.log(imageUrl)
       return imageUrl;
     })
     .catch(error => {
-      // console.error("Error fetching image blob:", error); 
+      console.error("Error fetching image blob:", error); 
       throw error});
 }
 
-const create = imageObject => {
+const create = (imageObject, Url=baseUrl) => {
   const config = {
     headers: { 
       Authorization: tokenService.fetchToken(),
       'Content-Type': 'multipart/form-data'
        },
   }
-  const request = axios.post(baseUrl, imageObject, config)
+  const request = axios.post(Url, imageObject, config)
   return request.then(response => response.data)
 }
 
 // get list of URLs for an entity
-const getImagesByEntity = entityId => {
+const getImagesByEntity = (entityId, Url=baseUrl) => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
     responseType: "json" 
   }
-  return axios.get(`${baseUrl}/entity/${entityId}`, config)
+  return axios.get(`${Url}/entity/${entityId}`, config)
     .then( response => 
       Promise.all(response.data.map(object => get(object)))
     )
 }
 
-const deleteImage = id => {
+const deleteImage = (id, Url=baseUrl) => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
   }
-  return axios.delete(`${baseUrl}/${id}`, config)
+  return axios.delete(`${Url}/${id}`, config)
     .then(response => response.data)
     .catch( error => {
       console.error("Error deleting image:", error)
@@ -68,12 +71,12 @@ const deleteImage = id => {
     })
 }
 
-const setFavorite = (entityID, entityType, imageID) => {
+const setFavorite = (entityID, entityType, imageID, Url=baseUrl) => {
   if (!(entityType === "flower" || entityType === "site")) {
     throw "Invalid entity type"
   }
   
-  const url = `${baseUrl}/favorite`
+  const url = `${Url}/favorite`
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
     'Content-Type': 'application/json'
@@ -95,12 +98,12 @@ const setFavorite = (entityID, entityType, imageID) => {
     })
 }
 
-const clearFavorite = (entityID, entityType) => {
+const clearFavorite = (entityID, entityType, Url=baseUrl) => {
   if (!(entityType === "flower" || entityType === "site")) {
     throw "Invalid entity type"
   }
   
-  const url = `${baseUrl}/clearfavorite`
+  const url = `${Url}/clearfavorite`
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
     'Content-Type': 'application/json'

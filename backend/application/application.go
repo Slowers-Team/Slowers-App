@@ -66,6 +66,7 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app.Post("/api/images/favorite", handlers.SetFavorite)
 	app.Post("/api/images/clearfavorite", handlers.ClearFavorite)
 
+	app.Get("/api/thumbnails/id/:id", handlers.GetThumbnailByID)
 	return app
 }
 

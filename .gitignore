@@ -4,6 +4,7 @@
 client/
 mocks/
 /backend/images/
+/backend/thumbnails/
 /backend/dist/
 /frontend/cypress/screenshots/
 /dbs/mongo_data/
