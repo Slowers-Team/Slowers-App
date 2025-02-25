@@ -15,6 +15,9 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-go@v5
