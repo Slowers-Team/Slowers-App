@@ -81,6 +81,16 @@ func (sqlDb *SQLDatabase) Connect(databaseName string) error {
 		return err
 	}
 
+	sqlFunctions, err := os.ReadFile("database/psql/functions.sql")
+	if err != nil {
+		return err
+	}
+
+	_, err = pool.Exec(context.Background(), string(sqlFunctions))
+	if err != nil {
+		return err
+	}
+
 	sqlpool = pool
 
 	return nil
