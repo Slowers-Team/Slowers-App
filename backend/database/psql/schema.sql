@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS Businesses (
 CREATE TABLE IF NOT EXISTS Memberships (
     id SERIAL PRIMARY KEY,
     last_modified TIMESTAMP,
-    user_id INTEGER REFERENCES Users,
+    user_email INTEGER REFERENCES Users,
     business_id INTEGER REFERENCES Businesses,
     designation VARCHAR(20)
 );

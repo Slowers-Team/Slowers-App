@@ -60,7 +60,7 @@ CREATE TABLE business (
 CREATE TABLE business_members (
     id SERIAL PRIMARY KEY,
     last_modified TIMESTAMP,
-    user_id INTEGER REFERENCES users,
+    user_email INTEGER REFERENCES users,
     business_id INTEGER REFERENCES business,
     designation VARCHAR(20)
 );
