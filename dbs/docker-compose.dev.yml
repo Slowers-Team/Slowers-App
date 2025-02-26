@@ -17,7 +17,8 @@ services:
       - .dev.env
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
-    volumes: 
+    volumes:
+      - ./psql-init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./psql_data:/var/lib/postgresql/data
     container_name: slowers-psql-dev
 
