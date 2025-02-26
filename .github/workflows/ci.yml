@@ -15,6 +15,9 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-go@v5
@@ -63,6 +66,9 @@ jobs:
     needs: ci
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/development'
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
@@ -88,3 +94,4 @@ jobs:
           context: frontend
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/slowers-frontend:latest
+
