@@ -10,7 +10,8 @@ import Snaillogo from "../images/snaillogolightgreen.svg"
 export const NavigationBar = () => {
   const { t, i18n } = useTranslation();
   const [showOffCanvas, setShowOffCanvas] = useState(false);
-  const { isLoggedIn, username, role } = useLoaderData();
+  const { isLoggedIn, username } = useLoaderData();
+  const role = Authenticator.role
   const fetcher = useFetcher();
 
   const handleClose = () => setShowOffCanvas(false);
