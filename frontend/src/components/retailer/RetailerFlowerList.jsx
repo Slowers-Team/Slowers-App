@@ -19,7 +19,7 @@ const RetailerFlowerList = ({ flowers }) => {
   useEffect(() => {
     const newImages = Promise.all(flowers.map((f) => {
       if (f.favorite_image) {
-        return ImageService.getByID(f.favorite_image, baseUrl)
+        return ImageService.getByID(f.favorite_image)
           .then((url) => (
             {flower: f._id, url: url}
           ))
