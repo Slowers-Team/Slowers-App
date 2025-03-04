@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"time"
 
 	"github.com/Slowers-team/Slowers-App/application"
 	"github.com/Slowers-team/Slowers-App/database"
@@ -43,6 +44,20 @@ func main() {
 	handlers.SetDatabase(db)
 
 	app := application.SetupAndSetAuthTo(true)
+
+	ticker := time.NewTicker(1 * time.Minute)
+	quit := make(chan struct{})
+	go func() {
+		for {
+			select {
+			case <-ticker.C:
+				log.Println("1 minute has passed")
+			case <-quit:
+				ticker.Stop()
+				return
+			}
+		}
+	}()
 
 	appErr := app.Listen("0.0.0.0:" + port)
 
