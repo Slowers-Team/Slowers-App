@@ -11,7 +11,7 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
-    allowedHosts: ["slowers-frontend"],
+    allowedHosts: ["slowers-frontend-dev"],
   },
   test: {
     environment: "jsdom",

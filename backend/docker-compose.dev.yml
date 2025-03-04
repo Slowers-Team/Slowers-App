@@ -1,5 +1,5 @@
 services:
-  slowers-backend:
+  slowers-backend-dev:
     image: slowers-backend-dev
     build:
       context: .
