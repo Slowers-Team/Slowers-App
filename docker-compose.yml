@@ -1,0 +1,42 @@
+include:
+  - ./dbs/docker-compose.dev.yml
+
+services:
+  slowers-backend:
+    image: slowers-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - 5001:5001
+    env_file:
+      - backend/.dev.env
+    environment:
+      - USESQL=${USESQL:-false}
+    container_name: slowers-backend
+  
+  slowers-frontend:
+    image: slowers-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - 5173:5173
+    environment:
+      - BACKEND_URL=http://slowers-backend:5001
+    container_name: slowers-frontend
+
+  nginx:
+    image: nginx:1.27.4
+    volumes:
+    - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    container_name: slowers-reverse-proxy
+    depends_on:
+      - slowers-backend
+      - slowers-frontend
