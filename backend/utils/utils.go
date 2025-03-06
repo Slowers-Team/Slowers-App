@@ -139,13 +139,11 @@ func BufferToMultipartFileHeader(buf *bytes.Buffer, filename string) (*multipart
 	return fileHeader, nil
 }
 
-func VisibilityTicker() {
-	ticker := time.NewTicker(10 * time.Minute)
-	quit := make(chan struct{})
+func VisibilityTicker(ticker *time.Ticker, quit chan struct{}) {
 	for {
 		select {
 		case <-ticker.C:
-			log.Println("10 minutes have passed")
+			log.Println("1 minute has passed")
 		case <-quit:
 			ticker.Stop()
 			return
