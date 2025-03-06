@@ -94,7 +94,7 @@ const UserPage = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td>{t('businessform.fieldname.additionalinfo')}</td>
+                  <td style={{verticalAlign: "top"}}>{t('businessform.fieldname.additionalinfo')}</td>
                   <td>
                     <textarea
                       className="form-control"
