@@ -162,6 +162,9 @@
           "businessname": "Enter the name of the business",
           "phonenumber" : "Enter phone number",
           "email" : "Enter email",
+          "additionalinfo" : "Enter additional information"
+        },
+        "instructions" : {
           "additionalinfo" : "Tell about your business and give any additional information"
         }
       }
