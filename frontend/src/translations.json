@@ -324,10 +324,19 @@
       "businessform": {
         "fieldname": {
           "businessname": "Yrityksen nimi",
-          "businesstype": "Yrityksen tyyppi"
+          "businesstype": "Yrityksen tyyppi",
+          "phonenumber": "Syötä puhelinnumero",
+          "email": "Sähköposti",
+          "additionalinfo": "Lisätietoja"
         },
         "input": {
-          "businessname": "Syötä yrityksen nimi"
+          "businessname": "Syötä yrityksen nimi",
+          "phonenumber": "Syötä puhelinnumero",
+          "email": "Syötä sähköpostiosoite",
+          "additionalinfo": "Syötä lisätietoja"
+        },
+        "instructions": {
+          "additionalinfo": "Kerro tarkemmin yrityksestä ja anna mahdollisia lisätietoja"
         }
       } 
     }
@@ -486,10 +495,19 @@
       "businessform": {
         "fieldname": {
           "businessname": "Företagets namn",
-          "businesstype": "Typ av företaget"
+          "businesstype": "Typ av företaget",
+          "phonenumber": "Telefonnummer",
+          "email": "E-post",
+          "additionalinfo": "Mer information"
         },
         "input": {
-          "businessname": "Ange företagets namn"
+          "businessname": "Ange företagets namn",
+          "phonenumber": "Ange telefonnummer",
+          "email": "Ange e-post",
+          "additionalinfo": "Skriva in mer information"
+        },
+        "instructions": {
+          "additionalinfo": "Berätta om ditt företag och lämna ytterligare information"
         }
       }  
     }
