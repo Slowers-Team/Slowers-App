@@ -12,6 +12,8 @@ const UserPage = () => {
   const { t, i18n } = useTranslation()
   const [businessName, setBusinessName] = useState('')
   const [type, setType] = useState ('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [email, setEmail] = useState('')
 
   const handleCreateBusiness = async (event) => {
     event.preventDefault()
@@ -44,20 +46,50 @@ const UserPage = () => {
                   <td>
                     <input 
                       className="form-control"
+                      type="text"
                       value={businessName}
                       placeholder={t('businessform.input.businessname')}
                       onChange={event => setBusinessName(event.target.value)}
                       style={{ width: "400px"}}
+                      required
                     />
                   </td>
                 </tr>
                 <tr>
                   <td>{t('businessform.fieldname.businesstype')}</td>
                   <td>
-                    <input type="radio" id="growerSelector" className='btn-check' name="typeSelector" value="grower" checked={type === "grower"} onChange={event => setType(event.target.value)} />
+                    <input type="radio" id="growerSelector" className='btn-check' name="typeSelector" value="grower" checked={type === "grower"} onChange={event => setType(event.target.value)} required/>
                     <label className='btn btn-outline-secondary' style={{ marginRight: "0.5rem" }} htmlFor="growerSelector" >{t('button.grower')}</label>
                     <input type="radio" id="retailerSelector" className='btn-check' name="typeSelector" value="retailer" checked={type === "retailer"}  onChange={event => setType(event.target.value)} />
                     <label className='btn btn-outline-secondary' style={{ marginRight: "0.5rem" }} htmlFor="retailerSelector" >{t('button.retailer')}</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>{t('businessform.fieldname.phonenumber')}</td>
+                  <td>
+                    <input
+                      className="form-control"
+                      type="tel"
+                      value={phoneNumber}
+                      placeholder={t('businessform.input.phonenumber')}
+                      minLength={10}
+                      maxLength={13}
+                      onChange={event => setPhoneNumber(event.target.value)}
+                      required
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>{t('businessform.fieldname.email')}</td>
+                  <td>
+                    <input
+                      className="form-control"
+                      type="email"
+                      value={email}
+                      placeholder={t('businessform.input.email')}
+                      onChange={event => setEmail(event.target.value)}
+                      required
+                    />
                   </td>
                 </tr>
               </tbody>

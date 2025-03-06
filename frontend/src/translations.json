@@ -153,10 +153,14 @@
       "businessform": {
         "fieldname": {
           "businessname": "Name of the business",
-          "businesstype": "Type of the business"
+          "businesstype": "Type of the business",
+          "phonenumber" : "Phone number",
+          "email" : "Email"
         },
         "input": {
-          "businessname": "Enter the name of the business"
+          "businessname": "Enter the name of the business",
+          "phonenumber" : "Enter phone number",
+          "email" : "Enter email"
         }
       }
     }
