@@ -165,7 +165,7 @@
           "additionalinfo" : "Enter additional information"
         },
         "instructions" : {
-          "additionalinfo" : "Tell about your business and give any additional information"
+          "additionalinfo" : "*Tell about your business and give any additional information"
         }
       }
     }
@@ -336,7 +336,7 @@
           "additionalinfo": "Syötä lisätietoja"
         },
         "instructions": {
-          "additionalinfo": "Kerro tarkemmin yrityksestä ja anna mahdollisia lisätietoja"
+          "additionalinfo": "*Kerro tarkemmin yrityksestä ja anna mahdollisia lisätietoja"
         }
       } 
     }
@@ -507,7 +507,7 @@
           "additionalinfo": "Skriva in mer information"
         },
         "instructions": {
-          "additionalinfo": "Berätta om ditt företag och lämna ytterligare information"
+          "additionalinfo": "*Berätta om ditt företag och lämna ytterligare information"
         }
       }  
     }

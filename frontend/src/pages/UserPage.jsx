@@ -15,6 +15,9 @@ const UserPage = () => {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [email, setEmail] = useState('')
   const [additionalInfo, setAdditionalInfo] = useState('')
+  const [address, setAddress] = useState('')
+  const [postalCode, setPostalCode] = useState('')
+  const [city, setCity] = useState('')
 
   const handleCreateBusiness = async (event) => {
     event.preventDefault()
@@ -51,7 +54,6 @@ const UserPage = () => {
                       value={businessName}
                       placeholder={t('businessform.input.businessname')}
                       onChange={event => setBusinessName(event.target.value)}
-                      style={{ width: "400px"}}
                       required
                     />
                   </td>
@@ -89,6 +91,49 @@ const UserPage = () => {
                       value={email}
                       placeholder={t('businessform.input.email')}
                       onChange={event => setEmail(event.target.value)}
+                      required
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Address</td>
+                  <td>
+                    <input
+                      className="form-control"
+                      type="text"
+                      value={address}
+                      placeholder="Address"
+                      onChange={event => setAddress(event.target.value)}
+                      required
+                    />
+                    <small class="w-100">*This is an optional field</small>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Postal code</td>
+                  <td>
+                    <input 
+                      className="form-control"
+                      type="tel"
+                      value={postalCode}
+                      minLength={5}
+                      maxLength={5}
+                      placeholder="Postal code"
+                      onChange={event => setPostalCode(event.target.value)}
+                      style={{ width: "200px"}}
+                      required
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>City/Municipality</td>
+                  <td>
+                    <input
+                      className="form-control"
+                      type="text"
+                      value={city}
+                      placeholder="City/Municipality"
+                      onChange={event => setCity(event.target.value)}
                       required
                     />
                   </td>
