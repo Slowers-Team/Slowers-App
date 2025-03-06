@@ -155,12 +155,14 @@
           "businessname": "Name of the business",
           "businesstype": "Type of the business",
           "phonenumber" : "Phone number",
-          "email" : "Email"
+          "email" : "Email",
+          "additionalinfo" : "Additional information"
         },
         "input": {
           "businessname": "Enter the name of the business",
           "phonenumber" : "Enter phone number",
-          "email" : "Enter email"
+          "email" : "Enter email",
+          "additionalinfo" : "Tell about your business and give any additional information"
         }
       }
     }

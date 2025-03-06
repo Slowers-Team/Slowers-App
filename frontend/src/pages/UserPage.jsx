@@ -14,6 +14,7 @@ const UserPage = () => {
   const [type, setType] = useState ('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [email, setEmail] = useState('')
+  const [additionalInfo, setAdditionalInfo] = useState('')
 
   const handleCreateBusiness = async (event) => {
     event.preventDefault()
@@ -90,6 +91,20 @@ const UserPage = () => {
                       onChange={event => setEmail(event.target.value)}
                       required
                     />
+                  </td>
+                </tr>
+                <tr>
+                  <td>{t('businessform.fieldname.additionalinfo')}</td>
+                  <td>
+                    <textarea
+                      className="form-control"
+                      type="text"
+                      value={additionalInfo}
+                      placeholder={t('businessform.input.additionalinfo')}
+                      rows={5}
+                      onChange={event => setAdditionalInfo(event.target.value)}
+                      required>
+                    </textarea>
                   </td>
                 </tr>
               </tbody>
