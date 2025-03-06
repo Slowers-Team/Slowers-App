@@ -9,6 +9,7 @@ import (
 	"net/textproto"
 	"path/filepath"
 	"regexp"
+	"time"
 
 	"fmt"
 	"image"
@@ -136,4 +137,18 @@ func BufferToMultipartFileHeader(buf *bytes.Buffer, filename string) (*multipart
 	}
 
 	return fileHeader, nil
+}
+
+func VisibilityTicker() {
+	ticker := time.NewTicker(10 * time.Minute)
+	quit := make(chan struct{})
+	for {
+		select {
+		case <-ticker.C:
+			log.Println("10 minutes have passed")
+		case <-quit:
+			ticker.Stop()
+			return
+		}
+	}
 }
