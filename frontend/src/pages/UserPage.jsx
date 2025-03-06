@@ -111,7 +111,7 @@ const UserPage = () => {
                       onChange={event => setAddress(event.target.value)}
                       required
                     />
-                    <small class="w-100">{t('businessform.instructions.address')}</small>
+                    <small className="w-100">{t('businessform.instructions.address')}</small>
                   </td>
                 </tr>
                 <tr>
@@ -155,7 +155,7 @@ const UserPage = () => {
                       onChange={event => setAdditionalInfo(event.target.value)}
                       required>
                     </textarea>
-                    <small class="w-100">{t('businessform.instructions.additionalinfo')}</small>
+                    <small className="w-100">{t('businessform.instructions.additionalinfo')}</small>
                   </td>
                 </tr>
                 {type === "grower" && (
