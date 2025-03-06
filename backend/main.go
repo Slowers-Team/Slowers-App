@@ -7,7 +7,6 @@ import (
 	"github.com/Slowers-team/Slowers-App/database"
 	psqldatabase "github.com/Slowers-team/Slowers-App/database/psql"
 	"github.com/Slowers-team/Slowers-App/handlers"
-	"github.com/Slowers-team/Slowers-App/utils"
 )
 
 func main() {
@@ -45,7 +44,7 @@ func main() {
 
 	app := application.SetupAndSetAuthTo(true)
 
-	utils.VisibilityTicker()
+	//utils.VisibilityTicker()
 
 	appErr := app.Listen("0.0.0.0:" + port)
 
