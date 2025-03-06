@@ -105,6 +105,7 @@ const UserPage = () => {
                       onChange={event => setAdditionalInfo(event.target.value)}
                       required>
                     </textarea>
+                    <small class="w-100">{t('businessform.instructions.additionalinfo')}</small>
                   </td>
                 </tr>
               </tbody>
