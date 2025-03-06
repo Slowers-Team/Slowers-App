@@ -96,21 +96,21 @@ const UserPage = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td>Address</td>
+                  <td style={{verticalAlign: "top"}}>{t('businessform.fieldname.address')}</td>
                   <td>
                     <input
                       className="form-control"
                       type="text"
                       value={address}
-                      placeholder="Address"
+                      placeholder={t('businessform.input.address')}
                       onChange={event => setAddress(event.target.value)}
                       required
                     />
-                    <small class="w-100">*This is an optional field</small>
+                    <small class="w-100">{t('businessform.instructions.address')}</small>
                   </td>
                 </tr>
                 <tr>
-                  <td>Postal code</td>
+                  <td>{t('businessform.fieldname.postalcode')}</td>
                   <td>
                     <input 
                       className="form-control"
@@ -118,7 +118,7 @@ const UserPage = () => {
                       value={postalCode}
                       minLength={5}
                       maxLength={5}
-                      placeholder="Postal code"
+                      placeholder={t('businessform.input.postalcode')}
                       onChange={event => setPostalCode(event.target.value)}
                       style={{ width: "200px"}}
                       required
@@ -126,13 +126,13 @@ const UserPage = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td>City/Municipality</td>
+                  <td>{t('businessform.fieldname.city')}</td>
                   <td>
                     <input
                       className="form-control"
                       type="text"
                       value={city}
-                      placeholder="City/Municipality"
+                      placeholder={t('businessform.input.city')}
                       onChange={event => setCity(event.target.value)}
                       required
                     />

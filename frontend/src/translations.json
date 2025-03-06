@@ -156,16 +156,23 @@
           "businesstype": "Type of the business",
           "phonenumber" : "Phone number",
           "email" : "Email",
+          "address": "Address",
+          "postalcode": "Postal code",
+          "city": "City/Municipality",
           "additionalinfo" : "Additional information"
         },
         "input": {
           "businessname": "Enter the name of the business",
           "phonenumber" : "Enter phone number",
           "email" : "Enter email",
+          "address": "Enter address",
+          "postalcode": "Enter postal code",
+          "city": "Enter city/municipality",
           "additionalinfo" : "Enter additional information"
         },
         "instructions" : {
-          "additionalinfo" : "*Tell about your business and give any additional information"
+          "additionalinfo" : "*Tell about your business and give any additional information",
+          "address": "*This is an optional field"
         }
       }
     }
@@ -327,16 +334,23 @@
           "businesstype": "Yrityksen tyyppi",
           "phonenumber": "Syötä puhelinnumero",
           "email": "Sähköposti",
+          "address": "Osoite",
+          "postalcode": "Postinumero",
+          "city": "Postitoimipaikka",
           "additionalinfo": "Lisätietoja"
         },
         "input": {
           "businessname": "Syötä yrityksen nimi",
           "phonenumber": "Syötä puhelinnumero",
           "email": "Syötä sähköpostiosoite",
+          "address": "Syötä osoite",
+          "postalcode": "Syötä postinumero",
+          "city": "Syötä postitoimipaikka",
           "additionalinfo": "Syötä lisätietoja"
         },
         "instructions": {
-          "additionalinfo": "*Kerro tarkemmin yrityksestä ja anna mahdollisia lisätietoja"
+          "additionalinfo": "*Kerro tarkemmin yrityksestä ja anna mahdollisia lisätietoja",
+          "address": "*Tämä kenttä on vapaaehtoinen"
         }
       } 
     }
@@ -498,16 +512,23 @@
           "businesstype": "Typ av företaget",
           "phonenumber": "Telefonnummer",
           "email": "E-post",
+          "address": "Adress",
+          "postalcode": "Postnummer",
+          "city": "Postanstalt",
           "additionalinfo": "Mer information"
         },
         "input": {
           "businessname": "Ange företagets namn",
           "phonenumber": "Ange telefonnummer",
           "email": "Ange e-post",
+          "address": "Ange adress",
+          "postalcode": "Ange postnummer",
+          "city": "Ange postanstalt",
           "additionalinfo": "Skriva in mer information"
         },
         "instructions": {
-          "additionalinfo": "*Berätta om ditt företag och lämna ytterligare information"
+          "additionalinfo": "*Berätta om ditt företag och lämna ytterligare information",
+          "address": "*Detta är ett valfritt fält"
         }
       }  
     }
