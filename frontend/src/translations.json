@@ -159,7 +159,8 @@
           "address": "Address",
           "postalcode": "Postal code",
           "city": "City/Municipality",
-          "additionalinfo" : "Additional information"
+          "additionalinfo" : "Additional information",
+          "delivery" : "Do you deliver flowers?"
         },
         "input": {
           "businessname": "Enter the name of the business",
@@ -168,7 +169,9 @@
           "address": "Enter address",
           "postalcode": "Enter postal code",
           "city": "Enter city/municipality",
-          "additionalinfo" : "Enter additional information"
+          "additionalinfo" : "Enter additional information",
+          "yesdelivery" : "Yes",
+          "nodelivery" : "No"
         },
         "instructions" : {
           "additionalinfo" : "*Tell about your business and give any additional information",
@@ -337,7 +340,8 @@
           "address": "Osoite",
           "postalcode": "Postinumero",
           "city": "Postitoimipaikka",
-          "additionalinfo": "Lisätietoja"
+          "additionalinfo": "Lisätietoja",
+          "delivery" : "Toimittaako yritys kukkia?"
         },
         "input": {
           "businessname": "Syötä yrityksen nimi",
@@ -346,7 +350,9 @@
           "address": "Syötä osoite",
           "postalcode": "Syötä postinumero",
           "city": "Syötä postitoimipaikka",
-          "additionalinfo": "Syötä lisätietoja"
+          "additionalinfo": "Syötä lisätietoja",
+          "yesdelivery" : "Kyllä",
+          "nodelivery" : "Ei"
         },
         "instructions": {
           "additionalinfo": "*Kerro tarkemmin yrityksestä ja anna mahdollisia lisätietoja",
@@ -515,7 +521,8 @@
           "address": "Adress",
           "postalcode": "Postnummer",
           "city": "Postanstalt",
-          "additionalinfo": "Mer information"
+          "additionalinfo": "Mer information",
+          "delivery" : "Levererar företaget blommor?"
         },
         "input": {
           "businessname": "Ange företagets namn",
@@ -524,7 +531,9 @@
           "address": "Ange adress",
           "postalcode": "Ange postnummer",
           "city": "Ange postanstalt",
-          "additionalinfo": "Skriva in mer information"
+          "additionalinfo": "Skriva in mer information",
+          "yesdelivery" : "Ja",
+          "nodelivery" : "Nej"
         },
         "instructions": {
           "additionalinfo": "*Berätta om ditt företag och lämna ytterligare information",

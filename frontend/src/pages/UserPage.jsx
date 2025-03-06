@@ -18,6 +18,11 @@ const UserPage = () => {
   const [address, setAddress] = useState('')
   const [postalCode, setPostalCode] = useState('')
   const [city, setCity] = useState('')
+  const [delivery, setDelivery] = useState('')
+
+  console.log(delivery)
+  console.log(type)
+
 
   const handleCreateBusiness = async (event) => {
     event.preventDefault()
@@ -153,6 +158,17 @@ const UserPage = () => {
                     <small class="w-100">{t('businessform.instructions.additionalinfo')}</small>
                   </td>
                 </tr>
+                {type === "grower" && (
+                  <tr>
+                    <td>{t('businessform.fieldname.delivery')}</td>
+                    <td>
+                      <input type="radio" id="yesSelector" className='btn-check' name="deliverySelector" value="yes" checked={delivery === "yes"} onChange={event => setDelivery(event.target.value)} required/>
+                      <label className='btn btn-outline-secondary' style={{ marginRight: "0.5rem" }} htmlFor="yesSelector" >{t('businessform.input.yesdelivery')}</label>
+                      <input type="radio" id="noSelector" className='btn-check' name="deliverySelector" value="no" checked={delivery === "no"} onChange={event => setDelivery(event.target.value)} />
+                      <label className='btn btn-outline-secondary' style={{ marginRight: "0.5rem" }} htmlFor="noSelector" >{t('businessform.input.nodelivery')}</label>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
             <br/>
