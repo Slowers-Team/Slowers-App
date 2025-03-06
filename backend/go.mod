@@ -3,7 +3,7 @@ module github.com/Slowers-team/Slowers-App
 go 1.23.0
 
 require (
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/golang-jwt/jwt v3.2.1+incompatible
 	github.com/gofiber/fiber/v2 v2.52.5
 	github.com/joho/godotenv v1.5.1
 	github.com/stretchr/testify v1.9.0
