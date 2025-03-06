@@ -46,9 +46,11 @@ func main() {
 
 	app := application.SetupAndSetAuthTo(true)
 
-	ticker := time.NewTicker(3 * time.Second)
+	ticker := time.NewTicker(1 * time.Minute)
 	quit := make(chan struct{})
-	utils.VisibilityTicker(ticker, quit)
+	go func() {
+		utils.VisibilityTicker(ticker, quit)
+	}()
 
 	appErr := app.Listen("0.0.0.0:" + port)
 
