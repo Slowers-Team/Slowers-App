@@ -235,3 +235,7 @@ func (mDb MongoDatabase) DeleteMultipleFlowers(ctx context.Context, flowerIDs []
 	_, err := db.Collection("flowers").DeleteMany(ctx, filter)
 	return err
 }
+
+func (mDb MongoDatabase) UpdateVisibilityByTime(ctx context.Context, timestamp time.Time) error {
+	return nil
+}

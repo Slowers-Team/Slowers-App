@@ -2,11 +2,13 @@ package main
 
 import (
 	"log"
+	"time"
 
 	"github.com/Slowers-team/Slowers-App/application"
 	"github.com/Slowers-team/Slowers-App/database"
 	psqldatabase "github.com/Slowers-team/Slowers-App/database/psql"
 	"github.com/Slowers-team/Slowers-App/handlers"
+	"github.com/Slowers-team/Slowers-App/utils"
 )
 
 func main() {
@@ -43,6 +45,12 @@ func main() {
 	handlers.SetDatabase(db)
 
 	app := application.SetupAndSetAuthTo(true)
+
+	ticker := time.NewTicker(1 * time.Minute)
+	quit := make(chan struct{})
+	go func() {
+		utils.VisibilityTicker(ticker, quit)
+	}()
 
 	appErr := app.Listen("0.0.0.0:" + port)
 
