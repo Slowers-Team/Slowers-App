@@ -16,7 +16,12 @@ h1 {
 	font-weight: normal;
 	color: #1a2919;
 	font-size: 70px;
+	display: flex;
+    align-items: center;
   }
+h1 img {
+	margin-right: 5px;
+}
 form {
     padding-top: 0.1rem;
     padding-bottom: 0.7rem;
