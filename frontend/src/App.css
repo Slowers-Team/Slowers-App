@@ -1,12 +1,15 @@
 body {
-   background-color: #f1f3f0ee;
+   background-color: #eef1ec;
    .bg-image{
-	opacity:0.2;
+	background-image: url('images/snailbackground.svg');
+	opacity:0.1;
 	position: absolute;
 	background-repeat: repeat;
 	margin: 0;
-	width: 150%;
+	width: 100%;
+	height: 100%;
 	z-index: -1;
+	background-size: 450px;
    }
 }
 h1 {
@@ -36,7 +39,7 @@ td {
 }
 
 .nav-bar {
-	background-color: #f6f6f6;
+	background-color: #B6C4B6;
 }
 
 .menu-button {
@@ -65,7 +68,7 @@ td {
 }
 
 .tab-bar {
-	background-color: #f6f6f6;
+	background-color: #B6C4B6;
 }
 
 .tab-bar .nav-link {
@@ -87,7 +90,12 @@ td {
 
 .logged-out-container {
 	min-height: calc(100vh - 82px);
-	background-color: #f9f9f9;
+	background-image: linear-gradient(to right, rgba(255,255,255, 0.8) 0 100%), url(images/snailbackground.svg);
+	opacity:1;
+	background-size: 450px;
+	background-repeat: repeat;
+	background-position: center;
+    background-color: rgba(211, 211, 211, 0.2);
 	display: flex;
 	align-items: center;
 	justify-content: center;
