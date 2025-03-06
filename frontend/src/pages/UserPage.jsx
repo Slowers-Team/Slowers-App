@@ -45,6 +45,9 @@ const UserPage = () => {
       />
       <br/>
       <h2>{t('title.createbusiness')}</h2>
+      <p>
+        {t('businessform.instructions.note')}
+      </p>
       <div>
         <form onSubmit={handleCreateBusiness}>
           <div>
