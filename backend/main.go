@@ -47,6 +47,9 @@ func main() {
 	app := application.SetupAndSetAuthTo(true)
 
 	ticker := time.NewTicker(24 * time.Hour)
+	if time.Now().Hour() == 0 {
+		ticker = time.NewTicker(8 * time.Minute)
+	}
 	quit := make(chan struct{})
 	go func() {
 		for {
