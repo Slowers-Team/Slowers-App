@@ -2,13 +2,13 @@ package main
 
 import (
 	"log"
+	"strconv"
 	"time"
 
 	"github.com/Slowers-team/Slowers-App/application"
 	"github.com/Slowers-team/Slowers-App/database"
 	psqldatabase "github.com/Slowers-team/Slowers-App/database/psql"
 	"github.com/Slowers-team/Slowers-App/handlers"
-	"github.com/Slowers-team/Slowers-App/utils"
 )
 
 func main() {
@@ -46,10 +46,27 @@ func main() {
 
 	app := application.SetupAndSetAuthTo(true)
 
-	ticker := time.NewTicker(1 * time.Minute)
+	ticker := time.NewTicker(24 * time.Hour)
+	if time.Now().Hour() == 0 {
+		ticker = time.NewTicker(8 * time.Minute)
+	}
 	quit := make(chan struct{})
 	go func() {
-		utils.VisibilityTicker(ticker, quit)
+		for {
+			select {
+			case <-ticker.C:
+				// log.Println("1 minute has passed")
+				timestamp := time.Now().AddDate(0, -6, 0)
+				modified, err := handlers.UpdateVisibilityByTime(timestamp)
+				if err != nil {
+					log.Println("0 modified, error:" + err.Error())
+				}
+				log.Println(strconv.Itoa(int(modified)) + " set invisible")
+			case <-quit:
+				ticker.Stop()
+				return
+			}
+		}
 	}()
 
 	appErr := app.Listen("0.0.0.0:" + port)
