@@ -78,7 +78,7 @@ func AuthMiddleware(c *fiber.Ctx) error {
 	tokenString := c.Get("Authorization")
 
 	if tokenString == "" {
-		return c.Status(fiber.StatusUnauthorized).SendString("Unauthorized, tokenstring")
+		return c.Status(fiber.StatusUnauthorized).SendString("Unauthorized")
 	}
 
 	tokenString = strings.TrimPrefix(tokenString, "Bearer ")
@@ -89,7 +89,7 @@ func AuthMiddleware(c *fiber.Ctx) error {
 	})
 
 	if err != nil || !token.Valid {
-		return c.Status(fiber.StatusUnauthorized).SendString("Unauthorized, token not valid")
+		return c.Status(fiber.StatusUnauthorized).SendString("Unauthorized")
 	}
 
 	c.Locals("userID", claims.Subject)
