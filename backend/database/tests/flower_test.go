@@ -464,7 +464,7 @@ func (s *DbFlowerTestSuite) TestTimerResetsWhenTogglingToVisible() {
 		Visible:     false,
 	}
 	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
-	fetchedFlowers, _ := s.Db.GetFlowers(context.Background())
+	fetchedFlowers, _ := s.Db.GetUserFlowers(context.Background(), *s.TestFlowers[0].Grower)
 
 	_ = addedFlower
 	modified, err := s.Db.ToggleFlowerVisibility(context.Background(), *testFlower.Grower, fetchedFlowers[0].ID)
