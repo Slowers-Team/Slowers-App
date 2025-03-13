@@ -84,11 +84,11 @@ func (mDb MongoDatabase) DeleteImage(ctx context.Context, id ObjectID) (bool, er
 func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID, EntityID, ImageID ObjectID, Collection string) error {
 	err := mDb.UserOwnsEntity(ctx, UserID, EntityID, Collection)
 	if err != nil {
-		return nil
+		return err
 	}
 	err = mDb.UserOwnsEntity(ctx, UserID, ImageID, "images")
 	if err != nil {
-		return nil
+		return err
 	}
 
 	filter := bson.M{"_id": EntityID}
