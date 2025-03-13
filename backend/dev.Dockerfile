@@ -9,4 +9,6 @@ RUN go mod download
 
 COPY . .
 
+RUN go install github.com/vektra/mockery/v2@v2.53.2
+
 CMD ["air", "-c", ".air.toml"]
