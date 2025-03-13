@@ -64,46 +64,6 @@ func CreateUser(c *fiber.Ctx) error {
 	return LogUserIn(c, createdUser, 201)
 }
 
-// func CreateSqlUser(c *fiber.Ctx) error {
-// 	user := new(sql.User)
-
-// 	if err := c.BodyParser(user); err != nil {
-// 		return c.Status(400).SendString(err.Error())
-// 	}
-
-// 	if user.Username == "" || user.Password == "" || user.Email == "" {
-// 		return c.Status(400).SendString("All fields are required")
-// 	}
-
-// count, err := db.CountUsersWithEmail(c.Context(), user.Email)
-// if err != nil {
-// 	return c.Status(500).SendString(err.Error())
-// }
-
-// if count > 0 {
-// 	return c.Status(400).SendString("email already exists")
-// }
-
-// if !utils.IsEmailValid(user.Email) {
-// 	return c.Status(400).SendString("invalid email")
-// }
-
-// hashedPassword, err := utils.HashPassword(user.Password)
-// if err != nil {
-// 	return c.Status(500).SendString(err.Error())
-// }
-
-// newUser := sql.User{CreatedAt: user.CreatedAt, LastModified: user.LastModified, LastLogin: user.LastLogin, Username: user.Username, Password: hashedPassword, Email: user.Email, IsActive: user.IsActive, IsAdmin: user.IsAdmin}
-
-// createdUser, err := sql.CreateUser(c.Context(), newUser)
-
-// if err != nil {
-// 	return c.Status(500).SendString(err.Error())
-// }
-
-// return LogUserIn(c, createdUser, 201)
-//}
-
 func HandleLogin(c *fiber.Ctx) error {
 	login := new(database.LogIn)
 

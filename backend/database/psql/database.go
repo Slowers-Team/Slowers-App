@@ -100,3 +100,7 @@ func (sqlDb *SQLDatabase) Disconnect() error {
 	sqlpool.Close()
 	return nil
 }
+
+func ParseID(id string) (string, error) {
+	return id, nil
+}
