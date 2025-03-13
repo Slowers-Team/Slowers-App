@@ -203,6 +203,16 @@ func (mDb MongoDatabase) ToggleFlowerVisibility(ctx context.Context, userID, flo
 
 	ret := updatedVisibility["visible"].(bool)
 
+	if ret {
+		newTime := time.Now()
+		updateTime := bson.A{bson.M{"$set": bson.M{"added_time": newTime}}}
+		var updatedTime bson.M
+		err = db.Collection("flowers").FindOneAndUpdate(ctx, filter, updateTime).Decode(&updatedTime)
+
+		if err != nil {
+			return nil, err
+		}
+	}
 	return &ret, nil
 }
 
