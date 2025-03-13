@@ -238,7 +238,7 @@ func (mDb MongoDatabase) DeleteMultipleFlowers(ctx context.Context, flowerIDs []
 
 func (mDb MongoDatabase) UpdateVisibilityByTime(ctx context.Context, timestamp time.Time) (modified int64, err error) {
 	filter := bson.M{"added_time": bson.M{"$lte": timestamp}}
-	update := bson.M{"$set": bson.M{"visible": true}}
+	update := bson.M{"$set": bson.M{"visible": false}}
 	updateResult, err := db.Collection("flowers").UpdateMany(ctx, filter, update)
 	modified = updateResult.ModifiedCount
 	return modified, err
