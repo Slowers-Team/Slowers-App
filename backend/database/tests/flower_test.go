@@ -443,7 +443,7 @@ func (s *DbFlowerTestSuite) TestSetVisibilityByTimeToFalse() {
 	)
 	s.Equal(
 		modified,
-		1,
+		int64(1),
 		"UpdateVisibilityByTime() should set one flower invisible",
 	)
 }
