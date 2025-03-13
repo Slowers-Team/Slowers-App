@@ -448,6 +448,52 @@ func (s *DbFlowerTestSuite) TestSetVisibilityByTimeToFalse() {
 	)
 }
 
+func (s *DbFlowerTestSuite) TestTimerResetsWhenTogglingToVisible() {
+	users := testdata.GetUsers()
+	firstTime := time.Now()
+
+	testFlower := database.Flower{
+		Name:        s.TestFlowers[0].Name,
+		LatinName:   s.TestFlowers[0].LatinName,
+		AddedTime:   firstTime,
+		Grower:      s.TestFlowers[0].Grower,
+		GrowerEmail: users[0].Email,
+		Site:        s.TestFlowers[0].Site,
+		SiteName:    testdata.GetRootSites()[0].Name,
+		Quantity:    s.TestFlowers[0].Quantity,
+		Visible:     false,
+	}
+	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
+	fetchedFlowers, _ := s.Db.GetFlowers(context.Background())
+
+	_ = addedFlower
+	modified, err := s.Db.ToggleFlowerVisibility(context.Background(), *testFlower.Grower, fetchedFlowers[0].ID)
+
+	s.Require().NoError(
+		err,
+		"ToggleFlowerVisibility() should not return an error",
+	)
+
+	s.True(
+		*modified,
+		"modified value should be true",
+	)
+
+	fetchedFlowers, err = s.Db.GetFlowers(context.Background())
+
+	s.Require().NoError(
+		err,
+		"ToggleFlowerVisibility() should not return an error",
+	)
+
+	s.NotEqual(
+		fetchedFlowers[0].AddedTime,
+		firstTime,
+		"AddedTime should not equal original timestamp",
+	)
+
+}
+
 func (s *DbFlowerTestSuite) TearDownTest() {
 	s.Db.Clear()
 }
