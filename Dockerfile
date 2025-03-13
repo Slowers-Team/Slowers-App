@@ -34,5 +34,5 @@ COPY --chown=server:server --from=frontend-build /app/dist ./client/dist
 COPY --chown=server:server --from=backend-build /app/start-server .
 
 USER server
-
+EXPOSE 5001
 ENTRYPOINT [ "./start-server" ]
