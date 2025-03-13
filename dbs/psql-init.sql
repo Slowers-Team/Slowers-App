@@ -1,2 +1,2 @@
-CREATE DATABASE Slowers OWNER "Slowers";
-CREATE DATABASE SlowersTest OWNER "Slowers";
+CREATE DATABASE slowers OWNER "Slowers";
+CREATE DATABASE slowerstest OWNER "Slowers";

@@ -1,0 +1,209 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  annotations:
+    alpha.image.policy.openshift.io/resolve-names: '*'
+    app.openshift.io/connects-to: '[{"apiVersion":"apps/v1","kind":"Deployment","name":"slowers-mongo"}]'
+    app.openshift.io/route-disabled: 'false'
+    deployment.kubernetes.io/revision: '2'
+    openshift.io/generated-by: OpenShiftWebConsole
+    image.openshift.io/triggers: >-
+      [{"from":{"kind":"ImageStreamTag","name":"slowers-app:latest","namespace":"ohtuprojekti-staging"},"fieldPath":"spec.template.spec.containers[?(@.name==\"slowers-app\")].image","paused":"false"}]
+  resourceVersion: '1696876245'
+  name: slowers-app
+  uid: 5648dafd-c997-4573-a932-6cef7d55ce55
+  creationTimestamp: '2025-03-13T08:25:57Z'
+  generation: 5
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: apps/v1
+      time: '2025-03-13T09:10:07Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:alpha.image.policy.openshift.io/resolve-names': {}
+            'f:app.openshift.io/connects-to': {}
+            'f:app.openshift.io/route-disabled': {}
+            'f:image.openshift.io/triggers': {}
+            'f:openshift.io/generated-by': {}
+          'f:labels':
+            .: {}
+            'f:app': {}
+            'f:app.kubernetes.io/component': {}
+            'f:app.kubernetes.io/instance': {}
+            'f:app.kubernetes.io/name': {}
+            'f:app.kubernetes.io/part-of': {}
+            'f:app.openshift.io/runtime': {}
+            'f:app.openshift.io/runtime-namespace': {}
+        'f:spec':
+          'f:progressDeadlineSeconds': {}
+          'f:revisionHistoryLimit': {}
+          'f:selector': {}
+          'f:strategy':
+            'f:rollingUpdate':
+              .: {}
+              'f:maxSurge': {}
+              'f:maxUnavailable': {}
+            'f:type': {}
+          'f:template':
+            'f:metadata':
+              'f:annotations':
+                .: {}
+                'f:openshift.io/generated-by': {}
+                'f:openshift.openshift.io/restartedAt': {}
+              'f:labels':
+                .: {}
+                'f:app': {}
+                'f:deployment': {}
+            'f:spec':
+              'f:containers':
+                'k:{"name":"slowers-app"}':
+                  'f:image': {}
+                  'f:terminationMessagePolicy': {}
+                  .: {}
+                  'f:resources':
+                    .: {}
+                    'f:limits':
+                      .: {}
+                      'f:memory': {}
+                    'f:requests':
+                      .: {}
+                      'f:memory': {}
+                  'f:env':
+                    .: {}
+                    'k:{"name":"MONGODB_URI"}':
+                      .: {}
+                      'f:name': {}
+                      'f:value': {}
+                    'k:{"name":"SECRET_KEY"}':
+                      .: {}
+                      'f:name': {}
+                      'f:value': {}
+                  'f:terminationMessagePath': {}
+                  'f:imagePullPolicy': {}
+                  'f:ports':
+                    .: {}
+                    'k:{"containerPort":5001,"protocol":"TCP"}':
+                      .: {}
+                      'f:containerPort': {}
+                      'f:protocol': {}
+                  'f:name': {}
+              'f:dnsPolicy': {}
+              'f:restartPolicy': {}
+              'f:schedulerName': {}
+              'f:securityContext': {}
+              'f:terminationGracePeriodSeconds': {}
+    - manager: kube-controller-manager
+      operation: Update
+      apiVersion: apps/v1
+      time: '2025-03-13T09:10:09Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            'f:deployment.kubernetes.io/revision': {}
+        'f:status':
+          'f:availableReplicas': {}
+          'f:conditions':
+            .: {}
+            'k:{"type":"Available"}':
+              .: {}
+              'f:lastTransitionTime': {}
+              'f:lastUpdateTime': {}
+              'f:message': {}
+              'f:reason': {}
+              'f:status': {}
+              'f:type': {}
+            'k:{"type":"Progressing"}':
+              .: {}
+              'f:lastTransitionTime': {}
+              'f:lastUpdateTime': {}
+              'f:message': {}
+              'f:reason': {}
+              'f:status': {}
+              'f:type': {}
+          'f:observedGeneration': {}
+          'f:readyReplicas': {}
+          'f:replicas': {}
+          'f:updatedReplicas': {}
+      subresource: status
+  namespace: ohtuprojekti-staging
+  labels:
+    app: slowers-app
+    app.kubernetes.io/component: slowers-app
+    app.kubernetes.io/instance: slowers-app
+    app.kubernetes.io/name: slowers-app
+    app.kubernetes.io/part-of: Slowers-App
+    app.openshift.io/runtime: debian
+    app.openshift.io/runtime-namespace: ohtuprojekti-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: slowers-app
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: slowers-app
+        deployment: slowers-app
+      annotations:
+        openshift.io/generated-by: OpenShiftWebConsole
+        openshift.openshift.io/restartedAt: '2025-03-13T09:10:07.036Z'
+    spec:
+      containers:
+        - name: slowers-app
+          image: >-
+            image-registry.openshift-image-registry.svc:5000/ohtuprojekti-staging/slowers-app@sha256:312cc5062a386c3bdbfa5c631522057303b0a20faab216ee6c22895b97ff87bf
+          ports:
+            - containerPort: 5001
+              protocol: TCP
+          env:
+            - name: MONGODB_URI
+              value: 'mongodb://slowers-mongo.ohtuprojekti-staging.svc.cluster.local'
+            - name: SECRET_KEY
+              value: insert_a_secret_key_here
+          resources:
+            limits:
+              memory: 500Mi
+            requests:
+              memory: 20Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+      imagePullSecrets: []
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+  paused: false
+status:
+  observedGeneration: 5
+  replicas: 1
+  updatedReplicas: 1
+  readyReplicas: 1
+  availableReplicas: 1
+  conditions:
+    - type: Available
+      status: 'True'
+      lastUpdateTime: '2025-03-13T08:49:15Z'
+      lastTransitionTime: '2025-03-13T08:49:15Z'
+      reason: MinimumReplicasAvailable
+      message: Deployment has minimum availability.
+    - type: Progressing
+      status: 'True'
+      lastUpdateTime: '2025-03-13T09:10:09Z'
+      lastTransitionTime: '2025-03-13T08:25:57Z'
+      reason: NewReplicaSetAvailable
+      message: ReplicaSet "slowers-app-9c478b45" has successfully progressed.
