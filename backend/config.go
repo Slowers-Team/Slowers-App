@@ -35,6 +35,9 @@ func GetEnvironmentVariables() ([]byte, string, string, string, string, string) 
 	}
 
 	envUseSQL := os.Getenv("USESQL")
+	if envUseSQL == "" {
+		envUseSQL = "false"
+	}
 
 	envSQLDatabaseURI := os.Getenv("SQLDATABASEURI")
 	if envDatabaseURI == "" && envUseSQL == "true" {
