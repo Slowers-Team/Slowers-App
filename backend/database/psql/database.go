@@ -91,7 +91,7 @@ func (sqlDb *SQLDatabase) Connect(databaseName string) error {
 		return err
 	}
 
-	sqlpool = pool
+	sqlDb.pool = pool
 
 	return nil
 }

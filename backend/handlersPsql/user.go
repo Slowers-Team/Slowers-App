@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"strconv"
 	"time"
 
@@ -46,13 +47,35 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	newUser := database.User{CreatedAt: user.CreatedAt, LastModified: user.LastModified, LastLogin: user.LastLogin, Username: user.Username, Password: hashedPassword, Email: user.Email, IsActive: user.IsActive, IsAdmin: user.IsAdmin}
+	timestamp := time.Now().Format(time.RFC3339)
+	fmt.Println(timestamp)
+
+	isactive := true
+
+	isadmin := false
+
+	newUser := database.User{
+		CreatedAt:    user.CreatedAt,
+		LastModified: user.LastModified,
+		LastLogin:    timestamp,
+		Username:     user.Username,
+		Password:     hashedPassword,
+		Email:        user.Email,
+		IsActive:     isactive,
+		IsAdmin:      isadmin}
+
+	fmt.Println("Uusi käyttäjä:", newUser)
 
 	createdUser, err := db.CreateUser(c.Context(), newUser)
 
 	if err != nil {
+		fmt.Println("Wörkkiikö/ollaan nyt errorissa")
 		return c.Status(500).SendString(err.Error())
 	}
+
+	fmt.Println("Printti jos toimii")
+
+	// otetaan printit pois sitten kun tämä on kokonaan valmis
 
 	return LogUserIn(c, createdUser, 201)
 }
