@@ -383,14 +383,14 @@ func (s *DbFlowerTestSuite) TestSetVisibilityByTimeToFalse() {
 	users := testdata.GetUsers()
 
 	testFlower := database.Flower{
-		Name:        s.TestFlowers[0].Name,
-		LatinName:   s.TestFlowers[0].LatinName,
+		Name:        s.Flowers[0].Name,
+		LatinName:   s.Flowers[0].LatinName,
 		AddedTime:   time.Now(),
-		Grower:      s.TestFlowers[0].Grower,
+		Grower:      s.Flowers[0].Grower,
 		GrowerEmail: users[0].Email,
-		Site:        s.TestFlowers[0].Site,
+		Site:        s.Flowers[0].Site,
 		SiteName:    testdata.GetRootSites()[0].Name,
-		Quantity:    s.TestFlowers[0].Quantity,
+		Quantity:    s.Flowers[0].Quantity,
 		Visible:     true,
 	}
 	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
