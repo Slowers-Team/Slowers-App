@@ -1,0 +1,19 @@
+include:
+  - ./dbs/docker-compose.dev.yml
+  - ./frontend/docker-compose.dev.yml
+  - path: ./backend/docker-compose.dev.yml
+    env: USESQL=${USESQL:-false}
+
+name: slowers-app-dev
+
+services:
+  reverse-proxy-dev:
+    image: nginx:1.27.4
+    volumes:
+    - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    container_name: slowers-reverse-proxy-dev
+    depends_on:
+      - slowers-backend-dev
+      - slowers-frontend-dev

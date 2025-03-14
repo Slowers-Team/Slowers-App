@@ -2,7 +2,6 @@
   "en": {
     "translation": {
       "alert": {
-        "usercreated": "User created successfully",
         "imageuploaded": "Image uploaded succesfully"
       },
       "button": {
@@ -16,8 +15,7 @@
         "login": "Log in",
         "register": "Register",
         "save": "Save",
-        "switchToRetailer": "Switch to Retailer",
-        "switchToGrower": "Switch to Grower",
+        "createBusiness": "createBusiness",
         "flowerpage": "Flower page",
         "showFlower": "Show to retailers",
         "hideFlower": "Hide from retailers",
@@ -25,11 +23,14 @@
         "cancel": "Cancel",
         "update": "Update",
         "Search": "Search",
-        "modify": "Edit"
+        "modify": "Edit",
+        "createbusiness": "Create business",
+        "grower": "Grower",
+        "retailer": "Retailer"
       },
       "error": {
         "acceptterms": "You must accept the terms",
-        "addingfailed": "Adding failed",
+        "addingfailed": "Failed to add",
         "allfieldsarerequired": "All fields are required",
         "emailalreadyexists": "Email already exists",
         "error": "Error",
@@ -43,7 +44,7 @@
       "flower": {
         "data": {
           "name": "Name",
-          "latinname": "Latin name",
+          "latinname": "Scientific name",
           "addedtime": "Added time",
           "grower": "Grower",
           "site": "Site",
@@ -55,6 +56,9 @@
           "short": "Visible",
           "true": "Yes",
           "false": "No"
+        },
+        "search": {
+          "filter": "Filter search:"
         }
       },
       "image": {
@@ -79,9 +83,10 @@
       "menu": {
         "flowers": "Flowers",
         "grower": "Grower page",
+        "businessowner": "Business page",
         "home": "Home",
         "register": "Register",
-        "retailer": "Marketplace",
+        "retailer": "Retailer",
         "login": "Login",
         "logout": "Logout",
         "terms": "Terms",
@@ -91,11 +96,14 @@
         "info": "Info",
         "lifecycle": "Life cycle",
         "sites": "Sites",
-        "images": "Images"
+        "images": "Images",
+        "marketplace": "Marketplace"
       },
       "role": {
         "grower": "Grower",
-        "retailer": "Retailer"
+        "retailer": "Retailer",
+        "growerowner": "Grower (Owner)",
+        "retailerowner": "Retailer (Owner)"
       },
       "site": {
         "data": {
@@ -118,7 +126,13 @@
         "site": "Site",
         "sites": "Sites",
         "sitesites": "sites",
-        "siteimages": "images"
+        "siteimages": "images",
+        "businessowner": "Business page",
+        "createbusiness": "Create a business",
+        "welcome": "Welcome to Slowers",
+        "marketplacehome": "Marketplace homepage",
+        "retailerhome": "Retailer homepage",
+        "growerhome": "Grower homepage"
       },
       "user": {
         "data": {
@@ -132,13 +146,44 @@
           "password": "Enter password",
           "username": "Enter username"
         }
+      },
+      "message": {
+        "registersuccessful": "Register successful"
+      },
+      "businessform": {
+        "fieldname": {
+          "businessname": "Name of the business",
+          "businesstype": "Type of the business",
+          "phonenumber" : "Phone number",
+          "email" : "Email",
+          "address": "Address",
+          "postalcode": "Postal code",
+          "city": "City/Municipality",
+          "additionalinfo" : "Additional information",
+          "delivery" : "Do you deliver flowers?"
+        },
+        "input": {
+          "businessname": "Enter the name of the business",
+          "phonenumber" : "Enter phone number",
+          "email" : "Enter email",
+          "address": "Enter address",
+          "postalcode": "Enter postal code",
+          "city": "Enter city/municipality",
+          "additionalinfo" : "Enter additional information",
+          "yesdelivery" : "Yes",
+          "nodelivery" : "No"
+        },
+        "instructions" : {
+          "note": "The information given in this form will be dispalyed in your business page and it will be visible to other users.",
+          "additionalinfo" : "*Tell about your business and give any additional information",
+          "address": "*This is an optional field"
+        }
       }
     }
   },
   "fi": {
     "translation": {
       "alert": {
-        "usercreated": "Tili luotu onnistuneesti",
         "imageuploaded": "Kuva lähetetty onnistuneesti"
       },
       "button": {
@@ -152,8 +197,7 @@
         "login": "Kirjaudu",
         "register": "Rekisteröidy",
         "save": "Tallenna",
-        "switchToRetailer": "Vaihda jälleenmyyjäksi",
-        "switchToGrower": "Vaihda kasvattajaksi",
+        "createBusiness": "Luo yritys",
         "flowerpage": "Kukan sivu",
         "close": "Sulje",
         "showFlower": "Näytä myyjille",
@@ -161,7 +205,10 @@
         "cancel": "Peruuta",
         "update": "Päivitä",
         "Search": "Hae",
-        "modify": "Muokkaa"
+        "modify": "Muokkaa",
+        "createbusiness": "Luo yritys",
+        "grower": "Kasvattaja",
+        "retailer": "Jälleenmyyjä"
       },
       "error": {
         "acceptterms": "Käyttöehdot on hyväksyttävä",
@@ -191,6 +238,9 @@
           "short": "Näkyvillä",
           "true": "Kyllä",
           "false": "Ei"
+        },
+        "search": {
+          "filter": "Rajaa hakua:"
         }
       },
       "image": {
@@ -215,9 +265,10 @@
       "menu": {
         "flowers": "Kukat",
         "grower": "Kasvattajan sivu",
+        "businessowner": "Yrityssivut",
         "home": "Kotisivu",
         "register": "Rekisteröidy",
-        "retailer": "Tori",
+        "retailer": "Jälleenmyyjä",
         "login": "Kirjaudu sisään",
         "logout": "Kirjaudu ulos",
         "terms": "Käyttöehdot",
@@ -227,11 +278,14 @@
         "info": "Tietoa",
         "lifecycle": "Elinkaari",
         "sites": "Alueet",
-        "images": "Kuvat"
+        "images": "Kuvat",
+        "marketplace": "Tori"
       },
       "role": {
         "grower": "Kasvattaja",
-        "retailer": "Jälleenmyyjä"
+        "retailer": "Jälleenmyyjä",
+        "growerowner": "Kavattaja (Omistaja)",
+        "retailerowner": "Jälleenmyyjä (Omistaja)"
       },
       "site": {
         "data": {
@@ -254,7 +308,13 @@
         "site": "Alue",
         "sites": "Alueet",
         "sitesites": "alueet",
-        "siteimages": "kuvat"
+        "siteimages": "kuvat",
+        "businessowner": "Yrityssivut",
+        "createbusiness": "Luo yritys",
+        "welcome": "Tervetuloa Slowersiin",
+        "marketplacehome": "Torin kotisivu",
+        "retailerhome": "Jälleenmyyjän kotisivu",
+        "growerhome": "Kasvattajan kotisivu"
       },
       "user": {
         "data": {
@@ -268,7 +328,221 @@
           "password": "Syötä salasana",
           "username": "Syötä käyttäjänimi"
         }
-      }
+      },
+      "message": {
+        "registersuccessful": "Rekisteröinti onnistui"
+      },
+      "businessform": {
+        "fieldname": {
+          "businessname": "Yrityksen nimi",
+          "businesstype": "Yrityksen tyyppi",
+          "phonenumber": "Syötä puhelinnumero",
+          "email": "Sähköposti",
+          "address": "Osoite",
+          "postalcode": "Postinumero",
+          "city": "Postitoimipaikka",
+          "additionalinfo": "Lisätietoja",
+          "delivery" : "Toimittaako yritys kukkia?"
+        },
+        "input": {
+          "businessname": "Syötä yrityksen nimi",
+          "phonenumber": "Syötä puhelinnumero",
+          "email": "Syötä sähköpostiosoite",
+          "address": "Syötä osoite",
+          "postalcode": "Syötä postinumero",
+          "city": "Syötä postitoimipaikka",
+          "additionalinfo": "Syötä lisätietoja",
+          "yesdelivery" : "Kyllä",
+          "nodelivery" : "Ei"
+        },
+        "instructions": {
+          "note": "Tällä lomakkeella annetut tiedot tulevat näkyville yrityssivulle ja ne näkyvät muille käyttäjille.",
+          "additionalinfo": "*Kerro tarkemmin yrityksestä ja anna mahdollisia lisätietoja",
+          "address": "*Tämä kenttä on vapaaehtoinen"
+        }
+      } 
+    }
+  },
+  "sv": {
+    "translation": {
+      "alert": {
+        "imageuploaded": "Bilden har skickats"
+      },
+      "button": {
+        "addflower": "Lägga till en ny blomma",
+        "addsite": "Lägga till ett nytt område",
+        "addimage": "Lägga till en ny bild",
+        "back": "Tilbaka",
+        "delete": "Radera",
+        "deletethissite": "Radera området",
+        "goback": "Gå tillbaka",
+        "login": "Logga in",
+        "register": "Skriva in",
+        "save": "Spara",
+        "createBusiness": "Skapa företag",
+        "flowerpage": "Blommasidan",
+        "showFlower": "Visa för återförsäljaren",
+        "hideFlower": "Dölja för återförsäljaren",
+        "close": "Stäng",
+        "cancel": "Ångra",
+        "update": "Uppdatera",
+        "Search": "Söka",
+        "modify": "Redigera",
+        "createbusiness": "Skapa företaget",
+        "grower": "Odlare",
+        "retailer": "Återförsäljare"
+      },
+      "error": {
+        "acceptterms": "Du måste acceptera villkor",
+        "addingfailed": "Misslyckades med att lägga till",
+        "allfieldsarerequired": "Alla fält krävs",
+        "emailalreadyexists": "E-postadressen finns redan",
+        "error": "Fel",
+        "erroroccured": "Ett fel inträffade. Försök igen.",
+        "invalidemail": "Ogiltig e-postadress",
+        "invalidlogininfo": "Ogiltig e-postadress eller lösenord",
+        "sitenamecannotbeempty": "Områdesnamet kan inte vara tomt",
+        "modifyingfailed": "Misslyckades med att redigera",
+        "noimagesinflower": "Minst en bild måste fästas på en blomma innan dess synlighet kan ändras."
+      },
+      "flower": {
+        "data": {
+          "name": "Namn",
+          "latinname": "Vetenskapligt namn",
+          "addedtime": "Tilläggningstid",
+          "grower": "Odlare ",
+          "site": "Område",
+          "qty": "St",
+          "image": "Bild"
+        },
+        "visible": {
+          "long": "Synlig till återförsäljare",
+          "short": "Synlig",
+          "true": "Ja",
+          "false": "Nej"
+        },
+        "search": {
+          "filter": "Begränsa sökningen:"
+        }
+      },
+      "image": {
+        "note": "Anteckning",
+        "select": "Välja en bild",
+        "title": "Lägga till en ny bild",
+        "confirmimagedeletion": "Bekräfta radering av bilden",
+        "flowerwillbehidden": "Blomman kommer att döljas för återförsäljare om du raderar den sista bilden",
+        "noflowerimages": "Blomman har inga bilder än",
+        "nositeimages": "Området har inga bilder än"
+      },
+      "label": {
+        "confirmflowerdeletion": "Är du säker på att du vill radera blomman",
+        "confirmmultipleflowerdeletion": "Är du säker på att du vill radera vald blommor",
+        "confirmsitedeletion": "Är du säker på att du vill radera området",
+        "defaultrole": "Välja din standardroll",
+        "iagreeto": "Jag godkännar",
+        "loading": "Laddar...",
+        "noflowersselected": "Inga blommor vald",
+        "terms": "villkor"
+      },
+      "menu": {
+        "flowers": "Blommor",
+        "grower": "Odlare",
+        "businessowner": "Företagssida",
+        "home": "Hem",
+        "register": "Skriva in",
+        "retailer": "Återförsäljare",
+        "login": "Logga in",
+        "logout": "Logga ut",
+        "terms": "Villkor",
+        "profile": "Profil",
+        "language": "Språk",
+        "role": "Rollsidor",
+        "info": "Information",
+        "lifecycle": "Livscykel",
+        "sites": "Sidot",
+        "images": "Bilder",
+        "marketplace": "Marknadsplats"
+      },
+      "role": {
+        "grower": "Odlare",
+        "retailer": "Återförsäljare",
+        "growerowner": "Odlare (Ägare)",
+        "retailerowner": "Återförsäljare (Ägare)"
+      },
+      "site": {
+        "data": {
+          "name": "Namn",
+          "note": "Anteckning"
+        },
+        "siteflowers": "Blommor i området"
+      },
+      "title": {
+        "flowers": "Blommor",
+        "allflowers": "Alla blommor",
+        "siteflowers": "blommor",
+        "home": "Hemsida",
+        "sitehome": "hemsida",
+        "register": "Slowers inskrivning",
+        "login": "Logga in i Slowers",
+        "navigation": "Navigering",
+        "rootsites": "Rotwebbplatser",
+        "terms": "Villkor",
+        "site": "Sida",
+        "sites": "Sidor",
+        "sitesites": "sidor",
+        "siteimages": "bilder",
+        "businessowner": "Företagssida",
+        "createbusiness": "Skapa ett företag",
+        "welcome": "Välkommen till Slowers",
+        "marketplacehome": "Marknadsplatsens hemsida",
+        "retailerhome": "Återförsäljarens hemsida",
+        "growerhome": "Odlarens hemsida"
+      },
+      "user": {
+        "data": {
+          "username": "Användarnamn",
+          "email": "E-postadress",
+          "password": "Lösenord",
+          "role": "Roll"
+        },
+        "input": {
+          "email": "Ange e-postadress",
+          "password": "Ange lösenord",
+          "username": "Ange användarnamn"
+        }
+      },
+      "message": {
+        "registersuccessful": "Registreringen lyckades"
+      },
+      "businessform": {
+        "fieldname": {
+          "businessname": "Företagets namn",
+          "businesstype": "Typ av företaget",
+          "phonenumber": "Telefonnummer",
+          "email": "E-post",
+          "address": "Adress",
+          "postalcode": "Postnummer",
+          "city": "Postanstalt",
+          "additionalinfo": "Mer information",
+          "delivery" : "Levererar företaget blommor?"
+        },
+        "input": {
+          "businessname": "Ange företagets namn",
+          "phonenumber": "Ange telefonnummer",
+          "email": "Ange e-post",
+          "address": "Ange adress",
+          "postalcode": "Ange postnummer",
+          "city": "Ange postanstalt",
+          "additionalinfo": "Skriva in mer information",
+          "yesdelivery" : "Ja",
+          "nodelivery" : "Nej"
+        },
+        "instructions": {
+          "note": "Informationen som anges i detta formulär kommer att vara synlig på företagssidan och kommer att vara synlig för andra användare.",
+          "additionalinfo": "*Berätta om ditt företag och lämna ytterligare information",
+          "address": "*Detta är ett valfritt fält"
+        }
+      }  
     }
   }
 }

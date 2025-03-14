@@ -6,6 +6,7 @@ import { Button, Table } from 'react-bootstrap'
 import ImageService from '../../services/images'
 import '../../App.css'
 import { formatTime } from '../../utils.js'
+const baseUrl = "/api/thumbnails"
 
 const RetailerFlowerList = ({ flowers }) => {
   const { t, i18n } = useTranslation()
@@ -28,7 +29,7 @@ const RetailerFlowerList = ({ flowers }) => {
 
     newImages.then((imgs) => setImages(imgs.filter((x)=>x)))
   
-  }, [flowers])
+  }, [flowers]) 
 
   
   const handleShow = (flower) => {
@@ -80,16 +81,25 @@ const RetailerFlowerList = ({ flowers }) => {
     if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1
     return 0
   })
+  const [filterByName, setFilterByName] = useState(false);
+  const [filterByGrower, setFilterByGrower] = useState(false);
+  const [filterByScientificName, setFilterByScientificName] = useState(false);
 
-  const filteredFlowers = sortedFlowers.filter(flower => 
-    flower.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    flower.latin_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    flower.grower_email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    flower.quantity.toString().includes(searchTerm.toLowerCase()) ||
-    new Date(flower.added_time).toLocaleDateString('fi').toLowerCase().includes(searchTerm.toLowerCase()) ||
-    new Date(flower.added_time).toLocaleString('fi', { hour: 'numeric', minute: '2-digit' }).toLowerCase().includes(searchTerm.toLowerCase())
-  )
-  
+    const filteredFlowers = sortedFlowers.filter(flower => {
+      const nameChecked = filterByName;
+      const scientificNameChecked = filterByScientificName;
+      const growerChecked = filterByGrower;
+      const searchByname = flower.name.toLowerCase().includes(searchTerm.toLowerCase())
+      const searchByscientificname = flower.latin_name.toLowerCase().includes(searchTerm.toLowerCase())
+      const searchByGrower = flower.grower_email.toLowerCase().includes(searchTerm.toLowerCase())
+    
+      const filterNames = nameChecked && searchByname;
+      const filterScientificnames = scientificNameChecked && searchByscientificname;
+      const filterGrowers = growerChecked && searchByGrower;
+      const showAll = !nameChecked && !scientificNameChecked && !growerChecked && (searchByGrower || searchByname || searchByscientificname);
+    
+      return filterNames || filterScientificnames || filterGrowers || showAll;
+    });
   return (
     <div className="retailerFlowerList">
       <div className="d-flex justify-content-start mb-3 input-wrapper">
@@ -100,6 +110,25 @@ const RetailerFlowerList = ({ flowers }) => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
+      
+      {t('flower.search.filter')}
+      <br></br>
+      <label className="checkbox_container" >{t('flower.data.name')}
+        <input type="checkbox" id="name" checked={filterByName} onChange={(e) => setFilterByName(e.target.checked)} data-testid="flowernamecheckbox"></input>
+        <span className="checkmark"></span>
+      </label>
+      <label className="checkbox_container"> {t('flower.data.latinname')}
+        <input type="checkbox" id="scientificname" checked={filterByScientificName} onChange={(e) => setFilterByScientificName(e.target.checked)} data-testid="scientificnamecheckbox"></input>
+        <span className="checkmark"></span>
+      </label>
+      <label className="checkbox_container">{t('flower.data.grower')}
+        <input type="checkbox" id="grower" checked={filterByGrower} onChange={(e) => setFilterByGrower(e.target.checked)} data-testid="growercheckbox"></input>
+        <span className="checkmark"></span>
+      </label>
+
+
+
+
       <table id="retailerFlowerList" className="table table-hover align-middle">
         <thead>
           <tr>

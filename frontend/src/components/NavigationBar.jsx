@@ -1,15 +1,17 @@
 import "../App.css";
 import { useTranslation } from "react-i18next";
-import { Navbar, Nav, NavDropdown, Button, Offcanvas } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, Button, Offcanvas, Container } from "react-bootstrap";
 import LangSelect from "./LangSelect";
 import { Link, useLoaderData, Outlet, useFetcher } from "react-router-dom";
 import { useState } from "react";
 import { Authenticator } from "../Authenticator";
+import Snaillogo from "../images/snaillogolightgreen.svg"
 
 export const NavigationBar = () => {
   const { t, i18n } = useTranslation();
   const [showOffCanvas, setShowOffCanvas] = useState(false);
   const { isLoggedIn, username } = useLoaderData();
+  const role = Authenticator.role
   const fetcher = useFetcher();
 
   const handleClose = () => setShowOffCanvas(false);
@@ -21,11 +23,11 @@ export const NavigationBar = () => {
   return (
     <>
       <Navbar expand="sm" className="nav-bar">
-        <Button variant="light" className="menu-button mx-2" onClick={handleShow}>
+        <Button id="offcanvasButton" variant="light" className="menu-button mx-2" onClick={handleShow}>
           <span className="navbar-toggler-icon"></span>
         </Button>
         <Navbar.Brand as={Link} to="/">
-          <h1>Slowers</h1>
+        <h1><img width="70" src={Snaillogo} alt="snail"/>Slowers</h1>
         </Navbar.Brand>
         <Nav className="ms-auto mx-2">
           {isLoggedIn && (
@@ -47,7 +49,7 @@ export const NavigationBar = () => {
               </Nav.Link>
             </NavDropdown>
           )}
-          <NavDropdown title={<i className="bi bi-globe-americas"></i>} id="collasible-nav-dropdown" align="end" className="lang-menu">
+          <NavDropdown title={<i className="bi bi-globe-americas"></i>} id="languageButton" align="end" className="lang-menu">
             <LangSelect />
           </NavDropdown>
         </Nav>
@@ -65,15 +67,15 @@ export const NavigationBar = () => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <Nav className="flex-column pe-3">
-            <Nav.Link
+            {/* <Nav.Link
               className="text-secondary"
               as={Link}
-              to="/"
+              to="/home"
               onClick={handleClose}
             >
               <i className="bi bi-house"> </i>
               {t("menu.home")}
-            </Nav.Link>
+            </Nav.Link> */}
             {!isLoggedIn && (
               <Nav.Link
                 className="text-secondary"
@@ -100,14 +102,36 @@ export const NavigationBar = () => {
               <Nav.Link
                 className="text-secondary"
                 as={Link}
-                to="/retailer"
+                to="/home"
                 onClick={handleClose}
               >
-                <i className="bi bi-shop-window"> </i>
-                {t("menu.retailer")}
+                <i className="bi bi-house"> </i>
+                {t("menu.home")}
               </Nav.Link>
             )}
             {isLoggedIn && (
+              <Nav.Link
+                className="text-secondary"
+                as={Link}
+                to="/marketplace"
+                onClick={handleClose}
+              >
+                <i className="bi bi-cart4"> </i>
+                {t("menu.marketplace")}
+              </Nav.Link>
+            )}
+            {isLoggedIn && ( role === 'retailer' || role === 'retailerowner' ) && (
+              <Nav.Link
+                className="text-secondary"
+                as={Link}
+                to="/retailer"
+                onClick={handleClose}
+              >
+                <i className="bi bi-flower1"> </i>
+                {t("menu.retailer")}
+              </Nav.Link>
+            )}
+            {isLoggedIn && ( role === 'grower' || role === 'growerowner' )  && (
               <Nav.Link
                 className="text-secondary"
                 as={Link}
@@ -116,6 +140,17 @@ export const NavigationBar = () => {
               >
                 <i className="bi bi-flower1"> </i>
                 {t("menu.grower")}
+              </Nav.Link>
+            )}
+            {isLoggedIn && ( role === 'growerowner' || role === 'retailerowner' ) && (
+              <Nav.Link
+                className="text-secondary"
+                as={Link}
+                to="/business_owner"
+                onClick={handleClose}
+              >
+                <i className="bi bi-shop-window"> </i>
+                {t("menu.businessowner")}
               </Nav.Link>
             )}
             <Nav.Link

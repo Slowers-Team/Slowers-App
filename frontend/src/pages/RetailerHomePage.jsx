@@ -5,7 +5,7 @@ const RetailerHomePage = () => {
   const { t, i18n } = useTranslation()
   return (
     <Container>
-      <h2>{t('title.home')}</h2>
+      <h2>{t('title.retailerhome')}</h2>
     </Container>
   )
 }

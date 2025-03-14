@@ -15,6 +15,9 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-go@v5
@@ -48,30 +51,54 @@ jobs:
       run: npm test
       working-directory: frontend
 
+    - name: e2e tests
+      uses: cypress-io/github-action@a55856e0e961f64708c68ddcb38fba233d164ed8
+      with:
+        install: false
+        start: npm run prepare:e2e
+        wait-on: 'http://localhost:5001/api/healthcheck, http://localhost:5173'
+        working-directory: frontend
+      env:
+        MONGODB_URI: mongodb://localhost:27017
+        SECRET_KEY: secretkey
+
   push_to_registry:
     needs: ci
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/development'
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
 
       - name: Log in to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push the backend Docker image to Docker Hub
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@c382f710d39a5bb4e430307530a720f50c2d3318
+
         with:
           context: backend
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/slowers-backend:latest
 
       - name: Build and push the frontend Docker image to Docker Hub
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@c382f710d39a5bb4e430307530a720f50c2d3318
+
         with:
           context: frontend
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/slowers-frontend:latest
+
+      - name: Build and push the production Docker image to Docker Hub
+        uses: docker/build-push-action@c382f710d39a5bb4e430307530a720f50c2d3318
+
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/slowers-app:latest

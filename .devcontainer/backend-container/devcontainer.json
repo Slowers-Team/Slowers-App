@@ -1,0 +1,7 @@
+{
+  "name": "Backend container",
+  "dockerComposeFile": ["../../docker-compose.dev.yml"],
+  "service": "slowers-backend",
+  "shutdownAction": "none",
+  "workspaceFolder": "/usr/src/app"
+}

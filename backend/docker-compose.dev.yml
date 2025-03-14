@@ -1,0 +1,15 @@
+services:
+  slowers-backend-dev:
+    image: slowers-backend-dev
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - 5001:5001
+    env_file:
+      - .dev.env
+    environment:
+      - USESQL=${USESQL:-false}
+    container_name: slowers-backend-dev

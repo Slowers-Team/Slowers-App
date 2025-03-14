@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+
 	"io"
-	"io/ioutil"
 	"log"
 	"mime/multipart"
 	"net/textproto"
@@ -37,12 +37,12 @@ func (s *ImagesAPITestSuite) TestImageDownload() {
 
 	os.Mkdir("./images", 0775)
 
-	filedata, err := ioutil.ReadFile("../testdata/images/" + filename)
+	filedata, err := os.ReadFile("../testdata/images/" + filename)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if err := ioutil.WriteFile("./images/"+filename, filedata, 0664); err != nil {
+	if err := os.WriteFile("./images/"+filename, filedata, 0664); err != nil {
 		log.Fatal(err)
 	}
 
@@ -131,17 +131,22 @@ func (s *ImagesAPITestSuite) TestImageUpload() {
 		},
 	})
 
-	fileDataReceived, err := ioutil.ReadFile("../testdata/images/" + filename)
+	fileDataReceived, err := os.ReadFile("../testdata/images/" + filename)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fileDataSaved, err := ioutil.ReadFile("./images/" + filename)
+	fileImageSaved, err := os.ReadFile("./images/" + filename)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fileThumbnailSaved, err := os.ReadFile("./thumbnails/" + filename)
 	if err != nil {
 		log.Fatal(err)
 	}
 	s.Equal(
 		fileDataReceived,
-		fileDataSaved,
+		fileImageSaved,
+		fileThumbnailSaved,
 		"Saved file is different from the file received",
 	)
 
@@ -174,12 +179,12 @@ func (s *ImagesAPITestSuite) TestDeletingImage() {
 
 	os.Mkdir("./images", 0775)
 
-	filedata, err := ioutil.ReadFile("../testdata/images/" + filename)
+	filedata, err := os.ReadFile("../testdata/images/" + filename)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if err := ioutil.WriteFile("./images/"+filename, filedata, 0664); err != nil {
+	if err := os.WriteFile("./images/"+filename, filedata, 0664); err != nil {
 		log.Fatal(err)
 	}
 
@@ -212,12 +217,12 @@ func (s *ImagesAPITestSuite) TestGetImageByID() {
 
 	os.Mkdir("./images", 0775)
 
-	filedata, err := ioutil.ReadFile("../testdata/images/" + filename)
+	filedata, err := os.ReadFile("../testdata/images/" + filename)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if err := ioutil.WriteFile("./images/"+filename, filedata, 0664); err != nil {
+	if err := os.WriteFile("./images/"+filename, filedata, 0664); err != nil {
 		log.Fatal(err)
 	}
 

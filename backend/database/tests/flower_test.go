@@ -3,6 +3,7 @@ package tests
 import (
 	"context"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/suite"
 
@@ -375,6 +376,35 @@ func (s *DbFlowerTestSuite) TestDeleteAndGetMultipleFlowers() {
 		addedFlowers[2:],
 		fetchedFlowers,
 		"DeleteMultipleFlowers() should delete the correct flowers",
+	)
+}
+
+func (s *DbFlowerTestSuite) TestSetVisibilityByTimeToFalse() {
+	users := testdata.GetUsers()
+
+	testFlower := database.Flower{
+		Name:        s.TestFlowers[0].Name,
+		LatinName:   s.TestFlowers[0].LatinName,
+		AddedTime:   time.Now(),
+		Grower:      s.TestFlowers[0].Grower,
+		GrowerEmail: users[0].Email,
+		Site:        s.TestFlowers[0].Site,
+		SiteName:    testdata.GetRootSites()[0].Name,
+		Quantity:    s.TestFlowers[0].Quantity,
+		Visible:     true,
+	}
+	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
+	_ = addedFlower
+	modified, err := s.Db.UpdateVisibilityByTime(context.Background(), time.Now())
+
+	s.Require().NoError(
+		err,
+		"UpdateVisibilityByTime() should not return an error",
+	)
+	s.Equal(
+		modified,
+		int64(1),
+		"UpdateVisibilityByTime() should set one flower invisible",
 	)
 }
 

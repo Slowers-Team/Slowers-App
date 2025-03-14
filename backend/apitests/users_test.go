@@ -18,7 +18,8 @@ import (
 
 type UsersAPITestSuite struct {
 	suite.Suite
-	User database.User
+	User  database.User
+	Users []database.User
 }
 
 func (s *UsersAPITestSuite) SetupSuite() {
@@ -162,6 +163,137 @@ func (s *UsersAPITestSuite) TestChangingRole() {
 			).Return(
 				nil,
 			).Once()
+		},
+	})
+}
+
+func (s *UsersAPITestSuite) TestCreatingUsersWithAllAvailableRoles() { //TODO: This is currently modified copy-paste of TestCreatingUser()
+	for i := 0; i < len(s.Users); i++ {
+		testutils.RunTest(s.T(), testutils.TestCase{
+			Description: "POST /api/register",
+			Route:       "/api/register",
+			Method:      "POST",
+			ContentType: "application/json",
+			Body: utils.ToJSON(
+				database.User{
+					Username: s.Users[i].Username,
+					Email:    s.Users[i].Email,
+					Password: s.Users[i].Password,
+					Role:     s.Users[i].Role,
+				},
+			),
+			ExpectedCode: 201,
+			ExpectedBodyFunc: func(body []byte) {
+				var response struct {
+					Role  string `json:"role"`
+					Token string `json:"token"`
+				}
+				err := json.Unmarshal([]byte(body), &response)
+				s.NoError(err, "response body should contain a role and a token")
+				s.Equal(
+					response.Role,
+					s.Users[i].Role,
+					"tried to add wrong role to database",
+				)
+				s.NotEmpty(
+					response.Token,
+					"token should not be empty",
+				)
+			},
+
+			SetupMocks: func(db *mocks.Database) {
+				db.EXPECT().CountUsersWithEmail(
+					mock.Anything, s.Users[i].Email,
+				).Return(
+					0, nil,
+				).Once()
+				db.EXPECT().CreateUser(
+					mock.Anything, mock.Anything,
+				).RunAndReturn(func(ctx context.Context, user database.User) (*database.User, error) {
+					s.Equal(
+						user.Username,
+						s.Users[i].Username,
+						"tried to add wrong username to database",
+					)
+					s.Equal(
+						user.Email,
+						s.Users[i].Email,
+						"tried to add wrong email to database",
+					)
+					s.NoError(
+						bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(s.Users[i].Password)),
+						"tried to add wrong Username to database",
+					)
+					s.Equal(
+						user.Role,
+						s.Users[i].Role,
+						"tried to add wrong role to database",
+					)
+					return &s.Users[i], nil
+				}).Once()
+			},
+		})
+	}
+}
+
+func (s *UsersAPITestSuite) TestCreatingUserWithNonavailableRole() {
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description: "POST /api/register",
+		Route:       "/api/register",
+		Method:      "POST",
+		ContentType: "application/json",
+		Body: utils.ToJSON(
+			database.User{
+				Username: s.User.Username,
+				Email:    s.User.Email,
+				Password: s.User.Password,
+				Role:     "superadmin",
+			},
+		),
+		ExpectedCode: 400,
+		ExpectedBody: []byte("unknown role: superadmin"),
+		SetupMocks: func(db *mocks.Database) {
+		},
+	})
+}
+
+func (s *UsersAPITestSuite) TestChangingRoleWithAllAvailableRoles() {
+	roles := [4]string{"retailer", "grower", "retailerowner", "growerowner"}
+
+	for i := 0; i < len(roles); i++ {
+		roleJSON := "\"" + roles[i] + "\""
+		testutils.RunTest(s.T(), testutils.TestCase{
+			Description:  "POST /api/user/role",
+			Route:        "/api/user/role",
+			Method:       "POST",
+			ContentType:  "application/json",
+			Body:         []byte(roleJSON),
+			ExpectedCode: 201,
+			ExpectedBody: []byte(roleJSON),
+			SetupMocks: func(db *mocks.Database) {
+				db.EXPECT().SetUserRole(
+					mock.Anything, s.User.ID, roles[i],
+				).Return(
+					nil,
+				).Once()
+			},
+		})
+	}
+}
+
+func (s *UsersAPITestSuite) TestChangingRoleWithNonavailableRole() {
+	role := "superadmin"
+	roleJSON := "\"" + role + "\""
+
+	testutils.RunTest(s.T(), testutils.TestCase{
+		Description:  "POST /api/user/role",
+		Route:        "/api/user/role",
+		Method:       "POST",
+		ContentType:  "application/json",
+		Body:         []byte(roleJSON),
+		ExpectedCode: 400,
+		ExpectedBody: []byte("unknown role: superadmin"),
+		SetupMocks: func(db *mocks.Database) {
 		},
 	})
 }

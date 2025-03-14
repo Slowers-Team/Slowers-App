@@ -4,7 +4,13 @@
 client/
 mocks/
 /backend/images/
+/backend/thumbnails/
 /backend/dist/
+/frontend/cypress/screenshots/
+/dbs/mongo_data/
+/dbs/psql_data/
+/dbs/mongo_data_dev/
+/dbs/psql_data_dev/
 
 node_modules
 
