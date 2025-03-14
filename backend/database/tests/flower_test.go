@@ -16,12 +16,14 @@ type DbFlowerTestSuite struct {
 	suite.Suite
 	Db          database.Database
 	TestFlowers []database.Flower
+	TestImages  []database.Image
 }
 
 func (s *DbFlowerTestSuite) SetupSuite() {
 	s.Db = testutils.ConnectDB()
 	s.Db.Clear()
 	s.TestFlowers = testdata.GetTestFlowers()
+	s.TestImages = testdata.GetImages()
 }
 
 func (s *DbFlowerTestSuite) TestAddFlower() {
@@ -463,10 +465,32 @@ func (s *DbFlowerTestSuite) TestTimerResetsWhenTogglingToVisible() {
 		Quantity:    s.TestFlowers[0].Quantity,
 		Visible:     false,
 	}
-	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
-	fetchedFlowers, _ := s.Db.GetUserFlowers(context.Background(), *s.TestFlowers[0].Grower)
 
+	testImage := database.Image{
+		ID:         s.TestImages[0].ID,
+		FileFormat: s.TestImages[0].FileFormat,
+		Note:       s.TestImages[0].Note,
+		Entity:     s.TestImages[0].Entity,
+		Owner:      *testFlower.Grower,
+	}
+
+	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
 	_ = addedFlower
+	fetchedFlowers, _ := s.Db.GetUserFlowers(context.Background(), *s.TestFlowers[0].Grower)
+	addedImage, _ := s.Db.AddImage(context.Background(), testImage)
+
+	err := s.Db.SetFavoriteImage(
+		context.Background(),
+		*testFlower.Grower,
+		fetchedFlowers[0].ID,
+		addedImage.ID,
+		"flowers",
+	)
+	s.Require().NoError(
+		err,
+		"SetFavoriteImage() should not return an error",
+	)
+
 	modified, err := s.Db.ToggleFlowerVisibility(context.Background(), *testFlower.Grower, fetchedFlowers[0].ID)
 
 	s.Require().NoError(
