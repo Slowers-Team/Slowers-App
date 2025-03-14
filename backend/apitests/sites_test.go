@@ -19,15 +19,15 @@ import (
 
 type SitesAPITestSuite struct {
 	suite.Suite
-	TestFlowers []database.Flower
-	RootSites   []database.Site
-	TestUser    database.User
+	Flowers   []database.Flower
+	RootSites []database.Site
+	User      database.User
 }
 
 func (s *SitesAPITestSuite) SetupSuite() {
-	s.TestFlowers = testdata.GetTestFlowers()
+	s.Flowers = testdata.GetFlowers()
 	s.RootSites = testdata.GetRootSites()
-	s.TestUser = testdata.GetUsers()[0]
+	s.User = testdata.GetUsers()[0]
 }
 
 func (s *SitesAPITestSuite) TestListingRootSites() {
@@ -40,7 +40,7 @@ func (s *SitesAPITestSuite) TestListingRootSites() {
 		ExpectedBody: utils.ToJSON(s.RootSites),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetRootSites(
-				mock.Anything, s.TestUser.ID,
+				mock.Anything, s.User.ID,
 			).Return(
 				s.RootSites, nil,
 			).Once()
@@ -58,7 +58,7 @@ func (s *SitesAPITestSuite) TestFetchingSite() {
 		ExpectedBody: utils.ToJSON(testdata.GetSite()),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetSite(
-				mock.Anything, s.RootSites[0].ID, s.TestUser.ID,
+				mock.Anything, s.RootSites[0].ID, s.User.ID,
 			).Return(
 				testdata.GetSite(), nil,
 			).Once()
@@ -68,17 +68,11 @@ func (s *SitesAPITestSuite) TestFetchingSite() {
 
 func (s *SitesAPITestSuite) TestAddingSite() {
 	testutils.RunTest(s.T(), testutils.TestCase{
-		Description: "POST /api/sites",
-		Route:       "/api/sites",
-		Method:      "POST",
-		ContentType: "application/json",
-		Body: utils.ToJSON(database.Site{
-			Flowers: s.RootSites[0].Flowers,
-			Name:    s.RootSites[0].Name,
-			Note:    s.RootSites[0].Note,
-			Owner:   s.RootSites[0].Owner,
-			Parent:  s.RootSites[0].Parent,
-		}),
+		Description:  "POST /api/sites",
+		Route:        "/api/sites",
+		Method:       "POST",
+		ContentType:  "application/json",
+		Body:         utils.ToJSON(testdata.PrepareSiteForAdding(s.RootSites[0])),
 		ExpectedCode: 201,
 		ExpectedBodyFunc: func(body []byte) {
 			site := database.Site{}
@@ -93,8 +87,9 @@ func (s *SitesAPITestSuite) TestAddingSite() {
 				10.0,
 				"added site has invalid AddedTime",
 			)
-			s.True(
-				utils.AreIDPtrSlicesEql(site.Flowers, s.RootSites[0].Flowers),
+			s.Equal(
+				site.Flowers,
+				s.RootSites[0].Flowers,
 				"added site has wrong flowers",
 			)
 			s.Equal(
@@ -146,7 +141,7 @@ func (s *SitesAPITestSuite) TestDeletingSite() {
 		ExpectedBody: []byte("{\"DeletedCount\":1}"),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().DeleteSite(
-				mock.Anything, s.RootSites[0].ID, s.TestUser.ID,
+				mock.Anything, s.RootSites[0].ID, s.User.ID,
 			).Return(
 				&mongo.DeleteResult{DeletedCount: 1}, nil,
 			).Once()

@@ -19,11 +19,11 @@ import (
 
 type FlowersAPITestSuite struct {
 	suite.Suite
-	TestFlowers []database.Flower
+	Flowers []database.Flower
 }
 
 func (s *FlowersAPITestSuite) SetupSuite() {
-	s.TestFlowers = testdata.GetTestFlowers()
+	s.Flowers = testdata.GetFlowers()
 }
 
 func (s *FlowersAPITestSuite) TestListingFlowersWithoutError() {
@@ -34,12 +34,12 @@ func (s *FlowersAPITestSuite) TestListingFlowersWithoutError() {
 		ContentType:  "application/json",
 		Body:         []byte{},
 		ExpectedCode: 200,
-		ExpectedBody: utils.ToJSON(s.TestFlowers),
+		ExpectedBody: utils.ToJSON(s.Flowers),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetFlowers(
 				mock.Anything,
 			).Return(
-				s.TestFlowers, nil,
+				s.Flowers, nil,
 			).Once()
 		},
 	})
@@ -66,41 +66,75 @@ func (s *FlowersAPITestSuite) TestListingFlowersWithError() {
 
 func (s *FlowersAPITestSuite) TestAddingFlower() {
 	testutils.RunTest(s.T(), testutils.TestCase{
-		Description: "POST /api/flowers",
-		Route:       "/api/flowers",
-		Method:      "POST",
-		ContentType: "application/json",
-		Body: utils.ToJSON(database.Flower{
-			Name:      s.TestFlowers[0].Name,
-			LatinName: s.TestFlowers[0].LatinName,
-			Grower:    s.TestFlowers[0].Grower,
-			Site:      s.TestFlowers[0].Site,
-			Quantity:  s.TestFlowers[0].Quantity,
-		}),
+		Description:  "POST /api/flowers",
+		Route:        "/api/flowers",
+		Method:       "POST",
+		ContentType:  "application/json",
+		Body:         utils.ToJSON(testdata.PrepareFlowerForAdding(s.Flowers[0])),
 		ExpectedCode: 201,
 		ExpectedBodyFunc: func(body []byte) {
 			flower := database.Flower{}
 			err := json.Unmarshal(body, &flower)
-			s.NoError(err, "response body should include flower data: \""+string(body)+"\"")
-			s.Equal(flower.ID, s.TestFlowers[0].ID, "wrong ID in the added flower")
-			s.Equal(flower.Name, s.TestFlowers[0].Name, "wrong Name in the added flower")
-			s.Equal(flower.LatinName, s.TestFlowers[0].LatinName, "wrong LatinName in the added flower")
-			s.Less(time.Since(flower.AddedTime).Seconds(), 10.0, "invalid AddedTime in the added flower")
-			s.Equal(flower.Grower, s.TestFlowers[0].Grower, "wrong Grower in the added flower")
-			s.Equal(flower.Site, s.TestFlowers[0].Site, "wrong Site in the added flower")
-			s.Equal(flower.Quantity, s.TestFlowers[0].Quantity, "wrong Quantity in the added flower")
+
+			s.Require().NoError(
+				err,
+				"response body should include flower data: \""+string(body)+"\"",
+			)
+			s.Equal(
+				s.Flowers[0].ID,
+				flower.ID,
+				"wrong ID in the added flower",
+			)
+			s.Equal(
+				s.Flowers[0].Name,
+				flower.Name,
+				"wrong Name in the added flower",
+			)
+			s.Equal(
+				s.Flowers[0].LatinName,
+				flower.LatinName,
+				"wrong LatinName in the added flower",
+			)
+			s.Less(
+				time.Since(flower.AddedTime).Seconds(),
+				10.0,
+				"invalid AddedTime in the added flower",
+			)
+			s.Equal(
+				s.Flowers[0].Grower,
+				flower.Grower,
+				"wrong Grower in the added flower",
+			)
+			s.Equal(
+				s.Flowers[0].Site,
+				flower.Site,
+				"wrong Site in the added flower",
+			)
+			s.Equal(
+				s.Flowers[0].Quantity,
+				flower.Quantity,
+				"wrong Quantity in the added flower",
+			)
 		},
 		SetupMocks: func(db *mocks.Database) {
 			user := testdata.GetUsers()[0]
-			db.EXPECT().GetUserByID(mock.Anything, *s.TestFlowers[0].Grower).Return(&user, nil).Once()
+			db.EXPECT().GetUserByID(
+				mock.Anything, *s.Flowers[0].Grower,
+			).Return(
+				&user, nil,
+			).Once()
 			sites := testdata.GetRootSites()
-			db.EXPECT().GetSiteByID(mock.Anything, sites[0].ID).Return(&sites[0], nil).Once()
+			db.EXPECT().GetSiteByID(
+				mock.Anything, sites[0].ID,
+			).Return(
+				&sites[0], nil,
+			).Once()
 
 			db.EXPECT().AddFlower(
 				mock.Anything, mock.Anything,
 			).RunAndReturn(func(ctx context.Context, newFlower database.Flower) (*database.Flower, error) {
 				return &database.Flower{
-					ID:        s.TestFlowers[0].ID,
+					ID:        s.Flowers[0].ID,
 					Name:      newFlower.Name,
 					LatinName: newFlower.LatinName,
 					AddedTime: newFlower.AddedTime,
@@ -122,7 +156,7 @@ func (s *FlowersAPITestSuite) TestAddingFlower() {
 func (s *FlowersAPITestSuite) TestDeletingFlower() {
 	testutils.RunTest(s.T(), testutils.TestCase{
 		Description:  "DELETE /api/flowers/<id>",
-		Route:        "/api/flowers/" + s.TestFlowers[0].ID.Hex(),
+		Route:        "/api/flowers/" + s.Flowers[0].ID.Hex(),
 		Method:       "DELETE",
 		ContentType:  "application/json",
 		Body:         []byte{},
@@ -130,7 +164,7 @@ func (s *FlowersAPITestSuite) TestDeletingFlower() {
 		ExpectedBody: []byte{},
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().DeleteFlower(
-				mock.Anything, s.TestFlowers[0].ID,
+				mock.Anything, s.Flowers[0].ID,
 			).Return(
 				true, nil,
 			).Once()
@@ -146,12 +180,12 @@ func (s *FlowersAPITestSuite) TestListingFlowersOfCurrentUser() {
 		ContentType:  "application/json",
 		Body:         []byte{},
 		ExpectedCode: 200,
-		ExpectedBody: utils.ToJSON(s.TestFlowers),
+		ExpectedBody: utils.ToJSON(s.Flowers),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().GetUserFlowers(
 				mock.Anything, testdata.GetUsers()[0].ID,
 			).Return(
-				s.TestFlowers, nil,
+				s.Flowers, nil,
 			).Once()
 		},
 	})
@@ -160,7 +194,7 @@ func (s *FlowersAPITestSuite) TestListingFlowersOfCurrentUser() {
 func (s *FlowersAPITestSuite) TestListingFlowersOfSite() {
 	site := testdata.GetRootSites()[0]
 	user := testdata.GetUsers()[0]
-	flowers := []database.Flower{s.TestFlowers[0]}
+	flowers := []database.Flower{s.Flowers[0]}
 
 	testutils.RunTest(s.T(), testutils.TestCase{
 		Description:  "GET /api/sites/<id>/flowers",
@@ -181,7 +215,7 @@ func (s *FlowersAPITestSuite) TestListingFlowersOfSite() {
 }
 
 func (s *FlowersAPITestSuite) TestModifyingFlower() {
-	flower := s.TestFlowers[0]
+	flower := s.Flowers[0]
 	modifiedValues := database.Flower{
 		Name:      "modified name",
 		LatinName: "modified latin name",
@@ -214,7 +248,7 @@ func (s *FlowersAPITestSuite) TestModifyingFlower() {
 func (s *FlowersAPITestSuite) TestDeletingMultipleFlowers() {
 	var flowerIDs []string
 	var ids []database.ObjectID
-	for _, flower := range s.TestFlowers {
+	for _, flower := range s.Flowers {
 		flowerIDs = append(flowerIDs, flower.ID.Hex())
 		ids = append(ids, flower.ID)
 	}

@@ -14,67 +14,60 @@ import (
 
 type DbFlowerTestSuite struct {
 	suite.Suite
-	Db          database.Database
-	TestFlowers []database.Flower
+	Db      database.Database
+	Flowers []database.Flower
 }
 
 func (s *DbFlowerTestSuite) SetupSuite() {
 	s.Db = testutils.ConnectDB()
 	s.Db.Clear()
-	s.TestFlowers = testdata.GetTestFlowers()
+	s.Flowers = testdata.GetFlowers()
 }
 
 func (s *DbFlowerTestSuite) TestAddFlower() {
-	flower := s.TestFlowers[0]
-	createdFlower, err := s.Db.AddFlower(context.Background(), flower)
+	flowerToAdd := testdata.PrepareFlowerForAdding(s.Flowers[0])
+	addedFlower, err := s.Db.AddFlower(context.Background(), flowerToAdd)
 
-	s.NoError(
+	s.Require().NoError(
 		err,
 		"AddFlower() should not return an error",
 	)
+	s.NotZero(
+		addedFlower.ID,
+		"ID for the created flower should be non-zero",
+	)
 	s.Equal(
-		createdFlower.Name,
-		flower.Name,
+		flowerToAdd.Name,
+		addedFlower.Name,
 		"wrong name for the flower returned from AddFlower()",
 	)
 	s.Equal(
-		createdFlower.LatinName,
-		flower.LatinName,
+		flowerToAdd.LatinName,
+		addedFlower.LatinName,
 		"wrong latin name for the flower returned from AddFlower()",
 	)
 	s.Equal(
-		createdFlower.AddedTime,
-		flower.AddedTime,
+		flowerToAdd.AddedTime,
+		addedFlower.AddedTime,
 		"wrong AddedTime for the flower returned from AddFlower()",
 	)
 	s.Equal(
-		createdFlower.Quantity,
-		flower.Quantity,
+		flowerToAdd.Quantity,
+		addedFlower.Quantity,
 		"wrong Quantity for the flower returned from AddFlower()",
-	)
-	s.NotZero(
-		createdFlower.ID,
-		"ID for the created flower should be non-zero",
 	)
 }
 
 func (s *DbFlowerTestSuite) TestAddAndGetFlower() {
-	flower := database.Flower{
-		Name:      s.TestFlowers[0].Name,
-		LatinName: s.TestFlowers[0].LatinName,
-		Grower:    s.TestFlowers[0].Grower,
-		Site:      s.TestFlowers[0].Site,
-		Quantity:  s.TestFlowers[0].Quantity,
-		Visible:   s.TestFlowers[0].Visible,
-	}
-	s.Db.AddFlower(context.Background(), flower)
+	flowerToAdd := testdata.PrepareFlowerForAdding(s.Flowers[0])
+	s.Db.AddFlower(context.Background(), flowerToAdd)
 	fetchedFlowers, err := s.Db.GetFlowers(context.Background())
 
-	s.NoError(
+	s.Require().NoError(
 		err,
 		"GetFlowers() should not return an error",
 	)
-	s.Len(
+	s.Require().Len(
 		fetchedFlowers,
 		1,
 		"GetFlowers() should return a slice of length 1",
@@ -84,42 +77,36 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlower() {
 		"fetched flower should have non-zero ID",
 	)
 	s.Equal(
+		flowerToAdd.Name,
 		fetchedFlowers[0].Name,
-		flower.Name,
 		"wrong Name for the flower returned from GetFlowers()",
 	)
 	s.Equal(
+		flowerToAdd.LatinName,
 		fetchedFlowers[0].LatinName,
-		flower.LatinName,
 		"wrong LatinName for the flower returned from GetFlowers()",
 	)
 	s.Equal(
+		flowerToAdd.AddedTime,
 		fetchedFlowers[0].AddedTime,
-		flower.AddedTime,
 		"wrong AddedTime for the flower returned from GetFlowers()",
 	)
 	s.Equal(
+		flowerToAdd.Quantity,
 		fetchedFlowers[0].Quantity,
-		flower.Quantity,
 		"wrong Quantity for the flower returned from GetFlowers()",
 	)
 	s.Equal(
+		flowerToAdd.Visible,
 		fetchedFlowers[0].Visible,
-		flower.Visible,
 		"wrong Visible for the flower returned from GetFlowers()",
 	)
 }
 
 func (s *DbFlowerTestSuite) TestAddAndDeleteFlower() {
-	testFlower := database.Flower{
-		Name:      s.TestFlowers[0].Name,
-		LatinName: s.TestFlowers[0].LatinName,
-		Grower:    s.TestFlowers[0].Grower,
-		Site:      s.TestFlowers[0].Site,
-		Quantity:  s.TestFlowers[0].Quantity,
-	}
-	flower, _ := s.Db.AddFlower(context.Background(), testFlower)
-	anyDeleted, err := s.Db.DeleteFlower(context.Background(), flower.ID)
+	flowerToAdd := testdata.PrepareFlowerForAdding(s.Flowers[0])
+	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
+	anyDeleted, err := s.Db.DeleteFlower(context.Background(), addedFlower.ID)
 
 	s.True(
 		anyDeleted,
@@ -139,36 +126,17 @@ func (s *DbFlowerTestSuite) TestAddAndDeleteFlower() {
 }
 
 func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
-	users := testdata.GetUsers()
+	flower := s.Flowers[0]
+	flowerToAdd := testdata.PrepareFlowerForAdding(flower)
+	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
 
-	testFlower := database.Flower{
-		Name:        s.TestFlowers[0].Name,
-		LatinName:   s.TestFlowers[0].LatinName,
-		AddedTime:   s.TestFlowers[0].AddedTime,
-		Grower:      s.TestFlowers[0].Grower,
-		GrowerEmail: users[0].Email,
-		Site:        s.TestFlowers[0].Site,
-		SiteName:    testdata.GetRootSites()[0].Name,
-		Quantity:    s.TestFlowers[0].Quantity,
-		Visible:     s.TestFlowers[0].Visible,
-	}
-	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
+	flower2 := testdata.GetFlowerForUser2()
+	flowerToAdd2 := testdata.PrepareFlowerForAdding(flower2)
+	s.Db.AddFlower(context.Background(), flowerToAdd2)
 
-	fullFlower2 := testdata.GetTestFlowerForUser2()
-	testFlower2 := database.Flower{
-		Name:        fullFlower2.Name,
-		LatinName:   fullFlower2.LatinName,
-		AddedTime:   fullFlower2.AddedTime,
-		Grower:      fullFlower2.Grower,
-		GrowerEmail: users[1].Email,
-		Site:        fullFlower2.Site,
-		SiteName:    testdata.GetRootSitesForUser2()[0].Name,
-		Quantity:    fullFlower2.Quantity,
-		Visible:     fullFlower2.Visible,
-	}
-	s.Db.AddFlower(context.Background(), testFlower2)
-
-	fetchedFlowers, err := s.Db.GetUserFlowers(context.Background(), *testFlower.Grower)
+	fetchedFlowers, err := s.Db.GetUserFlowers(
+		context.Background(), *flower.Grower,
+	)
 
 	s.Require().NoError(
 		err,
@@ -187,94 +155,77 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
 		"wrong ID for the flower returned from GetUserFlowers()",
 	)
 	s.Equal(
-		testFlower.Name,
+		flower.Name,
 		fetchedFlowers[0].Name,
 		"wrong Name for the flower returned from GetUserFlowers()",
 	)
 	s.Equal(
-		testFlower.LatinName,
+		flower.LatinName,
 		fetchedFlowers[0].LatinName,
 		"wrong LatinName for the flower returned from GetUserFlowers()",
 	)
 	s.Equal(
-		testFlower.AddedTime,
+		flower.AddedTime,
 		fetchedFlowers[0].AddedTime,
 		"wrong AddedTime for the flower returned from GetUserFlowers()",
 	)
 	s.Equal(
-		*testFlower.Grower,
+		*flower.Grower,
 		*fetchedFlowers[0].Grower,
 		"wrong Grower for the flower returned from GetUserFlowers()",
 	)
 	s.Equal(
-		testFlower.GrowerEmail,
+		flower.GrowerEmail,
 		fetchedFlowers[0].GrowerEmail,
 		"wrong GrowerEmail for the flower returned from GetUserFlowers()",
 	)
 	s.Equal(
-		*testFlower.Site,
+		*flower.Site,
 		*fetchedFlowers[0].Site,
 		"wrong Site for the flower returned from GetUserFlowers()",
 	)
 	s.Equal(
-		testFlower.SiteName,
+		flower.SiteName,
 		fetchedFlowers[0].SiteName,
 		"wrong SiteName for the flower returned from GetUserFlowers()",
 	)
 	s.Equal(
-		testFlower.Quantity,
+		flower.Quantity,
 		fetchedFlowers[0].Quantity,
 		"wrong Quantity for the flower returned from GetUserFlowers()",
 	)
 	s.Equal(
-		testFlower.Visible,
+		flower.Visible,
 		fetchedFlowers[0].Visible,
 		"wrong Visible for the flower returned from GetUserFlowers()",
 	)
 }
 
 func (s *DbFlowerTestSuite) TestAddAndGetFlowersRelatedToSite() {
-	users := testdata.GetUsers()
-
-	site1 := testdata.GetRootSites()[0]
-	site1.ID = database.NilObjectID
-	site1.Flowers = []*database.ObjectID{}
-	addedSite1, _ := s.Db.AddSite(context.Background(), site1)
+	site := testdata.GetRootSites()[0]
+	site.Flowers = []*database.ObjectID{}
+	siteToAdd := testdata.PrepareSiteForAdding(site)
+	addedSite, _ := s.Db.AddSite(context.Background(), siteToAdd)
 
 	site2 := testdata.GetRootSitesForUser2()[0]
-	site2.ID = database.NilObjectID
 	site2.Flowers = []*database.ObjectID{}
-	addedSite2, _ := s.Db.AddSite(context.Background(), site2)
+	siteToAdd2 := testdata.PrepareSiteForAdding(site2)
+	addedSite2, _ := s.Db.AddSite(context.Background(), siteToAdd2)
 
-	testFlower := database.Flower{
-		Name:        s.TestFlowers[0].Name,
-		LatinName:   s.TestFlowers[0].LatinName,
-		AddedTime:   s.TestFlowers[0].AddedTime,
-		Grower:      s.TestFlowers[0].Grower,
-		GrowerEmail: users[0].Email,
-		Site:        &addedSite1.ID,
-		SiteName:    site1.Name,
-		Quantity:    s.TestFlowers[0].Quantity,
-	}
-	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
-	s.Db.AddFlowerToSite(context.Background(), addedSite1.ID, addedFlower.ID)
+	flower := s.Flowers[0]
+	flower.Site = &addedSite.ID
+	flowerToAdd := testdata.PrepareFlowerForAdding(flower)
+	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
+	s.Db.AddFlowerToSite(context.Background(), addedSite.ID, addedFlower.ID)
 
-	fullFlower2 := testdata.GetTestFlowerForUser2()
-	testFlower2 := database.Flower{
-		Name:        fullFlower2.Name,
-		LatinName:   fullFlower2.LatinName,
-		AddedTime:   fullFlower2.AddedTime,
-		Grower:      fullFlower2.Grower,
-		GrowerEmail: users[1].Email,
-		Site:        &addedSite2.ID,
-		SiteName:    site2.Name,
-		Quantity:    fullFlower2.Quantity,
-	}
-	addedFlower2, _ := s.Db.AddFlower(context.Background(), testFlower2)
+	flower2 := testdata.GetFlowerForUser2()
+	flower2.Site = &addedSite2.ID
+	flowerToAdd2 := testdata.PrepareFlowerForAdding(flower2)
+	addedFlower2, _ := s.Db.AddFlower(context.Background(), flowerToAdd2)
 	s.Db.AddFlowerToSite(context.Background(), addedSite2.ID, addedFlower2.ID)
 
 	fetchedFlowers, err := s.Db.GetAllFlowersRelatedToSite(
-		context.Background(), addedSite1.ID, *testFlower.Grower,
+		context.Background(), addedSite.ID, *site.Owner,
 	)
 
 	s.Require().NoError(
@@ -294,57 +245,58 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersRelatedToSite() {
 		"wrong ID for the flower returned from GetAllFlowersRelatedToSite()",
 	)
 	s.Equal(
-		testFlower.Name,
+		flower.Name,
 		fetchedFlowers[0].Name,
 		"wrong Name for the flower returned from GetAllFlowersRelatedToSite()",
 	)
 	s.Equal(
-		testFlower.LatinName,
+		flower.LatinName,
 		fetchedFlowers[0].LatinName,
 		"wrong LatinName for the flower returned from GetAllFlowersRelatedToSite()",
 	)
 	s.Equal(
-		testFlower.AddedTime,
+		flower.AddedTime,
 		fetchedFlowers[0].AddedTime,
 		"wrong AddedTime for the flower returned from GetAllFlowersRelatedToSite()",
 	)
 	s.Equal(
-		*testFlower.Grower,
+		*flower.Grower,
 		*fetchedFlowers[0].Grower,
 		"wrong Grower for the flower returned from GetAllFlowersRelatedToSite()",
 	)
 	s.Equal(
-		testFlower.GrowerEmail,
+		flower.GrowerEmail,
 		fetchedFlowers[0].GrowerEmail,
 		"wrong GrowerEmail for the flower returned from GetAllFlowersRelatedToSite()",
 	)
 	s.Equal(
-		*testFlower.Site,
+		*flower.Site,
 		*fetchedFlowers[0].Site,
 		"wrong Site for the flower returned from GetAllFlowersRelatedToSite()",
 	)
 	s.Equal(
-		testFlower.SiteName,
+		flower.SiteName,
 		fetchedFlowers[0].SiteName,
 		"wrong SiteName for the flower returned from GetAllFlowersRelatedToSite()",
 	)
 	s.Equal(
-		testFlower.Quantity,
+		flower.Quantity,
 		fetchedFlowers[0].Quantity,
 		"wrong Quantity for the flower returned from GetAllFlowersRelatedToSite()",
 	)
 }
 
 func (s *DbFlowerTestSuite) TestModifyAndGetFlower() {
-	flower := s.TestFlowers[0]
-	s.Db.AddFlower(context.Background(), flower)
+	flower := s.Flowers[0]
+	flowerToAdd := testdata.PrepareFlowerForAdding(flower)
+	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
 
-	modifiedFlower := database.Flower{
+	modifiedFields := database.Flower{
 		Name:      "modified name",
 		LatinName: "modified latin name",
 		Quantity:  flower.Quantity + 1,
 	}
-	s.Db.ModifyFlower(context.Background(), flower.ID, modifiedFlower)
+	s.Db.ModifyFlower(context.Background(), addedFlower.ID, modifiedFields)
 	fetchedFlowers, err := s.Db.GetFlowers(context.Background())
 
 	s.Require().NoError(
@@ -352,22 +304,22 @@ func (s *DbFlowerTestSuite) TestModifyAndGetFlower() {
 		"ModifyFlower() should not return an error",
 	)
 	s.Equal(
-		modifiedFlower.Name,
+		modifiedFields.Name,
 		fetchedFlowers[0].Name,
 		"wrong Name for the flower returned from GetFlowers()",
 	)
 	s.Equal(
-		modifiedFlower.LatinName,
+		modifiedFields.LatinName,
 		fetchedFlowers[0].LatinName,
 		"wrong LatinName for the flower returned from GetFlowers()",
 	)
 	s.Equal(
-		modifiedFlower.Quantity,
+		modifiedFields.Quantity,
 		fetchedFlowers[0].Quantity,
 		"wrong Quantity for the flower returned from GetFlowers()",
 	)
 	s.Equal(
-		flower.ID,
+		addedFlower.ID,
 		fetchedFlowers[0].ID,
 		"wrong ID for the flower returned from GetFlowers()",
 	)
@@ -399,21 +351,29 @@ func (s *DbFlowerTestSuite) TestModifyAndGetFlower() {
 }
 
 func (s *DbFlowerTestSuite) TestDeleteAndGetMultipleFlowers() {
-	flowers := testdata.GetTestFlowers()
+	flowers := testdata.GetFlowers()
+	addedFlowers := []database.Flower{}
 
 	for _, flower := range flowers {
-		s.Db.AddFlower(context.Background(), flower)
+		flowerToAdd := testdata.PrepareFlowerForAdding(flower)
+		addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
+		addedFlowers = append(addedFlowers, *addedFlower)
 	}
 
-	err := s.Db.DeleteMultipleFlowers(context.Background(), []database.ObjectID{flowers[0].ID, flowers[1].ID})
-	fetchedFlowers, _ := s.Db.GetFlowers(context.Background())
+	err := s.Db.DeleteMultipleFlowers(
+		context.Background(),
+		[]database.ObjectID{addedFlowers[0].ID, addedFlowers[1].ID},
+	)
 
 	s.Require().NoError(
 		err,
 		"DeleteMultipleFlowers() should not return an error",
 	)
+
+	fetchedFlowers, _ := s.Db.GetFlowers(context.Background())
+
 	s.Equal(
-		flowers[2:],
+		addedFlowers[2:],
 		fetchedFlowers,
 		"DeleteMultipleFlowers() should delete the correct flowers",
 	)
@@ -423,14 +383,14 @@ func (s *DbFlowerTestSuite) TestSetVisibilityByTimeToFalse() {
 	users := testdata.GetUsers()
 
 	testFlower := database.Flower{
-		Name:        s.TestFlowers[0].Name,
-		LatinName:   s.TestFlowers[0].LatinName,
+		Name:        s.Flowers[0].Name,
+		LatinName:   s.Flowers[0].LatinName,
 		AddedTime:   time.Now(),
-		Grower:      s.TestFlowers[0].Grower,
+		Grower:      s.Flowers[0].Grower,
 		GrowerEmail: users[0].Email,
-		Site:        s.TestFlowers[0].Site,
+		Site:        s.Flowers[0].Site,
 		SiteName:    testdata.GetRootSites()[0].Name,
-		Quantity:    s.TestFlowers[0].Quantity,
+		Quantity:    s.Flowers[0].Quantity,
 		Visible:     true,
 	}
 	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
