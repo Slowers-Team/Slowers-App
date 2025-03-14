@@ -60,7 +60,6 @@ jobs:
         working-directory: frontend
       env:
         MONGODB_URI: mongodb://localhost:27017
-        SQLDATABASEURI: postgres://Slowers:verysecretword@slowers-psql-dev:5432
         SECRET_KEY: secretkey
 
   push_to_registry:
