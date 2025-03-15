@@ -46,10 +46,37 @@ const CreateBusinessForm = ({ onSubmit }) => {
                 <tr>
                   <td>{t('businessform.fieldname.businesstype')}</td>
                   <td>
-                    <input type="radio" id="growerSelector" className='btn-check' name="typeSelector" value="grower" checked={type === "grower"} onChange={event => setType(event.target.value)} required/>
-                    <label className='btn btn-outline-secondary' style={{ marginRight: "0.5rem" }} htmlFor="growerSelector" >{t('button.grower')}</label>
-                    <input type="radio" id="retailerSelector" className='btn-check' name="typeSelector" value="retailer" checked={type === "retailer"}  onChange={event => setType(event.target.value)} />
-                    <label className='btn btn-outline-secondary' style={{ marginRight: "0.5rem" }} htmlFor="retailerSelector" >{t('button.retailer')}</label>
+                    <input
+                      type="radio"
+                      id="growerSelector"
+                      className='btn-check'
+                      name="typeSelector"
+                      value="grower"
+                      checked={type === "grower"}
+                      onChange={event => setType(event.target.value)}
+                      required
+                    />
+                    <label
+                      className='btn btn-outline-secondary'
+                      style={{ marginRight: "0.5rem" }}
+                      htmlFor="growerSelector" >
+                      {t('button.grower')}
+                    </label>
+                    <input
+                      type="radio"
+                      id="retailerSelector"
+                      className='btn-check'
+                      name="typeSelector"
+                      value="retailer"
+                      checked={type === "retailer"}
+                      onChange={event => setType(event.target.value)}
+                    />
+                    <label
+                      className='btn btn-outline-secondary'
+                      style={{ marginRight: "0.5rem" }}
+                      htmlFor="retailerSelector" >
+                      {t('button.retailer')}
+                    </label>
                   </td>
                 </tr>
                 <tr>
@@ -142,10 +169,37 @@ const CreateBusinessForm = ({ onSubmit }) => {
                   <tr>
                     <td>{t('businessform.fieldname.delivery')}</td>
                     <td>
-                      <input type="radio" id="yesSelector" className='btn-check' name="deliverySelector" value="yes" checked={delivery === "yes"} onChange={event => setDelivery(event.target.value)} required/>
-                      <label className='btn btn-outline-secondary' style={{ marginRight: "0.5rem" }} htmlFor="yesSelector" >{t('businessform.input.yesdelivery')}</label>
-                      <input type="radio" id="noSelector" className='btn-check' name="deliverySelector" value="no" checked={delivery === "no"} onChange={event => setDelivery(event.target.value)} />
-                      <label className='btn btn-outline-secondary' style={{ marginRight: "0.5rem" }} htmlFor="noSelector" >{t('businessform.input.nodelivery')}</label>
+                      <input
+                        type="radio"
+                        id="yesSelector"
+                        className='btn-check'
+                        name="deliverySelector"
+                        value="yes"
+                        checked={delivery === "yes"}
+                        onChange={event => setDelivery(event.target.value)}
+                        required
+                      />
+                      <label
+                        className='btn btn-outline-secondary'
+                        style={{ marginRight: "0.5rem" }}
+                        htmlFor="yesSelector" >
+                        {t('businessform.input.yesdelivery')}
+                      </label>
+                      <input
+                        type="radio"
+                        id="noSelector"
+                        className='btn-check'
+                        name="deliverySelector"
+                        value="no"
+                        checked={delivery === "no"}
+                        onChange={event => setDelivery(event.target.value)}
+                      />
+                      <label
+                        className='btn btn-outline-secondary'
+                        style={{ marginRight: "0.5rem" }}
+                        htmlFor="noSelector" >
+                        {t('businessform.input.nodelivery')}
+                      </label>
                     </td>
                   </tr>
                 )}
