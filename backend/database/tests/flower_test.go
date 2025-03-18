@@ -466,16 +466,16 @@ func (s *DbFlowerTestSuite) TestTimerResetsWhenTogglingToVisible() {
 		Visible:     false,
 	}
 
+	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
+
 	testImage := database.Image{
-		ID:         s.TestImages[0].ID,
-		FileFormat: s.TestImages[0].FileFormat,
-		Note:       s.TestImages[0].Note,
-		Entity:     s.TestImages[0].Entity,
-		Owner:      *testFlower.Grower,
+		ID:         s.TestImages[1].ID,
+		FileFormat: s.TestImages[1].FileFormat,
+		Note:       s.TestImages[1].Note,
+		Entity:     &addedFlower.ID,
+		Owner:      *s.TestFlowers[0].Grower,
 	}
 
-	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
-	_ = addedFlower
 	fetchedFlowers, _ := s.Db.GetUserFlowers(context.Background(), *s.TestFlowers[0].Grower)
 	addedImage, _ := s.Db.AddImage(context.Background(), testImage)
 
