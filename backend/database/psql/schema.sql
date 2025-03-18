@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS Memberships (
     id SERIAL PRIMARY KEY,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     last_modified TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    user_email INTEGER REFERENCES Users,
-    business_id INTEGER REFERENCES Businesses,
+    user_email VARCHAR(50) REFERENCES Users(email),
+    business_id INTEGER REFERENCES Businesses(id),
     designation VARCHAR(20)
 );
