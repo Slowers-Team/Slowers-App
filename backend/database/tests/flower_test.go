@@ -16,12 +16,14 @@ type DbFlowerTestSuite struct {
 	suite.Suite
 	Db      database.Database
 	Flowers []database.Flower
+	Images  []database.Image
 }
 
 func (s *DbFlowerTestSuite) SetupSuite() {
 	s.Db = testutils.ConnectDB()
 	s.Db.Clear()
 	s.Flowers = testdata.GetFlowers()
+	s.Images = testdata.GetImages()
 }
 
 func (s *DbFlowerTestSuite) TestAddFlower() {
@@ -406,6 +408,74 @@ func (s *DbFlowerTestSuite) TestSetVisibilityByTimeToFalse() {
 		int64(1),
 		"UpdateVisibilityByTime() should set one flower invisible",
 	)
+}
+
+func (s *DbFlowerTestSuite) TestTimerResetsWhenTogglingToVisible() {
+	users := testdata.GetUsers()
+	firstTime := time.Now()
+
+	testFlower := database.Flower{
+		Name:        s.Flowers[0].Name,
+		LatinName:   s.Flowers[0].LatinName,
+		AddedTime:   firstTime,
+		Grower:      s.Flowers[0].Grower,
+		GrowerEmail: users[0].Email,
+		Site:        s.Flowers[0].Site,
+		SiteName:    testdata.GetRootSites()[0].Name,
+		Quantity:    s.Flowers[0].Quantity,
+		Visible:     false,
+	}
+
+	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
+
+	testImage := database.Image{
+		ID:         s.Images[1].ID,
+		FileFormat: s.Images[1].FileFormat,
+		Note:       s.Images[1].Note,
+		Entity:     &addedFlower.ID,
+		Owner:      *s.Flowers[0].Grower,
+	}
+
+	fetchedFlowers, _ := s.Db.GetUserFlowers(context.Background(), *s.Flowers[0].Grower)
+	addedImage, _ := s.Db.AddImage(context.Background(), testImage)
+
+	err := s.Db.SetFavoriteImage(
+		context.Background(),
+		*testFlower.Grower,
+		fetchedFlowers[0].ID,
+		addedImage.ID,
+		"flowers",
+	)
+	s.Require().NoError(
+		err,
+		"SetFavoriteImage() should not return an error",
+	)
+
+	modified, err := s.Db.ToggleFlowerVisibility(context.Background(), *testFlower.Grower, fetchedFlowers[0].ID)
+
+	s.Require().NoError(
+		err,
+		"ToggleFlowerVisibility() should not return an error",
+	)
+
+	s.True(
+		*modified,
+		"modified value should be true",
+	)
+
+	fetchedFlowers, err = s.Db.GetFlowers(context.Background())
+
+	s.Require().NoError(
+		err,
+		"ToggleFlowerVisibility() should not return an error",
+	)
+
+	s.NotEqual(
+		fetchedFlowers[0].AddedTime,
+		firstTime,
+		"AddedTime should not equal original timestamp",
+	)
+
 }
 
 func (s *DbFlowerTestSuite) TearDownTest() {
