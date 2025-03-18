@@ -25,7 +25,7 @@ import NavigationBar from "./components/NavigationBar";
 import { Authenticator } from "./Authenticator";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import BusinessLayout from "./layouts/BusinessLayout";
-import BusinessOwnerPage from "./pages/BusinessOwnerPage";
+import BusinessPage from "./pages/BusinessPage";
 
 const Root = () => {
   const { t, i18n } = useTranslation();
@@ -82,7 +82,7 @@ function authorizeAccess() {
   if (path.startsWith("/retailer") && ( Authenticator.role === "grower" | Authenticator.role === "growerowner" )) {
     return redirect("/home")
   }
-  if (path.startsWith("/business_owner") && ( Authenticator.role === "retailer" | Authenticator.role === "grower" )) {
+  if (path.startsWith("/businesspage") && ( Authenticator.role === "retailer" | Authenticator.role === "grower" )) {
     return redirect("/home")
   }
   return null;
@@ -184,11 +184,11 @@ const router = createBrowserRouter([
             ],
           },
           {
-            path: "business_owner",
+            path: "businesspage",
             loader: authorizeAccess,
             element: <BusinessLayout />,
             children: [
-              { index: true, element: <BusinessOwnerPage /> }
+              { index: true, element: <BusinessPage /> }
             ]
           },
           { path: "user", element: <UserPage /> },
