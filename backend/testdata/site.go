@@ -14,7 +14,7 @@ func GetRootSites() []database.Site {
 	if err != nil {
 		log.Fatal(err)
 	}
-	flowerID := GetTestFlowers()[0].ID
+	flowerID := GetFlowers()[0].ID
 	ownerID := GetUsers()[0].ID
 	return []database.Site{
 		{
@@ -34,7 +34,7 @@ func GetRootSitesForUser2() []database.Site {
 	if err != nil {
 		log.Fatal(err)
 	}
-	flowerID := GetTestFlowerForUser2().ID
+	flowerID := GetFlowerForUser2().ID
 	ownerID := GetUsers()[1].ID
 	return []database.Site{
 		{
@@ -60,4 +60,10 @@ func GetSite() bson.M {
 			},
 		},
 	}
+}
+
+func PrepareSiteForAdding(site database.Site) database.Site {
+	site.ID = database.NilObjectID
+	site.FavoriteImage = ""
+	return site
 }

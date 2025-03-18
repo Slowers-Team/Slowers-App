@@ -9,10 +9,16 @@ import (
 	"github.com/Slowers-team/Slowers-App/database"
 	psqldatabase "github.com/Slowers-team/Slowers-App/database/psql"
 	"github.com/Slowers-team/Slowers-App/handlers"
+	psqlHandlers "github.com/Slowers-team/Slowers-App/handlersPsql"
 )
 
 func main() {
-	secretKey, databaseURI, port, env, useSQL, SQLDatabaseURI := GetEnvironmentVariables()
+	secretKey, databaseURI, port, env, envUseSQL, SQLDatabaseURI := GetEnvironmentVariables()
+	useSQL, err := strconv.ParseBool(envUseSQL)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	db := database.NewMongoDatabase(databaseURI)
 	if env == "test" {
@@ -25,8 +31,13 @@ func main() {
 		}
 	}
 
+	application.SetSecretKey(secretKey)
+	application.SetEnv(env)
+	handlers.SetSecretKey(secretKey)
+	handlers.SetDatabase(db)
+
 	var sqldb *psqldatabase.SQLDatabase
-	if useSQL == "true" {
+	if useSQL {
 		sqldb := psqldatabase.NewSQLDatabase(SQLDatabaseURI)
 		if env == "test" {
 			if err := sqldb.Connect("slowerstest"); err != nil {
@@ -37,14 +48,12 @@ func main() {
 				log.Fatal(err)
 			}
 		}
+
+		psqlHandlers.SetSecretKey(secretKey) //TODO: Check if needed
+		psqlHandlers.SetDatabase(*sqldb)
 	}
 
-	application.SetSecretKey(secretKey)
-	application.SetEnv(env)
-	handlers.SetSecretKey(secretKey)
-	handlers.SetDatabase(db)
-
-	app := application.SetupAndSetAuthTo(true)
+	app := application.SetupAndSetAuthTo(true, useSQL)
 
 	ticker := time.NewTicker(24 * time.Hour)
 	if time.Now().Hour() == 0 {
@@ -80,7 +89,7 @@ func main() {
 		log.Fatal(dbErr)
 	}
 
-	if useSQL == "true" {
+	if useSQL {
 		sqldb.Disconnect()
 	}
 }
