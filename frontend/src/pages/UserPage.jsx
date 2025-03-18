@@ -12,21 +12,22 @@ const UserPage = () => {
   const [user, setUser] = useState({})
   const { t, i18n } = useTranslation()
 
+  useEffect(() => {
+    userService.get().then((user) => setUser(user))
+  }, []);
+
   const handleCreateBusiness = async (props) => {
     const updatedRole = props.type === "grower" ? "growerowner" : "retailerowner";
     userService.setRole(updatedRole).then((_) => {
       setUser({ ...user, role: updatedRole })
       Authenticator.setRole(updatedRole)
     })
-    businessService.create(props)
+    businessService.create(props, user.email)
       .then(
         console.log("creating business successful")
       )
   }
   
-  useEffect(() => {
-    userService.get().then((user) => setUser(user))
-  }, []);
 
   return (
     <Container className="m-3">

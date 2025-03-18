@@ -17,6 +17,12 @@ func CreateBusiness(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
+	var user_email string
+
+	if err := c.BodyParser(user_email); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
 	if business.BusinessName == "" ||
 		business.BusinessType == "" ||
 		business.BusinessPhoneNumber == "" ||
@@ -51,6 +57,13 @@ func CreateBusiness(c *fiber.Ctx) error {
 
 	if err != nil {
 		fmt.Println("Yrityksen luominen ei onnistunut")
+		return c.Status(500).SendString(err.Error())
+	}
+
+	err = db.AddMembership(c.Context(), user_email, newBusiness.BusinessEmail, "owner")
+
+	if err != nil {
+		fmt.Println("Yrityksen omistajan lisäys epäonnistui")
 		return c.Status(500).SendString(err.Error())
 	}
 
