@@ -40,10 +40,8 @@ func GetEnvironmentVariables() ([]byte, string, string, string, string, string) 
 	}
 
 	envSQLDatabaseURI := os.Getenv("SQLDATABASEURI")
-	if envDatabaseURI == "" && envUseSQL == "true" {
-		log.Fatal("Set your 'SQLDATABASEURI' environment variable or do not enable SQL-connection. " +
-			"See: " +
-			"www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable")
+	if envSQLDatabaseURI == "" && envUseSQL == "true" {
+		log.Fatal("Set your 'SQLDATABASEURI' environment variable or do not enable SQL-connection.")
 	}
 
 	return envSecretKey, envDatabaseURI, envPort, env, envUseSQL, envSQLDatabaseURI

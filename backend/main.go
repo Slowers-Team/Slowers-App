@@ -40,11 +40,11 @@ func main() {
 	if useSQL {
 		sqldb := psqldatabase.NewSQLDatabase(SQLDatabaseURI)
 		if env == "test" {
-			if err := sqldb.Connect("slowerstest"); err != nil {
+			if err := sqldb.Connect("slowerstest", false); err != nil {
 				log.Fatal(err)
 			}
 		} else {
-			if err := sqldb.Connect("slowers"); err != nil {
+			if err := sqldb.Connect("slowers", false); err != nil {
 				log.Fatal(err)
 			}
 		}

@@ -25,14 +25,12 @@ type LogIn struct {
 }
 
 func (pDb SQLDatabase) CreateUser(ctx context.Context, newUser User) (*User, error) {
-	fmt.Println("This works!")
 	query := `
-	INSERT INTO users (last_login, username, password, email, is_active, is_admin)
-	VALUES ($1, $2, $3, $4, $5, $6)
+	INSERT INTO users (username, password, email, is_active, is_admin)
+	VALUES ($1, $2, $3, $4, $5)
 	RETURNING id`
 
 	err := pDb.pool.QueryRow(ctx, query,
-		newUser.LastLogin,
 		newUser.Username,
 		newUser.Password,
 		newUser.Email,
