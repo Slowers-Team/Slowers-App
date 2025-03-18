@@ -116,7 +116,6 @@ const CreateBusinessForm = ({ onSubmit }) => {
                       value={address}
                       placeholder={t('businessform.input.address')}
                       onChange={event => setAddress(event.target.value)}
-                      required
                     />
                     <small className="w-100">{t('businessform.instructions.address')}</small>
                   </td>
