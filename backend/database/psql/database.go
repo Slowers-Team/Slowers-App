@@ -108,8 +108,10 @@ func (sqlDb *SQLDatabase) Disconnect() error {
 }
 
 func (sqlDb *SQLDatabase) Clear() error {
-	fmt.Println("Clearin onnistuminen")
-	_, err := sqlDb.pool.Exec(context.Background(), "DROP slowerstest;")
+	_, err := sqlDb.pool.Exec(context.Background(), "DELETE FROM users;")
+	if err != nil {
+		return err
+	}
 	return err
 }
 

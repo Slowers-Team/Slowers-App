@@ -20,23 +20,18 @@ type User struct {
 }
 
 func (pDb SQLDatabase) CreateUser(ctx context.Context, newUser User) (*User, error) {
-	fmt.Println("This works!")
 	query := `
-	INSERT INTO users (last_login, username, password, email, is_active, is_admin)
-	VALUES ($1, $2, $3, $4, $5, $6)
+	INSERT INTO users (username, password, email, is_active, is_admin)
+	VALUES ($1, $2, $3, $4, $5)
 	RETURNING id`
 
 	err := pDb.pool.QueryRow(ctx, query,
-		//newUser.CreatedAt,
-		//newUser.LastModified,
-		newUser.LastLogin,
 		newUser.Username,
 		newUser.Password,
 		newUser.Email,
 		newUser.IsActive,
 		newUser.IsAdmin,
 	).Scan(&newUser.ID)
-	//fmt.Println("This does not!")
 
 	if err != nil {
 		fmt.Println("Errorin sisällä:", err)

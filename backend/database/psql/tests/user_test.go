@@ -31,6 +31,8 @@ func (s *DbUserTestSuite) TestCreateUser() {
 		Username: s.TestUser.Username,
 		Email:    s.TestUser.Email,
 		Password: hashedPassword,
+		IsActive: s.TestUser.IsActive,
+		IsAdmin:  s.TestUser.IsAdmin,
 	}
 	newUser, err := s.Db.CreateUser(context.Background(), user)
 
@@ -55,6 +57,16 @@ func (s *DbUserTestSuite) TestCreateUser() {
 	s.NoError(
 		bcrypt.CompareHashAndPassword([]byte(newUser.Password), []byte(s.TestUser.Password)),
 		"wrong password for new user",
+	)
+	s.Equal(
+		newUser.IsActive,
+		s.TestUser.IsActive,
+		"wrong active status for new user",
+	)
+	s.Equal(
+		newUser.IsAdmin,
+		s.TestUser.IsAdmin,
+		"wrong admin status for new user",
 	)
 }
 
