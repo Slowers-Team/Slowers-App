@@ -5,11 +5,11 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt"
-
 	database "github.com/Slowers-team/Slowers-App/database/psql"
 	"github.com/Slowers-team/Slowers-App/utils"
+	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var SecretKey []byte
@@ -80,25 +80,25 @@ func CreateUser(c *fiber.Ctx) error {
 	return LogUserIn(c, createdUser, 201)
 }
 
-// func HandleLogin(c *fiber.Ctx) error {
-// 	login := new(database.LogIn)
+func HandleLogin(c *fiber.Ctx) error {
+	login := new(database.LogIn)
 
-// 	if err := c.BodyParser(login); err != nil {
-// 		return c.Status(400).SendString(err.Error())
-// 	}
+	if err := c.BodyParser(login); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
 
-// 	user, err := db.GetUserByEmail(c.Context(), login.Email)
-// 	if err != nil {
-// 		return c.Status(401).SendString("Invalid email or password")
-// 	}
+	user, err := db.GetUserByEmail(c.Context(), login.Email)
+	if err != nil {
+		return c.Status(401).SendString("Invalid email or password")
+	}
 
-// 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(login.Password))
-// 	if err != nil {
-// 		return c.Status(401).SendString("Invalid email or password")
-// 	}
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(login.Password))
+	if err != nil {
+		return c.Status(401).SendString("Invalid email or password")
+	}
 
-// 	return LogUserIn(c, user, 200)
-// }
+	return LogUserIn(c, user, 200)
+}
 
 func LogUserIn(c *fiber.Ctx, user *database.User, status int) error {
 	claims := &jwt.StandardClaims{
