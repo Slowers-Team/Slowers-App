@@ -19,11 +19,12 @@ func GetCurrentUser(c *fiber.Ctx) (string, error) {
 		return "none", fmt.Errorf("userID not set in local storage")
 	}
 
-	userID, err := psql.ParseID(id)
-	if err != nil {
-		return "none", err
-	}
-	return userID, nil
+	// userID, err := psql.ParseID(id)
+	// if err != nil {
+	// 	return "none", err
+	// }
+	// return userID, nil
+	return id, nil
 }
 
 // func ResetDatabase(c *fiber.Ctx) error {

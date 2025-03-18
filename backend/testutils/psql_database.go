@@ -1,6 +1,7 @@
 package testutils
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -9,25 +10,26 @@ import (
 	database "github.com/Slowers-team/Slowers-App/database/psql"
 )
 
-func ConnectPsqlDB() database.Database {
-	if err := godotenv.Load("../../.env"); err != nil {
+func ConnectSQLDB() database.Database {
+	fmt.Println(os.Getwd())
+	if err := godotenv.Load("../../../.dev.env"); err != nil {
 		log.Println("No .env file found")
 	}
 
-	databaseURI := os.Getenv("SQLTESTDATABASEURI")
-	if databaseURI == "" {
-		log.Fatal("Set your 'SQLTESTDATABASEURI' environment variable.")
+	SQLDatabaseURI := os.Getenv("SQLDATABASEURI")
+	if SQLDatabaseURI == "" {
+		log.Fatal("Set your 'SQLDATABASEURI' environment variable or do not enable SQL-connection.")
 	}
 
-	db := database.NewSQLDatabase(databaseURI)
-	if err := db.Connect("SlowersTest"); err != nil {
+	sqldb := database.NewSQLDatabase(SQLDatabaseURI)
+	if err := sqldb.Connect("slowerstest", true); err != nil {
 		log.Fatal(err)
 	}
 
-	return db
+	return sqldb
 }
 
-func DisconnectPsqlDB(db database.Database) {
+func DisconnectSQLDB(db database.Database) {
 	err := db.Disconnect()
 	if err != nil {
 		log.Fatal(err)
