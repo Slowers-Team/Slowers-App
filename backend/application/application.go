@@ -7,6 +7,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 
 	"github.com/Slowers-team/Slowers-App/handlers"
+	handlersPsql "github.com/Slowers-team/Slowers-App/handlersPsql"
 	"github.com/Slowers-team/Slowers-App/testdata"
 )
 
@@ -21,12 +22,16 @@ func SetEnv(newEnv string) {
 	Env = newEnv
 }
 
-func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
+func SetupAndSetAuthTo(isAuthOn bool, useSQL bool) *fiber.App {
 	app := fiber.New()
 
 	app.Get("/api/healthcheck", handlers.HealthCheck)
 
-	app.Post("/api/register", handlers.CreateUser)
+	if useSQL {
+		app.Post("/api/register", handlersPsql.CreateUser)
+	} else {
+		app.Post("/api/register", handlers.CreateUser)
+	}
 	app.Post("/api/login", handlers.HandleLogin)
 
 	if Env == "test" {

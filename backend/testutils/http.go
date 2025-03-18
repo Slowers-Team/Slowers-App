@@ -26,7 +26,7 @@ type TestCase struct {
 }
 
 func RunTest(t *testing.T, test TestCase) {
-	app := application.SetupAndSetAuthTo(false)
+	app := application.SetupAndSetAuthTo(false, false) //TODO: Add Psql toggle
 	db := mocks.NewDatabase(t)
 	handlers.SetDatabase(db)
 

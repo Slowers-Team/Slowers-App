@@ -11,12 +11,12 @@ import (
 
 type Database interface {
 	Connect(databaseName string) error
-	Disconnect()
-	// 	Clear() error
+	Disconnect() error
+	// Clear() error
 	// 	UserOwnsEntity(ctx context.Context, UserID, EntityID ObjectID, Collection string) error
 
 	// 	CountUsersWithEmail(ctx context.Context, email string) (int64, error)
-	// 	CreateUser(ctx context.Context, newUser User) (*User, error)
+	CreateUser(ctx context.Context, newUser User) (*User, error)
 	// 	GetUserByEmail(ctx context.Context, email string) (*User, error)
 	// 	GetUserByID(ctx context.Context, userID ObjectID) (*User, error)
 	// 	SetUserRole(ctx context.Context, userID ObjectID, role string) error
@@ -91,11 +91,16 @@ func (sqlDb *SQLDatabase) Connect(databaseName string) error {
 		return err
 	}
 
-	sqlpool = pool
+	sqlDb.pool = pool
 
 	return nil
 }
 
-func (sqlDb *SQLDatabase) Disconnect() {
+func (sqlDb *SQLDatabase) Disconnect() error {
 	sqlpool.Close()
+	return nil
+}
+
+func ParseID(id string) (string, error) {
+	return id, nil
 }
