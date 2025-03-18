@@ -1,0 +1,60 @@
+.business-name-container {
+    background-color: #ffffff;
+    flex: 1;
+    padding: 1rem;
+    width: fit-content;
+    border-radius: 25px;
+    border: 2px solid #25380b;
+    padding: 20px;
+}
+.members-container {
+    background-color: #ffffff9c;
+    flex: 1;
+    padding: 1rem;
+    width: 750px;
+    border-radius: 0px;
+    border: 2px solid #25380b;
+    padding: 20px;
+    justify-content: space-between;
+}
+ul {
+    text-align: left;
+}
+
+.add-member-button {
+    background-color: #b6c4b6;
+    color: #163020;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .add-member-button:hover {
+    filter: brightness(0.85)
+  }
+
+  .add-member-button:active {
+    filter: brightness(0.7);
+  }
+
+  #visibilityButton {
+    margin-left: 10px;
+    margin-top: -5px;
+    position: absolute;
+  }
+
+  .about-business-container {
+    background-color: #ffffff;
+    flex: 1;
+    padding: 1rem;
+    width: 750px;
+    border-radius: 0px;
+    border: 2px solid #25380b;
+    padding: 20px;
+    justify-content: space-between;
+}
