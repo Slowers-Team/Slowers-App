@@ -21,6 +21,8 @@ type Database interface {
 	// 	GetUserByID(ctx context.Context, userID ObjectID) (*User, error)
 	// 	SetUserRole(ctx context.Context, userID ObjectID, role string) error
 
+	CreateBusiness(ctx context.Context, newBusiness Business) (*Business, error)
+
 	// 	GetFlowers(ctx context.Context) ([]Flower, error)
 	// 	GetUserFlowers(ctx context.Context, userID ObjectID) ([]Flower, error)
 	// 	GetAllFlowersRelatedToSite(ctx context.Context, siteID ObjectID, userID ObjectID) ([]Flower, error)
@@ -108,7 +110,7 @@ func (sqlDb *SQLDatabase) Disconnect() error {
 }
 
 func (sqlDb *SQLDatabase) Clear() error {
-	_, err := sqlDb.pool.Exec(context.Background(), "DELETE FROM users;")
+	_, err := sqlDb.pool.Exec(context.Background(), "DELETE FROM users; DELETE FROM businesses; DELETE FROM memberships;")
 	if err != nil {
 		return err
 	}
