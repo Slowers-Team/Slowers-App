@@ -1,4 +1,4 @@
-package handlers
+package handlersPsql
 
 import (
 	"github.com/gofiber/fiber/v2"
