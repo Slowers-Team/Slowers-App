@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS Users (
     last_modified TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     last_login TIMESTAMPTZ,
     username VARCHAR(50) NOT NULL,
-    password VARCHAR(50) NOT NULL,
+    password VARCHAR(100) NOT NULL,
     email VARCHAR(50) NOT NULL UNIQUE,
     is_active BOOLEAN,
     is_admin BOOLEAN
