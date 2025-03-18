@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -188,4 +189,14 @@ func DeleteMultipleFlowers(c *fiber.Ctx) error {
 	}
 
 	return c.SendStatus(204)
+}
+
+func UpdateVisibilityByTime(timestamp time.Time) (int64, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	modified, err := database.Database.UpdateVisibilityByTime(db, ctx, timestamp)
+	if err != nil {
+		return 0, err
+	}
+	return modified, err
 }

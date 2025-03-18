@@ -3,42 +3,15 @@ include:
 
 name: slowers-app
 services:
-  slowers-backend:
-    image: slowers-backend
+  slowers-production:
+    image: slowers-app
     build:
-      context: ./backend
+      context: .
       dockerfile: Dockerfile
-    volumes:
-      - ./:/usr/src/app
     ports:
-      - 5001:5001
+      - 8081:5001
     environment:
       - USESQL=${USESQL:-false}
-      - MONGODB_URI=mongodb://the_username:the_password@slowers-mongo:27017/default_db
-      - SECRET_KEY=tihwerei2h4rjr423ju
-      - SQLDATABASEURI=postgres://Slowers:verysecretword@slowers-psql:5432
-    container_name: slowers-backend
-  
-  slowers-frontend:
-    image: slowers-frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    volumes:
-      - ./:/usr/src/app
-    ports:
-      - 5173:5173
-    environment:
-      - BACKEND_URL=http://slowers-backend:5001
-    container_name: slowers-frontend
-
-  reverse-proxy:
-    image: nginx:1.27.4
-    volumes:
-    - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    ports:
-      - 8081:80
-    container_name: slowers-reverse-proxy
-    depends_on:
-      - slowers-backend
-      - slowers-frontend
+    env_file:
+      - .env
+    container_name: slowers-app
