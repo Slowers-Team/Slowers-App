@@ -63,6 +63,8 @@ func SetupAndSetAuthTo(isAuthOn bool, useSQL bool) *fiber.App {
 	api.Get("/user", handlers.GetUser)
 	api.Post("/user/role", handlers.SetRole)
 
+	api.Post("/business", handlersPsql.CreateBusiness)
+
 	api.Post("/images", handlers.UploadImage)
 	api.Get("/images/id/:id", handlers.GetImageByID)
 	api.Get("/images/:filename", handlers.DownloadImage)
