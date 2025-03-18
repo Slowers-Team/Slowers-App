@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS Businesses (
     business_type VARCHAR(20) NOT NULL,
     business_phone_number VARCHAR(30) NOT NULL UNIQUE,
     business_email VARCHAR(30) NOT NULL UNIQUE,
-    business_address VARCHAR(50)
-    postal_code INTEGER NOT NULL check(postal_code between 0 and 99999)
+    business_address VARCHAR(50),
+    postal_code INTEGER NOT NULL check(postal_code between 0 and 99999),
     city VARCHAR(40) NOT NULL,
     notes VARCHAR(500)
 );
