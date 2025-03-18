@@ -17,14 +17,12 @@ import (
 type DbBusinessTestSuite struct {
 	suite.Suite
 	Db           database.Database
-	TestUser     database.User
 	TestBusiness database.Business
 }
 
 func (s *DbBusinessTestSuite) SetupSuite() {
 	s.Db = testutils.ConnectSQLDB()
 	s.Db.Clear()
-	s.TestUser = testdataPsql.GetUsers()[0]
 	s.TestBusiness = testdataPsql.GetBusinesses()[0]
 }
 
