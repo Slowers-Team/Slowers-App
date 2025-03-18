@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import userService from "../services/users"
+import businessService from "../services/business"
 import UserInfo from "../components/UserInfo"
 import { Authenticator } from "../Authenticator"
 import { Container } from "react-bootstrap"
@@ -17,7 +18,10 @@ const UserPage = () => {
       setUser({ ...user, role: updatedRole })
       Authenticator.setRole(updatedRole)
     })
-    console.log(props)
+    businessService.create(props)
+      .then(
+        console.log("creating business successful")
+      )
   }
   
   useEffect(() => {
