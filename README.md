@@ -63,7 +63,7 @@ You can inspect MongoDB with command `docker exec -it slowers-mongo-dev mongosh 
 
 #### Enabling PostgreSQL-database
 
-To enable PostgreSQL-database feature toggles in backend, use command `USESQL=true docker compose -f docker-compose.dev.yml up` to run development containers. To run unit tests using Postgres, you have to add `-tags:sql` to the test call (e.g. `go test ./... -tags:sql`).
+To enable PostgreSQL-database feature toggles in backend, use command `USESQL=true docker compose -f docker-compose.dev.yml up` to run development containers. To run unit tests using Postgres, you have to add `-tags=sql` to the test call (e.g. `go test ./... -tags=sql`).
 
 ## Running unit tests for the backend
 

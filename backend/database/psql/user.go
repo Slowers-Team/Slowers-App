@@ -42,8 +42,6 @@ func (pDb SQLDatabase) CreateUser(ctx context.Context, newUser User) (*User, err
 		return nil, err
 	}
 
-	fmt.Println("Tämä printtautuu, jos homma toimii")
-
 	return &newUser, nil
 }
 
