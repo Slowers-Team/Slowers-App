@@ -16,15 +16,17 @@ func CreateBusiness(c *fiber.Ctx) error {
 	if err := c.BodyParser(business); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
+	fmt.Println("tääl", business.BusinessName)
 
-	if business.Name == "" ||
+	if business.BusinessName == "" ||
 		business.Type == "" ||
 		business.PhoneNumber == "" ||
 		business.Email == "" ||
-		business.PostalCode == 00000 || // tälle joku järkevämpi ratkasu
+		business.PostalCode == "" || // tälle joku järkevämpi ratkasu
 		business.City == "" {
 		return c.Status(400).SendString("All fields are required")
 	}
+	fmt.Println("tääl", business)
 
 	if !utils.IsEmailValid(business.Email) {
 		return c.Status(400).SendString("invalid email")
@@ -36,7 +38,7 @@ func CreateBusiness(c *fiber.Ctx) error {
 	newBusiness := database.Business{
 		CreatedAt:    business.CreatedAt,
 		LastModified: business.LastModified,
-		Name:         business.Name,
+		BusinessName: business.BusinessName,
 		Type:         business.Type,
 		PhoneNumber:  business.PhoneNumber,
 		Email:        business.Email,
@@ -54,7 +56,7 @@ func CreateBusiness(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	fmt.Println("Yrityksen luominen onnistui:", createdBusiness.Name)
+	fmt.Println("Yrityksen luominen onnistui:", createdBusiness.BusinessName)
 
-	return nil
+	return c.SendStatus(204)
 }
