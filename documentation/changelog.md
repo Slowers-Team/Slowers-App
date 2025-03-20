@@ -1,7 +1,7 @@
 # Changelog
 
 ## Release 0.2.4
-[GitHub release](https://github.com/Slowers-Team/Slowers-App/releases/tag/0.2.4)
+[GitHub release](https://github.com/Slowers-Team/Slowers-App/releases/tag/v0.2.4)
 
 - Routing in the staging server is fixed
     - Two staging servers, one with working routing and one with working addition of images
