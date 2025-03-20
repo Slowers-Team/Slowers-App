@@ -104,6 +104,26 @@ func (s *DbMembershipTestSuite) TestAddMembership() {
 	)
 }
 
+func (s *DbMembershipTestSuite) TestCheckMembership() {
+	existingMembership := database.Membership{
+		UserEmail:   s.TestUser.Email,
+		BusinessID:  s.TestBusiness.ID,
+		Designation: "owner",
+	}
+	_, err := s.Db.AddMembership(context.Background(), existingMembership)
+
+	membership, err := s.Db.CheckMembership(context.Background(), s.TestUser.Email)
+
+	s.NoError(
+		err,
+		"CheckMembership() should not return an error",
+	)
+	s.NotZero(
+		membership.ID,
+		"membership should have non-zero ID",
+	)
+}
+
 func (s *DbMembershipTestSuite) TearDownTest() {
 	s.Db.Clear()
 }

@@ -1,6 +1,9 @@
 package database
 
-import "context"
+import (
+	"context"
+	"fmt"
+)
 
 type Membership struct {
 	ID           int
@@ -33,4 +36,22 @@ func (pDb SQLDatabase) AddMembership(ctx context.Context, newMembership Membersh
 	}
 
 	return &newMembership, nil
+}
+
+func (pDb SQLDatabase) CheckMembership(ctx context.Context, userEmail string) (*Membership, error) {
+	membership := new(Membership)
+	query := `SELECT id, created_at::TEXT, last_modified::TEXT, user_email, business_id, designation FROM memberships WHERE user_email=$1`
+	err := pDb.pool.QueryRow(ctx, query, userEmail).Scan(
+		&membership.ID,
+		&membership.CreatedAt,
+		&membership.LastModified,
+		&membership.UserEmail,
+		&membership.BusinessID,
+		&membership.Designation,
+	)
+	if err != nil {
+		fmt.Println(err.Error())
+		return nil, err
+	}
+	return membership, nil
 }
