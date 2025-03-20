@@ -51,11 +51,6 @@ func (s *DbMembershipTestSuite) AddTestBusinessToDatabase() *database.Business {
 	return newBusiness
 }
 
-func (s *DbMembershipTestSuite) SetupTest() {
-	s.TestBusiness = *s.AddTestBusinessToDatabase()
-	s.AddTestUserToDatabase()
-}
-
 func (s *DbMembershipTestSuite) AddTestUserToDatabase() { // TODO: this implementation is dependent on working business db logic
 	hashedPassword, _ := utils.HashPassword(s.TestUser.Password)
 	user := database.User{
@@ -69,6 +64,11 @@ func (s *DbMembershipTestSuite) AddTestUserToDatabase() { // TODO: this implemen
 	if err != nil {
 		fmt.Println("Error in test user creation") // TODO: Better error handling
 	}
+}
+
+func (s *DbMembershipTestSuite) SetupTest() {
+	s.TestBusiness = *s.AddTestBusinessToDatabase()
+	s.AddTestUserToDatabase()
 }
 
 func (s *DbMembershipTestSuite) TestAddMembership() {
@@ -86,6 +86,21 @@ func (s *DbMembershipTestSuite) TestAddMembership() {
 	s.NotZero(
 		newMembership.ID,
 		"new membership should have non-zero ID",
+	)
+	s.Equal(
+		newMembership.UserEmail,
+		s.TestUser.Email,
+		"wrong user email for new membership",
+	)
+	s.Equal(
+		newMembership.BusinessID,
+		s.TestBusiness.ID,
+		"wrong business id for new membership",
+	)
+	s.Equal(
+		newMembership.Designation,
+		"owner",
+		"wrong membership designation for new membership",
 	)
 }
 
