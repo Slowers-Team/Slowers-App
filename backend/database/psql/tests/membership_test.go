@@ -137,6 +137,11 @@ func (s *DbMembershipTestSuite) TestCheckMembership() {
 		"owner",
 		"wrong membership designation for membership",
 	)
+	s.Equal(
+		membership.BusinessName,
+		s.TestBusiness.BusinessName,
+		"wrong business name for membership",
+	)
 }
 
 func (s *DbMembershipTestSuite) TearDownTest() {
