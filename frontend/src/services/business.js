@@ -1,14 +1,14 @@
 import axios from 'axios'
 import tokenService from './token'
 
-const baseUrl = '/api/business/create'
+const baseUrl = '/api/business'
 
-const create = newBusiness => {
-    console.log(newBusiness)
+const create = business => {
+    console.log(business)
     const config = {
         headers: { Authorization: tokenService.fetchToken() }
     }
-    const request = axios.post(baseUrl, newBusiness, config)
+    const request = axios.post(baseUrl, business, config)
     return request.then(response => response.data)
 }
 

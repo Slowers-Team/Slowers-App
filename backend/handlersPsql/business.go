@@ -2,7 +2,6 @@ package handlersPsql
 
 import (
 	"fmt"
-	"time"
 
 	database "github.com/Slowers-team/Slowers-App/database/psql"
 	"github.com/Slowers-team/Slowers-App/utils"
@@ -17,11 +16,11 @@ func CreateBusiness(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	if business.Name == "" ||
+	if business.BusinessName == "" ||
 		business.Type == "" ||
 		business.PhoneNumber == "" ||
 		business.Email == "" ||
-		business.PostalCode == 00000 || // tälle joku järkevämpi ratkasu
+		business.PostalCode == "" || // tälle joku järkevämpi ratkasu
 		business.City == "" {
 		return c.Status(400).SendString("All fields are required")
 	}
@@ -30,13 +29,10 @@ func CreateBusiness(c *fiber.Ctx) error {
 		return c.Status(400).SendString("invalid email")
 	}
 
-	timestamp := time.Now().Format(time.RFC3339)
-	fmt.Println(timestamp)
-
 	newBusiness := database.Business{
 		CreatedAt:    business.CreatedAt,
 		LastModified: business.LastModified,
-		Name:         business.Name,
+		BusinessName: business.BusinessName,
 		Type:         business.Type,
 		PhoneNumber:  business.PhoneNumber,
 		Email:        business.Email,
@@ -45,16 +41,15 @@ func CreateBusiness(c *fiber.Ctx) error {
 		City:         business.City,
 		Notes:        business.Notes,
 	}
-	fmt.Println("uusi yritys:", newBusiness)
 
 	createdBusiness, err := db.CreateBusiness(c.Context(), newBusiness)
 
 	if err != nil {
-		fmt.Println("Yrityksen luominen ei onnistunut")
+		fmt.Println("Creating business unsuccessful")
 		return c.Status(500).SendString(err.Error())
 	}
 
-	fmt.Println("Yrityksen luominen onnistui:", createdBusiness.Name)
+	fmt.Println("Creating business successful:", createdBusiness.BusinessName)
 
-	return nil
+	return c.SendStatus(204)
 }

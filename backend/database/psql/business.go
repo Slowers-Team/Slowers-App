@@ -6,12 +6,12 @@ type Business struct {
 	ID           int
 	CreatedAt    string
 	LastModified string
-	Name         string
+	BusinessName string
 	Type         string
 	PhoneNumber  string
 	Email        string
 	PostAddress  string
-	PostalCode   int
+	PostalCode   string
 	City         string
 	Notes        string
 }
@@ -34,7 +34,7 @@ func (pDb SQLDatabase) CreateBusiness(ctx context.Context, newBusiness Business)
 	err := pDb.pool.QueryRow(
 		ctx,
 		query,
-		newBusiness.Name,
+		newBusiness.BusinessName,
 		newBusiness.Type,
 		newBusiness.PhoneNumber,
 		newBusiness.Email,
