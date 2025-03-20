@@ -203,6 +203,16 @@ func (mDb MongoDatabase) ToggleFlowerVisibility(ctx context.Context, userID, flo
 
 	ret := updatedVisibility["visible"].(bool)
 
+	if ret {
+		newTime := time.Now()
+		updateTime := bson.A{bson.M{"$set": bson.M{"added_time": newTime}}}
+		var updatedTime bson.M
+		err = db.Collection("flowers").FindOneAndUpdate(ctx, filter, updateTime).Decode(&updatedTime)
+
+		if err != nil {
+			return nil, err
+		}
+	}
 	return &ret, nil
 }
 
@@ -234,4 +244,12 @@ func (mDb MongoDatabase) DeleteMultipleFlowers(ctx context.Context, flowerIDs []
 	filter := bson.M{"_id": bson.M{"$in": flowerIDs}}
 	_, err := db.Collection("flowers").DeleteMany(ctx, filter)
 	return err
+}
+
+func (mDb MongoDatabase) UpdateVisibilityByTime(ctx context.Context, timestamp time.Time) (modified int64, err error) {
+	filter := bson.M{"added_time": bson.M{"$lte": timestamp}}
+	update := bson.M{"$set": bson.M{"visible": false}}
+	updateResult, err := db.Collection("flowers").UpdateMany(ctx, filter, update)
+	modified = updateResult.ModifiedCount
+	return modified, err
 }

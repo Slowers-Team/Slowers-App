@@ -1,0 +1,17 @@
+include:
+  - ./dbs/docker-compose.yml
+
+name: slowers-app
+services:
+  slowers-production:
+    image: slowers-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8081:5001
+    environment:
+      - USESQL=${USESQL:-false}
+    env_file:
+      - .env
+    container_name: slowers-app

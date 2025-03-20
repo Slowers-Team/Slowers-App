@@ -10,16 +10,20 @@ import (
 )
 
 type Database interface {
-	Connect(databaseName string) error
-	Disconnect()
-	// 	Clear() error
+	Connect(databaseName string, testEnv bool) error
+	Disconnect() error
+	Clear() error
 	// 	UserOwnsEntity(ctx context.Context, UserID, EntityID ObjectID, Collection string) error
 
 	// 	CountUsersWithEmail(ctx context.Context, email string) (int64, error)
-	// 	CreateUser(ctx context.Context, newUser User) (*User, error)
+	CreateUser(ctx context.Context, newUser User) (*User, error)
 	// 	GetUserByEmail(ctx context.Context, email string) (*User, error)
 	// 	GetUserByID(ctx context.Context, userID ObjectID) (*User, error)
 	// 	SetUserRole(ctx context.Context, userID ObjectID, role string) error
+
+	CreateBusiness(ctx context.Context, newBusiness Business) (*Business, error)
+
+	AddMembership(ctx context.Context, newMembership Membership) (*Membership, error)
 
 	// 	GetFlowers(ctx context.Context) ([]Flower, error)
 	// 	GetUserFlowers(ctx context.Context, userID ObjectID) ([]Flower, error)
@@ -50,13 +54,13 @@ type SQLDatabase struct {
 	pool        *pgxpool.Pool
 }
 
-var sqlpool *pgxpool.Pool
+//var sqlpool *pgxpool.Pool
 
 func NewSQLDatabase(databaseURI string) *SQLDatabase {
 	return &SQLDatabase{databaseURI, nil}
 }
 
-func (sqlDb *SQLDatabase) Connect(databaseName string) error {
+func (sqlDb *SQLDatabase) Connect(databaseName string, testEnv bool) error {
 	connString := fmt.Sprintf("%s/%s", sqlDb.databaseURI, databaseName)
 	var err error
 	pool, err := pgxpool.New(context.Background(), connString)
@@ -71,7 +75,13 @@ func (sqlDb *SQLDatabase) Connect(databaseName string) error {
 
 	log.Println("Connected to PostgreSQL")
 
-	sqlQuery, err := os.ReadFile("database/psql/schema.sql")
+	var filepathToSqlFiles string
+	if testEnv {
+		filepathToSqlFiles = "../../../database/psql/schema.sql"
+	} else {
+		filepathToSqlFiles = "database/psql/schema.sql"
+	}
+	sqlQuery, err := os.ReadFile(filepathToSqlFiles)
 	if err != nil {
 		return err
 	}
@@ -81,7 +91,7 @@ func (sqlDb *SQLDatabase) Connect(databaseName string) error {
 		return err
 	}
 
-	sqlFunctions, err := os.ReadFile("database/psql/functions.sql")
+	sqlFunctions, err := os.ReadFile(filepathToSqlFiles)
 	if err != nil {
 		return err
 	}
@@ -91,11 +101,25 @@ func (sqlDb *SQLDatabase) Connect(databaseName string) error {
 		return err
 	}
 
-	sqlpool = pool
+	sqlDb.pool = pool
 
 	return nil
 }
 
-func (sqlDb *SQLDatabase) Disconnect() {
-	sqlpool.Close()
+func (sqlDb *SQLDatabase) Disconnect() error {
+	sqlDb.pool.Close()
+	return nil
 }
+
+func (sqlDb *SQLDatabase) Clear() error {
+	_, err := sqlDb.pool.Exec(context.Background(), "DELETE FROM memberships; DELETE FROM businesses; DELETE FROM users;")
+	if err != nil {
+		return err
+	}
+	return err
+}
+
+// func ParseID(id string) (string, error) {
+// 	// TODO: Tämä logiikka
+// 	return id, nil
+// }

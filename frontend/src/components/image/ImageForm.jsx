@@ -28,12 +28,19 @@ const ImageForm = ({ createImage }) => {
       return
     }
     const file = event.target.files[0]
-    const objectUrl = URL.createObjectURL(file)
-
-    setPreview(objectUrl)
     setNewImage(file)
+    // const objectUrl = URL.createObjectURL(file)
 
-    return () => URL.revokeObjectURL(objectUrl)
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      setPreview(e.target.result)
+    }
+    reader.readAsDataURL(file)
+
+    // setPreview(objectUrl)
+    // setNewImage(file)
+
+    // return () => URL.revokeObjectURL(objectUrl)
   }
 
   return (
@@ -67,7 +74,7 @@ const ImageForm = ({ createImage }) => {
           </button>
         </div>
       </form>
-      {newImage && <img width={100} src={preview}/>}
+      {newImage && <img width={100} src={preview} alt="Preview" />}
     </div>
   )
 }

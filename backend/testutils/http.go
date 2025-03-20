@@ -26,7 +26,7 @@ type TestCase struct {
 }
 
 func RunTest(t *testing.T, test TestCase) {
-	app := application.SetupAndSetAuthTo(false)
+	app := application.SetupAndSetAuthTo(false, false) //TODO: Add Psql toggle
 	db := mocks.NewDatabase(t)
 	handlers.SetDatabase(db)
 
@@ -42,12 +42,12 @@ func RunTest(t *testing.T, test TestCase) {
 
 	db.AssertExpectations(t)
 
-	assert.Equalf(t, test.ExpectedCode, res.StatusCode, test.Description)
+	assert.Equal(t, test.ExpectedCode, res.StatusCode, test.Description)
 
 	body, err := io.ReadAll(res.Body)
-	assert.Nilf(t, err, test.Description)
+	assert.NoError(t, err, test.Description)
 	if test.ExpectedBodyFunc == nil {
-		assert.Equalf(t, test.ExpectedBody, body, test.Description)
+		assert.Equal(t, test.ExpectedBody, body, test.Description)
 	} else {
 		test.ExpectedBodyFunc(body)
 	}

@@ -1,11 +1,12 @@
 services:
-  slowers-frontend:
+  slowers-frontend-dev:
     image: slowers-frontend-dev
     build:
       context: .
       dockerfile: dev.Dockerfile
     volumes:
       - ./:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
       - 5173:5173
     container_name: slowers-frontend-dev

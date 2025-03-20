@@ -2,10 +2,12 @@
 
 Project done for the Software Lab course (TKT20007) at the University of Helsinki. Helps connecting local flower growers to local flower shops in the spirit of the [Slow Flowers](https://en.wikipedia.org/wiki/Slow_Flowers) movement.
 
-- [Staging server](https://slowers.ext.ocp-test-0.k8s.it.helsinki.fi)
-- [Product backlog](https://github.com/orgs/SlowersTeamSpring2025/projects/1/views/1)
-- [Sprint backlogs](https://github.com/orgs/SlowersTeamSpring2025/projects?query=is%3Aopen+Sprint)
-- [Coding conduct](documentation/coding_conduct_spring2025.md)
+- [Staging server](https://slowers-app.ext.ocp-test-0.k8s.it.helsinki.fi)
+    - [Old staging server, to be deprecated](https://slowers.ext.ocp-test-0.k8s.it.helsinki.fi)
+- [Changelog](documentation/changelog.md)
+- [Product backlog](https://github.com/orgs/Slowers-Team/projects/17)
+- [Sprint backlogs](https://github.com/orgs/Slowers-Team/projects?query=is%3Aopen+Sprint)
+- [Coding conduct](documentation/coding_conduct.md)
 - [Definition of done](documentation/definition_of_done.md)
 
 ## Starting the application locally
@@ -62,7 +64,7 @@ You can inspect MongoDB with command `docker exec -it slowers-mongo-dev mongosh 
 
 #### Enabling PostgreSQL-database
 
-To enable PostgreSQL-database feature toggles in backend, use command `USESQL=true docker compose -f docker-compose.dev.yml up` to run development containers.
+To enable PostgreSQL-database feature toggles in backend, use command `USESQL=true docker compose -f docker-compose.dev.yml up` to run development containers. To run unit tests using Postgres, you have to add `-tags=sql` to the test call (e.g. `go test ./... -tags=sql`).
 
 ## Running unit tests for the backend
 

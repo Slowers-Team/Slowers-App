@@ -3,8 +3,8 @@ package handlers
 import (
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/bcrypt"
 
@@ -56,7 +56,7 @@ func CreateUser(c *fiber.Ctx) error {
 	newUser := database.User{Username: user.Username, Password: hashedPassword, Email: user.Email, Role: user.Role}
 
 	createdUser, err := db.CreateUser(c.Context(), newUser)
-	//täällä palautetaan palvelimelta saatu errori fronttiin
+
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}

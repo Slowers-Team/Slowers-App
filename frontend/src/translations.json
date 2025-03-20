@@ -153,10 +153,30 @@
       "businessform": {
         "fieldname": {
           "businessname": "Name of the business",
-          "businesstype": "Type of the business"
+          "businesstype": "Type of the business",
+          "phonenumber" : "Phone number",
+          "email" : "Email",
+          "address": "Address",
+          "postalcode": "Postal code",
+          "city": "City/Municipality",
+          "additionalinfo" : "Additional information",
+          "delivery" : "Do you deliver flowers?"
         },
         "input": {
-          "businessname": "Enter the name of the business"
+          "businessname": "Enter the name of the business",
+          "phonenumber" : "Enter phone number",
+          "email" : "Enter email",
+          "address": "Enter address",
+          "postalcode": "Enter postal code",
+          "city": "Enter city/municipality",
+          "additionalinfo" : "Enter additional information",
+          "yesdelivery" : "Yes",
+          "nodelivery" : "No"
+        },
+        "instructions" : {
+          "note": "The information given in this form will be dispalyed in your business page and it will be visible to other users.",
+          "additionalinfo" : "*Tell about your business and give any additional information",
+          "address": "*This is an optional field"
         }
       }
     }
@@ -315,10 +335,30 @@
       "businessform": {
         "fieldname": {
           "businessname": "Yrityksen nimi",
-          "businesstype": "Yrityksen tyyppi"
+          "businesstype": "Yrityksen tyyppi",
+          "phonenumber": "Syötä puhelinnumero",
+          "email": "Sähköposti",
+          "address": "Osoite",
+          "postalcode": "Postinumero",
+          "city": "Postitoimipaikka",
+          "additionalinfo": "Lisätietoja",
+          "delivery" : "Toimittaako yritys kukkia?"
         },
         "input": {
-          "businessname": "Syötä yrityksen nimi"
+          "businessname": "Syötä yrityksen nimi",
+          "phonenumber": "Syötä puhelinnumero",
+          "email": "Syötä sähköpostiosoite",
+          "address": "Syötä osoite",
+          "postalcode": "Syötä postinumero",
+          "city": "Syötä postitoimipaikka",
+          "additionalinfo": "Syötä lisätietoja",
+          "yesdelivery" : "Kyllä",
+          "nodelivery" : "Ei"
+        },
+        "instructions": {
+          "note": "Tällä lomakkeella annetut tiedot tulevat näkyville yrityssivulle ja ne näkyvät muille käyttäjille.",
+          "additionalinfo": "*Kerro tarkemmin yrityksestä ja anna mahdollisia lisätietoja",
+          "address": "*Tämä kenttä on vapaaehtoinen"
         }
       } 
     }
@@ -477,10 +517,30 @@
       "businessform": {
         "fieldname": {
           "businessname": "Företagets namn",
-          "businesstype": "Typ av företaget"
+          "businesstype": "Typ av företaget",
+          "phonenumber": "Telefonnummer",
+          "email": "E-post",
+          "address": "Adress",
+          "postalcode": "Postnummer",
+          "city": "Postanstalt",
+          "additionalinfo": "Mer information",
+          "delivery" : "Levererar företaget blommor?"
         },
         "input": {
-          "businessname": "Ange företagets namn"
+          "businessname": "Ange företagets namn",
+          "phonenumber": "Ange telefonnummer",
+          "email": "Ange e-post",
+          "address": "Ange adress",
+          "postalcode": "Ange postnummer",
+          "city": "Ange postanstalt",
+          "additionalinfo": "Skriva in mer information",
+          "yesdelivery" : "Ja",
+          "nodelivery" : "Nej"
+        },
+        "instructions": {
+          "note": "Informationen som anges i detta formulär kommer att vara synlig på företagssidan och kommer att vara synlig för andra användare.",
+          "additionalinfo": "*Berätta om ditt företag och lämna ytterligare information",
+          "address": "*Detta är ett valfritt fält"
         }
       }  
     }

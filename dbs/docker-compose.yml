@@ -1,0 +1,27 @@
+services:
+  slowers-mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    env_file:
+      - .dev.env
+    volumes: 
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - ./mongo_data:/data/db
+    container_name: slowers-mongo
+  slowers-psql:
+    image: postgres
+    ports:
+      - 5432:5432
+    env_file:
+      - .dev.env
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./psql-init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./psql_data:/var/lib/postgresql/data
+    container_name: slowers-psql
+
+volumes:
+  mongo_data:
+  psql_data:

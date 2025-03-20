@@ -118,7 +118,7 @@ func (s *ImagesAPITestSuite) TestImageUpload() {
 		ExpectedBody: utils.ToJSON(image),
 		SetupMocks: func(db *mocks.Database) {
 			db.EXPECT().AddImage(
-				mock.Anything, testdata.GetImagesForAdding()[0],
+				mock.Anything, testdata.PrepareImageForAdding(s.Images[0]),
 			).RunAndReturn(func(ctx context.Context, newImage database.Image) (*database.Image, error) {
 				return &database.Image{
 					ID:         image.ID,
@@ -249,7 +249,7 @@ func (s *ImagesAPITestSuite) TestGetImageByID() {
 }
 
 func (s *ImagesAPITestSuite) TestClearFavoriteImageOfFlower() {
-	flower := testdata.GetTestFlowers()[0]
+	flower := testdata.GetFlowers()[0]
 	entityType := "flower"
 	collection := "flowers"
 
@@ -309,7 +309,7 @@ func (s *ImagesAPITestSuite) TestClearFavoriteImageOfSite() {
 }
 
 func (s *ImagesAPITestSuite) TestClearFavoriteImageFailsWithIncorrectEntity() {
-	flower := testdata.GetTestFlowers()[0]
+	flower := testdata.GetFlowers()[0]
 	entityType := "incorrect"
 
 	b := make(map[string]string)
