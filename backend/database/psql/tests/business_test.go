@@ -28,14 +28,14 @@ func (s *DbBusinessTestSuite) SetupSuite() {
 
 func (s *DbBusinessTestSuite) TestCreateBusiness() {
 	business := database.Business{
-		Name:        s.TestBusiness.Name,
-		Type:        s.TestBusiness.Type,
-		PhoneNumber: s.TestBusiness.PhoneNumber,
-		Email:       s.TestBusiness.Email,
-		PostAddress: s.TestBusiness.PostAddress,
-		PostalCode:  s.TestBusiness.PostalCode,
-		City:        s.TestBusiness.City,
-		Notes:       s.TestBusiness.Notes,
+		BusinessName: s.TestBusiness.BusinessName,
+		Type:         s.TestBusiness.Type,
+		PhoneNumber:  s.TestBusiness.PhoneNumber,
+		Email:        s.TestBusiness.Email,
+		PostAddress:  s.TestBusiness.PostAddress,
+		PostalCode:   s.TestBusiness.PostalCode,
+		City:         s.TestBusiness.City,
+		Notes:        s.TestBusiness.Notes,
 	}
 	newBusiness, err := s.Db.CreateBusiness(context.Background(), business)
 
@@ -48,8 +48,8 @@ func (s *DbBusinessTestSuite) TestCreateBusiness() {
 		"new user should have non-zero ID",
 	)
 	s.Equal(
-		newBusiness.Name,
-		s.TestBusiness.Name,
+		newBusiness.BusinessName,
+		s.TestBusiness.BusinessName,
 		"wrong name for new business",
 	)
 	s.Equal(
