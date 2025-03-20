@@ -122,6 +122,21 @@ func (s *DbMembershipTestSuite) TestCheckMembership() {
 		membership.ID,
 		"membership should have non-zero ID",
 	)
+	s.Equal(
+		membership.UserEmail,
+		s.TestUser.Email,
+		"wrong user email for membership",
+	)
+	s.Equal(
+		membership.BusinessID,
+		s.TestBusiness.ID,
+		"wrong business id for membership",
+	)
+	s.Equal(
+		membership.Designation,
+		"owner",
+		"wrong membership designation for membership",
+	)
 }
 
 func (s *DbMembershipTestSuite) TearDownTest() {
