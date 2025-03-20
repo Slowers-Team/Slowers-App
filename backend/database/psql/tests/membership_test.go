@@ -144,6 +144,46 @@ func (s *DbMembershipTestSuite) TestCheckMembership() {
 	)
 }
 
+func (s *DbMembershipTestSuite) TestCheckMembershipWorksWhenUserEmailHasNoUser() {
+	existingMembership := database.Membership{
+		UserEmail:   "nonexistent@email.com",
+		BusinessID:  s.TestBusiness.ID,
+		Designation: "owner",
+	}
+	_, err := s.Db.AddMembership(context.Background(), existingMembership)
+
+	membership, err := s.Db.CheckMembership(context.Background(), "nonexistent@email.com")
+
+	s.NoError(
+		err,
+		"CheckMembership() should not return an error",
+	)
+	s.NotZero(
+		membership.ID,
+		"membership should have non-zero ID",
+	)
+	s.Equal(
+		membership.UserEmail,
+		"nonexistent@email.com",
+		"wrong user email for membership",
+	)
+	s.Equal(
+		membership.BusinessID,
+		s.TestBusiness.ID,
+		"wrong business id for membership",
+	)
+	s.Equal(
+		membership.Designation,
+		"owner",
+		"wrong membership designation for membership",
+	)
+	s.Equal(
+		membership.BusinessName,
+		s.TestBusiness.BusinessName,
+		"wrong business name for membership",
+	)
+}
+
 func (s *DbMembershipTestSuite) TearDownTest() {
 	s.Db.Clear()
 }
