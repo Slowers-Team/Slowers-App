@@ -1,6 +1,8 @@
 package database
 
-import "context"
+import (
+	"context"
+)
 
 type Business struct {
 	ID             int
@@ -11,10 +13,10 @@ type Business struct {
 	Type           string
 	PhoneNumber    string
 	Email          string
-	PostAddress    string
+	Address        string
 	PostalCode     string
 	City           string
-	Notes          string
+	AdditionalInfo string
 }
 
 func (pDb SQLDatabase) CreateBusiness(ctx context.Context, newBusiness Business) (*Business, error) {
@@ -26,10 +28,10 @@ func (pDb SQLDatabase) CreateBusiness(ctx context.Context, newBusiness Business)
 							type,
 							phone_number,
 							email,
-							post_address,
+							address,
 							postal_code,
 							city,
-							notes)
+							additional_info)
 	VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
 	RETURNING id`
 
@@ -38,12 +40,13 @@ func (pDb SQLDatabase) CreateBusiness(ctx context.Context, newBusiness Business)
 		query,
 		newBusiness.BusinessName,
 		newBusiness.BusinessIdCode,
+		newBusiness.Type,
 		newBusiness.PhoneNumber,
 		newBusiness.Email,
-		newBusiness.PostAddress,
+		newBusiness.Address,
 		newBusiness.PostalCode,
 		newBusiness.City,
-		newBusiness.Notes,
+		newBusiness.AdditionalInfo,
 	).Scan(&newBusiness.ID)
 
 	if err != nil {
