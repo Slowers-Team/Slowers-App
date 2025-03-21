@@ -10,31 +10,26 @@ const BusinessPage = () => {
     <Container>
       <center>
       <div className="business-name-container">
-      <h1>Business name</h1>
-      <h2>Business type: Grower</h2>
-      <h2>Owner: Owner name</h2>
-      </div>
+      <h2>Business name</h2>
+      <h5>Business type: Grower</h5>
+      <h5>Phone number: +358 45 2789654</h5>
+      <h5>Email: business@email.com</h5>
+      <h5>Postal code: 00000</h5>
+      <h5>City: Kerava</h5> 
+      <h5>Created: 23.5.2021</h5>
+
+      <br></br>
       <br></br>
 
-      <div className="members-container">
-      <h3>Members:</h3>
-      <ul>
-        <li>Matti</li>
-        <li>Teppo</li>
-        <li>Maija</li>
-      </ul> 
-      <button className='add-member-button'>+Add member</button>
-      </div>
-      <br></br>
-
-      <div className="about-business-container">
-        <h3>About business:</h3>
+      <h4>About business:</h4>
         <br></br>
-        <textarea id="businessinfo" name="businessinfo" rows="4" cols="50">About business</textarea>
+        <div class="about-business-container">About business</div>
         <br></br>
-        <button className='add-member-button'>Update</button>
       </div>
       </center>
+      <br></br>
+
+
     </Container>
   );
 };
