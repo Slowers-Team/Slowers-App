@@ -104,7 +104,7 @@ func (s *DbMembershipTestSuite) TestAddMembership() {
 	)
 }
 
-func (s *DbMembershipTestSuite) TestCheckMembership() {
+func (s *DbMembershipTestSuite) TestGetMembershipByUserEmail() {
 	existingMembership := database.Membership{
 		UserEmail:   s.TestUser.Email,
 		BusinessID:  s.TestBusiness.ID,
@@ -112,7 +112,7 @@ func (s *DbMembershipTestSuite) TestCheckMembership() {
 	}
 	_, err := s.Db.AddMembership(context.Background(), existingMembership)
 
-	membership, err := s.Db.CheckMembership(context.Background(), s.TestUser.Email)
+	membership, err := s.Db.GetMembershipByUserEmail(context.Background(), s.TestUser.Email)
 
 	s.NoError(
 		err,
@@ -144,7 +144,7 @@ func (s *DbMembershipTestSuite) TestCheckMembership() {
 	)
 }
 
-func (s *DbMembershipTestSuite) TestCheckMembershipWorksWhenUserEmailHasNoUser() {
+func (s *DbMembershipTestSuite) TestGetMembershipByUserEmailWorksWhenUserEmailHasNoUser() {
 	existingMembership := database.Membership{
 		UserEmail:   "nonexistent@email.com",
 		BusinessID:  s.TestBusiness.ID,
@@ -152,7 +152,7 @@ func (s *DbMembershipTestSuite) TestCheckMembershipWorksWhenUserEmailHasNoUser()
 	}
 	_, err := s.Db.AddMembership(context.Background(), existingMembership)
 
-	membership, err := s.Db.CheckMembership(context.Background(), "nonexistent@email.com")
+	membership, err := s.Db.GetMembershipByUserEmail(context.Background(), "nonexistent@email.com")
 
 	s.NoError(
 		err,
