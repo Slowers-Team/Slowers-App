@@ -3,17 +3,18 @@ package database
 import "context"
 
 type Business struct {
-	ID           int
-	CreatedAt    string
-	LastModified string
-	BusinessName string
-	Type         string
-	PhoneNumber  string
-	Email        string
-	PostAddress  string
-	PostalCode   string
-	City         string
-	Notes        string
+	ID             int
+	CreatedAt      string
+	LastModified   string
+	BusinessName   string
+	BusinessIdCode string
+	Type           string
+	PhoneNumber    string
+	Email          string
+	PostAddress    string
+	PostalCode     string
+	City           string
+	Notes          string
 }
 
 func (pDb SQLDatabase) CreateBusiness(ctx context.Context, newBusiness Business) (*Business, error) {
@@ -21,6 +22,7 @@ func (pDb SQLDatabase) CreateBusiness(ctx context.Context, newBusiness Business)
 	query := `
 	INSERT INTO Businesses (
 							name,
+							business_id_code,
 							type,
 							phone_number,
 							email,
@@ -28,14 +30,14 @@ func (pDb SQLDatabase) CreateBusiness(ctx context.Context, newBusiness Business)
 							postal_code,
 							city,
 							notes)
-	VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+	VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
 	RETURNING id`
 
 	err := pDb.pool.QueryRow(
 		ctx,
 		query,
 		newBusiness.BusinessName,
-		newBusiness.Type,
+		newBusiness.BusinessIdCode,
 		newBusiness.PhoneNumber,
 		newBusiness.Email,
 		newBusiness.PostAddress,

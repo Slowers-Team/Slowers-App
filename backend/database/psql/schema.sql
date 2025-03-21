@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS Businesses (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     last_modified TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     name VARCHAR(50) NOT NULL UNIQUE,
+    business_id_code VARCHAR(50),
     type VARCHAR(20) NOT NULL,
     phone_number VARCHAR(30) NOT NULL UNIQUE,
     email VARCHAR(30) NOT NULL UNIQUE,
