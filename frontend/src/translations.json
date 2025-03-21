@@ -160,7 +160,8 @@
           "postalcode": "Postal code",
           "city": "City/Municipality",
           "additionalinfo" : "Additional information",
-          "delivery" : "Do you deliver flowers?"
+          "delivery" : "Do you deliver flowers?",
+          "created"   : "Created"
         },
         "input": {
           "businessname": "Enter the name of the business",
@@ -342,7 +343,8 @@
           "postalcode": "Postinumero",
           "city": "Postitoimipaikka",
           "additionalinfo": "Lisätietoja",
-          "delivery" : "Toimittaako yritys kukkia?"
+          "delivery" : "Toimittaako yritys kukkia?",
+          "created" : "Luotu"
         },
         "input": {
           "businessname": "Syötä yrityksen nimi",
@@ -524,7 +526,8 @@
           "postalcode": "Postnummer",
           "city": "Postanstalt",
           "additionalinfo": "Mer information",
-          "delivery" : "Levererar företaget blommor?"
+          "delivery" : "Levererar företaget blommor?",
+          "created"  : "Skapad"
         },
         "input": {
           "businessname": "Ange företagets namn",
