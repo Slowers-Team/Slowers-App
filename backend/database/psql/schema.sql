@@ -15,13 +15,14 @@ CREATE TABLE IF NOT EXISTS Businesses (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     last_modified TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     name VARCHAR(50) NOT NULL UNIQUE,
+    business_id_code VARCHAR(50),
     type VARCHAR(20) NOT NULL,
     phone_number VARCHAR(30) NOT NULL UNIQUE,
     email VARCHAR(30) NOT NULL UNIQUE,
-    post_address VARCHAR(50),
+    address VARCHAR(50),
     postal_code INTEGER NOT NULL check(postal_code between 0 and 99999),
     city VARCHAR(40) NOT NULL,
-    notes VARCHAR(500)
+    additional_info VARCHAR(500) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Memberships (
