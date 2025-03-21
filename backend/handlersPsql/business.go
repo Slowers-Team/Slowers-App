@@ -55,7 +55,11 @@ func CreateBusiness(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	err = db.AddMembership(c.Context(), user_email, newBusiness.BusinessEmail, "owner")
+	var member database.Membership
+
+	newMember, err := db.AddMembership(c.Context(), member)
+
+	_ = newMember
 
 	if err != nil {
 		fmt.Println("Yrityksen omistajan lisäys epäonnistui")

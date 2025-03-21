@@ -17,8 +17,6 @@ type Database interface {
 
 	// 	CountUsersWithEmail(ctx context.Context, email string) (int64, error)
 	CreateUser(ctx context.Context, newUser User) (*User, error)
-	CreateBusiness(ctx context.Context, newBusiness Business) (*Business, error)
-	AddMembership(user_email string, business_email string, designation string) error
 	// 	GetUserByEmail(ctx context.Context, email string) (*User, error)
 	// 	GetUserByID(ctx context.Context, userID ObjectID) (*User, error)
 	// 	SetUserRole(ctx context.Context, userID ObjectID, role string) error
