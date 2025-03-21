@@ -30,16 +30,17 @@ func CreateBusiness(c *fiber.Ctx) error {
 	}
 
 	newBusiness := database.Business{
-		CreatedAt:    business.CreatedAt,
-		LastModified: business.LastModified,
-		BusinessName: business.BusinessName,
-		Type:         business.Type,
-		PhoneNumber:  business.PhoneNumber,
-		Email:        business.Email,
-		PostAddress:  business.PostAddress,
-		PostalCode:   business.PostalCode,
-		City:         business.City,
-		Notes:        business.Notes,
+		CreatedAt:      business.CreatedAt,
+		LastModified:   business.LastModified,
+		BusinessName:   business.BusinessName,
+		BusinessIdCode: business.BusinessIdCode,
+		Type:           business.Type,
+		PhoneNumber:    business.PhoneNumber,
+		Email:          business.Email,
+		PostAddress:    business.PostAddress,
+		PostalCode:     business.PostalCode,
+		City:           business.City,
+		Notes:          business.Notes,
 	}
 
 	createdBusiness, err := db.CreateBusiness(c.Context(), newBusiness)
