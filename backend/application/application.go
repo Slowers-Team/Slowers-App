@@ -32,8 +32,11 @@ func SetupAndSetAuthTo(isAuthOn bool, useSQL bool) *fiber.App {
 	} else {
 		app.Post("/api/register", handlers.CreateUser)
 	}
-	app.Post("/api/login", handlers.HandleLogin)
-
+	if useSQL {
+		app.Post("/api/login", handlersPsql.HandleLogin)
+	} else {
+		app.Post("/api/login", handlers.HandleLogin)
+	}
 	if Env == "test" {
 		app.Get("/api/reset", handlers.ResetDatabase)
 	}

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import tokenService from './token'
 
-const baseUrl = '/api/business/create'
+const baseUrl = '/api/business'
 
 const create = (newBusiness, user_email) => {
     console.log(newBusiness, user_email)
