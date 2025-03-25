@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 
-const CreateBusinessForm = ({ onSubmit }) => {
+const CreateBusinessForm = ({ createNewBusiness }) => {
   const { t, i18n } = useTranslation()
   const [businessName, setBusinessName] = useState('')
   const [type, setType] = useState ('')
@@ -13,10 +13,49 @@ const CreateBusinessForm = ({ onSubmit }) => {
   const [postalCode, setPostalCode] = useState('')
   const [city, setCity] = useState('')
   const [delivery, setDelivery] = useState('')
+  // const [termsAccepted, setTermsAccepted] = useState(false)
+  // const [errorMessage, setErrorMessage] = useState('')
+  // const [termsError, setTermsError] = useState('')
 
-  const handleSubmit = async (event) => {
+  const createBusiness = async (event) => {
     event.preventDefault()
-    onSubmit({ businessName, type, phoneNumber, email, additionalInfo, address, postalCode, city, delivery })
+    // onSubmit({ businessName, type, phoneNumber, email, additionalInfo, address, postalCode, city, delivery })
+
+    // setTermsError('')
+    // setErrorMessage('')
+    // if (!termsAccepted) {
+    //   setTermsError(t('error.acceptterms'))
+    //   return
+    // }
+
+    const businessObject = {
+      businessName,
+      type,
+      phoneNumber,
+      email,
+      additionalInfo,
+      address,
+      postalCode,
+      city,
+      delivery
+    }
+
+    try {
+      await createNewBusiness(businessObject)
+      setBusinessName('')
+      setType('')
+      setPhoneNumber('')
+      setEmail('')
+      setAdditionalInfo('')
+      setAddress('')
+      setPostalCode('')
+      setCity('')
+      setDelivery('')
+    } catch (error) {
+      // setErrorMessage(t('error.erroroccured'))
+        console.log(t('error.erroroccured'))
+        console.log(error)
+    }
   }
 
   return (
@@ -26,7 +65,7 @@ const CreateBusinessForm = ({ onSubmit }) => {
         {t('businessform.instructions.note')}
       </p>
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={createBusiness}>
           <div>
             <table>
               <tbody>
