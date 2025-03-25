@@ -83,7 +83,7 @@
       "menu": {
         "flowers": "Flowers",
         "grower": "Grower page",
-        "businessowner": "Business page",
+        "businesspage": "Business page",
         "home": "Home",
         "register": "Register",
         "retailer": "Retailer",
@@ -127,7 +127,7 @@
         "sites": "Sites",
         "sitesites": "sites",
         "siteimages": "images",
-        "businessowner": "Business page",
+        "businesspage": "Business page",
         "createbusiness": "Create a business",
         "welcome": "Welcome to Slowers",
         "marketplacehome": "Marketplace homepage",
@@ -161,7 +161,8 @@
           "postalcode": "Postal code",
           "city": "City/Municipality",
           "additionalinfo" : "Additional information",
-          "delivery" : "Do you deliver flowers?"
+          "delivery" : "Do you deliver flowers?",
+          "created"   : "Created"
         },
         "input": {
           "businessname": "Enter the name of the business",
@@ -267,7 +268,7 @@
       "menu": {
         "flowers": "Kukat",
         "grower": "Kasvattajan sivu",
-        "businessowner": "Yrityssivut",
+        "businesspage": "Yrityssivut",
         "home": "Kotisivu",
         "register": "Rekisteröidy",
         "retailer": "Jälleenmyyjä",
@@ -311,7 +312,7 @@
         "sites": "Alueet",
         "sitesites": "alueet",
         "siteimages": "kuvat",
-        "businessowner": "Yrityssivut",
+        "businesspage": "Yrityssivut",
         "createbusiness": "Luo yritys",
         "welcome": "Tervetuloa Slowersiin",
         "marketplacehome": "Torin kotisivu",
@@ -345,7 +346,8 @@
           "postalcode": "Postinumero",
           "city": "Postitoimipaikka",
           "additionalinfo": "Lisätietoja",
-          "delivery" : "Toimittaako yritys kukkia?"
+          "delivery" : "Toimittaako yritys kukkia?",
+          "created" : "Luotu"
         },
         "input": {
           "businessname": "Syötä yrityksen nimi",
@@ -451,7 +453,7 @@
       "menu": {
         "flowers": "Blommor",
         "grower": "Odlare",
-        "businessowner": "Företagssida",
+        "businesspage": "Företagssida",
         "home": "Hem",
         "register": "Skriva in",
         "retailer": "Återförsäljare",
@@ -495,7 +497,7 @@
         "sites": "Sidor",
         "sitesites": "sidor",
         "siteimages": "bilder",
-        "businessowner": "Företagssida",
+        "businesspage": "Företagssida",
         "createbusiness": "Skapa ett företag",
         "welcome": "Välkommen till Slowers",
         "marketplacehome": "Marknadsplatsens hemsida",
@@ -529,7 +531,8 @@
           "postalcode": "Postnummer",
           "city": "Postanstalt",
           "additionalinfo": "Mer information",
-          "delivery" : "Levererar företaget blommor?"
+          "delivery" : "Levererar företaget blommor?",
+          "created"  : "Skapad"
         },
         "input": {
           "businessname": "Ange företagets namn",
