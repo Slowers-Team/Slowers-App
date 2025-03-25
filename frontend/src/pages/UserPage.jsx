@@ -21,17 +21,17 @@ const UserPage = () => {
     try {
       await businessService.create(businessObject, user.Email)
         .then(
-          console.log("SELVIÄÄKÖ", user.Email)
-          //console.log("creating business successful")
+          console.log("creating business successful")
         )
-      const updatedRole = businessObject.type === "grower" ? "growerowner" : "retailerowner";
-      await userService.setRole(updatedRole).then((_) => {
-        setUser({ ...user, role: updatedRole })
-        Authenticator.setRole(updatedRole)
-      })
+      // const updatedRole = businessObject.type === "grower" ? "growerowner" : "retailerowner";
+      // await userService.setRole(updatedRole).then((response) => {
+      //   console.log("Vastaus roolin päivitykseen: ", response)
+      //   setUser({ ...user, role: updatedRole })
+      //   Authenticator.setRole(updatedRole)
+      // })
     } catch (error) {
       const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, "");
-
+      console.log(error.response.data)
       setErrorMessage(i18n.exists(key) ? t(key) : error.response.data);
       throw error;
     }
