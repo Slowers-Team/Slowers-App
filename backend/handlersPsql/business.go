@@ -58,7 +58,7 @@ func CreateBusiness(c *fiber.Ctx) error {
 
 	var member database.Membership
 
-	newMember, err := db.AddMembership(c.Context(), member)
+	newMember, err := db.AddMembership(c.Context(), member) // tänne handler-kutsu
 
 	_ = newMember
 
