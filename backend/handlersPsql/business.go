@@ -2,26 +2,27 @@ package handlersPsql
 
 import (
 	"fmt"
-	"strconv"
 
 	database "github.com/Slowers-team/Slowers-App/database/psql"
+	"github.com/Slowers-team/Slowers-App/enums"
 	"github.com/Slowers-team/Slowers-App/utils"
 
 	"github.com/gofiber/fiber/v2"
 )
 
+type UserEmail struct {
+	UserEmail string
+}
+
 func CreateBusiness(c *fiber.Ctx) error {
 	business := new(database.Business)
+	userEmail := new(UserEmail)
 
 	if err := c.BodyParser(business); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	fmt.Println("TÄÄLLÄ", business)
-
-	var user_email string
-
-	if err := c.BodyParser(user_email); err != nil {
+	if err := c.BodyParser(userEmail); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
 
@@ -29,13 +30,22 @@ func CreateBusiness(c *fiber.Ctx) error {
 		business.Type == "" ||
 		business.PhoneNumber == "" ||
 		business.Email == "" ||
-		business.PostalCode == "" || // tälle joku järkevämpi ratkasu
-		business.City == "" {
+		business.PostalCode == "" ||
+		business.City == "" || // tälle joku järkevämpi ratkasu
+		userEmail.UserEmail == "" {
 		return c.Status(400).SendString("All fields are required")
 	}
 
 	if !utils.IsEmailValid(business.Email) {
-		return c.Status(400).SendString("invalid email")
+		return c.Status(400).SendString("invalid business email")
+	}
+
+	if !utils.IsEmailValid(userEmail.UserEmail) {
+		return c.Status(400).SendString("invalid user email")
+	}
+
+	if !utils.IsBusinessIdCodeValid(business.BusinessIdCode) {
+		return c.Status(400).SendString("invalid business id code")
 	}
 
 	newBusiness := database.Business{
@@ -52,9 +62,7 @@ func CreateBusiness(c *fiber.Ctx) error {
 		AdditionalInfo: business.AdditionalInfo,
 	}
 
-	fmt.Println("Meneekö tänne")
 	createdBusiness, err := db.CreateBusiness(c.Context(), newBusiness)
-	//fmt.Println(createdBusiness)
 
 	if err != nil {
 		fmt.Println("Yrityksen luominen ei onnistunut")
@@ -68,16 +76,17 @@ func CreateBusiness(c *fiber.Ctx) error {
 	//_ = newMember
 
 	// TÄSTÄ RIVISTÄ
-	businessID, err := strconv.Atoi(createdBusiness.BusinessIdCode) // int -> sring
+
+	designation, err := enums.DesignationFromString("owner")
 	if err != nil {
-		fmt.Println("BusinessIdCode-muunnos epäonnistui")
-		return c.Status(500).SendString("Invalid BusinessIdCode format")
+		return c.Status(400).SendString(err.Error())
 	}
 
 	newMember := &database.Membership{
-		UserEmail:   business.Email,
-		BusinessID:  businessID,
-		Designation: "Owner",
+		UserEmail:    business.Email,
+		BusinessID:   createdBusiness.ID,
+		Designation:  designation.String(),
+		BusinessName: business.BusinessName,
 	}
 
 	if err := AddMembership(c, newMember); err != nil {

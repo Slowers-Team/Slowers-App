@@ -31,6 +31,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
 
     const businessObject = {
       businessName,
+      businessIdCode,
       type,
       phoneNumber,
       email,
@@ -44,6 +45,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
     try {
       await createNewBusiness(businessObject)
       setBusinessName('')
+      setBusinessIdCode('')
       setType('')
       setPhoneNumber('')
       setEmail('')
