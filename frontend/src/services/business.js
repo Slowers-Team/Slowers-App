@@ -4,7 +4,6 @@ import tokenService from "./token";
 const baseUrl = "/api/business";
 
 const create = (newBusiness, userEmail) => {
-  console.log("testi api", newBusiness, userEmail);
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
   };

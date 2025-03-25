@@ -14,6 +14,39 @@ type UserEmail struct {
 	UserEmail string
 }
 
+func ValidateBusiness(business database.Business) error {
+	if business.BusinessName == "" ||
+		business.Type == "" ||
+		business.PhoneNumber == "" ||
+		business.Email == "" ||
+		business.PostalCode == "" ||
+		business.City == "" { // tälle joku järkevämpi ratkasu
+		return fmt.Errorf("all fields are required")
+	}
+
+	if !utils.IsEmailValid(business.Email) {
+		return fmt.Errorf("invalid business email")
+	}
+
+	if !utils.IsBusinessIdCodeValid(business.BusinessIdCode) {
+		return fmt.Errorf("invalid business id code")
+	}
+
+	return nil
+}
+
+func ValidateUserEmail(userEmail UserEmail) error {
+	if userEmail.UserEmail == "" {
+		return fmt.Errorf("all fields are required")
+	}
+
+	if !utils.IsEmailValid(userEmail.UserEmail) {
+		return fmt.Errorf("invalid user email")
+	}
+
+	return nil
+}
+
 func CreateBusiness(c *fiber.Ctx) error {
 	business := new(database.Business)
 	userEmail := new(UserEmail)
@@ -26,26 +59,12 @@ func CreateBusiness(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	if business.BusinessName == "" ||
-		business.Type == "" ||
-		business.PhoneNumber == "" ||
-		business.Email == "" ||
-		business.PostalCode == "" ||
-		business.City == "" || // tälle joku järkevämpi ratkasu
-		userEmail.UserEmail == "" {
-		return c.Status(400).SendString("All fields are required")
+	if err := ValidateBusiness(*business); err != nil {
+		return c.Status(400).SendString(err.Error())
 	}
 
-	if !utils.IsEmailValid(business.Email) {
-		return c.Status(400).SendString("invalid business email")
-	}
-
-	if !utils.IsEmailValid(userEmail.UserEmail) {
-		return c.Status(400).SendString("invalid user email")
-	}
-
-	if !utils.IsBusinessIdCodeValid(business.BusinessIdCode) {
-		return c.Status(400).SendString("invalid business id code")
+	if err := ValidateUserEmail(*userEmail); err != nil {
+		return c.Status(400).SendString(err.Error())
 	}
 
 	newBusiness := database.Business{
@@ -69,21 +88,13 @@ func CreateBusiness(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	//var member database.Membership
-
-	//newMember, err := db.AddMembership(c.Context(), member) // tänne handler-kutsu
-
-	//_ = newMember
-
-	// TÄSTÄ RIVISTÄ
-
 	designation, err := enums.DesignationFromString("owner")
 	if err != nil {
-		return c.Status(400).SendString(err.Error())
+		return c.Status(500).SendString(err.Error())
 	}
 
 	newMember := &database.Membership{
-		UserEmail:    business.Email,
+		UserEmail:    userEmail.UserEmail,
 		BusinessID:   createdBusiness.ID,
 		Designation:  designation.String(),
 		BusinessName: business.BusinessName,
@@ -93,7 +104,6 @@ func CreateBusiness(c *fiber.Ctx) error {
 		fmt.Println("Yrityksen omistajan lisäys epäonnistui")
 		return c.Status(500).SendString(err.Error())
 	}
-	// TÄNNE SAAKKA EPÄVARMAA
 
 	fmt.Println("Creating business successful:", createdBusiness.BusinessName)
 

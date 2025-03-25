@@ -20,9 +20,7 @@ const UserPage = () => {
   const createNewBusiness = async (businessObject) => {
     try {
       await businessService.create(businessObject, user.Email)
-        .then(
-          console.log("creating business successful")
-        )
+      console.log("creating business successful")
       // const updatedRole = businessObject.type === "grower" ? "growerowner" : "retailerowner";
       // await userService.setRole(updatedRole).then((response) => {
       //   console.log("Vastaus roolin päivitykseen: ", response)
