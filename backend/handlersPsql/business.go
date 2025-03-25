@@ -41,6 +41,7 @@ func CreateBusiness(c *fiber.Ctx) error {
 		PostalCode:     business.PostalCode,
 		City:           business.City,
 		AdditionalInfo: business.AdditionalInfo,
+		Delivery:       business.Delivery,
 	}
 
 	createdBusiness, err := db.CreateBusiness(c.Context(), newBusiness)
