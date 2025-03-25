@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"fmt"
 )
 
 type Business struct {
@@ -20,7 +21,7 @@ type Business struct {
 }
 
 func (pDb SQLDatabase) CreateBusiness(ctx context.Context, newBusiness Business) (*Business, error) {
-
+	fmt.Println("kysely")
 	query := `
 	INSERT INTO Businesses (
 							name,

@@ -22,7 +22,8 @@ const UserPage = () => {
     try {
       await businessService.create(businessObject, user.email)
         .then(
-          console.log("creating business successful")
+          console.log("SELVIÄÄKÖ", user.email)
+          //console.log("creating business successful")
         )
       userService.setRole(updatedRole).then((_) => {
         setUser({ ...user, role: updatedRole })

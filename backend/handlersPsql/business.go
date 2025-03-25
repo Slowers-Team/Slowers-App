@@ -2,6 +2,7 @@ package handlersPsql
 
 import (
 	"fmt"
+	"strconv"
 
 	database "github.com/Slowers-team/Slowers-App/database/psql"
 	"github.com/Slowers-team/Slowers-App/utils"
@@ -49,23 +50,39 @@ func CreateBusiness(c *fiber.Ctx) error {
 		AdditionalInfo: business.AdditionalInfo,
 	}
 
+	fmt.Println("Meneekö tänne")
 	createdBusiness, err := db.CreateBusiness(c.Context(), newBusiness)
+	//fmt.Println(createdBusiness)
 
 	if err != nil {
 		fmt.Println("Yrityksen luominen ei onnistunut")
 		return c.Status(500).SendString(err.Error())
 	}
 
-	var member database.Membership
+	//var member database.Membership
 
-	newMember, err := db.AddMembership(c.Context(), member) // tänne handler-kutsu
+	//newMember, err := db.AddMembership(c.Context(), member) // tänne handler-kutsu
 
-	_ = newMember
+	//_ = newMember
 
+	// TÄSTÄ RIVISTÄ
+	businessID, err := strconv.Atoi(createdBusiness.BusinessIdCode) // int -> sring
 	if err != nil {
+		fmt.Println("BusinessIdCode-muunnos epäonnistui")
+		return c.Status(500).SendString("Invalid BusinessIdCode format")
+	}
+
+	newMember := &database.Membership{
+		UserEmail:   business.Email,
+		BusinessID:  businessID,
+		Designation: "Owner",
+	}
+
+	if err := AddMembership(c, newMember); err != nil {
 		fmt.Println("Yrityksen omistajan lisäys epäonnistui")
 		return c.Status(500).SendString(err.Error())
 	}
+	// TÄNNE SAAKKA EPÄVARMAA
 
 	fmt.Println("Creating business successful:", createdBusiness.BusinessName)
 
