@@ -10,6 +10,7 @@ import (
 	psqldatabase "github.com/Slowers-team/Slowers-App/database/psql"
 	"github.com/Slowers-team/Slowers-App/handlers"
 	psqlHandlers "github.com/Slowers-team/Slowers-App/handlersPsql"
+	"github.com/cloudinary/cloudinary-go"
 )
 
 func main() {
@@ -19,6 +20,14 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	cld, err := cloudinary.New()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	cld.Config.URL.Secure = true
 
 	db := database.NewMongoDatabase(databaseURI)
 	if env == "test" {
