@@ -1,19 +1,3 @@
-import RegisterPage from "./pages/RegisterPage";
-import TermsPage from "./pages/TermsPage";
-import LogInPage from "./pages/LogInPage";
-import UserPage from "./pages/UserPage";
-import RetailerHomePage from "./pages/RetailerHomePage";
-import RetailerFlowerPage from "./pages/RetailerFlowerPage";
-import HomeLayout from "./layouts/HomeLayout";
-import RetailerLayout from "./layouts/RetailerLayout";
-import GrowerLayout from "./layouts/GrowerLayout";
-import MarketplaceLayout from "./layouts/MarketplaceLayout";
-import MarketplaceHomePage from "./pages/marketplaceHomePage";
-import HomePage from "./pages/HomePage";
-import GrowerHomePage from "./pages/GrowerHomePage";
-import GrowerFlowerPage from "./pages/GrowerFlowerPage";
-import GrowerSitesPage from "./pages/GrowerSitesPage";
-import GrowerImagesPage from "./pages/GrowerImagesPage";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -22,10 +6,30 @@ import {
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import NavigationBar from "./components/NavigationBar";
+
 import { Authenticator } from "./Authenticator";
 import 'bootstrap-icons/font/bootstrap-icons.css';
+
+import HomeLayout from "./layouts/HomeLayout";
+import RetailerLayout from "./layouts/RetailerLayout";
+import GrowerLayout from "./layouts/GrowerLayout";
+import MarketplaceLayout from "./layouts/MarketplaceLayout";
 import BusinessLayout from "./layouts/BusinessLayout";
+
+import HomePage from "./pages/HomePage";
+import RegisterPage from "./pages/RegisterPage";
+import TermsPage from "./pages/TermsPage";
+import LogInPage from "./pages/LogInPage";
+import UserPage from "./pages/UserPage";
+import RetailerHomePage from "./pages/RetailerHomePage";
+import RetailerFlowerPage from "./pages/RetailerFlowerPage";
+import MarketplaceHomePage from "./pages/marketplaceHomePage";
+import GrowerHomePage from "./pages/GrowerHomePage";
+import GrowerFlowerPage from "./pages/GrowerFlowerPage";
+import GrowerSitesPage from "./pages/GrowerSitesPage";
+import GrowerImagesPage from "./pages/GrowerImagesPage";
 import BusinessPage from "./pages/BusinessPage";
+
 
 const Root = () => {
   const { t, i18n } = useTranslation();
