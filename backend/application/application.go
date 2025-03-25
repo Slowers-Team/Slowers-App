@@ -63,7 +63,12 @@ func SetupAndSetAuthTo(isAuthOn bool, useSQL bool) *fiber.App {
 	api.Delete("/sites/:id", handlers.DeleteSite)
 	api.Get("/sites/:id/flowers", handlers.GetSiteFlowers)
 
-	api.Get("/user", handlersPsql.GetUser)
+	if useSQL {
+		api.Get("/user", handlersPsql.GetUser)
+	} else {
+		api.Get("/user", handlers.GetUser)
+	}
+
 	api.Post("/user/role", handlers.SetRole)
 
 	api.Post("/business", handlersPsql.CreateBusiness)
