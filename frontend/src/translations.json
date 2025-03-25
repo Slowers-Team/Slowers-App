@@ -153,6 +153,7 @@
       "businessform": {
         "fieldname": {
           "businessname": "Name of the business",
+          "businessidcode": "Business ID",
           "businesstype": "Type of the business",
           "phonenumber" : "Phone number",
           "email" : "Email",
@@ -164,6 +165,7 @@
         },
         "input": {
           "businessname": "Enter the name of the business",
+          "businessidcode": "Enter business ID",
           "phonenumber" : "Enter phone number",
           "email" : "Enter email",
           "address": "Enter address",
@@ -335,8 +337,9 @@
       "businessform": {
         "fieldname": {
           "businessname": "Yrityksen nimi",
+          "businessidcode": "Y-tunnus",
           "businesstype": "Yrityksen tyyppi",
-          "phonenumber": "Syötä puhelinnumero",
+          "phonenumber": "Puhelinnumero",
           "email": "Sähköposti",
           "address": "Osoite",
           "postalcode": "Postinumero",
@@ -346,6 +349,7 @@
         },
         "input": {
           "businessname": "Syötä yrityksen nimi",
+          "businessidcode": "Syötä Y-tunnus",
           "phonenumber": "Syötä puhelinnumero",
           "email": "Syötä sähköpostiosoite",
           "address": "Syötä osoite",
@@ -517,6 +521,7 @@
       "businessform": {
         "fieldname": {
           "businessname": "Företagets namn",
+          "businessidcode": "FO-nummer",
           "businesstype": "Typ av företaget",
           "phonenumber": "Telefonnummer",
           "email": "E-post",
@@ -528,6 +533,7 @@
         },
         "input": {
           "businessname": "Ange företagets namn",
+          "businessidcode": "Ange FO-nummer",
           "phonenumber": "Ange telefonnummer",
           "email": "Ange e-post",
           "address": "Ange adress",
