@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 const CreateBusinessForm = ({ onSubmit }) => {
   const { t, i18n } = useTranslation()
   const [businessName, setBusinessName] = useState('')
+  const [businessIdCode, setBusinessIdCode] = useState('')
   const [type, setType] = useState ('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [email, setEmail] = useState('')
@@ -16,7 +17,8 @@ const CreateBusinessForm = ({ onSubmit }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    onSubmit({ businessName, type, phoneNumber, email, additionalInfo, address, postalCode, city, delivery })
+    console.log(businessName, businessIdCode, type, phoneNumber, email, additionalInfo, address, postalCode, city, delivery)
+    onSubmit({ businessName, businessIdCode, type, phoneNumber, email, additionalInfo, address, postalCode, city, delivery })
   }
 
   return (
@@ -40,6 +42,19 @@ const CreateBusinessForm = ({ onSubmit }) => {
                       placeholder={t('businessform.input.businessname')}
                       onChange={event => setBusinessName(event.target.value)}
                       required
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>{t('businessform.fieldname.businessidcode')}</td>
+                  <td>
+                    <input
+                      className="form-control"
+                      type="text"
+                      value={businessIdCode}
+                      maxLength={9}
+                      placeholder={t('businessform.input.businessidcode')}
+                      onChange={event => setBusinessIdCode(event.target.value)}
                     />
                   </td>
                 </tr>
