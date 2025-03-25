@@ -34,10 +34,13 @@ There are two ways to run the application locally: the first one in more traditi
 TLDR:
 ```
 docker compose -f docker-compose.dev.yml up
+[ application runs in http://localhost:8080 ]
 [ Ctrl+C to exit ]
 
 docker compose -f docker-compose.dev.yml up -d
 docker compose -f docker-compose.dev.yml down
+
+docker compose -f docker-compose.dev.yml up --build
 
 docker exec slowers-backend-dev go test ./...
 docker exec slowers-frontend-dev npm run test

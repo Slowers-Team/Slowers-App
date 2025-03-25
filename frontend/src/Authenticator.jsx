@@ -4,22 +4,27 @@ export const Authenticator = {
   isLoggedIn: false,
   role: "",
   username: "",
-  login({ token, role, username }) {
+  email: "",
+  login({ token, role, username, email }) {
     localStorage.setItem("token", token);
     localStorage.setItem("role", role);
     localStorage.setItem("username", username);
+    localStorage.setItem("email", email);
     Authenticator.isLoggedIn = true;
     Authenticator.role = role;
     Authenticator.username = username;
+    Authenticator.email = email;
     return null;
   },
   logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     localStorage.removeItem("username");
+    localStorage.removeItem("email");
     Authenticator.isLoggedIn = false;
     Authenticator.role = "";
     Authenticator.username = "";
+    Authenticator.email = "";
     return null;
   },
   setRole(role) {

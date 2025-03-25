@@ -104,22 +104,24 @@ func LogUserIn(c *fiber.Ctx, user *database.User, status int) error {
 		return c.Status(500).SendString("Could not create token")
 	}
 
-	return c.Status(status).JSON(fiber.Map{"token": tokenString, "username": user.Username})
+	return c.Status(status).JSON(fiber.Map{"token": tokenString, "username": user.Username, "email": user.Email})
 }
 
-// func GetUser(c *fiber.Ctx) error {
-// 	userID, err := GetCurrentUser(c)
-// 	if err != nil {
-// 		return c.Status(500).SendString(err.Error())
-// 	}
-
-// 	result, err := db.GetUserByID(c.Context(), userID)
-// 	if err != nil {
-// 		return c.Status(500).SendString(err.Error())
-// 	}
-
-// 	return c.JSON(result)
-// }
+func GetUser(c *fiber.Ctx) error {
+	userIDStr, err := GetCurrentUser(c)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		return c.Status(400).SendString("Invalid user ID")
+	}
+	result, err := db.GetUserByID(c.Context(), userID)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	return c.JSON(result)
+}
 
 // func SetRole(c *fiber.Ctx) error {
 // 	userID, err := GetCurrentUser(c)
