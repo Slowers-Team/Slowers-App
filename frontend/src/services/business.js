@@ -8,7 +8,7 @@ const create = (newBusiness, user_email) => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
   };
-  const request = axios.post(baseUrl, { newBusiness, user_email }, config);
+  const request = axios.post(baseUrl, { newBusiness: newBusiness, user_email: user_email }, config);
   return request.then((response) => response.data);
 };
 

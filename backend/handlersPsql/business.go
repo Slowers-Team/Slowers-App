@@ -17,6 +17,8 @@ func CreateBusiness(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
+	fmt.Println("TÄÄLLÄ", business)
+
 	var user_email string
 
 	if err := c.BodyParser(user_email); err != nil {

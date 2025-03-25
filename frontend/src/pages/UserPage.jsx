@@ -20,9 +20,9 @@ const UserPage = () => {
   const createNewBusiness = async (businessObject) => {
     const updatedRole = businessObject.type === "grower" ? "growerowner" : "retailerowner";
     try {
-      await businessService.create(businessObject, user.email)
+      await businessService.create(businessObject, user.Email)
         .then(
-          console.log("SELVIÄÄKÖ", user.email)
+          console.log("SELVIÄÄKÖ", user.Email)
           //console.log("creating business successful")
         )
       userService.setRole(updatedRole).then((_) => {
