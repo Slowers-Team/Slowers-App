@@ -44,6 +44,7 @@ func main() {
 	application.SetEnv(env)
 	handlers.SetSecretKey(secretKey)
 	handlers.SetDatabase(db)
+	handlers.SetCloudinary(cld)
 
 	var sqldb *psqldatabase.SQLDatabase
 	if useSQL {

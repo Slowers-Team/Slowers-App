@@ -9,7 +9,7 @@ import (
 	"os"
 
 	"github.com/Slowers-team/Slowers-App/database"
-	"github.com/Slowers-team/Slowers-App/utils"
+	"github.com/cloudinary/cloudinary-go/api/uploader"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -54,12 +54,12 @@ func UploadImage(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Image cannot be larger than 10 MB")
 	}
 
-	if fileinfo, err := os.Stat("./images"); errors.Is(err, os.ErrNotExist) || !fileinfo.IsDir() {
-		os.Remove("./images")
-		if err := os.Mkdir("./images", 0775); err != nil {
-			return c.Status(500).SendString("Could not create directory for images: " + err.Error())
-		}
-	}
+	// if fileinfo, err := os.Stat("./images"); errors.Is(err, os.ErrNotExist) || !fileinfo.IsDir() {
+	// 	os.Remove("./images")
+	// 	if err := os.Mkdir("./images", 0775); err != nil {
+	// 		return c.Status(500).SendString("Could not create directory for images: " + err.Error())
+	// 	}
+	// }
 
 	newImage := database.Image{FileFormat: fileext, Note: image.Note, Entity: image.Entity, Owner: userID}
 
@@ -68,11 +68,11 @@ func UploadImage(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	savepath := "./images/" + createdImage.ID.Hex() + "." + fileext
-	if err := c.SaveFile(file, savepath); err != nil {
-		db.DeleteImage(c.Context(), createdImage.ID)
-		return c.Status(500).SendString(err.Error())
-	}
+	// savepath := "./images/" + createdImage.ID.Hex() + "." + fileext
+	// if err := c.SaveFile(file, savepath); err != nil {
+	// 	db.DeleteImage(c.Context(), createdImage.ID)
+	// 	return c.Status(500).SendString(err.Error())
+	// }
 
 	// Read the file into a byte slice
 	fileContent, err := file.Open()
@@ -89,23 +89,34 @@ func UploadImage(c *fiber.Ctx) error {
 	// Create an io.Reader from the byte slice
 	fileReader := bytes.NewReader(fileBytes)
 
-	if filedir, err := os.Stat("./thumbnails"); errors.Is(err, os.ErrNotExist) || !filedir.IsDir() {
-		os.Remove("./thumbnails")
-		if err := os.Mkdir("./thumbnails", 0775); err != nil {
-			return c.Status(500).SendString("Could not create directory for thumbnails: " + err.Error())
-		}
-	}
+	// if filedir, err := os.Stat("./thumbnails"); errors.Is(err, os.ErrNotExist) || !filedir.IsDir() {
+	// 	os.Remove("./thumbnails")
+	// 	if err := os.Mkdir("./thumbnails", 0775); err != nil {
+	// 		return c.Status(500).SendString("Could not create directory for thumbnails: " + err.Error())
+	// 	}
+	// }
 
-	savepath = "./thumbnails/" + createdImage.ID.Hex() + "." + fileext
-	createdThumbnail, err := os.Create(savepath)
+	// savepath = "./thumbnails/" + createdImage.ID.Hex() + "." + fileext
+	// createdThumbnail, err := os.Create(savepath)
+	// if err != nil {
+	// 	return c.Status(500).SendString(err.Error())
+	// }
+
+	resp, err := cld.Upload.Upload(c.Context(), fileReader, uploader.UploadParams{
+		PublicID:       "images/" + createdImage.ID.Hex(),
+		UniqueFilename: true,
+		Overwrite:      true,
+	})
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	err = utils.ResizeImage(fileReader, createdThumbnail, fileext, 200, 200)
-	if err != nil {
-		return c.Status(500).SendString(err.Error())
-	}
+	fmt.Println("UPLOADED IMAGE: ", resp.SecureURL)
+
+	// err = utils.ResizeImage(fileReader, createdThumbnail, fileext, 200, 200)
+	// if err != nil {
+	// 	return c.Status(500).SendString(err.Error())
+	// }
 
 	return c.Status(201).JSON(createdImage)
 }
