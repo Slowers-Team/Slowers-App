@@ -19,9 +19,6 @@ const UserPage = () => {
       Authenticator.setRole(updatedRole)
     })
     businessService.create(props)
-      .then(
-        console.log("creating business successful")
-      )
   }
   
   useEffect(() => {

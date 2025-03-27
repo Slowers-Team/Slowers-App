@@ -4,7 +4,6 @@ import tokenService from './token'
 const baseUrl = '/api/business'
 
 const create = business => {
-    console.log(business)
     const config = {
         headers: { Authorization: tokenService.fetchToken() }
     }

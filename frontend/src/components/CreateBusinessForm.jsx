@@ -13,10 +13,11 @@ const CreateBusinessForm = ({ onSubmit }) => {
   const [address, setAddress] = useState('')
   const [postalCode, setPostalCode] = useState('')
   const [city, setCity] = useState('')
-  const [delivery, setDelivery] = useState('')
+  const [deliveryoption, setDeliveryOption] = useState('')
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+    const delivery = type === "retailer" ? "no" : deliveryoption; // retailer business has value 'no'
     console.log(businessName, businessIdCode, type, phoneNumber, email, additionalInfo, address, postalCode, city, delivery)
     onSubmit({ businessName, businessIdCode, type, phoneNumber, email, additionalInfo, address, postalCode, city, delivery })
   }
@@ -189,8 +190,8 @@ const CreateBusinessForm = ({ onSubmit }) => {
                         className='btn-check'
                         name="deliverySelector"
                         value="yes"
-                        checked={delivery === "yes"}
-                        onChange={event => setDelivery(event.target.value)}
+                        checked={deliveryoption === "yes"}
+                        onChange={event => setDeliveryOption(event.target.value)}
                         required
                       />
                       <label
@@ -205,8 +206,8 @@ const CreateBusinessForm = ({ onSubmit }) => {
                         className='btn-check'
                         name="deliverySelector"
                         value="no"
-                        checked={delivery === "no"}
-                        onChange={event => setDelivery(event.target.value)}
+                        checked={deliveryoption === "no"}
+                        onChange={event => setDeliveryOption(event.target.value)}
                       />
                       <label
                         className='btn btn-outline-secondary'
