@@ -3,17 +3,13 @@ package tests
 import (
 	"testing"
 
-	"github.com/stretchr/testify/suite"
+	"github.com/stretchr/testify/assert"
 
 	database "github.com/Slowers-team/Slowers-App/database/psql"
 	"github.com/Slowers-team/Slowers-App/handlersPsql"
 )
 
-type BusinessHandlerTestSuite struct {
-	suite.Suite
-}
-
-func (s *BusinessHandlerTestSuite) TestValidateBusinessWithCorrectInput() {
+func TestValidateBusinessWithCorrectInput(t *testing.T) {
 	correctBusiness := database.Business{
 		ID:             1,
 		BusinessName:   "Test Business",
@@ -27,13 +23,10 @@ func (s *BusinessHandlerTestSuite) TestValidateBusinessWithCorrectInput() {
 		AdditionalInfo: "No notes",
 	}
 	err := handlersPsql.ValidateBusiness(correctBusiness)
-	s.NoError(
-		err,
-		"ValidateBusiness() should not return an error",
-	)
+	assert.NoError(t, err, "ValidateBusiness() should not return an error")
 }
 
-func (s *BusinessHandlerTestSuite) TestValidateBusinessWithInCorrectBusinessEmail() {
+func TestValidateBusinessWithInCorrectBusinessEmail(t *testing.T) {
 	incorrectBusiness := database.Business{
 		ID:             1,
 		BusinessName:   "Test Business",
@@ -47,13 +40,10 @@ func (s *BusinessHandlerTestSuite) TestValidateBusinessWithInCorrectBusinessEmai
 		AdditionalInfo: "No notes",
 	}
 	err := handlersPsql.ValidateBusiness(incorrectBusiness)
-	s.ErrorContains(
-		err,
-		"invalid business email",
-	)
+	assert.ErrorContains(t, err, "invalid business email")
 }
 
-func (s *BusinessHandlerTestSuite) TestValidateBusinessWithInCorrectBusinessIdCode() {
+func TestValidateBusinessWithInCorrectBusinessIdCode(t *testing.T) {
 	incorrectBusiness := database.Business{
 		ID:             1,
 		BusinessName:   "Test Business",
@@ -67,13 +57,10 @@ func (s *BusinessHandlerTestSuite) TestValidateBusinessWithInCorrectBusinessIdCo
 		AdditionalInfo: "No notes",
 	}
 	err := handlersPsql.ValidateBusiness(incorrectBusiness)
-	s.ErrorContains(
-		err,
-		"invalid business id code",
-	)
+	assert.ErrorContains(t, err, "invalid business id code")
 }
 
-func (s *BusinessHandlerTestSuite) TestValidateBusinessWithEmptyField() {
+func TestValidateBusinessWithEmptyField(t *testing.T) {
 	incorrectBusiness := database.Business{
 		ID:             1,
 		BusinessName:   "Test Business",
@@ -87,45 +74,29 @@ func (s *BusinessHandlerTestSuite) TestValidateBusinessWithEmptyField() {
 		AdditionalInfo: "No notes",
 	}
 	err := handlersPsql.ValidateBusiness(incorrectBusiness)
-	s.ErrorContains(
-		err,
-		"all fields are required",
-	)
+	assert.ErrorContains(t, err, "all fields are required")
 }
 
-func (s *BusinessHandlerTestSuite) TestValidateUserEmailWithCorrectInput() {
+func TestValidateUserEmailWithCorrectInput(t *testing.T) {
 	correctEmail := handlersPsql.UserEmail{
 		UserEmail: "testuser@test.fi",
 	}
 	err := handlersPsql.ValidateUserEmail(correctEmail)
-	s.NoError(
-		err,
-		"ValidateUserMail() should not return an error",
-	)
+	assert.NoError(t, err, "ValidateUserMail() should not return an error")
 }
 
-func (s *BusinessHandlerTestSuite) TestValidateUserEmailWithIncorrectEmail() {
+func TestValidateUserEmailWithIncorrectEmail(t *testing.T) {
 	correctEmail := handlersPsql.UserEmail{
 		UserEmail: "testuser@testfi",
 	}
 	err := handlersPsql.ValidateUserEmail(correctEmail)
-	s.ErrorContains(
-		err,
-		"invalid user email",
-	)
+	assert.ErrorContains(t, err, "invalid user email")
 }
 
-func (s *BusinessHandlerTestSuite) TestValidateUserEmailWithEmptyEmail() {
+func TestValidateUserEmailWithEmptyEmail(t *testing.T) {
 	correctEmail := handlersPsql.UserEmail{
 		UserEmail: "",
 	}
 	err := handlersPsql.ValidateUserEmail(correctEmail)
-	s.ErrorContains(
-		err,
-		"all fields are required",
-	)
-}
-
-func TestDbBusinessTestSuite(t *testing.T) {
-	suite.Run(t, new(BusinessHandlerTestSuite))
+	assert.ErrorContains(t, err, "all fields are required")
 }
