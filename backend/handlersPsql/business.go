@@ -29,6 +29,10 @@ func CreateBusiness(c *fiber.Ctx) error {
 		return c.Status(400).SendString("invalid email")
 	}
 
+	if business.Type == "retailer" && business.Delivery == "yes" {
+		return c.Status(400).SendString("cannot have retailer business with delivery")
+	}
+
 	newBusiness := database.Business{
 		CreatedAt:      business.CreatedAt,
 		LastModified:   business.LastModified,
