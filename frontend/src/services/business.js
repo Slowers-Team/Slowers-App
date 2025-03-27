@@ -18,10 +18,10 @@ const create = (newBusiness, userEmail) => {
 const get = () => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
-  }
-  const url = "/api/business"
-  return axios.get(url, config).then(response => response.data)
-}
+  };
+  const url = "/api/business";
+  return axios.get(url, config).then((response) => response.data);
+};
 
 export default {
   create,

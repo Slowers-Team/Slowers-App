@@ -22,7 +22,8 @@ CREATE TABLE IF NOT EXISTS Businesses (
     address VARCHAR(50),
     postal_code INTEGER NOT NULL check(postal_code between 0 and 99999),
     city VARCHAR(40) NOT NULL,
-    additional_info VARCHAR(500) NOT NULL
+    additional_info VARCHAR(500) NOT NULL,
+    delivery VARCHAR(10)
 );
 
 CREATE TABLE IF NOT EXISTS Memberships (

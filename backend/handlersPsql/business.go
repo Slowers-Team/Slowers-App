@@ -76,6 +76,10 @@ func CreateBusiness(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
+	if business.Type == "retailer" && business.Delivery == "yes" {
+		return c.Status(400).SendString("cannot have retailer business with delivery")
+	}
+
 	newBusiness := database.Business{
 		CreatedAt:      business.CreatedAt,
 		LastModified:   business.LastModified,
@@ -88,6 +92,7 @@ func CreateBusiness(c *fiber.Ctx) error {
 		PostalCode:     business.PostalCode,
 		City:           business.City,
 		AdditionalInfo: business.AdditionalInfo,
+		Delivery:       business.Delivery,
 	}
 
 	createdBusiness, err := db.CreateBusiness(c.Context(), newBusiness)

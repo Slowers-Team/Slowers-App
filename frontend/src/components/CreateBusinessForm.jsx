@@ -36,6 +36,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
 
   const createBusiness = async (event) => {
     event.preventDefault()
+    const delivery = type === "retailer" ? "no" : delivery; // retailer business has value 'no'
 
     const businessObject = {
       businessName,
@@ -244,7 +245,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                         name="deliverySelector"
                         value="yes"
                         checked={delivery === "yes"}
-                        onChange={event => setDelivery(event.target.value)}
+                        onChange={event => setDeliveryOption(event.target.value)}
                         required
                       />
                       <label
