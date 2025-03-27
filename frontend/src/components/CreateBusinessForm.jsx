@@ -14,7 +14,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
   const [address, setAddress] = useState('')
   const [postalCode, setPostalCode] = useState('')
   const [city, setCity] = useState('')
-  const [delivery, setDelivery] = useState('')
+  const [delivery, setDelivery] = useState('no')
   const [errorMessage, setErrorMessage] = useState('')
 
 
@@ -36,7 +36,6 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
 
   const createBusiness = async (event) => {
     event.preventDefault()
-    const delivery = type === "retailer" ? "no" : delivery; // retailer business has value 'no'
 
     const businessObject = {
       businessName,
@@ -123,7 +122,10 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                       name="typeSelector"
                       value="grower"
                       checked={type === "grower"}
-                      onChange={event => setType(event.target.value)}
+                      onChange={event => {
+                        setType(event.target.value)
+                        setDelivery("no")
+                      }}
                       required
                     />
                     <label
@@ -139,7 +141,10 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                       name="typeSelector"
                       value="retailer"
                       checked={type === "retailer"}
-                      onChange={event => setType(event.target.value)}
+                      onChange={event => {
+                        setType(event.target.value)
+                        setDelivery("no")
+                      }}
                     />
                     <label
                       className='btn btn-outline-secondary'
@@ -245,7 +250,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                         name="deliverySelector"
                         value="yes"
                         checked={delivery === "yes"}
-                        onChange={event => setDeliveryOption(event.target.value)}
+                        onChange={event => setDelivery(event.target.value)}
                         required
                       />
                       <label
