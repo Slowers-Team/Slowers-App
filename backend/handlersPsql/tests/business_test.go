@@ -60,6 +60,23 @@ func TestValidateBusinessWithInCorrectBusinessIdCode(t *testing.T) {
 	assert.ErrorContains(t, err, "invalid business id code")
 }
 
+func TestValidateBusinessWithInCorrectPostalCode(t *testing.T) {
+	incorrectBusiness := database.Business{
+		ID:             1,
+		BusinessName:   "Test Business",
+		BusinessIdCode: "1234567-8",
+		Type:           "grower",
+		PhoneNumber:    "010234567",
+		Email:          "tester@test.fi",
+		Address:        "Imaginary road 1",
+		PostalCode:     "ABCDE",
+		City:           "Flowertown",
+		AdditionalInfo: "No notes",
+	}
+	err := handlersPsql.ValidateBusiness(incorrectBusiness)
+	assert.ErrorContains(t, err, "invalid postal code")
+}
+
 func TestValidateBusinessWithEmptyField(t *testing.T) {
 	incorrectBusiness := database.Business{
 		ID:             1,

@@ -113,3 +113,33 @@ func TestIsBusinessIdCodeValidWithLettersAtEnding(t *testing.T) {
 	result := utils.IsBusinessIdCodeValid(incorrectIdCode)
 	assert.False(t, result)
 }
+
+func TestIsPostalCodeValidWithCorrectInput(t *testing.T) {
+	correctPostalCode := "12345"
+	result := utils.IsPostalCodeValid(correctPostalCode)
+	assert.True(t, result)
+}
+
+func TestIsPostalCodeValidWithTooShortInput(t *testing.T) {
+	incorrectPostalCode := "1234"
+	result := utils.IsPostalCodeValid(incorrectPostalCode)
+	assert.False(t, result)
+}
+
+func TestIsPostalCodeValidWithTooLongInput(t *testing.T) {
+	incorrectPostalCode := "123456"
+	result := utils.IsPostalCodeValid(incorrectPostalCode)
+	assert.False(t, result)
+}
+
+func TestIsPostalCodeValidWithCodeWithLetters(t *testing.T) {
+	incorrectPostalCode := "1a3B5"
+	result := utils.IsPostalCodeValid(incorrectPostalCode)
+	assert.False(t, result)
+}
+
+func TestIsPostalCodeValidWithSpecialCharacters(t *testing.T) {
+	incorrectPostalCode := "12@34"
+	result := utils.IsPostalCodeValid(incorrectPostalCode)
+	assert.False(t, result)
+}
