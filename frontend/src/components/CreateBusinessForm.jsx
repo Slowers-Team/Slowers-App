@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { validateEmail, validateBusinessIdCode, validatePostalCode, validatePhoneNumber } from "../utils";
 
 
 const CreateBusinessForm = ({ createNewBusiness }) => {
@@ -14,20 +15,27 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
   const [postalCode, setPostalCode] = useState('')
   const [city, setCity] = useState('')
   const [delivery, setDelivery] = useState('')
-  // const [termsAccepted, setTermsAccepted] = useState(false)
-  // const [errorMessage, setErrorMessage] = useState('')
-  // const [termsError, setTermsError] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+
+
+  const validateBusiness = (businessObject) => {
+    if (!validateBusinessIdCode(businessObject.businessIdCode)) {
+      return (t('error.erroroccured'))
+    }
+    if (!validateEmail(businessObject.email)) {
+      return (t('error.erroroccured'))
+    }
+    if (!validatePostalCode(businessObject.postalCode)) {
+      return (t('error.erroroccured'))
+    }
+    if (!validatePhoneNumber(businessObject.phoneNumber)) {
+      return (t('error.erroroccured'))
+    }
+    return 'ok'
+  }
 
   const createBusiness = async (event) => {
     event.preventDefault()
-    // onSubmit({ businessName, type, phoneNumber, email, additionalInfo, address, postalCode, city, delivery })
-
-    // setTermsError('')
-    // setErrorMessage('')
-    // if (!termsAccepted) {
-    //   setTermsError(t('error.acceptterms'))
-    //   return
-    // }
 
     const businessObject = {
       businessName,
@@ -40,6 +48,13 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
       postalCode,
       city,
       delivery
+    }
+
+    setErrorMessage('')
+    const validationResult = validateBusiness(businessObject)
+    if (validationResult != 'ok') {
+      setErrorMessage(validationResult)
+      return
     }
 
     try {
@@ -55,9 +70,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
       setCity('')
       setDelivery('')
     } catch (error) {
-      // setErrorMessage(t('error.erroroccured'))
-        console.log(t('error.erroroccured'))
-        console.log(error)
+        setErrorMessage(t('error.erroroccured'))
     }
   }
 
@@ -95,6 +108,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                       maxLength={9}
                       placeholder={t('businessform.input.businessidcode')}
                       onChange={event => setBusinessIdCode(event.target.value)}
+                      required
                     />
                   </td>
                 </tr>
@@ -257,10 +271,16 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                     </td>
                   </tr>
                 )}
+              <tr>
+                <td>
+                <button type="submit" className='custom-button'>{t('button.createbusiness')}</button>
+                </td>
+                <td>
+                  {errorMessage && <p style={{ color: 'red'}}>{errorMessage}</p>}
+                </td>
+              </tr>
               </tbody>
             </table>
-            <br/>
-            <button type="submit" className='custom-button'>{t('button.createbusiness')}</button>
           </div>
         </form>
       </div> 
