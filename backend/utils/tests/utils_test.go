@@ -143,3 +143,33 @@ func TestIsPostalCodeValidWithSpecialCharacters(t *testing.T) {
 	result := utils.IsPostalCodeValid(incorrectPostalCode)
 	assert.False(t, result)
 }
+
+func TestIsPhoneNumberValidWithCorrectShortInput(t *testing.T) {
+	correctPhoneNumber := "0101234567"
+	result := utils.IsPhoneNumberValid(correctPhoneNumber)
+	assert.True(t, result)
+}
+
+func TestIsPhoneNumberValidWithCorrectLongInput(t *testing.T) {
+	correctPhoneNumber := "1234567890123"
+	result := utils.IsPhoneNumberValid(correctPhoneNumber)
+	assert.True(t, result)
+}
+
+func TestIsPhoneNumberValidWithTooLongPhoneNumber(t *testing.T) {
+	incorrectPhoneNumber := "12345678901234"
+	result := utils.IsPhoneNumberValid(incorrectPhoneNumber)
+	assert.False(t, result)
+}
+
+func TestIsPhoneNumberValidWithTooShortPhoneNumber(t *testing.T) {
+	incorrectPhoneNumber := "010123456"
+	result := utils.IsPhoneNumberValid(incorrectPhoneNumber)
+	assert.False(t, result)
+}
+
+func TestIsPhoneNumberValidWithPhoneNumberWithLetters(t *testing.T) {
+	incorrectPhoneNumber := "0101234ABC"
+	result := utils.IsPhoneNumberValid(incorrectPhoneNumber)
+	assert.False(t, result)
+}

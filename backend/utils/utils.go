@@ -45,6 +45,11 @@ func IsPostalCodeValid(code string) bool {
 	return numberRegex.MatchString(code)
 }
 
+func IsPhoneNumberValid(number string) bool {
+	numberRegex := regexp.MustCompile(`^\d{10,13}$`)
+	return numberRegex.MatchString(number)
+}
+
 func ToJSON(val any) []byte {
 	asJSON, err := json.Marshal(val)
 	if err != nil {

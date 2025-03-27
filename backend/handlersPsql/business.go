@@ -37,6 +37,10 @@ func ValidateBusiness(business database.Business) error {
 		return fmt.Errorf("invalid postal code")
 	}
 
+	if !utils.IsPhoneNumberValid(business.PhoneNumber) {
+		return fmt.Errorf("invalid phone number")
+	}
+
 	return nil
 }
 
