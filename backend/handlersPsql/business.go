@@ -2,6 +2,7 @@ package handlersPsql
 
 import (
 	"fmt"
+	"strconv"
 
 	database "github.com/Slowers-team/Slowers-App/database/psql"
 	"github.com/Slowers-team/Slowers-App/enums"
@@ -108,4 +109,25 @@ func CreateBusiness(c *fiber.Ctx) error {
 	fmt.Println("Creating business successful:", createdBusiness.BusinessName)
 
 	return c.SendStatus(204)
+}
+
+func GetBusiness(c *fiber.Ctx) error {
+	userIDStr, err := GetCurrentUser(c)
+	//fmt.Println("Eka printti", c)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	userID, err := strconv.Atoi(userIDStr)
+
+	if err != nil {
+		return c.Status(400).SendString("Invalid business ID")
+	}
+	result, err := db.GetBusinessByUserID(c.Context(), userID)
+
+	//fmt.Println("Tuleeko", result)
+
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	return c.JSON(result)
 }

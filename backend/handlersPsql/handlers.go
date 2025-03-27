@@ -37,3 +37,13 @@ func GetCurrentUser(c *fiber.Ctx) (string, error) {
 // func HealthCheck(c *fiber.Ctx) error {
 // 	return c.SendString("OK")
 // }
+
+// tämä ehkä turha?
+func GetCurrentBusiness(c *fiber.Ctx) (string, error) {
+	id, ok := c.Locals("businessID").(string)
+	if !ok {
+		return "none", fmt.Errorf("businessID not set in local storage")
+	}
+
+	return id, nil
+}
