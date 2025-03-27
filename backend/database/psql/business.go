@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"fmt"
 )
 
 type Business struct {
@@ -53,4 +54,31 @@ func (pDb SQLDatabase) CreateBusiness(ctx context.Context, newBusiness Business)
 	}
 
 	return &newBusiness, nil
+}
+
+func (pDb SQLDatabase) GetBusinessByUserID(ctx context.Context, businessID int) (*Business, error) {
+	business := new(Business)
+
+	query := `SELECT B.id, B.name,	B.type, B.phone_number, B.email, B.postal_code, B.city, B.address, B.business_id_code, B.created_at::TEXT, B.additional_info
+			FROM Businesses B JOIN Memberships M ON B.id = M.business_id WHERE B.id = $1`
+	err := pDb.pool.QueryRow(ctx, query, businessID).Scan(
+		&business.ID,
+		&business.BusinessName,
+		&business.Type,
+		&business.PhoneNumber,
+		&business.Email,
+		&business.PostalCode,
+		&business.City,
+		&business.Address,
+		&business.BusinessIdCode,
+		&business.CreatedAt,
+		&business.AdditionalInfo,
+	)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return nil, err
+	}
+
+	return business, nil
 }
