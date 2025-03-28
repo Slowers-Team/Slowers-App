@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS Businesses (
     address VARCHAR(50),
     postal_code VARCHAR(5) NOT NULL,
     city VARCHAR(40) NOT NULL,
-    additional_info VARCHAR(500) NOT NULL
+    additional_info VARCHAR(1500) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Memberships (
