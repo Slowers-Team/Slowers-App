@@ -113,7 +113,7 @@ func CreateBusiness(c *fiber.Ctx) error {
 
 func GetBusiness(c *fiber.Ctx) error {
 	userIDStr, err := GetCurrentUser(c)
-	//fmt.Println("Eka printti", c)
+
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
@@ -123,8 +123,6 @@ func GetBusiness(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Invalid business ID")
 	}
 	result, err := db.GetBusinessByUserID(c.Context(), userID)
-
-	//fmt.Println("Tuleeko", result)
 
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
