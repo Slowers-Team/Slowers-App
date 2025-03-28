@@ -181,6 +181,9 @@
           "additionalinfo" : "*Tell about your business and give any additional information (max 1500 characters).",
           "address": "*This is an optional field"
         }
+      },
+      "businesspage": {
+        "additionalinfo": "About business"
       }
     }
   },
@@ -366,7 +369,10 @@
           "additionalinfo": "*Kerro tarkemmin yrityksestä ja anna mahdollisia lisätietoja (max 1500 merkkiä).",
           "address": "*Tämä kenttä on vapaaehtoinen"
         }
-      } 
+      },
+      "businesspage": {
+        "additionalinfo": "Tietoa yrityksestä"
+      }
     }
   },
   "sv": {
@@ -551,7 +557,10 @@
           "additionalinfo": "*Berätta om ditt företag och lämna ytterligare information (max 1500 tecken).",
           "address": "*Detta är ett valfritt fält"
         }
-      }  
+      },
+      "businesspage": {
+        "additionalinfo": "Information om företaget"
+      }
     }
   }
 }
