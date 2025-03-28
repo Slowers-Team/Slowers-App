@@ -42,7 +42,7 @@ func main() {
 		sqldb := psqldatabase.NewSQLDatabase(SQLDatabaseURI)
 		if env == "test" {
 			err := sqldb.Connect("slowerstest", false)
-			if strings.Contains(err.Error(), "failed to connect to") {
+			if err != nil && strings.Contains(err.Error(), "failed to connect to") {
 				// Try connecting again with 10 second cooldown to give time for database creation
 				time.Sleep(10 * time.Second)
 				if err = sqldb.Connect("slowerstest", false); err != nil {
@@ -53,7 +53,7 @@ func main() {
 			}
 		} else {
 			err := sqldb.Connect("slowers", false)
-			if strings.Contains(err.Error(), "failed to connect to") {
+			if err != nil && strings.Contains(err.Error(), "failed to connect to") {
 				// Try connecting again with 10 second cooldown to give time for database creation
 				time.Sleep(10 * time.Second)
 				if err = sqldb.Connect("slowers", false); err != nil {
