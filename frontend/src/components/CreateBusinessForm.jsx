@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { validateEmail, validateBusinessIdCode, validatePostalCode, validatePhoneNumber } from "../utils";
 
 
-const CreateBusinessForm = ({ onSubmit }) => {
+const CreateBusinessForm = ({ createNewBusiness }) => {
   const { t, i18n } = useTranslation()
   const [businessName, setBusinessName] = useState('')
   const [businessIdCode, setBusinessIdCode] = useState('')
@@ -13,13 +14,64 @@ const CreateBusinessForm = ({ onSubmit }) => {
   const [address, setAddress] = useState('')
   const [postalCode, setPostalCode] = useState('')
   const [city, setCity] = useState('')
-  const [deliveryoption, setDeliveryOption] = useState('')
+  const [delivery, setDelivery] = useState('no')
+  const [errorMessage, setErrorMessage] = useState('')
 
-  const handleSubmit = async (event) => {
+
+  const validateBusiness = (businessObject) => {
+    if (!validateBusinessIdCode(businessObject.businessIdCode)) {
+      return (t('error.erroroccured'))
+    }
+    if (!validateEmail(businessObject.email)) {
+      return (t('error.erroroccured'))
+    }
+    if (!validatePostalCode(businessObject.postalCode)) {
+      return (t('error.erroroccured'))
+    }
+    if (!validatePhoneNumber(businessObject.phoneNumber)) {
+      return (t('error.erroroccured'))
+    }
+    return 'ok'
+  }
+
+  const createBusiness = async (event) => {
     event.preventDefault()
-    const delivery = type === "retailer" ? "no" : deliveryoption; // retailer business has value 'no'
-    console.log(businessName, businessIdCode, type, phoneNumber, email, additionalInfo, address, postalCode, city, delivery)
-    onSubmit({ businessName, businessIdCode, type, phoneNumber, email, additionalInfo, address, postalCode, city, delivery })
+
+    const businessObject = {
+      businessName,
+      businessIdCode,
+      type,
+      phoneNumber,
+      email,
+      additionalInfo,
+      address,
+      postalCode,
+      city,
+      delivery
+    }
+
+    setErrorMessage('')
+    const validationResult = validateBusiness(businessObject)
+    if (validationResult != 'ok') {
+      setErrorMessage(validationResult)
+      return
+    }
+
+    try {
+      await createNewBusiness(businessObject)
+      setBusinessName('')
+      setBusinessIdCode('')
+      setType('')
+      setPhoneNumber('')
+      setEmail('')
+      setAdditionalInfo('')
+      setAddress('')
+      setPostalCode('')
+      setCity('')
+      setDelivery('')
+    } catch (error) {
+        setErrorMessage(t('error.erroroccured'))
+    }
   }
 
   return (
@@ -29,7 +81,7 @@ const CreateBusinessForm = ({ onSubmit }) => {
         {t('businessform.instructions.note')}
       </p>
       <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={createBusiness}>
           <div>
             <table>
               <tbody>
@@ -56,6 +108,7 @@ const CreateBusinessForm = ({ onSubmit }) => {
                       maxLength={9}
                       placeholder={t('businessform.input.businessidcode')}
                       onChange={event => setBusinessIdCode(event.target.value)}
+                      required
                     />
                   </td>
                 </tr>
@@ -69,7 +122,10 @@ const CreateBusinessForm = ({ onSubmit }) => {
                       name="typeSelector"
                       value="grower"
                       checked={type === "grower"}
-                      onChange={event => setType(event.target.value)}
+                      onChange={event => {
+                        setType(event.target.value)
+                        setDelivery("no")
+                      }}
                       required
                     />
                     <label
@@ -85,7 +141,10 @@ const CreateBusinessForm = ({ onSubmit }) => {
                       name="typeSelector"
                       value="retailer"
                       checked={type === "retailer"}
-                      onChange={event => setType(event.target.value)}
+                      onChange={event => {
+                        setType(event.target.value)
+                        setDelivery("no")
+                      }}
                     />
                     <label
                       className='btn btn-outline-secondary'
@@ -190,8 +249,8 @@ const CreateBusinessForm = ({ onSubmit }) => {
                         className='btn-check'
                         name="deliverySelector"
                         value="yes"
-                        checked={deliveryoption === "yes"}
-                        onChange={event => setDeliveryOption(event.target.value)}
+                        checked={delivery === "yes"}
+                        onChange={event => setDelivery(event.target.value)}
                         required
                       />
                       <label
@@ -206,8 +265,8 @@ const CreateBusinessForm = ({ onSubmit }) => {
                         className='btn-check'
                         name="deliverySelector"
                         value="no"
-                        checked={deliveryoption === "no"}
-                        onChange={event => setDeliveryOption(event.target.value)}
+                        checked={delivery === "no"}
+                        onChange={event => setDelivery(event.target.value)}
                       />
                       <label
                         className='btn btn-outline-secondary'
@@ -218,10 +277,16 @@ const CreateBusinessForm = ({ onSubmit }) => {
                     </td>
                   </tr>
                 )}
+              <tr>
+                <td>
+                <button type="submit" className='custom-button'>{t('button.createbusiness')}</button>
+                </td>
+                <td>
+                  {errorMessage && <p style={{ color: 'red'}}>{errorMessage}</p>}
+                </td>
+              </tr>
               </tbody>
             </table>
-            <br/>
-            <button type="submit" className='custom-button'>{t('button.createbusiness')}</button>
           </div>
         </form>
       </div> 
