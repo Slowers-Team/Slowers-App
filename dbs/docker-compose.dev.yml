@@ -10,7 +10,7 @@ services:
       - ./mongo_data_dev:/data/db
     container_name: slowers-mongo-dev
   slowers-psql-dev:
-    image: postgres
+    image: postgres:14.17
     ports:
       - 5432:5432
     env_file:
