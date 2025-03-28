@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
+	"time"
 
 	"github.com/joho/godotenv"
 
@@ -22,7 +24,14 @@ func ConnectSQLDB() database.Database {
 	}
 
 	sqldb := database.NewSQLDatabase(SQLDatabaseURI)
-	if err := sqldb.Connect("slowerstest", true); err != nil {
+	err := sqldb.Connect("slowerstest", true)
+	if strings.Contains(err.Error(), "failed to connect to") {
+		// Try connecting again with 10 second cooldown to give time for database creation
+		time.Sleep(10 * time.Second)
+		if err = sqldb.Connect("slowerstest", true); err != nil {
+			log.Fatal(err)
+		}
+	} else if err != nil {
 		log.Fatal(err)
 	}
 
