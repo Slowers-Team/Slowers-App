@@ -15,7 +15,7 @@ func TestValidateBusinessWithCorrectInput(t *testing.T) {
 		BusinessName:   "Test Business",
 		BusinessIdCode: "1234567-8",
 		Type:           "grower",
-		PhoneNumber:    "010234567",
+		PhoneNumber:    "0101234567",
 		Email:          "tester@test.fi",
 		Address:        "Imaginary road 1",
 		PostalCode:     "98765",
@@ -32,7 +32,7 @@ func TestValidateBusinessWithInCorrectBusinessEmail(t *testing.T) {
 		BusinessName:   "Test Business",
 		BusinessIdCode: "1234567-8",
 		Type:           "grower",
-		PhoneNumber:    "010234567",
+		PhoneNumber:    "0101234567",
 		Email:          "testertest.fi",
 		Address:        "Imaginary road 1",
 		PostalCode:     "98765",
@@ -49,7 +49,7 @@ func TestValidateBusinessWithInCorrectBusinessIdCode(t *testing.T) {
 		BusinessName:   "Test Business",
 		BusinessIdCode: "12345678",
 		Type:           "grower",
-		PhoneNumber:    "010234567",
+		PhoneNumber:    "0101234567",
 		Email:          "tester@test.fi",
 		Address:        "Imaginary road 1",
 		PostalCode:     "98765",
@@ -60,13 +60,47 @@ func TestValidateBusinessWithInCorrectBusinessIdCode(t *testing.T) {
 	assert.ErrorContains(t, err, "invalid business id code")
 }
 
+func TestValidateBusinessWithInCorrectPostalCode(t *testing.T) {
+	incorrectBusiness := database.Business{
+		ID:             1,
+		BusinessName:   "Test Business",
+		BusinessIdCode: "1234567-8",
+		Type:           "grower",
+		PhoneNumber:    "0101234567",
+		Email:          "tester@test.fi",
+		Address:        "Imaginary road 1",
+		PostalCode:     "ABCDE",
+		City:           "Flowertown",
+		AdditionalInfo: "No notes",
+	}
+	err := handlersPsql.ValidateBusiness(incorrectBusiness)
+	assert.ErrorContains(t, err, "invalid postal code")
+}
+
+func TestValidateBusinessWithInCorrectPhoneNumber(t *testing.T) {
+	incorrectBusiness := database.Business{
+		ID:             1,
+		BusinessName:   "Test Business",
+		BusinessIdCode: "1234567-8",
+		Type:           "grower",
+		PhoneNumber:    "000",
+		Email:          "tester@test.fi",
+		Address:        "Imaginary road 1",
+		PostalCode:     "98765",
+		City:           "Flowertown",
+		AdditionalInfo: "No notes",
+	}
+	err := handlersPsql.ValidateBusiness(incorrectBusiness)
+	assert.ErrorContains(t, err, "invalid phone number")
+}
+
 func TestValidateBusinessWithEmptyField(t *testing.T) {
 	incorrectBusiness := database.Business{
 		ID:             1,
 		BusinessName:   "Test Business",
 		BusinessIdCode: "1234567-8",
 		Type:           "",
-		PhoneNumber:    "010234567",
+		PhoneNumber:    "0101234567",
 		Email:          "tester@test.fi",
 		Address:        "Imaginary road 1",
 		PostalCode:     "98765",

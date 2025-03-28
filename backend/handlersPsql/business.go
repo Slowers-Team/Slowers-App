@@ -33,6 +33,14 @@ func ValidateBusiness(business database.Business) error {
 		return fmt.Errorf("invalid business id code")
 	}
 
+	if !utils.IsPostalCodeValid(business.PostalCode) {
+		return fmt.Errorf("invalid postal code")
+	}
+
+	if !utils.IsPhoneNumberValid(business.PhoneNumber) {
+		return fmt.Errorf("invalid phone number")
+	}
+
 	return nil
 }
 
@@ -68,6 +76,10 @@ func CreateBusiness(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
+	if business.Type == "retailer" && business.Delivery == "yes" {
+		return c.Status(400).SendString("cannot have retailer business with delivery")
+	}
+
 	newBusiness := database.Business{
 		CreatedAt:      business.CreatedAt,
 		LastModified:   business.LastModified,
@@ -80,6 +92,7 @@ func CreateBusiness(c *fiber.Ctx) error {
 		PostalCode:     business.PostalCode,
 		City:           business.City,
 		AdditionalInfo: business.AdditionalInfo,
+		Delivery:       business.Delivery,
 	}
 
 	createdBusiness, err := db.CreateBusiness(c.Context(), newBusiness)

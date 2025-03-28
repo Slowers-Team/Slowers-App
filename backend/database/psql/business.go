@@ -18,6 +18,7 @@ type Business struct {
 	PostalCode     string
 	City           string
 	AdditionalInfo string
+	Delivery       string
 }
 
 func (pDb SQLDatabase) CreateBusiness(ctx context.Context, newBusiness Business) (*Business, error) {
@@ -31,8 +32,9 @@ func (pDb SQLDatabase) CreateBusiness(ctx context.Context, newBusiness Business)
 							address,
 							postal_code,
 							city,
-							additional_info)
-	VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+							additional_info,
+							delivery)
+	VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
 	RETURNING id`
 
 	err := pDb.pool.QueryRow(
@@ -47,6 +49,7 @@ func (pDb SQLDatabase) CreateBusiness(ctx context.Context, newBusiness Business)
 		newBusiness.PostalCode,
 		newBusiness.City,
 		newBusiness.AdditionalInfo,
+		newBusiness.Delivery,
 	).Scan(&newBusiness.ID)
 
 	if err != nil {
