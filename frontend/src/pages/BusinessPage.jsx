@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react"
 //import userService from "../services/users"
 import businessService from "../services/business"
-import UserInfo from "../components/UserInfo"
 import BusinessInfo from "../components/BusinessInfo"
-import { Authenticator } from "../Authenticator"
 import { Container } from "react-bootstrap"
 import { useTranslation } from 'react-i18next'
 
@@ -19,9 +17,7 @@ const BusinessPage = () => {
 
   return (
     <Container className="m-3">
-      <h2>{t('menu.profile')}</h2>
       <BusinessInfo business={business} />
-      <br/>
     </Container>
   )
 }
