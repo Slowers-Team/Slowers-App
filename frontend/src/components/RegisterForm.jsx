@@ -8,15 +8,13 @@ const RegisterForm = ({ createNewUser }) => {
   const [newRole, setNewRole] = useState('')
   const [termsAccepted, setTermsAccepted] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
-  const [termsError, setTermsError] = useState('')
   const { t, i18n } = useTranslation()
 
   const addUser = async event => {
     event.preventDefault()
-    setTermsError('')
     setErrorMessage('')
     if (!termsAccepted) {
-      setTermsError(t('error.acceptterms'))
+      setErrorMessage(t('error.acceptterms'))
       return
     }
     
@@ -44,7 +42,6 @@ const RegisterForm = ({ createNewUser }) => {
   return (
     <div className='text-left'>
       {errorMessage && <p style={{ color: 'red'}}>{errorMessage}</p>}
-      {termsError && <p style={{ color: 'red'}}>{termsError}</p>}
       <form onSubmit={addUser}>
         <div className="input-group mb-4">
           <span className="input-group-text">
