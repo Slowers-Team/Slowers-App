@@ -178,9 +178,12 @@
         },
         "instructions" : {
           "note": "The information given in this form will be dispalyed in your business page and it will be visible to other users.",
-          "additionalinfo" : "*Tell about your business and give any additional information",
+          "additionalinfo" : "*Tell about your business and give any additional information (max 1500 characters).",
           "address": "*This is an optional field"
         }
+      },
+      "businesspage": {
+        "additionalinfo": "About business"
       }
     }
   },
@@ -363,10 +366,13 @@
         },
         "instructions": {
           "note": "Tällä lomakkeella annetut tiedot tulevat näkyville yrityssivulle ja ne näkyvät muille käyttäjille.",
-          "additionalinfo": "*Kerro tarkemmin yrityksestä ja anna mahdollisia lisätietoja",
+          "additionalinfo": "*Kerro tarkemmin yrityksestä ja anna mahdollisia lisätietoja (max 1500 merkkiä).",
           "address": "*Tämä kenttä on vapaaehtoinen"
         }
-      } 
+      },
+      "businesspage": {
+        "additionalinfo": "Tietoa yrityksestä"
+      }
     }
   },
   "sv": {
@@ -548,10 +554,13 @@
         },
         "instructions": {
           "note": "Informationen som anges i detta formulär kommer att vara synlig på företagssidan och kommer att vara synlig för andra användare.",
-          "additionalinfo": "*Berätta om ditt företag och lämna ytterligare information",
+          "additionalinfo": "*Berätta om ditt företag och lämna ytterligare information (max 1500 tecken).",
           "address": "*Detta är ett valfritt fält"
         }
-      }  
+      },
+      "businesspage": {
+        "additionalinfo": "Information om företaget"
+      }
     }
   }
 }

@@ -233,6 +233,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                       value={additionalInfo}
                       placeholder={t('businessform.input.additionalinfo')}
                       rows={5}
+                      maxlength={1500}
                       onChange={event => setAdditionalInfo(event.target.value)}
                       required>
                     </textarea>
