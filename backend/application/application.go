@@ -71,6 +71,8 @@ func SetupAndSetAuthTo(isAuthOn bool, useSQL bool) *fiber.App {
 
 	api.Post("/user/role", handlers.SetRole)
 
+	//api.Post("/user/designation", handlersPsql.setDesignation)
+
 	api.Post("/business", handlersPsql.CreateBusiness)
 	api.Get("/business", handlersPsql.GetBusiness)
 

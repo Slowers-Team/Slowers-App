@@ -12,6 +12,8 @@ export const NavigationBar = () => {
   const [showOffCanvas, setShowOffCanvas] = useState(false);
   const { isLoggedIn, username } = useLoaderData();
   const role = Authenticator.role
+  const designation = Authenticator.designation
+  console.log(designation)
   const fetcher = useFetcher();
 
   const handleClose = () => setShowOffCanvas(false);
@@ -142,7 +144,7 @@ export const NavigationBar = () => {
                 {t("menu.grower")}
               </Nav.Link>
             )}
-            {isLoggedIn && ( role === 'growerowner' || role === 'retailerowner' ) && (
+            {isLoggedIn && ( role === 'growerowner' || role === 'retailerowner' || designation === 'owner' || designation === 'employee' ) && (
               <Nav.Link
                 className="text-secondary"
                 as={Link}

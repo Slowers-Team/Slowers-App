@@ -25,3 +25,22 @@ func AddMembership(c *fiber.Ctx, membership *database.Membership) error {
 
 	return c.SendStatus(204)
 }
+
+// func GetDesignation(c *fiber.Ctx) error {
+// 	email, err := GetCurrentEmail(c)
+
+// 	if err != nil {
+// 		return c.Status(500).SendString(err.Error())
+// 	}
+// 	// userID, err := strconv.Atoi(userIDStr)
+
+// 	// if err != nil {
+// 	// 	return c.Status(400).SendString("Invalid user ID")
+// 	// }
+// 	result, err := db.GetDesignationByEmail(c.Context(), email)
+
+// 	if err != nil {
+// 		return c.Status(500).SendString(err.Error())
+// 	}
+// 	return c.JSON(result)
+// }

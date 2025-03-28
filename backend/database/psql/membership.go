@@ -74,3 +74,26 @@ func (pDb SQLDatabase) GetMembershipByUserEmail(ctx context.Context, userEmail s
 	}
 	return membership, nil
 }
+
+// func (pDb SQLDatabase) GetDesignationByEmail(ctx context.Context, userEmail string) (*Membership, error) {
+// 	membership := new(Membership)
+// 	query := `
+// 			SELECT
+// 				Memberships.designation
+// 			FROM
+// 				Memberships
+// 				INNER JOIN Users ON Memberships.user_email = Users.email
+// 			WHERE
+// 				User.email = 1$`
+
+// 	err := pDb.pool.QueryRow(ctx, query, userEmail).Scan(
+// 		&membership.Designation,
+// 	)
+
+// 	if err != nil {
+// 		fmt.Println(err.Error())
+// 		return nil, err
+// 	}
+
+// 	return membership, nil
+// }
