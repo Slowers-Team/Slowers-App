@@ -8,11 +8,12 @@ const get = (imageObject, Url=baseUrl) => {
   const filename = getFilename(imageObject);
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
-    responseType: "blob"
+    responseType: "text"
   };
   return axios.get(`${Url}/${filename}`, config)
     .then(response => {
-      const imageUrl = URL.createObjectURL(response.data);
+      const imageUrl = response.data;
+      console.log(imageUrl)
       return { _id: imageObject._id, url: imageUrl };
     })
     .catch(error => console.error("Error fetching image blob:", error));

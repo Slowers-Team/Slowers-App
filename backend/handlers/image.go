@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"os"
+	"strings"
 
 	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/cloudinary/cloudinary-go/api/admin"
@@ -162,17 +162,15 @@ func GetImageByID(c *fiber.Ctx) error {
 }
 
 func DownloadImage(c *fiber.Ctx) error {
-	filepath := "./images/" + c.Params("filename")
+	filename := c.Params("filename")
+	image := strings.Split(filename, ".")[0]
 
-	if _, err := os.Stat(filepath); err != nil {
-		if errors.Is(err, os.ErrNotExist) {
-			return c.SendStatus(404)
-		} else {
-			return c.Status(500).SendString(err.Error())
-		}
+	resp, err := cld.Admin.Asset(c.Context(), admin.AssetParams{PublicID: "images/" + image})
+	if err != nil {
+		fmt.Println("error")
 	}
 
-	return c.SendFile(filepath)
+	return c.SendString(resp.SecureURL)
 }
 
 func DeleteImage(c *fiber.Ctx) error {
@@ -223,13 +221,11 @@ func DeleteImage(c *fiber.Ctx) error {
 	resp, err := cld.Upload.Destroy(c.Context(), uploader.DestroyParams{
 		PublicID:     "images/" + id.Hex(),
 		ResourceType: "image"})
-		if err != nil {
-			return c.Status(fiber.StatusInternalServerError).SendString("Error deleting image file from image server")
-		}
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString("Error deleting image file from image server")
+	}
 
 	_ = resp
-
-
 
 	return c.SendStatus(fiber.StatusNoContent)
 }
