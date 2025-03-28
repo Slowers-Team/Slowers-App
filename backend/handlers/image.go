@@ -112,7 +112,7 @@ func UploadImage(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	fmt.Println("UPLOADED IMAGE: ", resp.SecureURL)
+	fmt.Println(resp)
 
 	// err = utils.ResizeImage(fileReader, createdThumbnail, fileext, 200, 200)
 	// if err != nil {
@@ -127,7 +127,7 @@ func GetImageByID(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
-	log.Println("got ID:", imageID)
+	log.Println("got ID:", imageID.Hex())
 	image, err := db.GetImageByID(c.Context(), imageID)
 	log.Println(imageID, " -> ", image, err)
 	if err != nil {
@@ -140,11 +140,10 @@ func GetImageByID(c *fiber.Ctx) error {
 	// filepath := fmt.Sprintf("./images/%v.%v", imageID.Hex(), image.FileFormat)
 	// log.Println(filepath)
 
-	resp, err := cld.Admin.Asset(c.Context(), admin.AssetParams{PublicID: "quickstart_butterfly"})
+	resp, err := cld.Admin.Asset(c.Context(), admin.AssetParams{PublicID: "images/" + imageID.Hex()})
 	if err != nil {
 		fmt.Println("error")
 	}
-	log.Println(resp.SecureURL)
 
 	// if _, err := os.Stat(filepath); err != nil {
 	// 	if errors.Is(err, os.ErrNotExist) {
@@ -155,11 +154,11 @@ func GetImageByID(c *fiber.Ctx) error {
 	// 		return c.Status(500).SendString(err.Error())
 	// 	}
 	// }
-	log.Println("sending file")
+	log.Println("sending file", resp.SecureURL)
 
 	// return c.SendFile(filepath)
 
-	return c.SendFile(resp.SecureURL)
+	return c.SendString(resp.SecureURL)
 }
 
 func DownloadImage(c *fiber.Ctx) error {

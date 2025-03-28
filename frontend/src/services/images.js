@@ -22,12 +22,12 @@ const getByID = (id, Url=baseUrl) => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
     'Content-Type': "application/json", 
-    responseType: "blob"
+    responseType: "text"
   };
   //console.log(`${Url}/id/${id}`)
   return axios.get(`${Url}/id/${id}`, config)
     .then(response => {
-      const imageUrl = URL.createObjectURL(response.data);
+      const imageUrl = response.data;
       console.log(imageUrl)
       return imageUrl;
     })
