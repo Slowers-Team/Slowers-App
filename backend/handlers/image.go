@@ -200,25 +200,36 @@ func DeleteImage(c *fiber.Ctx) error {
 	// 	return c.Status(fiber.StatusNotFound).SendString("Image not found")
 	// }
 
-	extensions := []string{"jpg", "png"}
-	found := false
+	// extensions := []string{"jpg", "png"}
+	// found := false
 
-	for _, ext := range extensions {
-		imagePath := fmt.Sprintf("./images/%s.%s", id.Hex(), ext)
-		if _, err := os.Stat(imagePath); err == nil {
-			if err := os.Remove(imagePath); err != nil {
-				return c.Status(fiber.StatusInternalServerError).SendString("Error deleting image file")
-			}
-			log.Printf("Successfully deleted image file: %s", imagePath)
-			found = true
-			break
+	// for _, ext := range extensions {
+	// 	imagePath := fmt.Sprintf("./images/%s.%s", id.Hex(), ext)
+	// 	if _, err := os.Stat(imagePath); err == nil {
+	// 		if err := os.Remove(imagePath); err != nil {
+	// 			return c.Status(fiber.StatusInternalServerError).SendString("Error deleting image file")
+	// 		}
+	// 		log.Printf("Successfully deleted image file: %s", imagePath)
+	// 		found = true
+	// 		break
+	// 	}
+	// }
+
+	// if !found {
+	// 	log.Printf("Image file not found for ID: %s", id.Hex())
+	// 	return c.Status(fiber.StatusNotFound).SendString("Image file not found")
+	// }
+
+	resp, err := cld.Upload.Destroy(c.Context(), uploader.DestroyParams{
+		PublicID:     "images/" + id.Hex(),
+		ResourceType: "image"})
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).SendString("Error deleting image file from image server")
 		}
-	}
 
-	if !found {
-		log.Printf("Image file not found for ID: %s", id.Hex())
-		return c.Status(fiber.StatusNotFound).SendString("Image file not found")
-	}
+	_ = resp
+
+
 
 	return c.SendStatus(fiber.StatusNoContent)
 }
