@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/cloudinary/cloudinary-go/api/admin"
 	"github.com/cloudinary/cloudinary-go/api/uploader"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -136,21 +137,29 @@ func GetImageByID(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	filepath := fmt.Sprintf("./images/%v.%v", imageID.Hex(), image.FileFormat)
-	log.Println(filepath)
+	// filepath := fmt.Sprintf("./images/%v.%v", imageID.Hex(), image.FileFormat)
+	// log.Println(filepath)
 
-	if _, err := os.Stat(filepath); err != nil {
-		if errors.Is(err, os.ErrNotExist) {
-			log.Println("404 fail")
-			return c.SendStatus(404)
-		} else {
-			log.Println("500 fail")
-			return c.Status(500).SendString(err.Error())
-		}
+	resp, err := cld.Admin.Asset(c.Context(), admin.AssetParams{PublicID: "quickstart_butterfly"})
+	if err != nil {
+		fmt.Println("error")
 	}
+	log.Println(resp.SecureURL)
+
+	// if _, err := os.Stat(filepath); err != nil {
+	// 	if errors.Is(err, os.ErrNotExist) {
+	// 		log.Println("404 fail")
+	// 		return c.SendStatus(404)
+	// 	} else {
+	// 		log.Println("500 fail")
+	// 		return c.Status(500).SendString(err.Error())
+	// 	}
+	// }
 	log.Println("sending file")
 
-	return c.SendFile(filepath)
+	// return c.SendFile(filepath)
+
+	return c.SendFile(resp.SecureURL)
 }
 
 func DownloadImage(c *fiber.Ctx) error {
