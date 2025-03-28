@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS Businesses (
     phone_number VARCHAR(30) NOT NULL UNIQUE,
     email VARCHAR(30) NOT NULL UNIQUE,
     address VARCHAR(50),
-    postal_code INTEGER NOT NULL check(postal_code between 0 and 99999),
+    postal_code VARCHAR(5) NOT NULL,
     city VARCHAR(40) NOT NULL,
     additional_info VARCHAR(500) NOT NULL
 );
