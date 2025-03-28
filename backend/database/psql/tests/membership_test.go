@@ -33,14 +33,16 @@ func (s *DbMembershipTestSuite) SetupSuite() {
 func (s *DbMembershipTestSuite) AddTestBusinessToDatabase() *database.Business { // TODO: this implementation is dependent on working business db logic
 	bus := testdataPsql.GetBusinesses()[0]
 	business := database.Business{
-		BusinessName: bus.BusinessName,
-		Type:         bus.Type,
-		PhoneNumber:  bus.PhoneNumber,
-		Email:        bus.Email,
-		PostAddress:  bus.PostAddress,
-		PostalCode:   bus.PostalCode,
-		City:         bus.City,
-		Notes:        bus.Notes,
+		BusinessName:   bus.BusinessName,
+		BusinessIdCode: bus.BusinessIdCode,
+		Type:           bus.Type,
+		PhoneNumber:    bus.PhoneNumber,
+		Email:          bus.Email,
+		Address:        bus.Address,
+		PostalCode:     bus.PostalCode,
+		City:           bus.City,
+		AdditionalInfo: bus.AdditionalInfo,
+		Delivery:       bus.Delivery,
 	}
 	newBusiness, err := s.Db.CreateBusiness(context.Background(), business)
 
