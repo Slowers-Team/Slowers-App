@@ -74,7 +74,8 @@ func (pDb SQLDatabase) GetBusinessByUserID(ctx context.Context, userID int) (*Bu
 			Businesses.address,
 			Businesses.business_id_code,
 			Businesses.created_at::TEXT,
-			Businesses.additional_info
+			Businesses.additional_info,
+			Businesses.delivery
 		FROM
 			Businesses
 			INNER JOIN Memberships ON Businesses.id = Memberships.business_id
@@ -93,6 +94,7 @@ func (pDb SQLDatabase) GetBusinessByUserID(ctx context.Context, userID int) (*Bu
 		&business.BusinessIdCode,
 		&business.CreatedAt,
 		&business.AdditionalInfo,
+		&business.Delivery,
 	)
 
 	if err != nil {
