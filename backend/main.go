@@ -36,22 +36,19 @@ func main() {
 	handlers.SetSecretKey(secretKey)
 	handlers.SetDatabase(db)
 
-	var sqldb *psqldatabase.SQLDatabase
-	if useSQL {
-		sqldb := psqldatabase.NewSQLDatabase(SQLDatabaseURI)
-		if env == "test" {
-			if err := sqldb.Connect("slowerstest", false); err != nil {
-				log.Fatal(err)
-			}
-		} else {
-			if err := sqldb.Connect("slowers", false); err != nil {
-				log.Fatal(err)
-			}
+	sqldb := psqldatabase.NewSQLDatabase(SQLDatabaseURI)
+	if env == "test" {
+		if err := sqldb.Connect("slowerstest", false); err != nil {
+			log.Fatal(err)
 		}
-
-		psqlHandlers.SetSecretKey(secretKey) //TODO: Check if needed
-		psqlHandlers.SetDatabase(*sqldb)
+	} else {
+		if err := sqldb.Connect("slowers", false); err != nil {
+			log.Fatal(err)
+		}
 	}
+
+	psqlHandlers.SetSecretKey(secretKey)
+	psqlHandlers.SetDatabase(*sqldb)
 
 	app := application.SetupAndSetAuthTo(true, useSQL)
 
