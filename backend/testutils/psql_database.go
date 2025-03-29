@@ -22,7 +22,7 @@ func ConnectSQLDB() database.Database {
 	}
 
 	sqldb := database.NewSQLDatabase(SQLDatabaseURI)
-	if err := sqldb.Connect("slowerstest", true); err != nil {
+	if err := sqldb.Connect("slowerstest", true, false); err != nil {
 		log.Fatal(err)
 	}
 

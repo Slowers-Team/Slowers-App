@@ -13,8 +13,15 @@ import (
 )
 
 func main() {
-	secretKey, databaseURI, port, env, envUseSQL, SQLDatabaseURI := GetEnvironmentVariables()
+	secretKey, databaseURI, port, env, envUseSQL, SQLDatabaseURI, envProdEnv := GetEnvironmentVariables()
 	useSQL, err := strconv.ParseBool(envUseSQL)
+	if err != nil {
+		log.Fatal(err)
+	}
+	prodEnv, err := strconv.ParseBool(envProdEnv)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	if err != nil {
 		log.Fatal(err)
@@ -40,11 +47,11 @@ func main() {
 	if useSQL {
 		sqldb := psqldatabase.NewSQLDatabase(SQLDatabaseURI)
 		if env == "test" {
-			if err := sqldb.Connect("slowerstest", false); err != nil {
+			if err := sqldb.Connect("slowerstest", false, prodEnv); err != nil {
 				log.Fatal(err)
 			}
 		} else {
-			if err := sqldb.Connect("slowers", false); err != nil {
+			if err := sqldb.Connect("slowers", false, prodEnv); err != nil {
 				log.Fatal(err)
 			}
 		}
