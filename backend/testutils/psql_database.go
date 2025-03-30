@@ -24,11 +24,11 @@ func ConnectSQLDB() database.Database {
 	}
 
 	sqldb := database.NewSQLDatabase(SQLDatabaseURI)
-	err := sqldb.Connect("slowerstest", true)
+	err := sqldb.Connect("slowerstest", true, false)
 	if err != nil && strings.Contains(err.Error(), "failed to connect to") {
 		// Try connecting again with 10 second cooldown to give time for database creation
 		time.Sleep(10 * time.Second)
-		if err = sqldb.Connect("slowerstest", true); err != nil {
+		if err = sqldb.Connect("slowerstest", true, false); err != nil {
 			log.Fatal(err)
 		}
 	} else if err != nil {

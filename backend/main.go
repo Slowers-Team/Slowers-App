@@ -14,8 +14,15 @@ import (
 )
 
 func main() {
-	secretKey, databaseURI, port, env, envUseSQL, SQLDatabaseURI := GetEnvironmentVariables()
+	secretKey, databaseURI, port, env, envUseSQL, SQLDatabaseURI, envProdEnv := GetEnvironmentVariables()
 	useSQL, err := strconv.ParseBool(envUseSQL)
+	if err != nil {
+		log.Fatal(err)
+	}
+	prodEnv, err := strconv.ParseBool(envProdEnv)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	if err != nil {
 		log.Fatal(err)
@@ -41,22 +48,22 @@ func main() {
 	if useSQL {
 		sqldb := psqldatabase.NewSQLDatabase(SQLDatabaseURI)
 		if env == "test" {
-			err := sqldb.Connect("slowerstest", false)
+			err := sqldb.Connect("slowerstest", false, prodEnv)
 			if err != nil && strings.Contains(err.Error(), "failed to connect to") {
 				// Try connecting again with 10 second cooldown to give time for database creation
 				time.Sleep(10 * time.Second)
-				if err = sqldb.Connect("slowerstest", false); err != nil {
+				if err = sqldb.Connect("slowerstest", false, prodEnv); err != nil {
 					log.Fatal(err)
 				}
 			} else if err != nil {
 				log.Fatal(err)
 			}
 		} else {
-			err := sqldb.Connect("slowers", false)
+			err := sqldb.Connect("slowers", false, prodEnv)
 			if err != nil && strings.Contains(err.Error(), "failed to connect to") {
 				// Try connecting again with 10 second cooldown to give time for database creation
 				time.Sleep(10 * time.Second)
-				if err = sqldb.Connect("slowers", false); err != nil {
+				if err = sqldb.Connect("slowers", false, prodEnv); err != nil {
 					log.Fatal(err)
 				}
 			} else if err != nil {

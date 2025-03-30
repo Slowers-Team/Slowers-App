@@ -183,7 +183,8 @@
         }
       },
       "businesspage": {
-        "additionalinfo": "About business"
+        "additionalinfo": "About business",
+        "delivery": "Flower deliveries"
       }
     }
   },
@@ -371,7 +372,8 @@
         }
       },
       "businesspage": {
-        "additionalinfo": "Tietoa yrityksestä"
+        "additionalinfo": "Tietoa yrityksestä",
+        "delivery": "Kukkien toimitus"
       }
     }
   },
@@ -559,7 +561,8 @@
         }
       },
       "businesspage": {
-        "additionalinfo": "Information om företaget"
+        "additionalinfo": "Information om företaget",
+        "delivery": "Levererans av blommor"
       }
     }
   }

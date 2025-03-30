@@ -7,7 +7,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func GetEnvironmentVariables() ([]byte, string, string, string, string, string) {
+func GetEnvironmentVariables() ([]byte, string, string, string, string, string, string) {
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found")
 	}
@@ -44,5 +44,10 @@ func GetEnvironmentVariables() ([]byte, string, string, string, string, string) 
 		log.Fatal("Set your 'SQLDATABASEURI' environment variable or do not enable SQL-connection.")
 	}
 
-	return envSecretKey, envDatabaseURI, envPort, env, envUseSQL, envSQLDatabaseURI
+	envProdEnv := os.Getenv("PRODUCTION_ENVIRONMENT")
+	if envProdEnv == "" {
+		envProdEnv = "false"
+	}
+
+	return envSecretKey, envDatabaseURI, envPort, env, envUseSQL, envSQLDatabaseURI, envProdEnv
 }

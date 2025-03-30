@@ -10,7 +10,7 @@ import (
 )
 
 type Database interface {
-	Connect(databaseName string, testEnv bool) error
+	Connect(databaseName string, testEnv bool, prodEnv bool) error
 	Disconnect() error
 	Clear() error
 	// 	UserOwnsEntity(ctx context.Context, UserID, EntityID ObjectID, Collection string) error
@@ -61,9 +61,15 @@ func NewSQLDatabase(databaseURI string) *SQLDatabase {
 	return &SQLDatabase{databaseURI, nil}
 }
 
-func (sqlDb *SQLDatabase) Connect(databaseName string, testEnv bool) error {
-	connString := fmt.Sprintf("%s/%s", sqlDb.databaseURI, databaseName)
+func (sqlDb *SQLDatabase) Connect(databaseName string, testEnv bool, prodEnv bool) error {
+	var connString string
 	var err error
+
+	if prodEnv {
+		connString = sqlDb.databaseURI
+	} else {
+		connString = fmt.Sprintf("%s/%s", sqlDb.databaseURI, databaseName)
+	}
 	pool, err := pgxpool.New(context.Background(), connString)
 
 	if err != nil {
