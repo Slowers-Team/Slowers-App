@@ -19,14 +19,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	prodEnv, err := strconv.ParseBool(envProdEnv)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	if err != nil {
-		log.Fatal(err)
-	}
+	log.Println("Using production environment: ", prodEnv)
 
 	db := database.NewMongoDatabase(databaseURI)
 	if env == "test" {
