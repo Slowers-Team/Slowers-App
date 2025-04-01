@@ -25,11 +25,11 @@ func UploadImage(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	if image.Note == "" {
+	if !utils.ImageNoteIsNotEmpty(*image) {
 		return c.Status(400).SendString("Image note cannot be empty")
 	}
 
-	if image.Entity == nil || *image.Entity == database.NilObjectID {
+	if !utils.EntityAssociatedWithImageIsNotNUll(*image) {
 		return c.Status(400).SendString("Entity associated to image cannot be null")
 	}
 
@@ -38,19 +38,12 @@ func UploadImage(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	fileext := ""
-	mimetype := file.Header["Content-Type"][0]
-	if mimetype == "image/jpeg" {
-		fileext = "jpg"
-	} else if mimetype == "image/png" {
-		fileext = "png"
+	fileext, err := utils.SetImageFormat(file.Header["Content-Type"][0])
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
 	}
 
-	if fileext == "" {
-		return c.Status(400).SendString("Image should be in JPEG or PNG format")
-	}
-
-	if file.Size > 10485760 {
+	if !utils.ImageIsNotTooLarge(file.Size) {
 		return c.Status(400).SendString("Image cannot be larger than 10 MB")
 	}
 

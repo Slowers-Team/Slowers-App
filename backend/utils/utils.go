@@ -2,12 +2,10 @@ package utils
 
 import (
 	"bytes"
-	"context"
 	"encoding/json"
 	"errors"
 	"log"
 	"mime/multipart"
-	"net/http"
 	"net/textproto"
 	"path/filepath"
 	"regexp"
@@ -146,13 +144,19 @@ func ImageNoteIsNotEmpty(image database.Image) bool {
 }
 
 func EntityAssociatedWithImageIsNotNUll(image database.Image) bool {
-	return image.Entity != nil
+	return image.Entity != nil || *image.Entity != database.NilObjectID
 }
 
-func ImageFormatIsValid(mimetype string) bool {
-	return mimetype == "image/jpeg" || mimetype == "image/png"
+func SetImageFormat(filetype string) (string, error) {
+	if filetype == "image/jpeg" {
+		return "jpg", nil
+	} else if filetype == "image/png" {
+		return "png", nil
+	} else {
+		return "", errors.New("Image should be in JPEG or PNG format")
+	}
 }
 
-func UploadedImageIsNotTooLarge() {
-	
+func ImageIsNotTooLarge(size int64) bool {
+	return size < 10485760
 }
