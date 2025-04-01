@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/Slowers-team/Slowers-App/application"
@@ -47,11 +48,25 @@ func main() {
 	if useSQL {
 		sqldb := psqldatabase.NewSQLDatabase(SQLDatabaseURI)
 		if env == "test" {
-			if err := sqldb.Connect("slowerstest", false, prodEnv); err != nil {
+			err := sqldb.Connect("slowerstest", false, prodEnv)
+			if err != nil && strings.Contains(err.Error(), "failed to connect to") {
+				// Try connecting again with 10 second cooldown to give time for database creation
+				time.Sleep(10 * time.Second)
+				if err = sqldb.Connect("slowerstest", false, prodEnv); err != nil {
+					log.Fatal(err)
+				}
+			} else if err != nil {
 				log.Fatal(err)
 			}
 		} else {
-			if err := sqldb.Connect("slowers", false, prodEnv); err != nil {
+			err := sqldb.Connect("slowers", false, prodEnv)
+			if err != nil && strings.Contains(err.Error(), "failed to connect to") {
+				// Try connecting again with 10 second cooldown to give time for database creation
+				time.Sleep(10 * time.Second)
+				if err = sqldb.Connect("slowers", false, prodEnv); err != nil {
+					log.Fatal(err)
+				}
+			} else if err != nil {
 				log.Fatal(err)
 			}
 		}
