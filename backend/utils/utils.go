@@ -2,10 +2,12 @@ package utils
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"errors"
 	"log"
 	"mime/multipart"
+	"net/http"
 	"net/textproto"
 	"path/filepath"
 	"regexp"
@@ -17,6 +19,7 @@ import (
 	"image/png"
 	"io"
 
+	"github.com/Slowers-team/Slowers-App/database"
 	"golang.org/x/image/draw"
 
 	"golang.org/x/crypto/bcrypt"
@@ -135,4 +138,21 @@ func BufferToMultipartFileHeader(buf *bytes.Buffer, filename string) (*multipart
 	}
 
 	return fileHeader, nil
+}
+
+func ImageNoteIsNotEmpty(image database.Image) bool {
+	return image.Note != ""
+
+}
+
+func EntityAssociatedWithImageIsNotNUll(image database.Image) bool {
+	return image.Entity != nil
+}
+
+func ImageFormatIsValid(mimetype string) bool {
+	return mimetype == "image/jpeg" || mimetype == "image/png"
+}
+
+func UploadedImageIsNotTooLarge() {
+	
 }
