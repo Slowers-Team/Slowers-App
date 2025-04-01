@@ -41,7 +41,7 @@ func GetDesignation(c *fiber.Ctx) error {
 	}
 	fmt.Println("USERID", userID)
 
-	result, err := db.GetMembershipByUserEmail(c.Context(), userID)
+	result, err := db.GetMembershipByUserId(c.Context(), userID)
 
 	if err != nil {
 		return c.Status(500).SendString(err.Error())

@@ -39,7 +39,7 @@ func (pDb SQLDatabase) AddMembership(ctx context.Context, newMembership Membersh
 	return &newMembership, nil
 }
 
-func (pDb SQLDatabase) GetMembershipByUserEmail(ctx context.Context, userID int) (*Membership, error) {
+func (pDb SQLDatabase) GetMembershipByUserId(ctx context.Context, userID int) (*Membership, error) {
 	membership := new(Membership)
 	query := `
 	SELECT
