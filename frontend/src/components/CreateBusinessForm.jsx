@@ -91,6 +91,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                     <input 
                       className="form-control"
                       type="text"
+                      id="businessName"
                       value={businessName}
                       placeholder={t('businessform.input.businessname')}
                       onChange={event => setBusinessName(event.target.value)}
@@ -104,6 +105,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                     <input
                       className="form-control"
                       type="text"
+                      id="businessIdCode"
                       value={businessIdCode}
                       maxLength={9}
                       placeholder={t('businessform.input.businessidcode')}
@@ -160,6 +162,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                     <input
                       className="form-control"
                       type="tel"
+                      id="phoneNumber"
                       value={phoneNumber}
                       placeholder={t('businessform.input.phonenumber')}
                       minLength={10}
@@ -175,6 +178,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                     <input
                       className="form-control"
                       type="email"
+                      id="email"
                       value={email}
                       placeholder={t('businessform.input.email')}
                       onChange={event => setEmail(event.target.value)}
@@ -188,6 +192,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                     <input
                       className="form-control"
                       type="text"
+                      id="address"
                       value={address}
                       placeholder={t('businessform.input.address')}
                       onChange={event => setAddress(event.target.value)}
@@ -201,6 +206,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                     <input 
                       className="form-control"
                       type="tel"
+                      id="postalCode"
                       value={postalCode}
                       minLength={5}
                       maxLength={5}
@@ -217,6 +223,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                     <input
                       className="form-control"
                       type="text"
+                      id="city"
                       value={city}
                       placeholder={t('businessform.input.city')}
                       onChange={event => setCity(event.target.value)}
@@ -230,6 +237,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                     <textarea
                       className="form-control"
                       type="text"
+                      id="additionalInfo"
                       value={additionalInfo}
                       placeholder={t('businessform.input.additionalinfo')}
                       rows={5}
