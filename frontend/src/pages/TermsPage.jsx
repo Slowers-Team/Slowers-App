@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import TermsWindow from "../components/TermsWindow"
 import { useTranslation } from "react-i18next"
-import { Container } from "react-bootstrap"
+
 
 const TermsPage = () => {
   const navigate = useNavigate()
@@ -12,12 +12,20 @@ const TermsPage = () => {
   }
 
   return (
-    <Container>
-      <h2 className="mx-3 my-3">{t("title.terms")}</h2>
-      <TermsWindow />
-      <br />
-      <button onClick={handleBack} className="custom-button">{t("button.back")}</button>
-    </Container>
+    <div className="m-3">
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-12 col-lg-12 col-xl-8">
+          <div className="card" style={{ borderRadius: "1rem" }}>
+            <div className="card-body p-5">
+              <h2 className="mx-3 my-3">{t("title.terms")}</h2>
+              <TermsWindow />
+              <br />
+              <button onClick={handleBack} className="custom-button">{t("button.back")}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
