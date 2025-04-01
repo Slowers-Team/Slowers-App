@@ -61,6 +61,7 @@ jobs:
       env:
         MONGODB_URI: mongodb://localhost:27017
         SECRET_KEY: secretkey
+        CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
 
   push_to_registry:
     needs: ci
