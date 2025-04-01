@@ -64,6 +64,8 @@ test('fetches images by entity ID and generates URLs correctly', async () => {
         headers: { Authorization: tokenService.fetchToken() },
         responseType: "json"
     }));
+
+    // Doesn't check for expected results, 
 })
 
 test('deletes an image correctly', async () => {
