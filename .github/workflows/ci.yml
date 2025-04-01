@@ -76,6 +76,7 @@ jobs:
         MONGODB_URI: mongodb://localhost:27017
         SECRET_KEY: secretkey
         SQLDATABASEURI: postgres://Slowers:verysecretword@localhost:5432
+        CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
 
   push_to_registry:
     needs: ci
