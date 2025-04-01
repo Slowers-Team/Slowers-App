@@ -9,8 +9,9 @@ func GetBusinesses() []database.Business {
 		{
 			ID:             1,
 			BusinessName:   "Test Business",
-			Type:           "growing",
-			PhoneNumber:    "010234567",
+			BusinessIdCode: "1234567-8",
+			Type:           "grower",
+			PhoneNumber:    "0101234567",
 			Email:          "tester@test.fi",
 			Address:        "Imaginary road 1",
 			PostalCode:     "98765",

@@ -72,13 +72,22 @@ func (pDb SQLDatabase) GetUserByEmail(ctx context.Context, email string) (*User,
 // 	return err
 // }
 
-// func (pDb SQLDatabase) GetUserByID(ctx context.Context, userID ObjectID) (*User, error) {
-// 	user := new(User)
-// 	filter := bson.M{"_id": userID}
-// 	err := db.Collection("users").FindOne(ctx, filter).Decode(&user)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	user.Password = ""
-// 	return user, nil
-// }
+func (pDb SQLDatabase) GetUserByID(ctx context.Context, userID int) (*User, error) {
+	user := new(User)
+	query := `SELECT id, created_at::TEXT, last_modified::TEXT, last_login::TEXT, username, password, email, is_active, is_admin FROM users WHERE id=$1`
+	err := pDb.pool.QueryRow(ctx, query, userID).Scan(
+		&user.ID,
+		&user.CreatedAt, &user.LastModified,
+		&user.LastLogin,
+		&user.Username,
+		&user.Password,
+		&user.Email,
+		&user.IsActive,
+		&user.IsAdmin,
+	)
+	if err != nil {
+		fmt.Println(err.Error())
+		return nil, err
+	}
+	return user, nil
+}

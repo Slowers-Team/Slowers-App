@@ -11,29 +11,37 @@ import CreateBusinessForm from "../components/CreateBusinessForm"
 const UserPage = () => {
   const [user, setUser] = useState({})
   const { t, i18n } = useTranslation()
+  const [errorMessage, setErrorMessage] = useState("")
 
-  const handleCreateBusiness = async (props) => {
-    const updatedRole = props.type === "grower" ? "growerowner" : "retailerowner";
-    userService.setRole(updatedRole).then((_) => {
-      setUser({ ...user, role: updatedRole })
-      Authenticator.setRole(updatedRole)
-    })
-    businessService.create(props)
-      .then(
-        console.log("creating business successful")
-      )
-  }
-  
   useEffect(() => {
     userService.get().then((user) => setUser(user))
   }, []);
+
+  const createNewBusiness = async (businessObject) => {
+    try {
+      await businessService.create(businessObject, user.Email)
+      console.log("creating business successful")
+      // const updatedRole = businessObject.type === "grower" ? "growerowner" : "retailerowner";
+      // await userService.setRole(updatedRole).then((response) => {
+      //   console.log("Vastaus roolin päivitykseen: ", response)
+      //   setUser({ ...user, role: updatedRole })
+      //   Authenticator.setRole(updatedRole)
+      // })
+    } catch (error) {
+      const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, "");
+      console.log(error.response.data)
+      setErrorMessage(i18n.exists(key) ? t(key) : error.response.data);
+      throw error;
+    }
+  }
+  
 
   return (
     <Container className="m-3">
       <h2>{t('menu.profile')}</h2>
       <UserInfo user={user} />
       <br/>
-      <CreateBusinessForm onSubmit={handleCreateBusiness} />
+      <CreateBusinessForm createNewBusiness={createNewBusiness} />
     </Container>
   )
 }
