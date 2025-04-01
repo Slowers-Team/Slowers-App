@@ -11,6 +11,7 @@ import (
 	psqldatabase "github.com/Slowers-team/Slowers-App/database/psql"
 	"github.com/Slowers-team/Slowers-App/handlers"
 	psqlHandlers "github.com/Slowers-team/Slowers-App/handlersPsql"
+	"github.com/cloudinary/cloudinary-go"
 )
 
 func main() {
@@ -25,6 +26,14 @@ func main() {
 		log.Fatal(err)
 	}
 	log.Println("Using production environment: ", prodEnv)
+
+	cld, err := cloudinary.New()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	cld.Config.URL.Secure = true
 
 	db := database.NewMongoDatabase(databaseURI)
 	if env == "test" {
@@ -41,6 +50,7 @@ func main() {
 	application.SetEnv(env)
 	handlers.SetSecretKey(secretKey)
 	handlers.SetDatabase(db)
+	handlers.SetCloudinary(cld)
 
 	var sqldb *psqldatabase.SQLDatabase
 	if useSQL {
