@@ -2,14 +2,19 @@ import { useNavigate, useFetcher } from "react-router-dom";
 import LogInForm from "../components/LogInForm";
 import { useTranslation } from "react-i18next";
 import { Authenticator } from "../Authenticator";
+import userService from "../services/users"
 
 const LogInPage = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   let fetcher = useFetcher();
 
-  const handleLogin = (data) => {
+  const handleLogin = async (data) => {
     Authenticator.login(data);
+    const membership = await userService.getDesignation()
+    if (Object.keys(membership).length > 0) {
+      Authenticator.setDesignation(membership.Designation)
+    }
     fetcher.submit({ data: data }, { action: "/login", method: "post" });
   };
 

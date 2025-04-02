@@ -44,7 +44,7 @@ func GetDesignation(c *fiber.Ctx) error {
 	result, err := db.GetMembershipByUserId(c.Context(), userID)
 
 	if err != nil {
-		return c.Status(500).SendString(err.Error())
+		return c.JSON(err)
 	}
 	return c.JSON(result)
 }
