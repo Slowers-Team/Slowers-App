@@ -70,12 +70,15 @@ func (sqlDb *SQLDatabase) Connect(databaseName string, testEnv bool, prodEnv boo
 	} else {
 		connString = fmt.Sprintf("%s/%s", sqlDb.databaseURI, databaseName)
 	}
+
+	log.Println("Connecting to PostgreSQL")
 	pool, err := pgxpool.New(context.Background(), connString)
 
 	if err != nil {
 		return err
 	}
 
+	log.Println("Ping PostgreSQL")
 	if err := pool.Ping(context.Background()); err != nil {
 		return err
 	}

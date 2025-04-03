@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/Slowers-team/Slowers-App/application"
@@ -10,6 +11,7 @@ import (
 	psqldatabase "github.com/Slowers-team/Slowers-App/database/psql"
 	"github.com/Slowers-team/Slowers-App/handlers"
 	psqlHandlers "github.com/Slowers-team/Slowers-App/handlersPsql"
+	"github.com/cloudinary/cloudinary-go"
 )
 
 func main() {
@@ -18,14 +20,20 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	prodEnv, err := strconv.ParseBool(envProdEnv)
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Println("Using production environment: ", prodEnv)
+
+	cld, err := cloudinary.New()
 
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	cld.Config.URL.Secure = true
 
 	db := database.NewMongoDatabase(databaseURI)
 	if env == "test" {
@@ -42,16 +50,31 @@ func main() {
 	application.SetEnv(env)
 	handlers.SetSecretKey(secretKey)
 	handlers.SetDatabase(db)
+	handlers.SetCloudinary(cld)
 
 	var sqldb *psqldatabase.SQLDatabase
 	if useSQL {
 		sqldb := psqldatabase.NewSQLDatabase(SQLDatabaseURI)
 		if env == "test" {
-			if err := sqldb.Connect("slowerstest", false, prodEnv); err != nil {
+			err := sqldb.Connect("slowerstest", false, prodEnv)
+			if err != nil && strings.Contains(err.Error(), "failed to connect to") {
+				// Try connecting again with 10 second cooldown to give time for database creation
+				time.Sleep(10 * time.Second)
+				if err = sqldb.Connect("slowerstest", false, prodEnv); err != nil {
+					log.Fatal(err)
+				}
+			} else if err != nil {
 				log.Fatal(err)
 			}
 		} else {
-			if err := sqldb.Connect("slowers", false, prodEnv); err != nil {
+			err := sqldb.Connect("slowers", false, prodEnv)
+			if err != nil && strings.Contains(err.Error(), "failed to connect to") {
+				// Try connecting again with 10 second cooldown to give time for database creation
+				time.Sleep(10 * time.Second)
+				if err = sqldb.Connect("slowers", false, prodEnv); err != nil {
+					log.Fatal(err)
+				}
+			} else if err != nil {
 				log.Fatal(err)
 			}
 		}
