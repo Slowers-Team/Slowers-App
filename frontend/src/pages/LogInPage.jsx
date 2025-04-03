@@ -11,9 +11,14 @@ const LogInPage = () => {
 
   const handleLogin = async (data) => {
     Authenticator.login(data);
-    const membership = await userService.getDesignation()
-    if (Object.keys(membership).length > 0) {
-      Authenticator.setDesignation(membership.Designation)
+    try {
+      const membership = await userService.getDesignation();
+  
+      if (membership && Object.keys(membership).length > 0) {
+        Authenticator.setDesignation(membership.Designation);
+      }
+      } catch (error) {
+      console.error("Error fetching designation:", error.response ? error.response.data : error.message);
     }
     fetcher.submit({ data: data }, { action: "/login", method: "post" });
   };
