@@ -12,6 +12,8 @@ where first 0 indicates pre-release version, X tells which Software engineering 
 - Images are stored in Cloudinary
 - User accounts and business information are saved in Postgres-database
 
+Still using two staging servers, one with working routing and Postgres-database enabled (uses [Dockerfile in the root](../Dockerfile)) and one with working site, flower and image handling (uses separate Dockerfiles for [backend](../backend/Dockerfile) and [frontend](../frontend/Dockerfile)).
+
 ## Release 0.2.4
 [GitHub release](https://github.com/Slowers-Team/Slowers-App/releases/tag/v0.2.4)
 
