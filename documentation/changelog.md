@@ -1,5 +1,11 @@
 # Changelog
 
+## Release 0.2.5
+[GitHub release](https://github.com/Slowers-Team/Slowers-App/releases/tag/v0.2.5)
+
+- Images are stored in Cloudinary
+- User accounts and business information are saved in Postgres-database
+
 ## Release 0.2.4
 [GitHub release](https://github.com/Slowers-Team/Slowers-App/releases/tag/v0.2.4)
 
