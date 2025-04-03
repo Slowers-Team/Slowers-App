@@ -47,6 +47,10 @@ func UploadImage(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Image cannot be larger than 10 MB")
 	}
 
+	if !utils.ImageIsLargerThanZero(file.Size) {
+		return c.Status(400).SendString("Image size cannot be zero or negative")
+	}
+
 	if fileinfo, err := os.Stat("./images"); errors.Is(err, os.ErrNotExist) || !fileinfo.IsDir() {
 		os.Remove("./images")
 		if err := os.Mkdir("./images", 0775); err != nil {

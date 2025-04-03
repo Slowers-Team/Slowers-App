@@ -153,10 +153,14 @@ func SetImageFormat(filetype string) (string, error) {
 	} else if filetype == "image/png" {
 		return "png", nil
 	} else {
-		return "", errors.New("Image should be in JPEG or PNG format")
+		return "", errors.New("image should be in JPEG or PNG format")
 	}
 }
 
 func ImageIsNotTooLarge(size int64) bool {
 	return size < 10485760
+}
+
+func ImageIsLargerThanZero(size int64) bool {
+	return size > 0
 }
