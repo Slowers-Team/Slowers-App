@@ -17,6 +17,7 @@ import (
 	"image/png"
 	"io"
 
+	"github.com/Slowers-team/Slowers-App/database"
 	"golang.org/x/image/draw"
 
 	"golang.org/x/crypto/bcrypt"
@@ -135,4 +136,31 @@ func BufferToMultipartFileHeader(buf *bytes.Buffer, filename string) (*multipart
 	}
 
 	return fileHeader, nil
+}
+
+func ImageNoteIsNotEmpty(image database.Image) bool {
+	return image.Note != ""
+
+}
+
+func EntityAssociatedWithImageIsNotNUll(image database.Image) bool {
+	return image.Entity != nil || *image.Entity != database.NilObjectID
+}
+
+func SetImageFormat(filetype string) (string, error) {
+	if filetype == "image/jpeg" {
+		return "jpg", nil
+	} else if filetype == "image/png" {
+		return "png", nil
+	} else {
+		return "", errors.New("image should be in JPEG or PNG format")
+	}
+}
+
+func ImageIsNotTooLarge(size int64) bool {
+	return size < 10485760
+}
+
+func ImageIsLargerThanZero(size int64) bool {
+	return size > 0
 }
