@@ -112,7 +112,7 @@ func (s *DbMembershipTestSuite) TestGetMembershipByUserEmail() {
 	}
 	_, err := s.Db.AddMembership(context.Background(), existingMembership)
 
-	membership, err := s.Db.GetMembershipByUserEmail(context.Background(), s.TestUser.Email)
+	membership, err := s.Db.GetMembershipByUserId(context.Background(), s.TestUser.ID)
 
 	s.NoError(
 		err,
