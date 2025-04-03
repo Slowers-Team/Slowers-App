@@ -1,10 +1,12 @@
 package tests
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 
+	"github.com/Slowers-team/Slowers-App/database"
 	"github.com/Slowers-team/Slowers-App/utils"
 )
 
@@ -172,4 +174,70 @@ func TestIsPhoneNumberValidWithPhoneNumberWithLetters(t *testing.T) {
 	incorrectPhoneNumber := "0101234ABC"
 	result := utils.IsPhoneNumberValid(incorrectPhoneNumber)
 	assert.False(t, result)
+}
+
+func TestImageIsValidWhenNoteIsNotEmpty(t *testing.T) {
+	var image database.Image
+	image.Note = "Important note"
+	result := utils.ImageNoteIsNotEmpty(image)
+	assert.True(t, result)
+}
+
+func TestImageIsNotValidWhenNoteIsEmpty(t *testing.T) {
+	var image database.Image
+	image.Note = ""
+	result := utils.ImageNoteIsNotEmpty(image)
+	assert.False(t, result)
+}
+
+func TestPNGImageReturnsPNGandNIL(t *testing.T) {
+	filetype := "image/png"
+	result1, result2 := utils.SetImageFormat(filetype)
+	assert.Equal(t, result1, "png")
+	assert.Equal(t, result2, nil)
+}
+
+func TestJPEGImageReturnJPEGandNIL(t *testing.T) {
+	filetype := "image/jpeg"
+	result1, result2 := utils.SetImageFormat(filetype)
+	assert.Equal(t, result1, "jpeg")
+	assert.Equal(t, result2, nil)
+}
+
+func TestWrongImageTypeReturnsError(t *testing.T) {
+	filetype := "image/svg"
+	result1, result2 := utils.SetImageFormat(filetype)
+	assert.Equal(t, result1, "")
+	assert.Equal(t, result2, errors.New("image should be in JPEG or PNG format"))
+}
+
+func TestCorrectSizeImageIsValid(t *testing.T) {
+	var size int64 =1280
+	result := utils.ImageIsNotTooLarge(size)
+	assert.True(t, result)
+
+}
+
+func TestTooLargeImageIsNotValid(t *testing.T) {
+	var size int64 =999999999999
+	result := utils.ImageIsNotTooLarge(size)
+	assert.False(t, result)
+}
+
+func TestCorrectSizeImageIsLargerThanZero(t *testing.T) {
+	var size int64 = 1280
+	result := utils.ImageIsLargerThanZero(size)
+	assert.True(t,result)
+}
+
+func TestZeroSizeImageIsNotValid(t *testing.T) {
+	var size int64 = 0
+	result := utils.ImageIsLargerThanZero(size)
+	assert.False(t,result)
+}
+
+func TestNegativeSizeImageIsNotValid(t *testing.T) {
+	var size int64 = -100
+	result := utils.ImageIsLargerThanZero(size)
+	assert.False(t,result)
 }
