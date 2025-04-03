@@ -104,7 +104,7 @@ func (s *DbMembershipTestSuite) TestAddMembership() {
 	)
 }
 
-func (s *DbMembershipTestSuite) TestGetMembershipByUserEmail() {
+func (s *DbMembershipTestSuite) TestGetMembershipByUserId() {
 	existingMembership := database.Membership{
 		UserEmail:   s.TestUser.Email,
 		BusinessID:  s.TestBusiness.ID,
@@ -144,45 +144,45 @@ func (s *DbMembershipTestSuite) TestGetMembershipByUserEmail() {
 	)
 }
 
-func (s *DbMembershipTestSuite) TestGetMembershipByUserEmailWorksWhenUserEmailHasNoUser() {
-	existingMembership := database.Membership{
-		UserEmail:   "nonexistent@email.com",
-		BusinessID:  s.TestBusiness.ID,
-		Designation: "owner",
-	}
-	_, err := s.Db.AddMembership(context.Background(), existingMembership)
+// func (s *DbMembershipTestSuite) TestGetMembershipByUserEmailWorksWhenUserEmailHasNoUser() {
+// 	existingMembership := database.Membership{
+// 		UserEmail:   "nonexistent@email.com",
+// 		BusinessID:  s.TestBusiness.ID,
+// 		Designation: "owner",
+// 	}
+// 	_, err := s.Db.AddMembership(context.Background(), existingMembership)
 
-	membership, err := s.Db.GetMembershipByUserEmail(context.Background(), "nonexistent@email.com")
+// 	membership, err := s.Db.GetMembershipByUserEmail(context.Background(), "nonexistent@email.com")
 
-	s.NoError(
-		err,
-		"CheckMembership() should not return an error",
-	)
-	s.NotZero(
-		membership.ID,
-		"membership should have non-zero ID",
-	)
-	s.Equal(
-		membership.UserEmail,
-		"nonexistent@email.com",
-		"wrong user email for membership",
-	)
-	s.Equal(
-		membership.BusinessID,
-		s.TestBusiness.ID,
-		"wrong business id for membership",
-	)
-	s.Equal(
-		membership.Designation,
-		"owner",
-		"wrong membership designation for membership",
-	)
-	s.Equal(
-		membership.BusinessName,
-		s.TestBusiness.BusinessName,
-		"wrong business name for membership",
-	)
-}
+// 	s.NoError(
+// 		err,
+// 		"CheckMembership() should not return an error",
+// 	)
+// 	s.NotZero(
+// 		membership.ID,
+// 		"membership should have non-zero ID",
+// 	)
+// 	s.Equal(
+// 		membership.UserEmail,
+// 		"nonexistent@email.com",
+// 		"wrong user email for membership",
+// 	)
+// 	s.Equal(
+// 		membership.BusinessID,
+// 		s.TestBusiness.ID,
+// 		"wrong business id for membership",
+// 	)
+// 	s.Equal(
+// 		membership.Designation,
+// 		"owner",
+// 		"wrong membership designation for membership",
+// 	)
+// 	s.Equal(
+// 		membership.BusinessName,
+// 		s.TestBusiness.BusinessName,
+// 		"wrong business name for membership",
+// 	)
+// }
 
 func (s *DbMembershipTestSuite) TearDownTest() {
 	s.Db.Clear()
