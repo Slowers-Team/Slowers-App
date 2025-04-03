@@ -2,6 +2,7 @@ package handlersPsql
 
 import (
 	"fmt"
+	"strconv"
 
 	database "github.com/Slowers-team/Slowers-App/database/psql"
 
@@ -24,4 +25,26 @@ func AddMembership(c *fiber.Ctx, membership *database.Membership) error {
 	}
 
 	return c.SendStatus(204)
+}
+
+func GetDesignation(c *fiber.Ctx) error {
+	userIDStr, err := GetCurrentUser(c)
+
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	userID, err := strconv.Atoi(userIDStr)
+
+	if err != nil {
+		return c.Status(400).SendString("Invalid user ID")
+	}
+	fmt.Println("USERID", userID)
+
+	result, err := db.GetMembershipByUserId(c.Context(), userID)
+
+	if err != nil {
+		return c.JSON(err)
+	}
+	return c.JSON(result)
 }

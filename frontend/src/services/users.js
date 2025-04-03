@@ -35,10 +35,18 @@ const setRole = (role) => {
   return axios.post(url, role, config).then(response => response.data)
 }
 
+const getDesignation = () => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken()},
+  }
+  const url = '/api/user/designation'
+  return axios.get(url, config).then(response => response.data)
+}
 
 export default {
   create, 
   login,
   get,
   setRole,
+  getDesignation,
 }

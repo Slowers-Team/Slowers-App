@@ -27,6 +27,15 @@ func GetCurrentUser(c *fiber.Ctx) (string, error) {
 	return id, nil
 }
 
+// func GetCurrentEmail(c *fiber.Ctx) (string, error) {
+// 	email, ok := c.Locals("user_email").(string)
+// 	if !ok {
+// 		return "none", fmt.Errorf("user email not set in local storage")
+// 	}
+
+// 	return email, nil
+// }
+
 // func ResetDatabase(c *fiber.Ctx) error {
 // 	if err := db.Clear(); err != nil {
 // 		return c.Status(500).SendString(err.Error())

@@ -3,15 +3,19 @@
 export const Authenticator = {
   isLoggedIn: false,
   role: "",
+  designation: "",
   username: "",
   email: "",
-  login({ token, role, username, email }) {
+  login({ token, role, username, email, designation }) {
     localStorage.setItem("token", token);
     localStorage.setItem("role", role);
+    localStorage.setItem("designation", designation);
+    console.log("meneekö", designation)
     localStorage.setItem("username", username);
     localStorage.setItem("email", email);
     Authenticator.isLoggedIn = true;
     Authenticator.role = role;
+    Authenticator.designation = designation;
     Authenticator.username = username;
     Authenticator.email = email;
     return null;
@@ -19,10 +23,12 @@ export const Authenticator = {
   logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
+    localStorage.removeItem("designation");
     localStorage.removeItem("username");
     localStorage.removeItem("email");
     Authenticator.isLoggedIn = false;
     Authenticator.role = "";
+    Authenticator.designation = "";
     Authenticator.username = "";
     Authenticator.email = "";
     return null;
@@ -31,9 +37,14 @@ export const Authenticator = {
     Authenticator.role = role;
     localStorage.setItem("role", role);
   },
+  setDesignation(designation) {
+    Authenticator.designation = designation;
+    localStorage.setItem("designation", designation);
+  },
   refresh() {
     Authenticator.role = localStorage.getItem("role");
-    if (Authenticator.role) {
+    Authenticator.designation = localStorage.getItem("designation");
+    if (Authenticator.role || Authenticator.designation) {
       Authenticator.isLoggedIn = true;
       Authenticator.username = localStorage.getItem("username");
       return true;
