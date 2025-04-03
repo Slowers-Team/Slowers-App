@@ -1,5 +1,11 @@
 # Changelog
 
+Version numbers use the following system:
+
+    0.X.Y,
+
+where first 0 indicates pre-release version, X tells which Software engineering project Slowers group has done the release and Y is used to tell which sprint the release was made in.
+
 ## Release 0.2.5
 [GitHub release](https://github.com/Slowers-Team/Slowers-App/releases/tag/v0.2.5)
 
