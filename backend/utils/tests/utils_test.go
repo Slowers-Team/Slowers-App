@@ -200,7 +200,7 @@ func TestPNGImageReturnsPNGandNIL(t *testing.T) {
 func TestJPEGImageReturnJPEGandNIL(t *testing.T) {
 	filetype := "image/jpeg"
 	result1, result2 := utils.SetImageFormat(filetype)
-	assert.Equal(t, result1, "jpeg")
+	assert.Equal(t, result1, "jpg")
 	assert.Equal(t, result2, nil)
 }
 
