@@ -20,7 +20,7 @@ func AddMembership(c *fiber.Ctx, membership *database.Membership) error {
 
 	_, err := db.AddMembership(c.Context(), *membership)
 	if err != nil {
-		fmt.Println("Jäsenyyden lisääminen epäonnistui")
+		fmt.Println("Failed adding membership")
 		return c.Status(500).SendString(err.Error())
 	}
 
@@ -47,4 +47,14 @@ func GetDesignation(c *fiber.Ctx) error {
 		return c.JSON(err)
 	}
 	return c.JSON(result)
+}
+
+func DeleteMembership(c *fiber.Ctx, user_email string, business_id int) error {
+
+	err := db.DeleteMembership(c.Context(), user_email, business_id)
+	if err != nil {
+		fmt.Println("Failed deleting membership. Membership might not exist.")
+		return c.Status(500).SendString(err.Error())
+	}
+	return c.SendStatus(204)
 }
