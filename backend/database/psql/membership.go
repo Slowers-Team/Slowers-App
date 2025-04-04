@@ -73,7 +73,7 @@ func (pDb SQLDatabase) GetMembershipByUserId(ctx context.Context, userID int) (*
 	return membership, nil
 }
 
-func (pDd SQLDatabase) DeleteMemberByUserID(ctx context.Context,user_email string, business_id int) error {
+func (pDd SQLDatabase) DeleteMembership(ctx context.Context,user_email string, business_id int) error {
 	membership := new(Membership)
 	query := `
 	DELETE FROM Memberships 
