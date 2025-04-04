@@ -15,6 +15,19 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+      postgres:
+        image: postgres:14.17
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: Slowers
+          POSTGRES_PASSWORD: verysecretword
+          POSTGRES_DB: slowerstest
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     permissions:
       contents: read
       pull-requests: write
@@ -37,11 +50,12 @@ jobs:
       working-directory: backend
 
     - name: Backend unit tests
-      run: go test ./...
+      run: go test ./... -tags=sql
       working-directory: backend
       env:
         MONGODB_URI: mongodb://localhost:27017
         SECRET_KEY: secretkey
+        SQLDATABASEURI: postgres://Slowers:verysecretword@localhost:5432
 
     - name: Install dependencies
       run: npm clean-install
@@ -61,6 +75,8 @@ jobs:
       env:
         MONGODB_URI: mongodb://localhost:27017
         SECRET_KEY: secretkey
+        SQLDATABASEURI: postgres://Slowers:verysecretword@localhost:5432
+        CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
 
   push_to_registry:
     needs: ci

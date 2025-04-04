@@ -16,9 +16,17 @@ const BusinessPage = () => {
   }, []);
 
   return (
-    <Container className="m-3">
-      <BusinessInfo business={business} />
-    </Container>
+    <div className="m-3">
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-12 col-lg-12 col-xl-8">
+          <div className="card" style={{ borderRadius: "1rem" }}>
+            <div className="card-body p-5">
+              <BusinessInfo business={business} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 

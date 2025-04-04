@@ -32,6 +32,7 @@ WORKDIR /app
 
 COPY --chown=server:server --from=frontend-build /app/dist ./client/dist
 COPY --chown=server:server --from=backend-build /app/start-server .
+COPY --chown=server:server /backend/database/psql/schema.sql /backend/database/psql/functions.sql ./database/psql/
 
 USER server
 

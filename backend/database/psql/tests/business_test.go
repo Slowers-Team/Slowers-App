@@ -28,14 +28,16 @@ func (s *DbBusinessTestSuite) SetupSuite() {
 
 func (s *DbBusinessTestSuite) TestCreateBusiness() {
 	business := database.Business{
-		BusinessName: s.TestBusiness.BusinessName,
-		Type:         s.TestBusiness.Type,
-		PhoneNumber:  s.TestBusiness.PhoneNumber,
-		Email:        s.TestBusiness.Email,
-		PostAddress:  s.TestBusiness.PostAddress,
-		PostalCode:   s.TestBusiness.PostalCode,
-		City:         s.TestBusiness.City,
-		Notes:        s.TestBusiness.Notes,
+		BusinessName:   s.TestBusiness.BusinessName,
+		BusinessIdCode: s.TestBusiness.BusinessIdCode,
+		Type:           s.TestBusiness.Type,
+		PhoneNumber:    s.TestBusiness.PhoneNumber,
+		Email:          s.TestBusiness.Email,
+		Address:        s.TestBusiness.Address,
+		PostalCode:     s.TestBusiness.PostalCode,
+		City:           s.TestBusiness.City,
+		AdditionalInfo: s.TestBusiness.AdditionalInfo,
+		Delivery:       s.TestBusiness.Delivery,
 	}
 	newBusiness, err := s.Db.CreateBusiness(context.Background(), business)
 
@@ -53,6 +55,11 @@ func (s *DbBusinessTestSuite) TestCreateBusiness() {
 		"wrong name for new business",
 	)
 	s.Equal(
+		newBusiness.BusinessIdCode,
+		s.TestBusiness.BusinessIdCode,
+		"wrong business id code for new business",
+	)
+	s.Equal(
 		newBusiness.Type,
 		s.TestBusiness.Type,
 		"wrong business type for new business",
@@ -68,8 +75,8 @@ func (s *DbBusinessTestSuite) TestCreateBusiness() {
 		"wrong email for new business",
 	)
 	s.Equal(
-		newBusiness.PostAddress,
-		s.TestBusiness.PostAddress,
+		newBusiness.Address,
+		s.TestBusiness.Address,
 		"wrong post address for new business",
 	)
 	s.Equal(
@@ -83,9 +90,14 @@ func (s *DbBusinessTestSuite) TestCreateBusiness() {
 		"wrong city for new business",
 	)
 	s.Equal(
-		newBusiness.Notes,
-		s.TestBusiness.Notes,
-		"wrong notes for new business",
+		newBusiness.AdditionalInfo,
+		s.TestBusiness.AdditionalInfo,
+		"wrong additional info for new business",
+	)
+	s.Equal(
+		newBusiness.Delivery,
+		s.TestBusiness.Delivery,
+		"wrong delivery option for new business",
 	)
 }
 

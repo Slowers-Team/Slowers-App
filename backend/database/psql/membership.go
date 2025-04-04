@@ -39,7 +39,7 @@ func (pDb SQLDatabase) AddMembership(ctx context.Context, newMembership Membersh
 	return &newMembership, nil
 }
 
-func (pDb SQLDatabase) GetMembershipByUserEmail(ctx context.Context, userEmail string) (*Membership, error) {
+func (pDb SQLDatabase) GetMembershipByUserId(ctx context.Context, userID int) (*Membership, error) {
 	membership := new(Membership)
 	query := `
 	SELECT
@@ -48,25 +48,23 @@ func (pDb SQLDatabase) GetMembershipByUserEmail(ctx context.Context, userEmail s
 		memberships.last_modified::TEXT,
 		memberships.user_email,
 		memberships.business_id,
-		memberships.designation,
-		businesses.name
+		memberships.designation
 	FROM
 		memberships
 	JOIN
-		businesses
+		users
 	ON
-		memberships.business_id = businesses.id
+		memberships.user_email = users.email
 	WHERE
-		user_email=$1`
+		users.id=$1`
 
-	err := pDb.pool.QueryRow(ctx, query, userEmail).Scan(
+	err := pDb.pool.QueryRow(ctx, query, userID).Scan(
 		&membership.ID,
 		&membership.CreatedAt,
 		&membership.LastModified,
 		&membership.UserEmail,
 		&membership.BusinessID,
 		&membership.Designation,
-		&membership.BusinessName,
 	)
 	if err != nil {
 		fmt.Println(err.Error())
@@ -74,3 +72,26 @@ func (pDb SQLDatabase) GetMembershipByUserEmail(ctx context.Context, userEmail s
 	}
 	return membership, nil
 }
+
+// func (pDb SQLDatabase) GetDesignationByEmail(ctx context.Context, userEmail string) (*Membership, error) {
+// 	membership := new(Membership)
+// 	query := `
+// 			SELECT
+// 				Memberships.designation
+// 			FROM
+// 				Memberships
+// 				INNER JOIN Users ON Memberships.user_email = Users.email
+// 			WHERE
+// 				User.email = 1$`
+
+// 	err := pDb.pool.QueryRow(ctx, query, userEmail).Scan(
+// 		&membership.Designation,
+// 	)
+
+// 	if err != nil {
+// 		fmt.Println(err.Error())
+// 		return nil, err
+// 	}
+
+// 	return membership, nil
+// }

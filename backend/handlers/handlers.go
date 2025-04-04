@@ -4,13 +4,20 @@ import (
 	"fmt"
 
 	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/cloudinary/cloudinary-go"
 	"github.com/gofiber/fiber/v2"
 )
 
 var db database.Database
 
+var cld *cloudinary.Cloudinary
+
 func SetDatabase(newDb database.Database) {
 	db = newDb
+}
+
+func SetCloudinary(newCld *cloudinary.Cloudinary) {
+	cld = newCld
 }
 
 func GetCurrentUser(c *fiber.Ctx) (database.ObjectID, error) {

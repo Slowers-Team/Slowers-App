@@ -21,12 +21,8 @@ const UserPage = () => {
     try {
       await businessService.create(businessObject, user.Email)
       console.log("creating business successful")
-      // const updatedRole = businessObject.type === "grower" ? "growerowner" : "retailerowner";
-      // await userService.setRole(updatedRole).then((response) => {
-      //   console.log("Vastaus roolin päivitykseen: ", response)
-      //   setUser({ ...user, role: updatedRole })
-      //   Authenticator.setRole(updatedRole)
-      // })
+      const membership = await userService.getDesignation()
+      Authenticator.setDesignation(membership.Designation)
     } catch (error) {
       const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, "");
       console.log(error.response.data)
@@ -37,12 +33,20 @@ const UserPage = () => {
   
 
   return (
-    <Container className="m-3">
-      <h2>{t('menu.profile')}</h2>
-      <UserInfo user={user} />
-      <br/>
-      <CreateBusinessForm createNewBusiness={createNewBusiness} />
-    </Container>
+    <div className="m-3">
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-12 col-lg-12 col-xl-8">
+          <div className="card" style={{ borderRadius: "1rem" }}>
+            <div className="card-body p-5">
+              <h2>{t('menu.profile')}</h2>
+              <UserInfo user={user} />
+              <br/>
+              <CreateBusinessForm createNewBusiness={createNewBusiness} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 

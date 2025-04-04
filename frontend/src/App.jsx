@@ -15,6 +15,7 @@ import RetailerLayout from "./layouts/RetailerLayout";
 import GrowerLayout from "./layouts/GrowerLayout";
 import MarketplaceLayout from "./layouts/MarketplaceLayout";
 import BusinessLayout from "./layouts/BusinessLayout";
+import UserPageLayout from "./layouts/UserPageLayout";
 
 import HomePage from "./pages/HomePage";
 import RegisterPage from "./pages/RegisterPage";
@@ -181,6 +182,7 @@ const router = createBrowserRouter([
           },
           {
             path: "marketplace",
+            loader: authorizeAccess,
             element: <MarketplaceLayout />,
             children: [
               { index: true, element: <MarketplaceHomePage /> },
@@ -195,7 +197,14 @@ const router = createBrowserRouter([
               { index: true, element: <BusinessPage /> }
             ]
           },
-          { path: "user", element: <UserPage /> },
+          { 
+            path: "user",
+            loader: authorizeAccess,
+            element: <UserPageLayout />,
+            children: [
+              { index: true, element: <UserPage /> }
+            ]
+          },
           {
             path: "*",
             loader() {

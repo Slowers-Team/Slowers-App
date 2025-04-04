@@ -24,7 +24,7 @@ type Database interface {
 	CreateBusiness(ctx context.Context, newBusiness Business) (*Business, error)
 
 	AddMembership(ctx context.Context, newMembership Membership) (*Membership, error)
-	GetMembershipByUserEmail(ctx context.Context, userEmail string) (*Membership, error)
+	GetMembershipByUserId(ctx context.Context, userID int) (*Membership, error)
 
 	// 	GetFlowers(ctx context.Context) ([]Flower, error)
 	// 	GetUserFlowers(ctx context.Context, userID ObjectID) ([]Flower, error)
@@ -70,16 +70,14 @@ func (sqlDb *SQLDatabase) Connect(databaseName string, testEnv bool, prodEnv boo
 	} else {
 		connString = fmt.Sprintf("%s/%s", sqlDb.databaseURI, databaseName)
 	}
-	pool, err := pgxpool.New(context.Background(), connString)
 
+	pool, err := pgxpool.New(context.Background(), connString)
 	if err != nil {
 		return err
 	}
-
 	if err := pool.Ping(context.Background()); err != nil {
 		return err
 	}
-
 	log.Println("Connected to PostgreSQL")
 
 	var filepathToSqlFiles string
