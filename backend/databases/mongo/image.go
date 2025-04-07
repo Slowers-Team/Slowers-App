@@ -12,7 +12,7 @@ type Image struct {
 	FileFormat string    `json:"file_format" bson:"file_format"`
 	Note       string    `json:"note" form:"note"`
 	Entity     *ObjectID `json:"entity" form:"entity"`
-	Owner      ObjectID  `json:"owner"`
+	Owner      string    `json:"owner"`
 }
 
 func (mDb MongoDatabase) AddImage(ctx context.Context, newImage Image) (*Image, error) {
@@ -81,7 +81,7 @@ func (mDb MongoDatabase) DeleteImage(ctx context.Context, id ObjectID) (bool, er
 	return result.DeletedCount > 0, err
 }
 
-func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID, EntityID, ImageID ObjectID, Collection string) error {
+func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID string, EntityID, ImageID ObjectID, Collection string) error {
 	err := mDb.UserOwnsEntity(ctx, UserID, EntityID, Collection)
 	if err != nil {
 		return err
@@ -104,7 +104,7 @@ func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID, EntityID,
 	return nil
 }
 
-func (mDb MongoDatabase) ClearFavoriteImage(ctx context.Context, UserID, EntityID ObjectID, Collection string) error {
+func (mDb MongoDatabase) ClearFavoriteImage(ctx context.Context, UserID string, EntityID ObjectID, Collection string) error {
 	err := mDb.UserOwnsEntity(ctx, UserID, EntityID, Collection)
 	if err != nil {
 		return nil

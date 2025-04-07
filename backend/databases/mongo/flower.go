@@ -15,7 +15,7 @@ type Flower struct {
 	Name          string    `json:"name"`
 	LatinName     string    `json:"latin_name" bson:"latin_name"`
 	AddedTime     time.Time `json:"added_time" bson:"added_time"`
-	Grower        *ObjectID `json:"grower"`
+	Grower        *string   `json:"grower"`
 	GrowerEmail   string    `json:"grower_email" bson:"grower_email"`
 	Site          *ObjectID `json:"site"`
 	SiteName      string    `json:"site_name" bson:"site_name"`
@@ -39,7 +39,7 @@ func (mDb MongoDatabase) GetFlowers(ctx context.Context) ([]Flower, error) {
 	return flowers, nil
 }
 
-func (mDb MongoDatabase) GetUserFlowers(ctx context.Context, userID ObjectID) ([]Flower, error) {
+func (mDb MongoDatabase) GetUserFlowers(ctx context.Context, userID string) ([]Flower, error) {
 	cursor, err := db.Collection("flowers").Find(ctx, bson.M{"grower": userID})
 	if err != nil {
 		return nil, err
@@ -95,7 +95,7 @@ func (mDb MongoDatabase) DeleteFlower(ctx context.Context, id ObjectID) (bool, e
 	return result.DeletedCount > 0, err
 }
 
-func (mDb MongoDatabase) GetAllFlowersRelatedToSite(ctx context.Context, siteID ObjectID, userID ObjectID) ([]Flower, error) {
+func (mDb MongoDatabase) GetAllFlowersRelatedToSite(ctx context.Context, siteID ObjectID, userID string) ([]Flower, error) {
 	// Start pipeline with top level parent Site
 	matchStage := bson.D{
 		{Key: "$match", Value: bson.D{
@@ -175,7 +175,7 @@ func (mDb MongoDatabase) GetAllFlowersRelatedToSite(ctx context.Context, siteID 
 // ToggleFlowerVisibility sets the toggles (false->true or true->false) flower's visibility,
 // and returns the new value or an error.
 // Visibility can be set if flower has at least one image attached.
-func (mDb MongoDatabase) ToggleFlowerVisibility(ctx context.Context, userID, flowerID ObjectID) (*bool, error) {
+func (mDb MongoDatabase) ToggleFlowerVisibility(ctx context.Context, userID string, flowerID ObjectID) (*bool, error) {
 	opts := options.Count().SetLimit(1)
 	count, err := db.Collection("images").CountDocuments(
 		ctx,

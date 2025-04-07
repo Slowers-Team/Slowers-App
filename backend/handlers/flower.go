@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"strconv"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -38,7 +39,12 @@ func AddFlower(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	grower, err := MongoDb.GetUserByID(c.Context(), userID)
+	parsedID, err := strconv.ParseInt(userID, 10, 32)
+	if err != nil {
+		return c.Status(500).SendString("Error parsing current user id: " + err.Error())
+	}
+
+	grower, err := sqlDb.GetUserByID(c.Context(), int(parsedID))
 	if err != nil {
 		return c.Status(500).SendString("User not found: " + err.Error())
 	}

@@ -83,9 +83,9 @@ func (sqlDb *SQLDatabase) Connect(databaseName string, testEnv bool, prodEnv boo
 
 	var filepathToSqlFiles string
 	if testEnv {
-		filepathToSqlFiles = "../../../database/psql/schema.sql"
+		filepathToSqlFiles = "../../../databases/sql/schema.sql"
 	} else {
-		filepathToSqlFiles = "database/psql/schema.sql"
+		filepathToSqlFiles = "databases/sql/schema.sql"
 	}
 	sqlQuery, err := os.ReadFile(filepathToSqlFiles)
 	if err != nil {

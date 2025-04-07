@@ -16,7 +16,7 @@ func GetFlowers() []mongo.Flower {
 	flowerIDs := []mongo.ObjectID{}
 
 	for _, idStr := range flowerIDStrs {
-		curFlowerID, err := MongoDb.ParseID(idStr)
+		curFlowerID, err := mongo.ParseID(idStr)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -24,10 +24,10 @@ func GetFlowers() []mongo.Flower {
 	}
 
 	grower := GetUsers()[0]
-	growerID := grower.ID
+	growerID := string(grower.ID)
 	growerEmail := grower.Email
 
-	siteID, err := MongoDb.ParseID("66f5027d6430d371f8636c3c")
+	siteID, err := mongo.ParseID("66f5027d6430d371f8636c3c")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -86,7 +86,7 @@ func GetFlowerForUser2() mongo.Flower {
 	}
 
 	grower := GetUsers()[1]
-	growerID := grower.ID
+	growerID := string(grower.ID)
 	growerEmail := grower.Email
 
 	siteID, err := mongo.ParseID("6700042668d22894f711af60")

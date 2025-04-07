@@ -31,10 +31,7 @@ func GetImages() []mongo.Image {
 		log.Fatal(err)
 	}
 
-	ownerID, err := mongo.ParseID("66fd465c0011335cd891aea7")
-	if err != nil {
-		log.Fatal(err)
-	}
+	ownerID := "1"
 
 	return []mongo.Image{
 		{

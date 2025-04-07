@@ -15,7 +15,7 @@ func GetRootSites() []mongo.Site {
 		log.Fatal(err)
 	}
 	flowerID := GetFlowers()[0].ID
-	ownerID := GetUsers()[0].ID
+	ownerID := string(GetUsers()[0].ID)
 	return []mongo.Site{
 		{
 			ID:        siteID,
@@ -35,7 +35,7 @@ func GetRootSitesForUser2() []mongo.Site {
 		log.Fatal(err)
 	}
 	flowerID := GetFlowerForUser2().ID
-	ownerID := GetUsers()[1].ID
+	ownerID := string(GetUsers()[1].ID)
 	return []mongo.Site{
 		{
 			ID:        siteID,

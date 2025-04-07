@@ -18,7 +18,7 @@ type Site struct {
 	Note          string      `json:"note"`
 	Parent        *ObjectID   `json:"parent"`
 	Flowers       []*ObjectID `json:"flowers"`
-	Owner         *ObjectID   `json:"owner"`
+	Owner         *string     `json:"owner"`
 	FavoriteImage string      `json:"favorite_image" bson:"favorite_image"`
 }
 
@@ -41,7 +41,7 @@ func (mDb MongoDatabase) AddSite(ctx context.Context, newSite Site) (*Site, erro
 	return createdSite, nil
 }
 
-func (mDb MongoDatabase) GetRootSites(ctx context.Context, userID ObjectID) ([]Site, error) {
+func (mDb MongoDatabase) GetRootSites(ctx context.Context, userID string) ([]Site, error) {
 	cursor, err := db.Collection("sites").Find(ctx, bson.M{"parent": nil, "owner": userID})
 	if err != nil {
 		return nil, err
@@ -55,7 +55,7 @@ func (mDb MongoDatabase) GetRootSites(ctx context.Context, userID ObjectID) ([]S
 	return foundSites, nil
 }
 
-func (mDb MongoDatabase) GetSite(ctx context.Context, siteID ObjectID, userID ObjectID) (bson.M, error) {
+func (mDb MongoDatabase) GetSite(ctx context.Context, siteID ObjectID, userID string) (bson.M, error) {
 	var resultSite bson.M
 
 	filter := bson.M{"_id": siteID, "owner": userID}
@@ -86,7 +86,7 @@ func (mDb MongoDatabase) GetSite(ctx context.Context, siteID ObjectID, userID Ob
 	return bson.M{"site": resultSite, "subsites": subSites}, nil
 }
 
-func (mDb MongoDatabase) DeleteSite(ctx context.Context, siteID ObjectID, userID ObjectID) (*mongo.DeleteResult, error) {
+func (mDb MongoDatabase) DeleteSite(ctx context.Context, siteID ObjectID, userID string) (*mongo.DeleteResult, error) {
 	// Start pipeline with top level parent Site
 	matchStage := bson.D{
 		{Key: "$match", Value: bson.D{
