@@ -8,23 +8,24 @@ import (
 
 	"github.com/stretchr/testify/suite"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
+	mongoDriver "go.mongodb.org/mongo-driver/mongo"
 
-	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
+	"github.com/Slowers-team/Slowers-App/databases/sql"
 	"github.com/Slowers-team/Slowers-App/testdata"
 	"github.com/Slowers-team/Slowers-App/testutils"
 )
 
 type DbSiteTestSuite struct {
 	suite.Suite
-	Db   database.Database
-	Site database.Site
-	User database.User
+	MongoDb mongo.Database
+	Site    mongo.Site
+	User    sql.User
 }
 
 func (s *DbSiteTestSuite) SetupSuite() {
-	s.Db = testutils.ConnectDB()
-	s.Db.Clear()
+	s.MongoDb = testutils.ConnectMongoDB()
+	s.MongoDb.Clear()
 	s.Site = testdata.GetRootSites()[0]
 	s.User = testdata.GetUsers()[0]
 }
@@ -32,7 +33,7 @@ func (s *DbSiteTestSuite) SetupSuite() {
 func (s *DbSiteTestSuite) TestAddSite() {
 	site := s.Site
 	siteToAdd := testdata.PrepareSiteForAdding(site)
-	addedSite, err := s.Db.AddSite(context.Background(), siteToAdd)
+	addedSite, err := s.MongoDb.AddSite(context.Background(), siteToAdd)
 
 	s.Require().NoError(
 		err,
@@ -77,8 +78,8 @@ func (s *DbSiteTestSuite) TestAddSite() {
 func (s *DbSiteTestSuite) TestAddAndGetRootSites() {
 	site := s.Site
 	siteToAdd := testdata.PrepareSiteForAdding(site)
-	addedSite, _ := s.Db.AddSite(context.Background(), siteToAdd)
-	fetchedSites, err := s.Db.GetRootSites(context.Background(), s.User.ID)
+	addedSite, _ := s.MongoDb.AddSite(context.Background(), siteToAdd)
+	fetchedSites, err := s.MongoDb.GetRootSites(context.Background(), s.User.ID)
 
 	s.Require().NoError(
 		err,
@@ -129,27 +130,27 @@ func (s *DbSiteTestSuite) TestAddAndGetRootSites() {
 func (s *DbSiteTestSuite) TestAddAndGetSite() {
 	siteData := testdata.GetSite()
 
-	site := siteData["site"].(database.Site)
+	site := siteData["site"].(mongo.Site)
 	siteToAdd := testdata.PrepareSiteForAdding(site)
-	addedSite, _ := s.Db.AddSite(context.Background(), siteToAdd)
+	addedSite, _ := s.MongoDb.AddSite(context.Background(), siteToAdd)
 
 	subSiteBson := siteData["subsites"].([]bson.M)[0]
-	subSite := database.Site{
+	subSite := mongo.Site{
 		Name:      subSiteBson["name"].(string),
 		AddedTime: time.Date(2024, 9, 19, 12, 11, 4, 0, time.UTC),
 		Note:      subSiteBson["note"].(string),
 		Parent:    &addedSite.ID,
-		Flowers:   []*database.ObjectID{},
+		Flowers:   []*mongo.ObjectID{},
 		Owner:     site.Owner,
 	}
-	addedSubSite, _ := s.Db.AddSite(context.Background(), subSite)
+	addedSubSite, _ := s.MongoDb.AddSite(context.Background(), subSite)
 
 	site.ID = addedSite.ID
 	siteData["site"] = site
 	subSiteBson["_id"] = addedSubSite.ID.Hex()
 	siteData["subsites"] = []bson.M{subSiteBson}
 
-	fetchedSiteData, err := s.Db.GetSite(
+	fetchedSiteData, err := s.MongoDb.GetSite(
 		context.Background(), addedSite.ID, *site.Owner,
 	)
 
@@ -163,7 +164,7 @@ func (s *DbSiteTestSuite) TestAddAndGetSite() {
 		log.Fatal(err)
 	}
 
-	var fetchedSite database.Site
+	var fetchedSite mongo.Site
 	err = bson.Unmarshal(doc, &fetchedSite)
 	if err != nil {
 		log.Fatal(err)
@@ -233,9 +234,9 @@ func (s *DbSiteTestSuite) TestAddAndGetSite() {
 func (s *DbSiteTestSuite) TestAddAndGetSiteByID() {
 	site := s.Site
 	siteToAdd := testdata.PrepareSiteForAdding(site)
-	addedSite, _ := s.Db.AddSite(context.Background(), siteToAdd)
+	addedSite, _ := s.MongoDb.AddSite(context.Background(), siteToAdd)
 
-	fetchedSite, err := s.Db.GetSiteByID(context.Background(), addedSite.ID)
+	fetchedSite, err := s.MongoDb.GetSiteByID(context.Background(), addedSite.ID)
 
 	s.Require().NoError(
 		err,
@@ -281,15 +282,15 @@ func (s *DbSiteTestSuite) TestAddAndGetSiteByID() {
 
 func (s *DbSiteTestSuite) TestAddFlowerToSite() {
 	site := s.Site
-	site.Flowers = []*database.ObjectID{}
+	site.Flowers = []*mongo.ObjectID{}
 	siteToAdd := testdata.PrepareSiteForAdding(site)
-	addedSite, _ := s.Db.AddSite(context.Background(), siteToAdd)
+	addedSite, _ := s.MongoDb.AddSite(context.Background(), siteToAdd)
 
 	flower := testdata.GetFlowers()[0]
 	flower.Site = &addedSite.ID
 	flowerToAdd := testdata.PrepareFlowerForAdding(flower)
-	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
-	err := s.Db.AddFlowerToSite(
+	addedFlower, _ := s.MongoDb.AddFlower(context.Background(), flowerToAdd)
+	err := s.MongoDb.AddFlowerToSite(
 		context.Background(), addedSite.ID, addedFlower.ID,
 	)
 
@@ -298,7 +299,7 @@ func (s *DbSiteTestSuite) TestAddFlowerToSite() {
 		"AddFlowerToSite() should not return an error",
 	)
 
-	fetchedSite, _ := s.Db.GetSiteByID(context.Background(), addedSite.ID)
+	fetchedSite, _ := s.MongoDb.GetSiteByID(context.Background(), addedSite.ID)
 
 	s.Require().Len(
 		fetchedSite.Flowers,
@@ -316,21 +317,21 @@ func (s *DbSiteTestSuite) TestAddFlowerToSite() {
 func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
 	siteData := testdata.GetSite()
 
-	site := siteData["site"].(database.Site)
-	site.Flowers = []*database.ObjectID{}
+	site := siteData["site"].(mongo.Site)
+	site.Flowers = []*mongo.ObjectID{}
 	siteToAdd := testdata.PrepareSiteForAdding(site)
-	addedSite, _ := s.Db.AddSite(context.Background(), siteToAdd)
+	addedSite, _ := s.MongoDb.AddSite(context.Background(), siteToAdd)
 
 	subSiteBson := siteData["subsites"].([]bson.M)[0]
-	subSite := database.Site{
+	subSite := mongo.Site{
 		Name:      subSiteBson["name"].(string),
 		AddedTime: time.Date(2024, 9, 19, 12, 11, 4, 0, time.UTC),
 		Note:      subSiteBson["note"].(string),
 		Parent:    &addedSite.ID,
-		Flowers:   []*database.ObjectID{},
+		Flowers:   []*mongo.ObjectID{},
 		Owner:     site.Owner,
 	}
-	addedSubSite, _ := s.Db.AddSite(context.Background(), subSite)
+	addedSubSite, _ := s.MongoDb.AddSite(context.Background(), subSite)
 
 	site.ID = addedSite.ID
 	siteData["site"] = site
@@ -340,22 +341,22 @@ func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
 	flower := testdata.GetFlowers()[0]
 	flower.Site = &addedSite.ID
 	flowerToAdd := testdata.PrepareFlowerForAdding(flower)
-	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
-	s.Db.AddFlowerToSite(context.Background(), addedSite.ID, addedFlower.ID)
+	addedFlower, _ := s.MongoDb.AddFlower(context.Background(), flowerToAdd)
+	s.MongoDb.AddFlowerToSite(context.Background(), addedSite.ID, addedFlower.ID)
 
 	site2 := testdata.GetRootSitesForUser2()[0]
-	site2.Flowers = []*database.ObjectID{}
+	site2.Flowers = []*mongo.ObjectID{}
 	site2.Owner = site.Owner
 	siteToAdd2 := testdata.PrepareSiteForAdding(site2)
-	addedSite2, _ := s.Db.AddSite(context.Background(), siteToAdd2)
+	addedSite2, _ := s.MongoDb.AddSite(context.Background(), siteToAdd2)
 
 	flower2 := testdata.GetFlowerForUser2()
 	flower2.Site = &addedSite2.ID
 	flowerToAdd2 := testdata.PrepareFlowerForAdding(flower2)
-	addedFlower2, _ := s.Db.AddFlower(context.Background(), flowerToAdd2)
-	s.Db.AddFlowerToSite(context.Background(), addedSite2.ID, addedFlower2.ID)
+	addedFlower2, _ := s.MongoDb.AddFlower(context.Background(), flowerToAdd2)
+	s.MongoDb.AddFlowerToSite(context.Background(), addedSite2.ID, addedFlower2.ID)
 
-	deleteResult, err := s.Db.DeleteSite(
+	deleteResult, err := s.MongoDb.DeleteSite(
 		context.Background(), addedSite.ID, *site.Owner,
 	)
 
@@ -369,7 +370,7 @@ func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
 		"DeleteSite() should delete exactly two sites",
 	)
 
-	fetchedFlowers, _ := s.Db.GetFlowers(context.Background())
+	fetchedFlowers, _ := s.MongoDb.GetFlowers(context.Background())
 
 	oneFlowerLeft := s.Len(
 		fetchedFlowers,
@@ -384,7 +385,7 @@ func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
 		)
 	}
 
-	fetchedSites, _ := s.Db.GetRootSites(context.Background(), *site.Owner)
+	fetchedSites, _ := s.MongoDb.GetRootSites(context.Background(), *site.Owner)
 
 	oneRootSiteLeft := s.Len(
 		fetchedSites,
@@ -399,21 +400,21 @@ func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
 		)
 	}
 
-	_, err = s.Db.GetSiteByID(context.Background(), addedSubSite.ID)
+	_, err = s.MongoDb.GetSiteByID(context.Background(), addedSubSite.ID)
 
 	s.Equal(
-		mongo.ErrNoDocuments,
+		mongoDriver.ErrNoDocuments,
 		err,
 		"DeleteSite() should delete all subsites",
 	)
 }
 
 func (s *DbSiteTestSuite) TearDownTest() {
-	s.Db.Clear()
+	s.MongoDb.Clear()
 }
 
 func (s *DbSiteTestSuite) TearDownSuite() {
-	testutils.DisconnectDB(s.Db)
+	testutils.DisconnectMongoDB(s.MongoDb)
 }
 
 func TestDbSiteTestSuite(t *testing.T) {

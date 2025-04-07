@@ -4,19 +4,19 @@ import (
 	"log"
 	"time"
 
-	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
 )
 
-func GetFlowers() []database.Flower {
+func GetFlowers() []mongo.Flower {
 	flowerIDStrs := []string{
 		"842af389e234e768923475bc",
 		"485a28e70545c378ff29b438",
 		"ac83264ff67837e87eb82322",
 	}
-	flowerIDs := []database.ObjectID{}
+	flowerIDs := []mongo.ObjectID{}
 
 	for _, idStr := range flowerIDStrs {
-		curFlowerID, err := database.ParseID(idStr)
+		curFlowerID, err := MongoDb.ParseID(idStr)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -27,13 +27,13 @@ func GetFlowers() []database.Flower {
 	growerID := grower.ID
 	growerEmail := grower.Email
 
-	siteID, err := database.ParseID("66f5027d6430d371f8636c3c")
+	siteID, err := MongoDb.ParseID("66f5027d6430d371f8636c3c")
 	if err != nil {
 		log.Fatal(err)
 	}
 	siteName := "Greenhouse A"
 
-	return []database.Flower{
+	return []mongo.Flower{
 		{
 			ID:          flowerIDs[0],
 			Name:        "sunflower",
@@ -73,14 +73,14 @@ func GetFlowers() []database.Flower {
 	}
 }
 
-func PrepareFlowerForAdding(flower database.Flower) database.Flower {
-	flower.ID = database.NilObjectID
+func PrepareFlowerForAdding(flower mongo.Flower) mongo.Flower {
+	flower.ID = mongo.NilObjectID
 	flower.FavoriteImage = ""
 	return flower
 }
 
-func GetFlowerForUser2() database.Flower {
-	flowerID, err := database.ParseID("66fd466f0011335cd891aea8")
+func GetFlowerForUser2() mongo.Flower {
+	flowerID, err := mongo.ParseID("66fd466f0011335cd891aea8")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -89,13 +89,13 @@ func GetFlowerForUser2() database.Flower {
 	growerID := grower.ID
 	growerEmail := grower.Email
 
-	siteID, err := database.ParseID("6700042668d22894f711af60")
+	siteID, err := mongo.ParseID("6700042668d22894f711af60")
 	if err != nil {
 		log.Fatal(err)
 	}
 	siteName := "Field 1"
 
-	return database.Flower{
+	return mongo.Flower{
 		ID:          flowerID,
 		Name:        "cornflower",
 		LatinName:   "Centaurea cyanus",

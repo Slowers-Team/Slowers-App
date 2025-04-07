@@ -6,7 +6,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 
-	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
 )
 
 func AddSite(c *fiber.Ctx) error {
@@ -15,7 +15,7 @@ func AddSite(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	site := new(database.Site)
+	site := new(mongo.Site)
 
 	if err := c.BodyParser(site); err != nil {
 		return c.Status(400).SendString(err.Error())
@@ -25,17 +25,17 @@ func AddSite(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Site name cannot be empty")
 	}
 
-	var flowers []*database.ObjectID
+	var flowers []*mongo.ObjectID
 	if site.Flowers != nil {
 		flowers = site.Flowers
 	} else {
-		flowers = make([]*database.ObjectID, 0)
+		flowers = make([]*mongo.ObjectID, 0)
 	}
 
-	newSite := database.Site{Name: site.Name, Note: site.Note, AddedTime: time.Now(),
+	newSite := mongo.Site{Name: site.Name, Note: site.Note, AddedTime: time.Now(),
 		Parent: site.Parent, Flowers: flowers, Owner: &userID}
 
-	createdSite, err := db.AddSite(c.Context(), newSite)
+	createdSite, err := MongoDb.AddSite(c.Context(), newSite)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	} else {
@@ -51,7 +51,7 @@ func GetRootSites(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	foundSites, err := db.GetRootSites(c.Context(), userID)
+	foundSites, err := MongoDb.GetRootSites(c.Context(), userID)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
@@ -65,12 +65,12 @@ func GetSite(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	siteID, err := database.ParseID(c.Params("id"))
+	siteID, err := mongo.ParseID(c.Params("id"))
 	if err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	result, err := db.GetSite(c.Context(), siteID, userID)
+	result, err := MongoDb.GetSite(c.Context(), siteID, userID)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
@@ -84,12 +84,12 @@ func DeleteSite(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	siteID, err := database.ParseID(c.Params("id"))
+	siteID, err := mongo.ParseID(c.Params("id"))
 	if err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	deleteResult, err := db.DeleteSite(c.Context(), siteID, userID)
+	deleteResult, err := MongoDb.DeleteSite(c.Context(), siteID, userID)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}

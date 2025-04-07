@@ -1,4 +1,4 @@
-package database
+package mongo
 
 import (
 	"context"
@@ -16,13 +16,7 @@ type Database interface {
 	Connect(databaseName string) error
 	Disconnect() error
 	Clear() error
-	UserOwnsEntity(ctx context.Context, UserID, EntityID ObjectID, Collection string) error
-
-	CountUsersWithEmail(ctx context.Context, email string) (int64, error)
-	CreateUser(ctx context.Context, newUser User) (*User, error)
-	GetUserByEmail(ctx context.Context, email string) (*User, error)
-	GetUserByID(ctx context.Context, userID ObjectID) (*User, error)
-	SetUserRole(ctx context.Context, userID ObjectID, role string) error
+	UserOwnsEntity(ctx context.Context, UserID, EntityID ObjectID, Collection string) error // TODO: Move this to utils
 
 	GetFlowers(ctx context.Context) ([]Flower, error)
 	GetUserFlowers(ctx context.Context, userID ObjectID) ([]Flower, error)

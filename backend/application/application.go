@@ -7,7 +7,6 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 
 	"github.com/Slowers-team/Slowers-App/handlers"
-	handlersPsql "github.com/Slowers-team/Slowers-App/handlersPsql"
 	"github.com/Slowers-team/Slowers-App/testdata"
 )
 
@@ -28,12 +27,12 @@ func SetupAndSetAuthTo(isAuthOn bool, useSQL bool) *fiber.App {
 	app.Get("/api/healthcheck", handlers.HealthCheck)
 
 	if useSQL {
-		app.Post("/api/register", handlersPsql.CreateUser)
+		app.Post("/api/register", handlers.CreateUser)
 	} else {
 		app.Post("/api/register", handlers.CreateUser)
 	}
 	if useSQL {
-		app.Post("/api/login", handlersPsql.HandleLogin)
+		app.Post("/api/login", handlers.HandleLogin)
 	} else {
 		app.Post("/api/login", handlers.HandleLogin)
 	}
@@ -64,17 +63,15 @@ func SetupAndSetAuthTo(isAuthOn bool, useSQL bool) *fiber.App {
 	api.Get("/sites/:id/flowers", handlers.GetSiteFlowers)
 
 	if useSQL {
-		api.Get("/user", handlersPsql.GetUser)
+		api.Get("/user", handlers.GetUser)
 	} else {
 		api.Get("/user", handlers.GetUser)
 	}
 
-	api.Post("/user/role", handlers.SetRole)
+	api.Get("/user/designation", handlers.GetDesignation)
 
-	api.Get("/user/designation", handlersPsql.GetDesignation)
-
-	api.Post("/business", handlersPsql.CreateBusiness)
-	api.Get("/business", handlersPsql.GetBusiness)
+	api.Post("/business", handlers.CreateBusiness)
+	api.Get("/business", handlers.GetBusiness)
 
 	api.Post("/images", handlers.UploadImage)
 	api.Get("/images/id/:id", handlers.GetImageByID)
@@ -115,6 +112,6 @@ func AuthMiddleware(c *fiber.Ctx) error {
 }
 
 func TestAuthMiddleware(c *fiber.Ctx) error {
-	c.Locals("userID", testdata.GetUsers()[0].ID.Hex())
+	c.Locals("userID", testdata.GetUsers()[0].ID)
 	return c.Next()
 }

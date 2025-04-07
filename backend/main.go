@@ -7,10 +7,9 @@ import (
 	"time"
 
 	"github.com/Slowers-team/Slowers-App/application"
-	"github.com/Slowers-team/Slowers-App/database"
-	psqldatabase "github.com/Slowers-team/Slowers-App/database/psql"
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
+	"github.com/Slowers-team/Slowers-App/databases/sql"
 	"github.com/Slowers-team/Slowers-App/handlers"
-	psqlHandlers "github.com/Slowers-team/Slowers-App/handlersPsql"
 	"github.com/cloudinary/cloudinary-go"
 )
 
@@ -35,13 +34,38 @@ func main() {
 
 	cld.Config.URL.Secure = true
 
-	db := database.NewMongoDatabase(databaseURI)
+	mongoDb := mongo.NewMongoDatabase(databaseURI)
 	if env == "test" {
-		if err := db.Connect("SlowersTest"); err != nil {
+		if err := mongoDb.Connect("SlowersTest"); err != nil {
 			log.Fatal(err)
 		}
 	} else {
-		if err := db.Connect("Slowers"); err != nil {
+		if err := mongoDb.Connect("Slowers"); err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	sqlDb := sql.NewSQLDatabase(SQLDatabaseURI)
+	if env == "test" {
+		err := sqlDb.Connect("slowerstest", false, prodEnv)
+		if err != nil && strings.Contains(err.Error(), "failed to connect to") {
+			// Try connecting again with 10 second cooldown to give time for database creation
+			time.Sleep(10 * time.Second)
+			if err = sqlDb.Connect("slowerstest", false, prodEnv); err != nil {
+				log.Fatal(err)
+			}
+		} else if err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		err := sqlDb.Connect("slowers", false, prodEnv)
+		if err != nil && strings.Contains(err.Error(), "failed to connect to") {
+			// Try connecting again with 10 second cooldown to give time for database creation
+			time.Sleep(10 * time.Second)
+			if err = sqlDb.Connect("slowers", false, prodEnv); err != nil {
+				log.Fatal(err)
+			}
+		} else if err != nil {
 			log.Fatal(err)
 		}
 	}
@@ -49,39 +73,8 @@ func main() {
 	application.SetSecretKey(secretKey)
 	application.SetEnv(env)
 	handlers.SetSecretKey(secretKey)
-	handlers.SetDatabase(db)
+	handlers.SetDatabases(mongoDb, sqlDb)
 	handlers.SetCloudinary(cld)
-
-	var sqldb *psqldatabase.SQLDatabase
-	if useSQL {
-		sqldb := psqldatabase.NewSQLDatabase(SQLDatabaseURI)
-		if env == "test" {
-			err := sqldb.Connect("slowerstest", false, prodEnv)
-			if err != nil && strings.Contains(err.Error(), "failed to connect to") {
-				// Try connecting again with 10 second cooldown to give time for database creation
-				time.Sleep(10 * time.Second)
-				if err = sqldb.Connect("slowerstest", false, prodEnv); err != nil {
-					log.Fatal(err)
-				}
-			} else if err != nil {
-				log.Fatal(err)
-			}
-		} else {
-			err := sqldb.Connect("slowers", false, prodEnv)
-			if err != nil && strings.Contains(err.Error(), "failed to connect to") {
-				// Try connecting again with 10 second cooldown to give time for database creation
-				time.Sleep(10 * time.Second)
-				if err = sqldb.Connect("slowers", false, prodEnv); err != nil {
-					log.Fatal(err)
-				}
-			} else if err != nil {
-				log.Fatal(err)
-			}
-		}
-
-		psqlHandlers.SetSecretKey(secretKey) //TODO: Check if needed
-		psqlHandlers.SetDatabase(*sqldb)
-	}
 
 	app := application.SetupAndSetAuthTo(true, useSQL)
 
@@ -110,16 +103,16 @@ func main() {
 
 	appErr := app.Listen("0.0.0.0:" + port)
 
-	dbErr := db.Disconnect()
+	mongoDbErr := mongoDb.Disconnect()
+	sqlDbErr := sqlDb.Disconnect()
 
 	if appErr != nil {
 		log.Fatal(appErr)
 	}
-	if dbErr != nil {
-		log.Fatal(dbErr)
+	if mongoDbErr != nil {
+		log.Fatal(mongoDbErr)
 	}
-
-	if useSQL {
-		sqldb.Disconnect()
+	if sqlDbErr != nil {
+		log.Fatal(sqlDbErr)
 	}
 }

@@ -1,11 +1,9 @@
-package testdataPsql
+package testdata
 
-import (
-	database "github.com/Slowers-team/Slowers-App/database/psql"
-)
+import "github.com/Slowers-team/Slowers-App/databases/sql"
 
-func GetBusinesses() []database.Business {
-	return []database.Business{
+func GetBusinesses() []sql.Business {
+	return []sql.Business{
 		{
 			ID:             1,
 			BusinessName:   "Test Business",

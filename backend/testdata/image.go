@@ -3,40 +3,40 @@ package testdata
 import (
 	"log"
 
-	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
 )
 
-func GetImages() []database.Image {
+func GetImages() []mongo.Image {
 	imageIDStrs := []string{
 		"671a48439de32ca350317e26",
 		"671a4b659de32ca350317e27",
 	}
-	imageIDs := []database.ObjectID{}
+	imageIDs := []mongo.ObjectID{}
 
 	for _, idStr := range imageIDStrs {
-		curImageID, err := database.ParseID(idStr)
+		curImageID, err := mongo.ParseID(idStr)
 		if err != nil {
 			log.Fatal(err)
 		}
 		imageIDs = append(imageIDs, curImageID)
 	}
 
-	flowerID, err := database.ParseID("842af389e234e768923475bc")
+	flowerID, err := mongo.ParseID("842af389e234e768923475bc")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	siteID, err := database.ParseID("66f5027d6430d371f8636c3c")
+	siteID, err := mongo.ParseID("66f5027d6430d371f8636c3c")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	ownerID, err := database.ParseID("66fd465c0011335cd891aea7")
+	ownerID, err := mongo.ParseID("66fd465c0011335cd891aea7")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	return []database.Image{
+	return []mongo.Image{
 		{
 			ID:         imageIDs[0],
 			FileFormat: "jpg",
@@ -54,7 +54,7 @@ func GetImages() []database.Image {
 	}
 }
 
-func PrepareImageForAdding(image database.Image) database.Image {
-	image.ID = database.NilObjectID
+func PrepareImageForAdding(image mongo.Image) mongo.Image {
+	image.ID = mongo.NilObjectID
 	return image
 }

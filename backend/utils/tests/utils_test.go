@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
 	"github.com/Slowers-team/Slowers-App/utils"
 )
 
@@ -177,14 +177,14 @@ func TestIsPhoneNumberValidWithPhoneNumberWithLetters(t *testing.T) {
 }
 
 func TestImageIsValidWhenNoteIsNotEmpty(t *testing.T) {
-	var image database.Image
+	var image mongo.Image
 	image.Note = "Important note"
 	result := utils.ImageNoteIsNotEmpty(image)
 	assert.True(t, result)
 }
 
 func TestImageIsNotValidWhenNoteIsEmpty(t *testing.T) {
-	var image database.Image
+	var image mongo.Image
 	image.Note = ""
 	result := utils.ImageNoteIsNotEmpty(image)
 	assert.False(t, result)
@@ -212,14 +212,14 @@ func TestWrongImageTypeReturnsError(t *testing.T) {
 }
 
 func TestCorrectSizeImageIsValid(t *testing.T) {
-	var size int64 =1280
+	var size int64 = 1280
 	result := utils.ImageIsNotTooLarge(size)
 	assert.True(t, result)
 
 }
 
 func TestTooLargeImageIsNotValid(t *testing.T) {
-	var size int64 =999999999999
+	var size int64 = 999999999999
 	result := utils.ImageIsNotTooLarge(size)
 	assert.False(t, result)
 }
@@ -227,17 +227,17 @@ func TestTooLargeImageIsNotValid(t *testing.T) {
 func TestCorrectSizeImageIsLargerThanZero(t *testing.T) {
 	var size int64 = 1280
 	result := utils.ImageIsLargerThanZero(size)
-	assert.True(t,result)
+	assert.True(t, result)
 }
 
 func TestZeroSizeImageIsNotValid(t *testing.T) {
 	var size int64 = 0
 	result := utils.ImageIsLargerThanZero(size)
-	assert.False(t,result)
+	assert.False(t, result)
 }
 
 func TestNegativeSizeImageIsNotValid(t *testing.T) {
 	var size int64 = -100
 	result := utils.ImageIsLargerThanZero(size)
-	assert.False(t,result)
+	assert.False(t, result)
 }

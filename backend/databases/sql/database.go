@@ -1,4 +1,4 @@
-package database
+package sql
 
 import (
 	"context"
@@ -22,6 +22,7 @@ type Database interface {
 	// 	SetUserRole(ctx context.Context, userID ObjectID, role string) error
 
 	CreateBusiness(ctx context.Context, newBusiness Business) (*Business, error)
+	GetBusinessByUserID(ctx context.Context, userID int) (*Business, error)
 
 	AddMembership(ctx context.Context, newMembership Membership) (*Membership, error)
 	GetMembershipByUserId(ctx context.Context, userID int) (*Membership, error)

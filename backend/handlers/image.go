@@ -8,12 +8,12 @@ import (
 	"log"
 	"strings"
 
-	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
 	"github.com/Slowers-team/Slowers-App/utils"
 	"github.com/cloudinary/cloudinary-go/api/admin"
 	"github.com/cloudinary/cloudinary-go/api/uploader"
 	"github.com/gofiber/fiber/v2"
-	"go.mongodb.org/mongo-driver/mongo"
+	mongoDriver "go.mongodb.org/mongo-driver/mongo"
 )
 
 func UploadImage(c *fiber.Ctx) error {
@@ -22,7 +22,7 @@ func UploadImage(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	image := new(database.Image)
+	image := new(mongo.Image)
 	if err := c.BodyParser(image); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
@@ -60,9 +60,9 @@ func UploadImage(c *fiber.Ctx) error {
 	// 	}
 	// }
 
-	newImage := database.Image{FileFormat: fileext, Note: image.Note, Entity: image.Entity, Owner: userID}
+	newImage := mongo.Image{FileFormat: fileext, Note: image.Note, Entity: image.Entity, Owner: userID}
 
-	createdImage, err := db.AddImage(c.Context(), newImage)
+	createdImage, err := MongoDb.AddImage(c.Context(), newImage)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
@@ -121,15 +121,15 @@ func UploadImage(c *fiber.Ctx) error {
 }
 
 func GetImageByID(c *fiber.Ctx) error {
-	imageID, err := database.ParseID(c.Params("id"))
+	imageID, err := mongo.ParseID(c.Params("id"))
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
 	log.Println("got ID:", imageID.Hex())
-	image, err := db.GetImageByID(c.Context(), imageID)
+	image, err := MongoDb.GetImageByID(c.Context(), imageID)
 	log.Println(imageID, " -> ", image, err)
 	if err != nil {
-		if errors.Is(err, mongo.ErrNoDocuments) {
+		if errors.Is(err, mongoDriver.ErrNoDocuments) {
 			return c.SendStatus(404)
 		}
 		return c.Status(500).SendString(err.Error())
@@ -172,14 +172,14 @@ func DownloadImage(c *fiber.Ctx) error {
 }
 
 func DeleteImage(c *fiber.Ctx) error {
-	id, err := database.ParseID(c.Params("id"))
+	id, err := mongo.ParseID(c.Params("id"))
 	log.Printf("Received ID for deletion: %s", id)
 
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString("Invalid image ID format")
 	}
 
-	deletedImage, err := db.DeleteImage(c.Context(), id)
+	deletedImage, err := MongoDb.DeleteImage(c.Context(), id)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
@@ -231,7 +231,7 @@ func DeleteImage(c *fiber.Ctx) error {
 func FetchImagesByEntity(c *fiber.Ctx) error {
 	entityID := c.Params("entityID")
 
-	images, err := db.GetImagesByEntity(c.Context(), entityID)
+	images, err := MongoDb.GetImagesByEntity(c.Context(), entityID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
@@ -251,7 +251,7 @@ func SetFavorite(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	EntityID, err := database.ParseID(formData.EntityID)
+	EntityID, err := mongo.ParseID(formData.EntityID)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid entity ID format: %v", formData.EntityID))
 	}
@@ -266,7 +266,7 @@ func SetFavorite(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid EntityType: %v", formData.EntityType))
 	}
 
-	ImageID, err := database.ParseID(formData.ImageID)
+	ImageID, err := mongo.ParseID(formData.ImageID)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid image ID format: %v", formData.ImageID))
 	}
@@ -276,7 +276,7 @@ func SetFavorite(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).SendString("Could not get current user")
 	}
 
-	err = db.SetFavoriteImage(c.Context(), UserID, EntityID, ImageID, Collection)
+	err = MongoDb.SetFavoriteImage(c.Context(), UserID, EntityID, ImageID, Collection)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
@@ -295,7 +295,7 @@ func ClearFavorite(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	EntityID, err := database.ParseID(formData.EntityID)
+	EntityID, err := mongo.ParseID(formData.EntityID)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid entity ID format: %v", formData.EntityID))
 	}
@@ -315,7 +315,7 @@ func ClearFavorite(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).SendString("Could not get current user")
 	}
 
-	err = db.ClearFavoriteImage(c.Context(), UserID, EntityID, Collection)
+	err = MongoDb.ClearFavoriteImage(c.Context(), UserID, EntityID, Collection)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}

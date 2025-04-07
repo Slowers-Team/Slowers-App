@@ -1,24 +1,24 @@
-package handlersPsql
+package handlers
 
 import (
 	"fmt"
 	"strconv"
 
-	database "github.com/Slowers-team/Slowers-App/database/psql"
+	"github.com/Slowers-team/Slowers-App/databases/sql"
 
 	"github.com/gofiber/fiber/v2"
 )
 
-func AddMembership(c *fiber.Ctx, membership *database.Membership) error {
+func AddMembership(c *fiber.Ctx, membership *sql.Membership) error {
 	if membership == nil {
-		membership = new(database.Membership)
+		membership = new(sql.Membership)
 
 		if err := c.BodyParser(membership); err != nil {
 			return c.Status(400).SendString(err.Error())
 		}
 	}
 
-	_, err := db.AddMembership(c.Context(), *membership)
+	_, err := sqlDb.AddMembership(c.Context(), *membership)
 	if err != nil {
 		fmt.Println("Jäsenyyden lisääminen epäonnistui")
 		return c.Status(500).SendString(err.Error())
@@ -41,7 +41,7 @@ func GetDesignation(c *fiber.Ctx) error {
 	}
 	fmt.Println("USERID", userID)
 
-	result, err := db.GetMembershipByUserId(c.Context(), userID)
+	result, err := sqlDb.GetMembershipByUserId(c.Context(), userID)
 
 	if err != nil {
 		return c.JSON(err)
