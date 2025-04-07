@@ -3,6 +3,7 @@ package tests
 import (
 	"context"
 	"log"
+	"strconv"
 	"testing"
 	"time"
 
@@ -79,7 +80,7 @@ func (s *DbSiteTestSuite) TestAddAndGetRootSites() {
 	site := s.Site
 	siteToAdd := testdata.PrepareSiteForAdding(site)
 	addedSite, _ := s.MongoDb.AddSite(context.Background(), siteToAdd)
-	fetchedSites, err := s.MongoDb.GetRootSites(context.Background(), s.User.ID)
+	fetchedSites, err := s.MongoDb.GetRootSites(context.Background(), strconv.Itoa(s.User.ID))
 
 	s.Require().NoError(
 		err,
