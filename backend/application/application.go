@@ -21,21 +21,13 @@ func SetEnv(newEnv string) {
 	Env = newEnv
 }
 
-func SetupAndSetAuthTo(isAuthOn bool, useSQL bool) *fiber.App {
+func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app := fiber.New()
 
 	app.Get("/api/healthcheck", handlers.HealthCheck)
+	app.Post("/api/register", handlers.CreateUser)
+	app.Post("/api/login", handlers.HandleLogin)
 
-	if useSQL {
-		app.Post("/api/register", handlers.CreateUser)
-	} else {
-		app.Post("/api/register", handlers.CreateUser)
-	}
-	if useSQL {
-		app.Post("/api/login", handlers.HandleLogin)
-	} else {
-		app.Post("/api/login", handlers.HandleLogin)
-	}
 	if Env == "test" {
 		app.Get("/api/reset", handlers.ResetDatabase)
 	}
@@ -62,11 +54,7 @@ func SetupAndSetAuthTo(isAuthOn bool, useSQL bool) *fiber.App {
 	api.Delete("/sites/:id", handlers.DeleteSite)
 	api.Get("/sites/:id/flowers", handlers.GetSiteFlowers)
 
-	if useSQL {
-		api.Get("/user", handlers.GetUser)
-	} else {
-		api.Get("/user", handlers.GetUser)
-	}
+	api.Get("/user", handlers.GetUser)
 
 	api.Get("/user/designation", handlers.GetDesignation)
 

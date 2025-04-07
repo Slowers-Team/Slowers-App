@@ -14,11 +14,7 @@ import (
 )
 
 func main() {
-	secretKey, databaseURI, port, env, envUseSQL, SQLDatabaseURI, envProdEnv := GetEnvironmentVariables()
-	useSQL, err := strconv.ParseBool(envUseSQL)
-	if err != nil {
-		log.Fatal(err)
-	}
+	secretKey, databaseURI, port, env, SQLDatabaseURI, envProdEnv := GetEnvironmentVariables()
 
 	prodEnv, err := strconv.ParseBool(envProdEnv)
 	if err != nil {
@@ -76,7 +72,7 @@ func main() {
 	handlers.SetDatabases(mongoDb, sqlDb)
 	handlers.SetCloudinary(cld)
 
-	app := application.SetupAndSetAuthTo(true, useSQL)
+	app := application.SetupAndSetAuthTo(true)
 
 	ticker := time.NewTicker(24 * time.Hour)
 	if time.Now().Hour() == 0 {
