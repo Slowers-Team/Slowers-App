@@ -73,6 +73,23 @@ func (pDb SQLDatabase) GetMembershipByUserId(ctx context.Context, userID int) (*
 	return membership, nil
 }
 
+func (pDd SQLDatabase) DeleteMembership(ctx context.Context,user_email string, business_id int) error {
+	query := `
+	DELETE FROM Memberships 
+	WHERE user_email = $1
+	AND business_id = $2
+	`
+
+	_,err := pDd.pool.Exec(ctx, query, user_email, business_id)
+	
+	if err != nil {
+		fmt.Println(err.Error())
+		return err
+	}
+	return nil
+
+}
+
 // func (pDb SQLDatabase) GetDesignationByEmail(ctx context.Context, userEmail string) (*Membership, error) {
 // 	membership := new(Membership)
 // 	query := `
