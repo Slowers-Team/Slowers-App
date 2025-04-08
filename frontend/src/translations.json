@@ -26,7 +26,8 @@
         "modify": "Edit",
         "createbusiness": "Create business",
         "grower": "Grower",
-        "retailer": "Retailer"
+        "retailer": "Retailer",
+        "deletemember": "Delete member"
       },
       "error": {
         "acceptterms": "You must accept the terms",
@@ -216,7 +217,8 @@
         "modify": "Muokkaa",
         "createbusiness": "Luo yritys",
         "grower": "Kasvattaja",
-        "retailer": "Jälleenmyyjä"
+        "retailer": "Jälleenmyyjä",
+        "deletemember": "Poista jäsen"
       },
       "error": {
         "acceptterms": "Käyttöehdot on hyväksyttävä",
@@ -406,7 +408,8 @@
         "modify": "Redigera",
         "createbusiness": "Skapa företaget",
         "grower": "Odlare",
-        "retailer": "Återförsäljare"
+        "retailer": "Återförsäljare",
+        "deletemember": "Ta bort medlem"
       },
       "error": {
         "acceptterms": "Du måste acceptera villkor",

@@ -33,6 +33,15 @@ const addMembership = (membership) => {
   return axios.post(url, membership, config).then(response => response.data)
 }
 
+const deleteMembership = (membership) => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken(),
+    'Content-Type': 'application/json'},
+    data: membership
+  }
+  const url = '/api/membership'
+  return axios.delete(url, config).then(response => response.data)
+}
 
 const getAllMembers = (businessID) => {
   const config = {
@@ -53,5 +62,6 @@ export default {
   create,
   get,
   addMembership,
+  deleteMembership,
   getAllMembers,
 };
