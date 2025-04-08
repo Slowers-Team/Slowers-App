@@ -48,10 +48,20 @@ const getAllMembers = (businessID) => {
     throw error;
   });
 }
+// businessService.editMember({user_email, business_id, newdesignation})
+const editMember = (member) => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken(),
+    'Content-Type': 'application/json'},
+  }
+  const url = '/api/membership/edit'
+  return axios.post(url, member, config).then(response => response.data)
+}
 
 export default {
   create,
   get,
   addMembership,
   getAllMembers,
+  editMember,
 };
