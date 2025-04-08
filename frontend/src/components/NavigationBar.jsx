@@ -144,15 +144,15 @@ export const NavigationBar = () => {
                 {t("menu.grower")}
               </Nav.Link>
             )}
-            {isLoggedIn && ( role === 'growerowner' || role === 'retailerowner' || designation === 'owner' || designation === 'employee' ) && (
+            {isLoggedIn && ( role === 'growerowner' || role === 'retailerowner' || designation ) && (
               <Nav.Link
                 className="text-secondary"
                 as={Link}
-                to="/businesspage"
+                to="/business"
                 onClick={handleClose}
               >
                 <i className="bi bi-shop-window"> </i>
-                {t("menu.businesspage")}
+                {t("menu.business")}
               </Nav.Link>
             )}
             <Nav.Link
