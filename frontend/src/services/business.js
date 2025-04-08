@@ -29,8 +29,8 @@ const addMembership = (membership) => {
     headers: { Authorization: tokenService.fetchToken(),
     'Content-Type': 'application/json'},
   }
-  const url = '/api/membership'
-  return axios.post(url, membership, config).then(response => response.data)
+  const url = "/api/membership"
+  return axios.post(url, membership, config).then(response => response.data);
 }
 
 
@@ -38,13 +38,12 @@ const getAllMembers = (businessID) => {
   const config = {
     headers: { Authorization: tokenService.fetchToken(),
     'Content-Type': 'application/json'},
+    responseType: 'json'
+
   }
-  const url = 'api/membership'
-  return axios.get(url, businessID, config).then(response => {
-    response.data
-  })
-  .catch(error => {
-    console.error('Error fetching business members:', error);
+  const url = `/api/membership/${businessID}`
+  return axios.get(url, config).then(response => {response.data}).catch(error => {
+    console.error('Error fetching members:', error);
     throw error;
   });
 }

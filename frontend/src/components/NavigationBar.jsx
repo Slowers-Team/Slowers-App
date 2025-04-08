@@ -13,7 +13,6 @@ export const NavigationBar = () => {
   const { isLoggedIn, username } = useLoaderData();
   const role = Authenticator.role
   const designation = Authenticator.designation
-  console.log(designation)
   const fetcher = useFetcher();
 
   const handleClose = () => setShowOffCanvas(false);

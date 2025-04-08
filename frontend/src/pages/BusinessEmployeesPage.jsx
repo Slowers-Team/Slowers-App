@@ -11,8 +11,18 @@ const BusinessEmployeesPage = () => {
   //const [errorMessage, setErrorMessage] = useState("")
 
   useEffect(() => {
-    businessService.getAllMembers().then((employees) => setEmployees(employees))
+    const employeeGetter = async () => {
+      const business = await businessService.get();
+      console.log(business.ID)
+      const employeeList = await businessService.getAllMembers(business.ID);
+      console.log(employeeList);
+      setEmployees(employeeList);
+    };
+
+    employeeGetter();
   }, []);
+  
+
 
   return (
     <div className="m-3">

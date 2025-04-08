@@ -57,17 +57,17 @@ func GetDesignation(c *fiber.Ctx) error {
 }
 
 func GetAllMembersInBusiness(c *fiber.Ctx) error {
-	var businessID int
-
-	if err := c.BodyParser(businessID); err != nil {
-		return c.Status(400).SendString(err.Error())
-	}
-
-	result, err := db.GetAllMembersInBusiness(c.Context(), businessID)
-
+	businessID, err := strconv.Atoi(c.Params("businessID"))
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
+	fmt.Println("HELLO")
+	fmt.Println("BUSINESS ID;", businessID)
+	result, err := db.GetAllMembersInBusiness(c.Context(), businessID)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	fmt.Println(result)
 
 	return c.JSON(result)
 }
