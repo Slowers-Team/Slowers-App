@@ -10,17 +10,24 @@ import (
 )
 
 func AddMembership(c *fiber.Ctx, membership *database.Membership) error {
-	if membership == nil {
-		membership = new(database.Membership)
-
-		if err := c.BodyParser(membership); err != nil {
-			return c.Status(400).SendString(err.Error())
-		}
-	}
-
 	_, err := db.AddMembership(c.Context(), *membership)
 	if err != nil {
 		fmt.Println("Jäsenyyden lisääminen epäonnistui")
+		return c.Status(500).SendString(err.Error())
+	}
+
+	return c.SendStatus(204)
+}
+
+func AddMembershipHelper(c *fiber.Ctx) error {
+	membership := new(database.Membership)
+
+	if err := c.BodyParser(membership); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	if err := AddMembership(c, membership); err != nil {
+		fmt.Println("Jäsenen lisäys epäonnistui")
 		return c.Status(500).SendString(err.Error())
 	}
 

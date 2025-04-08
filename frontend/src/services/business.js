@@ -19,9 +19,19 @@ const get = () => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
   };
-  const url = "/api/business";
-  return axios.get(url, config).then((response) => response.data);
+  return axios.get(baseUrl, config).then((response) => response.data);
 };
+
+// kun kutsutaan tätä:
+// businessService.addMembership({user_email, business_id, designation, business_name})
+const addMembership = (membership) => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken(),
+    'Content-Type': 'application/json'},
+  }
+  const url = '/api/membership'
+  return axios.post(url, membership, config).then(response => response.data)
+}
 
 export default {
   create,

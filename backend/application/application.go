@@ -73,6 +73,8 @@ func SetupAndSetAuthTo(isAuthOn bool, useSQL bool) *fiber.App {
 
 	api.Get("/user/designation", handlersPsql.GetDesignation)
 
+	api.Post("/membership", handlersPsql.AddMembershipHelper)
+
 	api.Post("/business", handlersPsql.CreateBusiness)
 	api.Get("/business", handlersPsql.GetBusiness)
 
