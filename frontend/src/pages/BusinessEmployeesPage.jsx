@@ -10,9 +10,9 @@ const BusinessEmployeesPage = () => {
   const { t, i18n } = useTranslation()
   //const [errorMessage, setErrorMessage] = useState("")
 
-//   useEffect(() => {
-//     businessService.get().then((business) => setEmployees(business))
-//   }, []);
+  useEffect(() => {
+    businessService.getAllMembers().then((employees) => setEmployees(employees))
+  }, []);
 
   return (
     <div className="m-3">
