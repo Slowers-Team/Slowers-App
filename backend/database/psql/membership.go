@@ -112,3 +112,40 @@ func (pDd SQLDatabase) DeleteMembership(ctx context.Context,user_email string, b
 
 // 	return membership, nil
 // }
+
+func (pDb SQLDatabase) GetAllMembersInBusiness(ctx context.Context, businessID int) ([]Membership, error) {
+	query := `
+	SELECT
+		user_email,
+		designation
+	FROM
+		Memberships
+	WHERE
+		business_id=$1`
+
+	rows, err := pDb.pool.Query(ctx, query, businessID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var memberships []Membership
+
+	for rows.Next() {
+		var member Membership
+		err := rows.Scan(
+			&member.UserEmail,
+			&member.Designation,
+		)
+		if err != nil {
+			return nil, err
+		}
+		memberships = append(memberships, member)
+	}
+
+	if rows.Err() != nil {
+		return nil, rows.Err()
+	}
+
+	return memberships, nil
+}
