@@ -10,10 +10,15 @@ const tabBar = () => {
     return (
       <div className='tab-bar'>
         <div>
-          <Nav variant='tabs' defaultActiveKey="/businesspage">
+          <Nav variant='tabs' defaultActiveKey="/business">
             <Nav.Item>
-              <Nav.Link className="menu-tab" as={NavLink} end to="/businesspage"> 
-                {t('menu.businesspage')}
+              <Nav.Link className="menu-tab" as={NavLink} end to="/business">
+                {t('menu.business')}
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link className="menu-tab" as={NavLink} end to="/business/employees">
+                {t('menu.employees')}
               </Nav.Link>
             </Nav.Item>
           </Nav>
