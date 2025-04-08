@@ -3,15 +3,22 @@ import { useTranslation } from "react-i18next"
 import businessService from "../services/business"
 
 const AddEmployeeForm = () => {
+  const { t, i18n } = useTranslation()
   const [ email, setEmail] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   const addEmployee = async (event) => {
-    event.preventDefault()
-    const designation = "employee"
-    const business = await businessService.get()
-    console.log(business.ID)
-    const business_id = business.ID
-    businessService.addMembership({email, business_id, designation})
+    try {
+      event.preventDefault()
+      const designation = "employee"
+      const business = await businessService.get()
+      const business_id = business.ID
+      console.log(business_id)
+      console.log(email)
+      await businessService.addMembership({"UserEmail": email, "BusinessID": business_id, "Designation": designation})
+    } catch (error) {
+        setErrorMessage(t('error.errocurred'))
+    }
   }
 
   return (
