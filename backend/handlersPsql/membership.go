@@ -10,18 +10,6 @@ import (
 )
 
 func AddMembership(c *fiber.Ctx, membership *database.Membership) error {
-	// onko tää turha??
-	// koska aina kutsutaan jostain toisesta funktiosta, jossa
-	// annetaan membership, eli ei pitäis joutuu BodyParseroimaan
-	if membership == nil {
-		membership = new(database.Membership)
-
-		if err := c.BodyParser(membership); err != nil {
-			return c.Status(400).SendString(err.Error())
-		}
-	}
-	// tähän asti ???
-
 	_, err := db.AddMembership(c.Context(), *membership)
 	if err != nil {
 		fmt.Println("Jäsenyyden lisääminen epäonnistui")
@@ -37,7 +25,6 @@ func AddMembershipHelper(c *fiber.Ctx) error {
 	if err := c.BodyParser(membership); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
-	fmt.Println(membership)
 
 	if err := AddMembership(c, membership); err != nil {
 		fmt.Println("Jäsenen lisäys epäonnistui")
