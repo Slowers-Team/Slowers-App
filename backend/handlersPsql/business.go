@@ -108,10 +108,9 @@ func CreateBusiness(c *fiber.Ctx) error {
 	}
 
 	newMember := &database.Membership{
-		UserEmail:    userEmail.UserEmail,
-		BusinessID:   createdBusiness.ID,
-		Designation:  designation.String(),
-		BusinessName: business.BusinessName,
+		UserEmail:   userEmail.UserEmail,
+		BusinessID:  createdBusiness.ID,
+		Designation: designation.String(),
 	}
 
 	if err := AddMembership(c, newMember); err != nil {

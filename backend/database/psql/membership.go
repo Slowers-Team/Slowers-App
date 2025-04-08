@@ -12,7 +12,6 @@ type Membership struct {
 	UserEmail    string
 	BusinessID   int
 	Designation  string
-	BusinessName string
 }
 
 func (pDb SQLDatabase) AddMembership(ctx context.Context, newMembership Membership) (*Membership, error) {
@@ -73,15 +72,15 @@ func (pDb SQLDatabase) GetMembershipByUserId(ctx context.Context, userID int) (*
 	return membership, nil
 }
 
-func (pDd SQLDatabase) DeleteMembership(ctx context.Context,user_email string, business_id int) error {
+func (pDd SQLDatabase) DeleteMembership(ctx context.Context, user_email string, business_id int) error {
 	query := `
 	DELETE FROM Memberships 
 	WHERE user_email = $1
 	AND business_id = $2
 	`
 
-	_,err := pDd.pool.Exec(ctx, query, user_email, business_id)
-	
+	_, err := pDd.pool.Exec(ctx, query, user_email, business_id)
+
 	if err != nil {
 		fmt.Println(err.Error())
 		return err
