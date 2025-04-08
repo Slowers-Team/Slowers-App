@@ -49,9 +49,13 @@ func GetDesignation(c *fiber.Ctx) error {
 	return c.JSON(result)
 }
 
-func DeleteMembership(c *fiber.Ctx, user_email string, business_id int) error {
+func DeleteMembership(c *fiber.Ctx) error {
+	membership := new(database.Membership)
+	if err := c.BodyParser(membership); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
 
-	err := db.DeleteMembership(c.Context(), user_email, business_id)
+	err := db.DeleteMembership(c.Context(), membership.UserEmail, membership.BusinessID)
 	if err != nil {
 		fmt.Println("Failed deleting membership. Membership might not exist.")
 		return c.Status(500).SendString(err.Error())
