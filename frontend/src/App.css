@@ -35,6 +35,16 @@ td {
     padding: 1rem 2rem 0 0;
 }
 
+footer {
+	background-color: #dfe7de;
+	position:relative;
+	bottom: 0;
+	width: 100%;
+	min-height: 50px;
+	text-align: right;
+	padding: 1rem;
+}
+
 .nav-bar {
 	background-color: #B6C4B6;
 	background-image: linear-gradient(to bottom left, rgba(255,0,0,0), rgba(106, 121, 104, 0.425));

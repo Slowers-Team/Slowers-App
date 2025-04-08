@@ -31,6 +31,7 @@ import GrowerSitesPage from "./pages/GrowerSitesPage";
 import GrowerImagesPage from "./pages/GrowerImagesPage";
 import BusinessPage from "./pages/BusinessPage";
 import BusinessEmployeesPage from "./pages/BusinessEmployeesPage";
+import Footer from "./components/Footer";
 
 
 const Root = () => {
@@ -51,6 +52,7 @@ const Root = () => {
   return (
     <div>
       <NavigationBar />
+      <Footer />
     </div>
   );
 };
