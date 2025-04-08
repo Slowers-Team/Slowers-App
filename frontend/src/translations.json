@@ -83,7 +83,7 @@
       "menu": {
         "flowers": "Flowers",
         "grower": "Grower page",
-        "businesspage": "Business page",
+        "business": "Business",
         "home": "Home",
         "register": "Register",
         "retailer": "Retailer",
@@ -97,7 +97,8 @@
         "lifecycle": "Life cycle",
         "sites": "Sites",
         "images": "Images",
-        "marketplace": "Marketplace"
+        "marketplace": "Marketplace",
+        "employees": "Employees"
       },
       "role": {
         "grower": "Grower",
@@ -272,7 +273,7 @@
       "menu": {
         "flowers": "Kukat",
         "grower": "Kasvattajan sivu",
-        "businesspage": "Yrityssivut",
+        "business": "Yritys",
         "home": "Kotisivu",
         "register": "Rekisteröidy",
         "retailer": "Jälleenmyyjä",
@@ -286,7 +287,8 @@
         "lifecycle": "Elinkaari",
         "sites": "Alueet",
         "images": "Kuvat",
-        "marketplace": "Tori"
+        "marketplace": "Tori",
+        "employees": "Työntekijät"
       },
       "role": {
         "grower": "Kasvattaja",
@@ -461,7 +463,7 @@
       "menu": {
         "flowers": "Blommor",
         "grower": "Odlare",
-        "businesspage": "Företagssida",
+        "business": "Företag",
         "home": "Hem",
         "register": "Skriva in",
         "retailer": "Återförsäljare",
@@ -475,7 +477,8 @@
         "lifecycle": "Livscykel",
         "sites": "Sidot",
         "images": "Bilder",
-        "marketplace": "Marknadsplats"
+        "marketplace": "Marknadsplats",
+        "employees": "Anställda"
       },
       "role": {
         "grower": "Odlare",
