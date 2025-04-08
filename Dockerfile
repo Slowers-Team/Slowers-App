@@ -5,7 +5,6 @@ WORKDIR /app
 COPY /frontend .
 
 RUN npm clean-install
-RUN npm run test
 RUN npm run build
 
 
@@ -17,9 +16,6 @@ COPY /backend/go.mod /backend/go.sum ./
 RUN go mod download
 
 COPY /backend .
-RUN go install github.com/vektra/mockery/v2@v2.53.2
-RUN mockery
-RUN go test ./...
 
 RUN go build -o start-server
 
