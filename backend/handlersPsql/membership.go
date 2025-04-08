@@ -70,6 +70,7 @@ func GetAllMembersInBusiness(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(result)
+}
 
 func DeleteMembership(c *fiber.Ctx) error {
 	membership := new(database.Membership)
