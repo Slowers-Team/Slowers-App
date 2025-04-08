@@ -25,6 +25,7 @@ type Database interface {
 
 	AddMembership(ctx context.Context, newMembership Membership) (*Membership, error)
 	GetMembershipByUserId(ctx context.Context, userID int) (*Membership, error)
+	GetAllMembersInBusiness(ctx context.Context, businessID int) ([]Membership, error)
 
 	// 	GetFlowers(ctx context.Context) ([]Flower, error)
 	// 	GetUserFlowers(ctx context.Context, userID ObjectID) ([]Flower, error)
