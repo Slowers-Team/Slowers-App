@@ -10,8 +10,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8081:5001
-    environment:
-      - USESQL=${USESQL:-false}
     env_file:
       - .env
     container_name: slowers-app

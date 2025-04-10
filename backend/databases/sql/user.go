@@ -1,8 +1,9 @@
-package database
+package sql
 
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	_ "github.com/lib/pq"
 )
@@ -65,17 +66,15 @@ func (pDb SQLDatabase) GetUserByEmail(ctx context.Context, email string) (*User,
 	return user, nil
 }
 
-// func (pDb SQLDatabase) SetUserRole(ctx context.Context, userID ObjectID, role string) error {
-// 	update := bson.M{"$set": bson.M{"role": role}}
-// 	_, err := db.Collection("users").UpdateByID(ctx, userID, update)
-
-// 	return err
-// }
-
-func (pDb SQLDatabase) GetUserByID(ctx context.Context, userID int) (*User, error) {
+func (pDb SQLDatabase) GetUserByID(ctx context.Context, userID string) (*User, error) {
 	user := new(User)
+	parsedUserID, err := strconv.Atoi(userID)
+	if err != nil {
+		return nil, err
+	}
+
 	query := `SELECT id, created_at::TEXT, last_modified::TEXT, last_login::TEXT, username, password, email, is_active, is_admin FROM users WHERE id=$1`
-	err := pDb.pool.QueryRow(ctx, query, userID).Scan(
+	err = pDb.pool.QueryRow(ctx, query, parsedUserID).Scan(
 		&user.ID,
 		&user.CreatedAt, &user.LastModified,
 		&user.LastLogin,

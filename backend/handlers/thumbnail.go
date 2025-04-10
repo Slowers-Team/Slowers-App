@@ -6,21 +6,21 @@ import (
 	"log"
 	"os"
 
-	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
 	"github.com/gofiber/fiber/v2"
-	"go.mongodb.org/mongo-driver/mongo"
+	mongoDriver "go.mongodb.org/mongo-driver/mongo"
 )
 
 func GetThumbnailByID(c *fiber.Ctx) error {
-	thumbnailID, err := database.ParseID(c.Params("id"))
+	thumbnailID, err := mongo.ParseID(c.Params("id"))
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
 	log.Println("got ID:", thumbnailID)
-	thumbnail, err := db.GetImageByID(c.Context(), thumbnailID)
+	thumbnail, err := MongoDb.GetImageByID(c.Context(), thumbnailID)
 	log.Println(thumbnailID, " -> ", thumbnail, err)
 	if err != nil {
-		if errors.Is(err, mongo.ErrNoDocuments) {
+		if errors.Is(err, mongoDriver.ErrNoDocuments) {
 			return c.SendStatus(404)
 		}
 		return c.Status(500).SendString(err.Error())

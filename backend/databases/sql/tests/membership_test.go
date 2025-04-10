@@ -1,6 +1,3 @@
-//go:build sql
-// +build sql
-
 package tests
 
 import (
@@ -11,29 +8,29 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	database "github.com/Slowers-team/Slowers-App/database/psql"
-	"github.com/Slowers-team/Slowers-App/testdataPsql"
+	"github.com/Slowers-team/Slowers-App/databases/sql"
+	"github.com/Slowers-team/Slowers-App/testdata"
 	"github.com/Slowers-team/Slowers-App/testutils"
 	"github.com/Slowers-team/Slowers-App/utils"
 )
 
 type DbMembershipTestSuite struct {
 	suite.Suite
-	Db             database.Database
-	TestUser       database.User
-	TestBusiness   database.Business
-	TestMembership database.Membership
+	SqlDb          sql.Database
+	TestUser       sql.User
+	TestBusiness   sql.Business
+	TestMembership sql.Membership
 }
 
 func (s *DbMembershipTestSuite) SetupSuite() {
-	s.Db = testutils.ConnectSQLDB()
-	s.Db.Clear()
-	s.TestUser = testdataPsql.GetUsers()[0]
+	s.SqlDb = testutils.ConnectSqlDB()
+	s.SqlDb.Clear()
+	s.TestUser = testdata.GetUsers()[0]
 }
 
-func (s *DbMembershipTestSuite) AddTestBusinessToDatabase() *database.Business { // TODO: this implementation is dependent on working business db logic
-	bus := testdataPsql.GetBusinesses()[0]
-	business := database.Business{
+func (s *DbMembershipTestSuite) AddTestBusinessToDatabase() *sql.Business {
+	bus := testdata.GetBusinesses()[0]
+	business := sql.Business{
 		BusinessName:   bus.BusinessName,
 		BusinessIdCode: bus.BusinessIdCode,
 		Type:           bus.Type,
@@ -45,7 +42,7 @@ func (s *DbMembershipTestSuite) AddTestBusinessToDatabase() *database.Business {
 		AdditionalInfo: bus.AdditionalInfo,
 		Delivery:       bus.Delivery,
 	}
-	newBusiness, err := s.Db.CreateBusiness(context.Background(), business)
+	newBusiness, err := s.SqlDb.CreateBusiness(context.Background(), business)
 
 	if err != nil {
 		fmt.Println("Error in test business creation: ", err) // TODO: Better error handling
@@ -54,16 +51,16 @@ func (s *DbMembershipTestSuite) AddTestBusinessToDatabase() *database.Business {
 	return newBusiness
 }
 
-func (s *DbMembershipTestSuite) AddTestUserToDatabase() { // TODO: this implementation is dependent on working business db logic
+func (s *DbMembershipTestSuite) AddTestUserToDatabase() {
 	hashedPassword, _ := utils.HashPassword(s.TestUser.Password)
-	user := database.User{
+	user := sql.User{
 		Username: s.TestUser.Username,
 		Email:    s.TestUser.Email,
 		Password: hashedPassword,
 		IsActive: s.TestUser.IsActive,
 		IsAdmin:  s.TestUser.IsAdmin,
 	}
-	_, err := s.Db.CreateUser(context.Background(), user)
+	_, err := s.SqlDb.CreateUser(context.Background(), user)
 	if err != nil {
 		fmt.Println("Error in test user creation") // TODO: Better error handling
 	}
@@ -75,12 +72,12 @@ func (s *DbMembershipTestSuite) SetupTest() {
 }
 
 func (s *DbMembershipTestSuite) TestAddMembership() {
-	membership := database.Membership{
+	membership := sql.Membership{
 		UserEmail:   s.TestUser.Email,
 		BusinessID:  s.TestBusiness.ID,
 		Designation: "owner",
 	}
-	newMembership, err := s.Db.AddMembership(context.Background(), membership)
+	newMembership, err := s.SqlDb.AddMembership(context.Background(), membership)
 
 	s.NoError(
 		err,
@@ -155,14 +152,14 @@ func (s *DbMembershipTestSuite) TestGetMembershipByUserId() {
 
 // Not used yet?
 // func (s *DbMembershipTestSuite) TestGetMembershipByUserEmailWorksWhenUserEmailHasNoUser() {
-// 	existingMembership := database.Membership{
+// 	existingMembership := sql.Membership{
 // 		UserEmail:   "nonexistent@email.com",
 // 		BusinessID:  s.TestBusiness.ID,
 // 		Designation: "owner",
 // 	}
-// 	_, err := s.Db.AddMembership(context.Background(), existingMembership)
+// 	_, err := s.SqlDb.AddMembership(context.Background(), existingMembership)
 
-// 	membership, err := s.Db.GetMembershipByUserId(context.Background(), 5)
+// 	membership, err := s.SqlDb.GetMembershipByUserEmail(context.Background(), "nonexistent@email.com")
 
 // 	s.NoError(
 // 		err,
@@ -190,11 +187,11 @@ func (s *DbMembershipTestSuite) TestGetMembershipByUserId() {
 // }
 
 func (s *DbMembershipTestSuite) TearDownTest() {
-	s.Db.Clear()
+	s.SqlDb.Clear()
 }
 
 func (s *DbMembershipTestSuite) TearDownSuite() {
-	testutils.DisconnectSQLDB(s.Db)
+	testutils.DisconnectSqlDB(s.SqlDb)
 }
 
 func TestDbMembershipTestSuite(t *testing.T) {
