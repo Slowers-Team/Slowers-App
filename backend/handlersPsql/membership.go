@@ -3,6 +3,7 @@ package handlersPsql
 import (
 	"fmt"
 	"strconv"
+	"strings"
 
 	database "github.com/Slowers-team/Slowers-App/database/psql"
 
@@ -54,6 +55,8 @@ func GetDesignation(c *fiber.Ctx) error {
 	if err != nil {
 		return c.JSON(err)
 	}
+	fmt.Println(result)
+	fmt.Println(c.JSON(result))
 	return c.JSON(result)
 }
 
@@ -68,9 +71,24 @@ func GetAllMembersInBusiness(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
-	fmt.Println(result)
 
-	return c.JSON(result)
+	var csvData []string
+	for _, membership := range result {
+		membershipCSV := fmt.Sprintf("%d,%s,%s,%s,%d,%s,%s",
+			membership.ID,
+			membership.CreatedAt,
+			membership.LastModified,
+			membership.UserEmail,
+			membership.BusinessID,
+			membership.Designation,
+		)
+		csvData = append(csvData, membershipCSV)
+	}
+	csvResponse := strings.Join(csvData, "\n")
+
+	fmt.Println(csvResponse)
+
+	return c.SendString(csvResponse)
 }
 
 func DeleteMembership(c *fiber.Ctx) error {
