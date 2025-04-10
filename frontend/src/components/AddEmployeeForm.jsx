@@ -23,26 +23,27 @@ const AddEmployeeForm = () => {
 
   return (
     <div>
-      <h2>Add employee</h2>
+      <h2>{t('title.addemployees')}</h2>
       <form onSubmit={addEmployee}>
         <table>
           <tbody>
             <tr>
               <td>
-                Email:
+                {t('user.data.email')}
               </td>
               <td>
                 <input
                   className="form-control"
                   type="email"
                   value={email}
-                  placeholder="Enter email"
+                  placeholder={t('user.input.email')}
+                  size="40"
                   onChange={event => setEmail(event.target.value)}
                   required
                 />
               </td>
               <td>
-                <button type="submit" className="custom-button">Add employee</button>
+                <button type="submit" className="custom-button">{t('button.addemployee')}</button>
               </td>
             </tr>
           </tbody>

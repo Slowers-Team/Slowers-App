@@ -26,7 +26,8 @@
         "modify": "Edit",
         "createbusiness": "Create business",
         "grower": "Grower",
-        "retailer": "Retailer"
+        "retailer": "Retailer",
+        "addemployee": "Add employee"
       },
       "error": {
         "acceptterms": "You must accept the terms",
@@ -130,6 +131,8 @@
         "siteimages": "images",
         "businesspage": "Business page",
         "createbusiness": "Create a business",
+        "employees": "Employees",
+        "addemployees": "Add employees",
         "welcome": "Welcome to Slowers",
         "marketplacehome": "Marketplace homepage",
         "retailerhome": "Retailer homepage",
@@ -216,7 +219,8 @@
         "modify": "Muokkaa",
         "createbusiness": "Luo yritys",
         "grower": "Kasvattaja",
-        "retailer": "Jälleenmyyjä"
+        "retailer": "Jälleenmyyjä",
+        "addemployee": "Lisää työntekijä"
       },
       "error": {
         "acceptterms": "Käyttöehdot on hyväksyttävä",
@@ -320,6 +324,8 @@
         "siteimages": "kuvat",
         "businesspage": "Yrityssivut",
         "createbusiness": "Luo yritys",
+        "employees": "Työntekijät",
+        "addemployees": "Lisää työntekijöitä",
         "welcome": "Tervetuloa Slowersiin",
         "marketplacehome": "Torin kotisivu",
         "retailerhome": "Jälleenmyyjän kotisivu",
@@ -406,7 +412,8 @@
         "modify": "Redigera",
         "createbusiness": "Skapa företaget",
         "grower": "Odlare",
-        "retailer": "Återförsäljare"
+        "retailer": "Återförsäljare",
+        "addemployee": "Lägg till anställd"
       },
       "error": {
         "acceptterms": "Du måste acceptera villkor",
@@ -510,6 +517,8 @@
         "siteimages": "bilder",
         "businesspage": "Företagssida",
         "createbusiness": "Skapa ett företag",
+        "employees": "Anställda",
+        "addemployees": "Lägg till anställda",
         "welcome": "Välkommen till Slowers",
         "marketplacehome": "Marknadsplatsens hemsida",
         "retailerhome": "Återförsäljarens hemsida",
