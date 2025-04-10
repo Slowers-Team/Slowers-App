@@ -33,7 +33,7 @@ func AddSite(c *fiber.Ctx) error {
 	}
 
 	newSite := mongo.Site{Name: site.Name, Note: site.Note, AddedTime: time.Now(),
-		Parent: site.Parent, Flowers: flowers, Owner: &userID}
+		Parent: site.Parent, Flowers: flowers, Owner: userID}
 
 	createdSite, err := MongoDb.AddSite(c.Context(), newSite)
 	if err != nil {

@@ -18,7 +18,7 @@ type Site struct {
 	Note          string      `json:"note"`
 	Parent        *ObjectID   `json:"parent"`
 	Flowers       []*ObjectID `json:"flowers"`
-	Owner         *string     `json:"owner"`
+	Owner         string      `json:"owner"`
 	FavoriteImage string      `json:"favorite_image" bson:"favorite_image"`
 }
 

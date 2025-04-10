@@ -222,7 +222,7 @@ func (s *DbImageTestSuite) TestClearFavoriteImageForSite() {
 
 	s.MongoDb.SetFavoriteImage(
 		context.Background(),
-		*site.Owner,
+		site.Owner,
 		addedSite.ID,
 		addedImage.ID,
 		"sites",
@@ -230,7 +230,7 @@ func (s *DbImageTestSuite) TestClearFavoriteImageForSite() {
 
 	err := s.MongoDb.ClearFavoriteImage(
 		context.Background(),
-		*site.Owner,
+		site.Owner,
 		addedSite.ID,
 		"sites",
 	)
@@ -242,7 +242,7 @@ func (s *DbImageTestSuite) TestClearFavoriteImageForSite() {
 
 	fetchedSites, _ := s.MongoDb.GetRootSites(
 		context.Background(),
-		*site.Owner,
+		site.Owner,
 	)
 
 	for _, fetchedSite := range fetchedSites {

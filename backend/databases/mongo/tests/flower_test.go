@@ -227,7 +227,7 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersRelatedToSite() {
 	s.MongoDb.AddFlowerToSite(context.Background(), addedSite2.ID, addedFlower2.ID)
 
 	fetchedFlowers, err := s.MongoDb.GetAllFlowersRelatedToSite(
-		context.Background(), addedSite.ID, *site.Owner,
+		context.Background(), addedSite.ID, site.Owner,
 	)
 
 	s.Require().NoError(

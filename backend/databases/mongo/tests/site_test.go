@@ -152,7 +152,7 @@ func (s *DbSiteTestSuite) TestAddAndGetSite() {
 	siteData["subsites"] = []bson.M{subSiteBson}
 
 	fetchedSiteData, err := s.MongoDb.GetSite(
-		context.Background(), addedSite.ID, *site.Owner,
+		context.Background(), addedSite.ID, site.Owner,
 	)
 
 	s.Require().NoError(
@@ -358,7 +358,7 @@ func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
 	s.MongoDb.AddFlowerToSite(context.Background(), addedSite2.ID, addedFlower2.ID)
 
 	deleteResult, err := s.MongoDb.DeleteSite(
-		context.Background(), addedSite.ID, *site.Owner,
+		context.Background(), addedSite.ID, site.Owner,
 	)
 
 	s.Require().NoError(
@@ -386,7 +386,7 @@ func (s *DbSiteTestSuite) TestAddAndDeleteSite() {
 		)
 	}
 
-	fetchedSites, _ := s.MongoDb.GetRootSites(context.Background(), *site.Owner)
+	fetchedSites, _ := s.MongoDb.GetRootSites(context.Background(), site.Owner)
 
 	oneRootSiteLeft := s.Len(
 		fetchedSites,

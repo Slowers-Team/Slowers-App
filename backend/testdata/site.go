@@ -2,6 +2,7 @@ package testdata
 
 import (
 	"log"
+	"strconv"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -15,7 +16,7 @@ func GetRootSites() []mongo.Site {
 		log.Fatal(err)
 	}
 	flowerID := GetFlowers()[0].ID
-	ownerID := string(GetUsers()[0].ID)
+	ownerID := strconv.Itoa(GetUsers()[0].ID)
 	return []mongo.Site{
 		{
 			ID:        siteID,
@@ -24,7 +25,7 @@ func GetRootSites() []mongo.Site {
 			Note:      "Just a note",
 			Parent:    nil,
 			Flowers:   []*mongo.ObjectID{&flowerID},
-			Owner:     &ownerID,
+			Owner:     ownerID,
 		},
 	}
 }
@@ -44,7 +45,7 @@ func GetRootSitesForUser2() []mongo.Site {
 			Note:      "",
 			Parent:    nil,
 			Flowers:   []*mongo.ObjectID{&flowerID},
-			Owner:     &ownerID,
+			Owner:     ownerID,
 		},
 	}
 }
