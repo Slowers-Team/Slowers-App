@@ -5,21 +5,31 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 
-const EmployeesList = ({ employees }) => { //tai = () => {
+const EmployeesList = () => {
   const { t, i18n } = useTranslation()
+  //const [employeeList, setEmployeeList] = useState(employees)
+  const [employees, setEmployees] = useState([])
 
-  // kovakoodattu lista ihan vaan että napin saa näkymään
-  // lähtee kun branchi on valmis
-  
-  // const [employees, setEmployees] = useState([
-  //   [1, "John Doe"],
-  //   [2, "Jane Smith"],
-  //   [3, "Michael Johnson"]
-  // ]);
+  const employeeGetter = async () => {
+    const business = await businessService.get();
+    setEmployees(await businessService.getAllMembers(business.ID));
+  }
 
-  // tämä ja Button-kohta alhaalla uusia. Testaa miten toimii!
+  useEffect(() => {
+    employeeGetter();
+  }, []);
+
   const handleDeletion = (employee) => {
-		businessService.deleteMembership(employee)
+    console.log("Trying to delete employee:", employee);
+
+    businessService.deleteMembership(employee)
+      .then(() => {
+        console.log("Fetching updated employee list...");
+        employeeGetter();
+      })
+      .catch(error => {
+        console.error("Error deleting employee:", error);
+      });
 	}
 
   return (
@@ -32,10 +42,6 @@ const EmployeesList = ({ employees }) => { //tai = () => {
             <tr key={employee[0]}>
               <td>{employee[0]}</td>
               <td>{employee[1]}</td>
-              {/* <td>
-              <Button onClick={() => handleDeletion(employee)} >{t('button.deletemember')}
-								</Button>
-                </td> */}
               <td>
                 <button type="submit" className='custom-button' onClick={() => handleDeletion(employee)} >{t('button.deletemember')}</button>
               </td>

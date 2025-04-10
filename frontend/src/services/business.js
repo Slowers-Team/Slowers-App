@@ -39,9 +39,9 @@ const deleteMembership = (membership) => {
   const config = {
     headers: { Authorization: tokenService.fetchToken(),
     'Content-Type': 'application/json'},
-    data: membership
+    data: { email: membership[0] }
   }
-  const url = '/api/membership'
+  const url = '/api/membership/${businessID}'
   return axios.delete(url, config).then(response => response.data)
 }
 
@@ -54,6 +54,7 @@ const getAllMembers = (businessID) => {
   }
   const url = `/api/membership/${businessID}`
   return axios.get(url, config).then(response => {
+    console.log("Fetched members:", response.data);
     return parseCSV(response.data);
   }).catch(error => {
     console.error('Error fetching members:', error);
