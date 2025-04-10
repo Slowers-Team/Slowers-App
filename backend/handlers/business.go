@@ -113,7 +113,7 @@ func CreateBusiness(c *fiber.Ctx) error {
 		Designation: designation.String(),
 	}
 
-	if err := AddMembership(c, newMember); err != nil {
+	if _, err := sqlDb.AddMembership(c.Context(), *newMember); err != nil {
 		fmt.Println("Yrityksen omistajan lisäys epäonnistui")
 		return c.Status(500).SendString(err.Error())
 	}

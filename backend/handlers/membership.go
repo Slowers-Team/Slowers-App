@@ -2,32 +2,20 @@ package handlers
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/Slowers-team/Slowers-App/databases/sql"
 
 	"github.com/gofiber/fiber/v2"
 )
 
-func AddMembership(c *fiber.Ctx, membership *sql.Membership) error {
-	_, err := sqlDb.AddMembership(c.Context(), *membership)
-	if err != nil {
-		fmt.Println("Failed adding membership")
-		return c.Status(500).SendString(err.Error())
-	}
-
-	return c.SendStatus(204)
-}
-
-func AddMembershipHelper(c *fiber.Ctx) error {
+func AddMembership(c *fiber.Ctx) error {
 	membership := new(sql.Membership)
 
 	if err := c.BodyParser(membership); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	if err := AddMembership(c, membership); err != nil {
-		fmt.Println("Jäsenen lisäys epäonnistui")
+	if _, err := sqlDb.AddMembership(c.Context(), *membership); err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
 
