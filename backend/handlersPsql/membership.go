@@ -26,8 +26,9 @@ func AddMembershipHelper(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	if err := AddMembership(c, membership); err != nil {
-		fmt.Println("Jäsenen lisäys epäonnistui")
+	_, err := db.AddMembership(c.Context(), *membership)
+	if err != nil {
+		fmt.Println("Jäsenyyden lisääminen epäonnistui")
 		return c.Status(500).SendString(err.Error())
 	}
 
