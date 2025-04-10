@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	database "github.com/Slowers-team/Slowers-App/database/psql"
+	"github.com/Slowers-team/Slowers-App/utils"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -26,8 +27,9 @@ func AddMembershipHelper(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	if err := AddMembership(c, membership); err != nil {
-		fmt.Println("Jäsenen lisäys epäonnistui")
+	_, err := db.AddMembership(c.Context(), *membership)
+	if err != nil {
+		fmt.Println("Jäsenyyden lisääminen epäonnistui")
 		return c.Status(500).SendString(err.Error())
 	}
 
@@ -53,7 +55,25 @@ func GetDesignation(c *fiber.Ctx) error {
 	if err != nil {
 		return c.JSON(err)
 	}
+	fmt.Println(result)
+	fmt.Println(c.JSON(result))
 	return c.JSON(result)
+}
+
+func GetAllMembersInBusiness(c *fiber.Ctx) error {
+	businessID, err := strconv.Atoi(c.Params("businessID"))
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	fmt.Println("HELLO")
+	fmt.Println("BUSINESS ID;", businessID)
+	result, err := db.GetAllMembersInBusiness(c.Context(), businessID)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	csvResponse := utils.MembersIntoCSV(result)
+
+	return c.SendString(csvResponse)
 }
 
 func DeleteMembership(c *fiber.Ctx) error {

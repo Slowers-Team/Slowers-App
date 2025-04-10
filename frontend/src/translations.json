@@ -27,6 +27,7 @@
         "createbusiness": "Create business",
         "grower": "Grower",
         "retailer": "Retailer",
+        "addemployee": "Add employee",
         "deletemember": "Delete member"
       },
       "error": {
@@ -131,6 +132,8 @@
         "siteimages": "images",
         "businesspage": "Business page",
         "createbusiness": "Create a business",
+        "employees": "Employees",
+        "addemployees": "Add employees",
         "welcome": "Welcome to Slowers",
         "marketplacehome": "Marketplace homepage",
         "retailerhome": "Retailer homepage",
@@ -218,6 +221,7 @@
         "createbusiness": "Luo yritys",
         "grower": "Kasvattaja",
         "retailer": "Jälleenmyyjä",
+        "addemployee": "Lisää työntekijä",
         "deletemember": "Poista jäsen"
       },
       "error": {
@@ -322,6 +326,8 @@
         "siteimages": "kuvat",
         "businesspage": "Yrityssivut",
         "createbusiness": "Luo yritys",
+        "employees": "Työntekijät",
+        "addemployees": "Lisää työntekijöitä",
         "welcome": "Tervetuloa Slowersiin",
         "marketplacehome": "Torin kotisivu",
         "retailerhome": "Jälleenmyyjän kotisivu",
@@ -409,6 +415,7 @@
         "createbusiness": "Skapa företaget",
         "grower": "Odlare",
         "retailer": "Återförsäljare",
+        "addemployee": "Lägg till anställd",
         "deletemember": "Ta bort medlem"
       },
       "error": {
@@ -513,6 +520,8 @@
         "siteimages": "bilder",
         "businesspage": "Företagssida",
         "createbusiness": "Skapa ett företag",
+        "employees": "Anställda",
+        "addemployees": "Lägg till anställda",
         "welcome": "Välkommen till Slowers",
         "marketplacehome": "Marknadsplatsens hemsida",
         "retailerhome": "Återförsäljarens hemsida",
