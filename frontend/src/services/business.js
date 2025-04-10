@@ -1,14 +1,13 @@
 import axios from "axios";
 import tokenService from "./token";
 
-const baseUrl = "/api/business";
-
 const create = (newBusiness, userEmail) => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
   };
+  const url = '/api/business'
   const request = axios.post(
-    baseUrl,
+    url,
     { ...newBusiness, userEmail: userEmail },
     config
   );
@@ -19,7 +18,8 @@ const get = () => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
   };
-  return axios.get(baseUrl, config).then((response) => response.data);
+  const url = '/api/business'
+  return axios.get(url, config).then((response) => response.data);
 };
 
 // kun kutsutaan tätä:
