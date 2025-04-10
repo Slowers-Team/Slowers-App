@@ -7,7 +7,7 @@ import (
 	"log"
 	"testing"
 
-	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
 	"github.com/Slowers-team/Slowers-App/mocks"
 	"github.com/Slowers-team/Slowers-App/testdata"
 	"github.com/Slowers-team/Slowers-App/testutils"
@@ -18,7 +18,7 @@ import (
 
 type ImagesAPITestSuite struct {
 	suite.Suite
-	Images []database.Image
+	Images []mongo.Image
 }
 
 func (s *ImagesAPITestSuite) SetupSuite() {

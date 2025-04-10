@@ -11,9 +11,8 @@ import (
 
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
-	"go.mongodb.org/mongo-driver/mongo"
 
-	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
 	"github.com/Slowers-team/Slowers-App/mocks"
 	"github.com/Slowers-team/Slowers-App/testdata"
 	"github.com/Slowers-team/Slowers-App/testutils"
@@ -22,9 +21,9 @@ import (
 
 type SitesAPITestSuite struct {
 	suite.Suite
-	Flowers   []database.Flower
-	RootSites []database.Site
-	User      database.User
+	Flowers   []mongo.Flower
+	RootSites []mongo.Site
+	User      mongo.User
 }
 
 func (s *SitesAPITestSuite) SetupSuite() {

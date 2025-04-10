@@ -13,7 +13,7 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
 	"github.com/Slowers-team/Slowers-App/mocks"
 	"github.com/Slowers-team/Slowers-App/testdata"
 	"github.com/Slowers-team/Slowers-App/testutils"
@@ -22,7 +22,7 @@ import (
 
 type FlowersAPITestSuite struct {
 	suite.Suite
-	Flowers []database.Flower
+	Flowers []mongo.Flower
 }
 
 func (s *FlowersAPITestSuite) SetupSuite() {

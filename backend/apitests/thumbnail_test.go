@@ -13,7 +13,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
 	"github.com/Slowers-team/Slowers-App/mocks"
 	"github.com/Slowers-team/Slowers-App/testutils"
 	"github.com/Slowers-team/Slowers-App/utils"
@@ -23,7 +23,7 @@ import (
 
 type ThumbnailAPITestSuite struct {
 	suite.Suite
-	TestImages []database.Image
+	TestImages []mongo.Image
 }
 
 func (s *ThumbnailAPITestSuite) SetupSuite() {

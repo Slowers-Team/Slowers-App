@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/suite"
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/databases/sql"
 	"github.com/Slowers-team/Slowers-App/mocks"
 	"github.com/Slowers-team/Slowers-App/testdata"
 	"github.com/Slowers-team/Slowers-App/testutils"
@@ -21,8 +21,8 @@ import (
 
 type UsersAPITestSuite struct {
 	suite.Suite
-	User  database.User
-	Users []database.User
+	User  sql.User
+	Users []sql.User
 }
 
 func (s *UsersAPITestSuite) SetupSuite() {
