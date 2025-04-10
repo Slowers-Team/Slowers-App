@@ -2,8 +2,10 @@ package handlers
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/Slowers-team/Slowers-App/databases/sql"
+	"github.com/Slowers-team/Slowers-App/utils"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -34,14 +36,15 @@ func GetDesignation(c *fiber.Ctx) error {
 	if err != nil {
 		return c.JSON(err)
 	}
+	fmt.Println(result)
+	fmt.Println(c.JSON(result))
 	return c.JSON(result)
 }
 
 func GetAllMembersInBusiness(c *fiber.Ctx) error {
-	var businessID int
-
-	if err := c.BodyParser(businessID); err != nil {
-		return c.Status(400).SendString(err.Error())
+	businessID, err := strconv.Atoi(c.Params("businessID"))
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
 	}
 
 	result, err := sqlDb.GetAllMembersInBusiness(c.Context(), businessID)
@@ -49,8 +52,9 @@ func GetAllMembersInBusiness(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
+	csvResponse := utils.MembersIntoCSV(result)
 
-	return c.JSON(result)
+	return c.SendString(csvResponse)
 }
 
 func DeleteMembership(c *fiber.Ctx) error {

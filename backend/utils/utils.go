@@ -9,6 +9,7 @@ import (
 	"net/textproto"
 	"path/filepath"
 	"regexp"
+	"strings"
 
 	"fmt"
 	"image"
@@ -18,6 +19,7 @@ import (
 	"io"
 
 	"github.com/Slowers-team/Slowers-App/databases/mongo"
+	"github.com/Slowers-team/Slowers-App/databases/sql"
 	"golang.org/x/image/draw"
 
 	"golang.org/x/crypto/bcrypt"
@@ -163,4 +165,17 @@ func ImageIsNotTooLarge(size int64) bool {
 
 func ImageIsLargerThanZero(size int64) bool {
 	return size > 0
+}
+
+func MembersIntoCSV(members []sql.Membership) string {
+	var csvData []string
+
+	for _, membership := range members {
+		membershipCSV := fmt.Sprintf("%s,%s",
+			membership.UserEmail,
+			membership.Designation,
+		)
+		csvData = append(csvData, membershipCSV)
+	}
+	return strings.Join(csvData, "\n")
 }
