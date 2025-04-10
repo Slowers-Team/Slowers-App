@@ -114,7 +114,7 @@ func (s *DbMembershipTestSuite) TestGetMembershipByUserId() {
 	}
 	_, err := s.Db.AddMembership(context.Background(), existingMembership)
 
-	membership, err := s.Db.GetMembershipByUserId(context.Background(), s.TestUser.ID)
+	membership, err := s.Db.GetMembershipByUserId(context.Background(), 1)
 
 	s.NoError(
 		err,
