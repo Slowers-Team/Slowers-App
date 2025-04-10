@@ -11,6 +11,4 @@ services:
     env_file:
       - .env
       - .dev.env
-    environment:
-      - USESQL=${USESQL:-false}
     container_name: slowers-backend-dev

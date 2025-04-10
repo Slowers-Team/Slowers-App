@@ -1,35 +1,23 @@
-package handlersPsql
+package handlers
 
 import (
 	"fmt"
 	"strconv"
 
-	database "github.com/Slowers-team/Slowers-App/database/psql"
+	"github.com/Slowers-team/Slowers-App/databases/sql"
 	"github.com/Slowers-team/Slowers-App/utils"
 
 	"github.com/gofiber/fiber/v2"
 )
 
-func AddMembership(c *fiber.Ctx, membership *database.Membership) error {
-	_, err := db.AddMembership(c.Context(), *membership)
-	if err != nil {
-		fmt.Println("Failed adding membership")
-		return c.Status(500).SendString(err.Error())
-	}
-
-	return c.SendStatus(204)
-}
-
-func AddMembershipHelper(c *fiber.Ctx) error {
-	membership := new(database.Membership)
+func AddMembership(c *fiber.Ctx) error {
+	membership := new(sql.Membership)
 
 	if err := c.BodyParser(membership); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	_, err := db.AddMembership(c.Context(), *membership)
-	if err != nil {
-		fmt.Println("Jäsenyyden lisääminen epäonnistui")
+	if _, err := sqlDb.AddMembership(c.Context(), *membership); err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
 
@@ -37,20 +25,13 @@ func AddMembershipHelper(c *fiber.Ctx) error {
 }
 
 func GetDesignation(c *fiber.Ctx) error {
-	userIDStr, err := GetCurrentUser(c)
-
-	if err != nil {
-		return c.Status(500).SendString(err.Error())
-	}
-
-	userID, err := strconv.Atoi(userIDStr)
+	userID, err := GetCurrentUser(c)
 
 	if err != nil {
 		return c.Status(400).SendString("Invalid user ID")
 	}
-	fmt.Println("USERID", userID)
 
-	result, err := db.GetMembershipByUserId(c.Context(), userID)
+	result, err := sqlDb.GetMembershipByUserId(c.Context(), userID)
 
 	if err != nil {
 		return c.JSON(err)
@@ -65,9 +46,9 @@ func GetAllMembersInBusiness(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
-	fmt.Println("HELLO")
-	fmt.Println("BUSINESS ID;", businessID)
-	result, err := db.GetAllMembersInBusiness(c.Context(), businessID)
+
+	result, err := sqlDb.GetAllMembersInBusiness(c.Context(), businessID)
+
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
@@ -77,12 +58,12 @@ func GetAllMembersInBusiness(c *fiber.Ctx) error {
 }
 
 func DeleteMembership(c *fiber.Ctx) error {
-	membership := new(database.Membership)
+	membership := new(sql.Membership)
 	if err := c.BodyParser(membership); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	err := db.DeleteMembership(c.Context(), membership.UserEmail, membership.BusinessID)
+	err := sqlDb.DeleteMembership(c.Context(), membership.UserEmail, membership.BusinessID)
 	if err != nil {
 		fmt.Println("Failed deleting membership. Membership might not exist.")
 		return c.Status(500).SendString(err.Error())

@@ -50,7 +50,7 @@ jobs:
       working-directory: backend
 
     - name: Backend unit tests
-      run: go test ./... -tags=sql
+      run: go test ./...
       working-directory: backend
       env:
         MONGODB_URI: mongodb://localhost:27017

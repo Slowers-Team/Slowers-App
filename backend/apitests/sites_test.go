@@ -1,3 +1,6 @@
+//go:build api
+// +build api
+
 package apitests
 
 import (
