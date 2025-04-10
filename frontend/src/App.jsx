@@ -30,6 +30,7 @@ import GrowerFlowerPage from "./pages/GrowerFlowerPage";
 import GrowerSitesPage from "./pages/GrowerSitesPage";
 import GrowerImagesPage from "./pages/GrowerImagesPage";
 import BusinessPage from "./pages/BusinessPage";
+import BusinessEmployeesPage from "./pages/BusinessEmployeesPage";
 
 
 const Root = () => {
@@ -85,9 +86,6 @@ function authorizeAccess() {
     return redirect("/home")
   }
   if (path.startsWith("/retailer") && ( Authenticator.role === "grower" | Authenticator.role === "growerowner" )) {
-    return redirect("/home")
-  }
-  if (path.startsWith("/businesspage") && ( Authenticator.role === "retailer" | Authenticator.role === "grower" )) {
     return redirect("/home")
   }
   return null;
@@ -190,11 +188,12 @@ const router = createBrowserRouter([
             ],
           },
           {
-            path: "businesspage",
+            path: "business",
             loader: authorizeAccess,
             element: <BusinessLayout />,
             children: [
-              { index: true, element: <BusinessPage /> }
+              { index: true, element: <BusinessPage /> },
+              { path: "employees", element: <BusinessEmployeesPage /> }
             ]
           },
           { 

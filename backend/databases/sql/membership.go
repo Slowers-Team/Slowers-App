@@ -12,7 +12,6 @@ type Membership struct {
 	UserEmail    string
 	BusinessID   int
 	Designation  string
-	BusinessName string
 }
 
 func (pDb SQLDatabase) AddMembership(ctx context.Context, newMembership Membership) (*Membership, error) {
@@ -73,6 +72,23 @@ func (pDb SQLDatabase) GetMembershipByUserId(ctx context.Context, userID int) (*
 	return membership, nil
 }
 
+func (pDd SQLDatabase) DeleteMembership(ctx context.Context, user_email string, business_id int) error {
+	query := `
+	DELETE FROM Memberships 
+	WHERE user_email = $1
+	AND business_id = $2
+	`
+
+	_, err := pDd.pool.Exec(ctx, query, user_email, business_id)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return err
+	}
+	return nil
+
+}
+
 // func (pDb SQLDatabase) GetDesignationByEmail(ctx context.Context, userEmail string) (*Membership, error) {
 // 	membership := new(Membership)
 // 	query := `
@@ -95,3 +111,40 @@ func (pDb SQLDatabase) GetMembershipByUserId(ctx context.Context, userID int) (*
 
 // 	return membership, nil
 // }
+
+func (pDb SQLDatabase) GetAllMembersInBusiness(ctx context.Context, businessID int) ([]Membership, error) {
+	query := `
+	SELECT
+		user_email,
+		designation
+	FROM
+		Memberships
+	WHERE
+		business_id=$1`
+
+	rows, err := pDb.pool.Query(ctx, query, businessID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var memberships []Membership
+
+	for rows.Next() {
+		var member Membership
+		err := rows.Scan(
+			&member.UserEmail,
+			&member.Designation,
+		)
+		if err != nil {
+			return nil, err
+		}
+		memberships = append(memberships, member)
+	}
+
+	if rows.Err() != nil {
+		return nil, rows.Err()
+	}
+
+	return memberships, nil
+}
