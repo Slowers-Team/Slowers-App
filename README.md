@@ -28,6 +28,7 @@ docker compose -f docker-compose.dev.yml down
 docker compose -f docker-compose.dev.yml up --build
 
 docker exec slowers-backend-dev go test ./...
+docker exec slowers-backend-dev go test ./... -tags=api
 docker exec slowers-frontend-dev npm run test
 
 docker exec -it slowers-mongo-dev mongosh -u root -p example
@@ -42,6 +43,8 @@ You can run development containers of either databases, backend, frontend or all
 To run whole application inside containers, build and run containers from repository root directory with command `docker compose -f docker-compose.dev.yml up`. Now you can use address http://localhost:8080 to access frontend and address http://localhost:8080/api to access backend. You can exit and close containers with Ctrl+C.
 
 To run unit tests for frontend, you can use command `docker exec slowers-frontend-dev npm run test` while slowers-frontend-dev -container is running. Unit tests for backend can similarly be run using command `docker exec slowers-backend-dev go test ./...`. Another option is to go inside containers e.g. in VSCode and use normal test commands there.
+
+API tests are currently broken, those can be run using command `docker exec slowers-backend-dev go test ./... -tags=api`.
 
 End-to-end tests are not currently supported.
 
