@@ -3,6 +3,8 @@ import { useState, useEffect } from "react"
 import businessService from "../services/business"
 import EmployeesList from "../components/EmployeesList"
 import { useTranslation } from 'react-i18next'
+import AddEmployeeForm from "../components/AddEmployeeForm"
+
 
 
 const BusinessEmployeesPage = () => {
@@ -30,8 +32,10 @@ const BusinessEmployeesPage = () => {
         <div className="col-12 col-md-12 col-lg-12 col-xl-8">
           <div className="card" style={{ borderRadius: "1rem" }}>
             <div className="card-body p-5">
-              <h2 className="mx-3 my-3">{ t("menu.employees") }</h2>
+              <h2>{ t("menu.employees") }</h2>
               <EmployeesList employees={employees} />
+              <br/>
+              <AddEmployeeForm />
             </div>
           </div>
         </div>
