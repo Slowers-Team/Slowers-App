@@ -74,7 +74,7 @@ func GetAllMembersInBusiness(c *fiber.Ctx) error {
 
 	var csvData []string
 	for _, membership := range result {
-		membershipCSV := fmt.Sprintf("%d,%s,%s,%s,%d,%s,%s",
+		membershipCSV := fmt.Sprintf("%d,%s,%s,%s,%d,%s",
 			membership.ID,
 			membership.CreatedAt,
 			membership.LastModified,
