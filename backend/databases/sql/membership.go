@@ -3,6 +3,7 @@ package sql
 import (
 	"context"
 	"fmt"
+	"strconv"
 )
 
 type Membership struct {
@@ -38,8 +39,13 @@ func (pDb SQLDatabase) AddMembership(ctx context.Context, newMembership Membersh
 	return &newMembership, nil
 }
 
-func (pDb SQLDatabase) GetMembershipByUserId(ctx context.Context, userID int) (*Membership, error) {
+func (pDb SQLDatabase) GetMembershipByUserId(ctx context.Context, userID string) (*Membership, error) {
 	membership := new(Membership)
+	parsedUserID, err := strconv.Atoi(userID)
+	if err != nil {
+		return nil, err
+	}
+
 	query := `
 	SELECT
 		memberships.id,
@@ -57,7 +63,7 @@ func (pDb SQLDatabase) GetMembershipByUserId(ctx context.Context, userID int) (*
 	WHERE
 		users.id=$1`
 
-	err := pDb.pool.QueryRow(ctx, query, userID).Scan(
+	err = pDb.pool.QueryRow(ctx, query, parsedUserID).Scan(
 		&membership.ID,
 		&membership.CreatedAt,
 		&membership.LastModified,

@@ -25,9 +25,9 @@ type Database interface {
 	GetBusinessByUserID(ctx context.Context, userID int) (*Business, error)
 
 	AddMembership(ctx context.Context, newMembership Membership) (*Membership, error)
-	GetMembershipByUserId(ctx context.Context, userID int) (*Membership, error)
+	GetMembershipByUserId(ctx context.Context, userID string) (*Membership, error)
 	GetAllMembersInBusiness(ctx context.Context, businessID int) ([]Membership, error)
-	DeleteMembership(ctx context.Context, user_email string, busines_id int) (error)
+	DeleteMembership(ctx context.Context, user_email string, busines_id int) error
 
 	// 	GetFlowers(ctx context.Context) ([]Flower, error)
 	// 	GetUserFlowers(ctx context.Context, userID ObjectID) ([]Flower, error)

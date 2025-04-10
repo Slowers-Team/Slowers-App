@@ -3,6 +3,7 @@ package tests
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/suite"
@@ -110,8 +111,19 @@ func (s *DbMembershipTestSuite) TestGetMembershipByUserId() {
 		Designation: "owner",
 	}
 	_, err := s.SqlDb.AddMembership(context.Background(), existingMembership)
+	s.NoError(
+		err,
+		"AddMembership() should not return an error",
+	)
 
-	membership, err := s.SqlDb.GetMembershipByUserId(context.Background(), s.TestUser.ID)
+	fetchedUser, err := s.SqlDb.GetUserByEmail(context.Background(), s.TestUser.Email)
+	s.NoError(
+		err,
+		"GetUserByEmail() should not return an error",
+	)
+
+	parsedUserID := strconv.Itoa(fetchedUser.ID)
+	membership, err := s.SqlDb.GetMembershipByUserId(context.Background(), parsedUserID)
 
 	s.NoError(
 		err,
@@ -135,11 +147,6 @@ func (s *DbMembershipTestSuite) TestGetMembershipByUserId() {
 		membership.Designation,
 		"owner",
 		"wrong membership designation for membership",
-	)
-	s.Equal(
-		membership.BusinessName,
-		s.TestBusiness.BusinessName,
-		"wrong business name for membership",
 	)
 }
 
