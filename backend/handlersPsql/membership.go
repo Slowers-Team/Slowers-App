@@ -3,9 +3,9 @@ package handlersPsql
 import (
 	"fmt"
 	"strconv"
-	"strings"
 
 	database "github.com/Slowers-team/Slowers-App/database/psql"
+	"github.com/Slowers-team/Slowers-App/utils"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -71,22 +71,7 @@ func GetAllMembersInBusiness(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
-
-	var csvData []string
-	for _, membership := range result {
-		membershipCSV := fmt.Sprintf("%d,%s,%s,%s,%d,%s",
-			membership.ID,
-			membership.CreatedAt,
-			membership.LastModified,
-			membership.UserEmail,
-			membership.BusinessID,
-			membership.Designation,
-		)
-		csvData = append(csvData, membershipCSV)
-	}
-	csvResponse := strings.Join(csvData, "\n")
-
-	fmt.Println(csvResponse)
+	csvResponse := utils.MembersIntoCSV(result)
 
 	return c.SendString(csvResponse)
 }
