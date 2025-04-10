@@ -6,6 +6,7 @@ package tests
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/suite"
@@ -107,14 +108,25 @@ func (s *DbMembershipTestSuite) TestAddMembership() {
 }
 
 func (s *DbMembershipTestSuite) TestGetMembershipByUserId() {
-	existingMembership := database.Membership{
+	existingMembership := sql.Membership{
 		UserEmail:   s.TestUser.Email,
 		BusinessID:  s.TestBusiness.ID,
 		Designation: "owner",
 	}
-	_, err := s.Db.AddMembership(context.Background(), existingMembership)
+	_, err := s.SqlDb.AddMembership(context.Background(), existingMembership)
+	s.NoError(
+		err,
+		"AddMembership() should not return an error",
+	)
 
-	membership, err := s.Db.GetMembershipByUserId(context.Background(), 1)
+	fetchedUser, err := s.SqlDb.GetUserByEmail(context.Background(), s.TestUser.Email)
+	s.NoError(
+		err,
+		"GetUserByEmail() should not return an error",
+	)
+
+	parsedUserID := strconv.Itoa(fetchedUser.ID)
+	membership, err := s.SqlDb.GetMembershipByUserId(context.Background(), parsedUserID)
 
 	s.NoError(
 		err,
