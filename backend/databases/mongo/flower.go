@@ -25,7 +25,7 @@ type Flower struct {
 }
 
 func (mDb MongoDatabase) GetFlowers(ctx context.Context) ([]Flower, error) {
-	cursor, err := db.Collection("flowers").Find(ctx, bson.M{"visible": true})
+	cursor, err := mongoDb.Collection("flowers").Find(ctx, bson.M{"visible": true})
 
 	if err != nil {
 		return nil, err
@@ -40,7 +40,7 @@ func (mDb MongoDatabase) GetFlowers(ctx context.Context) ([]Flower, error) {
 }
 
 func (mDb MongoDatabase) GetUserFlowers(ctx context.Context, userID string) ([]Flower, error) {
-	cursor, err := db.Collection("flowers").Find(ctx, bson.M{"grower": userID})
+	cursor, err := mongoDb.Collection("flowers").Find(ctx, bson.M{"grower": userID})
 	if err != nil {
 		return nil, err
 	}
@@ -54,13 +54,13 @@ func (mDb MongoDatabase) GetUserFlowers(ctx context.Context, userID string) ([]F
 }
 
 func (mDb MongoDatabase) AddFlower(ctx context.Context, newFlower Flower) (*Flower, error) {
-	insertResult, err := db.Collection("flowers").InsertOne(ctx, newFlower)
+	insertResult, err := mongoDb.Collection("flowers").InsertOne(ctx, newFlower)
 	if err != nil {
 		return nil, err
 	}
 
 	filter := bson.M{"_id": insertResult.InsertedID}
-	createdRecord := db.Collection("flowers").FindOne(ctx, filter)
+	createdRecord := mongoDb.Collection("flowers").FindOne(ctx, filter)
 
 	createdFlower := &Flower{}
 	err = createdRecord.Decode(createdFlower)
@@ -73,21 +73,21 @@ func (mDb MongoDatabase) AddFlower(ctx context.Context, newFlower Flower) (*Flow
 
 func (mDb MongoDatabase) DeleteFlower(ctx context.Context, id ObjectID) (bool, error) {
 	var flower Flower
-	err := db.Collection("flowers").FindOne(ctx, bson.M{"_id": id}).Decode(&flower)
+	err := mongoDb.Collection("flowers").FindOne(ctx, bson.M{"_id": id}).Decode(&flower)
 	if err != nil {
 		return false, nil
 	}
 
 	if flower.Site != nil {
 		update := bson.M{"$pull": bson.M{"flowers": id}}
-		_, err = db.Collection("sites").UpdateOne(ctx, bson.M{"_id": flower.Site}, update)
+		_, err = mongoDb.Collection("sites").UpdateOne(ctx, bson.M{"_id": flower.Site}, update)
 		if err != nil {
 			return true, err
 		}
 	}
 
 	filter := bson.M{"_id": id}
-	result, err := db.Collection("flowers").DeleteOne(ctx, filter)
+	result, err := mongoDb.Collection("flowers").DeleteOne(ctx, filter)
 	if err != nil {
 		return false, err
 	}
@@ -157,7 +157,7 @@ func (mDb MongoDatabase) GetAllFlowersRelatedToSite(ctx context.Context, siteID 
 		}},
 	}
 
-	cursor, err := db.Collection("sites").Aggregate(ctx, mongo.Pipeline{
+	cursor, err := mongoDb.Collection("sites").Aggregate(ctx, mongo.Pipeline{
 		matchStage, graphLookupStage, projectStage, concatStage, unwindSitesStage,
 		lookupStage, unwindFlowersStage, replaceRootStage})
 	if err != nil {
@@ -177,7 +177,7 @@ func (mDb MongoDatabase) GetAllFlowersRelatedToSite(ctx context.Context, siteID 
 // Visibility can be set if flower has at least one image attached.
 func (mDb MongoDatabase) ToggleFlowerVisibility(ctx context.Context, userID string, flowerID ObjectID) (*bool, error) {
 	opts := options.Count().SetLimit(1)
-	count, err := db.Collection("images").CountDocuments(
+	count, err := mongoDb.Collection("images").CountDocuments(
 		ctx,
 		bson.M{"entity": flowerID},
 		opts,
@@ -195,7 +195,7 @@ func (mDb MongoDatabase) ToggleFlowerVisibility(ctx context.Context, userID stri
 	updateOpts := options.FindOneAndUpdate().SetReturnDocument(options.After).SetProjection(bson.M{"_id": 0, "visible": 1})
 
 	var updatedVisibility bson.M
-	err = db.Collection("flowers").FindOneAndUpdate(ctx, filter, update, updateOpts).Decode(&updatedVisibility)
+	err = mongoDb.Collection("flowers").FindOneAndUpdate(ctx, filter, update, updateOpts).Decode(&updatedVisibility)
 
 	if err != nil {
 		return nil, err
@@ -207,7 +207,7 @@ func (mDb MongoDatabase) ToggleFlowerVisibility(ctx context.Context, userID stri
 		newTime := time.Now()
 		updateTime := bson.A{bson.M{"$set": bson.M{"added_time": newTime}}}
 		var updatedTime bson.M
-		err = db.Collection("flowers").FindOneAndUpdate(ctx, filter, updateTime).Decode(&updatedTime)
+		err = mongoDb.Collection("flowers").FindOneAndUpdate(ctx, filter, updateTime).Decode(&updatedTime)
 
 		if err != nil {
 			return nil, err
@@ -226,11 +226,11 @@ func (mDb MongoDatabase) ModifyFlower(ctx context.Context, id ObjectID, newFlowe
 		},
 	}
 
-	if _, err := db.Collection("flowers").UpdateOne(ctx, filter, update); err != nil {
+	if _, err := mongoDb.Collection("flowers").UpdateOne(ctx, filter, update); err != nil {
 		return nil, err
 	}
 
-	createdRecord := db.Collection("flowers").FindOne(ctx, filter)
+	createdRecord := mongoDb.Collection("flowers").FindOne(ctx, filter)
 
 	updatedFlower := &Flower{}
 	if err := createdRecord.Decode(updatedFlower); err != nil {
@@ -242,14 +242,14 @@ func (mDb MongoDatabase) ModifyFlower(ctx context.Context, id ObjectID, newFlowe
 
 func (mDb MongoDatabase) DeleteMultipleFlowers(ctx context.Context, flowerIDs []ObjectID) error {
 	filter := bson.M{"_id": bson.M{"$in": flowerIDs}}
-	_, err := db.Collection("flowers").DeleteMany(ctx, filter)
+	_, err := mongoDb.Collection("flowers").DeleteMany(ctx, filter)
 	return err
 }
 
 func (mDb MongoDatabase) UpdateVisibilityByTime(ctx context.Context, timestamp time.Time) (modified int64, err error) {
 	filter := bson.M{"added_time": bson.M{"$lte": timestamp}}
 	update := bson.M{"$set": bson.M{"visible": false}}
-	updateResult, err := db.Collection("flowers").UpdateMany(ctx, filter, update)
+	updateResult, err := mongoDb.Collection("flowers").UpdateMany(ctx, filter, update)
 	modified = updateResult.ModifiedCount
 	return modified, err
 }

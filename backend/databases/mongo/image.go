@@ -16,13 +16,13 @@ type Image struct {
 }
 
 func (mDb MongoDatabase) AddImage(ctx context.Context, newImage Image) (*Image, error) {
-	insertResult, err := db.Collection("images").InsertOne(ctx, newImage)
+	insertResult, err := mongoDb.Collection("images").InsertOne(ctx, newImage)
 	if err != nil {
 		return nil, err
 	}
 
 	filter := bson.M{"_id": insertResult.InsertedID}
-	createdRecord := db.Collection("images").FindOne(ctx, filter)
+	createdRecord := mongoDb.Collection("images").FindOne(ctx, filter)
 
 	createdImage := &Image{}
 	err = createdRecord.Decode(createdImage)
@@ -34,7 +34,7 @@ func (mDb MongoDatabase) AddImage(ctx context.Context, newImage Image) (*Image, 
 }
 
 func (mDb MongoDatabase) GetImageByID(ctx context.Context, imageID ObjectID) (*Image, error) {
-	found := db.Collection("images").FindOne(ctx, bson.M{"_id": imageID})
+	found := mongoDb.Collection("images").FindOne(ctx, bson.M{"_id": imageID})
 
 	image := &Image{}
 	err := found.Decode(image)
@@ -51,7 +51,7 @@ func (mDb MongoDatabase) GetImagesByEntity(ctx context.Context, entityID string)
 		return nil, err
 	}
 
-	cursor, err := db.Collection("images").Find(ctx, bson.M{"entity": objID})
+	cursor, err := mongoDb.Collection("images").Find(ctx, bson.M{"entity": objID})
 	if err != nil {
 		return nil, err
 	}
@@ -67,13 +67,13 @@ func (mDb MongoDatabase) GetImagesByEntity(ctx context.Context, entityID string)
 
 func (mDb MongoDatabase) DeleteImage(ctx context.Context, id ObjectID) (bool, error) {
 	var image Image
-	err := db.Collection("images").FindOne(ctx, bson.M{"_id": id}).Decode(&image)
+	err := mongoDb.Collection("images").FindOne(ctx, bson.M{"_id": id}).Decode(&image)
 	if err != nil {
 		return false, nil
 	}
 
 	filter := bson.M{"_id": id}
-	result, err := db.Collection("images").DeleteOne(ctx, filter)
+	result, err := mongoDb.Collection("images").DeleteOne(ctx, filter)
 	if err != nil {
 		return false, err
 	}
@@ -96,7 +96,7 @@ func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID string, En
 	updateOpts := options.FindOneAndUpdate()
 
 	var updatedFavorite bson.M
-	err = db.Collection(Collection).FindOneAndUpdate(ctx, filter, update, updateOpts).Decode(&updatedFavorite)
+	err = mongoDb.Collection(Collection).FindOneAndUpdate(ctx, filter, update, updateOpts).Decode(&updatedFavorite)
 	if err != nil {
 		return err
 	}
@@ -115,7 +115,7 @@ func (mDb MongoDatabase) ClearFavoriteImage(ctx context.Context, UserID string, 
 	updateOpts := options.FindOneAndUpdate()
 
 	var updatedFavorite bson.M
-	err = db.Collection(Collection).FindOneAndUpdate(ctx, filter, update, updateOpts).Decode(&updatedFavorite)
+	err = mongoDb.Collection(Collection).FindOneAndUpdate(ctx, filter, update, updateOpts).Decode(&updatedFavorite)
 	if err != nil {
 		return err
 	}

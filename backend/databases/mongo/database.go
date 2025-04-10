@@ -52,7 +52,7 @@ type ObjectID = primitive.ObjectID
 
 var NilObjectID ObjectID
 
-var db *mongoDriver.Database
+var mongoDb *mongoDriver.Database
 
 func NewMongoDatabase(databaseURI string) *MongoDatabase {
 	return &MongoDatabase{databaseURI, nil}
@@ -73,7 +73,7 @@ func (mDb *MongoDatabase) Connect(databaseName string) error {
 
 	log.Println("Connected to MongoDB")
 
-	db = mDb.client.Database(databaseName)
+	mongoDb = mDb.client.Database(databaseName)
 
 	return nil
 }
@@ -83,7 +83,7 @@ func (mDb *MongoDatabase) Disconnect() error {
 }
 
 func (mDb *MongoDatabase) Clear() error {
-	return db.Drop(context.Background())
+	return mongoDb.Drop(context.Background())
 }
 
 func (mDb MongoDatabase) UserOwnsEntity(ctx context.Context, UserID string, EntityID ObjectID, Collection string) error {
@@ -94,7 +94,7 @@ func (mDb MongoDatabase) UserOwnsEntity(ctx context.Context, UserID string, Enti
 		user = "owner"
 	}
 	opts := options.Count().SetLimit(1)
-	count, err := db.Collection(Collection).CountDocuments(
+	count, err := mongoDb.Collection(Collection).CountDocuments(
 		ctx,
 		bson.M{"_id": EntityID, user: UserID},
 		opts,
