@@ -125,7 +125,6 @@ func CreateBusiness(c *fiber.Ctx) error {
 
 func GetBusiness(c *fiber.Ctx) error {
 	userIDStr, err := GetCurrentUser(c)
-
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
