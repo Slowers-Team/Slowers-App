@@ -148,11 +148,11 @@ export const NavigationBar = () => {
               <Nav.Link
                 className="text-secondary"
                 as={Link}
-                to="/businesspage"
+                to="/business"
                 onClick={handleClose}
               >
                 <i className="bi bi-shop-window"> </i>
-                {t("menu.businesspage")}
+                {t("menu.business")}
               </Nav.Link>
             )}
             <Nav.Link
