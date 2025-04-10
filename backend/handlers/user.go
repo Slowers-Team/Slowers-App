@@ -108,11 +108,7 @@ func LogUserIn(c *fiber.Ctx, user *sql.User, status int) error {
 }
 
 func GetUser(c *fiber.Ctx) error {
-	userIDStr, err := GetCurrentUser(c)
-	if err != nil {
-		return c.Status(500).SendString(err.Error())
-	}
-	userID, err := strconv.Atoi(userIDStr)
+	userID, err := GetCurrentUser(c)
 	if err != nil {
 		return c.Status(400).SendString("Invalid user ID")
 	}
