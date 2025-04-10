@@ -1,5 +1,7 @@
 import axios from "axios";
 import tokenService from "./token";
+import { parseCSV } from "../utils"
+
 
 const baseUrl = "/api/business";
 
@@ -42,7 +44,9 @@ const getAllMembers = (businessID) => {
 
   }
   const url = `/api/membership/${businessID}`
-  return axios.get(url, config).then(response => {response.data}).catch(error => {
+  return axios.get(url, config).then(response => {
+    return parseCSV(response.data);
+  }).catch(error => {
     console.error('Error fetching members:', error);
     throw error;
   });

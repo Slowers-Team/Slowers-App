@@ -11,9 +11,9 @@ const EmployeesList = ({ employees }) => {
         <tbody>
           {Array.isArray(employees) && employees.length > 0 ? (
           employees.map(employees => (
-            <tr key={employees[0]}>
-              <td>{employees[0]}</td>
-              <td>{employees[1]}</td>
+            <tr key={employees[3]}>
+              <td>{employees[3]}</td> 
+              <td>{employees[5]}</td>
             </tr>
           ))
         ) : (

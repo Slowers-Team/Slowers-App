@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import businessService from "../services/business"
 
-const AddEmployeeForm = () => {
+const AddEmployeeForm = ({ onEmployeeAdded }) => {
   const { t, i18n } = useTranslation()
   const [ email, setEmail] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
@@ -16,6 +16,8 @@ const AddEmployeeForm = () => {
       console.log(business_id)
       console.log(email)
       await businessService.addMembership({"UserEmail": email, "BusinessID": business_id, "Designation": designation})
+      setEmail("");
+      onEmployeeAdded();
     } catch (error) {
         setErrorMessage(t('error.errocurred'))
     }

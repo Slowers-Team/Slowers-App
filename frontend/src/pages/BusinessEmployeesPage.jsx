@@ -6,21 +6,15 @@ import { useTranslation } from 'react-i18next'
 import AddEmployeeForm from "../components/AddEmployeeForm"
 
 
-
 const BusinessEmployeesPage = () => {
-  const [employees, setEmployees] = useState({})
+  const [employees, setEmployees] = useState([])
   const { t, i18n } = useTranslation()
   //const [errorMessage, setErrorMessage] = useState("")
-
+  const employeeGetter = async () => {
+    const business = await businessService.get();
+    setEmployees(await businessService.getAllMembers(business.ID));
+  };
   useEffect(() => {
-    const employeeGetter = async () => {
-      const business = await businessService.get();
-      console.log(business.ID)
-      const employeeList = await businessService.getAllMembers(business.ID);
-      console.log(employeeList);
-      setEmployees(employeeList);
-    };
-
     employeeGetter();
   }, []);
   
@@ -32,10 +26,10 @@ const BusinessEmployeesPage = () => {
         <div className="col-12 col-md-12 col-lg-12 col-xl-8">
           <div className="card" style={{ borderRadius: "1rem" }}>
             <div className="card-body p-5">
-              <h2>{ t("menu.employees") }</h2>
-              <EmployeesList employees={employees} />
+              <AddEmployeeForm onEmployeeAdded={employeeGetter}/>
               <br/>
-              <AddEmployeeForm />
+              <h2>{ t("menu.employees") }</h2>
+              <EmployeesList employees={employees} />              
             </div>
           </div>
         </div>
