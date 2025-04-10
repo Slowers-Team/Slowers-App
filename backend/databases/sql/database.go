@@ -13,7 +13,6 @@ type Database interface {
 	Connect(databaseName string, testEnv bool, prodEnv bool) error
 	Disconnect() error
 	Clear() error
-	// 	UserOwnsEntity(ctx context.Context, UserID, EntityID ObjectID, Collection string) error
 
 	// 	CountUsersWithEmail(ctx context.Context, email string) (int64, error)
 	CreateUser(ctx context.Context, newUser User) (*User, error)
@@ -26,15 +25,13 @@ type Database interface {
 	AddMembership(ctx context.Context, newMembership Membership) (*Membership, error)
 	GetMembershipByUserId(ctx context.Context, userID string) (*Membership, error)
 	GetAllMembersInBusiness(ctx context.Context, businessID int) ([]Membership, error)
-	DeleteMembership(ctx context.Context, user_email string, busines_id int) error
+	DeleteMembership(ctx context.Context, userEmail string, businessId int) error
 }
 
 type SQLDatabase struct {
 	databaseURI string
 	pool        *pgxpool.Pool
 }
-
-//var sqlpool *pgxpool.Pool
 
 func NewSQLDatabase(databaseURI string) *SQLDatabase {
 	return &SQLDatabase{databaseURI, nil}

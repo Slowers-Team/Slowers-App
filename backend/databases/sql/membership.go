@@ -78,14 +78,14 @@ func (pDb SQLDatabase) GetMembershipByUserId(ctx context.Context, userID string)
 	return membership, nil
 }
 
-func (pDd SQLDatabase) DeleteMembership(ctx context.Context, user_email string, business_id int) error {
+func (pDd SQLDatabase) DeleteMembership(ctx context.Context, userEmail string, businessId int) error {
 	query := `
 	DELETE FROM Memberships 
 	WHERE user_email = $1
 	AND business_id = $2
 	`
 
-	_, err := pDd.pool.Exec(ctx, query, user_email, business_id)
+	_, err := pDd.pool.Exec(ctx, query, userEmail, businessId)
 
 	if err != nil {
 		fmt.Println(err.Error())
