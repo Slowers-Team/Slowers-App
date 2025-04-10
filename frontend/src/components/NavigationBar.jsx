@@ -13,7 +13,6 @@ export const NavigationBar = () => {
   const { isLoggedIn, username } = useLoaderData();
   const role = Authenticator.role
   const designation = Authenticator.designation
-  console.log(designation)
   const fetcher = useFetcher();
 
   const handleClose = () => setShowOffCanvas(false);
@@ -148,11 +147,11 @@ export const NavigationBar = () => {
               <Nav.Link
                 className="text-secondary"
                 as={Link}
-                to="/businesspage"
+                to="/business"
                 onClick={handleClose}
               >
                 <i className="bi bi-shop-window"> </i>
-                {t("menu.businesspage")}
+                {t("menu.business")}
               </Nav.Link>
             )}
             <Nav.Link
