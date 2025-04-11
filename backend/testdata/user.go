@@ -1,72 +1,48 @@
 package testdata
 
-import (
-	"log"
+import "github.com/Slowers-team/Slowers-App/databases/sql"
 
-	"github.com/Slowers-team/Slowers-App/database"
-	"github.com/Slowers-team/Slowers-App/utils"
-)
-
-func GetUsers() []database.User {
-	userIDStrs := []string{
-		"66fd465c0011335cd891aea7",
-		"670ea95dc96af530f69341d5",
-		"67a61d4b6d544410878b2edc",
-		"67a61d676d544410878b2edd",
-		"67a61d8d6d544410878b2ede",
-	}
-	userIDs := []database.ObjectID{}
-
-	for _, idStr := range userIDStrs {
-		curUserID, err := database.ParseID(idStr)
-		if err != nil {
-			log.Fatal(err)
-		}
-		userIDs = append(userIDs, curUserID)
-	}
-
-	return []database.User{
+func GetUsers() []sql.User {
+	return []sql.User{
 		{
-			ID:       userIDs[0],
+			ID:       1,
 			Username: "testuser",
-			Email:    "testuser@test.com",
 			Password: "testpassword",
-			Role:     "grower",
+			Email:    "testuser@test.com",
+			IsActive: false,
+			IsAdmin:  false,
 		},
 		{
-			ID:       userIDs[1],
+			ID:       2,
 			Username: "testuser2",
 			Email:    "testuser2@test.com",
 			Password: "testpassword2",
-			Role:     "grower",
+			IsActive: false,
+			IsAdmin:  false,
 		},
 		{
-			ID:       userIDs[2],
+			ID:       3,
 			Username: "testuser3",
 			Email:    "testuser3@test.com",
 			Password: "testpassword",
-			Role:     "retailer",
+			IsActive: false,
+			IsAdmin:  false,
 		},
 		{
-			ID:       userIDs[3],
+			ID:       4,
 			Username: "testuser4",
 			Email:    "testuser4@test.com",
 			Password: "testpassword",
-			Role:     "growerowner",
+			IsActive: false,
+			IsAdmin:  false,
 		},
 		{
-			ID:       userIDs[4],
+			ID:       5,
 			Username: "testuser5",
 			Email:    "testuser5@test.com",
 			Password: "testpassword",
-			Role:     "retailerowner",
+			IsActive: false,
+			IsAdmin:  false,
 		},
 	}
-}
-
-func PrepareUserForAdding(user database.User) database.User {
-	user.ID = database.NilObjectID
-	hashedPassword, _ := utils.HashPassword(user.Password)
-	user.Password = hashedPassword
-	return user
 }

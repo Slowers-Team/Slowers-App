@@ -7,28 +7,28 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
 	"github.com/Slowers-team/Slowers-App/testdata"
 	"github.com/Slowers-team/Slowers-App/testutils"
 )
 
 type DbFlowerTestSuite struct {
 	suite.Suite
-	Db      database.Database
-	Flowers []database.Flower
-	Images  []database.Image
+	MongoDb mongo.Database
+	Flowers []mongo.Flower
+	Images  []mongo.Image
 }
 
 func (s *DbFlowerTestSuite) SetupSuite() {
-	s.Db = testutils.ConnectDB()
-	s.Db.Clear()
+	s.MongoDb = testutils.ConnectMongoDB()
+	s.MongoDb.Clear()
 	s.Flowers = testdata.GetFlowers()
 	s.Images = testdata.GetImages()
 }
 
 func (s *DbFlowerTestSuite) TestAddFlower() {
 	flowerToAdd := testdata.PrepareFlowerForAdding(s.Flowers[0])
-	addedFlower, err := s.Db.AddFlower(context.Background(), flowerToAdd)
+	addedFlower, err := s.MongoDb.AddFlower(context.Background(), flowerToAdd)
 
 	s.Require().NoError(
 		err,
@@ -62,8 +62,8 @@ func (s *DbFlowerTestSuite) TestAddFlower() {
 
 func (s *DbFlowerTestSuite) TestAddAndGetFlower() {
 	flowerToAdd := testdata.PrepareFlowerForAdding(s.Flowers[0])
-	s.Db.AddFlower(context.Background(), flowerToAdd)
-	fetchedFlowers, err := s.Db.GetFlowers(context.Background())
+	s.MongoDb.AddFlower(context.Background(), flowerToAdd)
+	fetchedFlowers, err := s.MongoDb.GetFlowers(context.Background())
 
 	s.Require().NoError(
 		err,
@@ -107,8 +107,8 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlower() {
 
 func (s *DbFlowerTestSuite) TestAddAndDeleteFlower() {
 	flowerToAdd := testdata.PrepareFlowerForAdding(s.Flowers[0])
-	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
-	anyDeleted, err := s.Db.DeleteFlower(context.Background(), addedFlower.ID)
+	addedFlower, _ := s.MongoDb.AddFlower(context.Background(), flowerToAdd)
+	anyDeleted, err := s.MongoDb.DeleteFlower(context.Background(), addedFlower.ID)
 
 	s.True(
 		anyDeleted,
@@ -119,7 +119,7 @@ func (s *DbFlowerTestSuite) TestAddAndDeleteFlower() {
 		"DeleteFlowers() should not return an error",
 	)
 
-	fetchedFlowers, _ := s.Db.GetFlowers(context.Background())
+	fetchedFlowers, _ := s.MongoDb.GetFlowers(context.Background())
 
 	s.Empty(
 		fetchedFlowers,
@@ -130,13 +130,13 @@ func (s *DbFlowerTestSuite) TestAddAndDeleteFlower() {
 func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
 	flower := s.Flowers[0]
 	flowerToAdd := testdata.PrepareFlowerForAdding(flower)
-	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
+	addedFlower, _ := s.MongoDb.AddFlower(context.Background(), flowerToAdd)
 
 	flower2 := testdata.GetFlowerForUser2()
 	flowerToAdd2 := testdata.PrepareFlowerForAdding(flower2)
-	s.Db.AddFlower(context.Background(), flowerToAdd2)
+	s.MongoDb.AddFlower(context.Background(), flowerToAdd2)
 
-	fetchedFlowers, err := s.Db.GetUserFlowers(
+	fetchedFlowers, err := s.MongoDb.GetUserFlowers(
 		context.Background(), *flower.Grower,
 	)
 
@@ -205,29 +205,29 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersByUser() {
 
 func (s *DbFlowerTestSuite) TestAddAndGetFlowersRelatedToSite() {
 	site := testdata.GetRootSites()[0]
-	site.Flowers = []*database.ObjectID{}
+	site.Flowers = []*mongo.ObjectID{}
 	siteToAdd := testdata.PrepareSiteForAdding(site)
-	addedSite, _ := s.Db.AddSite(context.Background(), siteToAdd)
+	addedSite, _ := s.MongoDb.AddSite(context.Background(), siteToAdd)
 
 	site2 := testdata.GetRootSitesForUser2()[0]
-	site2.Flowers = []*database.ObjectID{}
+	site2.Flowers = []*mongo.ObjectID{}
 	siteToAdd2 := testdata.PrepareSiteForAdding(site2)
-	addedSite2, _ := s.Db.AddSite(context.Background(), siteToAdd2)
+	addedSite2, _ := s.MongoDb.AddSite(context.Background(), siteToAdd2)
 
 	flower := s.Flowers[0]
 	flower.Site = &addedSite.ID
 	flowerToAdd := testdata.PrepareFlowerForAdding(flower)
-	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
-	s.Db.AddFlowerToSite(context.Background(), addedSite.ID, addedFlower.ID)
+	addedFlower, _ := s.MongoDb.AddFlower(context.Background(), flowerToAdd)
+	s.MongoDb.AddFlowerToSite(context.Background(), addedSite.ID, addedFlower.ID)
 
 	flower2 := testdata.GetFlowerForUser2()
 	flower2.Site = &addedSite2.ID
 	flowerToAdd2 := testdata.PrepareFlowerForAdding(flower2)
-	addedFlower2, _ := s.Db.AddFlower(context.Background(), flowerToAdd2)
-	s.Db.AddFlowerToSite(context.Background(), addedSite2.ID, addedFlower2.ID)
+	addedFlower2, _ := s.MongoDb.AddFlower(context.Background(), flowerToAdd2)
+	s.MongoDb.AddFlowerToSite(context.Background(), addedSite2.ID, addedFlower2.ID)
 
-	fetchedFlowers, err := s.Db.GetAllFlowersRelatedToSite(
-		context.Background(), addedSite.ID, *site.Owner,
+	fetchedFlowers, err := s.MongoDb.GetAllFlowersRelatedToSite(
+		context.Background(), addedSite.ID, site.Owner,
 	)
 
 	s.Require().NoError(
@@ -291,15 +291,15 @@ func (s *DbFlowerTestSuite) TestAddAndGetFlowersRelatedToSite() {
 func (s *DbFlowerTestSuite) TestModifyAndGetFlower() {
 	flower := s.Flowers[0]
 	flowerToAdd := testdata.PrepareFlowerForAdding(flower)
-	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
+	addedFlower, _ := s.MongoDb.AddFlower(context.Background(), flowerToAdd)
 
-	modifiedFields := database.Flower{
+	modifiedFields := mongo.Flower{
 		Name:      "modified name",
 		LatinName: "modified latin name",
 		Quantity:  flower.Quantity + 1,
 	}
-	s.Db.ModifyFlower(context.Background(), addedFlower.ID, modifiedFields)
-	fetchedFlowers, err := s.Db.GetFlowers(context.Background())
+	s.MongoDb.ModifyFlower(context.Background(), addedFlower.ID, modifiedFields)
+	fetchedFlowers, err := s.MongoDb.GetFlowers(context.Background())
 
 	s.Require().NoError(
 		err,
@@ -354,17 +354,17 @@ func (s *DbFlowerTestSuite) TestModifyAndGetFlower() {
 
 func (s *DbFlowerTestSuite) TestDeleteAndGetMultipleFlowers() {
 	flowers := testdata.GetFlowers()
-	addedFlowers := []database.Flower{}
+	addedFlowers := []mongo.Flower{}
 
 	for _, flower := range flowers {
 		flowerToAdd := testdata.PrepareFlowerForAdding(flower)
-		addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
+		addedFlower, _ := s.MongoDb.AddFlower(context.Background(), flowerToAdd)
 		addedFlowers = append(addedFlowers, *addedFlower)
 	}
 
-	err := s.Db.DeleteMultipleFlowers(
+	err := s.MongoDb.DeleteMultipleFlowers(
 		context.Background(),
-		[]database.ObjectID{addedFlowers[0].ID, addedFlowers[1].ID},
+		[]mongo.ObjectID{addedFlowers[0].ID, addedFlowers[1].ID},
 	)
 
 	s.Require().NoError(
@@ -372,7 +372,7 @@ func (s *DbFlowerTestSuite) TestDeleteAndGetMultipleFlowers() {
 		"DeleteMultipleFlowers() should not return an error",
 	)
 
-	fetchedFlowers, _ := s.Db.GetFlowers(context.Background())
+	fetchedFlowers, _ := s.MongoDb.GetFlowers(context.Background())
 
 	s.Equal(
 		addedFlowers[2:],
@@ -384,7 +384,7 @@ func (s *DbFlowerTestSuite) TestDeleteAndGetMultipleFlowers() {
 func (s *DbFlowerTestSuite) TestSetVisibilityByTimeToFalse() {
 	users := testdata.GetUsers()
 
-	testFlower := database.Flower{
+	testFlower := mongo.Flower{
 		Name:        s.Flowers[0].Name,
 		LatinName:   s.Flowers[0].LatinName,
 		AddedTime:   time.Now(),
@@ -395,9 +395,9 @@ func (s *DbFlowerTestSuite) TestSetVisibilityByTimeToFalse() {
 		Quantity:    s.Flowers[0].Quantity,
 		Visible:     true,
 	}
-	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
+	addedFlower, _ := s.MongoDb.AddFlower(context.Background(), testFlower)
 	_ = addedFlower
-	modified, err := s.Db.UpdateVisibilityByTime(context.Background(), time.Now())
+	modified, err := s.MongoDb.UpdateVisibilityByTime(context.Background(), time.Now())
 
 	s.Require().NoError(
 		err,
@@ -414,7 +414,7 @@ func (s *DbFlowerTestSuite) TestTimerResetsWhenTogglingToVisible() {
 	users := testdata.GetUsers()
 	firstTime := time.Now()
 
-	testFlower := database.Flower{
+	testFlower := mongo.Flower{
 		Name:        s.Flowers[0].Name,
 		LatinName:   s.Flowers[0].LatinName,
 		AddedTime:   firstTime,
@@ -426,9 +426,9 @@ func (s *DbFlowerTestSuite) TestTimerResetsWhenTogglingToVisible() {
 		Visible:     false,
 	}
 
-	addedFlower, _ := s.Db.AddFlower(context.Background(), testFlower)
+	addedFlower, _ := s.MongoDb.AddFlower(context.Background(), testFlower)
 
-	testImage := database.Image{
+	testImage := mongo.Image{
 		ID:         s.Images[1].ID,
 		FileFormat: s.Images[1].FileFormat,
 		Note:       s.Images[1].Note,
@@ -436,10 +436,10 @@ func (s *DbFlowerTestSuite) TestTimerResetsWhenTogglingToVisible() {
 		Owner:      *s.Flowers[0].Grower,
 	}
 
-	fetchedFlowers, _ := s.Db.GetUserFlowers(context.Background(), *s.Flowers[0].Grower)
-	addedImage, _ := s.Db.AddImage(context.Background(), testImage)
+	fetchedFlowers, _ := s.MongoDb.GetUserFlowers(context.Background(), *s.Flowers[0].Grower)
+	addedImage, _ := s.MongoDb.AddImage(context.Background(), testImage)
 
-	err := s.Db.SetFavoriteImage(
+	err := s.MongoDb.SetFavoriteImage(
 		context.Background(),
 		*testFlower.Grower,
 		fetchedFlowers[0].ID,
@@ -451,7 +451,7 @@ func (s *DbFlowerTestSuite) TestTimerResetsWhenTogglingToVisible() {
 		"SetFavoriteImage() should not return an error",
 	)
 
-	modified, err := s.Db.ToggleFlowerVisibility(context.Background(), *testFlower.Grower, fetchedFlowers[0].ID)
+	modified, err := s.MongoDb.ToggleFlowerVisibility(context.Background(), *testFlower.Grower, fetchedFlowers[0].ID)
 
 	s.Require().NoError(
 		err,
@@ -463,7 +463,7 @@ func (s *DbFlowerTestSuite) TestTimerResetsWhenTogglingToVisible() {
 		"modified value should be true",
 	)
 
-	fetchedFlowers, err = s.Db.GetFlowers(context.Background())
+	fetchedFlowers, err = s.MongoDb.GetFlowers(context.Background())
 
 	s.Require().NoError(
 		err,
@@ -479,11 +479,11 @@ func (s *DbFlowerTestSuite) TestTimerResetsWhenTogglingToVisible() {
 }
 
 func (s *DbFlowerTestSuite) TearDownTest() {
-	s.Db.Clear()
+	s.MongoDb.Clear()
 }
 
 func (s *DbFlowerTestSuite) TearDownSuite() {
-	testutils.DisconnectDB(s.Db)
+	testutils.DisconnectMongoDB(s.MongoDb)
 }
 
 func TestDbFlowerTestSuite(t *testing.T) {

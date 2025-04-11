@@ -1,8 +1,9 @@
-package database
+package sql
 
 import (
 	"context"
 	"fmt"
+	"strconv"
 )
 
 type Membership struct {
@@ -38,8 +39,13 @@ func (pDb SQLDatabase) AddMembership(ctx context.Context, newMembership Membersh
 	return &newMembership, nil
 }
 
-func (pDb SQLDatabase) GetMembershipByUserId(ctx context.Context, userID int) (*Membership, error) {
+func (pDb SQLDatabase) GetMembershipByUserId(ctx context.Context, userID string) (*Membership, error) {
 	membership := new(Membership)
+	parsedUserID, err := strconv.Atoi(userID)
+	if err != nil {
+		return nil, err
+	}
+
 	query := `
 	SELECT
 		memberships.id,
@@ -57,7 +63,7 @@ func (pDb SQLDatabase) GetMembershipByUserId(ctx context.Context, userID int) (*
 	WHERE
 		users.id=$1`
 
-	err := pDb.pool.QueryRow(ctx, query, userID).Scan(
+	err = pDb.pool.QueryRow(ctx, query, parsedUserID).Scan(
 		&membership.ID,
 		&membership.CreatedAt,
 		&membership.LastModified,
@@ -72,14 +78,14 @@ func (pDb SQLDatabase) GetMembershipByUserId(ctx context.Context, userID int) (*
 	return membership, nil
 }
 
-func (pDd SQLDatabase) DeleteMembership(ctx context.Context, user_email string, business_id int) error {
+func (pDd SQLDatabase) DeleteMembership(ctx context.Context, userEmail string, businessId int) error {
 	query := `
 	DELETE FROM Memberships 
 	WHERE user_email = $1
 	AND business_id = $2
 	`
 
-	_, err := pDd.pool.Exec(ctx, query, user_email, business_id)
+	_, err := pDd.pool.Exec(ctx, query, userEmail, businessId)
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -147,4 +153,29 @@ func (pDb SQLDatabase) GetAllMembersInBusiness(ctx context.Context, businessID i
 	}
 
 	return memberships, nil
+}
+
+func (pDb SQLDatabase) EditMembership(ctx context.Context, membership Membership) error {
+	query := `
+	UPDATE 
+		Memberships
+	SET 
+		designation=$3
+	WHERE 
+		user_email=$1 AND
+		business_id=$2
+	`
+	_, err := pDb.pool.Exec(
+		ctx,
+		query,
+		membership.UserEmail,
+		membership.BusinessID,
+		membership.Designation,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

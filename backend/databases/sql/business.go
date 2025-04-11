@@ -1,8 +1,9 @@
-package database
+package sql
 
 import (
 	"context"
 	"fmt"
+	"strconv"
 )
 
 type Business struct {
@@ -59,8 +60,12 @@ func (pDb SQLDatabase) CreateBusiness(ctx context.Context, newBusiness Business)
 	return &newBusiness, nil
 }
 
-func (pDb SQLDatabase) GetBusinessByUserID(ctx context.Context, userID int) (*Business, error) {
+func (pDb SQLDatabase) GetBusinessByUserID(ctx context.Context, userID string) (*Business, error) {
 	business := new(Business)
+	parsedUserID, err := strconv.Atoi(userID)
+	if err != nil {
+		return nil, err
+	}
 
 	query := `
 		SELECT
@@ -82,7 +87,7 @@ func (pDb SQLDatabase) GetBusinessByUserID(ctx context.Context, userID int) (*Bu
 			INNER JOIN Users       ON Users.email = Memberships.user_email
 		WHERE
 			Users.id = $1`
-	err := pDb.pool.QueryRow(ctx, query, userID).Scan(
+	err = pDb.pool.QueryRow(ctx, query, parsedUserID).Scan(
 		&business.ID,
 		&business.BusinessName,
 		&business.Type,

@@ -3,14 +3,13 @@ import tokenService from "./token";
 import { parseCSV } from "../utils"
 
 
-const baseUrl = "/api/business";
-
 const create = (newBusiness, userEmail) => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
   };
+  const url = '/api/business'
   const request = axios.post(
-    baseUrl,
+    url,
     { ...newBusiness, userEmail: userEmail },
     config
   );
@@ -21,7 +20,8 @@ const get = () => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
   };
-  return axios.get(baseUrl, config).then((response) => response.data);
+  const url = '/api/business'
+  return axios.get(url, config).then((response) => response.data);
 };
 
 // kun kutsutaan tätä:
@@ -61,6 +61,15 @@ const getAllMembers = (businessID) => {
     throw error;
   });
 }
+// businessService.editMember({user_email, business_id, newdesignation})
+const editMember = (member) => {
+  const config = {
+    headers: { Authorization: tokenService.fetchToken(),
+    'Content-Type': 'application/json'},
+  }
+  const url = '/api/membership/edit'
+  return axios.post(url, member, config).then(response => response.data)
+}
 
 export default {
   create,
@@ -68,4 +77,5 @@ export default {
   addMembership,
   deleteMembership,
   getAllMembers,
+  editMember,
 };

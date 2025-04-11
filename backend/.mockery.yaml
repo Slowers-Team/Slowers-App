@@ -1,6 +1,6 @@
 with-expecter: true
 packages:
-    github.com/Slowers-team/Slowers-App/database:
+    github.com/Slowers-team/Slowers-App/databases/mongo:
         config:
             dir: "mocks"
             mockname: "{{.InterfaceName}}"

@@ -6,11 +6,11 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 
-	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
 )
 
 func GetFlowers(c *fiber.Ctx) error {
-	flowers, err := db.GetFlowers(c.Context())
+	flowers, err := MongoDb.GetFlowers(c.Context())
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
@@ -24,7 +24,7 @@ func GetUserFlowers(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	flowers, err := db.GetUserFlowers(c.Context(), userID)
+	flowers, err := MongoDb.GetUserFlowers(c.Context(), userID)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
@@ -38,12 +38,12 @@ func AddFlower(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	grower, err := db.GetUserByID(c.Context(), userID)
+	grower, err := sqlDb.GetUserByID(c.Context(), userID)
 	if err != nil {
 		return c.Status(500).SendString("User not found: " + err.Error())
 	}
 
-	flower := new(database.Flower)
+	flower := new(mongo.Flower)
 	if err := c.BodyParser(flower); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
@@ -56,7 +56,7 @@ func AddFlower(c *fiber.Ctx) error {
 		return c.Status(400).SendString("SiteID is required")
 	}
 
-	site, err := db.GetSiteByID(c.Context(), *flower.Site)
+	site, err := MongoDb.GetSiteByID(c.Context(), *flower.Site)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
@@ -69,16 +69,16 @@ func AddFlower(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Flower quantity cannot be negative")
 	}
 
-	newFlower := database.Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(),
+	newFlower := mongo.Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(),
 		Grower: &userID, GrowerEmail: grower.Email, Site: &site.ID, SiteName: site.Name, Quantity: flower.Quantity, Visible: false}
 
-	createdFlower, err := db.AddFlower(c.Context(), newFlower)
+	createdFlower, err := MongoDb.AddFlower(c.Context(), newFlower)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
 
 	flowerID := createdFlower.ID
-	err = db.AddFlowerToSite(c.Context(), site.ID, flowerID)
+	err = MongoDb.AddFlowerToSite(c.Context(), site.ID, flowerID)
 	if err != nil {
 		return c.Status(500).SendString("Failed to update site with flower ID: " + err.Error())
 	}
@@ -87,12 +87,12 @@ func AddFlower(c *fiber.Ctx) error {
 }
 
 func DeleteFlower(c *fiber.Ctx) error {
-	id, err := database.ParseID(c.Params("id"))
+	id, err := mongo.ParseID(c.Params("id"))
 	if err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	anyDeleted, err := db.DeleteFlower(c.Context(), id)
+	anyDeleted, err := MongoDb.DeleteFlower(c.Context(), id)
 	if err != nil {
 		return c.SendStatus(500)
 	}
@@ -109,12 +109,12 @@ func GetSiteFlowers(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	siteID, err := database.ParseID(c.Params("id"))
+	siteID, err := mongo.ParseID(c.Params("id"))
 	if err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	flowers, err := db.GetAllFlowersRelatedToSite(c.Context(), siteID, userID)
+	flowers, err := MongoDb.GetAllFlowersRelatedToSite(c.Context(), siteID, userID)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
@@ -128,12 +128,12 @@ func ToggleFlowerVisibility(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	flowerID, err := database.ParseID(c.Params("id"))
+	flowerID, err := mongo.ParseID(c.Params("id"))
 	if err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	newValue, err := db.ToggleFlowerVisibility(c.Context(), userID, flowerID)
+	newValue, err := MongoDb.ToggleFlowerVisibility(c.Context(), userID, flowerID)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
@@ -142,12 +142,12 @@ func ToggleFlowerVisibility(c *fiber.Ctx) error {
 }
 
 func ModifyFlower(c *fiber.Ctx) error {
-	id, err := database.ParseID(c.Params("id"))
+	id, err := mongo.ParseID(c.Params("id"))
 	if err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	flower := new(database.Flower)
+	flower := new(mongo.Flower)
 	if err := c.BodyParser(flower); err != nil {
 		return c.Status(400).SendString(err.Error())
 	}
@@ -160,7 +160,7 @@ func ModifyFlower(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Flower quantity cannot be negative")
 	}
 
-	updatedFlower, err := db.ModifyFlower(c.Context(), id, database.Flower{Name: flower.Name, LatinName: flower.LatinName, Quantity: flower.Quantity})
+	updatedFlower, err := MongoDb.ModifyFlower(c.Context(), id, mongo.Flower{Name: flower.Name, LatinName: flower.LatinName, Quantity: flower.Quantity})
 
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
@@ -175,16 +175,16 @@ func DeleteMultipleFlowers(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	var ids []database.ObjectID
+	var ids []mongo.ObjectID
 	for _, idStr := range flowerIDs {
-		id, err := database.ParseID(idStr)
+		id, err := mongo.ParseID(idStr)
 		if err != nil {
 			return c.Status(400).SendString(err.Error())
 		}
 		ids = append(ids, id)
 	}
 
-	if err := db.DeleteMultipleFlowers(c.Context(), ids); err != nil {
+	if err := MongoDb.DeleteMultipleFlowers(c.Context(), ids); err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
 
@@ -194,7 +194,7 @@ func DeleteMultipleFlowers(c *fiber.Ctx) error {
 func UpdateVisibilityByTime(timestamp time.Time) (int64, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	modified, err := database.Database.UpdateVisibilityByTime(db, ctx, timestamp)
+	modified, err := mongo.Database.UpdateVisibilityByTime(MongoDb, ctx, timestamp)
 	if err != nil {
 		return 0, err
 	}

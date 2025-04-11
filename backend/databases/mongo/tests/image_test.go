@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
 	"github.com/Slowers-team/Slowers-App/testdata"
 	"github.com/Slowers-team/Slowers-App/testutils"
 	"github.com/stretchr/testify/suite"
@@ -12,18 +12,18 @@ import (
 
 type DbImageTestSuite struct {
 	suite.Suite
-	Db database.Database
+	MongoDb mongo.Database
 }
 
 func (s *DbImageTestSuite) SetupSuite() {
-	s.Db = testutils.ConnectDB()
-	s.Db.Clear()
+	s.MongoDb = testutils.ConnectMongoDB()
+	s.MongoDb.Clear()
 }
 
 func (s *DbImageTestSuite) TestAddImage() {
 	for _, image := range testdata.GetImages() {
 		imageToAdd := testdata.PrepareImageForAdding(image)
-		addedImage, err := s.Db.AddImage(context.Background(), imageToAdd)
+		addedImage, err := s.MongoDb.AddImage(context.Background(), imageToAdd)
 
 		s.Require().NoError(
 			err,
@@ -59,8 +59,8 @@ func (s *DbImageTestSuite) TestAddImage() {
 func (s *DbImageTestSuite) TestAddAndDeleteImage() {
 	for _, image := range testdata.GetImages() {
 		imageToAdd := testdata.PrepareImageForAdding(image)
-		addedImage, _ := s.Db.AddImage(context.Background(), imageToAdd)
-		anyDeleted, err := s.Db.DeleteImage(
+		addedImage, _ := s.MongoDb.AddImage(context.Background(), imageToAdd)
+		anyDeleted, err := s.MongoDb.DeleteImage(
 			context.Background(), addedImage.ID,
 		)
 
@@ -77,15 +77,15 @@ func (s *DbImageTestSuite) TestAddAndDeleteImage() {
 
 func (s *DbImageTestSuite) TestAddAndGetImageByEntity() {
 	images := testdata.GetImages()
-	imagesToAdd := []database.Image{
+	imagesToAdd := []mongo.Image{
 		testdata.PrepareImageForAdding(images[0]),
 		testdata.PrepareImageForAdding(images[1]),
 	}
 
-	addedImage, _ := s.Db.AddImage(context.Background(), imagesToAdd[0])
-	s.Db.AddImage(context.Background(), imagesToAdd[1])
+	addedImage, _ := s.MongoDb.AddImage(context.Background(), imagesToAdd[0])
+	s.MongoDb.AddImage(context.Background(), imagesToAdd[1])
 
-	fetchedImages, err := s.Db.GetImagesByEntity(
+	fetchedImages, err := s.MongoDb.GetImagesByEntity(
 		context.Background(), images[0].Entity.Hex(),
 	)
 
@@ -128,15 +128,15 @@ func (s *DbImageTestSuite) TestAddAndGetImageByEntity() {
 
 func (s *DbImageTestSuite) TestAddAndGetImageByID() {
 	images := testdata.GetImages()
-	imagesToAdd := []database.Image{
+	imagesToAdd := []mongo.Image{
 		testdata.PrepareImageForAdding(images[0]),
 		testdata.PrepareImageForAdding(images[1]),
 	}
 
-	addedImage, _ := s.Db.AddImage(context.Background(), imagesToAdd[0])
-	s.Db.AddImage(context.Background(), imagesToAdd[1])
+	addedImage, _ := s.MongoDb.AddImage(context.Background(), imagesToAdd[0])
+	s.MongoDb.AddImage(context.Background(), imagesToAdd[1])
 
-	fetchedImage, err := s.Db.GetImageByID(context.Background(), addedImage.ID)
+	fetchedImage, err := s.MongoDb.GetImageByID(context.Background(), addedImage.ID)
 
 	s.Require().NoError(
 		err,
@@ -172,13 +172,13 @@ func (s *DbImageTestSuite) TestAddAndGetImageByID() {
 func (s *DbImageTestSuite) TestClearFavoriteImageForFlower() {
 	flower := testdata.GetFlowers()[0]
 	flowerToAdd := testdata.PrepareFlowerForAdding(flower)
-	addedFlower, _ := s.Db.AddFlower(context.Background(), flowerToAdd)
+	addedFlower, _ := s.MongoDb.AddFlower(context.Background(), flowerToAdd)
 
 	image := testdata.GetImages()[0]
 	imageToAdd := testdata.PrepareImageForAdding(image)
-	addedImage, _ := s.Db.AddImage(context.Background(), imageToAdd)
+	addedImage, _ := s.MongoDb.AddImage(context.Background(), imageToAdd)
 
-	s.Db.SetFavoriteImage(
+	s.MongoDb.SetFavoriteImage(
 		context.Background(),
 		*flower.Grower,
 		addedFlower.ID,
@@ -186,7 +186,7 @@ func (s *DbImageTestSuite) TestClearFavoriteImageForFlower() {
 		"flowers",
 	)
 
-	err := s.Db.ClearFavoriteImage(
+	err := s.MongoDb.ClearFavoriteImage(
 		context.Background(),
 		*flower.Grower,
 		addedFlower.ID,
@@ -198,7 +198,7 @@ func (s *DbImageTestSuite) TestClearFavoriteImageForFlower() {
 		"ClearFavoriteImage() should not return an error",
 	)
 
-	fetchedFlowers, _ := s.Db.GetFlowers(context.Background())
+	fetchedFlowers, _ := s.MongoDb.GetFlowers(context.Background())
 
 	for _, fetchedFlower := range fetchedFlowers {
 		if fetchedFlower.ID == addedFlower.ID {
@@ -214,23 +214,23 @@ func (s *DbImageTestSuite) TestClearFavoriteImageForFlower() {
 func (s *DbImageTestSuite) TestClearFavoriteImageForSite() {
 	site := testdata.GetRootSites()[0]
 	siteToAdd := testdata.PrepareSiteForAdding(site)
-	addedSite, _ := s.Db.AddSite(context.Background(), siteToAdd)
+	addedSite, _ := s.MongoDb.AddSite(context.Background(), siteToAdd)
 
 	image := testdata.GetImages()[1]
 	imageToAdd := testdata.PrepareImageForAdding(image)
-	addedImage, _ := s.Db.AddImage(context.Background(), imageToAdd)
+	addedImage, _ := s.MongoDb.AddImage(context.Background(), imageToAdd)
 
-	s.Db.SetFavoriteImage(
+	s.MongoDb.SetFavoriteImage(
 		context.Background(),
-		*site.Owner,
+		site.Owner,
 		addedSite.ID,
 		addedImage.ID,
 		"sites",
 	)
 
-	err := s.Db.ClearFavoriteImage(
+	err := s.MongoDb.ClearFavoriteImage(
 		context.Background(),
-		*site.Owner,
+		site.Owner,
 		addedSite.ID,
 		"sites",
 	)
@@ -240,9 +240,9 @@ func (s *DbImageTestSuite) TestClearFavoriteImageForSite() {
 		"ClearFavoriteImage() should not return an error",
 	)
 
-	fetchedSites, _ := s.Db.GetRootSites(
+	fetchedSites, _ := s.MongoDb.GetRootSites(
 		context.Background(),
-		*site.Owner,
+		site.Owner,
 	)
 
 	for _, fetchedSite := range fetchedSites {
@@ -257,11 +257,11 @@ func (s *DbImageTestSuite) TestClearFavoriteImageForSite() {
 }
 
 func (s *DbImageTestSuite) TearDownTest() {
-	s.Db.Clear()
+	s.MongoDb.Clear()
 }
 
 func (s *DbImageTestSuite) TearDownSuite() {
-	testutils.DisconnectDB(s.Db)
+	testutils.DisconnectMongoDB(s.MongoDb)
 }
 
 func TestDbImageTestSuite(t *testing.T) {
