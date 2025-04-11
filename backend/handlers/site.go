@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"log"
 	"time"
 
@@ -8,6 +9,21 @@ import (
 
 	"github.com/Slowers-team/Slowers-App/databases/mongo"
 )
+
+func SetFlowers(flowers []*mongo.ObjectID) []*mongo.ObjectID {
+	if flowers != nil {
+		return flowers
+	} else {
+		return make([]*mongo.ObjectID, 0)
+	}
+}
+
+func ValidateSite(site mongo.Site) error {
+	if site.Name == "" {
+		return errors.New("Site name cannot be empty")
+	}
+	return nil
+}
 
 func AddSite(c *fiber.Ctx) error {
 	userID, err := GetCurrentUser(c)
@@ -21,16 +37,12 @@ func AddSite(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	if site.Name == "" {
-		return c.Status(400).SendString("Site name cannot be empty")
+	err = ValidateSite(*site)
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
 	}
 
-	var flowers []*mongo.ObjectID
-	if site.Flowers != nil {
-		flowers = site.Flowers
-	} else {
-		flowers = make([]*mongo.ObjectID, 0)
-	}
+	flowers := SetFlowers(site.Flowers)
 
 	newSite := mongo.Site{Name: site.Name, Note: site.Note, AddedTime: time.Now(),
 		Parent: site.Parent, Flowers: flowers, Owner: userID}
