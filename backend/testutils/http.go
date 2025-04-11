@@ -9,8 +9,9 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/Slowers-team/Slowers-App/application"
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
+	"github.com/Slowers-team/Slowers-App/databases/sql"
 	"github.com/Slowers-team/Slowers-App/handlers"
-	"github.com/Slowers-team/Slowers-App/mocks"
 )
 
 type TestCase struct {
@@ -22,15 +23,18 @@ type TestCase struct {
 	ExpectedCode     int
 	ExpectedBody     []byte
 	ExpectedBodyFunc func(body []byte)
-	SetupMocks       func(db *mocks.Database)
+	SetupSql         func(sql sql.Database)
+	SetupMongo       func(mongo mongo.Database)
 }
 
 func RunTest(t *testing.T, test TestCase) {
 	app := application.SetupAndSetAuthTo(false) //TODO: Add Psql toggle
-	db := mocks.NewDatabase(t)
-	handlers.SetDatabases(db, nil)
+	mongo := ConnectMongoDB()
+	sql := ConnectSqlDB()
 
-	test.SetupMocks(db)
+	handlers.SetDatabases(mongo, sql)
+	test.SetupMongo(mongo)
+	test.SetupSql(sql)
 
 	req, _ := http.NewRequest(
 		test.Method,
@@ -39,8 +43,6 @@ func RunTest(t *testing.T, test TestCase) {
 	)
 	req.Header.Add("Content-Type", test.ContentType)
 	res, err := app.Test(req, -1)
-
-	db.AssertExpectations(t)
 
 	assert.Equal(t, test.ExpectedCode, res.StatusCode, test.Description)
 

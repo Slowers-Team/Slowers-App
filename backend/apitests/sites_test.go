@@ -13,6 +13,7 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/Slowers-team/Slowers-App/databases/mongo"
+	"github.com/Slowers-team/Slowers-App/databases/sql"
 	"github.com/Slowers-team/Slowers-App/mocks"
 	"github.com/Slowers-team/Slowers-App/testdata"
 	"github.com/Slowers-team/Slowers-App/testutils"
@@ -23,7 +24,7 @@ type SitesAPITestSuite struct {
 	suite.Suite
 	Flowers   []mongo.Flower
 	RootSites []mongo.Site
-	User      mongo.User
+	User      sql.User
 }
 
 func (s *SitesAPITestSuite) SetupSuite() {
