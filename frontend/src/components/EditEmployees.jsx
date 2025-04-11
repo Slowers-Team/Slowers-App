@@ -1,8 +1,9 @@
+import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import businessService from "../services/business"
 
 
-const ShowEmployee = ({ employee, handleEditEmployee }) => {
+const ShowEmployee = ({ employee, handleEditEmployee, handleDeletion }) => {
   console.log(employee)
   return (
     <tr>
@@ -10,6 +11,9 @@ const ShowEmployee = ({ employee, handleEditEmployee }) => {
       <td>{employee[1]}</td>
       <td>
         <EditEmployeeForm employee={employee} handleEditEmployee={handleEditEmployee} />
+      </td>
+      <td>
+        <DeleteEmployeeForm employee={employee} handleDeletion={handleDeletion} />
       </td>
     </tr>
   )
@@ -32,6 +36,15 @@ const EditEmployeeForm = ({ employee, handleEditEmployee }) => {
   )
 }
 
+const DeleteEmployeeForm = ({ employee, handleDeletion }) => {
+  return (
+    <form onSubmit={handleDeletion}>
+      <input type="hidden" name="email" value={employee[0]} />
+      <button type="submit" className="custom-button">Delete</button>
+    </form>
+  )
+}
+
 const EditEmployees = ({ employees, onEmployeeEdited }) => {
   const { t, i18n } = useTranslation()
 
@@ -45,6 +58,18 @@ const EditEmployees = ({ employees, onEmployeeEdited }) => {
     await businessService.editMember({userEmail, businessId, designation})
     onEmployeeEdited()
   }
+  const handleDeletion = (employee) => {
+    console.log("Trying to delete employee:", employee);
+
+    businessService.deleteMembership(employee)
+      .then(() => {
+        console.log("Fetching updated employee list...");
+        employeeGetter();
+      })
+      .catch(error => {
+        console.error("Error deleting employee:", error);
+      });
+	}
 
   return (
     <div>
@@ -53,7 +78,12 @@ const EditEmployees = ({ employees, onEmployeeEdited }) => {
         <tbody>
           {Array.isArray(employees) && employees.length > 0 ? (
           employees.map(employee => (
-            <ShowEmployee employee={employee} handleEditEmployee={handleEditEmployee} key={employee[0]} />
+            <ShowEmployee 
+              employee={employee}
+              handleEditEmployee={handleEditEmployee}
+              handleDeletion={handleDeletion}
+              key={employee[0]}
+            />
           ))
         ) : (
         <tr>
