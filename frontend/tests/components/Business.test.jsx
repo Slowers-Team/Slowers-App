@@ -1,18 +1,20 @@
 import userEvent from '@testing-library/user-event'
 import { render, screen } from '@testing-library/react'
 import CreateBusinessForm from '../../src/components/CreateBusinessForm'
-
+import { expect, vi } from 'vitest'
 
 
 test('sends form if fields are filled correctly', async () =>{
-    render(<CreateBusinessForm CreateBusinessForm = {CreateBusinessForm}/>)
-
+    const BusinessForm = vi.fn()
     const user = userEvent.setup()
+
+    render(<CreateBusinessForm BusinessForm = {BusinessForm}/>)
+
 
     const Businessname = screen.getByPlaceholderText('Enter the name of the business')
     const BusinessID = screen.getByPlaceholderText('Enter business ID')
     const TypeOfTheBusiness = screen.getByText('Retailer')
-    const BusinessEmail = screen.getAllByPlaceholderText('Enter email')
+    const BusinessEmail = screen.getByPlaceholderText('Enter email')
     const PhoneNumber = screen.getByPlaceholderText('Enter phone number')
     const Address = screen.getByPlaceholderText('Enter address')
     const PostalCode = screen.getByPlaceholderText('Enter postal code')
@@ -20,8 +22,6 @@ test('sends form if fields are filled correctly', async () =>{
     const AdditionalInformation = screen.getByPlaceholderText('Enter additional information')
 
     const CreateBusiness = screen.getByText('Create business')
-
-
 
     await user.type(Businessname, 'Flower Business') 
     await user.type(BusinessID, '1234567-8')
@@ -35,6 +35,11 @@ test('sends form if fields are filled correctly', async () =>{
 
     await user.click(CreateBusiness)
 
-    // screen.getByText('Created:')
+
+    expect(BusinessForm.mock.calls).toHaveLength(1)
+
+
+    
+    
 })
 
