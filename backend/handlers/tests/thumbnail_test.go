@@ -1,7 +1,4 @@
-//go:build api
-// +build api
-
-package apitests
+package tests
 
 import (
 	"bytes"
@@ -14,7 +11,6 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/Slowers-team/Slowers-App/databases/mongo"
-	"github.com/Slowers-team/Slowers-App/mocks"
 	"github.com/Slowers-team/Slowers-App/testutils"
 	"github.com/Slowers-team/Slowers-App/utils"
 
@@ -96,7 +92,7 @@ func (s *ThumbnailAPITestSuite) TestThumbnailDownload() {
 		Body:         []byte{},
 		ExpectedCode: 200,
 		ExpectedBody: filedata,
-		SetupMocks:   func(db *mocks.Database) {},
+		SetupMongo:   func(mongo mongo.Database) {},
 	})
 
 	if err := os.RemoveAll("./thumbnails"); err != nil {
