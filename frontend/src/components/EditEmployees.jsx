@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useTranslation } from "react-i18next"
 
 const ShowEmployee = ({ employee, handleEditEmployee }) => {
@@ -34,6 +35,32 @@ const EditEmployees = ({ employees }) => {
     console.log('handleEditEmployee')
   }
 
+const DeleteEmployees = ({ employees }) => {
+  const { t, i18n } = useTranslation()
+  //const [employees, setEmployees] = useState() //mitä pitää laittaa
+
+  const employeeGetter = async () => {
+    const business = await businessService.get();
+    setEmployees(await businessService.getAllMembers(business.ID));
+  }
+
+  useEffect(() => {
+    employeeGetter();
+  }, []);
+  
+  const handleDeletion = (employee) => {
+    console.log("Trying to delete employee:", employee);
+  
+    businessService.deleteMembership(employee)
+      .then(() => {
+        console.log("Fetching updated employee list...");
+        employeeGetter();
+      })
+      .catch(error => {
+        console.error("Error deleting employee:", error);
+      });
+  }
+}
 
   return (
     <div>
