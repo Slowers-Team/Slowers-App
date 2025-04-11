@@ -70,3 +70,19 @@ func DeleteMembership(c *fiber.Ctx) error {
 	}
 	return c.SendStatus(204)
 }
+
+func EditMembership(c *fiber.Ctx) error {
+	member := new(sql.Membership)
+	if err := c.BodyParser(member); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	err := sqlDb.EditMembership(c.Context(), *member)
+
+	if err != nil {
+		fmt.Println("Failed editing membership")
+		return c.Status(500).SendString(err.Error())
+	}
+
+	return c.SendStatus(204)
+}
