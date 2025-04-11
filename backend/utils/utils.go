@@ -18,6 +18,7 @@ import (
 	"image/png"
 	"io"
 
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
 	"github.com/Slowers-team/Slowers-App/databases/sql"
 	"golang.org/x/image/draw"
 
@@ -157,6 +158,14 @@ func SetCollectionType(entityType string) (string, error) {
 		return "flowers", nil
 	}
 	return "", errors.New(fmt.Sprintf("Invalid EntityType: %v", entityType))
+}
+
+func SetFlowers(flowers []*mongo.ObjectID) []*mongo.ObjectID {
+	if flowers != nil {
+		return flowers
+	} else {
+		return make([]*mongo.ObjectID, 0)
+	}
 }
 
 func MembersIntoCSV(members []sql.Membership) string {

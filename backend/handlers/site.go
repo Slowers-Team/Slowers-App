@@ -8,15 +8,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 
 	"github.com/Slowers-team/Slowers-App/databases/mongo"
+	"github.com/Slowers-team/Slowers-App/utils"
 )
-
-func SetFlowers(flowers []*mongo.ObjectID) []*mongo.ObjectID {
-	if flowers != nil {
-		return flowers
-	} else {
-		return make([]*mongo.ObjectID, 0)
-	}
-}
 
 func ValidateSite(site mongo.Site) error {
 	if site.Name == "" {
@@ -42,7 +35,7 @@ func AddSite(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	flowers := SetFlowers(site.Flowers)
+	flowers := utils.SetFlowers(site.Flowers)
 
 	newSite := mongo.Site{Name: site.Name, Note: site.Note, AddedTime: time.Now(),
 		Parent: site.Parent, Flowers: flowers, Owner: userID}
