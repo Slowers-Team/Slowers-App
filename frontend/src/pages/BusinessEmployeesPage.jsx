@@ -9,6 +9,7 @@ import EditEmployees from "../components/EditEmployees"
 const BusinessEmployeesPage = () => {
   const [employees, setEmployees] = useState([])
   const { t, i18n } = useTranslation()
+
   const employeeGetter = async () => {
     const business = await businessService.get();
     setEmployees(await businessService.getAllMembers(business.ID));
@@ -17,7 +18,6 @@ const BusinessEmployeesPage = () => {
     employeeGetter();
   }, []);
   
-
 
   return (
     <div className="m-3">
@@ -29,7 +29,7 @@ const BusinessEmployeesPage = () => {
               <br/>
               <h2>{ t("menu.employees") }</h2>
               <EmployeesList employees={employees} />              
-              <EditEmployees employees={employees} />
+              <EditEmployees employees={employees} onEmployeeEdited={employeeGetter} />
             </div>
           </div>
         </div>
