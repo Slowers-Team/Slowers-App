@@ -154,3 +154,28 @@ func (pDb SQLDatabase) GetAllMembersInBusiness(ctx context.Context, businessID i
 
 	return memberships, nil
 }
+
+func (pDb SQLDatabase) EditMembership(ctx context.Context, membership Membership) error {
+	query := `
+	UPDATE 
+		Memberships
+	SET 
+		designation=$3
+	WHERE 
+		user_email=$1 AND
+		business_id=$2
+	`
+	_, err := pDb.pool.Exec(
+		ctx,
+		query,
+		membership.UserEmail,
+		membership.BusinessID,
+		membership.Designation,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

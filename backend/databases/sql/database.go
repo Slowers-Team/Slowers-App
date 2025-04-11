@@ -26,6 +26,7 @@ type Database interface {
 	GetMembershipByUserId(ctx context.Context, userID string) (*Membership, error)
 	GetAllMembersInBusiness(ctx context.Context, businessID int) ([]Membership, error)
 	DeleteMembership(ctx context.Context, userEmail string, businessId int) error
+	EditMembership(ctx context.Context, membership Membership) error
 }
 
 type SQLDatabase struct {
