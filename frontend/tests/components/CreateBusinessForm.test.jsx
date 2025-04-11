@@ -5,10 +5,10 @@ import { expect, vi } from 'vitest'
 
 
 test('sends form if fields are filled correctly', async () =>{
-    const BusinessForm = vi.fn()
+    const createNewBusiness = vi.fn()
     const user = userEvent.setup()
 
-    render(<CreateBusinessForm BusinessForm = {BusinessForm}/>)
+    render(<CreateBusinessForm createNewBusiness = {createNewBusiness}/>)
 
 
     const Businessname = screen.getByPlaceholderText('Enter the name of the business')
@@ -35,11 +35,6 @@ test('sends form if fields are filled correctly', async () =>{
 
     await user.click(CreateBusiness)
 
-
-    expect(BusinessForm.mock.calls).toHaveLength(1)
-
-
-    
-    
+    expect(createNewBusiness.mock.calls).toHaveLength(1)
 })
 
