@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/Slowers-team/Slowers-App/databases/mongo"
+	"github.com/Slowers-team/Slowers-App/databases/sql"
 	"github.com/Slowers-team/Slowers-App/utils"
 )
 
@@ -240,4 +241,23 @@ func TestNegativeSizeImageIsNotValid(t *testing.T) {
 	var size int64 = -100
 	result := utils.ImageIsLargerThanZero(size)
 	assert.False(t, result)
+}
+
+func TestMembersIntoCSV(t *testing.T) {
+	membersInList := []sql.Membership{
+		{
+			UserEmail:   "tester@test.fi",
+			Designation: "owner",
+		},
+		{
+			UserEmail:   "another@test.fi",
+			Designation: "employee",
+		},
+	}
+
+	result := utils.MembersIntoCSV(membersInList)
+
+	expectedResult := "tester@test.fi,owner\nanother@test.fi,employee"
+
+	assert.Equal(t, expectedResult, result, "CSV formats doesn't match")
 }
