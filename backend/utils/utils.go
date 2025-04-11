@@ -18,7 +18,6 @@ import (
 	"image/png"
 	"io"
 
-	"github.com/Slowers-team/Slowers-App/databases/mongo"
 	"github.com/Slowers-team/Slowers-App/databases/sql"
 	"golang.org/x/image/draw"
 
@@ -140,15 +139,6 @@ func BufferToMultipartFileHeader(buf *bytes.Buffer, filename string) (*multipart
 	return fileHeader, nil
 }
 
-func ImageNoteIsNotEmpty(image mongo.Image) bool {
-	return image.Note != ""
-
-}
-
-func EntityAssociatedWithImageIsNotNUll(image mongo.Image) bool {
-	return image.Entity != nil || *image.Entity != mongo.NilObjectID
-}
-
 func SetImageFormat(filetype string) (string, error) {
 	if filetype == "image/jpeg" {
 		return "jpg", nil
@@ -159,12 +149,14 @@ func SetImageFormat(filetype string) (string, error) {
 	}
 }
 
-func ImageIsNotTooLarge(size int64) bool {
-	return size < 10485760
-}
-
-func ImageIsLargerThanZero(size int64) bool {
-	return size > 0
+func SetCollectionType(entityType string) (string, error) {
+	if entityType == "site" {
+		return "sites", nil
+	}
+	if entityType == "flower" {
+		return "flowers", nil
+	}
+	return "", errors.New(fmt.Sprintf("Invalid EntityType: %v", entityType))
 }
 
 func MembersIntoCSV(members []sql.Membership) string {

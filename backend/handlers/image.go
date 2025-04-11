@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"mime/multipart"
 	"strings"
 
 	"github.com/Slowers-team/Slowers-App/databases/mongo"
@@ -15,6 +16,26 @@ import (
 	"github.com/gofiber/fiber/v2"
 	mongoDriver "go.mongodb.org/mongo-driver/mongo"
 )
+
+func ValidateImage(image mongo.Image) error {
+	if image.Note == "" {
+		return errors.New("Image note cannot be empty")
+	}
+	if image.Entity == nil || *image.Entity == mongo.NilObjectID {
+		return errors.New("Entity associated to image cannot be null")
+	}
+	return nil
+}
+
+func ValidateFile(file multipart.FileHeader) error {
+	if file.Size > 10485760 {
+		return errors.New("Image cannot be larger than 10 MB")
+	}
+	if file.Size <= 0 {
+		return errors.New("Image size cannot be zero or negative")
+	}
+	return nil
+}
 
 func UploadImage(c *fiber.Ctx) error {
 	userID, err := GetCurrentUser(c)
@@ -27,12 +48,9 @@ func UploadImage(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	if !utils.ImageNoteIsNotEmpty(*image) {
-		return c.Status(400).SendString("Image note cannot be empty")
-	}
-
-	if !utils.EntityAssociatedWithImageIsNotNUll(*image) {
-		return c.Status(400).SendString("Entity associated to image cannot be null")
+	err = ValidateImage(*image)
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
 	}
 
 	file, err := c.FormFile("image")
@@ -45,20 +63,10 @@ func UploadImage(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	if !utils.ImageIsNotTooLarge(file.Size) {
-		return c.Status(400).SendString("Image cannot be larger than 10 MB")
+	err = ValidateFile(*file)
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
 	}
-
-	if !utils.ImageIsLargerThanZero(file.Size) {
-		return c.Status(400).SendString("Image size cannot be zero or negative")
-	}
-
-	// if fileinfo, err := os.Stat("./images"); errors.Is(err, os.ErrNotExist) || !fileinfo.IsDir() {
-	// 	os.Remove("./images")
-	// 	if err := os.Mkdir("./images", 0775); err != nil {
-	// 		return c.Status(500).SendString("Could not create directory for images: " + err.Error())
-	// 	}
-	// }
 
 	newImage := mongo.Image{FileFormat: fileext, Note: image.Note, Entity: image.Entity, Owner: userID}
 
@@ -66,12 +74,6 @@ func UploadImage(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
-
-	// savepath := "./images/" + createdImage.ID.Hex() + "." + fileext
-	// if err := c.SaveFile(file, savepath); err != nil {
-	// 	db.DeleteImage(c.Context(), createdImage.ID)
-	// 	return c.Status(500).SendString(err.Error())
-	// }
 
 	// Read the file into a byte slice
 	fileContent, err := file.Open()
@@ -88,6 +90,7 @@ func UploadImage(c *fiber.Ctx) error {
 	// Create an io.Reader from the byte slice
 	fileReader := bytes.NewReader(fileBytes)
 
+	// THIS PART IS IF YOU WANT TO BRING BACK THUMBNAILS, IT DOES NOT WORK RIGHT NOW
 	// if filedir, err := os.Stat("./thumbnails"); errors.Is(err, os.ErrNotExist) || !filedir.IsDir() {
 	// 	os.Remove("./thumbnails")
 	// 	if err := os.Mkdir("./thumbnails", 0775); err != nil {
@@ -199,18 +202,6 @@ func DeleteImage(c *fiber.Ctx) error {
 	// extensions := []string{"jpg", "png"}
 	// found := false
 
-	// for _, ext := range extensions {
-	// 	imagePath := fmt.Sprintf("./images/%s.%s", id.Hex(), ext)
-	// 	if _, err := os.Stat(imagePath); err == nil {
-	// 		if err := os.Remove(imagePath); err != nil {
-	// 			return c.Status(fiber.StatusInternalServerError).SendString("Error deleting image file")
-	// 		}
-	// 		log.Printf("Successfully deleted image file: %s", imagePath)
-	// 		found = true
-	// 		break
-	// 	}
-	// }
-
 	// if !found {
 	// 	log.Printf("Image file not found for ID: %s", id.Hex())
 	// 	return c.Status(fiber.StatusNotFound).SendString("Image file not found")
@@ -256,14 +247,9 @@ func SetFavorite(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid entity ID format: %v", formData.EntityID))
 	}
 
-	var Collection string
-	switch formData.EntityType {
-	case "site":
-		Collection = "sites"
-	case "flower":
-		Collection = "flowers"
-	default:
-		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid EntityType: %v", formData.EntityType))
+	collection, err := utils.SetCollectionType(formData.EntityType)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 	}
 
 	ImageID, err := mongo.ParseID(formData.ImageID)
@@ -276,7 +262,7 @@ func SetFavorite(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).SendString("Could not get current user")
 	}
 
-	err = MongoDb.SetFavoriteImage(c.Context(), UserID, EntityID, ImageID, Collection)
+	err = MongoDb.SetFavoriteImage(c.Context(), UserID, EntityID, ImageID, collection)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
@@ -300,14 +286,9 @@ func ClearFavorite(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid entity ID format: %v", formData.EntityID))
 	}
 
-	var Collection string
-	switch formData.EntityType {
-	case "site":
-		Collection = "sites"
-	case "flower":
-		Collection = "flowers"
-	default:
-		return c.Status(fiber.StatusBadRequest).SendString(fmt.Sprintf("Invalid EntityType: %v", formData.EntityType))
+	collection, err := utils.SetCollectionType(formData.EntityType)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
 	}
 
 	UserID, err := GetCurrentUser(c)
@@ -315,7 +296,7 @@ func ClearFavorite(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).SendString("Could not get current user")
 	}
 
-	err = MongoDb.ClearFavoriteImage(c.Context(), UserID, EntityID, Collection)
+	err = MongoDb.ClearFavoriteImage(c.Context(), UserID, EntityID, collection)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
