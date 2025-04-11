@@ -5,12 +5,12 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	database "github.com/Slowers-team/Slowers-App/database/psql"
-	"github.com/Slowers-team/Slowers-App/handlersPsql"
+	"github.com/Slowers-team/Slowers-App/databases/sql"
+	"github.com/Slowers-team/Slowers-App/handlers"
 )
 
 func TestValidateBusinessWithCorrectInput(t *testing.T) {
-	correctBusiness := database.Business{
+	correctBusiness := sql.Business{
 		ID:             1,
 		BusinessName:   "Test Business",
 		BusinessIdCode: "1234567-8",
@@ -22,12 +22,12 @@ func TestValidateBusinessWithCorrectInput(t *testing.T) {
 		City:           "Flowertown",
 		AdditionalInfo: "No notes",
 	}
-	err := handlersPsql.ValidateBusiness(correctBusiness)
+	err := handlers.ValidateBusiness(correctBusiness)
 	assert.NoError(t, err, "ValidateBusiness() should not return an error")
 }
 
 func TestValidateBusinessWithInCorrectBusinessEmail(t *testing.T) {
-	incorrectBusiness := database.Business{
+	incorrectBusiness := sql.Business{
 		ID:             1,
 		BusinessName:   "Test Business",
 		BusinessIdCode: "1234567-8",
@@ -39,12 +39,12 @@ func TestValidateBusinessWithInCorrectBusinessEmail(t *testing.T) {
 		City:           "Flowertown",
 		AdditionalInfo: "No notes",
 	}
-	err := handlersPsql.ValidateBusiness(incorrectBusiness)
+	err := handlers.ValidateBusiness(incorrectBusiness)
 	assert.ErrorContains(t, err, "invalid business email")
 }
 
 func TestValidateBusinessWithInCorrectBusinessIdCode(t *testing.T) {
-	incorrectBusiness := database.Business{
+	incorrectBusiness := sql.Business{
 		ID:             1,
 		BusinessName:   "Test Business",
 		BusinessIdCode: "12345678",
@@ -56,12 +56,12 @@ func TestValidateBusinessWithInCorrectBusinessIdCode(t *testing.T) {
 		City:           "Flowertown",
 		AdditionalInfo: "No notes",
 	}
-	err := handlersPsql.ValidateBusiness(incorrectBusiness)
+	err := handlers.ValidateBusiness(incorrectBusiness)
 	assert.ErrorContains(t, err, "invalid business id code")
 }
 
 func TestValidateBusinessWithInCorrectPostalCode(t *testing.T) {
-	incorrectBusiness := database.Business{
+	incorrectBusiness := sql.Business{
 		ID:             1,
 		BusinessName:   "Test Business",
 		BusinessIdCode: "1234567-8",
@@ -73,12 +73,12 @@ func TestValidateBusinessWithInCorrectPostalCode(t *testing.T) {
 		City:           "Flowertown",
 		AdditionalInfo: "No notes",
 	}
-	err := handlersPsql.ValidateBusiness(incorrectBusiness)
+	err := handlers.ValidateBusiness(incorrectBusiness)
 	assert.ErrorContains(t, err, "invalid postal code")
 }
 
 func TestValidateBusinessWithInCorrectPhoneNumber(t *testing.T) {
-	incorrectBusiness := database.Business{
+	incorrectBusiness := sql.Business{
 		ID:             1,
 		BusinessName:   "Test Business",
 		BusinessIdCode: "1234567-8",
@@ -90,12 +90,12 @@ func TestValidateBusinessWithInCorrectPhoneNumber(t *testing.T) {
 		City:           "Flowertown",
 		AdditionalInfo: "No notes",
 	}
-	err := handlersPsql.ValidateBusiness(incorrectBusiness)
+	err := handlers.ValidateBusiness(incorrectBusiness)
 	assert.ErrorContains(t, err, "invalid phone number")
 }
 
 func TestValidateBusinessWithEmptyField(t *testing.T) {
-	incorrectBusiness := database.Business{
+	incorrectBusiness := sql.Business{
 		ID:             1,
 		BusinessName:   "Test Business",
 		BusinessIdCode: "1234567-8",
@@ -107,30 +107,30 @@ func TestValidateBusinessWithEmptyField(t *testing.T) {
 		City:           "Flowertown",
 		AdditionalInfo: "No notes",
 	}
-	err := handlersPsql.ValidateBusiness(incorrectBusiness)
+	err := handlers.ValidateBusiness(incorrectBusiness)
 	assert.ErrorContains(t, err, "all fields are required")
 }
 
 func TestValidateUserEmailWithCorrectInput(t *testing.T) {
-	correctEmail := handlersPsql.UserEmail{
+	correctEmail := handlers.UserEmail{
 		UserEmail: "testuser@test.fi",
 	}
-	err := handlersPsql.ValidateUserEmail(correctEmail)
+	err := handlers.ValidateUserEmail(correctEmail)
 	assert.NoError(t, err, "ValidateUserMail() should not return an error")
 }
 
 func TestValidateUserEmailWithIncorrectEmail(t *testing.T) {
-	correctEmail := handlersPsql.UserEmail{
+	correctEmail := handlers.UserEmail{
 		UserEmail: "testuser@testfi",
 	}
-	err := handlersPsql.ValidateUserEmail(correctEmail)
+	err := handlers.ValidateUserEmail(correctEmail)
 	assert.ErrorContains(t, err, "invalid user email")
 }
 
 func TestValidateUserEmailWithEmptyEmail(t *testing.T) {
-	correctEmail := handlersPsql.UserEmail{
+	correctEmail := handlers.UserEmail{
 		UserEmail: "",
 	}
-	err := handlersPsql.ValidateUserEmail(correctEmail)
+	err := handlers.ValidateUserEmail(correctEmail)
 	assert.ErrorContains(t, err, "all fields are required")
 }

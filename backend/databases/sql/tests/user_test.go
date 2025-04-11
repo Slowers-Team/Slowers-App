@@ -1,6 +1,3 @@
-//go:build sql
-// +build sql
-
 package tests
 
 import (
@@ -10,34 +7,34 @@ import (
 	"github.com/stretchr/testify/suite"
 	"golang.org/x/crypto/bcrypt"
 
-	database "github.com/Slowers-team/Slowers-App/database/psql"
-	"github.com/Slowers-team/Slowers-App/testdataPsql"
+	"github.com/Slowers-team/Slowers-App/databases/sql"
+	"github.com/Slowers-team/Slowers-App/testdata"
 	"github.com/Slowers-team/Slowers-App/testutils"
 	"github.com/Slowers-team/Slowers-App/utils"
 )
 
 type DbUserTestSuite struct {
 	suite.Suite
-	Db       database.Database
-	TestUser database.User
+	SqlDb    sql.Database
+	TestUser sql.User
 }
 
 func (s *DbUserTestSuite) SetupSuite() {
-	s.Db = testutils.ConnectSQLDB()
-	s.Db.Clear()
-	s.TestUser = testdataPsql.GetUsers()[0]
+	s.SqlDb = testutils.ConnectSqlDB()
+	s.SqlDb.Clear()
+	s.TestUser = testdata.GetUsers()[0]
 }
 
 func (s *DbUserTestSuite) TestCreateUser() {
 	hashedPassword, _ := utils.HashPassword(s.TestUser.Password)
-	user := database.User{
+	user := sql.User{
 		Username: s.TestUser.Username,
 		Email:    s.TestUser.Email,
 		Password: hashedPassword,
 		IsActive: s.TestUser.IsActive,
 		IsAdmin:  s.TestUser.IsAdmin,
 	}
-	newUser, err := s.Db.CreateUser(context.Background(), user)
+	newUser, err := s.SqlDb.CreateUser(context.Background(), user)
 
 	s.NoError(
 		err,
@@ -74,11 +71,11 @@ func (s *DbUserTestSuite) TestCreateUser() {
 }
 
 func (s *DbUserTestSuite) TearDownTest() {
-	s.Db.Clear()
+	s.SqlDb.Clear()
 }
 
 func (s *DbUserTestSuite) TearDownSuite() {
-	testutils.DisconnectSQLDB(s.Db)
+	testutils.DisconnectSqlDB(s.SqlDb)
 }
 
 func TestDbUserTestSuite(t *testing.T) {

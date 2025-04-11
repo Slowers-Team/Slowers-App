@@ -1,4 +1,4 @@
-package database
+package sql
 
 import (
 	"context"
@@ -13,51 +13,25 @@ type Database interface {
 	Connect(databaseName string, testEnv bool, prodEnv bool) error
 	Disconnect() error
 	Clear() error
-	// 	UserOwnsEntity(ctx context.Context, UserID, EntityID ObjectID, Collection string) error
 
 	// 	CountUsersWithEmail(ctx context.Context, email string) (int64, error)
 	CreateUser(ctx context.Context, newUser User) (*User, error)
 	GetUserByEmail(ctx context.Context, email string) (*User, error)
-	GetUserByID(ctx context.Context, userID int) (*User, error)
-	// 	SetUserRole(ctx context.Context, userID ObjectID, role string) error
+	GetUserByID(ctx context.Context, userID string) (*User, error)
 
 	CreateBusiness(ctx context.Context, newBusiness Business) (*Business, error)
+	GetBusinessByUserID(ctx context.Context, userID string) (*Business, error)
 
 	AddMembership(ctx context.Context, newMembership Membership) (*Membership, error)
-	GetMembershipByUserId(ctx context.Context, userID int) (*Membership, error)
+	GetMembershipByUserId(ctx context.Context, userID string) (*Membership, error)
 	GetAllMembersInBusiness(ctx context.Context, businessID int) ([]Membership, error)
-	DeleteMembership(ctx context.Context, user_email string, busines_id int) error
-
-	// 	GetFlowers(ctx context.Context) ([]Flower, error)
-	// 	GetUserFlowers(ctx context.Context, userID ObjectID) ([]Flower, error)
-	// 	GetAllFlowersRelatedToSite(ctx context.Context, siteID ObjectID, userID ObjectID) ([]Flower, error)
-	// 	AddFlower(ctx context.Context, newFlower Flower) (*Flower, error)
-	// 	DeleteFlower(ctx context.Context, id ObjectID) (bool, error)
-	// 	ToggleFlowerVisibility(ctx context.Context, userID, flowerID ObjectID) (*bool, error)
-	// 	ModifyFlower(ctx context.Context, id ObjectID, newFlower Flower) (*Flower, error)
-	// 	DeleteMultipleFlowers(ctx context.Context, flowerIDs []ObjectID) error
-
-	// 	AddSite(ctx context.Context, newSite Site) (*Site, error)
-	// 	GetRootSites(ctx context.Context, userID ObjectID) ([]Site, error)
-	// 	GetSite(ctx context.Context, siteID ObjectID, userID ObjectID) (bson.M, error)
-	// 	DeleteSite(ctx context.Context, siteID ObjectID, userID ObjectID) (*mongo.DeleteResult, error)
-	// 	AddFlowerToSite(ctx context.Context, siteID ObjectID, flowerID ObjectID) error
-	// 	GetSiteByID(ctx context.Context, siteID ObjectID) (*Site, error)
-
-	// AddImage(ctx context.Context, newImage Image) (*Image, error)
-	// DeleteImage(ctx context.Context, id ObjectID) (bool, error)
-	// GetImagesByEntity(ctx context.Context, entityID string) ([]Image, error)
-	// SetFavoriteImage(ctx context.Context, UserID, EntityID, ImageID ObjectID, Collection string) error
-	// GetImageByID(ctx context.Context, imageID ObjectID) (*Image, error)
-	// ClearFavoriteImage(ctx context.Context, UserID, EntityID ObjectID, Collection string) error
+	DeleteMembership(ctx context.Context, userEmail string, businessId int) error
 }
 
 type SQLDatabase struct {
 	databaseURI string
 	pool        *pgxpool.Pool
 }
-
-//var sqlpool *pgxpool.Pool
 
 func NewSQLDatabase(databaseURI string) *SQLDatabase {
 	return &SQLDatabase{databaseURI, nil}
@@ -84,9 +58,9 @@ func (sqlDb *SQLDatabase) Connect(databaseName string, testEnv bool, prodEnv boo
 
 	var filepathToSqlFiles string
 	if testEnv {
-		filepathToSqlFiles = "../../../database/psql/schema.sql"
+		filepathToSqlFiles = "../../../databases/sql/schema.sql"
 	} else {
-		filepathToSqlFiles = "database/psql/schema.sql"
+		filepathToSqlFiles = "databases/sql/schema.sql"
 	}
 	sqlQuery, err := os.ReadFile(filepathToSqlFiles)
 	if err != nil {

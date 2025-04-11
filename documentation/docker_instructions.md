@@ -29,10 +29,6 @@ If you want to run container in detached mode, add flag `-d` to the end of the c
 
 You can inspect MongoDB with command `docker exec -it slowers-mongo-dev mongosh -u root -p example` while datebase containers are running. You can exit the container with command `exit`. MongoDB data is saved to directory "mongo-data-dev", which is created inside directory [dbs](../dbs/) when the container is created for the first time.
 
-## Enabling PostgreSQL-database
-
-To enable PostgreSQL-database feature toggles in backend, use command `USESQL=true docker compose -f docker-compose.dev.yml up` to run development containers. To run unit tests using Postgres, you have to add `-tags=sql` to the test call (e.g. `go test ./... -tags=sql`).
-
 ## Inspecting PostgreSQL-database inside container
 
 You can inspect MongoDB with command `docker exec -it slowers-psql-dev psql -U Slowers` while datebase containers are running. You can access correct database with command `\c slowers`. You can exit the container with command `\q`. Postgres-data is saved to directory "psql-data-dev", which is created inside directory [dbs](../dbs/) when the container is created for the first time.

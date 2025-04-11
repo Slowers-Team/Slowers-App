@@ -1,6 +1,3 @@
-//go:build sql
-// +build sql
-
 package tests
 
 import (
@@ -9,25 +6,25 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	database "github.com/Slowers-team/Slowers-App/database/psql"
-	"github.com/Slowers-team/Slowers-App/testdataPsql"
+	"github.com/Slowers-team/Slowers-App/databases/sql"
+	"github.com/Slowers-team/Slowers-App/testdata"
 	"github.com/Slowers-team/Slowers-App/testutils"
 )
 
 type DbBusinessTestSuite struct {
 	suite.Suite
-	Db           database.Database
-	TestBusiness database.Business
+	SqlDb        sql.Database
+	TestBusiness sql.Business
 }
 
 func (s *DbBusinessTestSuite) SetupSuite() {
-	s.Db = testutils.ConnectSQLDB()
-	s.Db.Clear()
-	s.TestBusiness = testdataPsql.GetBusinesses()[0]
+	s.SqlDb = testutils.ConnectSqlDB()
+	s.SqlDb.Clear()
+	s.TestBusiness = testdata.GetBusinesses()[0]
 }
 
 func (s *DbBusinessTestSuite) TestCreateBusiness() {
-	business := database.Business{
+	business := sql.Business{
 		BusinessName:   s.TestBusiness.BusinessName,
 		BusinessIdCode: s.TestBusiness.BusinessIdCode,
 		Type:           s.TestBusiness.Type,
@@ -39,7 +36,7 @@ func (s *DbBusinessTestSuite) TestCreateBusiness() {
 		AdditionalInfo: s.TestBusiness.AdditionalInfo,
 		Delivery:       s.TestBusiness.Delivery,
 	}
-	newBusiness, err := s.Db.CreateBusiness(context.Background(), business)
+	newBusiness, err := s.SqlDb.CreateBusiness(context.Background(), business)
 
 	s.NoError(
 		err,
@@ -102,11 +99,11 @@ func (s *DbBusinessTestSuite) TestCreateBusiness() {
 }
 
 func (s *DbBusinessTestSuite) TearDownTest() {
-	s.Db.Clear()
+	s.SqlDb.Clear()
 }
 
 func (s *DbBusinessTestSuite) TearDownSuite() {
-	testutils.DisconnectSQLDB(s.Db)
+	testutils.DisconnectSqlDB(s.SqlDb)
 }
 
 func TestDbBusinessTestSuite(t *testing.T) {

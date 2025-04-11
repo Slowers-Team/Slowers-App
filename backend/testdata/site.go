@@ -2,49 +2,50 @@ package testdata
 
 import (
 	"log"
+	"strconv"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 
-	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
 )
 
-func GetRootSites() []database.Site {
-	siteID, err := database.ParseID("66f5027d6430d371f8636c3c")
+func GetRootSites() []mongo.Site {
+	siteID, err := mongo.ParseID("66f5027d6430d371f8636c3c")
 	if err != nil {
 		log.Fatal(err)
 	}
 	flowerID := GetFlowers()[0].ID
-	ownerID := GetUsers()[0].ID
-	return []database.Site{
+	ownerID := strconv.Itoa(GetUsers()[0].ID)
+	return []mongo.Site{
 		{
 			ID:        siteID,
 			Name:      "Greenhouse A",
 			AddedTime: time.Date(2024, 9, 26, 6, 43, 9, 0, time.UTC),
 			Note:      "Just a note",
 			Parent:    nil,
-			Flowers:   []*database.ObjectID{&flowerID},
-			Owner:     &ownerID,
+			Flowers:   []*mongo.ObjectID{&flowerID},
+			Owner:     ownerID,
 		},
 	}
 }
 
-func GetRootSitesForUser2() []database.Site {
-	siteID, err := database.ParseID("6700042668d22894f711af60")
+func GetRootSitesForUser2() []mongo.Site {
+	siteID, err := mongo.ParseID("6700042668d22894f711af60")
 	if err != nil {
 		log.Fatal(err)
 	}
 	flowerID := GetFlowerForUser2().ID
-	ownerID := GetUsers()[1].ID
-	return []database.Site{
+	ownerID := string(GetUsers()[1].ID)
+	return []mongo.Site{
 		{
 			ID:        siteID,
 			Name:      "Field 1",
 			AddedTime: time.Date(2024, 9, 19, 12, 8, 49, 0, time.UTC),
 			Note:      "",
 			Parent:    nil,
-			Flowers:   []*database.ObjectID{&flowerID},
-			Owner:     &ownerID,
+			Flowers:   []*mongo.ObjectID{&flowerID},
+			Owner:     ownerID,
 		},
 	}
 }
@@ -62,8 +63,8 @@ func GetSite() bson.M {
 	}
 }
 
-func PrepareSiteForAdding(site database.Site) database.Site {
-	site.ID = database.NilObjectID
+func PrepareSiteForAdding(site mongo.Site) mongo.Site {
+	site.ID = mongo.NilObjectID
 	site.FavoriteImage = ""
 	return site
 }
