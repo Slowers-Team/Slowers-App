@@ -2,6 +2,7 @@ package tests
 
 import (
 	"context"
+	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/suite"
@@ -13,8 +14,10 @@ import (
 
 type DbBusinessTestSuite struct {
 	suite.Suite
-	SqlDb        sql.Database
-	TestBusiness sql.Business
+	SqlDb          sql.Database
+	TestBusiness   sql.Business
+	TestUser       sql.User
+	TestMembership sql.Membership
 }
 
 func (s *DbBusinessTestSuite) SetupSuite() {
@@ -95,6 +98,93 @@ func (s *DbBusinessTestSuite) TestCreateBusiness() {
 		newBusiness.Delivery,
 		s.TestBusiness.Delivery,
 		"wrong delivery option for new business",
+	)
+}
+
+func (s *DbBusinessTestSuite) TestGetBusinessByUserID() {
+	createdBusiness := sql.Business{
+		BusinessName:   s.TestBusiness.BusinessName,
+		BusinessIdCode: s.TestBusiness.BusinessIdCode,
+		Type:           s.TestBusiness.Type,
+		PhoneNumber:    s.TestBusiness.PhoneNumber,
+		Email:          s.TestBusiness.Email,
+		Address:        s.TestBusiness.Address,
+		PostalCode:     s.TestBusiness.PostalCode,
+		City:           s.TestBusiness.City,
+		AdditionalInfo: s.TestBusiness.AdditionalInfo,
+		Delivery:       s.TestBusiness.Delivery,
+	}
+	_, err := s.SqlDb.CreateBusiness(context.Background(), createdBusiness)
+	s.NoError(
+		err,
+		"CreateBusiness() should not return an error",
+	)
+
+	membership := sql.Membership{
+		UserEmail:   s.TestUser.Email,
+		BusinessID:  s.TestBusiness.ID,
+		Designation: "owner",
+	}
+	_, err = s.SqlDb.AddMembership(context.Background(), membership)
+	s.NoError(
+		err,
+		"AddMembership() should not return an error",
+	)
+	parsedUserID := strconv.Itoa(s.TestUser.ID)
+	business, err := s.SqlDb.GetBusinessByUserID(context.Background(), parsedUserID)
+	s.NoError(
+		err,
+		"GetBusinessByUserID() should not return an error",
+	)
+	s.Equal(
+		business.BusinessName,
+		createdBusiness.BusinessName,
+		"wrong name for fetched business",
+	)
+	s.Equal(
+		business.BusinessIdCode,
+		createdBusiness.BusinessIdCode,
+		"wrong business id code for fetched business",
+	)
+	s.Equal(
+		business.Type,
+		createdBusiness.Type,
+		"wrong business type for fetched business",
+	)
+	s.Equal(
+		business.PhoneNumber,
+		createdBusiness.PhoneNumber,
+		"wrong phone number for fetched business",
+	)
+	s.Equal(
+		business.Email,
+		createdBusiness.Email,
+		"wrong email for fetched business",
+	)
+	s.Equal(
+		business.Address,
+		createdBusiness.Address,
+		"wrong post address for fetched business",
+	)
+	s.Equal(
+		business.PostalCode,
+		createdBusiness.PostalCode,
+		"wrong postal code for fetched business",
+	)
+	s.Equal(
+		business.City,
+		createdBusiness.City,
+		"wrong city for fetched business",
+	)
+	s.Equal(
+		business.AdditionalInfo,
+		createdBusiness.AdditionalInfo,
+		"wrong additional info for fetched business",
+	)
+	s.Equal(
+		business.Delivery,
+		createdBusiness.Delivery,
+		"wrong delivery option for fetched business",
 	)
 }
 
