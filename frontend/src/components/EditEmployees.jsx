@@ -67,6 +67,7 @@ const EditEmployees = ({ employees, onEmployeeEdited }) => {
         employeeGetter();
       })
       .catch(error => {
+        //täältä tulee vielä error, korjaantuu ma tai ti!
         console.error("Error deleting employee:", error);
       });
 	}
