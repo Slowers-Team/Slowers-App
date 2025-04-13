@@ -150,6 +150,73 @@ func (s *DbMembershipTestSuite) TestGetMembershipByUserId() {
 	)
 }
 
+func (s *DbMembershipTestSuite) TestDeleteMembership() {
+	existingMembership := sql.Membership{
+		UserEmail:   s.TestUser.Email,
+		BusinessID:  s.TestBusiness.ID,
+		Designation: "owner",
+	}
+	_, err := s.SqlDb.AddMembership(context.Background(), existingMembership)
+	s.NoError(
+		err,
+		"AddMembership() should not return an error",
+	)
+
+	fetchedUser, err := s.SqlDb.GetUserByEmail(context.Background(), s.TestUser.Email)
+	s.NoError(
+		err,
+		"GetUserByEmail() should not return an error",
+	)
+
+	err = s.SqlDb.DeleteMembership(context.Background(), fetchedUser.Email, existingMembership.BusinessID)
+	s.NoError(
+		err,
+		"DeleteMembership() should not return an error",
+	)
+
+	parsedUserID := strconv.Itoa(fetchedUser.ID)
+	_, err = s.SqlDb.GetMembershipByUserId(context.Background(), parsedUserID)
+	s.Error(
+		err,
+		"GetMembershipByUserId() should return an error after deletion",
+	)
+}
+
+func (s *DbMembershipTestSuite) TestGetAllMembersInBusiness() {
+	existingMembership := sql.Membership{
+		UserEmail:   s.TestUser.Email,
+		BusinessID:  s.TestBusiness.ID,
+		Designation: "owner",
+	}
+	_, err := s.SqlDb.AddMembership(context.Background(), existingMembership)
+	s.NoError(
+		err,
+		"AddMembership() should not return an error",
+	)
+
+	members, err := s.SqlDb.GetAllMembersInBusiness(context.Background(), existingMembership.BusinessID)
+	s.NoError(
+		err,
+		"GetAllMembersInBusiness() should not return an error",
+	)
+	s.Len(
+		members,
+		1,
+		"there should be exactly one member in the business",
+	)
+	memberInList := members[0]
+	s.Equal(
+		memberInList.UserEmail,
+		existingMembership.UserEmail,
+		"wrong user email for membership",
+	)
+	s.Equal(
+		memberInList.Designation,
+		existingMembership.Designation,
+		"wrong membership designation for membership",
+	)
+}
+
 // Not used yet?
 // func (s *DbMembershipTestSuite) TestGetMembershipByUserEmailWorksWhenUserEmailHasNoUser() {
 // 	existingMembership := sql.Membership{
