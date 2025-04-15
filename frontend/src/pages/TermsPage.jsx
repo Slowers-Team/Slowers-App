@@ -25,3 +25,5 @@ const TermsPage = () => {
 }
 
 export default TermsPage
+
+console.log("jee")
