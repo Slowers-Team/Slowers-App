@@ -5,10 +5,17 @@ import businessService from "../services/business"
 
 const ShowEmployee = ({ employee, handleEditEmployee, handleDeletion }) => {
   console.log(employee)
+  const { t, i18n } = useTranslation()
+  let designation
+  if (employee[1] === "owner") {
+    designation = t("designation.owner")
+  } else if (employee[1] === "employee") {
+    designation = t("designation.employee")
+  }
   return (
     <tr>
       <td>{employee[0]}</td> 
-      <td>{employee[1]}</td>
+      <td>{designation}</td>
       <td>
         <EditEmployeeForm employee={employee} handleEditEmployee={handleEditEmployee} />
       </td>
@@ -20,11 +27,13 @@ const ShowEmployee = ({ employee, handleEditEmployee, handleDeletion }) => {
 }
 
 const EditEmployeeForm = ({ employee, handleEditEmployee }) => {
+  const { t, i18n } = useTranslation()
+
   let buttonLabel = ""
   if (employee[1] === "owner") {
-    buttonLabel = "Change to employee"
+    buttonLabel = t("button.changetoemployee")
   } else if (employee[1] === "employee") {
-    buttonLabel = "Change to owner"
+    buttonLabel = t("button.changetoowner")
   }
 
   return (
@@ -76,23 +85,11 @@ const EditEmployees = ({ employees, onEmployeeEdited }) => {
     } catch (error) {
       console.error("Error deleting employee:", error);
     }
-
-    //console.log("Trying to delete employee:", employee);
-
-    // businessService.deleteMembership(employee)
-    //   .then(() => {
-    //     console.log("Fetching updated employee list...");
-    //     employeeGetter();
-    //   })
-    //   .catch(error => {
-    //     //täältä tulee vielä error, korjaantuu ma tai ti!
-    //     console.error("Error deleting employee:", error);
-    //   });
 	}
 
   return (
     <div>
-      <h2>Edit employees</h2>
+      <h2>{t("title.editemployees")}</h2>
       <table id='employeeList' className='table table-hover align-middle'>
         <tbody>
           {Array.isArray(employees) && employees.length > 0 ? (
@@ -106,7 +103,7 @@ const EditEmployees = ({ employees, onEmployeeEdited }) => {
           ))
         ) : (
         <tr>
-          <td colSpan="2">No data available</td>
+          <td colSpan="2">{t("error.nodataavailable")}</td>
         </tr>
         )}
         </tbody>
