@@ -6,7 +6,6 @@ import AddFlower from '../components/grower/AddFlower'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-
 const GrowerFlowerPage = () => {
   const params = useParams()
   const [flowers, setFlowers] = useState()
@@ -105,7 +104,7 @@ const GrowerFlowerPage = () => {
                   />
                 </div>
                 {params.siteId && <AddFlower createFlower={addFlower} siteID={params.siteId} />}
-                <button className="custom-button" onClick={() => deleteMultipleFlowers(checkedFlowers)}>
+                <button className="custom-delete-button" onClick={() => deleteMultipleFlowers(checkedFlowers)}>
                   <i className="bi bi-trash3-fill"> </i>
                   {t('button.delete')}
                 </button>
