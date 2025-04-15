@@ -42,16 +42,16 @@ describe('Slowers ', function() {
     describe('when business exists', function() {
       beforeEach(function() {
         cy.visit('/business')
-        cy.get('businessNameInput').type('Test business')
-        cy.get('businessIdCodeInput').type('1234567-8')
-        cy.get('retailerSelector').click()
-        cy.get('businessPhoneNumberInput').type('0400123456')
-        cy.get('businessEmailInput').type('testi@email.com')
-        cy.get('businessAddressInput').type('Testikuja 1 A')
-        cy.get('businessPostalCodeInput').type('00100')
-        cy.get('businessCityInput').type('Helsinki')
-        cy.get('businessAddInfoInput').type('This is a test business')
-        cy.get('businessFormSubmit').click()
+        cy.get('#businessNameInput').type('Test business')
+        cy.get('#businessIdCodeInput').type('1234567-8')
+        cy.get('#retailerSelector').click()
+        cy.get('#businessPhoneNumberInput').type('0400123456')
+        cy.get('#businessEmailInput').type('testi@email.com')
+        cy.get('#businessAddressInput').type('Testikuja 1 A')
+        cy.get('#businessPostalCodeInput').type('00100')
+        cy.get('#businessCityInput').type('Helsinki')
+        cy.get('#businessAddInfoInput').type('This is a test business')
+        cy.get('#businessFormSubmit').click()
       })
 
       it('displays correct business information', function() {
