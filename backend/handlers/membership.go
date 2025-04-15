@@ -48,10 +48,10 @@ func GetAllMembersInBusiness(c *fiber.Ctx) error {
 	}
 
 	result, err := sqlDb.GetAllMembersInBusiness(c.Context(), businessID)
-
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
+
 	csvResponse := utils.MembersIntoCSV(result)
 
 	return c.SendString(csvResponse)

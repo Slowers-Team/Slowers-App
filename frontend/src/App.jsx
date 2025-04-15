@@ -193,7 +193,8 @@ const router = createBrowserRouter([
             element: <BusinessLayout />,
             children: [
               { index: true, element: <BusinessPage /> },
-              { path: "employees", element: <BusinessEmployeesPage /> }
+              { path: "employees", element: <BusinessEmployeesPage /> },
+              { path: "retailer", element: <RetailerHomePage /> },
             ]
           },
           { 

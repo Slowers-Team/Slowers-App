@@ -62,7 +62,6 @@ const GrowerHomePage = () => {
   };
 
   return (
-
     <div className="m-3">
       <div className="row justify-content-center">
         <div className="col-12 col-md-12 col-lg-12 col-xl-12">

@@ -10,7 +10,6 @@ export const Authenticator = {
     localStorage.setItem("token", token);
     localStorage.setItem("role", role);
     localStorage.setItem("designation", designation);
-    console.log("meneekö", designation)
     localStorage.setItem("username", username);
     localStorage.setItem("email", email);
     Authenticator.isLoggedIn = true;

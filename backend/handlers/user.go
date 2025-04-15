@@ -18,6 +18,16 @@ func SetSecretKey(newSecretKey []byte) {
 	SecretKey = newSecretKey
 }
 
+func RequireAllFields(user sql.User) error {
+	if user.Username == "" ||
+		user.Password == "" ||
+		user.Email == "" {
+		return fmt.Errorf("all fields are required")
+	}
+
+	return nil
+}
+
 func CreateUser(c *fiber.Ctx) error {
 	user := new(sql.User)
 
@@ -25,8 +35,8 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	if user.Username == "" || user.Password == "" || user.Email == "" {
-		return c.Status(400).SendString("All fields are required")
+	if err := RequireAllFields(*user); err != nil {
+		return c.Status(400).SendString(err.Error())
 	}
 
 	// count, err := db.CountUsersWithEmail(c.Context(), user.Email)
