@@ -65,6 +65,10 @@ describe('Slowers ', function() {
         cy.contains('Helsinki')
         cy.contains('This is a test business')
       })
+      it('displays the user in the list of employees', function() {
+        cy.visit('/business/employees')
+        cy.contains('testi@email.com')
+      })
     })
   })
   describe('when logged in as a grower', function() {
