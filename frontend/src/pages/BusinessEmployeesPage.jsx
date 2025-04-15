@@ -27,7 +27,9 @@ const BusinessEmployeesPage = () => {
         <div className="col-12 col-md-12 col-lg-12 col-xl-8">
           <div className="card" style={{ borderRadius: "1rem" }}>
             <div className="card-body p-5">
-              <AddEmployeeForm onEmployeeAdded={employeeGetter}/>
+              {designation === 'owner' && (
+                <AddEmployeeForm onEmployeeAdded={employeeGetter}/>
+              )}
               <br/>
               {(designation === "owner") && (
                 <EditEmployees employees={employees} onEmployeeEdited={employeeGetter} />
