@@ -29,7 +29,9 @@
         "createbusiness": "Create business",
         "grower": "Grower",
         "retailer": "Retailer",
-        "addemployee": "Add employee"
+        "addemployee": "Add employee",
+        "changetoemployee": "Change to employee",
+        "changetoowner": "Change to owner"
       },
       "error": {
         "acceptterms": "You must accept the terms",
@@ -42,7 +44,8 @@
         "invalidlogininfo": "Invalid email or password",
         "sitenamecannotbeempty": "Site name cannot be empty",
         "modifyingfailed": "Editing failed",
-        "noimagesinflower": "At least one image has to be attached to a flower before its visibility can be changed."
+        "noimagesinflower": "At least one image has to be attached to a flower before its visibility can be changed.",
+        "nodataavailable": "No data available"
       },
       "flower": {
         "data": {
@@ -109,6 +112,10 @@
         "growerowner": "Grower (Owner)",
         "retailerowner": "Retailer (Owner)"
       },
+      "designation": {
+        "owner": "Owner",
+        "employee": "Employee"
+      },
       "site": {
         "data": {
           "name": "Name",
@@ -134,6 +141,7 @@
         "businesspage": "Business page",
         "createbusiness": "Create a business",
         "employees": "Employees",
+        "editemployees": "Edit employees",
         "addemployees": "Add employees",
         "welcome": "Welcome to Slowers",
         "marketplacehome": "Marketplace homepage",
@@ -224,7 +232,9 @@
         "createbusiness": "Luo yritys",
         "grower": "Kasvattaja",
         "retailer": "Jälleenmyyjä",
-        "addemployee": "Lisää työntekijä"
+        "addemployee": "Lisää työntekijä",
+        "changetoemployee": "Vaihda työntekijäksi",
+        "changetoowner": "Vaihda omistajaksi"
       },
       "error": {
         "acceptterms": "Käyttöehdot on hyväksyttävä",
@@ -237,7 +247,8 @@
         "invalidlogininfo": "Virheellinen sähköposti tai salasana",
         "sitenamecannotbeempty": "Alueen nimi ei voi olla tyhjä",
         "modifyingfailed": "Päivitys epäonnistui",
-        "noimagesinflower": "Kukkaan täytyy liittää vähintään yksi kuva ennen sen näkyvyyden muuttamista."
+        "noimagesinflower": "Kukkaan täytyy liittää vähintään yksi kuva ennen sen näkyvyyden muuttamista.",
+        "nodataavailable": "Tietoja ei ole saatavilla"
       },
       "flower": {
         "data": {
@@ -304,6 +315,10 @@
         "growerowner": "Kasvattaja (Omistaja)",
         "retailerowner": "Jälleenmyyjä (Omistaja)"
       },
+      "designation": {
+        "owner": "Omistaja",
+        "employee": "Työntekijä"
+      },
       "site": {
         "data": {
           "name": "Nimi",
@@ -329,6 +344,7 @@
         "businesspage": "Yrityssivut",
         "createbusiness": "Luo yritys",
         "employees": "Työntekijät",
+        "editemployees": "Muokkaa työntekijöitä",
         "addemployees": "Lisää työntekijöitä",
         "welcome": "Tervetuloa Slowersiin",
         "marketplacehome": "Torin kotisivu",
@@ -419,7 +435,9 @@
         "createbusiness": "Skapa företaget",
         "grower": "Odlare",
         "retailer": "Återförsäljare",
-        "addemployee": "Lägg till anställd"
+        "addemployee": "Lägg till anställd",
+        "changetoemployee": "Byta till anställd",
+        "changetoowner": "Byta till ägare"
       },
       "error": {
         "acceptterms": "Du måste acceptera villkor",
@@ -432,7 +450,8 @@
         "invalidlogininfo": "Ogiltig e-postadress eller lösenord",
         "sitenamecannotbeempty": "Områdesnamet kan inte vara tomt",
         "modifyingfailed": "Misslyckades med att redigera",
-        "noimagesinflower": "Minst en bild måste fästas på en blomma innan dess synlighet kan ändras."
+        "noimagesinflower": "Minst en bild måste fästas på en blomma innan dess synlighet kan ändras.",
+        "nodataavailable": "Inga tillgängliga data"
       },
       "flower": {
         "data": {
@@ -499,6 +518,10 @@
         "growerowner": "Odlare (Ägare)",
         "retailerowner": "Återförsäljare (Ägare)"
       },
+      "designation": {
+        "owner": "Ägare",
+        "employee": "Anställd"
+      },
       "site": {
         "data": {
           "name": "Namn",
@@ -524,6 +547,7 @@
         "businesspage": "Företagssida",
         "createbusiness": "Skapa ett företag",
         "employees": "Anställda",
+        "editemployees": "Redigera anställda",
         "addemployees": "Lägg till anställda",
         "welcome": "Välkommen till Slowers",
         "marketplacehome": "Marknadsplatsens hemsida",

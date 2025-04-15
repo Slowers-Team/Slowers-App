@@ -5,12 +5,18 @@ import userService from "../services/users"
 
 
 const ShowEmployee = ({ employee, handleEditEmployee, handleDeletion, currentUser }) => {
-  console.log(employee)
-  
+  const { t, i18n } = useTranslation()
+
+  let designation
+  if (employee[1] === "owner") {
+    designation = t("designation.owner")
+  } else if (employee[1] === "employee") {
+    designation = t("designation.employee")
+  }
   return (
     <tr>
       <td>{employee[0]}</td> 
-      <td>{employee[1]}</td>
+      <td>{designation}</td>
       {!(employee[0] === currentUser.Email) && (
         <>
         <td>
@@ -20,17 +26,19 @@ const ShowEmployee = ({ employee, handleEditEmployee, handleDeletion, currentUse
           <DeleteEmployeeForm employee={employee} handleDeletion={handleDeletion} />
         </td>
         </>
-        )}
+      )}
     </tr>
   )
 }
 
 const EditEmployeeForm = ({ employee, handleEditEmployee }) => {
+  const { t, i18n } = useTranslation()
+
   let buttonLabel = ""
   if (employee[1] === "owner") {
-    buttonLabel = "Change to employee"
+    buttonLabel = t("button.changetoemployee")
   } else if (employee[1] === "employee") {
-    buttonLabel = "Change to owner"
+    buttonLabel = t("button.changetoowner")
   }
 
   return (
@@ -108,7 +116,7 @@ const EditEmployees = ({ employees, onEmployeeEdited }) => {
 
   return (
     <div>
-      <h2>Edit employees</h2>
+      <h2>{t("title.editemployees")}</h2>
       <table id='employeeList' className='table table-hover align-middle'>
         <tbody>
           {Array.isArray(employees) && employees.length > 0 ? (
@@ -123,7 +131,7 @@ const EditEmployees = ({ employees, onEmployeeEdited }) => {
           ))
         ) : (
         <tr>
-          <td colSpan="2">No data available</td>
+          <td colSpan="2">{t("error.nodataavailable")}</td>
         </tr>
         )}
         </tbody>
