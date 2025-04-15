@@ -64,6 +64,8 @@ describe('Slowers ', function() {
         cy.contains('00100')
         cy.contains('Helsinki')
         cy.contains('This is a test business')
+        cy.visit('/business/employees')
+        cy.contains('test@email.com')
       })
     })
   })
