@@ -51,9 +51,9 @@ func GetAllMembersInBusiness(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
-	fmt.Println(result)
+
 	csvResponse := utils.MembersIntoCSV(result)
-	fmt.Println(csvResponse)
+
 	return c.SendString(csvResponse)
 }
 
