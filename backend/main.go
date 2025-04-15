@@ -10,7 +10,7 @@ import (
 	"github.com/Slowers-team/Slowers-App/databases/mongo"
 	"github.com/Slowers-team/Slowers-App/databases/sql"
 	"github.com/Slowers-team/Slowers-App/handlers"
-	"github.com/cloudinary/cloudinary-go"
+	//"github.com/cloudinary/cloudinary-go"
 )
 
 func main() {
@@ -22,13 +22,13 @@ func main() {
 	}
 	log.Println("Using production environment: ", prodEnv)
 
-	cld, err := cloudinary.New()
+	// cld, err := cloudinary.New()
 
-	if err != nil {
-		log.Fatal(err)
-	}
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
-	cld.Config.URL.Secure = true
+	// cld.Config.URL.Secure = true
 
 	mongoDb := mongo.NewMongoDatabase(databaseURI)
 	if env == "test" {
@@ -70,7 +70,7 @@ func main() {
 	application.SetEnv(env)
 	handlers.SetSecretKey(secretKey)
 	handlers.SetDatabases(mongoDb, sqlDb)
-	handlers.SetCloudinary(cld)
+	//handlers.SetCloudinary(cld)
 
 	app := application.SetupAndSetAuthTo(true)
 

@@ -80,14 +80,14 @@ const GrowerSitesPage = () => {
             <button
               onClick={handleBack}
               style={{ marginRight: "0.5rem" }}
-              className="custom-delete-button"
+              className="custom-button"
             >
               {t("button.goback")}
             </button>
             <button
               id="deleteSiteButton"
               onClick={() => deleteSite(site)}
-              className="custom-delete-button"
+              className="custom-button"
             >
               <i className="bi bi-trash3-fill"> </i>
               {t("button.deletethissite")}
