@@ -3,7 +3,6 @@
 Project done for the Software Lab course (TKT20007) at the University of Helsinki. Helps connecting local flower growers to local flower shops in the spirit of the [Slow Flowers](https://en.wikipedia.org/wiki/Slow_Flowers) movement.
 
 - [Staging server](https://slowers-app.ext.ocp-test-0.k8s.it.helsinki.fi)
-    - [Old staging server, to be deprecated](https://slowers.ext.ocp-test-0.k8s.it.helsinki.fi)
 - [Changelog](documentation/changelog.md)
 - [Product backlog](https://github.com/orgs/Slowers-Team/projects/17)
 - [Sprint backlogs](https://github.com/orgs/Slowers-Team/projects?query=is%3Aopen+Sprint)
