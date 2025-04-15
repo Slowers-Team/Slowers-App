@@ -1,11 +1,12 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import businessService from "../services/business"
+import userService from "../services/users"
 
 
-const ShowEmployee = ({ employee, handleEditEmployee, handleDeletion }) => {
-  console.log(employee)
+const ShowEmployee = ({ employee, handleEditEmployee, handleDeletion, currentUser }) => {
   const { t, i18n } = useTranslation()
+
   let designation
   if (employee[1] === "owner") {
     designation = t("designation.owner")
@@ -16,12 +17,16 @@ const ShowEmployee = ({ employee, handleEditEmployee, handleDeletion }) => {
     <tr>
       <td>{employee[0]}</td> 
       <td>{designation}</td>
-      <td>
-        <EditEmployeeForm employee={employee} handleEditEmployee={handleEditEmployee} />
-      </td>
-      <td>
-        <DeleteEmployeeForm employee={employee} handleDeletion={handleDeletion} />
-      </td>
+      {!(employee[0] === currentUser.Email) && (
+        <>
+        <td>
+          <EditEmployeeForm employee={employee} handleEditEmployee={handleEditEmployee} />
+        </td>
+        <td>
+          <DeleteEmployeeForm employee={employee} handleDeletion={handleDeletion} />
+        </td>
+        </>
+      )}
     </tr>
   )
 }
@@ -59,6 +64,15 @@ const DeleteEmployeeForm = ({ employee, handleDeletion }) => {
 
 const EditEmployees = ({ employees, onEmployeeEdited }) => {
   const { t, i18n } = useTranslation()
+  const [currentUser, setCurrentUser] = useState(null)
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await userService.get()
+      setCurrentUser(user)
+    }
+    fetchUser()
+  }, [])
 
   const handleEditEmployee = async (event) => {
     event.preventDefault()
@@ -73,14 +87,27 @@ const EditEmployees = ({ employees, onEmployeeEdited }) => {
   const handleDeletion = async (event) => {
     event.preventDefault()
     console.log("Trying to delete employee");
+    
+    const currentUser = await userService.get()
+
     const formData = new FormData(event.target)
     const userEmail = formData.get("email")
     const businessId = (await businessService.get()).ID
 
+    if (userEmail === currentUser.Email) {
+      alert(t("alert.cannotdeleteyourself"))
+      return
+    }
+
+    const confirmed = window.confirm((t("alert.deletemember")) + userEmail + "?") 
+
+    if (!confirmed) {
+      return
+    }
+
     try {
       await businessService.deleteMembership(userEmail, businessId)
       console.log("Deleted:", userEmail);
-      console.log("Fetching updated employee list...");
       onEmployeeEdited()
     } catch (error) {
       console.error("Error deleting employee:", error);
@@ -96,6 +123,7 @@ const EditEmployees = ({ employees, onEmployeeEdited }) => {
           employees.map(employee => (
             <ShowEmployee 
               employee={employee}
+              currentUser={currentUser}
               handleEditEmployee={handleEditEmployee}
               handleDeletion={handleDeletion}
               key={employee[0]}
