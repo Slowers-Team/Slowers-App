@@ -11,7 +11,6 @@ import { Authenticator } from "./Authenticator";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import HomeLayout from "./layouts/HomeLayout";
-import RetailerLayout from "./layouts/RetailerLayout";
 import GrowerLayout from "./layouts/GrowerLayout";
 import MarketplaceLayout from "./layouts/MarketplaceLayout";
 import BusinessLayout from "./layouts/BusinessLayout";
@@ -83,9 +82,6 @@ function authorizeAccess() {
   const path = window.location.pathname
 
   if (path.startsWith("/grower") && ( Authenticator.role === "retailer" | Authenticator.role === "retailerowner" )) {
-    return redirect("/home")
-  }
-  if (path.startsWith("/retailer") && ( Authenticator.role === "grower" | Authenticator.role === "growerowner" )) {
     return redirect("/home")
   }
   if (path.startsWith("/business/employees") && !( Authenticator.designation === "owner" || Authenticator.designation === "employee" )) {
@@ -174,14 +170,6 @@ const router = createBrowserRouter([
                   { path: "images", element: <GrowerImagesPage /> },
                 ],
               },
-            ],
-          },
-          {
-            path: "retailer",
-            loader: authorizeAccess,
-            element: <RetailerLayout />,
-            children: [
-              { index: true, element: <RetailerHomePage /> }
             ],
           },
           {
