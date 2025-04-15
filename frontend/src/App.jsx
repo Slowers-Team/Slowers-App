@@ -11,7 +11,6 @@ import { Authenticator } from "./Authenticator";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import HomeLayout from "./layouts/HomeLayout";
-import RetailerLayout from "./layouts/RetailerLayout";
 import GrowerLayout from "./layouts/GrowerLayout";
 import MarketplaceLayout from "./layouts/MarketplaceLayout";
 import BusinessLayout from "./layouts/BusinessLayout";
@@ -30,6 +29,7 @@ import GrowerFlowerPage from "./pages/GrowerFlowerPage";
 import GrowerSitesPage from "./pages/GrowerSitesPage";
 import GrowerImagesPage from "./pages/GrowerImagesPage";
 import BusinessPage from "./pages/BusinessPage";
+import BusinessEmployeesPage from "./pages/BusinessEmployeesPage";
 
 
 const Root = () => {
@@ -81,13 +81,13 @@ function authorizeAccess() {
   }
   const path = window.location.pathname
 
-  if (path.startsWith("/grower") && ( Authenticator.role === "retailer" | Authenticator.role === "retailerowner" )) {
+  if (path.startsWith("/grower") && !( Authenticator.businessType === "grower" && (Authenticator.designation === "owner" || Authenticator.designation === "employee"))) {
     return redirect("/home")
   }
-  if (path.startsWith("/retailer") && ( Authenticator.role === "grower" | Authenticator.role === "growerowner" )) {
+  if (path.startsWith("/business/employees") && !( Authenticator.designation === "owner" || Authenticator.designation === "employee" )) {
     return redirect("/home")
   }
-  if (path.startsWith("/businesspage") && ( Authenticator.role === "retailer" | Authenticator.role === "grower" )) {
+  if (path.startsWith("/business/retailer") && !( Authenticator.businessType === "retailer" && (Authenticator.designation === "owner" || Authenticator.designation === "employee"))) {
     return redirect("/home")
   }
   return null;
@@ -173,14 +173,6 @@ const router = createBrowserRouter([
             ],
           },
           {
-            path: "retailer",
-            loader: authorizeAccess,
-            element: <RetailerLayout />,
-            children: [
-              { index: true, element: <RetailerHomePage /> }
-            ],
-          },
-          {
             path: "marketplace",
             loader: authorizeAccess,
             element: <MarketplaceLayout />,
@@ -190,11 +182,13 @@ const router = createBrowserRouter([
             ],
           },
           {
-            path: "businesspage",
+            path: "business",
             loader: authorizeAccess,
             element: <BusinessLayout />,
             children: [
-              { index: true, element: <BusinessPage /> }
+              { index: true, element: <BusinessPage /> },
+              { path: "employees", element: <BusinessEmployeesPage /> },
+              { path: "retailer", element: <RetailerHomePage /> },
             ]
           },
           { 

@@ -6,9 +6,9 @@
 
 ## How to run E2E-tests
 
-1. Inside ```frontend``` directory, install the dependencies using the command ```npm install``` and make sure you have a ```.env``` file inside the backend directory following instructions in README.
+1. Inside ```frontend``` directory, install the dependencies using the command ```npm install``` and make sure you have a ```.env``` file inside the backend directory whose ```MONGODB_URI``` and ```SQLDATABASE_URI``` are the same as in ```.dev.env```, except that the address (the part in the value after ```@```) starts with ```localhost``` instead of the container name.
 2. Run the tests either in interactive mode or command-line mode.
-    1. **Option 1 (recommended)**: To run E2E-tests in interactive test runner mode, use command ```npm run e2e``` inside the frontend directory. 
+    1. **Option 1 (recommended)**: To run E2E-tests in interactive test runner mode, run ```docker compose -f docker-compose.dev.yml up``` inside the ```dbs``` directory, then in a separate terminal,  use command ```npm run e2e``` inside the frontend directory. 
     2. **Option 2**: Tests can be run from the command line using the command ```npx cypress run``` while the backend is running with the command ```ENV=test go run .``` and frontend with the command ```npm run dev```.
 
 ### Running E2E-tests in the interactive test runner mode

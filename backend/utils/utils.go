@@ -9,6 +9,7 @@ import (
 	"net/textproto"
 	"path/filepath"
 	"regexp"
+	"strings"
 
 	"fmt"
 	"image"
@@ -17,7 +18,8 @@ import (
 	"image/png"
 	"io"
 
-	"github.com/Slowers-team/Slowers-App/database"
+	"github.com/Slowers-team/Slowers-App/databases/mongo"
+	"github.com/Slowers-team/Slowers-App/databases/sql"
 	"golang.org/x/image/draw"
 
 	"golang.org/x/crypto/bcrypt"
@@ -138,13 +140,13 @@ func BufferToMultipartFileHeader(buf *bytes.Buffer, filename string) (*multipart
 	return fileHeader, nil
 }
 
-func ImageNoteIsNotEmpty(image database.Image) bool {
+func ImageNoteIsNotEmpty(image mongo.Image) bool {
 	return image.Note != ""
 
 }
 
-func EntityAssociatedWithImageIsNotNUll(image database.Image) bool {
-	return image.Entity != nil || *image.Entity != database.NilObjectID
+func EntityAssociatedWithImageIsNotNUll(image mongo.Image) bool {
+	return image.Entity != nil || *image.Entity != mongo.NilObjectID
 }
 
 func SetImageFormat(filetype string) (string, error) {
@@ -163,4 +165,17 @@ func ImageIsNotTooLarge(size int64) bool {
 
 func ImageIsLargerThanZero(size int64) bool {
 	return size > 0
+}
+
+func MembersIntoCSV(members []sql.Membership) string {
+	var csvData []string
+
+	for _, membership := range members {
+		membershipCSV := fmt.Sprintf("%s,%s",
+			membership.UserEmail,
+			membership.Designation,
+		)
+		csvData = append(csvData, membershipCSV)
+	}
+	return strings.Join(csvData, "\n")
 }

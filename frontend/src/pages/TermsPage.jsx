@@ -4,12 +4,8 @@ import { useTranslation } from "react-i18next"
 
 
 const TermsPage = () => {
-  const navigate = useNavigate()
+  //const navigate = useNavigate()
   const { t, i18n } = useTranslation()
-
-  const handleBack = () => {
-    navigate(-1)
-  }
 
   return (
     <div className="m-3">
@@ -20,7 +16,6 @@ const TermsPage = () => {
               <h2 className="mx-3 my-3">{t("title.terms")}</h2>
               <TermsWindow />
               <br />
-              <button onClick={handleBack} className="custom-button">{t("button.back")}</button>
             </div>
           </div>
         </div>

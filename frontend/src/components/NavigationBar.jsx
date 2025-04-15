@@ -13,7 +13,7 @@ export const NavigationBar = () => {
   const { isLoggedIn, username } = useLoaderData();
   const role = Authenticator.role
   const designation = Authenticator.designation
-  console.log(designation)
+  const businessType = Authenticator.businessType
   const fetcher = useFetcher();
 
   const handleClose = () => setShowOffCanvas(false);
@@ -133,7 +133,7 @@ export const NavigationBar = () => {
                 {t("menu.retailer")}
               </Nav.Link>
             )}
-            {isLoggedIn && ( role === 'grower' || role === 'growerowner' )  && (
+            {isLoggedIn && ( businessType === 'grower' && ( designation === 'owner' || designation === 'employee' ) )  && (
               <Nav.Link
                 className="text-secondary"
                 as={Link}
@@ -144,15 +144,15 @@ export const NavigationBar = () => {
                 {t("menu.grower")}
               </Nav.Link>
             )}
-            {isLoggedIn && ( role === 'growerowner' || role === 'retailerowner' || designation === 'owner' || designation === 'employee' ) && (
+            {isLoggedIn && (
               <Nav.Link
                 className="text-secondary"
                 as={Link}
-                to="/businesspage"
+                to="/business"
                 onClick={handleClose}
               >
                 <i className="bi bi-shop-window"> </i>
-                {t("menu.businesspage")}
+                {t("menu.business")}
               </Nav.Link>
             )}
             <Nav.Link

@@ -2,7 +2,8 @@
   "en": {
     "translation": {
       "alert": {
-        "imageuploaded": "Image uploaded succesfully"
+        "imageuploaded": "Image uploaded succesfully",
+        "deletemember": "Are you sure you want to delete user "
       },
       "button": {
         "addflower": "Add a new flower",
@@ -11,6 +12,7 @@
         "back": "Back",
         "delete": "Delete",
         "deletethissite": "Delete this site",
+        "deletemember": "Delete",
         "goback": "Go back",
         "login": "Log in",
         "register": "Register",
@@ -26,7 +28,10 @@
         "modify": "Edit",
         "createbusiness": "Create business",
         "grower": "Grower",
-        "retailer": "Retailer"
+        "retailer": "Retailer",
+        "addemployee": "Add employee",
+        "changetoemployee": "Change to employee",
+        "changetoowner": "Change to owner"
       },
       "error": {
         "acceptterms": "You must accept the terms",
@@ -39,7 +44,8 @@
         "invalidlogininfo": "Invalid email or password",
         "sitenamecannotbeempty": "Site name cannot be empty",
         "modifyingfailed": "Editing failed",
-        "noimagesinflower": "At least one image has to be attached to a flower before its visibility can be changed."
+        "noimagesinflower": "At least one image has to be attached to a flower before its visibility can be changed.",
+        "nodataavailable": "No data available"
       },
       "flower": {
         "data": {
@@ -82,8 +88,8 @@
       },
       "menu": {
         "flowers": "Flowers",
-        "grower": "Grower page",
-        "businesspage": "Business page",
+        "grower": "Grower",
+        "business": "Business",
         "home": "Home",
         "register": "Register",
         "retailer": "Retailer",
@@ -97,13 +103,18 @@
         "lifecycle": "Life cycle",
         "sites": "Sites",
         "images": "Images",
-        "marketplace": "Marketplace"
+        "marketplace": "Marketplace",
+        "employees": "Employees"
       },
       "role": {
         "grower": "Grower",
         "retailer": "Retailer",
         "growerowner": "Grower (Owner)",
         "retailerowner": "Retailer (Owner)"
+      },
+      "designation": {
+        "owner": "Owner",
+        "employee": "Employee"
       },
       "site": {
         "data": {
@@ -129,6 +140,9 @@
         "siteimages": "images",
         "businesspage": "Business page",
         "createbusiness": "Create a business",
+        "employees": "Employees",
+        "editemployees": "Edit employees",
+        "addemployees": "Add employees",
         "welcome": "Welcome to Slowers",
         "marketplacehome": "Marketplace homepage",
         "retailerhome": "Retailer homepage",
@@ -191,7 +205,8 @@
   "fi": {
     "translation": {
       "alert": {
-        "imageuploaded": "Kuva lähetetty onnistuneesti"
+        "imageuploaded": "Kuva lähetetty onnistuneesti",
+        "deletemember": "Haluatko varmasti poistaa käyttäjän "
       },
       "button": {
         "addflower": "Lisää uusi kukka",
@@ -200,6 +215,7 @@
         "back": "Takaisin",
         "delete": "Poista",
         "deletethissite": "Poista tämä alue",
+        "deletemember": "Poista",
         "goback": "Takaisin",
         "login": "Kirjaudu",
         "register": "Rekisteröidy",
@@ -215,7 +231,10 @@
         "modify": "Muokkaa",
         "createbusiness": "Luo yritys",
         "grower": "Kasvattaja",
-        "retailer": "Jälleenmyyjä"
+        "retailer": "Jälleenmyyjä",
+        "addemployee": "Lisää työntekijä",
+        "changetoemployee": "Vaihda työntekijäksi",
+        "changetoowner": "Vaihda omistajaksi"
       },
       "error": {
         "acceptterms": "Käyttöehdot on hyväksyttävä",
@@ -228,7 +247,8 @@
         "invalidlogininfo": "Virheellinen sähköposti tai salasana",
         "sitenamecannotbeempty": "Alueen nimi ei voi olla tyhjä",
         "modifyingfailed": "Päivitys epäonnistui",
-        "noimagesinflower": "Kukkaan täytyy liittää vähintään yksi kuva ennen sen näkyvyyden muuttamista."
+        "noimagesinflower": "Kukkaan täytyy liittää vähintään yksi kuva ennen sen näkyvyyden muuttamista.",
+        "nodataavailable": "Tietoja ei ole saatavilla"
       },
       "flower": {
         "data": {
@@ -271,8 +291,8 @@
       },
       "menu": {
         "flowers": "Kukat",
-        "grower": "Kasvattajan sivu",
-        "businesspage": "Yrityssivut",
+        "grower": "Kasvattaja",
+        "business": "Yritys",
         "home": "Kotisivu",
         "register": "Rekisteröidy",
         "retailer": "Jälleenmyyjä",
@@ -286,13 +306,18 @@
         "lifecycle": "Elinkaari",
         "sites": "Alueet",
         "images": "Kuvat",
-        "marketplace": "Tori"
+        "marketplace": "Tori",
+        "employees": "Työntekijät"
       },
       "role": {
         "grower": "Kasvattaja",
         "retailer": "Jälleenmyyjä",
         "growerowner": "Kasvattaja (Omistaja)",
         "retailerowner": "Jälleenmyyjä (Omistaja)"
+      },
+      "designation": {
+        "owner": "Omistaja",
+        "employee": "Työntekijä"
       },
       "site": {
         "data": {
@@ -318,6 +343,9 @@
         "siteimages": "kuvat",
         "businesspage": "Yrityssivut",
         "createbusiness": "Luo yritys",
+        "employees": "Työntekijät",
+        "editemployees": "Muokkaa työntekijöitä",
+        "addemployees": "Lisää työntekijöitä",
         "welcome": "Tervetuloa Slowersiin",
         "marketplacehome": "Torin kotisivu",
         "retailerhome": "Jälleenmyyjän kotisivu",
@@ -380,7 +408,8 @@
   "sv": {
     "translation": {
       "alert": {
-        "imageuploaded": "Bilden har skickats"
+        "imageuploaded": "Bilden har skickats",
+        "deletemember": "Är du säker på att du vill radera användaren "
       },
       "button": {
         "addflower": "Lägga till en ny blomma",
@@ -389,6 +418,7 @@
         "back": "Tilbaka",
         "delete": "Radera",
         "deletethissite": "Radera området",
+        "deletemember": "Radera",
         "goback": "Gå tillbaka",
         "login": "Logga in",
         "register": "Skriva in",
@@ -404,7 +434,10 @@
         "modify": "Redigera",
         "createbusiness": "Skapa företaget",
         "grower": "Odlare",
-        "retailer": "Återförsäljare"
+        "retailer": "Återförsäljare",
+        "addemployee": "Lägg till anställd",
+        "changetoemployee": "Byta till anställd",
+        "changetoowner": "Byta till ägare"
       },
       "error": {
         "acceptterms": "Du måste acceptera villkor",
@@ -417,7 +450,8 @@
         "invalidlogininfo": "Ogiltig e-postadress eller lösenord",
         "sitenamecannotbeempty": "Områdesnamet kan inte vara tomt",
         "modifyingfailed": "Misslyckades med att redigera",
-        "noimagesinflower": "Minst en bild måste fästas på en blomma innan dess synlighet kan ändras."
+        "noimagesinflower": "Minst en bild måste fästas på en blomma innan dess synlighet kan ändras.",
+        "nodataavailable": "Inga tillgängliga data"
       },
       "flower": {
         "data": {
@@ -461,7 +495,7 @@
       "menu": {
         "flowers": "Blommor",
         "grower": "Odlare",
-        "businesspage": "Företagssida",
+        "business": "Företag",
         "home": "Hem",
         "register": "Skriva in",
         "retailer": "Återförsäljare",
@@ -475,13 +509,18 @@
         "lifecycle": "Livscykel",
         "sites": "Sidot",
         "images": "Bilder",
-        "marketplace": "Marknadsplats"
+        "marketplace": "Marknadsplats",
+        "employees": "Anställda"
       },
       "role": {
         "grower": "Odlare",
         "retailer": "Återförsäljare",
         "growerowner": "Odlare (Ägare)",
         "retailerowner": "Återförsäljare (Ägare)"
+      },
+      "designation": {
+        "owner": "Ägare",
+        "employee": "Anställd"
       },
       "site": {
         "data": {
@@ -507,6 +546,9 @@
         "siteimages": "bilder",
         "businesspage": "Företagssida",
         "createbusiness": "Skapa ett företag",
+        "employees": "Anställda",
+        "editemployees": "Redigera anställda",
+        "addemployees": "Lägg till anställda",
         "welcome": "Välkommen till Slowers",
         "marketplacehome": "Marknadsplatsens hemsida",
         "retailerhome": "Återförsäljarens hemsida",

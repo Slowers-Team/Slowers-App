@@ -6,16 +6,18 @@ export const Authenticator = {
   designation: "",
   username: "",
   email: "",
-  login({ token, role, username, email, designation }) {
+  businessType: "",
+  login({ token, role, username, email, designation, businessType }) {
     localStorage.setItem("token", token);
     localStorage.setItem("role", role);
     localStorage.setItem("designation", designation);
-    console.log("meneekö", designation)
+    localStorage.setItem("businessType", businessType);
     localStorage.setItem("username", username);
     localStorage.setItem("email", email);
     Authenticator.isLoggedIn = true;
     Authenticator.role = role;
     Authenticator.designation = designation;
+    Authenticator.businessType = businessType
     Authenticator.username = username;
     Authenticator.email = email;
     return null;
@@ -26,11 +28,13 @@ export const Authenticator = {
     localStorage.removeItem("designation");
     localStorage.removeItem("username");
     localStorage.removeItem("email");
+    localStorage.removeItem("businessType");
     Authenticator.isLoggedIn = false;
     Authenticator.role = "";
     Authenticator.designation = "";
     Authenticator.username = "";
     Authenticator.email = "";
+    Authenticator.businessType = "";
     return null;
   },
   setRole(role) {
@@ -41,10 +45,15 @@ export const Authenticator = {
     Authenticator.designation = designation;
     localStorage.setItem("designation", designation);
   },
+  setBusinessType(businessType) {
+    Authenticator.businessType = businessType;
+    localStorage.setItem("businessType", businessType);
+  },
   refresh() {
     Authenticator.role = localStorage.getItem("role");
     Authenticator.designation = localStorage.getItem("designation");
-    if (Authenticator.role || Authenticator.designation) {
+    Authenticator.businessType = localStorage.getItem("businessType");
+    if (Authenticator.role || Authenticator.designation || Authenticator.businessType ) {
       Authenticator.isLoggedIn = true;
       Authenticator.username = localStorage.getItem("username");
       return true;

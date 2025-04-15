@@ -62,7 +62,6 @@ const GrowerHomePage = () => {
   };
 
   return (
-
     <div className="m-3">
       <div className="row justify-content-center">
         <div className="col-12 col-md-12 col-lg-12 col-xl-12">
@@ -86,7 +85,7 @@ const GrowerHomePage = () => {
                 <button
                   id="deleteSiteButton"
                   onClick={() => deleteSite(site)}
-                  className="custom-button"
+                  className="custom-delete-button"
                 >
                   <i className="bi bi-trash3-fill"> </i>
                   {t("button.deletethissite")}

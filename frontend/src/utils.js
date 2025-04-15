@@ -32,10 +32,17 @@ const validatePhoneNumber = (phoneNumber) => {
   return re.test(phoneNumber);
 };
 
+
+const parseCSV = (csv) => {
+  const lines = csv.split('\n');
+  return lines.map(line => line.split(','));
+};
+
 export {
   formatTime,
   validateEmail,
   validateBusinessIdCode,
   validatePostalCode,
   validatePhoneNumber,
+  parseCSV,
 };

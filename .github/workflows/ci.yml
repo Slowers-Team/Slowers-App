@@ -50,7 +50,7 @@ jobs:
       working-directory: backend
 
     - name: Backend unit tests
-      run: go test ./... -tags=sql
+      run: go test ./...
       working-directory: backend
       env:
         MONGODB_URI: mongodb://localhost:27017
@@ -94,22 +94,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build and push the backend Docker image to Docker Hub
-        uses: docker/build-push-action@c382f710d39a5bb4e430307530a720f50c2d3318
-
-        with:
-          context: backend
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/slowers-backend:latest
-
-      - name: Build and push the frontend Docker image to Docker Hub
-        uses: docker/build-push-action@c382f710d39a5bb4e430307530a720f50c2d3318
-
-        with:
-          context: frontend
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/slowers-frontend:latest
 
       - name: Build and push the production Docker image to Docker Hub
         uses: docker/build-push-action@c382f710d39a5bb4e430307530a720f50c2d3318

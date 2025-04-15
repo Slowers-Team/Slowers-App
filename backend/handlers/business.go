@@ -1,10 +1,9 @@
-package handlersPsql
+package handlers
 
 import (
 	"fmt"
-	"strconv"
 
-	database "github.com/Slowers-team/Slowers-App/database/psql"
+	"github.com/Slowers-team/Slowers-App/databases/sql"
 	"github.com/Slowers-team/Slowers-App/enums"
 	"github.com/Slowers-team/Slowers-App/utils"
 
@@ -15,7 +14,7 @@ type UserEmail struct {
 	UserEmail string
 }
 
-func ValidateBusiness(business database.Business) error {
+func ValidateBusiness(business sql.Business) error {
 	if business.BusinessName == "" ||
 		business.Type == "" ||
 		business.PhoneNumber == "" ||
@@ -57,7 +56,7 @@ func ValidateUserEmail(userEmail UserEmail) error {
 }
 
 func CreateBusiness(c *fiber.Ctx) error {
-	business := new(database.Business)
+	business := new(sql.Business)
 	userEmail := new(UserEmail)
 
 	if err := c.BodyParser(business); err != nil {
@@ -80,7 +79,7 @@ func CreateBusiness(c *fiber.Ctx) error {
 		return c.Status(400).SendString("cannot have retailer business with delivery")
 	}
 
-	newBusiness := database.Business{
+	newBusiness := sql.Business{
 		CreatedAt:      business.CreatedAt,
 		LastModified:   business.LastModified,
 		BusinessName:   business.BusinessName,
@@ -95,7 +94,7 @@ func CreateBusiness(c *fiber.Ctx) error {
 		Delivery:       business.Delivery,
 	}
 
-	createdBusiness, err := db.CreateBusiness(c.Context(), newBusiness)
+	createdBusiness, err := sqlDb.CreateBusiness(c.Context(), newBusiness)
 
 	if err != nil {
 		fmt.Println("Yrityksen luominen ei onnistunut")
@@ -107,14 +106,13 @@ func CreateBusiness(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	newMember := &database.Membership{
-		UserEmail:    userEmail.UserEmail,
-		BusinessID:   createdBusiness.ID,
-		Designation:  designation.String(),
-		BusinessName: business.BusinessName,
+	newMember := &sql.Membership{
+		UserEmail:   userEmail.UserEmail,
+		BusinessID:  createdBusiness.ID,
+		Designation: designation.String(),
 	}
 
-	if err := AddMembership(c, newMember); err != nil {
+	if _, err := sqlDb.AddMembership(c.Context(), *newMember); err != nil {
 		fmt.Println("Yrityksen omistajan lisäys epäonnistui")
 		return c.Status(500).SendString(err.Error())
 	}
@@ -125,20 +123,16 @@ func CreateBusiness(c *fiber.Ctx) error {
 }
 
 func GetBusiness(c *fiber.Ctx) error {
-	userIDStr, err := GetCurrentUser(c)
-
+	userID, err := GetCurrentUser(c)
 	if err != nil {
-		return c.Status(500).SendString(err.Error())
+		return c.Status(400).SendString("Invalid user ID")
 	}
-	userID, err := strconv.Atoi(userIDStr)
 
+	result, err := sqlDb.GetBusinessByUserID(c.Context(), userID)
 	if err != nil {
-		return c.Status(400).SendString("Invalid business ID")
+		return c.JSON(err)
 	}
-	result, err := db.GetBusinessByUserID(c.Context(), userID)
+	fmt.Println(result)
 
-	if err != nil {
-		return c.Status(500).SendString(err.Error())
-	}
 	return c.JSON(result)
 }

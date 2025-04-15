@@ -3,7 +3,6 @@
 Project done for the Software Lab course (TKT20007) at the University of Helsinki. Helps connecting local flower growers to local flower shops in the spirit of the [Slow Flowers](https://en.wikipedia.org/wiki/Slow_Flowers) movement.
 
 - [Staging server](https://slowers-app.ext.ocp-test-0.k8s.it.helsinki.fi)
-    - [Old staging server, to be deprecated](https://slowers.ext.ocp-test-0.k8s.it.helsinki.fi)
 - [Changelog](documentation/changelog.md)
 - [Product backlog](https://github.com/orgs/Slowers-Team/projects/17)
 - [Sprint backlogs](https://github.com/orgs/Slowers-Team/projects?query=is%3Aopen+Sprint)
@@ -28,25 +27,23 @@ docker compose -f docker-compose.dev.yml down
 docker compose -f docker-compose.dev.yml up --build
 
 docker exec slowers-backend-dev go test ./...
+docker exec slowers-backend-dev go test ./... -tags=api
 docker exec slowers-frontend-dev npm run test
 
 docker exec -it slowers-mongo-dev mongosh -u root -p example
 docker exec -it slowers-psql-dev psql -U Slowers
 [ "exit" to exit ]
-
-USESQL=true docker compose -f docker-compose.dev.yml up
-docker exec slowers-backend-dev go test ./... -tags=sql
 ```
 
 You need installation of Docker in your machine. [Fullstack MOOC part 12](https://fullstackopen.com/en/part12) has [links and some basic terminology](https://fullstackopen.com/en/part12/introduction_to_containers#installing-everything-required-for-this-part) you will need. Docker Desktop is also useful.
 
-You can run development containers of either databases, backend, frontend or all three simultaneously (recommended). Changing files restarts backend server container and updates pages served from frontend container automatically. Note that you might have to remove folder "psql_data_dev" in [dbs](dbs/) folder if files used in Postgres setup ([schema.sql](backend/database/psql/schema.sql) and [functions.sql](backend/database/psql/functions.sql)) are modified.
+You can run development containers of either databases, backend, frontend or all three simultaneously (recommended). Changing files restarts backend server container and updates pages served from frontend container automatically. Note that you might have to remove folder "psql_data_dev" in [dbs](dbs/) folder if files used in Postgres setup ([schema.sql](backend/databases/sql/schema.sql) and [functions.sql](backend/databases/sql/functions.sql)) are modified.
 
 To run whole application inside containers, build and run containers from repository root directory with command `docker compose -f docker-compose.dev.yml up`. Now you can use address http://localhost:8080 to access frontend and address http://localhost:8080/api to access backend. You can exit and close containers with Ctrl+C.
 
 To run unit tests for frontend, you can use command `docker exec slowers-frontend-dev npm run test` while slowers-frontend-dev -container is running. Unit tests for backend can similarly be run using command `docker exec slowers-backend-dev go test ./...`. Another option is to go inside containers e.g. in VSCode and use normal test commands there.
 
-End-to-end tests are not currently supported.
+API tests are currently broken, those can be run using command `docker exec slowers-backend-dev go test ./... -tags=api`.
 
 More instructions can be found [here](documentation/docker_instructions.md).
 

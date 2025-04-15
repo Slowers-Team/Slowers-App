@@ -7,7 +7,6 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 
 	"github.com/Slowers-team/Slowers-App/handlers"
-	handlersPsql "github.com/Slowers-team/Slowers-App/handlersPsql"
 	"github.com/Slowers-team/Slowers-App/testdata"
 )
 
@@ -22,21 +21,13 @@ func SetEnv(newEnv string) {
 	Env = newEnv
 }
 
-func SetupAndSetAuthTo(isAuthOn bool, useSQL bool) *fiber.App {
+func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 	app := fiber.New()
 
 	app.Get("/api/healthcheck", handlers.HealthCheck)
+	app.Post("/api/register", handlers.CreateUser)
+	app.Post("/api/login", handlers.HandleLogin)
 
-	if useSQL {
-		app.Post("/api/register", handlersPsql.CreateUser)
-	} else {
-		app.Post("/api/register", handlers.CreateUser)
-	}
-	if useSQL {
-		app.Post("/api/login", handlersPsql.HandleLogin)
-	} else {
-		app.Post("/api/login", handlers.HandleLogin)
-	}
 	if Env == "test" {
 		app.Get("/api/reset", handlers.ResetDatabase)
 	}
@@ -63,18 +54,17 @@ func SetupAndSetAuthTo(isAuthOn bool, useSQL bool) *fiber.App {
 	api.Delete("/sites/:id", handlers.DeleteSite)
 	api.Get("/sites/:id/flowers", handlers.GetSiteFlowers)
 
-	if useSQL {
-		api.Get("/user", handlersPsql.GetUser)
-	} else {
-		api.Get("/user", handlers.GetUser)
-	}
+	api.Get("/user", handlers.GetUser)
 
-	api.Post("/user/role", handlers.SetRole)
+	api.Get("/user/designation", handlers.GetDesignation)
 
-	api.Get("/user/designation", handlersPsql.GetDesignation)
+	api.Post("/business", handlers.CreateBusiness)
+	api.Get("/business", handlers.GetBusiness)
 
-	api.Post("/business", handlersPsql.CreateBusiness)
-	api.Get("/business", handlersPsql.GetBusiness)
+	api.Post("/membership", handlers.AddMembership)
+	api.Get("/membership/:businessID", handlers.GetAllMembersInBusiness)
+	api.Delete("/membership/:email/:businessID", handlers.DeleteMembership)
+	api.Post("/membership/edit", handlers.EditMembership)
 
 	api.Post("/images", handlers.UploadImage)
 	api.Get("/images/id/:id", handlers.GetImageByID)
@@ -115,6 +105,6 @@ func AuthMiddleware(c *fiber.Ctx) error {
 }
 
 func TestAuthMiddleware(c *fiber.Ctx) error {
-	c.Locals("userID", testdata.GetUsers()[0].ID.Hex())
+	c.Locals("userID", testdata.GetUsers()[0].ID)
 	return c.Next()
 }
