@@ -44,7 +44,7 @@ describe('Slowers ', function() {
         cy.visit('/business')
         cy.get('#businessNameInput').type('Test business')
         cy.get('#businessIdCodeInput').type('1234567-8')
-        cy.get('#retailerSelector').check()
+        cy.get('#retailerSelector').check({ force: true })
         cy.get('#businessPhoneNumberInput').type('0400123456')
         cy.get('#businessEmailInput').type('testi@email.com')
         cy.get('#businessAddressInput').type('Testikuja 1 A')
