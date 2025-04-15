@@ -67,6 +67,18 @@ describe('Slowers ', function() {
         cy.visit('/business/employees')
         cy.contains('test@email.com')
       })
+
+      it('can add, edit and delete an employee', function() {
+        cy.visit('/business/employees')
+        cy.get('#employeeEmailInput').type('toinen@testi.fi')
+        cy.get('#addEmployeeButton').click()
+        cy.contains('toinen@testi.fi')
+        cy.get('tr').eq(2).should('contain', 'Employee')
+        cy.get('#editEmployeeButton').click()
+        cy.get('tr').eq(2).should('not.contain', 'Empoyee')
+        cy.get('#deleteEmployeeButton').click()
+        cy.contains('toinen@testi.fi').should('not.exist')
+      })
     })
   })
   describe('when logged in as a grower', function() {

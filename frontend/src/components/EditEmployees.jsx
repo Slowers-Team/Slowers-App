@@ -50,7 +50,7 @@ const EditEmployeeForm = ({ employee, handleEditEmployee }) => {
     <form onSubmit={handleEditEmployee}>
       <input type="hidden" name="email" value={employee[0]} />
       <input type="hidden" name="designation" value={employee[1]} />
-      <button type="submit" className="custom-button">{buttonLabel}</button>
+      <button type="submit" className="custom-button" id="editEmployeeButton">{buttonLabel}</button>
     </form>
   )
 }
@@ -60,7 +60,7 @@ const DeleteEmployeeForm = ({ employee, handleDeletion }) => {
   return (
     <form onSubmit={handleDeletion}>
       <input type="hidden" name="email" value={employee[0]} />
-      <button type="submit" className="custom-delete-button" color="red">
+      <button type="submit" className="custom-delete-button" id="deleteEmployeeButton" color="red">
       <i className="bi bi-trash3-fill"> </i>
       {t("button.deletemember")}</button>
     </form>

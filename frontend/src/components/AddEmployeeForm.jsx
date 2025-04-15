@@ -36,6 +36,7 @@ const AddEmployeeForm = ({ onEmployeeAdded }) => {
               <td>
                 <input
                   className="form-control"
+                  id="employeeEmailInput"
                   type="email"
                   value={email}
                   placeholder={t('user.input.email')}
@@ -45,7 +46,7 @@ const AddEmployeeForm = ({ onEmployeeAdded }) => {
                 />
               </td>
               <td>
-                <button type="submit" className="custom-button">{t('button.addemployee')}</button>
+                <button type="submit" className="custom-button" id="addEmployeeButton">{t('button.addemployee')}</button>
               </td>
             </tr>
           </tbody>
