@@ -10,6 +10,7 @@ import (
 	"github.com/Slowers-team/Slowers-App/databases/sql"
 	"github.com/Slowers-team/Slowers-App/testdata"
 	"github.com/Slowers-team/Slowers-App/testutils"
+	"github.com/Slowers-team/Slowers-App/utils"
 )
 
 type DbBusinessTestSuite struct {
@@ -114,15 +115,29 @@ func (s *DbBusinessTestSuite) TestGetBusinessByUserID() {
 		AdditionalInfo: s.TestBusiness.AdditionalInfo,
 		Delivery:       s.TestBusiness.Delivery,
 	}
-	_, err := s.SqlDb.CreateBusiness(context.Background(), createdBusiness)
+	newBusiness, err := s.SqlDb.CreateBusiness(context.Background(), createdBusiness)
 	s.NoError(
 		err,
 		"CreateBusiness() should not return an error",
 	)
+	hashedPassword, _ := utils.HashPassword(s.TestUser.Password)
+	user := sql.User{
+		Username: s.TestUser.Username,
+		Email:    s.TestUser.Email,
+		Password: hashedPassword,
+		IsActive: s.TestUser.IsActive,
+		IsAdmin:  s.TestUser.IsAdmin,
+	}
+	newUser, err := s.SqlDb.CreateUser(context.Background(), user)
+
+	s.NoError(
+		err,
+		"CreateUser() should not return an error",
+	)
 
 	membership := sql.Membership{
-		UserEmail:   s.TestUser.Email,
-		BusinessID:  s.TestBusiness.ID,
+		UserEmail:   newUser.Username,
+		BusinessID:  newBusiness.ID,
 		Designation: "owner",
 	}
 	_, err = s.SqlDb.AddMembership(context.Background(), membership)
@@ -130,7 +145,7 @@ func (s *DbBusinessTestSuite) TestGetBusinessByUserID() {
 		err,
 		"AddMembership() should not return an error",
 	)
-	parsedUserID := strconv.Itoa(s.TestUser.ID)
+	parsedUserID := strconv.Itoa(newUser.ID)
 	business, err := s.SqlDb.GetBusinessByUserID(context.Background(), parsedUserID)
 	s.NoError(
 		err,
