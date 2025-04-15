@@ -61,13 +61,14 @@ const editMember = (member) => {
   return axios.post(url, member, config).then(response => response.data)
 }
 
-const deleteMembership = (membership) => {
+const deleteMembership = (email, businessID) => {
   const config = {
     headers: { Authorization: tokenService.fetchToken(),
-    'Content-Type': 'application/json'},
-    data: { email: membership[0] }
+    'Content-Type': 'application/json',
+    }
   }
-  const url = '/api/membership/${email}/${businessID}'
+  const url = `/api/membership/${email}/${businessID}`
+  console.log("URLI:", url)
   return axios.delete(url, config).then(response => response.data)
 }
 

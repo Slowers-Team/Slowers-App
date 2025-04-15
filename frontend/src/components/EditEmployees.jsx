@@ -37,10 +37,13 @@ const EditEmployeeForm = ({ employee, handleEditEmployee }) => {
 }
 
 const DeleteEmployeeForm = ({ employee, handleDeletion }) => {
+  const { t, i18n } = useTranslation()
   return (
     <form onSubmit={handleDeletion}>
       <input type="hidden" name="email" value={employee[0]} />
-      <button type="submit" className="custom-button">Delete</button>
+      <button type="submit" className="custom-delete-button" color="red">
+      <i className="bi bi-trash3-fill"> </i>
+      {t("button.deletemember")}</button>
     </form>
   )
 }
@@ -58,18 +61,33 @@ const EditEmployees = ({ employees, onEmployeeEdited }) => {
     await businessService.editMember({userEmail, businessId, designation})
     onEmployeeEdited()
   }
-  const handleDeletion = (employee) => {
-    console.log("Trying to delete employee:", employee);
+  const handleDeletion = async (event) => {
+    event.preventDefault()
+    console.log("Trying to delete employee");
+    const formData = new FormData(event.target)
+    const userEmail = formData.get("email")
+    const businessId = (await businessService.get()).ID
 
-    businessService.deleteMembership(employee)
-      .then(() => {
-        console.log("Fetching updated employee list...");
-        employeeGetter();
-      })
-      .catch(error => {
-        //täältä tulee vielä error, korjaantuu ma tai ti!
-        console.error("Error deleting employee:", error);
-      });
+    try {
+      await businessService.deleteMembership(userEmail, businessId)
+      console.log("Deleted:", userEmail);
+      console.log("Fetching updated employee list...");
+      onEmployeeEdited()
+    } catch (error) {
+      console.error("Error deleting employee:", error);
+    }
+
+    //console.log("Trying to delete employee:", employee);
+
+    // businessService.deleteMembership(employee)
+    //   .then(() => {
+    //     console.log("Fetching updated employee list...");
+    //     employeeGetter();
+    //   })
+    //   .catch(error => {
+    //     //täältä tulee vielä error, korjaantuu ma tai ti!
+    //     console.error("Error deleting employee:", error);
+    //   });
 	}
 
   return (
