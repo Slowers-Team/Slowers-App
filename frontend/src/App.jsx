@@ -88,6 +88,9 @@ function authorizeAccess() {
   if (path.startsWith("/retailer") && ( Authenticator.role === "grower" | Authenticator.role === "growerowner" )) {
     return redirect("/home")
   }
+  if (path.startsWith("/business/employees") && !( Authenticator.designation === "owner" || Authenticator.designation === "employee" )) {
+    return redirect("/home")
+  }
   return null;
 }
 

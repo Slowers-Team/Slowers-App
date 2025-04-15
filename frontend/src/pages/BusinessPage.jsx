@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useOutletContext } from "react-router-dom"
 import userService from "../services/users"
 import businessService from "../services/business"
 import BusinessInfo from "../components/BusinessInfo"
@@ -13,6 +14,7 @@ const BusinessPage = () => {
   const { t, i18n } = useTranslation()
   const [errorMessage, setErrorMessage] = useState("")
   const [ designation, setDesignation ] = useState(Authenticator.designation)
+  const { setterDesignation } = useOutletContext()
 
   useEffect(() => {
     if (designation === 'owner' || designation === 'employee') {
@@ -38,6 +40,7 @@ const BusinessPage = () => {
       setErrorMessage(i18n.exists(key) ? t(key) : error.response.data);
     }
     setDesignation(Authenticator.designation)
+    setterDesignation(Authenticator.designation)
     setBusiness(business)
   }
 

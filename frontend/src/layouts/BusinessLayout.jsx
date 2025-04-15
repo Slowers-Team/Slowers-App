@@ -3,10 +3,13 @@ import './Retailer.css'
 import './Business.css'
 import { useTranslation } from 'react-i18next'
 import { Nav } from 'react-bootstrap'
+import { Authenticator } from '../Authenticator'
+import { useState, useEffect } from 'react'
 
 
-const tabBar = () => {
+const TabBar = ({ designation }) => {
     const { t, i18n } = useTranslation()
+
     return (
       <div className='tab-bar'>
         <div>
@@ -16,11 +19,14 @@ const tabBar = () => {
                 {t('menu.business')}
               </Nav.Link>
             </Nav.Item>
-            <Nav.Item>
-              <Nav.Link className="menu-tab" as={NavLink} end to="/business/employees">
-                {t('menu.employees')}
-              </Nav.Link>
-            </Nav.Item>
+            {(designation === "owner" || designation === "employee") && (
+              <Nav.Item>
+                <Nav.Link className="menu-tab" as={NavLink} end to="/business/employees">
+                  {t('menu.employees')}
+                </Nav.Link>
+              </Nav.Item>
+            )}
+
           </Nav>
         </div>
       </div>
@@ -28,12 +34,18 @@ const tabBar = () => {
   }
 
 const BusinessLayout = () => {
+  const [designation, setterDesignation] = useState(Authenticator.designation)
+
+  useEffect(() => {
+    setterDesignation(Authenticator.designation)
+  }, [Authenticator.designation])
+
   return (
     <div>
-    	{tabBar()}
+    	<TabBar designation={ designation } />
       <div>
         <main className="main-container">
-          <Outlet />
+          <Outlet context={{ setterDesignation }}/>
         </main>
       </div>
     </div>
