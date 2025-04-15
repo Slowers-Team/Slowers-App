@@ -83,7 +83,7 @@
       },
       "menu": {
         "flowers": "Flowers",
-        "grower": "Grower page",
+        "grower": "Grower",
         "business": "Business",
         "home": "Home",
         "register": "Register",
@@ -276,7 +276,7 @@
       },
       "menu": {
         "flowers": "Kukat",
-        "grower": "Kasvattajan sivu",
+        "grower": "Kasvattaja",
         "business": "Yritys",
         "home": "Kotisivu",
         "register": "Rekisteröidy",

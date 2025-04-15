@@ -21,6 +21,21 @@ const tabBar = () => {
                 {t('menu.employees')}
               </Nav.Link>
             </Nav.Item>
+            <Nav.Item>
+              <Nav.Link className="menu-tab" as={NavLink} end to="/business/grower/sites">
+                {t('menu.sites')}
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link className="menu-tab" as={NavLink} end to="/business/grower/flowers">
+                {t('menu.flowers')}
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link className="menu-tab" as={NavLink} end to="/business/retailer">
+                {t('menu.retailer')}
+              </Nav.Link>
+            </Nav.Item>
           </Nav>
         </div>
       </div>

@@ -193,7 +193,23 @@ const router = createBrowserRouter([
             element: <BusinessLayout />,
             children: [
               { index: true, element: <BusinessPage /> },
-              { path: "employees", element: <BusinessEmployeesPage /> }
+              { path: "employees", element: <BusinessEmployeesPage /> },
+              { path: "retailer", element: <RetailerHomePage /> },
+              { path: "grower",
+                children: [
+                  { path: "flowers", element: <GrowerFlowerPage /> },
+                  { path: "sites", element: <GrowerSitesPage /> },
+                  {
+                    path: ":siteId",
+                    children: [
+                      { index: true, element: <GrowerHomePage /> },
+                      { path: "flowers", element: <GrowerFlowerPage /> },
+                      { path: "sites", element: <GrowerSitesPage /> },
+                      { path: "images", element: <GrowerImagesPage /> },
+                    ],
+                  },
+                ],
+              },
             ]
           },
           { 
