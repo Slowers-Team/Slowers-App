@@ -17,14 +17,19 @@ const ShowEmployee = ({ employee, handleEditEmployee, handleDeletion, currentUse
     <tr>
       <td>{employee[0]}</td> 
       <td>{designation}</td>
-      {!(employee[0] === currentUser.Email) && (
+      {!(employee[0] === currentUser.Email) ? (
         <>
-        <td>
-          <EditEmployeeForm employee={employee} handleEditEmployee={handleEditEmployee} />
-        </td>
-        <td>
-          <DeleteEmployeeForm employee={employee} handleDeletion={handleDeletion} />
-        </td>
+          <td>
+            <EditEmployeeForm employee={employee} handleEditEmployee={handleEditEmployee} />
+          </td>
+          <td>
+            <DeleteEmployeeForm employee={employee} handleDeletion={handleDeletion} />
+          </td>
+        </>
+      ):(
+        <>
+          <td></td>
+          <td></td>
         </>
       )}
     </tr>
