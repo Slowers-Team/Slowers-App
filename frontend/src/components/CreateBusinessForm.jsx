@@ -90,6 +90,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                   <td>
                     <input 
                       className="form-control"
+                      id="businessNameInput"
                       type="text"
                       value={businessName}
                       placeholder={t('businessform.input.businessname')}
@@ -103,6 +104,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                   <td>
                     <input
                       className="form-control"
+                      id="businessIdCodeInput"
                       type="text"
                       value={businessIdCode}
                       maxLength={9}
@@ -159,6 +161,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                   <td>
                     <input
                       className="form-control"
+                      id="businessPhoneNumberInput"
                       type="tel"
                       value={phoneNumber}
                       placeholder={t('businessform.input.phonenumber')}
@@ -174,6 +177,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                   <td>
                     <input
                       className="form-control"
+                      id="businessEmailInput"
                       type="email"
                       value={email}
                       placeholder={t('businessform.input.email')}
@@ -187,6 +191,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                   <td>
                     <input
                       className="form-control"
+                      id="businessAddressInput"
                       type="text"
                       value={address}
                       placeholder={t('businessform.input.address')}
@@ -200,6 +205,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                   <td>
                     <input 
                       className="form-control"
+                      id="businessPostalCodeInput"
                       type="tel"
                       value={postalCode}
                       minLength={5}
@@ -216,6 +222,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                   <td>
                     <input
                       className="form-control"
+                      id="businessCityInput"
                       type="text"
                       value={city}
                       placeholder={t('businessform.input.city')}
@@ -229,6 +236,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                   <td>
                     <textarea
                       className="form-control"
+                      id="businessAddInfoInput"
                       type="text"
                       value={additionalInfo}
                       placeholder={t('businessform.input.additionalinfo')}
@@ -280,7 +288,11 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
                 )}
               <tr>
                 <td>
-                <button type="submit" className='custom-button'>{t('button.createbusiness')}</button>
+                <button 
+                  type="submit"
+                  className='custom-button'
+                  id="businessFormSubmit"
+                >{t('button.createbusiness')}</button>
                 </td>
                 <td>
                   {errorMessage && <p style={{ color: 'red'}}>{errorMessage}</p>}

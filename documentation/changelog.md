@@ -6,6 +6,15 @@ Version numbers use the following system:
 
 where first 0 indicates pre-release version, X tells which Software engineering project Slowers group has done the release and Y is used to tell which sprint the release was made in.
 
+## Release 0.2.6
+[GitHub release](https://github.com/Slowers-Team/Slowers-App/releases/tag/v0.2.6)
+
+- Backend refactored to use Postgres for user, business and business memberships and Mongo for sites, flowers and images
+- Removed USESQL feature toggle
+- Deprecated old staging server
+- Business owners can see information about their business and employees in Business page
+- Business owner can add/edit/remove other users as employees in their business
+
 ## Release 0.2.5
 [GitHub release](https://github.com/Slowers-Team/Slowers-App/releases/tag/v0.2.5)
 

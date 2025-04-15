@@ -124,14 +124,15 @@ func CreateBusiness(c *fiber.Ctx) error {
 
 func GetBusiness(c *fiber.Ctx) error {
 	userID, err := GetCurrentUser(c)
-
 	if err != nil {
-		return c.Status(400).SendString("Invalid business ID")
+		return c.Status(400).SendString("Invalid user ID")
 	}
-	result, err := sqlDb.GetBusinessByUserID(c.Context(), userID)
 
+	result, err := sqlDb.GetBusinessByUserID(c.Context(), userID)
 	if err != nil {
 		return c.JSON(err)
 	}
+	fmt.Println(result)
+
 	return c.JSON(result)
 }

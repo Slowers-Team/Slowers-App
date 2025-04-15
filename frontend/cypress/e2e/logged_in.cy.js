@@ -31,6 +31,43 @@ describe('Slowers ', function() {
       //   cy.contains('Terms')
       // })	
     })
+    describe('business page visible', function() {
+      beforeEach(function(){
+        cy.visit('/business')
+      })
+      it('contains business form before business form is created', function() {
+        cy.contains('Create a business')
+      })
+    })
+    describe('when business exists', function() {
+      beforeEach(function() {
+        cy.visit('/business')
+        cy.get('#businessNameInput').type('Test business')
+        cy.get('#businessIdCodeInput').type('1234567-8')
+        cy.get('#retailerSelector').check({ force: true })
+        cy.get('#businessPhoneNumberInput').type('0400123456')
+        cy.get('#businessEmailInput').type('testi@email.com')
+        cy.get('#businessAddressInput').type('Testikuja 1 A')
+        cy.get('#businessPostalCodeInput').type('00100')
+        cy.get('#businessCityInput').type('Helsinki')
+        cy.get('#businessAddInfoInput').type('This is a test business')
+        cy.get('#businessFormSubmit').click()
+      })
+
+      it('displays correct business information', function() {
+        cy.visit('/business')
+        cy.contains('Test business')
+        cy.contains('1234567-8')
+        cy.contains('0400123456')
+        cy.contains('testi@email.com')
+        cy.contains('Testikuja 1 A')
+        cy.contains('00100')
+        cy.contains('Helsinki')
+        cy.contains('This is a test business')
+        cy.visit('/business/employees')
+        cy.contains('test@email.com')
+      })
+    })
   })
   describe('when logged in as a grower', function() {
     beforeEach(function() {
