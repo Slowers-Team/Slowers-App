@@ -31,6 +31,10 @@ describe('Slowers ', function() {
       //   cy.contains('Terms')
       // })	
     })
+    describe('business page visible', function() {
+      cy.visit('/business')
+      cy.contains('Create a business')
+    })
   })
   describe('when logged in as a grower', function() {
     beforeEach(function() {
