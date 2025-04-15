@@ -126,7 +126,9 @@ func (pDb SQLDatabase) GetAllMembersInBusiness(ctx context.Context, businessID i
 	FROM
 		Memberships
 	WHERE
-		business_id=$1`
+		business_id=$1
+	ORDER BY
+		user_email;`
 
 	rows, err := pDb.pool.Query(ctx, query, businessID)
 	if err != nil {

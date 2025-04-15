@@ -63,7 +63,7 @@ func SetupAndSetAuthTo(isAuthOn bool) *fiber.App {
 
 	api.Post("/membership", handlers.AddMembership)
 	api.Get("/membership/:businessID", handlers.GetAllMembersInBusiness)
-	api.Delete("/membership", handlers.DeleteMembership)
+	api.Delete("/membership/:email/:businessID", handlers.DeleteMembership)
 	api.Post("/membership/edit", handlers.EditMembership)
 
 	api.Post("/images", handlers.UploadImage)
