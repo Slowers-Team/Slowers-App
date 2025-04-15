@@ -55,6 +55,7 @@ describe('Slowers ', function() {
       })
 
       it('displays correct business information', function() {
+        cy.visit('/business/employees')
         cy.visit('/business')
         cy.contains('Test Business')
         cy.contains('1234567-8')
