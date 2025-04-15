@@ -198,7 +198,7 @@ const router = createBrowserRouter([
               { path: "grower",
                 children: [
                   { path: "flowers", element: <GrowerFlowerPage /> },
-                  { path: "sites", element: <GrowerSitesPage /> },
+                  { path: "sites", element: <GrowerHomePage /> },
                   {
                     path: ":siteId",
                     children: [
