@@ -3,6 +3,7 @@ import LogInForm from "../components/LogInForm";
 import { useTranslation } from "react-i18next";
 import { Authenticator } from "../Authenticator";
 import userService from "../services/users"
+import businessService from "../services/business"
 
 const LogInPage = () => {
   const navigate = useNavigate();
@@ -19,6 +20,15 @@ const LogInPage = () => {
       }
       } catch (error) {
       console.error("Error fetching designation:", error.response ? error.response.data : error.message);
+    }
+    try {
+      const business = await businessService.get();
+  
+      if (business && Object.keys(business).length > 0) {
+        Authenticator.setBusinessType(business.Type);
+      }
+      } catch (error) {
+      console.error("Error fetching business type:", error.response ? error.response.data : error.message);
     }
     fetcher.submit({ data: data }, { action: "/login", method: "post" });
   };
