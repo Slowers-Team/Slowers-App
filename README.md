@@ -45,8 +45,6 @@ To run unit tests for frontend, you can use command `docker exec slowers-fronten
 
 API tests are currently broken, those can be run using command `docker exec slowers-backend-dev go test ./... -tags=api`.
 
-End-to-end tests are not currently supported.
-
 More instructions can be found [here](documentation/docker_instructions.md).
 
 ### Run by installing and building locally
