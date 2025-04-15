@@ -140,6 +140,19 @@
     border-radius: 5px;
   }
 
+  .custom-delete-button {
+    background-color: #f13d37ce;
+    color: #163020;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
   .custom-button:hover {
     filter: brightness(0.85)
   }

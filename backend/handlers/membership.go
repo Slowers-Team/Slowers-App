@@ -51,19 +51,24 @@ func GetAllMembersInBusiness(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
-	fmt.Println(result)
+
 	csvResponse := utils.MembersIntoCSV(result)
-	fmt.Println(csvResponse)
+
 	return c.SendString(csvResponse)
 }
 
 func DeleteMembership(c *fiber.Ctx) error {
-	membership := new(sql.Membership)
-	if err := c.BodyParser(membership); err != nil {
-		return c.Status(400).SendString(err.Error())
+	email := c.Params("email")
+	businessIDStr := c.Params("businessID")
+
+	businessID, err := strconv.Atoi(businessIDStr)
+	if err != nil {
+		return c.Status(400).SendString("Invalid business ID")
 	}
 
-	err := sqlDb.DeleteMembership(c.Context(), membership.UserEmail, membership.BusinessID)
+	fmt.Println("Säpo", email)
+
+	err = sqlDb.DeleteMembership(c.Context(), email, businessID)
 	if err != nil {
 		fmt.Println("Failed deleting membership. Membership might not exist.")
 		return c.Status(500).SendString(err.Error())
