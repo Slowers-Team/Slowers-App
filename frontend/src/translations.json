@@ -2,7 +2,8 @@
   "en": {
     "translation": {
       "alert": {
-        "imageuploaded": "Image uploaded succesfully"
+        "imageuploaded": "Image uploaded succesfully",
+        "deletemember": "Are you sure you want to delete user "
       },
       "button": {
         "addflower": "Add a new flower",
@@ -196,7 +197,8 @@
   "fi": {
     "translation": {
       "alert": {
-        "imageuploaded": "Kuva lähetetty onnistuneesti"
+        "imageuploaded": "Kuva lähetetty onnistuneesti",
+        "deletemember": "Haluatko varmasti poistaa käyttäjän "
       },
       "button": {
         "addflower": "Lisää uusi kukka",
@@ -390,7 +392,8 @@
   "sv": {
     "translation": {
       "alert": {
-        "imageuploaded": "Bilden har skickats"
+        "imageuploaded": "Bilden har skickats",
+        "deletemember": "Är du säker på att du vill radera användaren "
       },
       "button": {
         "addflower": "Lägga till en ny blomma",
