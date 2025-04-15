@@ -49,21 +49,21 @@ jobs:
       run: ${{ github.workspace }}/go/bin/mockery
       working-directory: backend
 
-    # - name: Backend unit tests
-    #   run: go test ./...
-    #   working-directory: backend
-    #   env:
-    #     MONGODB_URI: mongodb://localhost:27017
-    #     SECRET_KEY: secretkey
-    #     SQLDATABASEURI: postgres://Slowers:verysecretword@localhost:5432
+    - name: Backend unit tests
+      run: go test ./...
+      working-directory: backend
+      env:
+        MONGODB_URI: mongodb://localhost:27017
+        SECRET_KEY: secretkey
+        SQLDATABASEURI: postgres://Slowers:verysecretword@localhost:5432
 
     - name: Install dependencies
       run: npm clean-install
       working-directory: frontend
 
-    # - name: Frontend unit tests
-    #   run: npm test
-    #   working-directory: frontend
+    - name: Frontend unit tests
+      run: npm test
+      working-directory: frontend
 
     - name: e2e tests
       uses: cypress-io/github-action@a55856e0e961f64708c68ddcb38fba233d164ed8
