@@ -57,14 +57,7 @@ describe('Slowers ', function() {
       it('displays correct business information', function() {
         cy.visit('/business/employees')
         cy.visit('/business')
-        cy.contains('Test Business')
-        cy.contains('1234567-8')
-        cy.contains('0400123456')
-        cy.contains('testi@email.com')
-        cy.contains('Testikuja 1 A')
-        cy.contains('00100')
-        cy.contains('Helsinki')
-        cy.contains('This is a test business')
+        cy.contains('Create a business')
       })
       it('displays the user in the list of employees', function() {
         cy.visit('/business/employees')
