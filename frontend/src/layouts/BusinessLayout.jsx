@@ -7,9 +7,10 @@ import { Authenticator } from '../Authenticator'
 import { useState, useEffect } from 'react'
 
 
-const TabBar = ({ designation }) => {
+const TabBar = ({ designation, businessType }) => {
     const { t, i18n } = useTranslation()
-
+    const accessToEmployeesTab = designation === "owner" || designation === "employee"
+    const accessToRetailerTab = businessType === "retailer"
     return (
       <div className='tab-bar'>
         <div>
@@ -19,19 +20,20 @@ const TabBar = ({ designation }) => {
                 {t('menu.business')}
               </Nav.Link>
             </Nav.Item>
-            {(designation === "owner" || designation === "employee") && (
+            { accessToEmployeesTab && (
               <Nav.Item>
                 <Nav.Link className="menu-tab" as={NavLink} end to="/business/employees">
                   {t('menu.employees')}
                 </Nav.Link>
               </Nav.Item>
             )}
-            <Nav.Item>
-              <Nav.Link className="menu-tab" as={NavLink} end to="/business/retailer">
-                {t('menu.retailer')}
-              </Nav.Link>
-            </Nav.Item>
-
+            {( accessToEmployeesTab && accessToRetailerTab) && (
+              <Nav.Item>
+                <Nav.Link className="menu-tab" as={NavLink} end to="/business/retailer">
+                  {t('menu.retailer')}
+                </Nav.Link>
+              </Nav.Item>
+            )}
           </Nav>
         </div>
       </div>
@@ -40,17 +42,19 @@ const TabBar = ({ designation }) => {
 
 const BusinessLayout = () => {
   const [designation, setterDesignation] = useState(Authenticator.designation)
+  const [businessType, setterBusinessType] = useState(Authenticator.businessType)
 
   useEffect(() => {
     setterDesignation(Authenticator.designation)
-  }, [Authenticator.designation])
+    setterBusinessType(Authenticator.businessType)
+  }, [Authenticator.designation, Authenticator.businessType])
 
   return (
     <div>
-    	<TabBar designation={ designation } />
+    	<TabBar designation={designation} businessType={ businessType } />
       <div>
         <main className="main-container">
-          <Outlet context={{ setterDesignation }}/>
+          <Outlet context={{ setterDesignation, setterBusinessType }}/>
         </main>
       </div>
     </div>

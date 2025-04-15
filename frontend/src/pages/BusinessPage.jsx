@@ -15,6 +15,7 @@ const BusinessPage = () => {
   const [errorMessage, setErrorMessage] = useState("")
   const [ designation, setDesignation ] = useState(Authenticator.designation)
   const { setterDesignation } = useOutletContext()
+  const { setterBusinessType } = useOutletContext()
 
   useEffect(() => {
     if (designation === 'owner' || designation === 'employee') {
@@ -33,6 +34,7 @@ const BusinessPage = () => {
       const membership = await userService.getDesignation()
       Authenticator.setDesignation(membership.Designation)
       const updatedBusiness = await businessService.get();
+      Authenticator.setBusinessType(updatedBusiness.Type)
       setBusiness(updatedBusiness);
     } catch (error) {
       const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, "");
@@ -41,6 +43,7 @@ const BusinessPage = () => {
     }
     setDesignation(Authenticator.designation)
     setterDesignation(Authenticator.designation)
+    setterBusinessType(Authenticator.businessType)
     setBusiness(business)
   }
 

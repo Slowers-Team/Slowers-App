@@ -91,6 +91,9 @@ function authorizeAccess() {
   if (path.startsWith("/business/employees") && !( Authenticator.designation === "owner" || Authenticator.designation === "employee" )) {
     return redirect("/home")
   }
+  if (path.startsWith("/business/retailer") && !( (Authenticator.designation === "owner" || Authenticator.designation === "employee") && Authenticator.businessType === "retailer" )) {
+    return redirect("/home")
+  }
   return null;
 }
 
