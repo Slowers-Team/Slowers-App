@@ -14,9 +14,7 @@ const BusinessEmployeesPage = () => {
   //const [errorMessage, setErrorMessage] = useState("")
   const employeeGetter = async () => {
     const business = await businessService.get();
-    console.log(business.ID)
     setEmployees(await businessService.getAllMembers(business.ID));
-    console.log(employees)
   };
   useEffect(() => {
     employeeGetter();

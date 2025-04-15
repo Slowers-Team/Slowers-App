@@ -26,6 +26,11 @@ const TabBar = ({ designation }) => {
                 </Nav.Link>
               </Nav.Item>
             )}
+            <Nav.Item>
+              <Nav.Link className="menu-tab" as={NavLink} end to="/business/retailer">
+                {t('menu.retailer')}
+              </Nav.Link>
+            </Nav.Item>
 
           </Nav>
         </div>
