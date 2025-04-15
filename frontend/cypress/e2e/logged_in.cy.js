@@ -39,6 +39,33 @@ describe('Slowers ', function() {
         cy.contains('Create a business')
       })
     })
+    describe('when business exists', function() {
+      beforeEach(function() {
+        cy.visit('/business')
+        cy.get('businessNameInput').type('Test business')
+        cy.get('businessIdCodeInput').type('1234567-8')
+        cy.get('retailerSelector').click()
+        cy.get('businessPhoneNumberInput').type('0400123456')
+        cy.get('businessEmailInput').type('testi@email.com')
+        cy.get('businessAddressInput').type('Testikuja 1 A')
+        cy.get('businessPostalCodeInput').type('00100')
+        cy.get('businessCityInput').type('Helsinki')
+        cy.get('businessAddInfoInput').type('This is a test business')
+        cy.get('businessFormSubmit').click()
+      })
+
+      it('displays correct business information', function() {
+        cy.visit('/business')
+        cy.contains('Test Business')
+        cy.contains('1234567-8')
+        cy.contains('0400123456')
+        cy.contains('testi@email.com')
+        cy.contains('Testikuja 1 A')
+        cy.contains('00100')
+        cy.contains('Helsinki')
+        cy.contains('This is a test business')
+      })
+    })
   })
   describe('when logged in as a grower', function() {
     beforeEach(function() {
