@@ -63,7 +63,7 @@ func (pDb SQLDatabase) CreateBusiness(ctx context.Context, newBusiness Business)
 }
 
 func (pDb SQLDatabase) GetBusinessByUserID(ctx context.Context, userID string) (*Business, error) {
-	business := new(Business)
+	business := new(Business) // This creates an empty struct (defined earlier) for the scan function so it has something where it can copy the information from the SQL table.
 	parsedUserID, err := strconv.Atoi(userID)
 	if err != nil {
 		return nil, err
