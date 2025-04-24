@@ -84,7 +84,7 @@ func (pDd SQLDatabase) DeleteMembership(ctx context.Context, userEmail string, b
 	WHERE user_email = $1
 	AND business_id = $2
 	`
-	// .Exec is used instead of QueryRow because the function does not delete anything
+	// .Exec is used instead of QueryRow because the function does not return anything
 	_, err := pDd.pool.Exec(ctx, query, userEmail, businessId)
 
 	if err != nil {
