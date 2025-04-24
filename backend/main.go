@@ -1,5 +1,4 @@
-package main
-
+package main // Package used for Setting up the needed databases (Cloudinary, SQL, MongoDb)
 import (
 	"log"
 	"strconv"
