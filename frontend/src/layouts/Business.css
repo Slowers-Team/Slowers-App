@@ -9,20 +9,7 @@
   padding: 20px;
   justify-content: space-between;
 }
-/* .members-container {
-    background-color: #ffffff9c;
-    flex: 1;
-    padding: 1rem;
-    width: 750px;
-    border-radius: 0px;
-    border: 2px solid #25380b;
-    padding: 20px;
-    justify-content: space-between;
-}
-ul {
-    text-align: left;
-}
-*/
+
 .update-button {
     background-color: #b6c4b6;
     color: #163020;
