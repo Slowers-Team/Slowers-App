@@ -16,10 +16,6 @@ const UserInfo = ({ user }) => {
           <td>{t('user.data.email')}</td>
           <td>{user.Email}</td>
         </tr>
-        {/* <tr>
-          <td>{t('user.data.role')}</td>
-          <td id="roleValue">{t(`role.${user.role}`)}</td>
-        </tr> */}
         </tbody>
       </table>
     </div>
