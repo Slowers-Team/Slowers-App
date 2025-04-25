@@ -49,7 +49,10 @@ const FlowerImageTab = ({ isGrower, flower, updateFlower }) => {
         }
         if (window.confirm(confirmMessage)) {
           if (flower.visible) {
-          FlowerService.toggleVisibility(flower._id).then(() => {updateFlower({...flower, visible: false})})
+          FlowerService.toggleVisibility(flower._id)
+            .then(() => {
+              updateFlower({...flower, visible: false})
+            })
           }
           ImageService.deleteImage(imageObject._id).then(() => {setImages([])})
           .catch(error => {
@@ -107,8 +110,19 @@ const FlowerImageTab = ({ isGrower, flower, updateFlower }) => {
 
     return (
       <div>
-        {isGrower && <AddImage entity={flower} onImageUpload={onImageUpload}/>}
-        <ImageGallery isGrower={isGrower} images={images} deleteImage={deleteImage} favoriteImage={favoriteImage} type="flower"/>
+        {isGrower && (
+          <AddImage
+            entity={flower}
+            onImageUpload={onImageUpload}
+          />
+        )}
+        <ImageGallery
+          isGrower={isGrower}
+          images={images}
+          deleteImage={deleteImage}
+          favoriteImage={favoriteImage}
+          type="flower"
+        />
       </div>
     )
 }

@@ -7,7 +7,14 @@ import { useTranslation } from 'react-i18next'
 import '../../App.css'
 import { formatTime } from '../../utils.js'
 
-const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowers, updateFlower, searchTerm}) => {
+const GrowerFlowerList = ({ 
+  flowers,
+  deleteFlower,
+  modifyFlower,
+  setCheckedFlowers,
+  updateFlower,
+  searchTerm
+}) => {
   const { t, i18n } = useTranslation()
   const [showModal, setShowModal] = useState(false)
   const [currentFlower, setCurrentFlower] = useState("")
@@ -158,7 +165,11 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
             return (
               <tr key={flower._id}>
                 <td>
-                  <input type="checkbox" checked={checkedFlowers.includes(flower._id)} onChange={() => toggleCheckedFlower(flower._id)} />
+                  <input
+                    type="checkbox"
+                    checked={checkedFlowers.includes(flower._id)}
+                    onChange={() => toggleCheckedFlower(flower._id)}
+                  />
                 </td>
                 <td className='image-cell'>
                   <div className='image-container'>
@@ -178,10 +189,18 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
                     ? t('flower.visible.true') 
                     : t('flower.visible.false')}</td>
                 <td>
-                  <button id='showFlowerPageButton' className="custom-button me-2" onClick={() => handleShow(flower)}>
+                  <button
+                    id='showFlowerPageButton'
+                    className="custom-button me-2"
+                    onClick={() => handleShow(flower)}
+                  >
                   <i className="bi bi-info-circle-fill"></i>
                   </button>
-                  <button id="deleteFlowerButton" className="custom-button" onClick={() => deleteFlower(flower)}>
+                  <button
+                    id="deleteFlowerButton"
+                    className="custom-button"
+                    onClick={() => deleteFlower(flower)}
+                  >
                     <i className="bi bi-trash3-fill"></i>
                   </button>
                 </td>
@@ -190,7 +209,14 @@ const GrowerFlowerList = ({ flowers, deleteFlower, modifyFlower, setCheckedFlowe
           })}
         </tbody>
       </table>
-      <FlowerModal show={showModal} handleClose={handleClose} flower={currentFlower} deleteFlower={deleteFlower} updateFlower={handleUpdate} modifyFlower={modifyFlower}/>
+      <FlowerModal
+        show={showModal}
+        handleClose={handleClose}
+        flower={currentFlower}
+        deleteFlower={deleteFlower}
+        updateFlower={handleUpdate}
+        modifyFlower={modifyFlower}
+      />
     </div>
   )
 }

@@ -33,7 +33,11 @@ const SiteMasonry = ({ sites }) => {
   }, [sites])
     
   return (
-    <Masonry breakpointCols={breakpointColumnsObj} className="my-masonry-grid" columnClassName="my-masonry-grid_column">
+    <Masonry
+      breakpointCols={breakpointColumnsObj}
+      className="my-masonry-grid"
+      columnClassName="my-masonry-grid_column"
+    >
       {sites &&
         sites.map(site => (
           <div className="masonry-box" key={site._id}>
@@ -42,7 +46,14 @@ const SiteMasonry = ({ sites }) => {
               <img src={images.find((o) => o.site === site._id)?.url} alt={site.name} />
               }
             </div>
-            <h3 className="my-2"><Link to={`/grower/${site._id}`} className="link-success">{site.name}</Link></h3>
+            <h3 className="my-2">
+              <Link
+                to={`/grower/${site._id}`}
+                className="link-success"
+              >
+                {site.name}
+              </Link>
+            </h3>
             <p>{site.note}</p>
           </div>
         ))}

@@ -68,7 +68,11 @@ const ImageForm = ({ createImage }) => {
           />
         </div>
         <div>
-          <button id="saveNewImageButton" type="submit" className="custom-button my-3">
+          <button
+            id="saveNewImageButton"
+            type="submit"
+            className="custom-button my-3"
+          >
             <i className="bi bi-floppy2-fill"> </i>
             {t("button.save")}
           </button>

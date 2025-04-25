@@ -2,7 +2,14 @@ import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Button } from "react-bootstrap"
 
-const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, handleFormVisibility, handleFlowerDelete, addedTime}) => {
+const ModifyFlowerForm = ({
+  flower,
+  modifyFlower,
+  handleFlowerModify,
+  handleFormVisibility,
+  handleFlowerDelete,
+  addedTime
+}) => {
   const [modifiedFlowerName, setModifiedFlowerName] = useState(flower.name)
   const [modifiedFlowerLatinName, setModifiedFlowerLatinName] = useState(flower.latin_name)
   const [modifiedFlowerQty, setModifiedFlowerQty] = useState(flower.quantity)
@@ -88,15 +95,30 @@ const ModifyFlowerForm = ({ flower, modifyFlower, handleFlowerModify, handleForm
             </tr>
             </tbody>
           </table>
-            <button className="custom-button" id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)} type="button">
-            <i className="bi bi-trash3-fill"> </i>
+            <button
+              className="custom-button"
+              id="deleteFlowerButton"
+              onClick={() => handleFlowerDelete(flower)}
+              type="button"
+            >
+              <i className="bi bi-trash3-fill"> </i>
               {t('button.delete')}
             </button>
-            <button variant="light" className="custom-button" id="saveModifiedFlowerButton" type="submit">
+            <button
+              variant="light"
+              className="custom-button"
+              id="saveModifiedFlowerButton"
+              type="submit"
+            >
               <i className="bi bi-floppy2-fill"> </i>
               {t("button.save")}
             </button>
-            <button variant="dark" className="custom-button" id="modifyFlowerCancelButton" onClick={handleFormVisibility}>
+            <button
+              variant="dark"
+              className="custom-button"
+              id="modifyFlowerCancelButton"
+              onClick={handleFormVisibility}
+            >
               <i className="bi bi-x-lg"> </i>
               {t("button.cancel")}
             </button>

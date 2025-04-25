@@ -32,7 +32,10 @@ const BusinessEmployeesPage = () => {
               )}
               <br/>
               {(designation === "owner") && (
-                <EditEmployees employees={employees} onEmployeeEdited={employeeGetter} />
+                <EditEmployees
+                  employees={employees}
+                  onEmployeeEdited={employeeGetter}
+                />
               )}              
               {(designation === "employee") && (
                 <EmployeesList employees={employees} />

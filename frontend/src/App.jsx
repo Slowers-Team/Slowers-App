@@ -81,13 +81,22 @@ function authorizeAccess() {
   }
   const path = window.location.pathname
 
-  if (path.startsWith("/grower") && !( Authenticator.businessType === "grower" && (Authenticator.designation === "owner" || Authenticator.designation === "employee"))) {
+  if (path.startsWith("/grower") && !(
+    Authenticator.businessType === "grower" &&
+    (Authenticator.designation === "owner" || Authenticator.designation === "employee")
+    )) {
     return redirect("/home")
   }
-  if (path.startsWith("/business/employees") && !( Authenticator.designation === "owner" || Authenticator.designation === "employee" )) {
+  if (path.startsWith("/business/employees") && !(
+    Authenticator.designation === "owner" ||
+    Authenticator.designation === "employee" 
+  )) {
     return redirect("/home")
   }
-  if (path.startsWith("/business/retailer") && !( Authenticator.businessType === "retailer" && (Authenticator.designation === "owner" || Authenticator.designation === "employee"))) {
+  if (path.startsWith("/business/retailer") && !(
+    Authenticator.businessType === "retailer" &&
+    (Authenticator.designation === "owner" || Authenticator.designation === "employee")
+  )) {
     return redirect("/home")
   }
   return null;

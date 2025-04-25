@@ -28,7 +28,13 @@ const VisibilitySwitch = ({ flower, updateFlower }) => {
   
   return (
     <Form>
-      <Form.Check type="switch" id="custom-switch" className='custom-switch' checked={current} onChange={handleClick} />
+      <Form.Check 
+        type="switch"
+        id="custom-switch"
+        className='custom-switch'
+        checked={current}
+        onChange={handleClick}
+      />
     </Form>
   )
 }

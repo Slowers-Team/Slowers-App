@@ -100,13 +100,33 @@ const GrowerFlowerPage = () => {
                   />
                 </div>
                 {params.siteId && <AddFlower createFlower={addFlower} siteID={params.siteId} />}
-                <button className="custom-delete-button" onClick={() => deleteMultipleFlowers(checkedFlowers)}>
+                <button 
+                  className="custom-delete-button"
+                  onClick={() => deleteMultipleFlowers(checkedFlowers)}
+                >
                   <i className="bi bi-trash3-fill"> </i>
                   {t('button.delete')}
                 </button>
               </div>
-              { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower} searchTerm={searchTerm}/>) : 
-                          (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower} searchTerm={searchTerm}/>) }
+              { flowers ? (
+                <GrowerFlowerList
+                  flowers={flowers}
+                  deleteFlower={deleteFlower}
+                  modifyFlower={modifyFlower}
+                  setCheckedFlowers={setCheckedFlowers}
+                  updateFlower={updateFlower}
+                  searchTerm={searchTerm}
+                />
+              ) : (
+                <GrowerFlowerList
+                  flowers={[]}
+                  deleteFlower={deleteFlower}
+                  modifyFlower={modifyFlower}
+                  setCheckedFlowers={setCheckedFlowers}
+                  updateFlower={updateFlower}
+                  searchTerm={searchTerm}
+                />
+              )}
             </div>
           </div>
         </div>

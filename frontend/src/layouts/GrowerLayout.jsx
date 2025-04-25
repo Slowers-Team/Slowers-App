@@ -13,17 +13,31 @@ const tabBar = () => {
       {params.siteId ? (
         <Nav variant='tabs' defaultActiveKey="/grower">
           <Nav.Item>
-            <Nav.Link id="homeTab" className="menu-tab" as={NavLink} end to={`/grower/${params.siteId}`}> 
+            <Nav.Link
+              id="homeTab"
+              className="menu-tab"
+              as={NavLink}
+              end to={`/grower/${params.siteId}`}
+            > 
               {t('menu.home')}
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link id="flowersTab" className="menu-tab" as={NavLink} to={`/grower/${params.siteId}/flowers`}>
+            <Nav.Link
+              id="flowersTab"
+              className="menu-tab"
+              as={NavLink}
+              to={`/grower/${params.siteId}/flowers`}
+            >
               {t('menu.flowers')}
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-           <Nav.Link className="menu-tab" as={NavLink} to={`/grower/${params.siteId}/images`}>
+            <Nav.Link
+              className="menu-tab"
+              as={NavLink}
+              to={`/grower/${params.siteId}/images`}
+            >
               {t('menu.images')}
             </Nav.Link>
           </Nav.Item>
@@ -31,12 +45,21 @@ const tabBar = () => {
       ) : (
         <Nav variant='tabs' defaultActiveKey="/grower">
         <Nav.Item>
-          <Nav.Link id="homeTab" className="menu-tab" as={NavLink} end to="/grower"> 
+          <Nav.Link
+            id="homeTab"
+            className="menu-tab"
+            as={NavLink}
+            end to="/grower"
+          > 
             {t('menu.home')}
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link className="menu-tab" as={NavLink} to="/grower/flowers">
+          <Nav.Link
+            className="menu-tab"
+            as={NavLink}
+            to="/grower/flowers"
+          >
             {t('menu.flowers')}
           </Nav.Link>
         </Nav.Item>

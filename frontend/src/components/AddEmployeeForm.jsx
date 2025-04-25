@@ -13,7 +13,11 @@ const AddEmployeeForm = ({ onEmployeeAdded }) => {
       const designation = "employee"
       const business = await businessService.get()
       const business_id = business.ID
-      await businessService.addMembership({"UserEmail": email, "BusinessID": business_id, "Designation": designation})
+      await businessService.addMembership({
+        "UserEmail": email,
+        "BusinessID": business_id,
+        "Designation": designation
+      })
       setEmail("");
       onEmployeeAdded();
     } catch (error) {
@@ -44,7 +48,11 @@ const AddEmployeeForm = ({ onEmployeeAdded }) => {
                 />
               </td>
               <td>
-                <button type="submit" className="custom-button" id="addEmployeeButton">{t('button.addemployee')}</button>
+                <button
+                  type="submit"
+                  className="custom-button"
+                  id="addEmployeeButton">{t('button.addemployee')}
+                </button>
               </td>
             </tr>
           </tbody>

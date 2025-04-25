@@ -5,7 +5,14 @@ import ModifyFlowerForm from './ModifyFlowerForm'
 import "./FlowerModal.css"
 import { formatTime } from "../utils.js"
 
-const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlower, handleClose}) => {
+const FlowerInfoTab = ({
+	isGrower,
+	flower,
+	deleteFlower,
+	updateFlower,
+	modifyFlower,
+	handleClose
+}) => {
 	const [isModifyFormVisible, setIsModifyFormVisible] = useState(false)
 	const { t } = useTranslation()
 
@@ -24,7 +31,14 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
 		<div>
 			{isGrower && isModifyFormVisible ? (
 					<div>
-						<ModifyFlowerForm flower={flower} modifyFlower={modifyFlower} handleFlowerModify={updateFlower} handleFormVisibility={handleFormVisibility} handleFlowerDelete={handleFlowerDelete} addedTime={formatTime(flower.added_time)}/>
+						<ModifyFlowerForm
+							flower={flower}
+							modifyFlower={modifyFlower}
+							handleFlowerModify={updateFlower}
+							handleFormVisibility={handleFormVisibility}
+							handleFlowerDelete={handleFlowerDelete}
+							addedTime={formatTime(flower.added_time)}
+						/>
 					</div> 
 				) : (
 					<div>
@@ -64,7 +78,11 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
 								<tr>
 									<th>{t('flower.visible.long')}</th>
 									<td>
-										<VisibilitySwitch flower={flower} updateFlower={updateFlower} visible={flower.visible}/>
+										<VisibilitySwitch
+											flower={flower}
+											updateFlower={updateFlower}
+											visible={flower.visible}
+										/>
 									</td>
 								</tr>
 							)}
@@ -74,11 +92,19 @@ const FlowerInfoTab = ({isGrower, flower, deleteFlower, updateFlower, modifyFlow
 			)}
 			{isGrower && !isModifyFormVisible && (
 				<div>
-					<button className="custom-button" id="deleteFlowerButton" onClick={() => handleFlowerDelete(flower)}>
+					<button
+						className="custom-button"
+						id="deleteFlowerButton"
+						onClick={() => handleFlowerDelete(flower)}
+					>
 						<i className="bi bi-trash3-fill"> </i>
 						{t('button.delete')}
 					</button>
-					<button className="custom-button" id="modifyFlowerButton" onClick={handleFormVisibility}>
+					<button
+						className="custom-button"
+						id="modifyFlowerButton"
+						onClick={handleFormVisibility}
+					>
 						<i className="bi bi-pencil-fill"> </i>
 						{t('button.modify')}
 					</button>
