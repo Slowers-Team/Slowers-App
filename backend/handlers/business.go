@@ -20,9 +20,10 @@ func ValidateBusiness(business sql.Business) error {
 		business.PhoneNumber == "" ||
 		business.Email == "" ||
 		business.PostalCode == "" ||
-		business.City == "" { // tälle joku järkevämpi ratkasu
+		business.City == "" {
 		return fmt.Errorf("all fields are required")
 	}
+	// This if could be improved
 
 	if !utils.IsEmailValid(business.Email) {
 		return fmt.Errorf("invalid business email")
