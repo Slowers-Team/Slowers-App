@@ -125,8 +125,7 @@ const RegisterForm = ({ createNewUser }) => {
             className='form-check-label'
             htmlFor="termsCheckbox"
           >
-            {t('label.iagreeto')} 
-            <a href='/terms' target="_blank" rel="noopener noreferrer">
+            {t('label.iagreeto')} <a href='/terms' target="_blank" rel="noopener noreferrer">
             {t('label.terms')}</a>
           </label>
         </div>
