@@ -36,7 +36,6 @@ const AddImage = ({ entity, onImageUpload }) => {
           }
         })
         .catch(error => {
-          console.log(error)
           const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, '')
           console.error("Image upload failed:", error)
           setMessage(t('error.error') + ': ' + (i18n.exists(key) ? t(key) : error.response.data))

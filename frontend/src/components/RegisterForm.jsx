@@ -33,8 +33,6 @@ const RegisterForm = ({ createNewUser }) => {
       setNewRole('')
       setTermsAccepted(false)
     } catch (error) {
-      //täällä tapahtuu palvelimen lähettämän errorin näyttäminen
-      //console.log(t('error.erroroccured'))
       setErrorMessage(t('error.erroroccured'))
     }
   }

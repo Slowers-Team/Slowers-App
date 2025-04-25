@@ -13,8 +13,6 @@ const AddEmployeeForm = ({ onEmployeeAdded }) => {
       const designation = "employee"
       const business = await businessService.get()
       const business_id = business.ID
-      console.log(business_id)
-      console.log(email)
       await businessService.addMembership({"UserEmail": email, "BusinessID": business_id, "Designation": designation})
       setEmail("");
       onEmployeeAdded();

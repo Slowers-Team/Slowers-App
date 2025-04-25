@@ -38,7 +38,6 @@ const GrowerFlowerPage = () => {
           [returnedFlower])
       )
       .catch(error => {
-      console.log(error)
       alert(t("error.addingfailed"))
     })
   }
@@ -46,7 +45,6 @@ const GrowerFlowerPage = () => {
   const deleteFlower = flowerObject => {
     if (window.confirm(`${t('label.confirmflowerdeletion')} ${flowerObject.name}?`)) {
       flowerService.remove(flowerObject._id).then(response => {
-        console.log(response)
         setFlowers(l => l.filter(item => item._id !== flowerObject._id))
       })
     }
@@ -59,7 +57,6 @@ const GrowerFlowerPage = () => {
     }
     if (window.confirm(t('label.confirmmultipleflowerdeletion'))) {
       flowerService.removeMultipleFlowers(checkedFlowers).then(response => {
-        console.log(response)
         setFlowers(l => l.filter(item => !checkedFlowers.includes(item._id)))
       })
     }
@@ -78,7 +75,6 @@ const GrowerFlowerPage = () => {
       .modify(flowerObject)
       .then(updateFlower(flowerObject))
       .catch(error => {
-        console.log(error)
         alert(t("error.modifyingfailed"))
       })
   }

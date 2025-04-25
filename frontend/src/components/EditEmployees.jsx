@@ -81,7 +81,6 @@ const EditEmployees = ({ employees, onEmployeeEdited }) => {
 
   const handleEditEmployee = async (event) => {
     event.preventDefault()
-    console.log('handleEditEmployee')
     const formData = new FormData(event.target)
     const userEmail = formData.get("email")
     const businessId = (await businessService.get()).ID
@@ -91,7 +90,6 @@ const EditEmployees = ({ employees, onEmployeeEdited }) => {
   }
   const handleDeletion = async (event) => {
     event.preventDefault()
-    console.log("Trying to delete employee");
     
     const currentUser = await userService.get()
 
@@ -112,7 +110,6 @@ const EditEmployees = ({ employees, onEmployeeEdited }) => {
 
     try {
       await businessService.deleteMembership(userEmail, businessId)
-      console.log("Deleted:", userEmail);
       onEmployeeEdited()
     } catch (error) {
       console.error("Error deleting employee:", error);

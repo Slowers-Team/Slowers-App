@@ -22,7 +22,6 @@ const create = newFlower => {
   const config = {
     headers: { Authorization: tokenService.fetchToken() },
   }
-  console.log(newFlower)
   const request = axios.post(baseUrl, newFlower, config)
   return request.then(response => response.data)
 }
@@ -42,7 +41,6 @@ const getFlowersBySite = (id=null) => {
 
   return axios.get(url, config)
     .then(response => {
-      console.log("Fetched flowers:", response.data); 
       return response.data;
     })
     .catch(error => {
@@ -60,7 +58,6 @@ const toggleVisibility = (id) => {
 
   return axios(config)
     .then(response => {
-      console.log("Visibility of", id, "set to", response.data)
       return response.data
     })
     .catch(error => {
