@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import SiteService from "../services/sites";
 import SiteMasonry from "../components/SiteMasonry";
 import AddSite from "../components/AddSite";
+import WideCenteredCard from "../components/WideCenteredCard";
 
 const GrowerHomePage = () => {
   const params = useParams();
@@ -62,62 +63,54 @@ const GrowerHomePage = () => {
   };
 
   return (
-    <div className="m-3">
-      <div className="row justify-content-center">
-        <div className="col-12 col-md-12 col-lg-12 col-xl-12">
-          <div className="card" style={{ borderRadius: "1rem" }}>
-            <div className="card-body p-5">
-              {params.siteId ? (
-                <h2>
-                  {site?.name} {t("title.sitehome")}{" "}
-                </h2>
-              ) : (
-                <h2>{t("title.growerhome")}</h2>
-              )}
-              {site?.note && (
-                <p className="mx-1">
-                  {site?.note}
-                </p>
-              )}
-              <div className="d-flex gap-2">
-                <AddSite createSite={createSite} />
-                {params.siteId && (
-                <button
-                  id="deleteSiteButton"
-                  onClick={() => deleteSite(site)}
-                  className="custom-delete-button"
-                >
-                  <i className="bi bi-trash3-fill"> </i>
-                  {t("button.deletethissite")}
-                </button>
-                )}
-              </div>
-              <div>
-                {sites && sites.length > 0 && (
-                  <h3 className="my-3">{t("title.sites")}</h3>
-                )}
-                <SiteMasonry sites={sites}/>
-              </div>
-              {/*
-              {params.siteId && images && images.length > 0 ? (
-                <div className="info-container">
-                  <h3 className="my-3">Site's images</h3>
-                  {site?.note && (
-                    <p className="mx-1">
-                      {t("site.data.note")} : {site?.note}
-                    </p>
-                  )}
-                  <div className="carousel-wrapper">
-                    <SiteImagesCarousel images={images} />
-                  </div>
-                </div>
-              ) : null }
-              */}
-            </div>
+    <WideCenteredCard>
+      {params.siteId ? (
+        <h2>
+          {site?.name} {t("title.sitehome")}{" "}
+        </h2>
+      ) : (
+        <h2>{t("title.growerhome")}</h2>
+      )}
+      {site?.note && (
+        <p className="mx-1">
+          {site?.note}
+        </p>
+      )}
+      <div className="d-flex gap-2">
+        <AddSite createSite={createSite} />
+        {params.siteId && (
+        <button
+          id="deleteSiteButton"
+          onClick={() => deleteSite(site)}
+          className="custom-delete-button"
+        >
+          <i className="bi bi-trash3-fill"> </i>
+          {t("button.deletethissite")}
+        </button>
+        )}
+      </div>
+      <div>
+        {sites && sites.length > 0 && (
+          <h3 className="my-3">{t("title.sites")}</h3>
+        )}
+        <SiteMasonry sites={sites}/>
+      </div>
+      {/*
+      {params.siteId && images && images.length > 0 ? (
+        <div className="info-container">
+          <h3 className="my-3">Site's images</h3>
+          {site?.note && (
+            <p className="mx-1">
+              {t("site.data.note")} : {site?.note}
+            </p>
+          )}
+          <div className="carousel-wrapper">
+            <SiteImagesCarousel images={images} />
           </div>
         </div>
-      </div>
-    </div>
+      ) : null }
+      */}
+    </WideCenteredCard>
   );
 };
 

@@ -6,6 +6,7 @@ import BusinessInfo from "../components/BusinessInfo"
 import { useTranslation } from 'react-i18next'
 import { Authenticator } from "../Authenticator"
 import CreateBusinessForm from "../components/CreateBusinessForm"
+import CenteredCard from "../components/CenteredCard"
 
 
 const BusinessPage = () => {
@@ -49,19 +50,11 @@ const BusinessPage = () => {
 
 
   return (
-    <div className="m-3">
-      <div className="row justify-content-center">
-        <div className="col-12 col-md-12 col-lg-12 col-xl-8">
-          <div className="card" style={{ borderRadius: "1rem" }}>
-            <div className="card-body p-5">
-              {(designation === 'owner' || designation === 'employee')  
-                ? (<BusinessInfo business={business} />)
-                : (<CreateBusinessForm createNewBusiness={createNewBusiness} />)}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <CenteredCard>
+      {(designation === 'owner' || designation === 'employee')  
+        ? (<BusinessInfo business={business} />)
+        : (<CreateBusinessForm createNewBusiness={createNewBusiness} />)}
+    </CenteredCard>
   )
 }
 

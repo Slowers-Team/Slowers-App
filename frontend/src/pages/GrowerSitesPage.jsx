@@ -4,6 +4,8 @@ import SiteService from "../services/sites";
 import SiteFlexbox from "../components/SiteFlexbox";
 import { useTranslation } from "react-i18next";
 import { Container } from 'react-bootstrap'
+import CenteredCard from "../components/CenteredCard";
+import WideCenteredCard from "../components/WideCenteredCard";
 
 const GrowerSitesPage = () => {
   const params = useParams();
@@ -70,7 +72,7 @@ const GrowerSitesPage = () => {
   };
 
   return (
-    <Container>
+    <WideCenteredCard>
       {params.siteId ? (
         <div>
           <h2>
@@ -101,7 +103,7 @@ const GrowerSitesPage = () => {
           <SiteFlexbox createSite={createSite} sites={sites}/>
         </div>
       )}
-    </Container>
+    </WideCenteredCard>
   );
 };
 
