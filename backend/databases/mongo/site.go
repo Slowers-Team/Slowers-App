@@ -118,7 +118,9 @@ func (mDb MongoDatabase) DeleteSite(ctx context.Context, siteID ObjectID, userID
 		},
 		}}
 
-	cursor, err := mongoDb.Collection("sites").Aggregate(ctx, mongo.Pipeline{matchStage, graphLookupStage, projectStage, unwindStage})
+	cursor, err := mongoDb.Collection("sites").Aggregate(ctx,
+		mongo.Pipeline{matchStage, graphLookupStage, projectStage, unwindStage})
+
 	if err != nil {
 		return nil, err
 	}
