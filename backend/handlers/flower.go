@@ -2,12 +2,24 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 
 	"github.com/Slowers-team/Slowers-App/databases/mongo"
 )
+
+func ValidateFlower(flower *mongo.Flower) error {
+	if flower.Name == "" {
+		return fmt.Errorf("Flower name cannot be empty")
+	}
+
+	if flower.Site == nil {
+		return fmt.Errorf("SiteID is required")
+	}
+	return nil
+}
 
 func GetFlowers(c *fiber.Ctx) error {
 	flowers, err := MongoDb.GetFlowers(c.Context())
@@ -48,8 +60,9 @@ func AddFlower(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	if flower.Name == "" {
-		return c.Status(400).SendString("Flower name cannot be empty")
+	err = ValidateFlower(flower)
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
 	}
 
 	if flower.Site == nil {
@@ -65,12 +78,16 @@ func AddFlower(c *fiber.Ctx) error {
 		return c.Status(404).SendString("Site not found")
 	}
 
-	if flower.Quantity < 0 {
-		return c.Status(400).SendString("Flower quantity cannot be negative")
-	}
-
-	newFlower := mongo.Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(),
-		Grower: &userID, GrowerEmail: grower.Email, Site: &site.ID, SiteName: site.Name, Quantity: flower.Quantity, Visible: false}
+	newFlower := mongo.Flower{
+		Name:        flower.Name,
+		LatinName:   flower.LatinName,
+		AddedTime:   time.Now(),
+		Grower:      &userID,
+		GrowerEmail: grower.Email,
+		Site:        &site.ID,
+		SiteName:    site.Name,
+		Quantity:    flower.Quantity,
+		Visible:     false}
 
 	createdFlower, err := MongoDb.AddFlower(c.Context(), newFlower)
 	if err != nil {
@@ -152,12 +169,9 @@ func ModifyFlower(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	if flower.Name == "" {
-		return c.Status(400).SendString("Flower name cannot be empty")
-	}
-
-	if flower.Quantity < 0 {
-		return c.Status(400).SendString("Flower quantity cannot be negative")
+	err = ValidateFlower(flower)
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
 	}
 
 	updatedFlower, err := MongoDb.ModifyFlower(c.Context(), id, mongo.Flower{Name: flower.Name, LatinName: flower.LatinName, Quantity: flower.Quantity})
