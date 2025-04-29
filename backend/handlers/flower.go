@@ -174,7 +174,10 @@ func ModifyFlower(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	updatedFlower, err := MongoDb.ModifyFlower(c.Context(), id, mongo.Flower{Name: flower.Name, LatinName: flower.LatinName, Quantity: flower.Quantity})
+	updatedFlower, err := MongoDb.ModifyFlower(c.Context(), id, mongo.Flower{
+		Name:      flower.Name,
+		LatinName: flower.LatinName,
+		Quantity:  flower.Quantity})
 
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
