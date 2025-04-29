@@ -31,19 +31,6 @@ func GetCurrentUser(c *fiber.Ctx) (string, error) {
 	return id, nil
 }
 
-// func GetCurrentUser(c *fiber.Ctx) (MongoDb.ObjectID, error) {
-// 	id, ok := c.Locals("userID").(string)
-// 	if !ok {
-// 		return database.NilObjectID, fmt.Errorf("userID not set in local storage")
-// 	}
-
-// 	userID, err := database.ParseID(id)
-// 	if err != nil {
-// 		return database.NilObjectID, err
-// 	}
-// 	return userID, nil
-// }
-
 func GetCurrentBusiness(c *fiber.Ctx) (string, error) {
 	id, ok := c.Locals("businessID").(string)
 	if !ok {
