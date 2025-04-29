@@ -1,0 +1,28 @@
+version: "2"
+linters:
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - ^utils/tests/
+      - ^handlers/tests/
+      - ^testdata/
+      - ^databases/mongo/tests/
+      - ^databases/sql/tests/
+      - ^apitests/
+      - ^testutils/
+      - ^utils/tests/
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
