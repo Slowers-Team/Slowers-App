@@ -15,13 +15,19 @@ type UserEmail struct {
 }
 
 func ValidateBusiness(business sql.Business) error {
-	if business.BusinessName == "" ||
-		business.Type == "" ||
-		business.PhoneNumber == "" ||
-		business.Email == "" ||
-		business.PostalCode == "" ||
-		business.City == "" { // tälle joku järkevämpi ratkasu
-		return fmt.Errorf("all fields are required")
+	fields := []string{
+		business.BusinessName,
+		business.Type,
+		business.PhoneNumber,
+		business.Email,
+		business.PostalCode,
+		business.City,
+	}
+
+	for _, field := range fields {
+		if field == "" {
+			return fmt.Errorf("all fields are required")
+		}
 	}
 
 	if !utils.IsEmailValid(business.Email) {
@@ -97,7 +103,7 @@ func CreateBusiness(c *fiber.Ctx) error {
 	createdBusiness, err := sqlDb.CreateBusiness(c.Context(), newBusiness)
 
 	if err != nil {
-		fmt.Println("Yrityksen luominen ei onnistunut")
+		fmt.Println("Creating business failed")
 		return c.Status(500).SendString(err.Error())
 	}
 
@@ -113,7 +119,7 @@ func CreateBusiness(c *fiber.Ctx) error {
 	}
 
 	if _, err := sqlDb.AddMembership(c.Context(), *newMember); err != nil {
-		fmt.Println("Yrityksen omistajan lisäys epäonnistui")
+		fmt.Println("Adding business owner failed")
 		return c.Status(500).SendString(err.Error())
 	}
 
