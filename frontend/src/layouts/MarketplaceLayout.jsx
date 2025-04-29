@@ -15,7 +15,7 @@ const tabBar = () => {
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link className="menu-tab" as={NavLink} end to="/marketplace/flowers">
+            <Nav.Link id="to-marketplace-flowers-page" className="menu-tab" as={NavLink} end to="/marketplace/flowers">
               {t('menu.marketplace')}
             </Nav.Link>
           </Nav.Item>
