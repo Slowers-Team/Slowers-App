@@ -53,25 +53,12 @@ func UploadImage(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Image size cannot be zero or negative")
 	}
 
-	// if fileinfo, err := os.Stat("./images"); errors.Is(err, os.ErrNotExist) || !fileinfo.IsDir() {
-	// 	os.Remove("./images")
-	// 	if err := os.Mkdir("./images", 0775); err != nil {
-	// 		return c.Status(500).SendString("Could not create directory for images: " + err.Error())
-	// 	}
-	// }
-
 	newImage := mongo.Image{FileFormat: fileext, Note: image.Note, Entity: image.Entity, Owner: userID}
 
 	createdImage, err := MongoDb.AddImage(c.Context(), newImage)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
-
-	// savepath := "./images/" + createdImage.ID.Hex() + "." + fileext
-	// if err := c.SaveFile(file, savepath); err != nil {
-	// 	db.DeleteImage(c.Context(), createdImage.ID)
-	// 	return c.Status(500).SendString(err.Error())
-	// }
 
 	// Read the file into a byte slice
 	fileContent, err := file.Open()
@@ -88,19 +75,6 @@ func UploadImage(c *fiber.Ctx) error {
 	// Create an io.Reader from the byte slice
 	fileReader := bytes.NewReader(fileBytes)
 
-	// if filedir, err := os.Stat("./thumbnails"); errors.Is(err, os.ErrNotExist) || !filedir.IsDir() {
-	// 	os.Remove("./thumbnails")
-	// 	if err := os.Mkdir("./thumbnails", 0775); err != nil {
-	// 		return c.Status(500).SendString("Could not create directory for thumbnails: " + err.Error())
-	// 	}
-	// }
-
-	// savepath = "./thumbnails/" + createdImage.ID.Hex() + "." + fileext
-	// createdThumbnail, err := os.Create(savepath)
-	// if err != nil {
-	// 	return c.Status(500).SendString(err.Error())
-	// }
-
 	resp, err := cld.Upload.Upload(c.Context(), fileReader, uploader.UploadParams{
 		PublicID:       "images/" + createdImage.ID.Hex(),
 		UniqueFilename: true,
@@ -111,11 +85,6 @@ func UploadImage(c *fiber.Ctx) error {
 	}
 
 	fmt.Println(resp)
-
-	// err = utils.ResizeImage(fileReader, createdThumbnail, fileext, 200, 200)
-	// if err != nil {
-	// 	return c.Status(500).SendString(err.Error())
-	// }
 
 	return c.Status(201).JSON(createdImage)
 }
@@ -135,26 +104,12 @@ func GetImageByID(c *fiber.Ctx) error {
 		return c.Status(500).SendString(err.Error())
 	}
 
-	// filepath := fmt.Sprintf("./images/%v.%v", imageID.Hex(), image.FileFormat)
-	// log.Println(filepath)
-
 	resp, err := cld.Admin.Asset(c.Context(), admin.AssetParams{PublicID: "images/" + imageID.Hex()})
 	if err != nil {
 		fmt.Println("error")
 	}
 
-	// if _, err := os.Stat(filepath); err != nil {
-	// 	if errors.Is(err, os.ErrNotExist) {
-	// 		log.Println("404 fail")
-	// 		return c.SendStatus(404)
-	// 	} else {
-	// 		log.Println("500 fail")
-	// 		return c.Status(500).SendString(err.Error())
-	// 	}
-	// }
 	log.Println("sending file", resp.SecureURL)
-
-	// return c.SendFile(filepath)
 
 	return c.SendString(resp.SecureURL)
 }

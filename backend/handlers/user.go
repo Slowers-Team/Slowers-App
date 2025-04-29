@@ -122,28 +122,3 @@ func GetUser(c *fiber.Ctx) error {
 	}
 	return c.JSON(result)
 }
-
-// func setDesignation(c *fiber.Ctx) error {
-// 	// userID, err := GetCurrentUser(c)
-// 	// if err != nil {
-// 	// 	return c.Status(500).SendString(err.Error())
-// 	// }
-
-// 	// var role string
-// 	// if err := c.BodyParser(&role); err != nil {
-// 	// 	return c.Status(400).SendString(err.Error())
-// 	// }
-
-// 	// _, err = enums.RoleFromString(role)
-// 	// if err != nil {
-// 	// 	return c.Status(400).SendString(err.Error())
-// 	// }
-
-// 	// err = db.SetUserRole(c.Context(), userID, role)
-// 	// if err != nil {
-// 	// 	return c.Status(500).SendString(err.Error())
-// 	// }
-
-// 	// return c.Status(201).JSON(role)
-// 	return nil
-// }
