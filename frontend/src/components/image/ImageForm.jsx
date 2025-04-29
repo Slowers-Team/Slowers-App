@@ -29,7 +29,6 @@ const ImageForm = ({ createImage }) => {
     }
     const file = event.target.files[0]
     setNewImage(file)
-    // const objectUrl = URL.createObjectURL(file)
 
     const reader = new FileReader()
     reader.onload = (e) => {
@@ -37,10 +36,6 @@ const ImageForm = ({ createImage }) => {
     }
     reader.readAsDataURL(file)
 
-    // setPreview(objectUrl)
-    // setNewImage(file)
-
-    // return () => URL.revokeObjectURL(objectUrl)
   }
 
   return (
