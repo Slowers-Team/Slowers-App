@@ -33,8 +33,16 @@ export const NavigationBar = () => {
         </Navbar.Brand>
         <Nav className="ms-auto mx-2">
           {isLoggedIn && (
-            <NavDropdown title={username} id="collasible-nav-dropdown" align="end">
-              <Nav.Link className="text-secondary" as={Link} to="/user">
+            <NavDropdown
+              title={username}
+              id="collasible-nav-dropdown"
+              align="end"
+            >
+              <Nav.Link 
+                id="to-user-page"
+                className="text-secondary"
+                as={Link} to="/user"
+              >
                 <i className="bi bi-person-circle"> </i>
                 {t("menu.profile")}
               </Nav.Link>
@@ -113,6 +121,7 @@ export const NavigationBar = () => {
             )}
             {isLoggedIn && (
               <Nav.Link
+                id="to-marketplace-page"
                 className="text-secondary"
                 as={Link}
                 to="/marketplace"
@@ -135,6 +144,7 @@ export const NavigationBar = () => {
             )}
             {isLoggedIn && ( businessType === 'grower' && ( designation === 'owner' || designation === 'employee' ) )  && (
               <Nav.Link
+                id="to-grower-page"
                 className="text-secondary"
                 as={Link}
                 to="/grower"
@@ -146,6 +156,7 @@ export const NavigationBar = () => {
             )}
             {isLoggedIn && (
               <Nav.Link
+                id="to-business-page"
                 className="text-secondary"
                 as={Link}
                 to="/business"
