@@ -39,15 +39,6 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	// count, err := db.CountUsersWithEmail(c.Context(), user.Email)
-	// if err != nil {
-	// 	return c.Status(500).SendString(err.Error())
-	// }
-
-	// if count > 0 {
-	// 	return c.Status(400).SendString("email already exists")
-	// }
-
 	if !utils.IsEmailValid(user.Email) {
 		return c.Status(400).SendString("invalid email")
 	}

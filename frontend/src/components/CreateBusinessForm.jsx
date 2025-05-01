@@ -20,7 +20,7 @@ const CreateBusinessForm = ({ createNewBusiness }) => {
 
   const validateBusiness = (businessObject) => {
     if (!validateBusinessIdCode(businessObject.businessIdCode)) {
-      return (t('error.erroroccured'))
+      return (t('error.invalidbusinessidcode'))
     }
     if (!validateEmail(businessObject.email)) {
       return (t('error.erroroccured'))

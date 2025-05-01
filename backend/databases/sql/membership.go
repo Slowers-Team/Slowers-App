@@ -84,7 +84,7 @@ func (pDd SQLDatabase) DeleteMembership(ctx context.Context, userEmail string, b
 	WHERE user_email = $1
 	AND business_id = $2
 	`
-
+	// .Exec is used instead of QueryRow because the function does not return anything
 	_, err := pDd.pool.Exec(ctx, query, userEmail, businessId)
 
 	if err != nil {
@@ -94,29 +94,6 @@ func (pDd SQLDatabase) DeleteMembership(ctx context.Context, userEmail string, b
 	return nil
 
 }
-
-// func (pDb SQLDatabase) GetDesignationByEmail(ctx context.Context, userEmail string) (*Membership, error) {
-// 	membership := new(Membership)
-// 	query := `
-// 			SELECT
-// 				Memberships.designation
-// 			FROM
-// 				Memberships
-// 				INNER JOIN Users ON Memberships.user_email = Users.email
-// 			WHERE
-// 				User.email = 1$`
-
-// 	err := pDb.pool.QueryRow(ctx, query, userEmail).Scan(
-// 		&membership.Designation,
-// 	)
-
-// 	if err != nil {
-// 		fmt.Println(err.Error())
-// 		return nil, err
-// 	}
-
-// 	return membership, nil
-// }
 
 func (pDb SQLDatabase) GetAllMembersInBusiness(ctx context.Context, businessID int) ([]Membership, error) {
 	query := `

@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom"
 import TermsWindow from "../components/TermsWindow"
 import { useTranslation } from "react-i18next"
 import CenteredCard from "../components/CenteredCard"
