@@ -61,6 +61,10 @@ const GrowerHomePage = () => {
     }
   };
 
+  const redirectToGrowerHomepage = () => {
+    navigate("/grower")
+  }
+
   return (
     <div className="m-3">
       <div className="row justify-content-center">
@@ -113,6 +117,7 @@ const GrowerHomePage = () => {
                 </div>
               ) : null }
               */}
+              <button className="custom-button" onClick={redirectToGrowerHomepage}>{t("title.growerhome")}</button>
             </div>
           </div>
         </div>
