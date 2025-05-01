@@ -22,6 +22,8 @@ RUN go build -o start-server
 
 FROM debian:12.9-slim
 
+RUN apt update && apt install -y ca-certificates
+
 RUN useradd -ms /bin/bash server
 
 WORKDIR /app

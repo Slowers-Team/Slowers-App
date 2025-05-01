@@ -22,7 +22,12 @@ const TabBar = ({ designation, businessType }) => {
             </Nav.Item>
             { accessToEmployeesTab && (
               <Nav.Item>
-                <Nav.Link className="menu-tab" as={NavLink} end to="/business/employees">
+                <Nav.Link 
+                  id="to-employees-page"
+                  className="menu-tab"
+                  as={NavLink}
+                  end to="/business/employees"
+                  >
                   {t('menu.employees')}
                 </Nav.Link>
               </Nav.Item>

@@ -1,10 +1,8 @@
-import { useNavigate } from "react-router-dom"
 import TermsWindow from "../components/TermsWindow"
 import { useTranslation } from "react-i18next"
 
 
 const TermsPage = () => {
-  //const navigate = useNavigate()
   const { t, i18n } = useTranslation()
 
   return (

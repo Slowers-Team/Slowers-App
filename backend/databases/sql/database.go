@@ -13,8 +13,7 @@ type Database interface {
 	Connect(databaseName string, testEnv bool, prodEnv bool) error
 	Disconnect() error
 	Clear() error
-
-	// 	CountUsersWithEmail(ctx context.Context, email string) (int64, error)
+	
 	CreateUser(ctx context.Context, newUser User) (*User, error)
 	GetUserByEmail(ctx context.Context, email string) (*User, error)
 	GetUserByID(ctx context.Context, userID string) (*User, error)
@@ -100,8 +99,3 @@ func (sqlDb *SQLDatabase) Clear() error {
 	}
 	return err
 }
-
-// func ParseID(id string) (string, error) {
-// 	// TODO: Tämä logiikka
-// 	return id, nil
-// }

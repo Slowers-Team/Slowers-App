@@ -102,21 +102,6 @@ const GrowerHomePage = () => {
                 )}
                 <SiteMasonry sites={sites}/>
               </div>
-              {/*
-              {params.siteId && images && images.length > 0 ? (
-                <div className="info-container">
-                  <h3 className="my-3">Site's images</h3>
-                  {site?.note && (
-                    <p className="mx-1">
-                      {t("site.data.note")} : {site?.note}
-                    </p>
-                  )}
-                  <div className="carousel-wrapper">
-                    <SiteImagesCarousel images={images} />
-                  </div>
-                </div>
-              ) : null }
-              */}
               <button className="custom-button" onClick={redirectToGrowerHomepage}>{t("title.growerhome")}</button>
             </div>
           </div>
