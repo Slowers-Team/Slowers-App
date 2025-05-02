@@ -20,6 +20,7 @@ const tabBar = () => {
           </Nav.Item>
           <Nav.Item>
             <Nav.Link
+              id="to-marketplace-flowers-page"
               className="menu-tab"
               as={NavLink}
               end to="/marketplace/flowers"
