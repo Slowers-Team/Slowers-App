@@ -13,7 +13,7 @@ describe('Slowers ', function() {
 
     describe('page visibility', function() {
       beforeEach(function(){
-        cy.visit('/user')
+        cy.get('#to-user-page').click()
         cy.contains('test@email.com')
       })
       // it('retailer user can not access grower page', function() {
@@ -33,7 +33,8 @@ describe('Slowers ', function() {
     })
     describe('business page visible', function() {
       beforeEach(function(){
-        cy.visit('/business')
+        cy.get('#offcanvasButton').click()
+        cy.get('#to-business-page').click()
       })
       it('contains business form before business form is created', function() {
         cy.contains('Create a business')
@@ -41,7 +42,9 @@ describe('Slowers ', function() {
     })
     describe('when business exists', function() {
       beforeEach(function() {
-        cy.visit('/business')
+        cy.get('#offcanvasButton').click()
+        cy.get('#to-business-page').click()
+        cy.wait(300)
         cy.get('#businessNameInput').type('Test business')
         cy.get('#businessIdCodeInput').type('1234567-8')
         cy.get('#retailerSelector').check({ force: true })
@@ -55,7 +58,8 @@ describe('Slowers ', function() {
       })
 
       it('displays correct business information', function() {
-        cy.visit('/business')
+        cy.get('#offcanvasButton').click()
+        cy.get('#to-business-page').click()
         cy.contains('Test business')
         cy.contains('1234567-8')
         cy.contains('0400123456')
@@ -69,7 +73,7 @@ describe('Slowers ', function() {
       })
 
       it('can add, edit and delete an employee', function() {
-        cy.visit('/business/employees')
+        cy.get('#to-employees-page').click()
         cy.get('#employeeEmailInput').type('toinen@testi.fi')
         cy.get('#addEmployeeButton').click()
         cy.contains('toinen@testi.fi')
@@ -85,7 +89,9 @@ describe('Slowers ', function() {
     beforeEach(function() {
       cy.registerAndLogin({username: 'testuser', email: 'test@email.com', password: 'testpassword', role: 'grower'})
       cy.contains('Welcome to Slowers')
-      cy.visit('/business')
+      cy.get('#offcanvasButton').click()
+      cy.get('#to-business-page').click()
+      cy.wait(300)
       cy.get('#businessNameInput').type('Test business')
       cy.get('#businessIdCodeInput').type('1234567-8')
       cy.get('#growerSelector').check({ force: true })
@@ -96,11 +102,12 @@ describe('Slowers ', function() {
       cy.get('#businessCityInput').type('Helsinki')
       cy.get('#businessAddInfoInput').type('This is a test business')
       cy.get('#businessFormSubmit').click()
+      cy.location('pathname', {timeout: 10}).should('include', '/business')
     })
 
     describe('page visibility', function() {
       beforeEach(function() {
-        cy.visit('/user')
+        cy.get('#to-user-page').click()
         cy.contains('test@email.com')
       })
       // it('grower user can not access retailer page', function() {
@@ -126,19 +133,24 @@ describe('Slowers ', function() {
 
     describe('when a site has been added', function() {
       beforeEach(function() {
-        cy.visit('/grower')
+        cy.get('#offcanvasButton').click()
+        cy.get('#to-grower-page').click()
         cy.get('#addNewSiteButton').click()
+        cy.wait(100)
         cy.get('#newSiteNameInput').type('Test site')
         cy.get('#newSiteNoteInput').type('Test note')
         cy.get('#saveNewSiteButton').click()
 
-        cy.visit('/grower')
+        cy.get('#offcanvasButton').click()
+        cy.get('#to-grower-page').click()
         cy.get('#addNewSiteButton').click()
+        cy.wait(100)
         cy.get('#newSiteNameInput').type('Greenhouse')
         cy.get('#newSiteNoteInput').type('Something')
         cy.get('#saveNewSiteButton').click()
 
-        cy.visit('/grower')
+        cy.get('#offcanvasButton').click()
+        cy.get('#to-grower-page').click()
         cy.contains('Test site').click()
         cy.get('#homeTab').click()
         cy.get('#addNewSiteButton').click()
@@ -148,13 +160,15 @@ describe('Slowers ', function() {
       })
 
       it('shows a site on the Home tab after adding it', function() {
-        cy.visit('/grower')
+        cy.get('#offcanvasButton').click()
+        cy.get('#to-grower-page').click()
         cy.contains('Test site')
         cy.contains('Test note')
       })
 
       it('does not show a site after deleting it', function() {
-        cy.visit('/grower')
+        cy.get('#offcanvasButton').click()
+        cy.get('#to-grower-page').click()
         cy.contains('Test site').click()
         cy.get('#homeTab').click()
         cy.contains('Field')
@@ -163,14 +177,16 @@ describe('Slowers ', function() {
           return true
         })
 
-        cy.visit('/grower')
+        cy.get('#offcanvasButton').click()
+        cy.get('#to-grower-page').click()
         cy.contains('Greenhouse')
         cy.contains('Test site').should('not.exist')
       })
 
       describe('when a flower has been added', function() {
         beforeEach(function() {
-          cy.visit('/grower')
+          cy.get('#offcanvasButton').click()
+        cy.get('#to-grower-page').click()
           cy.contains('Test site').click()
           cy.contains('Test site homepage')
           cy.get('#flowersTab').click()
@@ -187,7 +203,8 @@ describe('Slowers ', function() {
         })
 
         it('can delete flower from a site', function() {
-          cy.visit('/grower')
+          cy.get('#offcanvasButton').click()
+         cy.get('#to-grower-page').click()
           cy.contains('Test site').click()
           cy.contains('Test site homepage')
           cy.get('#flowersTab').click()
@@ -200,7 +217,9 @@ describe('Slowers ', function() {
         })
 
         it('does not show flower without an image on retailer flower page', function() {
-          cy.visit('/retailer/flowers')
+          cy.get('#offcanvasButton').click()
+          cy.get('#to-marketplace-page').click()
+          cy.get('#to-marketplace-flowers-page').click()
           cy.contains('Test flower').should('not.exist')
         })
       })

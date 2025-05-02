@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import AddEmployeeForm from "../components/AddEmployeeForm"
 import EditEmployees from "../components/EditEmployees"
 import { Authenticator } from "../Authenticator"
+import CenteredCard from "../components/CenteredCard"
 
 
 const BusinessEmployeesPage = () => {
@@ -22,29 +23,18 @@ const BusinessEmployeesPage = () => {
   
 
   return (
-    <div className="m-3">
-      <div className="row justify-content-center">
-        <div className="col-12 col-md-12 col-lg-12 col-xl-8">
-          <div className="card" style={{ borderRadius: "1rem" }}>
-            <div className="card-body p-5">
-              {designation === 'owner' && (
-                <AddEmployeeForm onEmployeeAdded={employeeGetter}/>
-              )}
-              <br/>
-              {(designation === "owner") && (
-                <EditEmployees
-                  employees={employees}
-                  onEmployeeEdited={employeeGetter}
-                />
-              )}              
-              {(designation === "employee") && (
-                <EmployeesList employees={employees} />
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <CenteredCard>
+      {designation === 'owner' && (
+        <AddEmployeeForm onEmployeeAdded={employeeGetter}/>
+      )}
+      <br/>
+      {(designation === "owner") && (
+        <EditEmployees employees={employees} onEmployeeEdited={employeeGetter} />
+      )}              
+      {(designation === "employee") && (
+        <EmployeesList employees={employees} />
+      )}
+    </CenteredCard>
   )
 }
 

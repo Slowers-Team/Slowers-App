@@ -23,7 +23,7 @@ import LogInPage from "./pages/LogInPage";
 import UserPage from "./pages/UserPage";
 import RetailerHomePage from "./pages/RetailerHomePage";
 import RetailerFlowerPage from "./pages/RetailerFlowerPage";
-import MarketplaceHomePage from "./pages/marketplaceHomePage";
+import MarketplaceHomePage from "./pages/MarketplaceHomePage";
 import GrowerHomePage from "./pages/GrowerHomePage";
 import GrowerFlowerPage from "./pages/GrowerFlowerPage";
 import GrowerSitesPage from "./pages/GrowerSitesPage";
