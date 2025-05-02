@@ -6,6 +6,14 @@ Version numbers use the following system:
 
 where first 0 indicates pre-release version, X tells which Software engineering project Slowers group has done the release and Y is used to tell which sprint the release was made in.
 
+## Release 0.2.7
+[GitHub release](https://github.com/Slowers-Team/Slowers-App/releases/tag/v0.2.7)
+- Cloudinary connection fixed
+- Site navigation allows returning to the root site with the press of a button
+- Business creation form validations (business id code) added
+- Code base cleaning and refactoring
+- Linting configuration added to backend
+
 ## Release 0.2.6
 [GitHub release](https://github.com/Slowers-Team/Slowers-App/releases/tag/v0.2.6)
 
