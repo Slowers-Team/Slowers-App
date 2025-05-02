@@ -24,7 +24,6 @@ const get = () => {
   return axios.get(url, config).then((response) => response.data);
 };
 
-// kun kutsutaan tätä:
 // businessService.addMembership({user_email, business_id, designation, business_name})
 const addMembership = (membership) => {
   const config = {
@@ -68,7 +67,6 @@ const deleteMembership = (email, businessID) => {
     }
   }
   const url = `/api/membership/${email}/${businessID}`
-  console.log("URLI:", url)
   return axios.delete(url, config).then(response => response.data)
 }
 

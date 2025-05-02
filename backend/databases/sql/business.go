@@ -1,4 +1,4 @@
-package sql
+package sql // Include this file in sql package
 
 import (
 	"context"
@@ -22,6 +22,8 @@ type Business struct {
 	Delivery       string
 }
 
+// If you have trouble understanding the commands check pgxpool from the Go website.
+
 func (pDb SQLDatabase) CreateBusiness(ctx context.Context, newBusiness Business) (*Business, error) {
 	query := `
 	INSERT INTO Businesses (
@@ -37,6 +39,10 @@ func (pDb SQLDatabase) CreateBusiness(ctx context.Context, newBusiness Business)
 							delivery)
 	VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
 	RETURNING id`
+
+	// QueryRow is only used for SQL commands that return something, typically SELECT commands,
+	// however in this case the function returns ID.
+	// (Some other SQL libraries have the ability to return ID even when using .Exec command)
 
 	err := pDb.pool.QueryRow(
 		ctx,
@@ -62,6 +68,8 @@ func (pDb SQLDatabase) CreateBusiness(ctx context.Context, newBusiness Business)
 
 func (pDb SQLDatabase) GetBusinessByUserID(ctx context.Context, userID string) (*Business, error) {
 	business := new(Business)
+	// This creates an empty struct (defined earlier) for the scan function
+	// so it has something where it can copy the information from the SQL table.
 	parsedUserID, err := strconv.Atoi(userID)
 	if err != nil {
 		return nil, err

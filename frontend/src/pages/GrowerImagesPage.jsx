@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Container } from 'react-bootstrap'
 import siteService from '../services/sites'
 import ImageService from '../services/images'
 import ImageGallery from '../components/image/ImageGallery'
 import AddImage from '../components/image/AddImage'
+import WideCenteredCard from '../components/WideCenteredCard'
 
 const GrowerImagesPage = () => {
   const params = useParams()
@@ -28,14 +28,12 @@ const GrowerImagesPage = () => {
   const fetchImages = () => {
     ImageService.getImagesByEntity(params.siteId)
       .then(fetchedImages => {
-        console.log('Images after fetching:', fetchedImages)
         markFavorite(fetchedImages)
       })
       .catch(error => console.error('Error fetching images:', error))
   }
  
   const deleteImage = imageObject => {
-    console.log("Deleting image:", imageObject) 
     if (!imageObject || !imageObject._id) {
       console.error("Image object is undefined or missing id")
       return
@@ -49,7 +47,6 @@ const GrowerImagesPage = () => {
         })
         ImageService.clearFavorite(site._id, "site")
         .then(_ => {
-          console.log("cleared")
           updateSite({...site, favorite_image: null})
         })
         .catch(error => {
@@ -101,7 +98,6 @@ const GrowerImagesPage = () => {
   }
 
   const favoriteImage = imageID => {
-    console.log("Favorite image:", imageID) 
     if (!imageID) {
       console.error("Image object is undefined or missing id")
       alert(t('error.erroroccured'))
@@ -109,8 +105,6 @@ const GrowerImagesPage = () => {
     }
     const response = ImageService.setFavorite(site._id, "site", imageID)
     markFavorite(images, imageID)
-
-    console.log(response)
   }
 
   const updateSite = SiteObject => {
@@ -118,15 +112,23 @@ const GrowerImagesPage = () => {
   }
   
   return (
-    <Container>
+    <WideCenteredCard>
     {site && (
       <div>
         <h2>{site?.name} {t('title.siteimages')}</h2>
-        <AddImage entity={site} onImageUpload={onImageUpload} />
-        <ImageGallery isGrower={true} images={images} deleteImage={deleteImage} favoriteImage={favoriteImage}/>
+        <AddImage
+        entity={site}
+        onImageUpload={onImageUpload}
+        />
+        <ImageGallery
+          isGrower={true}
+          images={images}
+          deleteImage={deleteImage}
+          favoriteImage={favoriteImage}
+        />
       </div>
     )}
-    </Container>
+    </WideCenteredCard>
   )  
 }
 

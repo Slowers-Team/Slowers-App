@@ -17,7 +17,11 @@ const AddFlower = ({ createFlower, siteID }) => {
 
     return (
       <>
-        <button id="showFlowerAddingFormButton" className="custom-button" onClick={handleShow}>
+        <button 
+          id="showFlowerAddingFormButton"
+          className="custom-button"
+          onClick={handleShow}
+        >
           + {t("button.addflower")}
         </button>
         <Modal size="l" show={showModal} onHide={handleClose}>
@@ -25,7 +29,11 @@ const AddFlower = ({ createFlower, siteID }) => {
             <Modal.Title>{t("button.addflower")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <FlowerForm createFlower={createFlower} siteID={siteID} handleClose={handleClose}/>
+            <FlowerForm
+              createFlower={createFlower}
+              siteID={siteID}
+              handleClose={handleClose}
+            />
           </Modal.Body>
         </Modal>
       </>

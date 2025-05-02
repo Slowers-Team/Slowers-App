@@ -23,7 +23,7 @@ import LogInPage from "./pages/LogInPage";
 import UserPage from "./pages/UserPage";
 import RetailerHomePage from "./pages/RetailerHomePage";
 import RetailerFlowerPage from "./pages/RetailerFlowerPage";
-import MarketplaceHomePage from "./pages/marketplaceHomePage";
+import MarketplaceHomePage from "./pages/MarketplaceHomePage";
 import GrowerHomePage from "./pages/GrowerHomePage";
 import GrowerFlowerPage from "./pages/GrowerFlowerPage";
 import GrowerSitesPage from "./pages/GrowerSitesPage";
@@ -81,13 +81,22 @@ function authorizeAccess() {
   }
   const path = window.location.pathname
 
-  if (path.startsWith("/grower") && !( Authenticator.businessType === "grower" && (Authenticator.designation === "owner" || Authenticator.designation === "employee"))) {
+  if (path.startsWith("/grower") && !(
+    Authenticator.businessType === "grower" &&
+    (Authenticator.designation === "owner" || Authenticator.designation === "employee")
+    )) {
     return redirect("/home")
   }
-  if (path.startsWith("/business/employees") && !( Authenticator.designation === "owner" || Authenticator.designation === "employee" )) {
+  if (path.startsWith("/business/employees") && !(
+    Authenticator.designation === "owner" ||
+    Authenticator.designation === "employee" 
+  )) {
     return redirect("/home")
   }
-  if (path.startsWith("/business/retailer") && !( Authenticator.businessType === "retailer" && (Authenticator.designation === "owner" || Authenticator.designation === "employee"))) {
+  if (path.startsWith("/business/retailer") && !(
+    Authenticator.businessType === "retailer" &&
+    (Authenticator.designation === "owner" || Authenticator.designation === "employee")
+  )) {
     return redirect("/home")
   }
   return null;

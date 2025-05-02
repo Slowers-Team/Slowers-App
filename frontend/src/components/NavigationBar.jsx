@@ -25,7 +25,12 @@ export const NavigationBar = () => {
   return (
     <>
       <Navbar expand="sm" className="nav-bar">
-        <Button id="offcanvasButton" variant="light" className="menu-button mx-2" onClick={handleShow}>
+        <Button
+          id="offcanvasButton"
+          variant="light"
+          className="menu-button mx-2"
+          onClick={handleShow}
+        >
           <span className="navbar-toggler-icon"></span>
         </Button>
         <Navbar.Brand as={Link} to="/">
@@ -33,8 +38,16 @@ export const NavigationBar = () => {
         </Navbar.Brand>
         <Nav className="ms-auto mx-2">
           {isLoggedIn && (
-            <NavDropdown title={username} id="collasible-nav-dropdown" align="end">
-              <Nav.Link className="text-secondary" as={Link} to="/user">
+            <NavDropdown
+              title={username}
+              id="collasible-nav-dropdown"
+              align="end"
+            >
+              <Nav.Link 
+                id="to-user-page"
+                className="text-secondary"
+                as={Link} to="/user"
+              >
                 <i className="bi bi-person-circle"> </i>
                 {t("menu.profile")}
               </Nav.Link>
@@ -51,7 +64,12 @@ export const NavigationBar = () => {
               </Nav.Link>
             </NavDropdown>
           )}
-          <NavDropdown title={<i className="bi bi-globe-americas"></i>} id="languageButton" align="end" className="lang-menu">
+          <NavDropdown
+            title={<i className="bi bi-globe-americas"></i>}
+            id="languageButton"
+            align="end"
+            className="lang-menu"
+          >
             <LangSelect />
           </NavDropdown>
         </Nav>
@@ -69,15 +87,6 @@ export const NavigationBar = () => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <Nav className="flex-column pe-3">
-            {/* <Nav.Link
-              className="text-secondary"
-              as={Link}
-              to="/home"
-              onClick={handleClose}
-            >
-              <i className="bi bi-house"> </i>
-              {t("menu.home")}
-            </Nav.Link> */}
             {!isLoggedIn && (
               <Nav.Link
                 className="text-secondary"
@@ -113,6 +122,7 @@ export const NavigationBar = () => {
             )}
             {isLoggedIn && (
               <Nav.Link
+                id="to-marketplace-page"
                 className="text-secondary"
                 as={Link}
                 to="/marketplace"
@@ -122,7 +132,10 @@ export const NavigationBar = () => {
                 {t("menu.marketplace")}
               </Nav.Link>
             )}
-            {isLoggedIn && ( role === 'retailer' || role === 'retailerowner' ) && (
+            {isLoggedIn && (
+              role === 'retailer' ||
+              role === 'retailerowner'
+            ) && (
               <Nav.Link
                 className="text-secondary"
                 as={Link}
@@ -133,8 +146,12 @@ export const NavigationBar = () => {
                 {t("menu.retailer")}
               </Nav.Link>
             )}
-            {isLoggedIn && ( businessType === 'grower' && ( designation === 'owner' || designation === 'employee' ) )  && (
+            {isLoggedIn && (
+              businessType === 'grower' &&
+              (designation === 'owner' || designation === 'employee')
+            ) && (
               <Nav.Link
+                id="to-grower-page"
                 className="text-secondary"
                 as={Link}
                 to="/grower"
@@ -146,6 +163,7 @@ export const NavigationBar = () => {
             )}
             {isLoggedIn && (
               <Nav.Link
+                id="to-business-page"
                 className="text-secondary"
                 as={Link}
                 to="/business"

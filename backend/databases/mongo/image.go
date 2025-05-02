@@ -81,7 +81,12 @@ func (mDb MongoDatabase) DeleteImage(ctx context.Context, id ObjectID) (bool, er
 	return result.DeletedCount > 0, err
 }
 
-func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID string, EntityID, ImageID ObjectID, Collection string) error {
+func (mDb MongoDatabase) SetFavoriteImage(
+	ctx context.Context,
+	UserID string,
+	EntityID, ImageID ObjectID,
+	Collection string) error {
+
 	err := mDb.UserOwnsEntity(ctx, UserID, EntityID, Collection)
 	if err != nil {
 		return err
@@ -104,7 +109,12 @@ func (mDb MongoDatabase) SetFavoriteImage(ctx context.Context, UserID string, En
 	return nil
 }
 
-func (mDb MongoDatabase) ClearFavoriteImage(ctx context.Context, UserID string, EntityID ObjectID, Collection string) error {
+func (mDb MongoDatabase) ClearFavoriteImage(
+	ctx context.Context,
+	UserID string,
+	EntityID ObjectID,
+	Collection string) error {
+
 	err := mDb.UserOwnsEntity(ctx, UserID, EntityID, Collection)
 	if err != nil {
 		return nil

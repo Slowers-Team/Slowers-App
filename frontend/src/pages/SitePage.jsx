@@ -58,7 +58,6 @@ const SitePage = () => {
         setFlowers(flowers ? flowers.concat(returnedFlower) : [returnedFlower])
       )
       .catch(error => {
-        console.log(error);
         alert(t("error.addingfailed"));
       });
   };
@@ -66,7 +65,6 @@ const SitePage = () => {
   const fetchImages = () => {
     ImageService.getImagesByEntity(site._id)
       .then(imageURLs => {
-        console.log("Images after fetching:", imageURLs); 
         setImages(imageURLs);
       })
       .catch(error => console.error("Error fetching images:", error));
@@ -74,7 +72,6 @@ const SitePage = () => {
 
 
   const deleteImage = imageObject => {
-    console.log("Deleting image:", imageObject); 
     if (!imageObject || !imageObject._id) {
       console.error("Image object is undefined or missing id");
       return;
@@ -148,12 +145,29 @@ const SitePage = () => {
               >
                 {t("button.addflower")}
               </button>
-              {showAddNewFlower && <FlowerForm createFlower={addFlower} siteID={params.id} />}
+              {showAddNewFlower && (
+                <FlowerForm 
+                  createFlower={addFlower}
+                  siteID={params.id} 
+                />
+              )}
             </aside>
             <main className="main-container">
               <div className="site-actions">
-                <button onClick={handleBack} style={{ marginRight: "0.5rem" }} className="custom-button">{t("button.goback")}</button>
-                <button id="deleteSiteButton" onClick={() => deleteSite(site)} className="custom-delete-button">{t("button.deletethissite")}</button>
+                <button 
+                  onClick={handleBack}
+                  style={{ marginRight: "0.5rem" }}
+                  className="custom-button"
+                >
+                  {t("button.goback")}
+                </button>
+                <button
+                  id="deleteSiteButton"
+                  onClick={() => deleteSite(site)}
+                  className="custom-delete-button"
+                >
+                  {t("button.deletethissite")}
+                </button>
                 <AddImage entity={site} onImageUpload={fetchImages}/>
               </div>
               <SiteFlexbox createSite={createSite} sites={sites} />

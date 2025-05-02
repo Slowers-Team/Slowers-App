@@ -39,15 +39,6 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	// count, err := db.CountUsersWithEmail(c.Context(), user.Email)
-	// if err != nil {
-	// 	return c.Status(500).SendString(err.Error())
-	// }
-
-	// if count > 0 {
-	// 	return c.Status(400).SendString("email already exists")
-	// }
-
 	if !utils.IsEmailValid(user.Email) {
 		return c.Status(400).SendString("invalid email")
 	}
@@ -114,7 +105,10 @@ func LogUserIn(c *fiber.Ctx, user *sql.User, status int) error {
 		return c.Status(500).SendString("Could not create token")
 	}
 
-	return c.Status(status).JSON(fiber.Map{"token": tokenString, "username": user.Username, "email": user.Email})
+	return c.Status(status).JSON(fiber.Map{
+		"token":    tokenString,
+		"username": user.Username,
+		"email":    user.Email})
 }
 
 func GetUser(c *fiber.Ctx) error {
@@ -128,28 +122,3 @@ func GetUser(c *fiber.Ctx) error {
 	}
 	return c.JSON(result)
 }
-
-// func setDesignation(c *fiber.Ctx) error {
-// 	// userID, err := GetCurrentUser(c)
-// 	// if err != nil {
-// 	// 	return c.Status(500).SendString(err.Error())
-// 	// }
-
-// 	// var role string
-// 	// if err := c.BodyParser(&role); err != nil {
-// 	// 	return c.Status(400).SendString(err.Error())
-// 	// }
-
-// 	// _, err = enums.RoleFromString(role)
-// 	// if err != nil {
-// 	// 	return c.Status(400).SendString(err.Error())
-// 	// }
-
-// 	// err = db.SetUserRole(c.Context(), userID, role)
-// 	// if err != nil {
-// 	// 	return c.Status(500).SendString(err.Error())
-// 	// }
-
-// 	// return c.Status(201).JSON(role)
-// 	return nil
-// }

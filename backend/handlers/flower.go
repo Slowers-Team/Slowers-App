@@ -2,12 +2,24 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 
 	"github.com/Slowers-team/Slowers-App/databases/mongo"
 )
+
+func ValidateFlower(flower *mongo.Flower) error {
+	if flower.Name == "" {
+		return fmt.Errorf("flower name cannot be empty")
+	}
+
+	if flower.Site == nil {
+		return fmt.Errorf("siteID is required")
+	}
+	return nil
+}
 
 func GetFlowers(c *fiber.Ctx) error {
 	flowers, err := MongoDb.GetFlowers(c.Context())
@@ -40,7 +52,7 @@ func AddFlower(c *fiber.Ctx) error {
 
 	grower, err := sqlDb.GetUserByID(c.Context(), userID)
 	if err != nil {
-		return c.Status(500).SendString("User not found: " + err.Error())
+		return c.Status(500).SendString("user not found: " + err.Error())
 	}
 
 	flower := new(mongo.Flower)
@@ -48,12 +60,13 @@ func AddFlower(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	if flower.Name == "" {
-		return c.Status(400).SendString("Flower name cannot be empty")
+	err = ValidateFlower(flower)
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
 	}
 
 	if flower.Site == nil {
-		return c.Status(400).SendString("SiteID is required")
+		return c.Status(400).SendString("siteID is required")
 	}
 
 	site, err := MongoDb.GetSiteByID(c.Context(), *flower.Site)
@@ -62,15 +75,19 @@ func AddFlower(c *fiber.Ctx) error {
 	}
 
 	if site == nil {
-		return c.Status(404).SendString("Site not found")
+		return c.Status(404).SendString("site not found")
 	}
 
-	if flower.Quantity < 0 {
-		return c.Status(400).SendString("Flower quantity cannot be negative")
-	}
-
-	newFlower := mongo.Flower{Name: flower.Name, LatinName: flower.LatinName, AddedTime: time.Now(),
-		Grower: &userID, GrowerEmail: grower.Email, Site: &site.ID, SiteName: site.Name, Quantity: flower.Quantity, Visible: false}
+	newFlower := mongo.Flower{
+		Name:        flower.Name,
+		LatinName:   flower.LatinName,
+		AddedTime:   time.Now(),
+		Grower:      &userID,
+		GrowerEmail: grower.Email,
+		Site:        &site.ID,
+		SiteName:    site.Name,
+		Quantity:    flower.Quantity,
+		Visible:     false}
 
 	createdFlower, err := MongoDb.AddFlower(c.Context(), newFlower)
 	if err != nil {
@@ -80,7 +97,7 @@ func AddFlower(c *fiber.Ctx) error {
 	flowerID := createdFlower.ID
 	err = MongoDb.AddFlowerToSite(c.Context(), site.ID, flowerID)
 	if err != nil {
-		return c.Status(500).SendString("Failed to update site with flower ID: " + err.Error())
+		return c.Status(500).SendString("failed to update site with flower ID: " + err.Error())
 	}
 
 	return c.Status(201).JSON(createdFlower)
@@ -152,15 +169,15 @@ func ModifyFlower(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 
-	if flower.Name == "" {
-		return c.Status(400).SendString("Flower name cannot be empty")
+	err = ValidateFlower(flower)
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
 	}
 
-	if flower.Quantity < 0 {
-		return c.Status(400).SendString("Flower quantity cannot be negative")
-	}
-
-	updatedFlower, err := MongoDb.ModifyFlower(c.Context(), id, mongo.Flower{Name: flower.Name, LatinName: flower.LatinName, Quantity: flower.Quantity})
+	updatedFlower, err := MongoDb.ModifyFlower(c.Context(), id, mongo.Flower{
+		Name:      flower.Name,
+		LatinName: flower.LatinName,
+		Quantity:  flower.Quantity})
 
 	if err != nil {
 		return c.Status(500).SendString(err.Error())

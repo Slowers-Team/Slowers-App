@@ -5,6 +5,7 @@ import siteService from '../services/sites'
 import AddFlower from '../components/grower/AddFlower'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import WideCenteredCard from '../components/WideCenteredCard'
 
 const GrowerFlowerPage = () => {
   const params = useParams()
@@ -38,7 +39,6 @@ const GrowerFlowerPage = () => {
           [returnedFlower])
       )
       .catch(error => {
-      console.log(error)
       alert(t("error.addingfailed"))
     })
   }
@@ -46,7 +46,6 @@ const GrowerFlowerPage = () => {
   const deleteFlower = flowerObject => {
     if (window.confirm(`${t('label.confirmflowerdeletion')} ${flowerObject.name}?`)) {
       flowerService.remove(flowerObject._id).then(response => {
-        console.log(response)
         setFlowers(l => l.filter(item => item._id !== flowerObject._id))
       })
     }
@@ -59,7 +58,6 @@ const GrowerFlowerPage = () => {
     }
     if (window.confirm(t('label.confirmmultipleflowerdeletion'))) {
       flowerService.removeMultipleFlowers(checkedFlowers).then(response => {
-        console.log(response)
         setFlowers(l => l.filter(item => !checkedFlowers.includes(item._id)))
       })
     }
@@ -78,44 +76,35 @@ const GrowerFlowerPage = () => {
       .modify(flowerObject)
       .then(updateFlower(flowerObject))
       .catch(error => {
-        console.log(error)
         alert(t("error.modifyingfailed"))
       })
   }
 
   return (
-    <div className="m-3">
-      <div className="row justify-content-center">
-        <div className="col-12 col-md-12 col-lg-12 col-xl-12">
-          <div className="card" style={{ borderRadius: "1rem" }}>
-            <div className="card-body p-5">
-              {params.siteId ? (
-                <h2>{site?.name} {t('title.siteflowers')}</h2>
-                ) : (
-                  <h2>{t('title.allflowers')}</h2>
-                )}
-              <div className="d-flex gap-2 mt-3">
-                <div className="d-flex justify-content-start input-wrapper">
-                  <input
-                    type="text"
-                    placeholder={t('button.Search')}
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                </div>
-                {params.siteId && <AddFlower createFlower={addFlower} siteID={params.siteId} />}
-                <button className="custom-delete-button" onClick={() => deleteMultipleFlowers(checkedFlowers)}>
-                  <i className="bi bi-trash3-fill"> </i>
-                  {t('button.delete')}
-                </button>
-              </div>
-              { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower} searchTerm={searchTerm}/>) : 
-                          (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower} searchTerm={searchTerm}/>) }
-            </div>
-          </div>
+    <WideCenteredCard>
+      {params.siteId ? (
+        <h2>{site?.name} {t('title.siteflowers')}</h2>
+        ) : (
+          <h2>{t('title.allflowers')}</h2>
+        )}
+      <div className="d-flex gap-2 mt-3">
+        <div className="d-flex justify-content-start input-wrapper">
+          <input
+            type="text"
+            placeholder={t('button.Search')}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
+        {params.siteId && <AddFlower createFlower={addFlower} siteID={params.siteId} />}
+        <button className="custom-delete-button" onClick={() => deleteMultipleFlowers(checkedFlowers)}>
+          <i className="bi bi-trash3-fill"> </i>
+          {t('button.delete')}
+        </button>
       </div>
-    </div>
+      { flowers ? (<GrowerFlowerList flowers={flowers} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower} searchTerm={searchTerm}/>) : 
+                  (<GrowerFlowerList flowers={[]} deleteFlower={deleteFlower} modifyFlower={modifyFlower} setCheckedFlowers={setCheckedFlowers} updateFlower={updateFlower} searchTerm={searchTerm}/>) }
+    </WideCenteredCard>
   )
 }
 
