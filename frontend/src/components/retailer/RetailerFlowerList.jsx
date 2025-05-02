@@ -96,7 +96,11 @@ const RetailerFlowerList = ({ flowers }) => {
       const filterNames = nameChecked && searchByname;
       const filterScientificnames = scientificNameChecked && searchByscientificname;
       const filterGrowers = growerChecked && searchByGrower;
-      const showAll = !nameChecked && !scientificNameChecked && !growerChecked && (searchByGrower || searchByname || searchByscientificname);
+      const showAll =
+        !nameChecked &&
+        !scientificNameChecked &&
+        !growerChecked &&
+        (searchByGrower || searchByname || searchByscientificname);
     
       return filterNames || filterScientificnames || filterGrowers || showAll;
     });
@@ -114,20 +118,38 @@ const RetailerFlowerList = ({ flowers }) => {
       {t('flower.search.filter')}
       <br></br>
       <label className="checkbox_container" >{t('flower.data.name')}
-        <input type="checkbox" id="name" checked={filterByName} onChange={(e) => setFilterByName(e.target.checked)} data-testid="flowernamecheckbox"></input>
+        <input
+          type="checkbox"
+          id="name"
+          checked={filterByName}
+          onChange={(e) => setFilterByName(e.target.checked)}
+          data-testid="flowernamecheckbox"
+        >
+        </input>
         <span className="checkmark"></span>
       </label>
       <label className="checkbox_container"> {t('flower.data.latinname')}
-        <input type="checkbox" id="scientificname" checked={filterByScientificName} onChange={(e) => setFilterByScientificName(e.target.checked)} data-testid="scientificnamecheckbox"></input>
+        <input
+          type="checkbox"
+          id="scientificname"
+          checked={filterByScientificName}
+          onChange={(e) => setFilterByScientificName(e.target.checked)}
+          data-testid="scientificnamecheckbox"
+        >
+        </input>
         <span className="checkmark"></span>
       </label>
       <label className="checkbox_container">{t('flower.data.grower')}
-        <input type="checkbox" id="grower" checked={filterByGrower} onChange={(e) => setFilterByGrower(e.target.checked)} data-testid="growercheckbox"></input>
+        <input
+          type="checkbox"
+          id="grower"
+          checked={filterByGrower}
+          onChange={(e) => setFilterByGrower(e.target.checked)}
+          data-testid="growercheckbox"
+        >
+        </input>
         <span className="checkmark"></span>
       </label>
-
-
-
 
       <table id="retailerFlowerList" className="table table-hover align-middle">
         <thead>
@@ -175,8 +197,12 @@ const RetailerFlowerList = ({ flowers }) => {
                 <td>{flower.grower_email}</td>
                 <td>{flower.quantity}</td>
                 <td>
-                  <button id='showFlowerPageButton' className="custom-button" onClick={() => handleShow(flower)}>
-                  <i className="bi bi-info-circle-fill"></i>
+                  <button
+                    id='showFlowerPageButton'
+                    className="custom-button"
+                    onClick={() => handleShow(flower)}
+                  >
+                    <i className="bi bi-info-circle-fill"></i>
                   </button>
                 </td>
               </tr>
@@ -184,7 +210,11 @@ const RetailerFlowerList = ({ flowers }) => {
           })}
         </tbody>
       </table>
-      <FlowerModal show={showModal} handleClose={handleClose} flower={currentFlower}/>
+      <FlowerModal
+        show={showModal}
+        handleClose={handleClose}
+        flower={currentFlower}
+      />
     </div>
   )
 }

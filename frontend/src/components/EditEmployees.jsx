@@ -20,10 +20,16 @@ const ShowEmployee = ({ employee, handleEditEmployee, handleDeletion, currentUse
       {!(employee[0] === currentUser.Email) ? (
         <>
           <td>
-            <EditEmployeeForm employee={employee} handleEditEmployee={handleEditEmployee} />
+            <EditEmployeeForm
+              employee={employee}
+              handleEditEmployee={handleEditEmployee}
+            />
           </td>
           <td>
-            <DeleteEmployeeForm employee={employee} handleDeletion={handleDeletion} />
+            <DeleteEmployeeForm
+              employee={employee}
+              handleDeletion={handleDeletion}
+            />
           </td>
         </>
       ):(
@@ -50,7 +56,11 @@ const EditEmployeeForm = ({ employee, handleEditEmployee }) => {
     <form onSubmit={handleEditEmployee}>
       <input type="hidden" name="email" value={employee[0]} />
       <input type="hidden" name="designation" value={employee[1]} />
-      <button type="submit" className="custom-button" id="editEmployeeButton">{buttonLabel}</button>
+      <button
+        type="submit"
+        className="custom-button"
+        id="editEmployeeButton">{buttonLabel}
+      </button>
     </form>
   )
 }
@@ -60,9 +70,15 @@ const DeleteEmployeeForm = ({ employee, handleDeletion }) => {
   return (
     <form onSubmit={handleDeletion}>
       <input type="hidden" name="email" value={employee[0]} />
-      <button type="submit" className="custom-delete-button" id="deleteEmployeeButton" color="red">
-      <i className="bi bi-trash3-fill"> </i>
-      {t("button.deletemember")}</button>
+      <button
+        type="submit"
+        className="custom-delete-button"
+        id="deleteEmployeeButton"
+        color="red"
+      >
+        <i className="bi bi-trash3-fill"> </i>
+        {t("button.deletemember")}
+      </button>
     </form>
   )
 }
@@ -81,7 +97,6 @@ const EditEmployees = ({ employees, onEmployeeEdited }) => {
 
   const handleEditEmployee = async (event) => {
     event.preventDefault()
-    console.log('handleEditEmployee')
     const formData = new FormData(event.target)
     const userEmail = formData.get("email")
     const businessId = (await businessService.get()).ID
@@ -91,7 +106,6 @@ const EditEmployees = ({ employees, onEmployeeEdited }) => {
   }
   const handleDeletion = async (event) => {
     event.preventDefault()
-    console.log("Trying to delete employee");
     
     const currentUser = await userService.get()
 
@@ -112,7 +126,6 @@ const EditEmployees = ({ employees, onEmployeeEdited }) => {
 
     try {
       await businessService.deleteMembership(userEmail, businessId)
-      console.log("Deleted:", userEmail);
       onEmployeeEdited()
     } catch (error) {
       console.error("Error deleting employee:", error);

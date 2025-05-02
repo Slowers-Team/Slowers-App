@@ -13,7 +13,6 @@ const get = (imageObject, Url=baseUrl) => {
   return axios.get(`${Url}/${filename}`, config)
     .then(response => {
       const imageUrl = response.data;
-      console.log(imageUrl)
       return { _id: imageObject._id, url: imageUrl };
     })
     .catch(error => console.error("Error fetching image blob:", error));
@@ -25,11 +24,9 @@ const getByID = (id, Url=baseUrl) => {
     'Content-Type': "application/json", 
     responseType: "text"
   };
-  //console.log(`${Url}/id/${id}`)
   return axios.get(`${Url}/id/${id}`, config)
     .then(response => {
       const imageUrl = response.data;
-      console.log(imageUrl)
       return imageUrl;
     })
     .catch(error => {

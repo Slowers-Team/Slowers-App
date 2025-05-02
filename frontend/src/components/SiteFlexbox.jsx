@@ -39,11 +39,20 @@ const SiteFlexbox = ({ createSite, sites }) => {
                 <img src={images.find((o) => o.site === site._id)?.url} alt={site.name} />
                 }
               </div>
-              <h3><Link to={`/grower/${site._id}`} className="link-success">{site.name}</Link></h3>
+              <h3>
+                <Link
+                  to={`/grower/${site._id}`}
+                  className="link-success">{site.name}
+                </Link>
+              </h3>
             </div>
           ))}
         <div className='box'>
-          <button className="custom-button" id="addNewSiteButton" onClick={() => setShowAddNewSite(!showAddNewSite)}>
+          <button
+            className="custom-button"
+            id="addNewSiteButton"
+            onClick={() => setShowAddNewSite(!showAddNewSite)}
+          >
             + {t('button.addsite')}
           </button>
           {showAddNewSite && <NewSiteForm createSite={createSite} />}

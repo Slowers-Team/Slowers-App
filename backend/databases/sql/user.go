@@ -48,7 +48,21 @@ func (pDb SQLDatabase) CreateUser(ctx context.Context, newUser User) (*User, err
 
 func (pDb SQLDatabase) GetUserByEmail(ctx context.Context, email string) (*User, error) {
 	user := new(User)
-	query := `SELECT id, created_at::TEXT, last_modified::TEXT, last_login::TEXT, username, password, email, is_active, is_admin FROM users WHERE email=$1`
+	query := `
+	SELECT 
+		id, 
+		created_at::TEXT, 
+		last_modified::TEXT, 
+		last_login::TEXT, username, 
+		password, 
+		email, 
+		is_active, 
+		is_admin 
+	FROM 
+		users 
+	WHERE 
+		email=$1`
+
 	err := pDb.pool.QueryRow(ctx, query, email).Scan(
 		&user.ID,
 		&user.CreatedAt, &user.LastModified,
@@ -73,7 +87,22 @@ func (pDb SQLDatabase) GetUserByID(ctx context.Context, userID string) (*User, e
 		return nil, err
 	}
 
-	query := `SELECT id, created_at::TEXT, last_modified::TEXT, last_login::TEXT, username, password, email, is_active, is_admin FROM users WHERE id=$1`
+	query := `
+	SELECT 
+		id, 
+		created_at::TEXT, 
+		last_modified::TEXT, 
+		last_login::TEXT, 
+		username, 
+		password, 
+		email, 
+		is_active, 
+		is_admin 
+	FROM 
+		users 
+	WHERE 
+		id=$1`
+
 	err = pDb.pool.QueryRow(ctx, query, parsedUserID).Scan(
 		&user.ID,
 		&user.CreatedAt, &user.LastModified,

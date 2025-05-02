@@ -150,11 +150,14 @@ func EntityAssociatedWithImageIsNotNUll(image mongo.Image) bool {
 }
 
 func SetImageFormat(filetype string) (string, error) {
-	if filetype == "image/jpeg" {
-		return "jpg", nil
-	} else if filetype == "image/png" {
-		return "png", nil
-	} else {
+	switch filetype {
+	case "image/jpeg":
+		return "jpg",nil
+	case "image/jpg":
+		return "jpg",nil
+	case "image/png":
+		return "png",nil
+	default:
 		return "", errors.New("image should be in JPEG or PNG format")
 	}
 }

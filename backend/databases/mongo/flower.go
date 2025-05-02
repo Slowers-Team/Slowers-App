@@ -95,7 +95,11 @@ func (mDb MongoDatabase) DeleteFlower(ctx context.Context, id ObjectID) (bool, e
 	return result.DeletedCount > 0, err
 }
 
-func (mDb MongoDatabase) GetAllFlowersRelatedToSite(ctx context.Context, siteID ObjectID, userID string) ([]Flower, error) {
+func (mDb MongoDatabase) GetAllFlowersRelatedToSite(
+	ctx context.Context,
+	siteID ObjectID,
+	userID string) ([]Flower, error) {
+
 	// Start pipeline with top level parent Site
 	matchStage := bson.D{
 		{Key: "$match", Value: bson.D{
@@ -175,7 +179,11 @@ func (mDb MongoDatabase) GetAllFlowersRelatedToSite(ctx context.Context, siteID 
 // ToggleFlowerVisibility sets the toggles (false->true or true->false) flower's visibility,
 // and returns the new value or an error.
 // Visibility can be set if flower has at least one image attached.
-func (mDb MongoDatabase) ToggleFlowerVisibility(ctx context.Context, userID string, flowerID ObjectID) (*bool, error) {
+func (mDb MongoDatabase) ToggleFlowerVisibility(
+	ctx context.Context,
+	userID string,
+	flowerID ObjectID) (*bool, error) {
+
 	opts := options.Count().SetLimit(1)
 	count, err := mongoDb.Collection("images").CountDocuments(
 		ctx,

@@ -7,7 +7,6 @@ const AddFlowerUpdate = ({ checkedFlowers }) => {
     const [showModal, setShowModal] = useState(false)
   
     const handleShow = () => {
-      console.log(checkedFlowers)
       setShowModal(true)
     }
     

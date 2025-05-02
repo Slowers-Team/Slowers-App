@@ -19,7 +19,10 @@ const LogInPage = () => {
         Authenticator.setDesignation(membership.Designation);
       }
       } catch (error) {
-      console.error("Error fetching designation:", error.response ? error.response.data : error.message);
+      console.error(
+        "Error fetching designation:",
+        error.response ? error.response.data : error.message
+      );
     }
     try {
       const business = await businessService.get();
@@ -28,7 +31,10 @@ const LogInPage = () => {
         Authenticator.setBusinessType(business.Type);
       }
       } catch (error) {
-      console.error("Error fetching business type:", error.response ? error.response.data : error.message);
+      console.error(
+        "Error fetching business type:",
+        error.response ? error.response.data : error.message
+      );
     }
     fetcher.submit({ data: data }, { action: "/login", method: "post" });
   };

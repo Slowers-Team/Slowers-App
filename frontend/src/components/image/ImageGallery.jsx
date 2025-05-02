@@ -35,19 +35,30 @@ const ImageGallery = ({ isGrower, images, deleteImage, favoriteImage, type }) =>
 				</p>
 			) : (
 				<div>
-					<Masonry breakpointCols={breakpointColumnsObj} className="my-masonry-grid" columnClassName="my-masonry-grid_column">
+					<Masonry
+						breakpointCols={breakpointColumnsObj}
+						className="my-masonry-grid"
+						columnClassName="my-masonry-grid_column"
+					>
 						{images.map((image) => (
 						<div className="image-box" key={image._id}>
 							<img src={image.url}/>
 							{isGrower && (
 							<div className="image-buttons">
-								<Button variant="dark" onClick={() => deleteImage(image)} className="delete-button" aria-label="Delete">
+								<Button
+									variant="dark"
+									onClick={() => deleteImage(image)}
+									className="delete-button" aria-label="Delete"
+								>
 									<i className="bi bi-trash"></i>
 								</Button>
-								<Button variant="dark"
-									      onClick={() => handleFavoriteSelect(image._id)}
-									      className={`favourite-button ${selectedFavoriteID === image._id ? "selected" : ""}`} 
-									      disabled={selectedFavoriteID !== null && selectedFavoriteID == image._id} aria-label="Favorite">
+								<Button
+									variant="dark"
+									onClick={() => handleFavoriteSelect(image._id)}
+									className={`favourite-button ${selectedFavoriteID === image._id ? "selected" : ""}`} 
+									disabled={selectedFavoriteID !== null && selectedFavoriteID == image._id}
+									aria-label="Favorite"
+								>
 									<i className={`bi bi-star-fill ${selectedFavoriteID === image._id ? "text-warning" : ""}`}></i>
 								</Button>
 							</div>

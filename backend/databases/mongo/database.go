@@ -86,7 +86,12 @@ func (mDb *MongoDatabase) Clear() error {
 	return mongoDb.Drop(context.Background())
 }
 
-func (mDb MongoDatabase) UserOwnsEntity(ctx context.Context, UserID string, EntityID ObjectID, Collection string) error {
+func (mDb MongoDatabase) UserOwnsEntity(
+	ctx context.Context,
+	UserID string,
+	EntityID ObjectID,
+	Collection string) error {
+
 	var user string
 	if Collection == "flowers" {
 		user = "grower"

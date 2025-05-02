@@ -15,15 +15,20 @@ type UserEmail struct {
 }
 
 func ValidateBusiness(business sql.Business) error {
-	if business.BusinessName == "" ||
-		business.Type == "" ||
-		business.PhoneNumber == "" ||
-		business.Email == "" ||
-		business.PostalCode == "" ||
-		business.City == "" {
-		return fmt.Errorf("all fields are required")
+	fields := []string{
+		business.BusinessName,
+		business.Type,
+		business.PhoneNumber,
+		business.Email,
+		business.PostalCode,
+		business.City,
 	}
-	// This if could be improved
+
+	for _, field := range fields {
+		if field == "" {
+			return fmt.Errorf("all fields are required")
+		}
+	}
 
 	if !utils.IsEmailValid(business.Email) {
 		return fmt.Errorf("invalid business email")

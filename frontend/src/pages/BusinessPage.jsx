@@ -31,15 +31,15 @@ const BusinessPage = () => {
   const createNewBusiness = async (businessObject) => {
     try {
       await businessService.create(businessObject, user.Email)
-      console.log("creating business successful")
+      
       const membership = await userService.getDesignation()
       Authenticator.setDesignation(membership.Designation)
+
       const updatedBusiness = await businessService.get();
       Authenticator.setBusinessType(updatedBusiness.Type)
       setBusiness(updatedBusiness);
     } catch (error) {
       const key = "error." + error.response.data.toLowerCase().replace(/[^a-z]/g, "");
-      console.log(error.response.data)
       setErrorMessage(i18n.exists(key) ? t(key) : error.response.data);
     }
     setDesignation(Authenticator.designation)
